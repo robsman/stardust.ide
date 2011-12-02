@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page id="ag.carnot.bpm.modeling.i18n.ModelElement"
+            category="_cwm_general_"
+            class="org.eclipse.stardust.modeling.model.i18n.properties.I18NBundlesPropertyPage"
+            icon="icons/full/obj16/i18n.GIF"
+            name="%internationalization">
+         <enabledWhen>
+            <or>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.RoleType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.OrganizationType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DiagramType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.TriggerType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataMappingType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+            </or>
+         </enabledWhen>
+      </page>
+      <page
+            class="org.eclipse.stardust.modeling.model.i18n.properties.I18NBundlesModelPropertyPage"
+            icon="icons/full/obj16/langs.GIF"
+            id="ag.carnot.bpm.modeling.i18n.Bundles"
+            name="%bundles">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+         </enabledWhen>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelValidator">
+      <modelValidator
+            class="org.eclipse.stardust.modeling.model.i18n.I18NBundlesValidator"
+            id="ag.carnot.bpm.modeling.i18n.ModelValidator"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+   </extension>      
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.model.i18n.I18NBundlesValidator"
+            id="ag.carnot.bpm.modeling.i18n.ModelBundlesValidator"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.IModelElement"/>
+   </extension>
+</plugin>

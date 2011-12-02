@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Using Different Departments in the Portal">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of entering department data
+    	and checking the worklist depending on this data.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Triggering the Process"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+     <description>
+     Create the departments:<br/>
+     1. Switch to the <b>Workflow Perspective</b>.<br/>
+     2. In the <b>My Startable Processes</b> section, trigger the <b>Report Demo</b>
+      process two times by clicking its entry two times.<br/>
+ 	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Entering Department Data"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+     <description>
+     1. Log out and login as user <b>User1</b>.<br/>
+     This user is assigned to the organization <b>HeadOffice</b> 
+     and the role <b>NationalDirector</b> in the department <b>USA</b>.<br/>
+     Thus he first has two entries in the worklist of the <b>HeadOffice</b> organization.<br/>
+     2. Start the first activity in the worklist.<br/>
+     3. Enter <b>Germany</b> as value for the department.<br/>
+     4. Complete the activity.<br/>
+ 	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Checking the Resulting Worklist"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+     <description>
+     1. Log out and login as user <b>User2</b>.<br/>
+     2. The subsequent activity <b>Activity by Scoped NationalDirector</b>
+      goes to the worklist of user <b>User2</b> as he is associated with department 
+      <b>Germany</b>.<br/>
+ 	</description>
+  </item>
+</cheatsheet>

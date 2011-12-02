@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating the Users and Departments in the Stardust Portal">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of creating departments
+    	in the Stardust Process Platform Portal.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Create the Users"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+     <description>
+	First create the users:<br/>
+     1. Login with the default <b>motu/motu</b> password.<br/>
+     2. Switch to the <b>Participant Management</b> View of the <b>Administration Perspective</b>.<br/>
+     3. Click the <b>Create</b> icon in the <b>All Users</b> section.<br/>
+     4. Create two users <b>User1</b> and <b>User2</b>.<br/>
+ 	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Create the Departments"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+     <description>
+     Now create the departments:<br/>
+     1. In case of not already done, switch to the <b>Participant Management</b> view.<br/>
+     2. Right-click the <b>NationalDivision</b> organization and choose <b>Create Department</b>.<br/>
+	 3. Create two departments, e.g. <b>USA</b> and <b>Germany</b>.<br/>
+ 	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Associate the Users with Departments"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+     <description>
+     To associate users with departments, drag and drop them from the <b>All Users</b>
+     section to the according department in the <b>Participant Tree</b>.<br/>
+     1. Assign <b>User1</b> to the <b>HeadOffice</b> role.<br/>
+     2. Assign <b>User1</b> to the <b>NationalDirector</b> role in the department <b>USA</b>.<br/>
+     3. Assign <b>User2</b> to the <b>NationalDirector</b> role in the department <b>Germany</b>.<br/>
+ 	</description>
+  </item>
+</cheatsheet>

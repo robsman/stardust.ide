@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Deploying a Workflow Model">
+  <intro>
+    <description>
+    	This cheat sheet guides you through the process of deploying your 
+        workflow model.</description>
+  </intro>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#auditTrail" 
+  	title="Audit Trail Configuration">
+     <description>To set up the Audit Trail:<br/><br/>
+		1. Open the Servers view by choosing 
+		  <b>Window &gt; Show View &gt; Other... &gt; Server &gt; Servers</b>.
+     	2. Double-click <b>Tomcat v6.0</b> to open the configuration dialog for Tomcat.<br/>
+     	3. Select <b>new AuditTrail database</b>.<br/> 
+	 	4. Enter the database name "support-case" (this name will be different for each Stardust model).<br/> 
+	 	5. Select <b>OK</b>.<br/><br/> 
+     	There will be a pause as Stardust creates the database!
+	 </description>
+  </item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#setTomcatProj" 
+  	title="Set the Current Tomcat project">
+     <description>To deploy a model proceed as follows:<br/><br/>
+		1. Right-click <b>Tomcat v6.0</b> in the Servers View.<br/> 
+		2. Choose <b>Add and Remove Projects...</b>.<br/>
+		3. Select the <b>Support-Case</b> Project.<br/> 
+		4. Click <b>Add</b> to move it to Configured projects.<br/>
+		5. Select <b>Finish</b>.
+	 </description>
+  </item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#launchSetting" 
+  	title="Set the Server Launch Configuration">
+     <description>To avoid running out of PermGenSpace, increase the size of the permanent 
+     generation memory in the launch configuration:<br/><br/>
+		1. Select <b>Run &gt; Open Run Dialog...</b> in the main menu.<br/>
+		2. In the upcoming dialog select the Tomcat server in the left pane.<br/>
+		3. Select the (x)= Arguments tab in the right pane.<br/>
+		4. In the VM arguments section add the following arguments:<br/>
+			-Xmx256m<br/>
+			-XX:MaxPermSize=128m<br/>
+	</description>
+	</item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#startTomcat" 
+  	title="Start Tomcat">
+     <description>Make sure, your browser is set to use the default Web browser. Otherwise 
+     go to <b>Window &gt; Preferences &gt; General &gt; Web Browser</b> and
+     select <b>Use external Web browser</b>.<br/>
+	To start the Tomcat server:<br/><br/>
+	1. Right-click <b>Tomcat v6.0</b> in the Servers View.<br/> 
+	2. Click <b>Start</b>.<br/><br/> 
+     The Tomcat Status should now be displayed as <b>Started</b>. 
+	 </description>
+  </item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#deployProcess" 
+  	title="Deploy the Stardust Model">
+     <description>With Tomcat now running, the <b>ACMEWorkflowModel</b> process model can now
+     be deployed:<br/><br/>
+		1. Right-click the model to be deployed in the Package Explorer view.<br/>
+		2. Select <b>Export...</b>.<br/>
+		3. Choose <b>Other.. &gt; Deploy Stardust Process Model</b>.<br/>
+		4. Click <b>Next</b>.<br/>
+  		5. In the Deploy wizard check that the <b>ACME Workflow Model</b> is selected.<br/>
+		6. Click <b>Finish</b>.<br/>
+		7. You will be prompted to login to the Stardust process engine.<br/> 
+		8. Use ID "motu", Password "motu".<br/>
+		9. Click <b>OK</b>.<br/>
+		10. Again choose <b>OK</b>, when the version dialog prompts.<br/><br/>
+		The ACMEWorkflowModel Process Model is now deployed and ready for use.
+	</description>
+  </item>
+</cheatsheet>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.wfmc.org/2002/XPDL1.0"
+	xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:element name="BasicType">
+		<xsd:complexType>
+			<xsd:attribute name="Type" use="required">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:NMTOKEN">
+						<xsd:enumeration value="STRING" />
+						<xsd:enumeration value="FLOAT" />
+						<xsd:enumeration value="INTEGER" />
+						<xsd:enumeration value="REFERENCE" />
+						<xsd:enumeration value="DATETIME" />
+						<xsd:enumeration value="BOOLEAN" />
+						<xsd:enumeration value="PERFORMER" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DataType">
+		<xsd:complexType>
+			<xsd:group ref="xpdl:DataTypes" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:group name="DataTypes">
+		<xsd:choice>
+			<xsd:element ref="xpdl:BasicType" />
+			<xsd:element ref="xpdl:DeclaredType" />
+			<xsd:element ref="xpdl:SchemaType" />
+			<xsd:element ref="xpdl:ExternalReference" />
+		</xsd:choice>
+	</xsd:group>
+	<xsd:element name="DeclaredType">
+		<xsd:complexType>
+			<xsd:attribute name="Id" type="xsd:IDREF" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Description" type="xsd:string" />
+	<xsd:element name="ExtendedAttribute">
+		<xsd:complexType mixed="true">
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:any processContents="lax" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xsd:choice>
+			<xsd:attribute name="Name" type="xsd:NMTOKEN"
+				use="required" />
+			<xsd:attribute name="Value" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ExtendedAttributes">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="xpdl:ExtendedAttribute" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ExternalReference">
+		<xsd:complexType>
+			<xsd:attribute name="xref" type="xsd:NMTOKEN"
+				use="optional" />
+			<xsd:attribute name="location" type="xsd:anyURI"
+				use="required" />
+			<xsd:attribute name="namespace" type="xsd:anyURI"
+				use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SchemaType">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any namespace="##other" processContents="lax"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+    <xsd:element name="Script">
+        <xsd:complexType>
+            <xsd:attribute name="Type" type="xsd:string" use="required"/>
+            <xsd:attribute name="Version" type="xsd:string" use="optional"/>
+            <xsd:attribute name="Grammar" type="xsd:anyURI" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+   	<xsd:element name="TypeDeclaration">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:group ref="xpdl:DataTypes" />
+				<xsd:element ref="xpdl:Description" minOccurs="0" />
+				<xsd:element ref="xpdl:ExtendedAttributes"
+					minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="Id" type="xsd:ID" use="required" />
+			<xsd:attribute name="Name" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TypeDeclarations">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="xpdl:TypeDeclaration" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

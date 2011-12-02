@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Integrating Applications">
+   <intro>
+      <description>
+         This cheat sheet will guide you through the steps of integrating 
+    applications.
+      </description>
+   </intro>
+   <item title="Download Example Source Files" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/examples/tutorials/support-case/support-case.zip">
+      <description>
+         To use this tutorial you need some classes provided in your Stardust installation, which
+         are provided in a zipped file.<br/><br/>
+	1. Click the <b>?</b> in the upper right corner of this task to download the example zip file
+		<b>support-case.zip</b>.<br/>
+	2. Specify a location to unzip the example sources.
+      </description>
+   </item>
+   <item title="Adding Libraries to the Classpath" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm">
+      <description>
+        To make the classes available in the project you can add the source files to your project:<br/><br/>
+	1. Switch to the Package Explorer view.<br/>
+	2. Right-click the src folder of your Support-Case dynamic web project and choose 
+	<b>Import...</b><br/>
+	3. Choose <b>General &gt; File System</b>.<br/>
+	4. Select <b>Next</b>.<br/>
+	5. Browse to <b>&lt;your-support-examples-folder&gt;/support-case/src/java</b>.<br/>
+	6. Check the checkbox beside <b>com</b> to add the package structure of the 
+	support-case tutorial classes.<br/> 
+	7. <b>Finish</b> to accept the import.
+      </description>
+   </item>
+   <item title="Creating Application Support Case Factory" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#supportCaseAppl">
+      <description>
+         1. In the diagrams toolbar palette select <b>Applications &gt; Plain Java Application</b>.<br/> 
+	2. Place the application symbol on the diagram canvas near the <b>Init Data</b> activity.<br/>
+	3. Double-click to open the application&apos;s properties dialog.<br/>
+	4. Set the name to <b>Support Case Factory</b>.<br/>
+	5. On the left side of the panel select <b>Plain Java Application</b>.<br/>
+    6. <b>Browse</b> the classpath to find a class named CreateSupportDataAppl 
+    (in package com.sungard.carnot.supportcase). <br/>
+	7. Choose the <b>Completion Method</b> &quot;createCustomer()&quot;.<br/>
+	8. Set the constructor to &quot;CreateSupportDataAppl()&quot;.<br/>
+	9. <b>OK</b> the dialog.
+      </description>
+   </item>
+   <item title="Adding Application Notification" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
+      <description>
+    1. In the diagrams toolbar palette select <b>Applications &gt; Plain Java Application</b>.<br/> 
+	2. Place the symbol on the diagram canvas near the <b>Notify Customer</b> activity.<br/>
+	3. Double-click to open the application&apos;s properties dialog.<br/>
+	4. Set the name to <b>Notification</b>.
+      </description>
+   </item>
+   <item title="Adding Properties for Notification" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
+      <description>
+         Now set the properties for the application:<br/><br/>
+	1. On the left side of the panel select <b>Plain Java Application</b>.<br/>
+	2. Browse to find the class &quot;CreateSupportDataAppl&quot;  (in package &quot;com.sungard.carnot.supportcase&quot;).<br/>
+	3. Set the <b>Completion Method</b> to &quot;notifyCustomer(java.util.Map)&quot; by selecting it in the pull-down menu opening as 
+	soon as you click the Browse button.<br/> 
+	4. Set the <b>Constructor</b> to &quot;CreateSupportDataAppl()&quot; by selecting it in the pull-down menu opening 
+	as soon as you click the Browse button.<br/> 
+	5. <b>OK</b> the dialog.
+      </description>
+   </item>
+   <item title="Assigning the Applications" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#setupAppl">
+      <description>
+         Now assign the applications to the respective activities:<br/><br/>
+		1. In the diagram toolbar palette select <b>Connect</b>.<br/>
+		2. Click the <b>Support Case Factory</b> application in the diagram.<br/>
+		3. Subsequently click the <b>Init Data</b> activity symbol.<br/><br/>
+		4. Again select <b>Connect</b>.<br/>
+		5. Click the <b>Notification</b> application in the diagram.<br/>
+		6. Subsequently click the <b>Notify Customer</b> activity symbol.
+      </description>
+   </item>
+</cheatsheet>

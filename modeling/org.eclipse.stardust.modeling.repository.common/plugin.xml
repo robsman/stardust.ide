@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension-point id="connections" name="Connections" schema="schema/connections.exsd"/>
+   <extension-point id="connectionsearch" name="ConnectionSearch" schema="schema/connectionsearch.exsd"/>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.stardust.modeling.repository.common.IObjectDescriptor"
+            class="org.eclipse.stardust.modeling.repository.common.adapters.TreeEditPartAdapter">
+         <adapter type="org.eclipse.gef.TreeEditPart"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.stardust.modeling.repository.common.Connection"
+            class="org.eclipse.stardust.modeling.repository.common.adapters.TreeEditPartAdapter">
+         <adapter type="org.eclipse.gef.TreeEditPart"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.stardust.modeling.repository.common.ui.parts.tree.ObjectDescriptorTreeEditPart"
+            class="org.eclipse.stardust.modeling.repository.common.adapters.ModelElementAdapter">
+         <adapter type="org.eclipse.emf.ecore.EObject"/>
+         <adapter type="org.eclipse.stardust.modeling.repository.common.IObjectDescriptor"/>
+         <adapter type="org.eclipse.stardust.model.xpdl.carnot.IModelElement"/>
+         <adapter type="org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.stardust.modeling.repository.common.ui.parts.tree.ConnectionTreeEditPart"
+            class="org.eclipse.stardust.modeling.repository.common.adapters.ModelElementAdapter">
+         <adapter type="org.eclipse.emf.ecore.EObject"/>
+      </factory>
+   </extension>
+</plugin>

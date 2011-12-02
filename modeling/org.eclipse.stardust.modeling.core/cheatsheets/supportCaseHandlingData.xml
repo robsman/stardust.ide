@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Handling Data">
+   <intro>
+      <description>
+         This cheat sheet will guide you through the process of adding data and
+    	data mappings to the support case process.
+      </description>
+   </intro>
+   <item title="Creating the Data Resource" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#createData">
+      <description>
+         To create the data resource:<br/><br/>
+     1. In the diagram toolbar palette select <b>Data</b>.<br/>
+	 2. Choose the data type <b>Structured Data</b>.<br/>
+     3. Place the data symbol on the diagram canvas.<br/>
+     4. Double-click the data symbol to open its properties dialog.<br/>
+     5. Change the <b>Name</b> to &quot;Support Case Data&quot;.<br/>
+     6. In the left pane click <b>Structured Data Definition</b>.<br/>
+     7. In the <b>Declared Types</b> section select <b>Customer</b><br/> 
+	 8. <b>OK</b> the dialog.
+      </description>
+   </item>
+   <item title="Setting up Data as Output of non-interactive Activity Init Data" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping">
+      <description>
+         We proceed with setting a data mapping between the data element and 
+     the <b>Init Data</b> activity:<br/><br/>
+	1. Select <b>Connect</b> in the diagram toolbar palette.<br/> 
+	2. Click the activity <b>Init Data</b> and subsequently the <b>Support Case Data</b>.<br/> 
+	3. Open the data mapping properties dialog by double-clicking the <b>Init Data</b> activity.<br/> 
+	4. Select <b>application:SupportCaseData</b> from the <b>OUT Data Mappings</b> on the left side 
+	of the dialog.<br/> 
+	5. Use the Access Point drop down list to select <b>returnvalue : Map</b>. This is the 
+	return value of the previous defined completion method of the Support Case Factory.<br/> 
+	6. <b>OK</b> the dialog.
+      </description>
+   </item>
+   <item title="Setting up Data as Output of Activit Create Case" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+      <description>
+         1. Open the activity properties dialog of the <b>Create Case</b> activity by 
+     double-clicking on its symbol in the diagram.<br/> 
+	2. Select <b>Out Data Mappings</b> on the left side of the dialog.<br/> 
+	3. Choose the default context and click the <b>Add</b> button.<br/>  
+	4. The dialog content changes to provide mapping details.<br/>  
+	5. Use the Data drop down list to select <b>Support Case Data</b>. This is the serializable object representing the entire case.<br/> 
+	6. Type over the ID supplied by Stardust and provide the ID <b>Customer ID</b>. This ID will 
+	later be used as a user prompt in the final user interface. <br/>
+	7. Press the Browse button on the <b>Data Path</b> prompt of the dialog.<br/> 
+	8. Select the data path &quot;Id&quot;.<br/> 
+    9. Continue to use the <b>Add</b> button to create Out Data Mappings for the Create Case activity as follows:<br/>
+      </description>
+      <subitem label="ID Customer Name with data path element Name" skip="false">
+      </subitem>
+      <subitem label="ID eMail with data path element Email" skip="false">
+      </subitem>
+      <subitem label="ID Product Name with data path element Product/Name" skip="false">
+      </subitem>
+      <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
+      </subitem>
+   </item>
+   <item title="Setting up Data as Input of Activit Create Case" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+      <description>
+         . In the same way create In data mappings for Create Case:<br/> 
+        1. Select <b>In Data Mappings</b> on the left side of the dialog.<br/> 
+        2. Choose the default context and click the <b>Add</b> button.<br/>  
+        3. The dialog content changes to provide mapping details.<br/>  
+        4. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
+        5. Type over the ID supplied by Stardust and provide the ID <b>Customer ID</b>.<br/>
+        6. Press the Browse button on the <b>Data Path</b> prompt of the dialog.<br/> 
+        7. Select the data path &quot;Id&quot;.<br/> 
+        8. Continue to use the <b>Add</b> button to create the following In Data Mappings:<br/>
+      </description>
+      <subitem label="ID Customer Name with data path element Name" skip="false">
+      </subitem>
+      <subitem label="ID eMail with data path element Email" skip="false">
+      </subitem>
+      <subitem label="ID Product Name with data path element Product/Name" skip="false">
+      </subitem>
+      <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
+      </subitem>
+   </item>
+   <item title="Setting up Data as Input of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+      <description>
+         The second human activity of the ACME process, <b>Analyze To Solve</b>, needs both input 
+  	and output data mappings:<br/><br/>
+	1. Open the activity properties dialog of the <b>Analyze To Solve</b> activity by 
+	double-clicking on its symbol in the diagram.<br/> 
+	2. Select <b>In Data Mappings</b> on the left side of the dialog.<br/>  
+	3. Choose the default context and click the <b>Add</b> button.<br/>  
+	4. The dialog content changes to provide mapping details. <br/> 
+	5. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
+	6. Type over the ID supplied by Stardust and provide the ID <b>Customer ID</b>.<br/> 
+	7. Use the <b>Browse</b> button on the Data Path to select the element &quot;Id&quot;.<br/> 
+	8. Press the <b>Add</b> button to add more In Data Mappings as follows:<br/>
+      </description>
+      <subitem label="ID Customer Name with data path element Name" skip="false">
+      </subitem>
+      <subitem label="ID eMail with data path element Email" skip="false">
+      </subitem>
+      <subitem label="ID Product Name with data path element Product/Name" skip="false">
+      </subitem>
+      <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
+      </subitem>
+      <subitem label="ID State with data path element Product/State" skip="false">
+      </subitem>
+      <subitem label="ID Analysis with data path element Product/Analysis" skip="false">
+      </subitem>
+   </item>
+   <item title="Setting up Data as Output of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+      <description>
+         Now, create Out Data Mappings for Analyze To Solve, following a procedure similar
+      to the one used for Create Case above:<br/>
+      </description>
+      <subitem label="ID Analysis to Product/Analysis" skip="false">
+      </subitem>
+      <subitem label="ID State to Product/State" skip="false">
+      </subitem>
+   </item>
+   <item title="Setting up Data as Input of Interactive Activity Deliver Patch" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+      <description>
+         Deliver Patch is also an interactive activity which needs an In data mapping for e-mail.
+	Add the following In data mapping to <b>Deliver Patch</b>:<br/>
+	1. Open the activity properties dialog of the <b>Deliver Patch</b> activity by 
+	double-clicking on its symbol in the diagram.<br/> 
+	2. Select <b>In Data Mappings</b> on the left side of the dialog.<br/>  
+	3. Choose the default context and click the <b>Add</b> button.<br/>  
+	4. The dialog content changes to provide mapping details. <br/> 
+	5. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
+	6. Type over the ID supplied by Stardust and provide the ID <b>eMail</b>.<br/> 
+	7. Use the <b>Browse</b> button on the Data Path to select the&quot;Email&quot; element.<br/> 
+	8. Click <b>OK</b>.<br/>
+      </description>
+   </item>
+   <item title="Setting up Data as Input of an Non-interactive Activity Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping4">
+      <description>
+         The last activity to be configured for data is Notify Customer.<br/><br/>
+	1. Open the activity properties dialog of the Notify Customer activity by 
+	double-clicking on its symbol in the diagram.<br/> 
+	2. Select <b>In Data Mappings</b> on the left side of the dialog.<br/> 
+	3. Choose the application context and click the <b>Add</b> button.<br/> 
+	4. The dialog content changes to provide mapping details.<br/> 
+	5. Use the Data drop down list and to select <b>Support Case Data</b>.<br/>
+	6. Use the <b>Access Point</b> drop down list to select &quot;mParam1 : Map&quot;.<br/>
+	7. Select <b>OK</b>.
+      </description>
+   </item>
+</cheatsheet>

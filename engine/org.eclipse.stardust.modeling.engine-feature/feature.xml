@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<feature
+      id="org.eclipse.stardust.modeling.engine-feature"
+      label="%featureName"
+      version="9.9.9.qualifier"
+      provider-name="%providerName">
+
+   <description url="http://www.eclipse.org/stardust/">
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.runtime.xml"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.runtime.j2ee"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.javax.jcr"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.javax.mail"/>
+      <import plugin="org.eclipse.xsd"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.springframework"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.stardust.ide.engine.base"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.stardust.ide.engine.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.stardust.ide.engine.spring"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+</feature>

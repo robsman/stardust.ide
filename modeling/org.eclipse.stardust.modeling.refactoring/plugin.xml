@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   	 <extension
+       point="org.eclipse.ltk.core.refactoring.renameParticipants">
+    <renameParticipant
+          class="org.eclipse.stardust.modeling.refactoring.refactoring.participants.CarnotJavaRenameParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.javaPackageRenameParticipant"
+          name="%packageRenameParticipant">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
+          </with>
+       </enablement>
+    </renameParticipant>       
+    <renameParticipant
+          class="org.eclipse.stardust.modeling.refactoring.refactoring.participants.CarnotJavaRenameParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.javaClassRenameParticipant"
+          name="%classRenameParticipant">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IType"/>
+          </with>
+       </enablement>
+    </renameParticipant>
+    <renameParticipant
+          class="org.eclipse.stardust.modeling.refactoring.refactoring.participants.CarnotJavaRenameParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.javaMethodRenameParticipant"
+          name="%methodRenameParticipant">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IMethod"/>
+          </with>
+       </enablement>
+    </renameParticipant>
+    <!--renameParticipant
+          class="org.eclipse.stardust.modeling.refactoring.CatchAllRenameParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.renameCatchAll"
+          name="%catchRenamings">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+          </with>
+       </enablement>
+    </renameParticipant-->
+ </extension>
+ <extension
+       point="org.eclipse.ltk.core.refactoring.moveParticipants">
+    <moveParticipant
+          class="org.eclipse.stardust.modeling.refactoring.refactoring.participants.CarnotJavaMoveParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.javaClassMoveParticipant"
+          name="%classMoveParticipant">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IType"/>
+          </with>
+       </enablement>
+    </moveParticipant>
+    <!--moveParticipant
+          class="org.eclipse.stardust.modeling.refactoring.CatchAllMoveParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.moveCatchAll"
+          name="%catchMoves">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+          </with>
+       </enablement>
+    </moveParticipant-->
+ </extension>
+ <!--extension
+       point="org.eclipse.ltk.core.refactoring.createParticipants">
+    <createParticipant
+          class="org.eclipse.stardust.modeling.refactoring.CatchAllCreateParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.createCatchAll"
+          name="%catchCreates">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+          </with>
+       </enablement>
+    </createParticipant>
+ </extension>
+ <extension
+       point="org.eclipse.ltk.core.refactoring.deleteParticipants">
+    <deleteParticipant
+          class="org.eclipse.stardust.modeling.refactoring.CatchAllDeleteParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.deleteCatchAll"
+          name="%catchDeletes">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+          </with>
+       </enablement>
+    </deleteParticipant>
+ </extension>
+ <extension
+       point="org.eclipse.ltk.core.refactoring.copyParticipants">
+    <copyParticipant
+          class="org.eclipse.stardust.modeling.refactoring.CatchAllCopyParticipant"
+          id="org.eclipse.stardust.modeling.refactoring.copyCatchAll"
+          name="%catchCopies">
+       <enablement>
+          <with variable="affectedNatures">
+             <iterate operator="or">
+                <equals value="org.eclipse.jdt.core.javanature"/>
+             </iterate>
+          </with>
+          <with variable="element">
+             <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+          </with>
+       </enablement>
+    </copyParticipant>
+ </extension-->
+   <extension
+         point="org.eclipse.jdt.ui.queryParticipants">
+      <queryParticipant
+            class="org.eclipse.stardust.modeling.refactoring.query.participants.QueryParticipant"
+            id="org.eclipse.stardust.modeling.core.queryParticipant"
+            name="%queryParticipants"
+            nature="org.eclipse.jdt.core.javanature"/>
+   </extension>
+
+</plugin>

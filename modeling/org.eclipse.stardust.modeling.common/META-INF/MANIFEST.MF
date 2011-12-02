@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundleName
+Bundle-SymbolicName: org.eclipse.stardust.modeling.common
+Bundle-Version: 9.9.9.qualifier
+Bundle-Activator: org.eclipse.stardust.modeling.common.BpmCommonActivator
+Bundle-Vendor: %bundleVendor
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.stardust.ide.thirdparty.runtime.xml,
+ org.eclipse.stardust.ide.engine.base;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.stardust.modeling.common,
+ org.eclipse.stardust.modeling.common.worktime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

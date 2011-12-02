@@ -1,0 +1,200 @@
+/*******************************************************************************
+ * Copyright (c) 2011 SunGard CSA LLC and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    SunGard CSA LLC - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.stardust.modeling.core.properties;
+
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.ui.StringUtils;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.widgets.*;
+
+import ag.carnot.workflow.model.PredefinedConstants;
+
+public class ApplicationRetrySynchronousPropertyPage extends AbstractModelElementPropertyPage
+{
+   protected LabeledText number;
+   protected LabeledText time;
+   protected Button retryButton;
+   
+   private SelectionListener retryListener = new SelectionListener()
+   {
+      public void widgetDefaultSelected(SelectionEvent e)
+      {
+      }
+
+      public void widgetSelected(SelectionEvent e)
+      {
+         /*
+         boolean selection = ((Button) e.widget).getSelection();
+         if(selection)
+         {
+            number.getText().setEditable(false);
+            time.getText().setEditable(false);
+         }
+         else
+         {
+            number.getText().setEditable(true);
+            time.getText().setEditable(true);
+         } 
+         */        
+      }
+   };            
+   
+   private ModifyListener numberListener = new ModifyListener()
+   {
+      public void modifyText(ModifyEvent e)
+      {
+         boolean isValid = validateNumber();         
+         if(!isValid)
+         {         
+            setErrorMessage(Diagram_Messages.ERROR_MSG_VALUE_MUST_BE_NUMERIC_BETWEEN_1_AND_10);
+            setValid(false);
+         }
+         else
+         {
+            if(validate())
+            {
+               setValid(true);
+               setErrorMessage(null);
+            }
+         }
+      }
+   };
+
+   private ModifyListener timeListener = new ModifyListener()
+   {
+      public void modifyText(ModifyEvent e)
+      {
+         boolean isValid = validateTime();         
+         if(!isValid)
+         {         
+            setErrorMessage(Diagram_Messages.ERROR_MSG_VALUE_MUST_BE_NUMERIC_BETWEEN_1_AND_60);            
+            setValid(false);
+         }
+         else
+         {
+            if(validate())
+            {
+               setValid(true);
+               setErrorMessage(null);
+            }
+         }
+      }
+   };
+   
+   private boolean validate()
+   {      
+      return validateNumber() && validateTime();
+   }
+
+   private boolean validateNumber()
+   {
+      String numberValue = number.getText().getText();
+      if(StringUtils.isEmpty(numberValue))
+      {
+         return true;
+      }
+      
+      try
+      {
+         int value = Integer.parseInt(numberValue);
+         if(value >= 1 && value <= 10)
+         {
+            return true;
+         }
+      }
+      catch (NumberFormatException e)
+      {
+      }      
+      return false;
+   }
+   
+   private boolean validateTime()
+   {
+      String timeValue = time.getText().getText();
+      if(StringUtils.isEmpty(timeValue))
+      {
+         return true;
+      }
+      
+      try
+      {
+         int value = Integer.parseInt(timeValue);
+         if(value >= 1 && value <= 60)
+         {
+            return true;
+         }
+      }
+      catch (NumberFormatException e)
+      {
+      }      
+      return false;
+   }
+   
+   public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
+   {
+      number.getText().removeModifyListener(numberListener);
+      time.getText().removeModifyListener(timeListener);
+      retryButton.removeSelectionListener(retryListener);
+      
+      AttributeType numberAttribute = AttributeUtil.getAttribute((ApplicationType) element,
+            PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_NUMBER);
+      if(numberAttribute != null)
+      {
+         number.getText().setText(numberAttribute.getValue());
+      }
+      
+      AttributeType timeAttribute = AttributeUtil.getAttribute((ApplicationType) element,
+            PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_TIME);
+      if(timeAttribute != null)
+      {
+         time.getText().setText(timeAttribute.getValue());
+      }
+
+      AttributeType retryAttribute = AttributeUtil.getAttribute((ApplicationType) element,
+            PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_ENABLE);
+      if(retryAttribute != null)
+      {
+         retryButton.setSelection(AttributeUtil.getBooleanValue(retryAttribute));
+      }      
+      
+      number.getText().addModifyListener(numberListener);
+      time.getText().addModifyListener(timeListener);
+      retryButton.addSelectionListener(retryListener);      
+   }
+
+   public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
+   {
+      // in case apply button is pressed with invalid values
+      if(validate())
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_NUMBER, number.getText().getText());
+         AttributeUtil.setAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_TIME, time.getText().getText());
+         AttributeUtil.setBooleanAttribute((IExtensibleElement) element, PredefinedConstants.SYNCHRONOUS_APPLICATION_RETRY_ENABLE, retryButton.getSelection());
+      }
+   }
+
+   public Control createBody(Composite parent)
+   {
+      Composite composite = FormBuilder.createLabeledControlsComposite(parent);
+
+      retryButton = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_APPLICATION_RETRY_ENABLE, 2);            
+      number = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_APPLICATION_RETRY_NUMBER);
+      number.setTextLimit(2);
+      time = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_APPLICATION_RETRY_TIME);
+      time.setTextLimit(2);      
+
+      return composite;
+   }
+}

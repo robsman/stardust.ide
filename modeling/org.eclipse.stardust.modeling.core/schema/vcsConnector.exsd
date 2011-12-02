@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.stardust.modeling.core">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.stardust.modeling.core" id="vcsConnector" name="VCS Connector"/>
+      </appInfo>
+      <documentation>
+         Allows plugging in of different VCS connectors (subclipse, etc.) 
+
+An extension point specifying the ID RepositoryProvider assigned to the project in the attribute &quot;repositoryProviderId&quot; will be chosen and the implementation of the Vcs interface specified by the attribute &quot;vcsConnectorClass&quot; is created. RepositoryProvider is set via setRepositoryProvider immediately after creation.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="vcsConnector"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="vcsConnector">
+      <complexType>
+         <attribute name="repositoryProviderId" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="vcsConnectorClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.stardust.modeling.core.modelserver.Vcs"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         Infinity Process Platform 5.0.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+   &lt;extension
+         point=&quot;org.eclipse.stardust.modeling.core.vcsConnector&quot;&gt;
+      &lt;vcsConnector
+            repositoryProviderId=&quot;org.tigris.subversion.subclipse.core.svnnature&quot;
+            vcsConnectorClass=&quot;com.infinity.bpm.modeling.vcsconnector.subclipse.SubclipseSubversionVcs&quot;&gt;
+      &lt;/vcsConnector&gt;
+   &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+</schema>

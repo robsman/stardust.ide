@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            accessPointProvider="org.eclipse.stardust.modeling.integration.mail.application.MailAccessPointProvider"
+            icon="icons/full/obj16/mail_application_icon.gif"
+            id="mailBean"
+            initializerClass="org.eclipse.stardust.modeling.integration.mail.application.MailApplicationInitializer"
+            name="%mailApplication"
+            synchronous="false">
+         <attribute name="carnot:defdesk:icon" value=""/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.mail.MailAccessPointProvider"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.mail.MailApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.applications.mail.MailValidator"/>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.integration.mail.application.MailValidator"
+            id="ag.carnot.workflow.modeling.mail.modelElementValidator"
+            metaTypeId="mailBean"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="mailBean"/>
+      </modelElementValidator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.integration.mail.application.MailPropertyPage"
+            icon="icons/full/obj16/mail_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%mailApplicationPropertyPage">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+               <test property="com.infinity.properties.metaType" value="mailBean"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
+      </page>
+   </extension>
+</plugin>

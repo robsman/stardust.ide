@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+	<extension-point id="applicationInfo" name="Application Info" schema="schema/applicationInfo.exsd"/>
+	
+	<extension point="org.eclipse.stardust.modeling.validation.modelValidator">
+		<modelValidator id="org.eclipse.stardust.modeling.data.structured.validation.modelValidator"
+			class="org.eclipse.stardust.modeling.data.structured.validation.ModelValidator"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+	</extension>
+	
+	<extension point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+		<modelElementValidator id="org.eclipse.stardust.modeling.data.structured.validation.dataValidator"
+			class="org.eclipse.stardust.modeling.data.structured.validation.DataValidator"
+			metaTypeId="struct"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+			<filter	name="metaType"	value="struct"/>
+			<filter	name="!perspectiveType"	value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+		</modelElementValidator>
+	</extension>
+	
+	<extension point="org.eclipse.stardust.modeling.validation.bridgeObjectProvider">
+		<bridgeObjectProvider id="struct.bridge.object.provider"
+			class="org.eclipse.stardust.modeling.data.structured.validation.StructBridgeObjectProvider"
+			dataTypeId="struct"/>
+	</extension>
+
+	<extension point="org.eclipse.stardust.modeling.data.structured.applicationInfo">
+		<category name="Infinity Process Platform"
+			defaultPrefix="carnot"
+			namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
+			<element name="storage"
+				empty="true"
+				label="Storage">
+				<element name="indexed"
+					empty="false"
+					label="%indexing"
+					type="boolean">
+					<enumeration name="%indexed" value="true"/>
+					<enumeration name="%notIndexed"	value="false"/>
+				</element>
+				<element name="persistent"
+					empty="false"
+					label="%persistence"
+					type="boolean">
+					<enumeration name="%persistent" value="true"/>
+					<enumeration name="%transient" value="false"/>
+				</element>
+			</element>
+		</category>
+	</extension>
+
+	<extension point="org.eclipse.ui.propertyPages">
+		<page id="_cwm_spi_data_"
+			category="spi"
+			class="org.eclipse.stardust.modeling.data.structured.properties.DataStructPropertyPage"
+			icon="icons/lego_icon.gif"
+			name="%structuredDataPropertyPage">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+               <test property="com.infinity.properties.metaType" value="struct"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
+		</page>
+		<page id="_cwm_general_"
+			category="core"
+			class="org.eclipse.stardust.modeling.data.structured.properties.TypeDeclarationPropertyPage"
+			icon="icons/data_structured_definition.gif"
+			name="%propPageStructuredDataGeneral">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType"/>
+         </enabledWhen>
+		</page>
+		<page id="_cwm_spi_data_"
+			category="spi"
+			class="org.eclipse.stardust.modeling.data.structured.properties.StructPropertyPage"
+			icon="icons/data_structured_definition.gif"
+			name="%abstractTypePropertyPage">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType"/>
+         </enabledWhen>
+		</page>
+	</extension>
+
+	<extension point="org.eclipse.stardust.modeling.core.contextMenuAction">
+		<contextMenuAction id="org.eclipse.stardust.modeling.data.structured.actions.createComposite"
+			actionClass="org.eclipse.stardust.modeling.data.structured.actions.CreateCompositeAction"
+			group="rest"
+			targetEObjectType="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType"/>
+		<contextMenuAction id="org.eclipse.stardust.modeling.data.structured.actions.createEnumeration"
+			actionClass="org.eclipse.stardust.modeling.data.structured.actions.CreateEnumerationAction"
+			group="rest"
+			targetEObjectType="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType"/>
+		<contextMenuAction id="org.eclipse.stardust.modeling.data.structured.actions.importTypeDeclarations"
+			actionClass="org.eclipse.stardust.modeling.data.structured.actions.ImportTypeDeclarationsAction"
+			group="rest"
+			targetEObjectType="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType"/>
+		<contextMenuAction id="org.eclipse.stardust.modeling.data.structured.actions.exportTypeDeclaration"
+			actionClass="org.eclipse.stardust.modeling.data.structured.actions.ExportTypeDeclarationAction"
+			group="rest"
+			targetEObjectType="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType"/>
+		<contextMenuAction id="org.eclipse.stardust.modeling.data.structured.actions.openEditor"
+			actionClass="org.eclipse.stardust.modeling.data.structured.actions.OpenXSDEditorAction"
+			group="rest"
+			targetEObjectType="org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType"/>
+	</extension>
+</plugin>

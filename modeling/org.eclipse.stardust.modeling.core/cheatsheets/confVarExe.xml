@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Running the Workflow with Different Variable Values">
+  <intro>
+    <description>
+		This cheat sheet guides you through the process of running a
+		workflow depending on different values of a configuration variable.
+	</description>
+   </intro>
+  <item
+        skip="true"
+        title="Starting the Process in the Portal" 
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#run">
+     <description>
+        <br/>
+	1. Start your server and deploy the model.<br/>
+	2. Start the Stardust Portal.<br/>
+	3. Login as administrator with motu/motu.<br/>
+	4. Switch to the <b>Participant Management</b> View of the <b>Administration Perspective</b>.<br/>
+	5. Create a user and assign him to the role we added to the model.<br/>
+	6. Logout and login again as the newly created user.<br/>
+ 	</description>
+ 	</item>
+  <item
+        skip="true"
+        title="Running the Workflow in Test Mode"
+        href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#runTest">
+     <description>
+        <br/>
+	1. In the <b>Workflow Perspective</b>, start the available process.<br/>
+	2. Complete activity <b>Starting Activity</b>.<br/><br/>
+	Per default, the model is run in test mode as the default value of the configuration variable is "TEST".
+	Thus, the activity <b>Activity Production Only</b> is skipped and we see activity <b>Continue</b>. <br/>
+ 	</description>
+ 	</item>
+  <item
+        skip="true"
+  		title="Switching to Production Mode"
+        href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#prod"> 	
+     <description>
+		To run the model workflow in production mode, we change the value of our configuration variable to "PRODUCTION":<br/>
+     1. Switch to the <b>Configuration Variables</b> view in the <b>Administration Perspective</b>. <br/>
+     2. In the <b>Value</b> column, change the value of the variable to "PRODUCTION". <br/>
+     3. Click the <b>Change</b> button in the upper right corner to save the new configuration variable value.<br/>
+     4. Now start the process again.<br/>
+     5. Complete activity <b>Starting Activity</b>.<br/><br/>
+     The transition condition checks the value of the variable and decides to run the activity forseen for production. Thus, the next activity opening is activity <b>Activity Production Only</b>.<br/>
+  	</description>
+  </item>
+</cheatsheet>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension point="org.eclipse.ui.ide.projectNatureImages">
+      <image id="org.eclipse.stardust.modeling.common.ui.bpmNatureOverlay"
+            icon="icons/full/ovr16/carnot_bpm_ovr.gif"
+            natureId="org.eclipse.stardust.modeling.common.projectnature.carnotBusinessProcessManagement"/>
+   </extension>
+   <extension point="org.eclipse.ui.propertyPages">
+      <page id="org.eclipse.stardust.modeling.common.ui.carnotNaturePropertyPage"
+            class="org.eclipse.stardust.modeling.common.ui.properties.BpmNaturePropertyPage"
+            name="%carnotBpmPageName">
+         <enabledWhen>
+            <instanceof value="org.eclipse.jdt.core.IJavaProject"/>
+         </enabledWhen>
+      </page>
+   </extension>
+   <extension point="org.eclipse.ui.perspectives">
+      <perspective id="ag.carnot.workflow.modeler.workflowModelingPerspective"
+            class="org.eclipse.stardust.modeling.common.ui.perspectives.ModelingPerspective"
+            icon="icons/full/obj16/model.gif"
+            name="%modelingPerspective"/>
+      <perspective id="ag.carnot.workflow.modeler.debuggingPerspective"
+            class="org.eclipse.stardust.modeling.common.ui.perspectives.DebuggingPerspective"
+            icon="icons/full/obj16/model_debug.gif"
+            name="%debugPerspective"/>
+      <perspective id="ag.carnot.workflow.modeler.businessModelingPerspective"
+            class="org.eclipse.stardust.modeling.common.ui.perspectives.BusinessModelingPerspective"
+            icon="icons/full/obj16/model.gif"
+            name="%businessPerspectiveName"/>
+   </extension>
+   <extension point="org.eclipse.jdt.ui.classpathContainerPage">
+      <classpathContainerPage id="org.eclipse.stardust.modeling.common.projectnature.carnotHomeLocation"
+            class="org.eclipse.stardust.modeling.common.ui.classpath.CarnotHomeClasspathContainerPage"
+            name="%carnotHomeLibraryName"/>
+      <classpathContainerPage id="org.eclipse.stardust.modeling.common.projectnature.carnotWorkLocation"
+            class="org.eclipse.stardust.modeling.common.ui.classpath.CarnotWorkClasspathContainerPage"
+            name="%carnotWorkLibraryName"/>
+   </extension>
+   <extension id="carnot" name="Carnot" point="org.eclipse.ui.preferencePages">
+      <page id="org.eclipse.stardust.modeling.common.ui"
+            class="org.eclipse.stardust.modeling.common.ui.preferences.WorkbenchPreferencePage"
+            name="%carnotPreferencePageName"/>
+      <page id="org.eclipse.stardust.modeling.common.ui.drawing"
+            class="org.eclipse.stardust.modeling.common.ui.preferences.DrawingPreferencePage"
+            category="org.eclipse.stardust.modeling.common.ui"
+            name="%carnotDrawingPreferencePageName"/>
+      <page id="org.eclipse.stardust.modeling.common.ui.collision"
+            class="org.eclipse.stardust.modeling.common.ui.preferences.CollisionPreferencePage"
+            category="org.eclipse.stardust.modeling.common.ui"
+            name="%carnotCollisionPreferencePageName"/>
+      <page
+            class="org.eclipse.stardust.modeling.common.ui.preferences.DeploymentPreferencePage"
+            id="org.eclipse.stardust.modeling.common.ui.deployment"
+            category="org.eclipse.stardust.modeling.common.ui"
+            name="%deploymentPreferencePageName"/>
+      <page
+            category="org.eclipse.stardust.modeling.common.ui"
+            class="org.eclipse.stardust.modeling.common.ui.preferences.MultiPackageModelingPreferencePage"
+            id="org.eclipse.stardust.modeling.common.ui.multipackagemodeling"
+            name="%carnotMultiPackageModelingPreferencePageName">
+      </page>            
+   </extension>
+   <extension point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester id="org.eclipse.stardust.modeling.common.ui.PerspectiveTester"
+            class="org.eclipse.stardust.modeling.common.ui.testers.PerspectiveTester"
+            namespace="com.infinity.properties"
+            properties="perspectiveType"
+            type="org.eclipse.emf.ecore.EObject">
+      </propertyTester>
+      <propertyTester id="org.eclipse.stardust.modeling.common.ui.MetaTypeTester"
+            class="org.eclipse.stardust.modeling.common.ui.testers.MetaTypeTester"
+            namespace="com.infinity.properties"
+            properties="metaType"
+            type="org.eclipse.stardust.model.xpdl.carnot.ITypedElement">
+      </propertyTester>
+      <propertyTester
+            class="org.eclipse.stardust.modeling.common.ui.testers.FeatureTester"
+            id="org.eclipse.stardust.modeling.common.ui.FeatureTester"
+            namespace="com.infinity.properties"
+            properties="feature"
+            type="org.eclipse.emf.ecore.EObject">
+      </propertyTester>
+   </extension>
+</plugin>

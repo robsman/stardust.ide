@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Getting Started">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of preparing the 
+    	the workbench to start with your support case tutorial.</description>
+  </intro>
+  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setlicense" 
+  	title="Set the Stardust License">
+     <description>
+     To set the Stardust license:<br/>
+     1. Select <b>Window &gt; Preferences </b> to open the preferences dialog.<br/>
+     2. Select <b>Stardust</b>.<br/>
+     3. In the <b>License file</b> section browse to the location of your license file.
+ 	</description>
+  </item>
+  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setUpTomcat" 
+  	title="Set up Embedded Tomcat in Eclipse">
+     <description>
+	To set up embedded Tomcat in your Eclipse workspace:<br/>
+	1. From the Eclipse main menu choose <b>File &gt; New &gt; Other...</b><br/>
+	2. Click <b>Server &gt; Server</b>.<br/>
+	3. Click <b>Next</b>.<br/>
+	4. Select <b>Tomcat v6.0 Server</b>.<br/>
+    5. Click <b>Finish</b> if you previously configured a Tomcat Server with your Eclipse 
+      Workbench.<br/>
+    6. Otherwise select <b>Next</b>.<br/>
+	7. Browse to the folder of your Tomcat installation.<br/>
+	8. Select <b>Finish</b>.
+ 	</description>
+  </item>
+  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
+  	title="Create an Eclipse Project with Stardust Facets">
+     <description>
+     1. In the main menu select <b>File &gt; New &gt; Project...</b><br/>
+     2. In the <b>New Project</b> wizard choose <b>Web &gt; Dynamic Web Project</b>.<br/>
+     3. Click <b>Next</b>.<br/>
+     4. Name your project "Support-Case".<br/>
+     5. In the <b>Configurations</b> entry, select <b>Stardust Portal</b> in the drop down list.<br/>
+     6. Click <b>Next</b>.<br/>
+     7. Leave the default values for source and build path and select <b>Next</b>.<br/>
+     8. Leave the default values in the <b>Web Module</b> dialog and click <b>Next</b>.<br/>
+     9. In the <b>JSF Capabilities</b> dialog, select <b>Disable Library Configuration</b>
+     for <b>JSF Implementation Library</b>.<br/> 
+     10. Click <b>Finish</b>.<br/>
+     Now you see your new dynamic web project in the Navigator or Package Explorer view. 
+ 	</description>
+  </item>
+  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
+  	title="Setting the Repository Path">
+     <description>
+     A dialog opens to inform you to set a location for the repository path.<br/>
+     1. Open the <b>web.xml</b> file residing in the <b>WebContent/WEB-INF</b> folder.<br/>
+     2. The default value of parameter <b>param-home</b> is set to path <b>c:/tmp/jackrabbit</b>.<br/>
+     3. Change this parameter to point to an empty folder or an existing Jackrabbit repository
+     you like to use.<br/>
+ 	</description>
+  </item>
+  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#opening" 
+  	title="Create New Model">
+     <description>
+		1. Right-click your project in the Package Explorer and select <b>New &gt; Other...</b>.<br/> 
+		2. Choose <b>Stardust Wizards > Stardust Process Model</b>.<br/> 
+		3. Click <b>Next</b>.<br/> 
+		4. In the upcoming dialog fill in the model name <b>ACME Workflow Model</b>.<br/>
+		5. Select <b>Finish</b>.<br/>
+	</description>
+  </item>
+</cheatsheet>

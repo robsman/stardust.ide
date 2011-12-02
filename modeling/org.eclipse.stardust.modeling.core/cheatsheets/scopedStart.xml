@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating the Model and Organizational Structure">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of creating a workflow
+    	with a scoped environment.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Creating the Workflow"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+     <description>
+     To create the workflow in the diagram:<br/>
+     1. Create a new model by choosing 
+     <b>File &gt; New &gt; Other &gt; Stardust Wizards &gt; Stardust Process Model</b> in the main menu.<br/>
+     2. Rename the default process definition to <b>Report Demo</b> and open its diagram.<br/>
+     3. Create a manual trigger and two subsequent activities.<br/>
+     4. Name the activities <b>Enter Department</b> and <b>Activity by Scoped NationalDirector</b>.<br/>
+ 	</description>
+  </item>
+  <item
+        skip="true"
+        title="Creating the Department Data">
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+     <description>
+        Now create the data, which will be used as data path for the department defined for the organizations:<br/>
+	1. Create a primitive data <b>Nation Department</b>.<br/>
+	2. Assign this data as In- and Out-data mapping to the activity <b>Enter Department</b>.<br/>
+	3. Thus, the different department values will be determined via this activity.<br/>
+ 	</description>
+ 	</item>
+  <item
+        skip="true"
+  	title="Binding the Department Data">
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+     <description>
+	Now bind the department data to the organization <b>NationDivision</b>:<br/>
+     1. Open the properties page of the <b>NationDivision</b> organization.<br/>
+     2. Select <b>Department Binding</b>.<br/>
+     3. Enable the checkbox for <b>Organization support departments</b>.<br/>
+     4. In the <b>Department Id</b> section, select the data <b>Nation Department</b> in the Data drop-down list.<br/>
+     5. Click <b>OK</b>.<br/>
+  	</description>
+  </item>
+  <item
+        skip="true"
+  	title="Creating the Organizational Structure"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+     <description>
+        1. Create two organizations, <b>HeadOffice</b> and <b>NationalDivision</b>.<br/>
+		2. Assign the <b>NationalDivision</b> organization as suborganization of <b>HeadOffice</b>.<br/>
+		3. Create a role <b>NationalDirector</b> and connect it with a Manager Of connection to <b>NationalDivision</b>.<br/>
+	</description>
+  </item>
+  <item
+        skip="true"
+  	title="Assigning the Performers"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+     <description>
+	Set the following performers:<br/>
+   1. Assign the Administrator role as participant to the manual trigger.<br/>
+   2. Assign <b>HeadOffice</b> as performer of <b>Enter Department</b>.<br/>
+   3. Assign <b>NationalDirector</b> as performer of <b>Activity by Scoped NationalDirector</b>.<br/>
+     </description>
+  	</item>
+  	
+</cheatsheet>

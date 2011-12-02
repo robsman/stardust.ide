@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Infinity BPM Javascript Modeling Support
+Bundle-SymbolicName: org.eclipse.stardust.modeling.javascript;singleton:=true
+Bundle-Version: 9.9.9.qualifier
+Bundle-Vendor: SunGard CSA LLC
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.wst.jsdt.core,
+ org.eclipse.wst.jsdt.manipulation,
+ org.eclipse.wst.jsdt.ui,
+ org.eclipse.jdt.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.stardust.modeling.integration.dms,
+ org.eclipse.stardust.modeling.core,
+ org.eclipse.stardust.model.xpdl,
+ org.eclipse.stardust.ide.engine.core,
+ org.eclipse.ui.workbench,
+ org.eclipse.ui.ide,
+ org.eclipse.ui,
+ org.eclipse.stardust.modeling.common.ui,
+ org.eclipse.stardust.modeling.validation,
+ org.eclipse.core.resources,
+ org.eclipse.stardust.modeling.common.ui.jface,
+ org.eclipse.jdt,
+ org.eclipse.jdt.launching,
+ org.eclipse.xsd

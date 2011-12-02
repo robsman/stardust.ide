@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<tmplt:TemplateLibrary xmlns="http://www.carnot.ag/workflowmodel/3.1"
+	xmlns:tmplt="http://www.carnot.ag/workflowmodel/templates"
+	xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" id="spl" name="Model Based Templates">
+<tmplt:documentation>Standard Pattern Library</tmplt:documentation>
+<tmplt:templates>
+	<tmplt:template id="dynamicSpawn" name="Dynamic Spawn" style="embedded">
+		<tmplt:documentation />
+		<tmplt:roots>
+			<tmplt:root process="ProcessDefinition_1" />
+			<tmplt:root application="NeedMoreInstancesChecker" />
+			<tmplt:root data="NeedMoreInstances" />
+		</tmplt:roots>
+	</tmplt:template>
+</tmplt:templates>
+<model xmlns="http://www.carnot.ag/workflowmodel/3.1" xmlns:carnot="http://www.carnot.ag/xpdl/3.1" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="TemplateModel" name="Template Model" author="herinean" carnotVersion="4.8.0" created="Fri May 29 12:39:41 CEST 2009" modelOID="0" oid="1" vendor="SunGard Systeme GmbH">
+  <attribute name="carnot:engine:revision" type="int" value="0"/>
+  <attribute name="carnot:engine:version" value="1"/>
+  <attribute name="carnot:engine:released" type="boolean" value="false"/>
+  <dataType oid="10002" id="primitive" name="Primitive Data" predefined="true">
+    <attribute name="carnot:defdesk:accessPathEditor" value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/data/java/images/primitive_data.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.data.java.PrimitivePropertiesEditor"/>
+    <attribute name="carnot:engine:evaluator" value="ag.carnot.workflow.spi.providers.data.java.PrimitiveAccessPathEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.data.java.PrimitiveValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"/>
+  </dataType>
+  <dataType oid="10003" id="serializable" name="Serializable Data" predefined="true">
+    <attribute name="carnot:defdesk:accessPathEditor" value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/data/java/images/serializable_data.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.data.java.SerializablePropertiesEditor"/>
+    <attribute name="carnot:engine:evaluator" value="ag.carnot.workflow.spi.providers.data.java.JavaBeanAccessPathEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.data.java.SerializableValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"/>
+  </dataType>
+  <dataType oid="10004" id="entity" name="Entity Bean" predefined="true">
+    <attribute name="carnot:defdesk:accessPathEditor" value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/data/entitybean/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanPropertiesEditor"/>
+    <attribute name="carnot:engine:evaluator" value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"/>
+  </dataType>
+  <dataType oid="10005" id="plainXML" name="XML Document" predefined="true">
+    <attribute name="carnot:defdesk:accessPathEditor" value="ag.carnot.workflow.spi.providers.data.plainxml.XPathEditor"/>
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/data/plainxml/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.data.plainxml.XMLDocumentPropertiesEditor"/>
+    <attribute name="carnot:engine:evaluator" value="ag.carnot.workflow.spi.providers.data.plainxml.XPathEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.data.plainxml.XMLValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"/>
+  </dataType>
+  <dataType oid="10006" id="struct" name="Structured Data" predefined="true">
+    <attribute name="carnot:engine:evaluator" value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataXPathEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataXMLValidator"/>
+    <attribute name="carnot:engine:dataFilterExtension" value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataFilterExtension"/>
+    <attribute name="carnot:engine:dataLoader" value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataLoader"/>
+  </dataType>
+  <applicationType oid="10007" id="sessionBean" name="Session Bean Application" predefined="true" synchronous="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/sessionbean/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanApplicationPanel"/>
+    <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanAccessPointProvider"/>
+    <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanApplicationInstance"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBeanValidator"/>
+  </applicationType>
+  <applicationType oid="10008" id="plainJava" name="Plain Java Application" predefined="true" synchronous="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/plainjava/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaApplicationPanel"/>
+    <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaAccessPointProvider"/>
+    <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaApplicationInstance"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.PlainJavaValidator"/>
+  </applicationType>
+  <applicationType oid="10009" id="jms" name="JMS Application" predefined="true" synchronous="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/jms/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationPanel"/>
+    <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationInstance"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.jms.JMSValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.JMSValidator"/>
+  </applicationType>
+  <applicationType oid="10010" id="webservice" name="Web Service Application" predefined="true" synchronous="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/ws/gui/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.ws.gui.WebserviceApplicationPanel"/>
+    <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationInstance"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.WebserviceApplicationValidator"/>
+  </applicationType>
+  <applicationContextType oid="10011" id="default" name="Default Context" predefined="true" hasApplicationPath="false" hasMappingId="true"/>
+  <applicationContextType oid="10012" id="engine" name="Engine Context" predefined="true" hasApplicationPath="true" hasMappingId="false"/>
+  <applicationContextType oid="10013" id="application" name="Noninteractive Application Context" predefined="true" hasApplicationPath="true" hasMappingId="false"/>
+  <applicationContextType oid="10014" id="jfc" name="JFC Application" predefined="true" hasApplicationPath="true" hasMappingId="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/contexts/jfc/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCContextTypePanel"/>
+    <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCAccessPointProvider"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"/>
+    <attribute name="carnot:exdesk:instance" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCApplicationInstance"/>
+  </applicationContextType>
+  <applicationContextType oid="10015" id="jsp" name="JSP Application" predefined="true" hasApplicationPath="false" hasMappingId="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/contexts/jsp/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.contexts.jsp.JSPContextTypePanel"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.contexts.jsp.JSPValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"/>
+  </applicationContextType>
+  <triggerType oid="10016" id="manual" name="Manual Trigger" predefined="true" pullTrigger="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/manual/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerPanel"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.ManualTriggerValidator"/>
+  </triggerType>
+  <triggerType oid="10017" id="jms" name="JMS Trigger" predefined="true" pullTrigger="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/jms/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerPanel"/>
+    <attribute name="carnot:engine:jmsAcceptor" value="ag.carnot.workflow.spi.providers.triggers.jms.DefaultTriggerMessageAcceptor"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.JMSTriggerValidator"/>
+  </triggerType>
+  <triggerType oid="10018" id="mail" name="Mail Trigger" predefined="true" pullTrigger="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/mail/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerPanel"/>
+    <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.MailTriggerValidator"/>
+  </triggerType>
+  <triggerType oid="10019" id="timer" name="Timer Based Trigger" predefined="true" pullTrigger="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/timer/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerPanel"/>
+    <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerEvaluator"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.TimerTriggerValidator"/>
+  </triggerType>
+  <eventConditionType oid="10020" id="timer" name="Timer" predefined="true" activityCondition="true" implementation="pull" processCondition="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/timer/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.timer.PeriodPropertiesPanel"/>
+    <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.conditions.timer.TimerAccessPointProvider"/>
+    <attribute name="carnot:engine:binder" value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampBinder"/>
+    <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampCondition"/>
+    <attribute name="carnot:engine:pullEventEmitter" value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampEmitter"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.timer.TimerValidator"/>
+    <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.conditions.timer.TimerbasedRuntimeBindPanel"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.TimerValidator"/>
+  </eventConditionType>
+  <eventConditionType oid="10021" id="exception" name="On Exception" predefined="true" activityCondition="true" implementation="engine" processCondition="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/exception/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionPropertiesPanel"/>
+    <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionAccessPointProvider"/>
+    <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionCondition"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ExceptionConditionValidator"/>
+  </eventConditionType>
+  <eventConditionType oid="10022" id="statechange" name="On Activity State Change" predefined="true" activityCondition="true" implementation="engine" processCondition="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/statechange/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionPropertiesPanel"/>
+    <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeCondition"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
+  </eventConditionType>
+  <eventConditionType oid="10023" id="processStatechange" name="On Process State Change" predefined="true" activityCondition="false" implementation="engine" processCondition="true">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/statechange/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeConditionPropertiesPanel"/>
+    <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeCondition"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
+  </eventConditionType>
+  <eventConditionType oid="10024" id="onAssignment" name="On Assignment" predefined="true" activityCondition="true" implementation="engine" processCondition="false">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/assignment/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentConditionPropertiesPanel"/>
+    <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentCondition"/>
+  </eventConditionType>
+  <eventActionType oid="10025" id="trigger" name="Process Trigger" predefined="true" activityAction="true" processAction="true" supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/trigger/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerProcessActionPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerProcessAction"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerActionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.TriggerActionValidator"/>
+  </eventActionType>
+  <eventActionType oid="10026" id="mail" name="Send Mail" predefined="true" activityAction="true" processAction="true" supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/mail/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.mail.SendmailActionPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.mail.SendmailAction"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.actions.mail.MailActionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.MailActionValidator"/>
+  </eventActionType>
+  <eventActionType oid="10027" id="abortProcess" name="Abort Process" predefined="true" activityAction="true" processAction="true" supportedConditionTypes="timer, exception" unsupportedContexts="bind">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/abort/icon.gif"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.abort.AbortProcessEventAction"/>
+  </eventActionType>
+  <eventActionType oid="10029" id="completeActivity" name="Complete Activity" predefined="true" activityAction="true" processAction="false" supportedConditionTypes="timer, exception" unsupportedContexts="bind">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/complete/icon.gif"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.complete.CompleteActivityEventAction"/>
+  </eventActionType>
+  <eventActionType oid="10030" id="activateActivity" name="Activate Activity" predefined="true" activityAction="true" processAction="false" supportedConditionTypes="timer, exception, onAssignment">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/awake/icon.gif"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.awake.AwakeActivityEventAction"/>
+  </eventActionType>
+  <eventActionType oid="10031" id="delegateActivity" name="Delegate Activity" predefined="true" activityAction="true" processAction="false" supportedConditionTypes="timer, exception, statechange">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/delegate/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventAction"/>
+    <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionRuntimePanel"/>
+  </eventActionType>
+  <eventActionType oid="10032" id="scheduleActivity" name="Schedule Activity" predefined="true" activityAction="true" processAction="false" supportedConditionTypes="timer, exception, statechange">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/schedule/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventActionPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventAction"/>
+    <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventActionRuntimePanel"/>
+  </eventActionType>
+  <eventActionType oid="10033" id="excludeUser" name="Exclude User" predefined="true" activityAction="true" processAction="false" supportedConditionTypes="onAssignment">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/excludeuser/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserAction"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.ExcludeUserActionValidator"/>
+  </eventActionType>
+  <eventActionType oid="10034" id="setData" name="Set Data" predefined="true" activityAction="true" processAction="true" supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+    <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/setdata/icon.gif"/>
+    <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionPropertiesPanel"/>
+    <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataAction"/>
+    <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionValidator"/>
+    <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.SetDataActionValidator"/>
+  </eventActionType>
+  <data oid="10035" id="LAST_ACTIVITY_PERFORMER" name="Last Activity Performer" predefined="true" type="entity">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:homeInterface" value="ag.carnot.workflow.runtime.UserHome"/>
+    <attribute name="carnot:engine:isLocal" type="boolean" value="true"/>
+    <attribute name="carnot:engine:jndiPath" value="ag.carnot.workflow.runtime.User"/>
+    <attribute name="carnot:engine:primaryKey" value="ag.carnot.workflow.runtime.UserPK"/>
+    <attribute name="carnot:engine:remoteInterface" value="ag.carnot.workflow.runtime.beans.IUser"/>
+    <description>User performing the last activity of the current process.</description>
+  </data>
+  <data oid="10036" id="STARTING_USER" name="Starting User" predefined="true" type="entity">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:homeInterface" value="ag.carnot.workflow.runtime.UserHome"/>
+    <attribute name="carnot:engine:isLocal" type="boolean" value="true"/>
+    <attribute name="carnot:engine:jndiPath" value="ag.carnot.workflow.runtime.User"/>
+    <attribute name="carnot:engine:primaryKey" value="ag.carnot.workflow.runtime.UserPK"/>
+    <attribute name="carnot:engine:remoteInterface" value="ag.carnot.workflow.runtime.beans.IUser"/>
+    <description>User starting the current process.</description>
+  </data>
+  <data oid="10037" id="CURRENT_USER" name="Current User" predefined="true" type="entity">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:homeInterface" value="ag.carnot.workflow.runtime.UserHome"/>
+    <attribute name="carnot:engine:isLocal" type="boolean" value="true"/>
+    <attribute name="carnot:engine:jndiPath" value="ag.carnot.workflow.runtime.User"/>
+    <attribute name="carnot:engine:primaryKey" value="ag.carnot.workflow.runtime.UserPK"/>
+    <attribute name="carnot:engine:remoteInterface" value="ag.carnot.workflow.runtime.beans.IUser"/>
+    <description>The User currently attached to the activity thread. Usually only available for synchronously executed activity threads.</description>
+  </data>
+  <data oid="10038" id="PROCESS_ID" name="Process OID" predefined="true" type="primitive">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="long"/>
+    <description>ID assigned to the current process.</description>
+  </data>
+  <data oid="10039" id="PROCESS_PRIORITY" name="Process Priority" predefined="true" type="primitive">
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="int"/>
+    <description>Priority assigned to the current process.</description>
+  </data>
+  <data oid="10040" id="ROOT_PROCESS_ID" name="Root Process OID" predefined="true" type="primitive">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="long"/>
+    <description>ID assigned to the root process of the current process.</description>
+  </data>
+  <data oid="10041" id="CURRENT_DATE" name="Current Date" predefined="true" type="primitive">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="Calendar"/>
+    <description>Current Date.</description>
+  </data>
+  <data oid="10042" id="CURRENT_LOCALE" name="Current Locale" predefined="true" type="primitive">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="String"/>
+    <description>String representing the current locale.</description>
+  </data>
+  <data oid="10043" id="CURRENT_MODEL" name="Current Model" predefined="true" type="serializable">
+    <attribute name="carnot:engine:browsable" type="boolean" value="true"/>
+    <attribute name="carnot:engine:className" value="ag.carnot.workflow.runtime.DeployedModelDescription"/>
+    <description>Current Model.</description>
+  </data>
+  <data oid="10064" id="NeedMoreInstances" name="NeedMoreInstances" type="primitive">
+    <attribute name="carnot:engine:type" type="ag.carnot.workflow.spi.providers.data.java.Type" value="boolean"/>
+  </data>
+  <application oid="10062" id="NeedMoreInstancesChecker" name="NeedMoreInstancesChecker" type="plainJava"/>
+  <role oid="10044" id="Administrator" name="Administrator">
+    <description>In charge of all workflow administration activities.</description>
+  </role>
+  <processDefinition oid="10045" id="ProcessDefinition_1" name="Process Definition 1">
+    <activity oid="10048" id="SpawnStarter" name="Spawn Starter" hibernateOnCreation="false" join="XOR" split="AND">
+      <attribute name="carnot:pwh:includeTime" type="boolean" value="false"/>
+    </activity>
+    <activity oid="10050" id="SpawnedActivity" name="Spawned Activity" hibernateOnCreation="false">
+      <attribute name="carnot:pwh:includeTime" type="boolean" value="false"/>
+    </activity>
+    <activity oid="10052" id="SpawnChecker" name="Spawn Checker" application="NeedMoreInstancesChecker" hibernateOnCreation="false" implementation="Application" split="XOR">
+      <attribute name="carnot:pwh:includeTime" type="boolean" value="false"/>
+      <dataMapping oid="10071" context="application" data="NeedMoreInstances" direction="OUT" id="primitive_1"/>
+    </activity>
+    <activity oid="10073" id="EntryPoint" name="Entry Point" hibernateOnCreation="false">
+      <attribute name="carnot:pwh:includeTime" type="boolean" value="false"/>
+    </activity>
+    <activity oid="10077" id="ExitPoint" name="Exit Point" hibernateOnCreation="false">
+      <attribute name="carnot:pwh:includeTime" type="boolean" value="false"/>
+    </activity>
+    <transition oid="10058" id="Transition_1" name="Transition 1" condition="CONDITION" forkOnTraversal="true" from="SpawnStarter" to="SpawnedActivity">
+      <expression><![CDATA[true]]></expression>
+    </transition>
+    <transition oid="10060" id="Transition_2" name="Transition 2" condition="CONDITION" from="SpawnStarter" to="SpawnChecker">
+      <expression><![CDATA[true]]></expression>
+    </transition>
+    <transition oid="10068" id="Transition_3" name="Transition 3" condition="CONDITION" forkOnTraversal="false" from="SpawnChecker" to="SpawnStarter">
+      <expression><![CDATA[NeedMoreInstances == true]]></expression>
+    </transition>
+    <transition oid="10075" id="Transition_4" name="Transition 4" condition="CONDITION" from="EntryPoint" to="SpawnStarter">
+      <expression><![CDATA[true]]></expression>
+    </transition>
+    <transition oid="10079" id="Transition_5" name="Transition 5" condition="CONDITION" from="SpawnChecker" to="ExitPoint">
+      <expression><![CDATA[true]]></expression>
+    </transition>
+    <diagram oid="10046" name="Default" orientation="Vertical" mode="MODE_4_0_0">
+      <poolSymbol oid="10047" x="0" y="0" width="-1" height="-1" id="_default_pool__1" name="Default Pool">
+        <activitySymbol oid="10049" x="360" y="250" width="200" height="61" refer="SpawnStarter"/>
+        <activitySymbol oid="10051" x="655" y="320" width="200" height="60" refer="SpawnedActivity"/>
+        <activitySymbol oid="10053" x="360" y="400" width="200" height="61" refer="SpawnChecker"/>
+        <gatewaySymbol oid="10054" x="440" y="185" width="42" height="42" flowKind="join" refer="10049"/>
+        <gatewaySymbol oid="10056" x="440" y="330" width="42" height="42" flowKind="split" refer="10049"/>
+        <applicationSymbol oid="10063" x="65" y="410" width="190" height="40" refer="NeedMoreInstancesChecker"/>
+        <dataSymbol oid="10065" x="680" y="395" width="130" height="70" refer="NeedMoreInstances"/>
+        <gatewaySymbol oid="10066" x="440" y="565" width="42" height="42" flowKind="split" refer="10053"/>
+        <activitySymbol oid="10074" x="360" y="75" width="200" height="60" refer="EntryPoint"/>
+        <activitySymbol oid="10078" x="360" y="640" width="200" height="60" refer="ExitPoint"/>
+        <transitionConnection oid="10055" sourceAnchor="center" targetAnchor="center" sourceActivitySymbol="10054" targetActivitySymbol="10049"/>
+        <transitionConnection oid="10057" sourceAnchor="center" targetAnchor="center" sourceActivitySymbol="10049" targetActivitySymbol="10056"/>
+        <transitionConnection oid="10059" sourceAnchor="right" targetAnchor="center" sourceActivitySymbol="10056" targetActivitySymbol="10051" transition="Transition_1"/>
+        <transitionConnection oid="10061" sourceAnchor="bottom" targetAnchor="top" sourceActivitySymbol="10056" targetActivitySymbol="10053" transition="Transition_2"/>
+        <transitionConnection oid="10067" sourceAnchor="center" targetAnchor="center" sourceActivitySymbol="10053" targetActivitySymbol="10066"/>
+        <transitionConnection oid="10069" sourceAnchor="left" targetAnchor="left" sourceActivitySymbol="10066" targetActivitySymbol="10054" transition="Transition_3"/>
+        <executedByConnection oid="10070" activitySymbol="10053" applicationSymbol="10063"/>
+        <dataMappingConnection oid="10072" activitySymbol="10053" dataSymbol="10065"/>
+        <transitionConnection oid="10076" sourceAnchor="center" targetAnchor="top" sourceActivitySymbol="10074" targetActivitySymbol="10054" transition="Transition_4"/>
+        <transitionConnection oid="10080" sourceAnchor="center" targetAnchor="top" sourceActivitySymbol="10066" targetActivitySymbol="10078" transition="Transition_5"/>
+      </poolSymbol>
+    </diagram>
+  </processDefinition>
+  <xpdl:Script Type="text/ecmascript"/>
+  <xpdl:TypeDeclarations/>
+  <diagram oid="10001" name="Default Diagram" orientation="Vertical" mode="MODE_4_0_0"/>
+</model>
+</tmplt:TemplateLibrary>

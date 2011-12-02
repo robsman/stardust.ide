@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<compositeCheatsheet name="Stardust Cheat Sheet">
+    <taskGroup name="Stardust Analyst Cheat Sheet">
+  	<intro>
+    	Welcome to the Stardust Analyst Cheat Sheet.
+  	</intro>
+    <task kind="cheatsheet" name="Stardust Analyst Quick Start Tutorial" skip="true">
+		<param name="path" value="quickStartAnalyst.xml" />
+		<intro>
+    		Welcome to the Analyst Quick Start Tutorial. This cheat sheet guides you 
+    		through the basic steps of building a workflow model with a process definition
+    		and its elements in the <b>Stardust Analyst Perspective</b>.
+		</intro>
+    </task>  
+    <task kind="cheatsheet" name="Switch to Stardust Developer Cheat Sheet" skip="true">
+		<param name="path" value="switchToDev.xml" />
+		<param name="showIntro" value="false" />
+    </task>  
+  </taskGroup>
+</compositeCheatsheet>

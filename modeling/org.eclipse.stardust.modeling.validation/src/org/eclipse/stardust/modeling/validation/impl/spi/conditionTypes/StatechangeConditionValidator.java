@@ -1,0 +1,46 @@
+/*******************************************************************************
+ * Copyright (c) 2011 SunGard CSA LLC and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    SunGard CSA LLC - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
+
+
+public class StatechangeConditionValidator implements IModelElementValidator
+{
+
+   private static final String MESSAGE = Validation_Messages.MSG_TargetStateIsSameWithSource;
+
+  public Issue[] validate(IModelElement element) throws ValidationException
+   {
+      List result = new ArrayList();
+
+      String sourceState = AttributeUtil.getAttributeValue((IExtensibleElement) element,
+            CarnotConstants.SOURCE_STATE_ATT);
+      String targetState = AttributeUtil.getAttributeValue((IExtensibleElement) element,
+            CarnotConstants.TARGET_STATE_ATT);
+      if ((sourceState != null) && (targetState != null) && sourceState == targetState)
+      {
+         result.add(Issue.warning(element, MESSAGE));
+      }
+
+      return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
+   }
+}

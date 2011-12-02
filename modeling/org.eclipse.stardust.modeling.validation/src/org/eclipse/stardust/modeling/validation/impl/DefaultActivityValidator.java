@@ -1,0 +1,305 @@
+/*******************************************************************************
+ * Copyright (c) 2011 SunGard CSA LLC and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    SunGard CSA LLC - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.stardust.modeling.validation.impl;
+
+import java.text.MessageFormat;
+import java.util.*;
+
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.validation.*;
+
+
+public class DefaultActivityValidator implements IModelElementValidator
+{
+   private static final int JOIN = 0;
+
+   private static final int SPLIT = 1;
+
+   private Set checkedActivities;
+
+   protected boolean performFullCheck()
+   {
+      return true;
+   }
+
+   public Issue[] validate(IModelElement element) throws ValidationException
+   {
+      List result = new ArrayList();
+      ActivityType activity = (ActivityType) element;
+
+      if (findDuplicateId(activity))
+      {
+         result.add(Issue.error(activity, Validation_Messages.ERR_ACTIVITY_DuplicateId,
+               ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
+      }
+
+      if (performFullCheck())
+      {
+         checkPerformer(result, activity);
+         checkSubprocessActivity(result, activity);
+         checkApplicationActivity(result, activity);
+      }
+
+      if (activity.getJoin() == null
+            || activity.getJoin().getValue() == JoinSplitType.NONE)
+      {
+         if (hasMultipleTransitions(activity, JOIN))
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_MultipleIncomingTransitions,
+                  ValidationService.PKG_CWM.getTransitionType_To()));
+         }
+      }
+
+      if (activity.getSplit() == null
+            || activity.getSplit().getValue() == JoinSplitType.NONE)
+      {
+         if (hasMultipleTransitions(activity, SPLIT))
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_MultipleOutgoingTransitions,
+                  ValidationService.PKG_CWM.getTransitionType_From()));
+         }
+      }
+
+      if (activity.getLoopType() != null
+            && (activity.getLoopType().getValue() == LoopType.WHILE || activity
+                  .getLoopType().getValue() == LoopType.REPEAT))
+      {
+         if (activity.getLoopCondition() == null
+               || activity.getLoopCondition().trim().length() == 0)
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_NoLoopCondition,
+                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
+         }
+         else if (!isValidLoopCondition(activity.getLoopCondition()))
+         {
+            result.add(Issue.warning(activity,
+                  Validation_Messages.ERR_ACTIVITY_InvalidLoopCondition,
+                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
+         }
+      }
+
+      Map targetActivities = new HashMap();
+      for (Iterator i = activity.getOutTransitions().iterator(); i.hasNext();)
+      {
+         TransitionType transition = (TransitionType) i.next();
+         if (null != transition.getTo())
+         {
+            if (targetActivities.containsKey(transition.getTo()))
+            {
+               if (Boolean.FALSE.equals(targetActivities.get(transition.getTo())))
+               {
+                  // issue warning only once
+                  result.add(Issue.warning(activity, MessageFormat.format(
+                        Validation_Messages.ERR_ACTIVITY_MultipleTransitions,
+                        new Object[] {activity.getId(), transition.getTo().getId()}),
+                        ValidationService.PKG_CWM.getActivityType_LoopCondition()));
+
+                  targetActivities.put(transition.getTo(), Boolean.TRUE);
+               }
+            }
+            else
+            {
+               targetActivities.put(transition.getTo(), Boolean.FALSE);
+            }
+         }
+      }
+      
+      checkedActivities = new HashSet();
+      ActivityType blockingActivity = checkXORANDBlock(activity, activity);
+
+      if (blockingActivity != null)
+      {
+         result.add(Issue.warning(activity, MessageFormat.format(
+               Validation_Messages.Msg_XORSplitANDJoinBlock, new String[] {
+                     activity.getName(), blockingActivity.getName()}),
+               ValidationService.PKG_CWM.getActivityType()));
+      }
+
+      ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+      result.addAll(Arrays.asList(vs.validateModelElements(activity.getDataMapping())));
+      result.addAll(Arrays.asList(vs.validateModelElements(activity.getEventHandler())));
+
+      return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
+   }
+
+   private ActivityType checkXORANDBlock(ActivityType startActivity,
+         ActivityType currentActivity)
+   {
+
+      for (Iterator iter = currentActivity.getOutTransitions().iterator(); iter.hasNext();)
+      {
+         TransitionType outTransition = (TransitionType) iter.next();
+         currentActivity = outTransition.getTo();
+         if (JoinSplitType.AND_LITERAL.equals(currentActivity.getJoin())
+               && checkBackXORANDBlock(startActivity, currentActivity, outTransition))
+         {
+            return currentActivity;
+         }
+         if (!checkedActivities.contains(currentActivity))
+         {
+            checkedActivities.add(currentActivity);
+            return checkXORANDBlock(startActivity, currentActivity);
+         }
+      }
+      return null;
+   }
+
+   private boolean checkBackXORANDBlock(ActivityType startActivity,
+         ActivityType currentActivity, TransitionType outTransition)
+   {
+      for (Iterator iter = currentActivity.getInTransitions().iterator(); iter.hasNext();)
+      {
+         TransitionType inTransition = (TransitionType) iter.next();
+         if (outTransition != null && outTransition.equals(inTransition))
+         {
+            outTransition = null;
+         }
+         else
+         {
+            currentActivity = inTransition.getFrom();
+            if (JoinSplitType.AND_LITERAL.equals(currentActivity.getSplit()))
+            {
+               return false;
+            }
+            if (currentActivity.equals(startActivity))
+            {
+               return true;
+            }
+            if (!checkedActivities.contains(currentActivity))
+            {
+               checkedActivities.add(currentActivity);
+               return checkBackXORANDBlock(startActivity, currentActivity, outTransition);
+            }
+         }
+      }
+      return false;
+   }
+
+   private void checkApplicationActivity(List result, ActivityType activity)
+   {
+      if (ActivityUtil.isApplicationActivity(activity))
+      {
+         if (activity.getApplication() == null)
+         {
+            result.add(Issue.error(activity, MessageFormat.format(
+                  Validation_Messages.ERR_ACTIVITYNoApplication, new String[] {activity
+                        .getName()}), ValidationService.PKG_CWM
+                  .getActivityType_Application()));
+         }
+      }
+   }
+
+   private void checkSubprocessActivity(List result, ActivityType activity)
+   {
+      if (ActivityUtil.isSubprocessActivity(activity))
+      {
+         if (null == activity.getImplementationProcess())
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_NoImplementationProcess,
+                  ValidationService.PKG_CWM.getActivityType_ImplementationProcess()));
+         }
+         else if (null == activity.getSubProcessMode())
+         {
+            result.add(Issue.warning(activity, MessageFormat
+                  .format(Validation_Messages.ERR_ACTIVITY_SubProcessMode,
+                        new String[] {activity.getName()}), ValidationService.PKG_CWM
+                  .getActivityType_SubProcessMode()));
+         }
+      }
+   }
+
+   private void checkPerformer(List result, ActivityType activity)
+   {
+      if (ActivityUtil.isInteractive(activity))
+      {
+         if (null == activity.getPerformer())
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_NoPerformerSet,
+                  ValidationService.PKG_CWM.getActivityType_Performer()));
+         }
+         /*
+          * TODO rsauer: obsolete? if ((!StringUtils.isEmpty(activity.getPerformer())) &&
+          * (findConditionalPerformer(activity) == null)) { result .add(Issue .error(
+          * activity, MessageFormat .format( "The associated performer \"{2}\" set for
+          * manual or interactive application activity \"{0}\" doesn't exist in the
+          * model.", arguments), ValidationService.PKG_CWM .getActivityType_Performer())); }
+          */
+      }
+      else
+      {
+         if (null != activity.getPerformer())
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_PerformerWronglySet,
+                  ValidationService.PKG_CWM.getActivityType_Performer()));
+         }
+      }
+   }
+
+   private boolean isValidLoopCondition(String condition)
+   {
+      // todo: (fh) syntactic check?
+      return true;
+   }
+
+   private boolean hasMultipleTransitions(ActivityType activity, int type)
+   {
+      ProcessDefinitionType process = (ProcessDefinitionType) activity.eContainer();
+      int count = 0;
+      List transitions = process.getTransition();
+      for (int i = 0; i < transitions.size(); i++)
+      {
+         TransitionType trans = (TransitionType) transitions.get(i);
+         switch (type)
+         {
+         case JOIN:
+            if (trans.getTo() == activity)
+            {
+               count++;
+            }
+            break;
+         case SPLIT:
+            if (trans.getFrom() == activity)
+            {
+               count++;
+            }
+         }
+         if (count > 1)
+         {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   private boolean findDuplicateId(ActivityType activity)
+   {
+      for (Iterator iter = ModelUtils.findContainingProcess(activity).getActivity()
+            .iterator(); iter.hasNext();)
+      {
+         ActivityType otherActivity = (ActivityType) iter.next();
+         if ((otherActivity.getId().equals(activity.getId()))
+               && (!activity.equals(otherActivity)))
+         {
+            return true;
+         }
+      }
+      return false;
+   }
+
+}

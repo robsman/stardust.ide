@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating a Consumer Model">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of creating a consumer model.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Creating a File Connection"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#fileConnection">
+     <description>
+     First, we create a file connection to the provider model:<br/>
+	 1. Create a model named <b>Consumer.xpdl</b>.<br/>
+     2. Right-click on the <b>External Model Information</b> in the Outline view and select <b>File Connection</b>.<br/>
+     3. In the file connection drop-down list, browse to the path for the created provider model named <b>Provider</b>.<br/><br/>
+     Once the file connection is established, the elements of the provider model that can be referenced are available under the created file connection in the Outline view.
+  	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Creating the Activities"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+     <description>
+     Now create the necessary activities for the workflow in the consumer model:<br/>
+	 1. Create a manual trigger.<br/>
+	 2. Create a manual activity named <b>CustEnquiry</b>.<br/>
+	 3. Drag and drop the referenced process definition named <b>Collect Customer Information</b> from the connected file in the Outline view.<br/>
+	 4. Connect all these activities.<br/>
+	 5. Create two more manual activities named <b>Sanction Loan</b> and <b>Do not Sanction Loan</b>.<br/>
+	 6. Define Administrator as the Participant for the required elements.<br/>
+	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Creating the Data and Data Mappings"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+     <description>
+     Now create the data and data mappings:<br/>
+	 1. Create a primitive data named <b>LoanAmount</b> of integer type and provide it in the In Data Mapping for the <b>Sanction Loan</b> and <b>Do not Sanction Loan</b> activities.<br/>
+	 2. Also, provide the <b>LoanAmount</b> in the Out Data Mappings of the <b>CustEnquiry</b> activity.<br/>
+	 3. Drag and drop the <b>CustomerInformation</b> from the Outline view under the <b>File Connection</b> and rename it to <b>CustomerData</b>.<br/>
+	 4. Double-click the <b>Collect Customer Information</b> activity.<br/>
+	 5. Define the In Data Mapping in the <b>ProcessInterfaceContext</b> as <b>CustomerData</b> in the <b>Data</b> drop-down list and <b>Formal Parameter 1</b> as the Access Point.<br/>
+	 6. Define the Out Data Mapping in the <b>ProcessInterfaceContext</b> as <b>CustomerData</b> in the <b>Data</b> drop-down list and <b>Formal Parameter 1</b> as the Access Point.<br/>
+	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Creating Transition Conditions"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+     <description>
+     Create the transition conditions:<br/>
+     1. Right-click the <b>Collect Customer</b> Information activity and select <b>Split Behavior &gt; XOR</b>.<br/>
+     2. Create transitions to the activities <b>Sanction Loan</b> and <b>Do not Sanction Loan</b>.<br/>
+	 3. Define a transition condition for the <b>Sanction Loan</b> activity with the following expression:<br/>
+	  CustomerData.AssetSalaray &gt;10000 &amp;&amp; LoanAmount &lt;5000;<br/>
+	 4. Also define the following transition condition for activity <b>Do not Sanction Loan</b>:<br/>
+	 CustomerData.AssetSalaray&lt;=10000 &amp;&amp; LoanAmount&gt;=5000;<br/>
+ 	</description>
+  </item>
+</cheatsheet>

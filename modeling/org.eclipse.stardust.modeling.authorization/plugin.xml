@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension-point id="modelElementPermission" name="Model Element Permission" schema="schema/permissions.exsd"/>
+   <extension point="org.eclipse.ui.propertyPages">
+      <page id="_authorization_"
+            category="core"
+            class="org.eclipse.stardust.modeling.authorization.propertypages.AuthorizationPropertyPage"
+            icon="icons/authorization.gif"
+            name="%AuthorizationPageTitle">
+         <enabledWhen>
+            <or>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+            </or>
+         </enabledWhen>
+      </page>
+   </extension>
+   <extension point="org.eclipse.stardust.modeling.authorization.modelElementPermission">
+      <permission id="deployProcessModel"
+            defaultParticipant="Administrator"
+            name="%model.deployProcessModel"
+            scope="model"/>
+      <permission
+            defaultParticipant="Administrator"
+            id="forceSuspend"
+            name="%model.forceSuspend"
+            scope="model"/>
+      <permission
+            defaultParticipant="Administrator"
+            id="modifyAuditTrail"
+            name="%model.modifyAuditTrail"
+            scope="model"/>
+      <permission id="runRecovery"
+            defaultParticipant="Administrator"
+            name="%model.runRecovery"
+            scope="model"/>
+      <permission id="manageDaemons"
+            defaultParticipant="Administrator"
+            name="%model.manageDaemons"
+            scope="model"/>
+      <permission id="controlProcessEngine"
+            defaultParticipant="Administrator"
+            name="%model.controlProcessEngine"
+            scope="model"/>
+      <permission id="readAuditTrailStatistics"
+            defaultParticipant="Administrator"
+            name="%model.readAuditTrailStatistics"
+            scope="model"/>
+      <permission id="readUserData"
+            defaultParticipant="All"
+            name="%model.readUserData"
+            scope="model"/>
+      <permission id="modifyUserData"
+            defaultParticipant="Administrator"
+            name="%model.modifyUserData"
+            scope="model"/>
+      <permission id="manageAuthorization"
+            defaultParticipant="Administrator"
+            name="%model.manageAuthorization"
+            scope="model"/>
+      <permission id="readModelData"
+            defaultParticipant="All"
+            name="%model.readModelData"
+            scope="model"/>
+      <permission id="readDepartments"
+            defaultParticipant="All"
+            name="%model.readDepartments"
+            scope="model"/>
+      <permission id="modifyDepartments"
+            defaultParticipant="Administrator"
+            name="%model.modifyDepartments"
+            scope="model"/>
+      <permission id="resetUserPassword"
+            defaultParticipant="All"
+            name="%model.resetUserPassword"
+            scope="model"/>
+      <permission id="abortProcessInstances"
+            defaultParticipant="Administrator"
+            name="%processDefinition.abortProcessInstances"
+            scope="processDefinition"/>
+      <permission id="modifyProcessInstances"
+            defaultParticipant="Administrator"
+            name="%processDefinition.modifyProcessInstances"
+            scope="processDefinition"/>
+      <permission id="deleteProcessInstances"
+            defaultParticipant="Administrator"
+            name="%processDefinition.deleteProcessInstances"
+            scope="processDefinition"/>
+      <permission id="readProcessInstanceData"
+            defaultParticipant="All"
+            name="%processDefinition.readProcessInstanceData"
+            scope="processDefinition"/>
+      <permission id="manageEventHandlers"
+            defaultParticipant="Administrator"
+            name="%processDefinition.manageEventHandlers"
+            scope="processDefinition"/>
+      <permission id="readDataValues"
+            defaultParticipant="All"
+            name="%data.readDataValues"
+            scope="data"/>
+      <!--permission id="modifyDataValues"
+            defaultParticipant="All"
+            name="%data.modifyDataValues"
+            scope="data"/-->
+      <!--permission id="performActivity"
+            name="%activity.performActivity"
+            scope="activity"/-->
+      <permission id="delegateToOther"
+            defaultParticipant="All"
+            name="%activity.delegateToOther"
+            scope="activity"/>
+      <permission id="delegateToDepartment"
+            defaultParticipant="Administrator"
+            name="%activity.delegateToDepartment"
+            scope="activity"/>
+      <permission id="manageEventHandlers"
+            defaultParticipant="All"
+            name="%activity.manageEventHandlers"
+            scope="activity"/>
+      <permission id="readActivityInstanceData"
+            defaultParticipant="All"
+            fixed="Owner"
+            name="%activity.readActivityInstanceData"
+            scope="activity"/>
+      <permission id="abortActivityInstances"
+            defaultParticipant="Owner"
+            name="%activity.abortActivityInstances"
+            scope="activity"/>
+   </extension>
+   <extension point="org.eclipse.stardust.modeling.validation.modelValidator">
+      <modelValidator id="org.eclipse.stardust.modeling.authorization.validation.modelValidator"
+            class="org.eclipse.stardust.modeling.authorization.validation.ModelValidator"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+   </extension>
+</plugin>

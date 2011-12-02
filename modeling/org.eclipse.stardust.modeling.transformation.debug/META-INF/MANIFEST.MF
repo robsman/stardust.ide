@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.stardust.modeling.transformation.debug;singleton:=true
+Bundle-Version: 9.9.9.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Eclipse-LazyStart: true
+Bundle-ClassPath: 
+ .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.osgi,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
+ org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ org.eclipse.stardust.ide.engine.core,
+ org.eclipse.stardust.model.xpdl,
+ org.eclipse.stardust.modeling.common.ui.jface,
+ org.eclipse.stardust.modeling.core,
+ org.eclipse.stardust.modeling.transformation,
+ org.eclipse.stardust.modeling.javascript.editor,
+ org.eclipse.ui.console,
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text,
+ org.eclipse.wst.jsdt.ui
+Export-Package: 
+ org.eclipse.stardust.modeling.transformation.debug,
+ org.eclipse.stardust.modeling.transformation.debug.common,
+ org.eclipse.stardust.modeling.transformation.debug.debugger,
+ org.eclipse.stardust.modeling.transformation.debug.launcher,
+ org.eclipse.stardust.modeling.transformation.debug.model

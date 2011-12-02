@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            class="org.eclipse.stardust.modeling.transformation.debug.PersistableSourceLocator"
+            id="org.eclipse.stardust.modeling.transformation.debug.sourceLocator"
+            name="name">
+      </sourceLocator>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.launchDelegates">
+      <launchDelegate
+            delegate="org.eclipse.stardust.modeling.transformation.debug.launcher.TransformationLaunchDebugDelegate"
+            id="org.eclipse.stardust.modeling.transformation.debug.transformation.launchDelegate"
+            modes="debug"
+            name="Infinity Message Transformation Test Debugger"
+            sourceLocatorId="org.eclipse.stardust.modeling.transformation.debug.sourceLocator"
+            type="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch.testType">
+      </launchDelegate>
+   </extension>
+   <extension
+         id="this.is.my.views.extension"
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="org.eclipse.stardust.modeling.debug.viewcategory"
+            class="org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView"
+            icon="icons/debug_view.gif"
+            id="org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView"
+            name="Message Transformation Application Debug View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.eclipse.stardust.modeling.transformation.debug.model.DebugModelPresentation"
+            id="org.eclipse.stardust.modeling.transformation.debug">
+      </debugModelPresentation>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.watchExpressionDelegates">
+      <watchExpressionDelegate
+            debugModel="org.eclipse.stardust.modeling.transformation.debug"
+            delegateClass="org.eclipse.stardust.modeling.transformation.debug.WatchExpressionDelegate">
+      </watchExpressionDelegate>
+   </extension>
+
+</plugin>

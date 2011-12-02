@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Running Consumer Model Workflow using Provider Model Elements">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of running the workflow
+    	of the created consumer model using elements from the provider model.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Starting the Process in the Portal"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
+     <description>
+    To start the process:<br/>
+	1. Start your server and deploy the model.<br/>
+	2. Start the Stardust Portal.<br/>
+	3. Login as administrator with motu/motu.<br/>
+	4. In the <b>Workflow Perspective</b>, start the available process <b>Consumer Process</b>.<br/>
+	5. Enter the loan amount as 4000 and complete the activity <b>CustEnquiry</b>.<br/> 
+	6. As soon as you complete this activity, the <b>Collect Customer Information</b> process is called from the provider model.<br/>
+  	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Performing the Activities"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
+     <description>
+     Perform the activities:<br/>
+	 1. Enter the customer information and complete the activity.<br/>
+	 2. As soon as you complete the <b>CustomerInformation</b> activity, the customer is notified by sending an email
+	 via the activity <b>Send Notification Email</b> of the provider model.<br/>
+	 3. The process <b>Collect Customer Information</b> is completed and the workflow returns to the consumer model.<br/>
+	 4. The next activity of the consumer model gets triggered.<br/>
+	 5. The <b>Sanction Loan</b> activity is triggered as it satisfies the given condition in the modeler.<br/>
+	 <br/>
+  	</description>
+  </item>
+</cheatsheet>

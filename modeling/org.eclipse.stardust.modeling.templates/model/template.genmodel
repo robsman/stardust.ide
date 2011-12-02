@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.stardust.modeling.templates/src"
+    editDirectory="/org.eclipse.stardust.modeling.templates.provider/src" editorDirectory="/org.eclipse.stardust.modeling.templates.presentation/src"
+    modelPluginID="org.eclipse.stardust.modeling.templates" modelName="Template" editPluginClass="org.eclipse.stardust.modeling.templates.provider.TemplateEditPlugin"
+    editorPluginClass="org.eclipse.stardust.modeling.templates.presentation.TemplateEditorPlugin"
+    testSuiteClass="org.eclipse.stardust.modeling.templates.tests.TemplateAllTests" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" usedGenPackages="../../org.eclipse.stardust.model.xpdl.carnot/model/carnot.genmodel#//carnot ../../org.eclipse.stardust.model.xpdl.carnot/model/xpdl.genmodel#//xpdl platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
+  <foreignModel>template.ecore</foreignModel>
+  <genPackages prefix="Template" basePackage="org.eclipse.stardust.modeling.templates.emf"
+      resource="XML" disposableProviderFactory="true" ecorePackage="template.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="template.ecore#//FeatureStyleType">
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//FeatureStyleType/text"/>
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//FeatureStyleType/selection"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="template.ecore#//ScopeType">
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//ScopeType/model"/>
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//ScopeType/process"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="template.ecore#//StyleType">
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//StyleType/standalone"/>
+      <genEnumLiterals ecoreEnumLiteral="template.ecore#//StyleType/embedded"/>
+    </genEnums>
+    <genClasses ecoreClass="template.ecore#//DocumentationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute template.ecore#//DocumentationType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//DocumentationType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//DocumentationType/any"/>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//FeatureType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//FeatureType/label"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//FeatureType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//FeatureType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//FeatureType/scope"/>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//ParameterType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ParameterType/activity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//ParameterType/features"/>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//ReferenceType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/applicationType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/applicationContextType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/dataType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/eventActionType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/eventConditionType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/triggerType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/application"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/data"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/conditionalPerformer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/organization"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/role"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/processDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/typeDeclaration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//ReferenceType/parameters"/>
+      <genOperations ecoreOperation="template.ecore#//ReferenceType/getReference"/>
+      <genOperations ecoreOperation="template.ecore#//ReferenceType/setReference">
+        <genParameters ecoreParameter="template.ecore#//ReferenceType/setReference/reference"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//RootsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//RootsType/root"/>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//TemplateType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplateType/documentation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplateType/roots"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateType/style"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateType/category"/>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//TemplatesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplatesType/template"/>
+      <genOperations ecoreOperation="template.ecore#//TemplatesType/getTemplate">
+        <genParameters ecoreParameter="template.ecore#//TemplatesType/getTemplate/templateId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="template.ecore#//TemplateLibraryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateLibraryType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute template.ecore#//TemplateLibraryType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplateLibraryType/documentation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplateLibraryType/templates"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference template.ecore#//TemplateLibraryType/model"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating the Process Definition">
+   <intro>
+      <description>
+         This cheat sheet will guide you through the steps of creating structured data to be used in a workflow model.
+      </description>
+   </intro>
+   <item title="Create new Structured Data Type for Model ACME" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html">
+      <description>
+        First we create new structured data types for the ACME Workflow Model:<br/><br/>
+        1. In the Outline view right-click <b>Structured Types</b>.<br/>
+        2. Select <b>Composite</b>.<br/><br/>
+      Now the newly created composite type is visible in the Structured Types tree.
+      </description>
+   </item>
+   <item title="Define the Structured Data Type Product" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html#product">
+      <description>
+        Now we define the structured data type Product:<br/><br/>
+        1. Open the properties dialog of the new composite type.<br/>
+        2. In the <b>General</b> part name the new structured type Product.<br/>
+        3. Go to the Structured Type Definition.<br/>
+        4. In the name entry of the table enter Name.<br/>
+        5. Click in the type entry and choose the proposed type string.<br/>
+        6. Leave the cardinality as Exactly one.<br/>
+        5. In the same way enter the following composite types:<br/>
+      </description>
+      <subitem label="Add an element with name &quot;Synopsis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+      <subitem label="Add an element with name &quot;State&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+      <subitem label="Add an element with name &quot;Analysis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+   </item>
+   <item title="Define the Structured Data Type Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html#customer">
+      <description>
+        1. Again create a new composite type in the Outline view tree of the model.<br/>
+        2. Name the structured data type &quot;Customer&quot;.<br/>
+        3. Add the following composite types:<br/>
+      </description>
+      <subitem label="Add an element with name &quot;Id&quot;, type &quot;int&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+      <subitem label="Add an element with name &quot;Name&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+      <subitem label="Add an element with name &quot;Email&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+      <subitem label="Add an element with name &quot;Product&quot;, type &quot;Product&quot; and cardinality &quot;Exactly one&quot;." skip="false">
+      </subitem>
+   </item>
+</cheatsheet>

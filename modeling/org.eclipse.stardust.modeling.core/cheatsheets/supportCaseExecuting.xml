@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Executing Workflow">
+  <intro>
+    <description>
+    	This cheat sheet guides you through the process of executing your 
+        workflow.</description>
+  </intro>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#activityStart" 
+  	title="Processing the Create Case Activity">
+       <description> ACME can now execute their support case management process. 
+  		To perform the activity <b>Create Case</b>:<br/><br/>
+		1. Again go to the start URL of the Process Portal (&quot;http://hostname:port/Support-Case&quot;).<br/>
+		2. Enter the ID and password of the newly created user and confirm with <b>Login</b>.<br/>
+		3. Click <b>Support Case Management</b> under <b>My Startable Processes</b> to start the 
+		  process.<br/>
+		4. The GUI panel assigned to the <b>Create Case</b> activity opens in the view area to the right.<br/>
+		5. Fill in the empty fields with appropriate information.<br/>
+		6. Click the <b>Complete</b>button to complete the activity.<br/><br/> 
+		The first activity of the process has been performed. 
+	</description>
+  </item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
+  	title="Start the Analyze To Solve Activity">
+       <description> A work item for this activity will be placed in the worklist of the user 
+       assigned to the role <b>Engineer</b>.<br/><br/>
+       1. Log on to the Stardust Process Portal with the ID and password of the user assigned 
+       to the role <b>Engineer</b>.<br/>
+       2. In the <b>Worklist by Role</b> click on <b>Engineer</b>.<br/>
+       3. In the worklist of pending activities appears, choose one.<br/><br/>
+	</description>
+	</item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
+  	title="Complete the Process">
+       <description>
+       Now the work appears with the data from the previous activity in view.
+       The Output Data Mappings in the process definition added two new output items for this 
+       activity, <b>State</b> and <b>Analysis</b>.<br/><br/>
+       1. Entering a "C" for the state variable would send the item to the <b>Deliver Patch</b> 
+         user activity (CLOSED path).<br/>
+       2. Entering an "R "for the state variable would send the item to the 
+         <b>Notify Customer</b> (REJECTED path).
+	</description>
+	<onCompletion>Congratulations! You have completed the Stardust Developers Support Case Tutorial</onCompletion>
+  </item>
+</cheatsheet>

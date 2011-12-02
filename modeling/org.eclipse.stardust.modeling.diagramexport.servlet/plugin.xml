@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+     <extension
+           id="DiagramServlet"
+           point="org.eclipse.equinox.http.registry.servlets">
+        <servlet
+              alias="/servlet/DiagramServlet"
+              class="org.eclipse.stardust.modeling.diagramexport.servlet.DiagramServlet">
+           <init-param
+                 name="carnotUser"
+                 value="motu">
+           </init-param>
+           <init-param
+                 name="carnotPassword"
+                 value="motu">
+           </init-param>
+           <init-param
+                 name="fontSize"
+                 value="7">
+           </init-param>
+        </servlet>
+     </extension>
+</plugin>

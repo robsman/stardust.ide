@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Triggers">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the process of creating and assigning
+    	a manual trigger.</description>
+  </intro>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
+  title="Creating a trigger">
+     <description>We will use a manual trigger assigned to the role <b>Callcenter Agent</b>. So a 
+     performer having this can initiate the support case management process 
+     after he has received a support call. To create the manual trigger:<br/><br/>
+     	1. In the diagram toolbar palette select <b>Lifecycle > Manual Trigger</b> and place the symbol 
+     	  on the diagram canvas.<br/>  
+     	2. Double-click the Trigger symbol to open its properties dialog.<br/>  
+    	3. In the Name field fill in "Support Call". <br/> 
+    	4. Select <b>Manual Trigger</b> on the left pane of the properties dialog.<br/>  
+    	5. Choose <b>Callcenter Agent</b> in the list.<br/>  
+   	    6. Click <b>Apply</b>. 
+     </description>
+  </item>
+  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
+  title="Connecting a trigger to an activity">
+     <description>Connect the trigger with the <b>Init Data</b> activity:<br/><br/>
+     1. In the diagram toolbar palette select <b>Connect</b>.<br/>
+     2. Click the trigger symbol.<br/>
+     3. Subsequently click the <b>Init Data</b> activity.
+     </description>
+  </item>
+</cheatsheet>

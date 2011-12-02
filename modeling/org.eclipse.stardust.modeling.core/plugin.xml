@@ -1,0 +1,1542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+
+   <extension-point id="dataTypes" name="Data Types" schema="schema/dataTypes.exsd"/>
+   <extension-point id="conditionTypes" name="EventHandler Condition Types" schema="schema/conditionTypes.exsd"/>
+   <extension-point id="actionTypes" name="EventHandler Action Types" schema="schema/actionTypes.exsd"/>
+   <extension-point id="applicationTypes" name="Application Types" schema="schema/applicationTypes.exsd"/>
+   <extension-point id="contextTypes" name="Interactive Context Types" schema="schema/contextTypes.exsd"/>
+   <extension-point id="triggerTypes" name="Trigger Types" schema="schema/triggerTypes.exsd"/>
+   <extension-point id="acceptorProviders" name="Message Acceptors" schema="schema/messageAcceptors.exsd"/>
+   <extension-point id="messageProviders" name="Message Providers" schema="schema/messageProviders.exsd"/>
+   <extension-point id="triggerMessageAcceptors" name="triggerMessageAcceptors" schema="schema/triggerMessageAcceptors.exsd"/>
+   <extension-point id="contextMenuAction" name="Context Menu Action" schema="schema/contextMenuAction.exsd"/>
+   <extension-point id="vcsConnector" name="VCS Connector" schema="schema/vcsConnector.exsd"/>
+
+   <extension
+      point="org.eclipse.ui.editors">
+      <editor
+         class="org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor"
+         contributorClass="org.eclipse.stardust.modeling.core.editors.WorkflowModelEditorContributor"
+         default="true"
+         extensions="cwm, xpdl"
+         icon="icons/full/obj16/model.gif"
+         id="org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor"
+         name="%extensionEditor">
+      </editor>
+   </extension>
+   <extension
+      point="org.eclipse.ui.newWizards">
+      <category
+         name="%carnotWizardsCategoryName"
+         id="org.eclipse.stardust.modeling.core">
+      </category>
+      <wizard
+         name="%diagramWizardName"
+         icon="icons/full/obj16/model.gif"
+         category="org.eclipse.stardust.modeling.core"
+         class="org.eclipse.stardust.modeling.core.wizards.NewWorkflowDiagramWizard"
+         id="org.eclipse.stardust.modeling.core.wizards.NewWorkflowDiagramWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="org.eclipse.stardust.modeling.core.exportWizards"
+            class="org.eclipse.stardust.modeling.core.wizards.ExportCarnotModelDiagramWizard"
+            icon="icons/full/obj16/diagram.gif"
+            id="org.eclipse.stardust.modeling.core.export.wizard"
+            name="%exportWizardName">
+         <description>
+            %exportWizardDesc
+         </description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+      <category
+            id="org.eclipse.stardust.modeling.core.exportWizards"
+            name="%carnotWizardsCategoryName"/>
+   </extension>
+   <extension
+      name="Property View"
+      point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.stardust.modeling.core.viewcategory"
+            name="%carnotViewsCategory"/>
+      <view
+            category="org.eclipse.stardust.modeling.core.viewcategory"
+            class="org.eclipse.stardust.modeling.core.views.bookmark.WorkflowModelBookmarkView"
+            icon="icons/full/obj16/bookmark.gif"
+            id="org.eclipse.stardust.modeling.core.views.bookmark"
+            name="%bookmarksView"/>
+      <view
+            category="org.eclipse.stardust.modeling.core.viewcategory"
+            class="org.eclipse.stardust.modeling.core.views.traverse.TraverseView"
+            icon="icons/full/obj16/model.gif"
+            id="org.eclipse.stardust.modeling.core.views.traverse"
+            name="%traversalView"/>
+      <view
+            allowMultiple="false"
+            category="org.eclipse.stardust.modeling.core.viewcategory"
+            class="org.eclipse.stardust.modeling.core.views.repository.VersionRepository"
+            icon="icons/full/obj16/model.gif"
+            id="org.eclipse.stardust.modeling.core.view1"
+            name="%repositoryView"/>
+      <view
+            allowMultiple="false"
+            category="org.eclipse.stardust.modeling.core.viewcategory"
+            class="org.eclipse.stardust.modeling.core.modelserver.ui.VcsFeedView"
+            icon="icons/full/obj16/history_view.gif"
+            id="org.eclipse.stardust.modeling.core.modelserver.ui.VcsFeedView"
+            name="%vcsFeedView"/>
+            
+   </extension>
+   <extension
+      point="org.eclipse.stardust.modeling.core.dataTypes">
+      <dataType
+         accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitiveAccessPathEditor"
+         icon="icons/full/obj16/primitive_data.gif"
+         id="primitive"
+         initializerClass="org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitiveDataInitializer"
+         name="%primitiveData">
+         <attribute
+            name="carnot:defdesk:accessPathEditor"
+            value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+         <attribute
+            name="carnot:defdesk:icon"
+            value="/ag/carnot/workflow/spi/providers/data/java/images/primitive_data.gif"/>
+         <attribute
+            name="carnot:defdesk:panel"
+            value="ag.carnot.workflow.spi.providers.data.java.PrimitivePropertiesEditor"/>
+         <attribute
+            name="carnot:engine:evaluator"
+            value="ag.carnot.workflow.spi.providers.data.java.PrimitiveAccessPathEvaluator"/>
+         <attribute
+            name="carnot:engine:validator"
+            value="ag.carnot.workflow.spi.providers.data.java.PrimitiveValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"/>
+      </dataType>
+      <dataType
+         accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializableAccessPathEditor"
+         icon="icons/full/obj16/serializable_data.gif"
+         id="serializable"
+         initializerClass="org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializableDataInitializer"
+         name="%serializableData">
+         <attribute
+            name="carnot:defdesk:accessPathEditor"
+            value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+         <attribute
+            name="carnot:defdesk:icon"
+            value="/ag/carnot/workflow/spi/providers/data/java/images/serializable_data.gif"/>
+         <attribute
+            name="carnot:defdesk:panel"
+            value="ag.carnot.workflow.spi.providers.data.java.SerializablePropertiesEditor"/>
+         <attribute
+            name="carnot:engine:evaluator"
+            value="ag.carnot.workflow.spi.providers.data.java.JavaBeanAccessPathEvaluator"/>
+         <attribute
+            name="carnot:engine:validator"
+            value="ag.carnot.workflow.spi.providers.data.java.SerializableValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"/>
+      </dataType>
+      <dataType
+         accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBeanAccessPathEditor"
+         icon="icons/full/obj16/entity_data.gif"
+         id="entity"
+         initializerClass="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBeanDataInitializer"
+         name="Entity Bean">
+         <attribute
+            name="carnot:defdesk:accessPathEditor"
+            value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
+         <attribute
+            name="carnot:defdesk:icon"
+            value="/ag/carnot/workflow/spi/providers/data/entitybean/icon.gif"/>
+         <attribute
+            name="carnot:defdesk:panel"
+            value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanPropertiesEditor"/>
+         <attribute
+            name="carnot:engine:evaluator"
+            value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanEvaluator"/>
+         <attribute
+            name="carnot:engine:validator"
+            value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"/>
+      </dataType>
+      <dataType
+         accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML.PlainXMLAccessPathEditor"
+         icon="icons/full/obj16/plainXML_data.gif"
+         id="plainXML"
+         name="%xmlData">
+         <attribute
+            name="carnot:defdesk:accessPathEditor"
+            value="ag.carnot.workflow.spi.providers.data.plainxml.XPathEditor"/>
+         <attribute
+            name="carnot:defdesk:icon"
+            value="/ag/carnot/workflow/spi/providers/data/plainxml/icon.gif"/>
+         <attribute
+            name="carnot:defdesk:panel"
+            value="ag.carnot.workflow.spi.providers.data.plainxml.XMLDocumentPropertiesEditor"/>
+         <attribute
+            name="carnot:engine:evaluator"
+            value="ag.carnot.workflow.spi.providers.data.plainxml.XPathEvaluator"/>
+         <attribute
+            name="carnot:engine:validator"
+            value="ag.carnot.workflow.spi.providers.data.plainxml.XMLValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"/>
+      </dataType>
+      <dataType
+            accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPathEditor"
+            icon="icons/full/obj16/lego_icon.gif"
+            id="struct"
+            initializerClass="org.eclipse.stardust.modeling.core.spi.dataTypes.struct.DataStructInitializer"
+            name="%structuredDataName">
+         <attribute
+               name="carnot:engine:evaluator"
+               value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataXPathEvaluator"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataXMLValidator">
+         </attribute>
+         <attribute
+               name="carnot:engine:dataFilterExtension"
+               value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataFilterExtension">
+         </attribute>
+         <attribute
+               name="carnot:engine:dataLoader"
+               value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataLoader">
+         </attribute>
+         <reference
+               attributeName="carnot:engine:dataType"
+               scope="struct">
+         </reference>            
+      </dataType>
+   </extension>
+   <extension
+      point="org.eclipse.stardust.modeling.core.conditionTypes">
+      <condition
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.timer.TimerAccessPointProvider"
+            activityCondition="true"
+            icon="icons/full/obj16/timer_condition_icon.gif"
+            id="timer"
+            implementation="pull"
+            name="%conditionTimer"
+            processCondition="true"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.timer.TimerPropertyPage"
+            runtimePropertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.timer.TimerRuntimePropertyPage">
+         <attribute
+            name="carnot:defdesk:icon"
+            value="/ag/carnot/workflow/spi/providers/conditions/timer/icon.gif"/>
+         <attribute
+            name="carnot:defdesk:panel"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.PeriodPropertiesPanel"/>
+         <attribute
+            name="carnot:engine:accessPointProvider"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimerAccessPointProvider"/>
+         <attribute
+            name="carnot:engine:binder"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampBinder"/>
+         <attribute
+            name="carnot:engine:condition"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampCondition"/>
+         <attribute
+            name="carnot:engine:pullEventEmitter"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimeStampEmitter"/>
+         <attribute
+            name="carnot:engine:validator"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimerValidator"/>
+         <attribute
+            name="carnot:exdesk:runtimePanel"
+            value="ag.carnot.workflow.spi.providers.conditions.timer.TimerbasedRuntimeBindPanel"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.TimerValidator"/>
+         <reference
+               attributeName="carnot:engine:data"
+               scope="data"/>
+      </condition>
+      <condition
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.exception.ExceptionAccessPointProvider"
+            activityCondition="true"
+            icon="icons/full/obj16/exception_condition_icon.gif"
+            id="exception"
+            implementation="engine"
+            name="%conditionException"
+            processCondition="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.exception.ExceptionPropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/exception/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionPropertiesPanel"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionAccessPointProvider"/>
+         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionCondition"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ExceptionConditionValidator"/>
+      </condition>
+      <condition
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.statechange.StateChangeAccessPointProvider"
+            activityCondition="true"
+            icon="icons/full/obj16/statechange_condition_icon.gif"
+            id="statechange"
+            implementation="engine"
+            name="%conditionActivityStatechange"
+            processCondition="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.statechange.StateChangePropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/statechange/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionPropertiesPanel"/>
+         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeCondition"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
+      </condition>
+      <condition
+            activityCondition="false"
+            icon="icons/full/obj16/processStatechange_condition_icon.gif"
+            id="processStatechange"
+            implementation="engine"
+            name="%conditionProcessStatechange"
+            processCondition="true"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.processStatechange.ProcessStateChangePropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/statechange/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeConditionPropertiesPanel"/>
+         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeCondition"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
+      </condition>
+      <condition
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.onAssignment.OnAssignmentAccessPointProvider"
+            activityCondition="true"
+            icon="icons/full/obj16/onAssignment_condition_icon.gif"
+            id="onAssignment"
+            implementation="engine"
+            name="%conditionAssignment"
+            processCondition="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.onAssignment.OnAssignmentPropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/conditions/assignment/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentConditionPropertiesPanel"/>
+         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentCondition"/>
+      </condition>
+      <!--condition
+            activityCondition="true"
+            icon="icons/full/obj16/observer_condition_icon.gif"
+            id="observer"
+            implementation="push"
+            name="%conditionObserver"
+            processCondition="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.observer.ObserverPropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/wfxml/spi/conditions/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationPropertiesPanel"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationAccessPointProvider"/>
+         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationCondition"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ObserverNotificationValidator"/>
+      </condition-->
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.actionTypes">
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/trigger_action_icon.gif"
+            id="trigger"
+            name="%actionTrigger"
+            processAction="true"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.trigger.TriggerPropertyPage"
+            supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/trigger/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerProcessActionPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerProcessAction"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerActionValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.TriggerActionValidator"/>
+         <reference
+               attributeName="carnot:engine:processDefinition"
+               scope="processDefinition"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/mail_action_icon.gif"
+            id="mail"
+            name="%actionSendMail"
+            processAction="true"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.mail.MailPropertyPage"
+            supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/mail/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.mail.SendmailActionPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.mail.SendmailAction"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.actions.mail.MailActionValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.MailActionValidator"/>
+         <reference
+               attributeName="carnot:engine:receiver"
+               scope="role+organization+conditionalPerformer"/>
+         <reference
+               attributeName="carnot:engine:mailBodyData"
+               scope="data"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/abortProcess_action_icon.gif"
+            id="abortProcess"
+            name="%actionAbortProcess"
+            processAction="true"
+            supportedConditionTypes="timer, exception"
+            unsupportedContexts="bind">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/abort/icon.gif"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.abort.AbortProcessEventAction"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/completeActivity_action_icon.gif"
+            id="completeActivity"
+            name="%actionCompleteActivity"
+            processAction="false"
+            supportedConditionTypes="timer, exception"
+            unsupportedContexts="bind">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/complete/icon.gif"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.complete.CompleteActivityEventAction"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/activateActivity_action_icon.gif"
+            id="activateActivity"
+            name="%actionActivateActivity"
+            processAction="false"
+            supportedConditionTypes="timer, exception, onAssignment">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/awake/icon.gif"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.awake.AwakeActivityEventAction"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/delegateActivity_action_icon.gif"
+            id="delegateActivity"
+            name="%actionDelegateActivity"
+            processAction="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.delegateActivity.DelegateActivityPropertyPage"
+            runtimePropertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.delegateActivity.DelegateActivityRuntimePropertyPage"
+            supportedConditionTypes="timer, exception, statechange">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/delegate/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventAction"/>
+         <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionRuntimePanel"/>
+         <reference
+               attributeName="carnot:engine:target"
+               scope="role+organization+conditionalPerformer"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/scheduleActivity_action_icon.gif"
+            id="scheduleActivity"
+            name="%actionScheduleActivity"
+            processAction="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.scheduleActivity.ScheduleActivityPropertyPage"
+            runtimePropertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.scheduleActivity.ScheduleActivityRuntimePropertyPage"
+            supportedConditionTypes="timer, exception, statechange">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/schedule/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventActionPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventAction"/>
+         <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.actions.schedule.ScheduleEventActionRuntimePanel"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/excludeUser_action_icon.gif"
+            id="excludeUser"
+            name="%actionExcludeUsr"
+            processAction="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.excludeUser.ExcludeUserPropertyPage"
+            supportedConditionTypes="onAssignment">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/excludeuser/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserAction"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.ExcludeUserActionValidator"/>
+         <reference
+               attributeName="carnot:engine:excludedPerformerData"
+               scope="data"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/setData_action_icon.gif"
+            id="setData"
+            name="%actionSetData"
+            processAction="true"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.setData.SetDataPropertyPage"
+            supportedConditionTypes="timer, exception, statechange, processStatechange, onAssignment">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/actions/setdata/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionPropertiesPanel"/>
+         <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataAction"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.SetDataActionValidator"/>
+         <reference
+               attributeName="carnot:engine:dataId"
+               scope="data"/>
+      </action>
+      <action
+            activityAction="true"
+            icon="icons/full/obj16/abortProcess_action_icon.gif"
+            id="abortActivity"
+            name="%actionAbortActivity"
+            processAction="false"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.actionTypes.abort.AbortActionPropertyPage"
+            supportedConditionTypes="timer, exception"
+            unsupportedContexts="bind, unbind">
+         <attribute
+               name="carnot:engine:action"
+               value="ag.carnot.workflow.spi.providers.actions.abort.AbortActivityEventAction">
+         </attribute>
+      </action>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean.SessionBeanAccessPointProvider"
+            icon="icons/full/obj16/sessionBean_application_icon.gif"
+            id="sessionBean"
+            initializerClass="org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean.SessionBeanApplicationInitializer"
+            name="%applicationSessionBean"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/sessionbean/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanApplicationPanel"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanAccessPointProvider"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanApplicationInstance"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBeanValidator"/>
+      </application>
+      <application
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava.PlainJavaAccessPointProvider"
+            icon="icons/full/obj16/plainJava_application_icon.gif"
+            id="plainJava"
+            initializerClass="org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava.PlainJavaApplicationInitializer"
+            name="%applicationPlainJava"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/plainjava/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaApplicationPanel"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaAccessPointProvider"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaApplicationInstance"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.PlainJavaValidator"/>
+      </application>
+      <application
+            icon="icons/full/obj16/jms_application_icon.gif"
+            id="jms"
+            name="%applicationJMS"
+            synchronous="false">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/jms/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationPanel"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationInstance"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.jms.JMSValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.JMSValidator"/>
+      </application>
+      <application
+            icon="icons/full/obj16/webservice_application_icon.gif"
+            id="webservice"
+            name="%applicationWS"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/ws/gui/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.ws.gui.WebserviceApplicationPanel"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationInstance"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.WebserviceApplicationValidator"/>
+      </application>
+      <!--application
+            icon="icons/full/obj16/wfxml_application_icon.gif"
+            id="wfxml"
+            name="WfXML 2.0 Application"
+            synchronous="false">
+         <attribute
+               name="carnot:defdesk:icon"
+               value="/ag/carnot/workflow/spi/providers/applications/wfxml/gui/icon.gif"/>
+         <attribute
+               name="carnot:defdesk:panel"
+               value="ag.carnot.workflow.spi.providers.applications.wfxml.gui.WfXMLApplicationPanel"/>
+         <attribute
+               name="carnot:engine:applicationInstance"
+               value="ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationValidator"/>
+      </application-->
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.contextTypes">
+      <context
+            hasApplicationPath="false"
+            hasMappingId="true"
+            id="default"
+            name="%ctxDefault"/>
+      <context
+            hasApplicationPath="true"
+            hasMappingId="false"
+            id="engine"
+            name="%ctxEngine"/>
+      <context
+            hasApplicationPath="true"
+            hasMappingId="false"
+            id="application"
+            name="%ctxNoninteractiveApp"/>
+      <context
+            hasApplicationPath="true"
+            hasMappingId="false"
+            icon="icons/full/obj16/jfc_context_icon.gif"
+            id="jfc"
+            name="%ctxJFCApp"
+            accessPointProvider="org.eclipse.stardust.modeling.core.spi.contextTypes.jfc.JfcAccessPointProvider"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.contextTypes.jfc.JfcPropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/contexts/jfc/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCContextTypePanel"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCAccessPointProvider"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"/>
+         <attribute name="carnot:exdesk:instance" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCApplicationInstance"/>
+      </context>
+      <context
+            hasApplicationPath="false"
+            hasMappingId="true"
+            icon="icons/full/obj16/jsp_context_icon.gif"
+            id="jsp"
+            name="%ctxJSPApp"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.contextTypes.jsp.JspPropertyPage">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/contexts/jsp/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.contexts.jsp.JSPContextTypePanel"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.contexts.jsp.JSPValidator"/>
+         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"/>
+      </context>
+      <context
+            hasApplicationPath="true"
+            hasMappingId="false"
+            id="processInterface"
+            name="%ctxProcessInterface">
+      </context>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.triggerTypes">
+      <trigger
+            icon="icons/full/obj16/manual_trigger_icon.gif"
+            id="manual"
+            name="%triggerManual"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.triggerTypes.manual.ManualPropertyPage"
+            pullTrigger="false">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/manual/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerPanel"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.ManualTriggerValidator"/>
+         <reference
+               attributeName="carnot:engine:participant"
+               scope="role+organization"/>
+      </trigger>
+      <trigger
+            icon="icons/full/obj16/jms_trigger_icon.gif"
+            id="jms"
+            name="%triggerJMS"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.triggerTypes.jms.JmsPropertyPage"
+            pullTrigger="false">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/jms/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerPanel"/>
+         <attribute name="carnot:engine:jmsAcceptor" value="ag.carnot.workflow.spi.providers.triggers.jms.DefaultTriggerMessageAcceptor"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.JMSTriggerValidator"/>
+      </trigger>
+      <trigger
+            icon="icons/full/obj16/mail_trigger_icon.gif"
+            id="mail"
+            name="%triggerMail"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.triggerTypes.mail.MailPropertyPage"
+            pullTrigger="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/mail/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerPanel"/>
+         <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerEvaluator"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.MailTriggerValidator"/>
+      </trigger>
+      <trigger
+            icon="icons/full/obj16/timer_trigger_icon.gif"
+            id="timer"
+            name="%triggerTimer"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.triggerTypes.timer.TimerPropertyPage"
+            pullTrigger="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/timer/icon.gif"/>
+         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerPanel"/>
+         <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerEvaluator"/>
+         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerValidator"/>
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.TimerTriggerValidator"/>
+      </trigger>
+      <trigger
+            icon="icons/full/obj16/scan_trigger_icon.gif"
+            id="scan"
+            name="%triggerScan"
+            propertyPageClass="org.eclipse.stardust.modeling.core.spi.triggerTypes.scan.ScanTriggerPropertyPage"
+            pullTrigger="false">
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator">
+         </attribute>
+         <reference
+               attributeName="carnot:engine:participant"
+               scope="role+organization">
+         </reference>
+      </trigger>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator class="org.eclipse.stardust.modeling.core.MarkerResolutionGenerator"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.core.editors.parts.properties.ExternalPackagePropertyPage"
+            id="org.eclipse.stardust.modeling.core.editors.parts.properties.externalPackage"
+            name="External Package"
+            objectClass="org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage">
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityGeneralPropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="_cwm_general_"
+            name="%propPageActivityGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityDisplayPropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="_cwm_display_"
+            name="%propPageActivityDisplay"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>            
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityControlFlowPropertyPage"
+            icon="icons/full/obj16/transition.gif"
+            id="_cwm_controlflow_"
+            name="%propPageActivityControlflow"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.EventHandlingPropertyPage"
+            icon="icons/full/obj16/event_handler.gif"
+            id="_cwm_eventhandling_"
+            name="%propPageActivityEventhandling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityInDataMappingsPropertyPage"
+            icon="icons/full/obj16/in_datamapping.gif"
+            id="_cwm_in_data_mappings_"
+            name="%propPageActivityInDatamappings"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityOutDataMappingsPropertyPage"
+            icon="icons/full/obj16/out_datamapping.gif"
+            id="_cwm_out_data_mappings_"
+            name="%propPageActivityOutDatamappings"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityControllingPropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="_cwm_controlling_"
+            name="%propPageActivityControlling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessDefinitionGeneralPropertyPage"
+            icon="icons/full/obj16/process.gif"
+            id="_cwm_general_"
+            name="%propPageProcessGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>      
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessDefinitionDataPathsPropertyPage"
+            icon="icons/full/obj16/datapath.gif"
+            id="_cwm_data_paths_"
+            name="%propPageProcessDatapaths"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      
+      
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.EventHandlingPropertyPage"
+            icon="icons/full/obj16/event_handler.gif"
+            id="_cwm_eventhandling_"
+            name="%propPageProcessEventhandling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessDefinitionControllingPropertyPage"
+            icon="icons/full/obj16/process.gif"
+            id="_cwm_controlling_"
+            name="%propPageProcessControlling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ApplicationGeneralPropertyPage"
+            icon="icons/full/obj16/application.gif"
+            id="_cwm_general_"
+            name="%propPageApplicationGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ApplicationControllingPropertyPage"
+            icon="icons/full/obj16/application.gif"
+            id="_cwm_controlling_"
+            name="%propPageApplicationControlling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ConditionalPerformerPropertyPage"
+            icon="icons/full/obj16/conditional.gif"
+            id="_cwm_general_"
+            name="%propPageCondPerformerGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.DataPropertyPage"
+            icon="icons/full/obj16/data.gif"
+            id="_cwm_general_"
+            name="%propPageDataGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityInDataMappingsPropertyPage"
+            icon="icons/full/obj16/in_datamapping.gif"
+            id="_cwm_in_data_mappings_"
+            name="%propPageInDatamapping"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityOutDataMappingsPropertyPage"
+            icon="icons/full/obj16/out_datamapping.gif"
+            id="_cwm_out_data_mappings_"
+            name="%propPageOutDatamapping"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.DataPathPropertyPage"
+            icon="icons/full/obj16/datapath.gif"
+            id="_cwm_general_"
+            name="%propPageDatapathGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>          
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.DiagramPropertyPage"
+            icon="icons/full/obj16/diagram.gif"
+            id="_cwm_general_"
+            name="%propPageDiagramGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DiagramType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.PoolPropertyPage"
+            icon="icons/full/obj16/pool.gif"
+            id="_cwm_general_"
+            name="%propPagePoolGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.PoolSymbol"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.LanePropertyPage"
+            icon="icons/full/obj16/lane.gif"
+            id="_cwm_general_"
+            name="%propPageLaneGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.LaneSymbol"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.GatewayPropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="_cwm_gateway_"
+            name="%propPageGatewayTransitions"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ModelPropertyPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_general_"
+            name="%propPageModelGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.VariablesConfigurationPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_model_variables_"
+            name="%propPageModelVariables"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>  
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityCriticalityPropertyPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_model_variables_"
+            name="Activity Criticality"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                      
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.QualityControlCodesPropertyPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_model_quality_control_"
+            name="%propPageModelQualityControl"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                                  
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.OrganizationPropertyPage"
+            icon="icons/full/obj16/organization.gif"
+            id="_cwm_general_"
+            name="%propPageOrganizationGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.OrganizationType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.OrganizationRuntimeBindingPropertyPage"
+            icon="icons/full/obj16/conditional.gif"
+            id="_cwm_organization_runtime_binding_"
+            name="%propPageOrganizationRuntimeBinding"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.OrganizationType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.OrganizationControllingPropertyPage"
+            icon="icons/full/obj16/organization.gif"
+            id="_cwm_controlling_"
+            name="%propPageOrganizationControlling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.OrganizationType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.RoleGeneralPropertyPage"
+            icon="icons/full/obj16/role.gif"
+            id="_cwm_general_"
+            name="%propPageRoleGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.RoleType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.RoleControllingPropertyPage"
+            icon="icons/full/obj16/role.gif"
+            id="_cwm_controlling_"
+            name="%propPageRoleControlling"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.RoleType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.TransitionPropertyPage"
+            icon="icons/full/obj16/transition.gif"
+            id="_cwm_general_"
+            name="%propPageTransitionGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.TransitionType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessDefinitionTriggersPropertyPage"
+            icon="icons/full/obj16/trigger.gif"
+            id="_cwm_general_"
+            name="%propPageTriggerGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.TriggerType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.LinkTypeGeneralPropertyPage"
+            icon="icons/full/obj16/link_type.gif"
+            id="_cwm_general_"
+            name="%propPageLinktypeGeneral"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.LinkTypeType"/>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.LinkTypeVisualizationPropertyPage"
+            icon="icons/full/obj16/link_type2.gif"
+            id="_cwm_visualization_"
+            name="%propPageLinktypeVisualization"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.LinkTypeType"/>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitivePropertyPage"
+            icon="icons/full/obj16/primitive_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPagePrimitiveData"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="primitive"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializablePropertyPage"
+            icon="icons/full/obj16/serializable_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPageSerializableData"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="serializable"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBeanPropertyPage"
+            icon="icons/full/obj16/entity_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPageEjbEntitybeanData"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="entity"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBean20PropertyPage"
+            icon="icons/full/obj16/entity_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPageEjbEntitybeanData"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="entity20"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML.PlainXMLPropertyPage"
+            icon="icons/full/obj16/plainXML_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPageXmlData"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="plainXML"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean.SessionBeanPropertyPage"
+            icon="icons/full/obj16/sessionBean_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%propPageEjbSessionBeanApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="sessionBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean.SessionBean20PropertyPage"
+            icon="icons/full/obj16/sessionBean_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%propPageEjbSessionBeanApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="sessionBean20"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava.PlainJavaPropertyPage"
+            icon="icons/full/obj16/plainJava_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%propPagePojoApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="plainJava"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.jms.JmsPropertyPage"
+            icon="icons/full/obj16/jms_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%propPageJmsApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="jms"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice.WebServicePropertyPage"
+            icon="icons/full/obj16/webservice_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%propPageWebserviceApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="webservice"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.properties.ApplicationInteractivePropertyPage"
+            icon="icons/full/obj16/application.gif"
+            id="_cwm_interactive_"
+            name="%propPageInteractiveApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="feature:interactive"
+               value="true"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.properties.ApplicationRetrySynchronousPropertyPage"
+            icon="icons/full/obj16/application.gif"
+            id="_cwm_synchronous_"
+            name="%propPageRetrySynchronousApplication"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="feature:type.synchronous"
+               value="true"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.properties.DataTypeHintPage"
+            icon="icons/full/obj16/primitive_data.gif"
+            id="_cwm_hint_data_"
+            name="%dataTypeHintPageName"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ConditionalPerformerRuntimeBindingPropertyPage"
+            icon="icons/full/obj16/conditional.gif"
+            id="_cwm_cond_perf_runtime_binding_"
+            name="%propPageCondPerformerRuntimeBinding"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.Category"
+            id="core"
+            name="%coreCategory"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.IModelElement"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.Category"
+            id="spi"
+            name="%spiCategory"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.IModelElement"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.Category"
+            id="extension"
+            name="%extensionCategory"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.IModelElement"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.DataMappingPropertyPage"
+            icon="icons/full/obj16/datamapping.gif"
+            id="_cwm_general_"
+            name="%dataMappingPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataMappingType"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.ConditionPropertyPage"
+            icon="icons/full/obj16/event_handler.gif"
+            id="_cwm_general_"
+            name="%eventHandlerPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType"/>
+      <page
+            class="org.eclipse.stardust.modeling.core.spi.triggerTypes.ParameterMappingPage"
+            id="_cwm_parameter_mapping"
+            name="%parameterMappingPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType">
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessDisplayPropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="_cwm_display_"
+            name="%propPageProcessDisplay"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+      </page>
+      <page
+            class="org.eclipse.stardust.modeling.core.properties.FormalParameterPropertyPage"
+            icon="icons/full/obj16/primitive_data.gif"
+            id="_cwm_parameter_mapping"
+            name="%formalParameterPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType">
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ProcessInterfacePropertyPage"
+            icon="icons/full/obj16/activity.gif"
+            id="interface"
+            name="Process Interface"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivityApplicationPropertyPage"
+            icon="icons/full/obj16/application.gif"
+            id="_cwm_application_"
+            name="%propPageActivityApplication">
+         <enabledWhen>
+            <and>
+               <instanceof
+                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+               </instanceof>
+               <test
+                     args="implementation"
+                     property="com.infinity.properties.feature"
+                     value="Application">
+               </test>
+            </and>
+         </enabledWhen>
+      </page>
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.ActivitySubprocessPropertyPage"
+            icon="icons/full/obj16/process.gif"
+            id="_cwm_subprocess_"
+            name="%propPageActivitySubprocess">
+         <enabledWhen>
+            <and>
+               <instanceof
+                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+               </instanceof>
+               <test
+                     args="implementation"
+                     property="com.infinity.properties.feature"
+                     value="Subprocess">
+               </test>
+            </and>
+         </enabledWhen>
+      </page>
+      <page
+            category="_cwm_subprocess_"
+            class="org.eclipse.stardust.modeling.core.properties.SubprocessRuntimeBindingPropertyPage"
+            icon="icons/full/obj16/process.gif"
+            id="_cwm_subprocess_binding_"
+            name="%propPageActivitySubprocessBinding">
+         <enabledWhen>
+            <and>
+               <instanceof
+                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
+               </instanceof>
+               <test
+                     args="implementation"
+                     property="com.infinity.properties.feature"
+                     value="Subprocess">
+               </test>
+               <not>
+                  <test
+                        args="externalRef"
+                        property="com.infinity.properties.feature">
+                  </test>
+               </not>
+            </and>
+         </enabledWhen>
+      </page>
+   </extension>
+
+   <extension 
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+     <category 
+            id="carnot"
+            name="Stardust"/>
+ <!--     <cheatsheet 
+            contentFile="cheatsheets/quickStartAnalyst.xml"
+            id="org.eclipse.stardust.modeling.core.quickStartAnalyst"
+            name="Creating a simple Stardust Model in the Analyst Perspective">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench to create 
+            a simple workflow model in the Analyst Perspective.
+         </description>
+      </cheatsheet>
+      <cheatsheet 
+            contentFile="cheatsheets/quickStartDev.xml"
+            id="org.eclipse.stardust.modeling.core.quickStartDev"
+            name="Creating a simple Stardust Model in the Developer Perspective">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench to create 
+            a simple workflow model in the Development Perspective.
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            contentFile="cheatsheets/supportCaseStart.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseStart"
+            name="Starting the Tutorial">
+         <description>
+            This tutorial will show you how to start with the Support Case Tutorial.
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            contentFile="cheatsheets/supportCaseProcess.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseProcess"
+            name="Adding Process Definitions">
+         <description>
+            This tutorial will show you how to add process definitions in your
+            workflow model.
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            contentFile="cheatsheets/supportCaseStructData.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseStructData"
+            name="Creating Structured Data Types">
+         <description>
+            This tutorial will show you how to create structured 
+         data to be used in a workflow model.
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            contentFile="cheatsheets/supportCaseActivities.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseActivities"
+            name="Adding Activities">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench 
+            to add activities and transitions to your process definition.
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            contentFile="cheatsheets/supportCaseIntAppl.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseIntAppl"
+            name="Adding Applications">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench 
+            to integrate applications.
+         </description>
+      </cheatsheet>
+	<cheatsheet
+            contentFile="cheatsheets/supportCaseHandlingData.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseHandlingData"
+            name="Handling Data">
+         <description>
+            This tutorial will guide you through the process of adding data and
+        data mappings to the support case process.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseControlFlow.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseControlFlow"
+            name="Control Flow">
+         <description>
+            This tutorial guides you through the process of setting up
+            control flow between activities.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseRoles.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseRoles"
+            name="Control Flow">
+         <description>
+           This cheat sheet will guide you through the steps of defining 
+    		and assigning roles and organizations.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseTriggers.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseTriggers"
+            name="Triggers">
+         <description>
+			This cheat sheet guides you through the process of creating and assigning a 
+              manual trigger.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseDeploy.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseDeploy"
+            name="Deploy your Workflow Model">
+         <description>
+			This cheat sheet guides you through the process of deploying your 
+        	workflow model.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseUserManagement.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseUserManagement"
+            name="Managing Users">
+         <description>
+			This cheat sheet guides you through the process of creating individual 
+              users and assign them to the created roles.
+         </description>
+      </cheatsheet>      
+	  <cheatsheet
+            contentFile="cheatsheets/supportCaseExecuting.xml"
+            composite="false"
+            id="org.eclipse.stardust.modeling.core.supportCaseExecuting"
+            name="Executing Workflow">
+         <description>
+			This cheat sheet guides you through the process of executing your 
+        	workflow.
+         </description>
+      </cheatsheet>      -->
+	<cheatsheet
+            category="carnot"
+            contentFile="cheatsheets/cheatsheetAnalystComp.xml"
+            composite="true"
+            id="org.eclipse.stardust.modeling.core.cheatsheetAnalystComp"
+            name="The Stardust Analyst Cheat Sheet">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench to create 
+            a simple workflow model in the Analyst Perspective.
+         </description>
+      </cheatsheet>
+	<cheatsheet
+            category="carnot"
+            contentFile="cheatsheets/cheatsheetDevComp.xml"
+            composite="true"
+            id="org.eclipse.stardust.modeling.core.cheatsheetDevComp"
+            name="The Stardust Developer Cheat Sheet">
+         <description>
+            This tutorial will show you how to use the Stardust Process Workbench to create 
+            a simple workflow model in the Development Perspective.
+         </description>
+      </cheatsheet>
+<!--       <cheatsheet 
+            contentFile="cheatsheets/switchToAnalyst.xml"
+            id="org.eclipse.stardust.modeling.core.switchToAnalyst"
+            name="Switch to Analyst Cheat Sheet">
+         <description>
+            This cheat sheet provides you with an action to switch to the Analyst Cheat Sheet.
+         </description>
+      </cheatsheet>
+      <cheatsheet 
+            contentFile="cheatsheets/switchToDev.xml"
+            id="org.eclipse.stardust.modeling.core.switchToDev"
+            name="Switch to Developer Cheat Sheet">
+         <description>
+            This cheat sheet provides you with an action to switch to the Developer Cheat Sheet.
+         </description>
+      </cheatsheet> -->
+      
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.eclipse.stardust.modeling.core.propertyTesters.EditPartPropertyTester"
+            id="org.eclipse.stardust.modeling.core.EditPartExtender"
+            namespace="org.eclipse.stardust.modeling.core"
+            properties="modelElement"
+            type="org.eclipse.core.runtime.IAdaptable"/>
+   </extension>
+   <extension
+         point="org.eclipse.search.searchResultViewPages">
+      <viewPage
+            class="org.eclipse.stardust.modeling.core.search.SearchResultPage"
+            id="org.eclipse.stardust.modeling.core.viewResultPage"
+            searchResultClass="org.eclipse.stardust.modeling.core.search.WorkflowModelSearchResult"/>
+      <viewPage
+            class="org.eclipse.stardust.modeling.core.search.CleanupResultPage"
+            id="org.eclipse.stardust.modeling.core.cleanupResultPage"
+            searchResultClass="org.eclipse.stardust.modeling.core.search.CleanupModelSearchResult"/>
+      <viewPage
+            class="org.eclipse.stardust.modeling.core.search.ReferencesResultPage"
+            id="org.eclipse.stardust.modeling.core.referencesResultPage"
+            searchResultClass="org.eclipse.stardust.modeling.core.search.ReferencesSearchResult"/>            
+	</extension>
+	<extension point="org.eclipse.ui.actionSets">
+   		<actionSet
+      		id="org.eclipse.stardust.modeling.core.actionSets"
+   			label="Stardust"
+   			visible="false">
+      	<action
+             class="org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeployModelActionDelegate"
+             icon="icons/full/obj16/model.gif"
+             id="org.eclipse.stardust.modeling.core.deploy"
+             label="%deployModel"
+             style="push"
+             toolbarPath="Normal/additions"
+             tooltip="%deployModel"/>
+   		</actionSet> 
+	</extension>   
+</plugin>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   
+   	 <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            delegate="org.eclipse.stardust.modeling.debug.launching.LaunchDelegate"
+            id="org.eclipse.stardust.modeling.debug.launchConfigurationType"
+            modes="debug"
+            name="%launchConfigurationTypeName"
+            sourceLocatorId="org.eclipse.stardust.modeling.debug.launching.SourceLookupDirector"
+            sourcePathComputerId="org.eclipse.stardust.modeling.debug.launching.SourcePathComputer">
+         <fileExtension
+               default="true"
+               extension="cwm"/>
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourceLocators">
+      <sourceLocator
+            class="org.eclipse.stardust.modeling.debug.CWMSourceLookupDirector"
+            id="org.eclipse.stardust.modeling.debug.launching.SourceLookupDirector"
+            name="%sourceLocatorName" />
+   </extension>
+   <extension
+         point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.eclipse.stardust.modeling.debug.CWMSourcePathComputerDelegate"
+            id="org.eclipse.stardust.modeling.debug.launching.SourcePathComputer"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="org.eclipse.stardust.modeling.debug.launchConfigurationType"
+            icon="icons/full/obj16/model.gif"
+            id="org.eclipse.stardust.modeling.debug.launchConfigurationTypeImage"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.eclipse.stardust.modeling.debug.launching.ui.TabGroup"
+            description="%launchConfigurationDesc"
+            id="org.eclipse.stardust.modeling.debug.launchConfigurationTabGroup"
+            type="org.eclipse.stardust.modeling.debug.launchConfigurationType">
+         <launchMode
+               mode="debug"
+               perspective="ag.carnot.workflow.modeler.debuggingPerspective"/>
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.eclipse.stardust.modeling.debug.launching.ui.CWMModelPresentation"
+            id="org.eclipse.stardust.modeling.debug"/>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.eclipse.stardust.modeling.debug.launching.LaunchShortcut"
+            icon="icons/full/obj16/model.gif"
+            id="org.eclipse.stardust.modeling.debug.shortcut"
+            label="%extensionShortcutLabel"
+            modes="debug">
+         <contextualLaunch>
+            <contextLabel
+                  label="%contextLabelDebug"
+                  mode="debug"/>
+            <enablement>
+               <with variable="selection">
+                  <count value="1"/>
+                  <iterate operator="and">
+                     <test
+                           args="checkParent"
+                           property="org.eclipse.stardust.modeling.core.modelElement"
+                           value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
+                  </iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+      </shortcut>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.variableValueEditors">
+      <variableValueEditor
+            class="org.eclipse.stardust.modeling.debug.model.CWMVariableValueEditor"
+            modelId="org.eclipse.stardust.modeling.debug"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.stardust.modeling.debug.viewcategory"
+            name="%viewCategory"/>
+      <view
+            category="org.eclipse.stardust.modeling.debug.viewcategory"
+            class="org.eclipse.stardust.modeling.debug.views.WorklistView"
+            icon="icons/full/obj16/model.gif"
+            id="org.eclipse.stardust.modeling.debug.views.WorklistView"
+            name="%worklistViewName"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <view
+               id="org.eclipse.stardust.modeling.debug.views.WorklistView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.TaskList"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.contextMenuAction">
+      <contextMenuAction
+            actionClass="org.eclipse.stardust.modeling.debug.launching.LaunchAction"
+            group="rest"
+            id="org.eclipse.stardust.modeling.debug.launchProcess"
+            targetElementType="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
+      <contextMenuAction
+            actionClass="org.eclipse.stardust.modeling.debug.launching.LaunchAction"
+            group="rest"
+            id="org.eclipse.stardust.modeling.debug.launchDiagram"
+            targetElementType="org.eclipse.stardust.model.xpdl.carnot.DiagramType"/>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.classpathProviders">
+      <classpathProvider
+            class="org.eclipse.stardust.modeling.debug.launching.RuntimeClasspathProvider"
+            id="org.eclipse.stardust.modeling.debug.launching.RuntimeClasspathProvider"/>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.runtimeClasspathEntryResolvers">
+      <runtimeClasspathEntryResolver
+            class="org.eclipse.stardust.modeling.debug.launching.RuntimeClasspathEntryResolver"
+            container="org.eclipse.stardust.modeling.debug.carnotDebugCoreLibraries"
+            id="org.eclipse.stardust.modeling.debug.carnotDebugCoreLibraries"
+            runtimeClasspathEntryId="org.eclipse.stardust.modeling.debug.carnotDebugCoreLibraries"/>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.debug.launching.ClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.debug.carnotDebugCoreLibraries"/>
+   </extension>
+
+</plugin>

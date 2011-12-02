@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Control Flow">
+   <intro>
+      <description>
+         This cheat sheet guides you through the process of setting up control flow 
+    	between activities.
+      </description>
+   </intro>
+   <item title="Control Flow Settings" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+      <description>
+         Before we can create a transition between the activities <b>Analyze To Solve</b>
+      and <b>Notify Customer</b>, we have to redefine the properties of the activity 
+      <b>Analyze To Solve</b> to make it a node where the split occurs:<br/><br/>
+     	1. Double-click the symbol <b>Analyze To Solve</b> to open its properties dialog.<br/> 
+		2. Select <b>Control Flow</b>.<br/> 
+		3. In the <b>Split</b> section select the radio button <b>XOR</b> .<br/> 
+		4. Select the radio button <b>XOR</b> in the <b>Join</b> section.<br/> 
+		5. <b>OK</b> the properties dialog.
+      </description>
+   </item>
+   <item title="Adding Transition to Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+      <description>
+         Now you can add the missing transition between <b>Analyze To Solve</b> and 
+     the activity <b>Notify Customer</b>:<br/><br/>
+		1. In the diagram toolbar palette select <b>Connect</b>.<br/> 
+		2. Click the split symbol of activity <b>Analyze To Solve</b>.<br/> 
+		3. Click activity <b>Notify Customer</b>.
+      </description>
+   </item>
+   <item title="Adding the Loop Transition" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+      <description>
+         An ACME Support Case needs to remain with the Analyze To Solve activity 
+     until it is either Closed or Rejected. So, a loop is needed around Analyze To Solve.
+	To add the loop transition:<br/><br/>
+		1. In the diagram toolbar palette select <b>Connect</b>.<br/> 
+		2. Click the split symbol of activity <b>Analyze To Solve</b>.<br/> 
+		3. Click the join symbol of activity <b>Analyze To Solve</b>.
+      </description>
+   </item>
+   <item title="Defining Transition Condition to Deliver Patch" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+      <description>
+         To define the transition condition between <b>Analyze To Solve</b> and 
+     <b>Deliver Patch:</b><br/><br/>
+        1. Double-click the transition symbol to open its properties dialog.<br/> 
+        2. Set the <b>Condition Type</b> to CONDITION.<br/>
+        3. In the Condition Expression field enter the following:<br/> 
+		 SupportCaseData.Product.State == &quot;C&quot; (meaning CLOSED)<br/>
+      </description>
+   </item>
+   <item title="Defining Transition Condition to Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+      <description>
+         Likewise, define the transition condition between <b>Analyze To Solve</b> and 
+     	<b>Notify Customer:</b><br/><br/>
+		1. Double-click the transition symbol to open its properties dialog.<br/>
+        2. Set the <b>Condition Type</b> to CONDITION.<br/>
+        3. Set the Condition Expression to:<br/> 
+		SupportCaseData.Product.State == &quot;R&quot;<br/><br/>
+		This value has been assigned in our implementation to the state REJECTED, 
+		when a support case solution will not be sought.
+      </description>
+   </item>
+   <item title="Defining Loop Transition Condition" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+      <description>
+         Likewise, define the transition condition between <b>Analyze To Solve</b> and its 
+     	successor <b>Analyze To Solve:</b><br/><br/>
+		1. Double-click the transition symbol to open its properties dialog.<br/>
+        2. Set the <b>Condition Type</b> to OTHERWISE.<br/>
+		This will add a loop permitting to perform this activity as long as it does not
+		reach one of the mentioned states: CLOSED or REJECTED.
+      </description>
+   </item>
+</cheatsheet>

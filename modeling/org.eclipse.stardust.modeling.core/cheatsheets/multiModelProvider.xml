@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating a Provider Model">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of creating a provider model.</description>
+  </intro>
+  <item       
+        skip="true"
+        title="Creating the Workflow"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
+     <description>
+     <br/>
+     Create a model <b>Provider</b> in a dynamic Web project with the following workflow:<br/>
+     1. Create a manual trigger.<br/>
+     2. Create a manual activity named <b>Collect Customer Information</b>.<br/>
+     3. Create a subsequent application activity named <b>Send Notification Email</b>.<br/>
+     4. Create a structured data <b>Customer Information</b>. Make sure the <b>Visibility Public</b> option is selected.<br/>
+     5. Provide In and Out data mapping between the data and the manual activity.<br/>
+     6. Similarly, create a structured data <b>Email Address</b>.<br/>
+     7. Add the fields <b>Fromaddress</b> and <b>Toaddress</b>.<br/>
+     8. Add an In data mapping from activity <b>Collect Customer Information</b>.<br/>
+     9. Add an Out data mapping to activity <b>Send Notification Email</b>.<br/>
+     10. Define a mail application and connect it to the <b>Send Notification Email</b> activity. Make sure that the <b>Visibility Public</b> option is selected.<br/>
+     11. Define the Administrator as participant for the required elements in the model.<br/>
+ 	</description>
+  </item>
+  <item       
+        skip="true"
+        title="Defining a Process Interface"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
+     <description>
+     Now define the process interface:<br/>
+     1. In the Outline View, double-click on process <b>Collect Customer Information</b> to open its property page.<br/>
+     2. Click on <b>Process Interface</b> and select <b>Provider Process Interface</b> from the drop-down list.<br/>
+     3. Click <b>Add</b> to define a <b>Formal Parameter 1</b> of the process interface.<br/>
+     4. Select <b>INOUT</b> from the <b>Direction</b> drop-down list.<br/>
+     5. Select <b>Customer Information</b> from the <b>Data Type</b> and <b>Data</b> drop-down lists.<br/>
+     6. Click <b>Apply</b> and <b>OK</b>.<br/><br/>
+     Now the provider model is ready and you can proceed with creating the consumer model.
+ 	</description>
+  </item>
+</cheatsheet>

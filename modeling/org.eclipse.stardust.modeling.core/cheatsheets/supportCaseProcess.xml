@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating the Process Definition">
+  <intro>
+    <description>
+    	This cheat sheet will guide you through the steps of creating a process
+    	and opening its diagram.</description>
+  </intro>
+  <item dialog="true" skip="true" 
+  	href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-3.htm#assigning" 
+  		title="The new Process Definition">
+  	<description>After creating the new model, a default process definition exists, which 
+  	appears in the tree view below your ACME Workflow Model element. To change it's 
+  	properties:<br/><br/>
+  		1. Switch to the Outline view.<br/>
+		2. Double-click the new process definition to open the properties page.<br/>
+		3. Enter the <b>Name</b> "Support Case Management" and the <b>Id</b> 
+		"SupportCaseManagement".<br/>
+		4. Click <b>OK</b>.
+	</description>
+  </item>
+  <item dialog="true" skip="true" title="Open the Process Diagram" 
+  	href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-3.htm#openDiagram">
+     <description>
+		After creating the new process definition, it appears in the Outline view and 
+		its default diagram will be opened automatically. To open a process diagram 
+		explicitly double-click it in the Outline view.
+	</description>
+  </item>
+
+</cheatsheet>

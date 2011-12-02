@@ -1,0 +1,9 @@
+o Laufzeitbibliothek aufruffähig
+o Ablage der Output Values sauber.
+o Interface a la JMS
+o Fortsetzen- Servlet
+	- Bestandteil der Laufzeitbibliothek
+	? Servlet Definition in welches WAR
+o Echte Access Points
+o Testfunktionen
+o Hash

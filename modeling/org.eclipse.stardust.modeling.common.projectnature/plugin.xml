@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         id="carnotBusinessProcessManagement"
+         name="%extensionNameBPM"
+         point="org.eclipse.core.resources.natures">
+      <requires-nature id="org.eclipse.jdt.core.javanature"/>
+      <builder id="org.eclipse.stardust.modeling.common.projectnature.carnotProcessModelValidator"/>
+      <runtime>
+         <run class="org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature"/>
+      </runtime>
+   </extension>
+   <extension
+         id="carnotProcessModelValidator"
+         name="%extensionNameValidator"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.stardust.modeling.common.projectnature.BpmModelValidator"/>
+      </builder>
+   </extension>
+   <extension
+         name="%extensionNameLibs"
+         point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.BpmCoreLibrariesClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotBpmCoreLibraries"/>
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.BpmSpringLibrariesClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotBpmSpringLibraries"/>
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.BpmToolLibrariesClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotBpmToolLibraries">
+      </classpathContainerInitializer>
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotHomeClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotHomeLocation"/>
+      <classpathContainerInitializer
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotWorkClasspathContainerInitializer"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotWorkLocation"/>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.runtimeClasspathEntryResolvers">
+      <runtimeClasspathEntryResolver
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotHomeRuntimeClasspathEntryResolver"
+            container="org.eclipse.stardust.modeling.common.projectnature.carnotHomeLocation"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotHomeRuntimeClasspathEntryResolver"
+            runtimeClasspathEntryId="org.eclipse.stardust.modeling.common.projectnature.carnotHomeLocation"/>
+      <runtimeClasspathEntryResolver
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotWorkRuntimeClasspathEntryResolver"
+            container="org.eclipse.stardust.modeling.common.projectnature.carnotWorkLocation"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotWorkRuntimeClasspathEntryResolver"
+            runtimeClasspathEntryId="org.eclipse.stardust.modeling.common.projectnature.carnotWorkLocation"/>
+   </extension>
+   <extension
+         point="org.eclipse.jdt.launching.classpathProviders">
+      <classpathProvider
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider"
+            id="org.eclipse.stardust.modeling.common.projectnature.carnotToolClasspathProvider"/>
+   </extension>
+
+</plugin>

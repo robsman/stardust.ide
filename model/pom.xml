@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.stardust.modeling.model</groupId>
+  <artifactId>model-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.eclipse.stardust</groupId>
+    <artifactId>stardust-tycho</artifactId>
+    <version>9.9.9-SNAPSHOT</version>
+    <relativePath>../../org.eclipse.stardust/org.eclipse.stardust-tycho/pom.xml</relativePath>
+  </parent>
+
+  <modules>
+    <module>org.eclipse.stardust.model.xpdl</module>
+    <module>org.eclipse.stardust.model.xpdl.edit</module>
+    <module>org.eclipse.stardust.model.xpdl.editor</module>
+
+    <module>org.eclipse.stardust.modeling.model-feature</module>
+  </modules>
+
+</project>

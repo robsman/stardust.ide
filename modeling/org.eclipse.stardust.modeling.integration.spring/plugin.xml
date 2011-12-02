@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            accessPointProvider="org.eclipse.stardust.modeling.integration.spring.application.SpringBeanAccessPointProvider"
+            icon="icons/full/obj16/springBean_application_icon.gif"
+            id="springBean"
+            initializerClass="org.eclipse.stardust.modeling.integration.spring.application.SpringBeanApplicationInitializer"
+            name="%applicationSpring"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/applications/plainjava/icon.gif"/>
+         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.runtime.spring.application.SpringBeanAccessPointProvider"/>
+         <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.runtime.spring.application.SpringBeanApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="ag.carnot.workflow.runtime.spring.application.SpringBeanValidator"/>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.integration.spring.application.SpringBeanValidator"
+            id="org.eclipse.stardust.modeling.integration.spring.modelElementValidator"
+            metaTypeId="springBean"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="springBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </modelElementValidator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.integration.spring.application.SpringBeanPropertyPage"
+            icon="icons/full/obj16/springBean_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%applicationSpring"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="springBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>
+</plugin>

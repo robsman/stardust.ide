@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+	<extension point="org.eclipse.ui.propertyPages">
+		<page id="ag.carnot.modeling.project.elementPlanningAspectPropertyPage"
+	        class="org.eclipse.stardust.modeling.project.propertypages.ElementPlanningAspectPropertyPage"
+	        icon="icons/planning.gif" name="%propertyPageTitle">
+	        <enabledWhen>
+	            <or>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.TransitionType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.RoleType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.OrganizationType"/>
+	                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"/>
+	            </or>
+	        </enabledWhen>
+        </page>
+		<page id="ag.carnot.modeling.project.modelProjectPlanningAspectPropertyPage"
+			class="org.eclipse.stardust.modeling.project.propertypages.ModelProjectPlanningAspectPropertyPage"
+			icon="icons/planning.gif" name="%propertyPageTitle">
+	        <enabledWhen>
+                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
+	        </enabledWhen>
+        </page>
+	</extension>
+</plugin>

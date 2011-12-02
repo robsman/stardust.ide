@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.stardust.ide.3rdparty</groupId>
+  <artifactId>3rdparty-parent</artifactId>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.eclipse.stardust</groupId>
+    <artifactId>stardust-tycho</artifactId>
+    <version>9.9.9-SNAPSHOT</version>
+    <relativePath>../../org.eclipse.stardust/org.eclipse.stardust-tycho/pom.xml</relativePath>
+  </parent>
+
+  <modules>
+    <module>org.eclipse.stardust.ide.thirdparty.antlr</module>
+    <module>org.eclipse.stardust.ide.thirdparty.commons.logging</module>
+    <module>org.eclipse.stardust.ide.thirdparty.db.derby</module>
+    <module>org.eclipse.stardust.ide.thirdparty.db.derby.client</module>
+    <module>org.eclipse.stardust.ide.thirdparty.gface</module>
+    <module>org.eclipse.stardust.ide.thirdparty.javax.activation</module>
+    <module>org.eclipse.stardust.ide.thirdparty.javax.jcr</module>
+    <module>org.eclipse.stardust.ide.thirdparty.javax.mail</module>
+    <module>org.eclipse.stardust.ide.thirdparty.jaxws</module>
+    <module>org.eclipse.stardust.ide.thirdparty.jaxws.metro</module>
+    <module>org.eclipse.stardust.ide.thirdparty.jgoodies.forms</module>
+    <module>org.eclipse.stardust.ide.thirdparty.log4j</module>
+    <module>org.eclipse.stardust.ide.thirdparty.runtime.j2ee</module>
+    <module>org.eclipse.stardust.ide.thirdparty.runtime.xml</module>
+    <module>org.eclipse.stardust.ide.thirdparty.springframework</module>
+
+    <module>org.eclipse.stardust.ide.3rdparty-feature</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>embed-jars</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/lib</outputDirectory>
+              <excludeTransitive>true</excludeTransitive>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>force-overwrite</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>

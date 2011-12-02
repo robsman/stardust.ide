@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Defining Roles and Organizations">
+   <intro>
+      <description>
+         This cheat sheet will guide you through the steps of defining 
+    	and assigning roles and organizations.
+      </description>
+   </intro>
+   <item title="Creating a Role" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createRole">
+      <description>
+         Create the role for Callcenter Agent:<br/><br/>
+    	1. In the diagram toolbar palette select <b>Participants &gt; Role</b>.<br/>
+     	2. Place the role symbol on the diagram canvas.<br/>
+     	3. Double-click to open the properties dialog.<br/>
+     	4. Change the name to &quot;Callcenter Agent&quot;<br/>
+     	5. <b>OK</b> the dialog.
+      </description>
+   </item>
+   <item title="Assigning a Role to an Activity" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignRole">
+      <description>
+         To assign the role of the <b>Callcenter Agent</b> to the <b>Create Case</b>:<br/><br/>
+		1. In the diagram toolbar palette select <b>Connect</b>.<br/>
+		2. Click the symbol representing the role.<br/> 
+		3. Click the symbol representing the activity <b>Create Case</b>.<br/><br/> 
+		In the same way create another role with name &quot;Engineer&quot; and assign it 
+		to the activity <b>Analyze To Solve</b>.
+      </description>
+   </item>
+   <item title="Creating an Organization" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createOrg">
+      <description>
+         Create a new organization:<br/><br/>
+     	1. Double-click the <b>Default Diagram</b> of the &quot;ACME Workflow Model&quot; model.<br/>
+     	2. In the diagram toolbar palette select <b>Participants &gt; Organization</b>.<br/>
+	 	3. Double-click the newly created organization symbol.<br/>
+		4. In the properties dialog name the organization &quot;ACME Headquarters&quot;.<br/>
+	 	5. Place the new organization in the Participant Diagram.
+      </description>
+   </item>
+   <item title="Assigning a Role to an Organization" dialog="true" skip="false">
+      <description>
+         To assign the role <b>Engineer</b> to the headquarters organization:<br/><br/>
+		1. Select the role <b>Engineer</b> and place it to the Participant Diagram. 
+		2. In the diagram toolbar palette select <b>Connect</b>.<br/> 
+		3. Click the symbol of the <b>Engineer</b>. <br/>
+		4. Subsequently, click the <b>ACME Headquarters</b> organization symbol.<br/>
+		5. Select <b>Works For</b> to make the engineer a member of the organization ACME Headquarters.
+      </description>
+   </item>
+   <item title="Assigning a Teamleader to an Organization" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
+      <description>
+         To assign the roles to the headquarters organization:<br/><br/>
+		1. Select the participant <b>Callcenter Agent</b> and place it to the Participant Diagram. 
+		2. In the diagram toolbar palette select <b>Connect</b>.<br/> 
+		3. Click the symbol of the <b>Callcenter Agent</b>. <br/>
+		4. Subsequently, click the <b>ACME Headquarters</b> organization symbol.<br/>
+		5. Select <b>Manager Of</b> to make the Callcenter Agent the teamleader.
+      </description>
+   </item>
+   <item title="Assigning the Organization to an Activity" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
+      <description>
+         Now switch to the Support Case Management Process default diagram and assign the 
+		remaining activity <b>Deliver Patch</b> to the newly created organization:<br/><br/>
+		1. Double-click the Default diagram of the Support Management Process.<br/> 
+		2. Drag the <b>ACME Headquarters</b> symbol to the process diagram.<br/>
+		3. Select <b>Connect</b> in the diagram toolbar palette.<br/>
+		4. Click the symbol representing the organization.<br/>
+		5. Click the symbol representing the <b>Deliver Patch</b> activity.
+      </description>
+   </item>
+</cheatsheet>

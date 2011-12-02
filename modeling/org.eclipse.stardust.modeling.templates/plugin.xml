@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension-point id="templateProvider" name="Template Provider" schema="schema/templateProvider.exsd"/>
+   <extension point="org.eclipse.ui.editors">
+      <editor id="org.eclipse.stardust.modeling.templates.editor" name="Template Editor"
+            class="org.eclipse.stardust.modeling.templates.editor.TemplateEditor"
+            contributorClass="org.eclipse.stardust.modeling.templates.editor.TemplateEditorContributor"
+            default="true" extensions="cwmt, xpdlt" icon="icons/diagram.gif">
+      </editor>
+   </extension>
+   <extension point="org.eclipse.core.runtime.adapters">
+      <factory adaptableType="org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType"
+            class="org.eclipse.stardust.modeling.templates.adapters.TreeEditPartAdapterFactory">
+         <adapter type="org.eclipse.gef.TreeEditPart"/>
+      </factory>
+   </extension>
+   <extension
+      name="Property View"
+      point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="org.eclipse.stardust.modeling.core.viewcategory"
+            class="org.eclipse.stardust.modeling.templates.views.PatternsView"
+            icon="icons/diagram.gif"
+            id="org.eclipse.stardust.modeling.templates.patternsView"
+            name="Patterns View"/>
+   </extension>
+   
+		
+   
+</plugin>

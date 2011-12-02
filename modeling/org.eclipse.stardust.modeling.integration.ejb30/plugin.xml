@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.integration.ejb30.session.SessionBean30Validator"
+            id="org.eclipse.stardust.modeling.validation.sessionBean30Application"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="sessionBean30"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.integration.ejb30.entity.EntityBean30Validator"
+            id="org.eclipse.stardust.modeling.validation.entity30BeanData"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="entity30"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </modelElementValidator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.integration.ejb30.session.SessionBean30PropertyPage"
+            icon="icons/sessionBean30_application_icon.gif"
+            id="_cwm_spi_application_"
+            name="%applicationSessionBean30"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="sessionBean30"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.integration.ejb30.entity.EntityBean30PropertyPage"
+            icon="icons/entityBean30_data_icon.gif"
+            id="_cwm_spi_data_"
+            name="%dataEntityBean30"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="entity30"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>
+</plugin>

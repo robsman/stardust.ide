@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Templates Plug-in
+Bundle-SymbolicName: org.eclipse.stardust.modeling.templates;singleton:=true
+Bundle-Version: 9.9.9.qualifier
+Bundle-Vendor: SunGard CSA LLC
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.jface.text,
+ org.eclipse.gef,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.xsd,
+ org.eclipse.stardust.modeling.common.ui.jface,
+ org.eclipse.stardust.model.xpdl,
+ org.eclipse.stardust.modeling.repository.common,
+ org.eclipse.stardust.modeling.common.ui,
+ org.eclipse.stardust.modeling.core
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.stardust.modeling.templates.adapters,
+ org.eclipse.stardust.modeling.templates.defaulttemplate,
+ org.eclipse.stardust.modeling.templates.defaulttemplate.resources,
+ org.eclipse.stardust.modeling.templates.editor,
+ org.eclipse.stardust.modeling.templates.emf.template,
+ org.eclipse.stardust.modeling.templates.emf.template.impl,
+ org.eclipse.stardust.modeling.templates.emf.template.util,
+ org.eclipse.stardust.modeling.templates.spi,
+ org.eclipse.stardust.modeling.templates.views

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<compositeCheatsheet name="Stardust Cheat Sheet">
+    <taskGroup name="Stardust Developer Cheat Sheet">
+  	<intro>
+    	Welcome to the Stardust Developer Cheat Sheet.
+  	</intro>
+    <task kind="cheatsheet" name="Stardust Developer Quick Start Tutorial" skip="true">
+		<param name="path" value="quickStartDev.xml" />
+		<intro>
+    		Welcome to the Developer Quick Start Tutorial. This cheat sheet guides you 
+    		through the basic steps of building a workflow model with a process definition
+    		and its elements in the <b>Stardust Developer Modeling Perspective</b>.
+		</intro>
+    </task>  
+	<taskGroup name="Stardust Support Case Tutorial" kind="sequence">
+	<intro>     	
+    	Welcome to the Developer Support Case Tutorial. This cheat sheet guides you 
+    	through the steps of building a sample business process, automate and deploy it
+    	in the <b>Stardust Developer Modeling Perspective</b>.
+	</intro>
+    <onCompletion></onCompletion>
+    	<task kind="cheatsheet" name="Getting Started" skip="true">
+              <param name="path" value="supportCaseStart.xml" />
+              <intro>This cheat sheet will guide you through the steps of preparing the 
+    			the workbench to start with your support case tutorial.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Creating the Process Definition" skip="true">
+              <param name="path" value="supportCaseProcess.xml" />
+              <intro>This cheat sheet will guide you through the steps of creating a process
+    				and opening its diagram.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Creating Structured Data Types" skip="true">
+              <param name="path" value="supportCaseStructData.xml" />
+              <intro>This cheat sheet will guide you through the steps of creating structured
+              data types for a process model.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Adding Activities" skip="true">
+              <param name="path" value="supportCaseActivities.xml" />
+              <intro>This cheat sheet will guide you through the steps of adding activities
+              	to your process definition.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Integrating Applications" skip="true">
+              <param name="path" value="supportCaseIntAppl.xml" />
+              <intro>This cheat sheet will guide you through the steps of integrating applications.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Handling Data" skip="true">
+              <param name="path" value="supportCaseHandlingData.xml" />
+              <intro>This cheat sheet will guide you through the steps of adding and 
+               handling data in the process.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Control Flow" skip="true">
+              <param name="path" value="supportCaseControlFlow.xml" />
+              <intro>This cheat sheet will guide you through the steps of setting up 
+              control flow between activities.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Defining Roles and Organizations" skip="true">
+              <param name="path" value="supportCaseRoles.xml" />
+              <intro>This cheat sheet will guide you through the steps of defining 
+    				and assigning roles and organizations.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Triggers" skip="true">
+              <param name="path" value="supportCaseTriggers.xml" />
+              <intro>This cheat sheet guides you through the process of creating and assigning a 
+              manual trigger.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Deploying a Workflow Model" skip="true">
+              <param name="path" value="supportCaseDeploy.xml" />
+              <intro>This cheat sheet guides you through the process of deploying your 
+              	workflow model.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Managing Users" skip="true">
+              <param name="path" value="supportCaseUserManagement.xml" />
+              <intro>This cheat sheet guides you through the process of creating individual 
+              users and assign them to the created roles.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Executing Workflow" skip="true">
+              <param name="path" value="supportCaseExecuting.xml" />
+              <intro>This cheat sheet guides you through the process of executing your 
+              	workflow.
+              </intro>
+         </task>  
+	</taskGroup>          
+	<taskGroup name="Stardust Scoped Participant Tutorial" kind="sequence">
+	<intro>     	
+    	Welcome to a small tutorial using scoped participants. This cheat sheet guides you 
+    	through the steps of creating and binding department structures.
+	</intro>
+    <onCompletion></onCompletion>
+    	<task kind="cheatsheet" name="Creating the Model and Organizational Structure" skip="true">
+              <param name="path" value="scopedStart.xml" />
+              <intro>This cheat sheet guides you through the steps of creating a workflow
+              with a scoped environment.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Creating the Users and Departments in the Stardust Portal" skip="true">
+              <param name="path" value="scopedPortal.xml" />
+              <intro>This cheat sheet will guide you through the steps of 
+              creating departments in the Stardust Process Platform Portal.
+              </intro>
+         </task>  
+         <task kind="cheatsheet" name="Using Different Departments in the Portal" skip="true">
+              <param name="path" value="scopedExecuting.xml" />
+              <intro>This cheat sheet guides you through the steps of 
+ 				of entering department data	and checking the worklist depending on this data.
+              </intro>
+         </task>  
+	</taskGroup>     
+	<taskGroup name="Configuration Variables Cheat Sheet" kind="sequence">
+	<intro> 
+		This cheatsheet demonstrates how a workflow can be adjusted during 
+		runtime with the help of a configuration variable value. 
+	</intro>    
+    <onCompletion></onCompletion>
+    	<task kind="cheatsheet" name="Creating a Model with a Configuration Variable" skip="true">
+              <param name="path" value="confVarStart.xml" />
+              <intro>This cheat sheet guides you through the steps of creating a model having
+    			a configuration variable, which is used in a transition condition.
+              </intro>
+         </task>  
+    	<task kind="cheatsheet" name="Running the Workflow with Different Variable Values" skip="true">
+              <param name="path" value="confVarExe.xml" />
+              <intro>This cheat sheet guides you through the process of running a
+              workflow depending on different values of a configuration variable.
+              </intro>
+         </task>  
+    </taskGroup>
+	<taskGroup name="Multiple Models Cheat Sheet" kind="sequence">
+	<intro> 
+		This cheatsheet demonstrates how to create a provider model and a consumer
+		model using some of its elements. 
+	</intro>    
+    <onCompletion></onCompletion>
+    	<task kind="cheatsheet" name="Creating a Provider Model" skip="true">
+              <param name="path" value="multiModelProvider.xml" />
+              <intro>This cheat sheet will guide you through the steps of creating a provider model.
+              </intro>
+         </task>  
+    	<task kind="cheatsheet" name="Creating a Consumer Model" skip="true">
+              <param name="path" value="multiModelConsumer.xml" />
+              <intro>This cheat sheet will guide you through the steps of creating a consumer model.
+              </intro>
+         </task>  
+    	<task kind="cheatsheet" name="Running Consumer Model Workflow using Provider Model Elements" skip="true">
+              <param name="path" value="multiModelExecuting.xml" />
+              <intro>This cheat sheet will guide you through the steps of running the workflow
+    			of the created consumer model using elements from the provider model.
+              </intro>
+         </task>  
+    </taskGroup>
+    <task kind="cheatsheet" name="Switch to Stardust Analyst Cheat Sheet" skip="true">
+      	<param name="path" value="switchToAnalyst.xml" />
+		<param name="showIntro" value="false" />
+    </task>  
+  </taskGroup>
+</compositeCheatsheet>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<cheatsheet title="Creating a Model with a Configuration Variable">
+  <intro>
+    <description>
+    	This cheat sheet guides you through the steps of creating a model having
+    	a configuration variable, which is used in a transition condition.</description>
+  </intro>
+  <item
+        skip="true"
+        title="Creating the Model"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#createModel">
+     <description>
+        Create a model in a dynamic Web project:<br/>
+	1. Create a dynamic Web project as described in the Support Case Cheat Sheet.<br/>
+	2. Create a model <b>ProductionOrTestVarDemo</b>.<br/>
+ 	</description>
+ 	</item>
+  <item
+        skip="true"
+        title="Adding the Configuration Variable"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#add">
+     <description>
+        Add a configuration variable to your model:<br/>
+	1. Open the model properties page.<br/>
+	2. Click on <b>Configuration Variables</b>.<br/>
+	3. Click <b>Add</b>.<br/>
+	4. Click in the <b>Name</b> column and enter the variable name <b>Environment</b>.<br/>
+	5. Enter <b>TEST</b> as default value in the <b>Default Value</b> column entry field.<br/>
+	6. Optionally add a description.<br/>
+ 	</description>
+ 	</item>
+  <item
+        skip="true"
+  	title="Creating the Workflow"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
+     <description>
+	Create the following workflow:<br/>
+	1. Create a manual trigger followed by a manual activity <b>Starting Activity</b>.<br/>
+	2. Right-click the activity and select <b>Split Behavior > XOR</b>.<br/>
+	3. Create an activity <b>Activity Production Only</b>. This will be the activity to be performed in production mode only.<br/>
+	4. Create another activity <b>Continue</b> to be performed after the production activity or from the starting activity directly.<br/>
+	5. Add a role to the model and assign it as performer of all activities and the manual trigger.<br/>
+	6. Create a connection from the split joint of activity <b>Starting Activity</b> to activity <b>Activity Production Only</b> and one to activity <b>Continue</b>.<br/>
+   	</description>
+  </item>
+  <item
+        skip="true"
+  	title="Enter a Transition Condition"
+         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
+     <description>
+	Enter a condition transition to the transition from the split joint to activity <b>Activity Production Only</b>:<br/>
+	1. Double-click the transition in the diagram.<br/>
+	2. In the transition condition property page dialog, enter the following Condition Expression:<br/>
+	"${Environment}" == "PRODUCTION";<br/>
+	3. Open the model property page and switch to the <b>Configuration Variable</b> section.<br/><br/>
+	In the <b>References</b> part, the transition and its condition referencing to our <b>Environment</b> variable should be displayed.<br/>
+   	</description>
+  </item>
+</cheatsheet>

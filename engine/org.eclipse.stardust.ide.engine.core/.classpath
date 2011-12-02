@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="etc" sourcepath="etc"/>
+	<classpathentry exported="true" kind="lib" path="lib/carnot-emf-xsd-integration.jar" sourcepath="lib/carnot-emf-xsd-integration-src.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/carnot-engine.jar" sourcepath="lib/carnot-engine-src.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

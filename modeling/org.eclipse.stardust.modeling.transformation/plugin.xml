@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<plugin>
+   <extension-point id="org.eclipse.stardust.modeling.transformation.messageFormat" name="org.eclipse.stardust.modeling.transformation.messageFormat" schema="schema/messageFormat.exsd"/>
+   <extension
+         point="org.eclipse.stardust.modeling.transformation.messageFormat">
+      <messageFormat
+            class="com.infinity.bpm.messaging.modeling.format.XMLMessageFormat"
+            id="XML">
+      </messageFormat>
+   </extension>
+
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            icon="icons/message_transformation_application_icon.gif"
+            id="messageTransformationBean"
+            initializerClass="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.MessageProcessingApplicationInitializer"
+            name="%messageTransformationApplication"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value=""/>
+         <attribute name="carnot:engine:applicationInstance" value="com.infinity.bpm.messaging.runtime.transformation.MessageTransformationApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="com.infinity.bpm.messaging.runtime.transformation.MessageProcessingValidator"/>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            accessPointProvider="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.xsl.XSLMessageTransformationAccessPointProvider"
+            icon="icons/message_transformation_application_icon.gif"
+            id="xslMessageTransformationBean"
+            initializerClass="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.MessageProcessingApplicationInitializer"
+            name="%xslMessageTransformationApplication"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value=""/>
+         <attribute name="carnot:engine:accessPointProvider" value="com.infinity.bpm.messaging.runtime.transformation.xsl.XSLMessageTransformationAccessPointProvider"/>
+         <attribute name="carnot:engine:applicationInstance" value="com.infinity.bpm.messaging.runtime.transformation.xsl.XSLMessageTransformationApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="com.infinity.bpm.messaging.runtime.transformation.xsl.XSLMessageTransformationValidator"/>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            icon="icons/message_parsing_application_icon.gif"
+            id="messageParsingBean"
+            initializerClass="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.MessageProcessingApplicationInitializer"
+            name="%messageParsingApplication"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value=""/>
+         <attribute name="carnot:engine:applicationInstance" value="com.infinity.bpm.messaging.runtime.parsing.MessageParsingApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="com.infinity.bpm.messaging.runtime.parsing.MessageParsingValidator"/>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.core.applicationTypes">
+      <application
+            icon="icons/message_serialization_application_icon.gif"
+            id="messageSerializationBean"
+            initializerClass="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.MessageProcessingApplicationInitializer"
+            name="%messageSerializationApplication"
+            synchronous="true">
+         <attribute name="carnot:defdesk:icon" value=""/>
+         <attribute name="carnot:engine:applicationInstance" value="com.infinity.bpm.messaging.runtime.serialization.MessageSerializationApplicationInstance"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="com.infinity.bpm.messaging.runtime.serialization.MessageSerializationValidator"/>
+      </application>
+   </extension>
+   <extension
+         id="contexts"
+         name="%extensionName"
+         point="org.eclipse.stardust.modeling.core.contextTypes">
+      <context            
+            accessPointProvider="org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.ExternalWebappAccessPointProvider"
+            icon="icons/full/obj16/externalWebApp_context_icon.gif"
+            hasApplicationPath="true"
+            id="externalWebApp"
+            name="%externalWebApplication"
+            propertyPageClass="org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.ExternalWebappContextPropertyPage">
+      </context>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.MessageProcessingValidator"
+            id="org.eclipse.stardust.modeling.transformation.modelElementValidator"
+            metaTypeId="messagingTransformationBean"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="visualRulesEngineBean"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.validation.MessageSerializationApplicationValidator"
+            id="MessageSerializationApplicationValidator"
+            metaTypeId="messageSerializationBean"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="messageSerializationBean">
+         </filter>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.validation.MessageTransformationApplicationValidator"
+            id="org.eclipse.stardust.modeling.transformation.application.validation.MessageTransformationApplicationValidator"
+            metaTypeId="messageTransformationBean"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="messageTransformationBean">
+         </filter>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.ExternalWebappValidator"
+            id="externalWebAppValidator"
+            metaTypeId="externalWebApp"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ContextType">
+         <filter
+               name="metaType"
+               value="externalWebApp"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </modelElementValidator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationApplicationPropertyPage"
+            icon="icons/message_transformation_application_icon.gif"
+            id="org.eclipse.stardust.modeling.transformation.application.messageTransformationPropertyPage"
+            name="%messageTransformationPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="messageTransformationBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.xsl.XSLMessageTransformationApplicationPropertyPage"
+            icon="icons/message_transformation_application_icon.gif"
+            id="org.eclipse.stardust.modeling.transformation.application.xslMessageTransformationPropertyPage"
+            name="%xslMessageTransformationPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="xslMessageTransformationBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.parsing.MessageParsingApplicationPropertyPage"
+            icon="icons/message_parsing_application_icon.gif"
+            id="org.eclipse.stardust.modeling.transformation.application.parsing.messageParsingPropertyPage"
+            name="%messageParsingPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="messageParsingBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.serialization.MessageSerializationApplicationPropertyPage"
+            icon="icons/message_serialization_application_icon.gif"
+            id="org.eclipse.stardust.modeling.transformation.application.serialization.messageSerializationPropertyPage"
+            name="%messageSerializationPropertyPage"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="messageSerializationBean"/>
+         <filter
+               name="!perspectiveType"
+               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+      </page>
+   </extension>   
+   <extension point="org.eclipse.ui.ide.resourceFilters">
+   	  <filter selected="true" pattern="knitt*.js"></filter>
+   </extension>
+   <extension
+  point="org.eclipse.debug.core.launchConfigurationTypes">
+    <launchConfigurationType
+        delegate="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.launch.ProcessingLaunchDelegate"
+        delegateDescription="Configuration for message processing tests"
+        delegateName="Infinity Message Processing Test Configuration"
+        id="org.eclipse.stardust.modeling.transformation.application.launch.testType"
+        modes="run,debug"
+        name="Infinity Message Processing Test">
+    </launchConfigurationType>
+    <launchConfigurationType
+          delegate="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch.TransformationLaunchDelegate"
+          delegateDescription="Configuration for message transformation tests"
+          delegateName="Infinity Message Transformation Test Configuration"
+          id="org.eclipse.stardust.modeling.transformation.application.transformation.launch.testType"
+          modes="run"
+          name="Infinity Message Transformation Test">
+    </launchConfigurationType>
+</extension>
+<extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.launch.ProcessingLaunchConfigurationTabGroup"
+            description="Allows the specification of parsing and serialization configurations to test message processing scenarios."
+            id="org.eclipse.stardust.modeling.transformation.application.launch.testLaunchConfigurationTabGroup"
+            type="org.eclipse.stardust.modeling.transformation.application.launch.testType"/>
+      <launchConfigurationTabGroup
+            class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch.TransformationLaunchConfigurationTabGroup"
+            description="Allows the specification of transformation configurations to test message transformation scenarios."
+            id="org.eclipse.stardust.modeling.transformation.application.transformation.launch.testLaunchConfigurationTabGroup"
+            type="org.eclipse.stardust.modeling.transformation.application.transformation.launch.testType">
+      </launchConfigurationTabGroup>
+   </extension>
+<extension
+  point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+    <launchConfigurationTypeImage
+            configTypeID="org.eclipse.stardust.modeling.transformation.application.launch.testType"
+           icon="icons/message-processing.gif"
+            id="org.eclipse.stardust.modeling.transformation.application.launch.testImage">
+    </launchConfigurationTypeImage>
+    <launchConfigurationTypeImage
+          configTypeID="org.eclipse.stardust.modeling.transformation.application.transformation.launch.testType"
+          icon="icons/message-transformation.gif"
+          id="org.eclipse.stardust.modeling.transformation.application.transformataion.launch.testImage">
+    </launchConfigurationTypeImage>
+</extension>
+<extension
+      point="org.eclipse.debug.core.breakpoints">
+   <breakpoint
+         class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageTransformationMappingBreakpoint"
+         id="org.eclipse.stardust.modeling.transformation.breakpoint.mappingBreakpoint"
+         markerType="org.eclipse.stardust.modeling.transformation.MessageTransformationMappingBreakpointMarker"
+         name="Infinity Message Transformation">
+   </breakpoint>
+</extension>
+<extension
+      id="MessageTransformationMappingBreakpointMarker"
+      name="Infinity Message Transformation Mapping Breakpoint Marker"
+      point="org.eclipse.core.resources.markers">
+   <persistent value="true" />
+   <super type="org.eclipse.debug.core.breakpointMarker"/>
+</extension>
+</plugin>
