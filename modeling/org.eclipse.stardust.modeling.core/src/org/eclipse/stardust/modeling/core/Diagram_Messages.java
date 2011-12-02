@@ -1029,6 +1029,7 @@ public class Diagram_Messages extends NLS {
 	public static String LB_AccessPointPath;
 	public static String COL_NAME_DefaultValue;
 	public static String LB_Direction;
+    public static String LB_NoDescriptor;
 	public static String LB_Descriptor;
 	public static String LB_KeyDescriptor;
 	public static String LB_PropertiesEditorClass;

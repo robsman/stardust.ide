@@ -48,8 +48,9 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
 
    private ComboViewer directionCombo;
 
-   private Button descriptorButton;
-   private Button keyButton;
+   private Button noDescriptorButton;
+   private Button simpleDescriptorButton;
+   private Button keyDescriptorButton;
 
    private ComboViewer dataText;
 
@@ -128,13 +129,13 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
             CarnotWorkflowModelPackage.eINSTANCE.getDataPathType_Direction(),
             directionCombo);
 
-      binding.getModelBindingManager().bind(dataPath,
+      /*binding.getModelBindingManager().bind(dataPath,
             CarnotWorkflowModelPackage.eINSTANCE.getDataPathType_Descriptor(),
             descriptorButton);
 
       binding.getModelBindingManager().bind(dataPath,
             CarnotWorkflowModelPackage.eINSTANCE.getDataPathType_Key(),
-            keyButton);
+            keyButton);*/
 
       updateDescriptorState();
 
@@ -183,8 +184,7 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
       idText.getText().setEnabled(enabled);
       nameText.getText().setEnabled(enabled);
       directionCombo.getCombo().setEnabled(enabled);
-      descriptorButton.setEnabled(enabled);
-      keyButton.setEnabled(enabled);
+
       updateDescriptorState();
       
       dataText.getCombo().setEnabled(enabled);
@@ -214,13 +214,38 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
 
       boolean isInPath = DirectionType.IN_LITERAL.equals(selection.getFirstElement());
 
-      if (!isInPath && ((DataPathType) getModelElement()).isDescriptor())
+      DataPathType dataPath = (DataPathType) getModelElement();
+      if (!isInPath && dataPath.isDescriptor())
       {
-         ((DataPathType) getModelElement()).setDescriptor(false);
-         ((DataPathType) getModelElement()).setKey(false);
+         dataPath.setDescriptor(false);
+         if (dataPath.isKey())
+         {
+            dataPath.unsetKey();
+            keyDescriptorButton.setSelection(false);
+         }
+         else
+         {
+            simpleDescriptorButton.setSelection(false);
+         }
       }
-      descriptorButton.setEnabled(!selection.isEmpty() && isInPath && enablePage);
-      keyButton.setEnabled(descriptorButton.isEnabled());
+      
+      if (dataPath.isKey())
+      {
+         keyDescriptorButton.setSelection(true);
+      }
+      else if (dataPath.isDescriptor())
+      {
+         simpleDescriptorButton.setSelection(true);
+      }
+      else
+      {
+         noDescriptorButton.setSelection(true);
+      }
+
+      boolean enabled = !selection.isEmpty() && isInPath && enablePage;
+      noDescriptorButton.setEnabled(enabled);
+      simpleDescriptorButton.setEnabled(enabled);
+      keyDescriptorButton.setEnabled(enabled);
    }
 
    public void setVisible(boolean visible)
@@ -281,10 +306,13 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
          }
       });
 
-      FormBuilder.createLabel(composite, Diagram_Messages.LB_Descriptor);
-      descriptorButton = FormBuilder.createCheckBox(composite, ""); //$NON-NLS-1$
-      FormBuilder.createLabel(composite, Diagram_Messages.LB_KeyDescriptor);
-      keyButton = FormBuilder.createCheckBox(composite, ""); //$NON-NLS-1$
+      FormBuilder.createLabel(composite, ""/*"Descriptor:"*/); //$NON-NLS-1$
+      Composite group = FormBuilder.createComposite(composite, 3);
+      group.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData());
+      noDescriptorButton = FormBuilder.createRadioButton(group, Diagram_Messages.LB_NoDescriptor);
+      simpleDescriptorButton = FormBuilder.createRadioButton(group, Diagram_Messages.LB_Descriptor);
+      keyDescriptorButton = FormBuilder.createRadioButton(group, Diagram_Messages.LB_KeyDescriptor);
+      
       SelectionListener l = new SelectionAdapter()
       {
          @Override
@@ -301,15 +329,26 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
 
          private void updateKeyButton()
          {
-            boolean isDescriptorSelected = descriptorButton.getSelection();
-            if (!isDescriptorSelected)
+            if (keyDescriptorButton.getSelection())
             {
-               keyButton.setSelection(false);
+               ((DataPathType) getModelElement()).setDescriptor(true);
+               ((DataPathType) getModelElement()).setKey(true);
             }
-            keyButton.setEnabled(isDescriptorSelected && enablePage);
+            else if (simpleDescriptorButton.getSelection())
+            {
+               ((DataPathType) getModelElement()).setDescriptor(true);
+               ((DataPathType) getModelElement()).unsetKey();
+            }
+            else
+            {
+               ((DataPathType) getModelElement()).setDescriptor(false);
+               ((DataPathType) getModelElement()).unsetKey();
+            }
          }
       };
-      descriptorButton.addSelectionListener(l);
+      noDescriptorButton.addSelectionListener(l);
+      simpleDescriptorButton.addSelectionListener(l);
+      keyDescriptorButton.addSelectionListener(l);
 
       dataLabel = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.LB_Data);
