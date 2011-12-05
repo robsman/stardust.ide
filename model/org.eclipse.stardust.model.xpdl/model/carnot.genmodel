@@ -2,8 +2,8 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright 2000-2009 by SunGard Systeme GmbH"
-    modelDirectory="/org.eclipse.stardust.model.xpdl.carnot/src" editDirectory="/org.eclipse.stardust.model.xpdl.edit/src"
-    modelPluginID="org.eclipse.stardust.model.xpdl.carnot" forceOverwrite="true" modelName="Carnot Workflow Model"
+    modelDirectory="/org.eclipse.stardust.model.xpdl/src" editDirectory="/org.eclipse.stardust.model.xpdl.edit/src"
+    modelPluginID="org.eclipse.stardust.model.xpdl" forceOverwrite="true" modelName="Carnot Workflow Model"
     generateSchema="true" importerID="org.eclipse.emf.importer.ecore" bundleManifest="false"
     complianceLevel="5.0" editPluginID="org.eclipse.stardust.model.xpdl.edit" usedGenPackages="xpdl.genmodel#//xpdl platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
   <foreignModel>carnot.ecore</foreignModel>
@@ -258,6 +258,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/loopCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/loopType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/performer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/qualityControlPerformer"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/split"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/subProcessMode"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/activitySymbols"/>

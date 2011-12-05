@@ -1010,6 +1010,19 @@
         <details key="scope" value="model"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityControlPerformer"
+        eType="#//IModelParticipant" resolveProxies="false">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="&#xD;&#xA;                  The model id of a participant (role, organization or conditional&#xD;&#xA;                  performer) who is assigned to the activity.&#xD;&#xA;               "/>
+      </eAnnotations>
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="qualityControlPerformer"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.carnot.ag/workflow/model/ElementIdRef">
+        <details key="scope" value="model"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="split" unique="false" eType="#//JoinSplitType"
         defaultValueLiteral="None" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
