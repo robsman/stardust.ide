@@ -812,6 +812,16 @@
         <details key="scope" value="model"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualityControlPerformer"
+        eType="#//IModelParticipant" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="qualityControlPerformer"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.carnot.ag/workflow/model/ElementIdRef">
+        <details key="scope" value="model"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="split" unique="false" eType="#//JoinSplitType"
         defaultValueLiteral="None" unsettable="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

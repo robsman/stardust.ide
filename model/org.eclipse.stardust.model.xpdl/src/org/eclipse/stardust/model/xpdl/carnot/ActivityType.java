@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoopCondition <em>Loop Condition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoopType <em>Loop Type</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getPerformer <em>Performer</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getQualityControlPerformer <em>Quality Control Performer</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getSplit <em>Split</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getSubProcessMode <em>Sub Process Mode</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getActivitySymbols <em>Activity Symbols</em>}</li>
@@ -457,6 +458,36 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * @generated
     */
    void setPerformer(IModelParticipant value);
+
+   /**
+    * Returns the value of the '<em><b>Quality Control Performer</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * <!-- begin-model-doc -->
+    * 
+    *                   The model id of a participant (role, organization or conditional
+    *                   performer) who is assigned to the activity.
+    *                
+    * <!-- end-model-doc -->
+    * @return the value of the '<em>Quality Control Performer</em>' reference.
+    * @see #setQualityControlPerformer(IModelParticipant)
+    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getActivityType_QualityControlPerformer()
+    * @model resolveProxies="false"
+    *        extendedMetaData="kind='attribute' name='qualityControlPerformer'"
+    *        annotation="http://www.carnot.ag/workflow/model/ElementIdRef scope='model'"
+    * @generated
+    */
+   IModelParticipant getQualityControlPerformer();
+
+   /**
+    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getQualityControlPerformer <em>Quality Control Performer</em>}' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @param value the new value of the '<em>Quality Control Performer</em>' reference.
+    * @see #getQualityControlPerformer()
+    * @generated
+    */
+   void setQualityControlPerformer(IModelParticipant value);
 
    /**
     * Returns the value of the '<em><b>Split</b></em>' attribute.

@@ -23,6 +23,28 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.Code;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IEventHandlerOwner;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IdRef;
+import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
+import org.eclipse.stardust.model.xpdl.carnot.LoopType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -52,6 +74,7 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getLoopCondition <em>Loop Condition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getLoopType <em>Loop Type</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getPerformer <em>Performer</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getQualityControlPerformer <em>Quality Control Performer</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getSplit <em>Split</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getSubProcessMode <em>Sub Process Mode</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getActivitySymbols <em>Activity Symbols</em>}</li>
@@ -386,6 +409,16 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
     * @ordered
     */
    protected IModelParticipant performer;
+
+   /**
+    * The cached value of the '{@link #getQualityControlPerformer() <em>Quality Control Performer</em>}' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getQualityControlPerformer()
+    * @generated
+    * @ordered
+    */
+   protected IModelParticipant qualityControlPerformer;
 
    /**
     * The default value of the '{@link #getSplit() <em>Split</em>}' attribute.
@@ -1211,6 +1244,29 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
     * <!-- end-user-doc -->
     * @generated
     */
+   public IModelParticipant getQualityControlPerformer()
+   {
+      return qualityControlPerformer;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public void setQualityControlPerformer(IModelParticipant newQualityControlPerformer)
+   {
+      IModelParticipant oldQualityControlPerformer = qualityControlPerformer;
+      qualityControlPerformer = newQualityControlPerformer;
+      if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER, oldQualityControlPerformer, qualityControlPerformer));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    public JoinSplitType getSplit()
    {
       return split;
@@ -1548,6 +1604,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return getLoopType();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__PERFORMER:
             return getPerformer();
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER:
+            return getQualityControlPerformer();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SPLIT:
             return getSplit();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SUB_PROCESS_MODE:
@@ -1629,6 +1687,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__PERFORMER:
             setPerformer((IModelParticipant)newValue);
+            return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER:
+            setQualityControlPerformer((IModelParticipant)newValue);
             return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SPLIT:
             setSplit((JoinSplitType)newValue);
@@ -1721,6 +1782,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__PERFORMER:
             setPerformer((IModelParticipant)null);
             return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER:
+            setQualityControlPerformer((IModelParticipant)null);
+            return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SPLIT:
             unsetSplit();
             return;
@@ -1791,6 +1855,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return isSetLoopType();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__PERFORMER:
             return performer != null;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER:
+            return qualityControlPerformer != null;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SPLIT:
             return isSetSplit();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__SUB_PROCESS_MODE:

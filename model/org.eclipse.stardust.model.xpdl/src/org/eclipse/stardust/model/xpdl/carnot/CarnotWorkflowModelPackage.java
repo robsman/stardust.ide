@@ -2599,13 +2599,22 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ACTIVITY_TYPE__PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 10;
 
    /**
+    * The feature id for the '<em><b>Quality Control Performer</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
+
+   /**
     * The feature id for the '<em><b>Split</b></em>' attribute.
     * <!-- begin-user-doc
     * --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__SPLIT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
+   int ACTIVITY_TYPE__SPLIT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 12;
 
    /**
     * The feature id for the '<em><b>Sub Process Mode</b></em>' attribute. <!--
@@ -2614,7 +2623,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__SUB_PROCESS_MODE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 12;
+   int ACTIVITY_TYPE__SUB_PROCESS_MODE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 13;
 
    /**
     * The feature id for the '<em><b>Activity Symbols</b></em>' reference list. <!--
@@ -2623,7 +2632,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__ACTIVITY_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 13;
+   int ACTIVITY_TYPE__ACTIVITY_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
     * The feature id for the '<em><b>Starting Event Symbols</b></em>' reference list.
@@ -2631,7 +2640,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__STARTING_EVENT_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 14;
+   int ACTIVITY_TYPE__STARTING_EVENT_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 15;
 
    /**
     * The feature id for the '<em><b>In Transitions</b></em>' reference list. <!--
@@ -2640,7 +2649,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__IN_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 15;
+   int ACTIVITY_TYPE__IN_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 16;
 
    /**
     * The feature id for the '<em><b>Out Transitions</b></em>' reference list. <!--
@@ -2649,7 +2658,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__OUT_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 16;
+   int ACTIVITY_TYPE__OUT_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 17;
 
 	/**
     * The feature id for the '<em><b>External Ref</b></em>' containment reference.
@@ -2658,7 +2667,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 17;
+   int ACTIVITY_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 18;
 
    /**
     * The feature id for the '<em><b>Valid Quality Codes</b></em>' reference list.
@@ -2667,7 +2676,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__VALID_QUALITY_CODES = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 18;
+   int ACTIVITY_TYPE__VALID_QUALITY_CODES = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 19;
 
    /**
     * The number of structural features of the '<em>Activity Type</em>' class.
@@ -2675,7 +2684,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE_FEATURE_COUNT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 19;
+   int ACTIVITY_TYPE_FEATURE_COUNT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 20;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -11471,6 +11480,17 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EReference getActivityType_Performer();
 
 	/**
+    * Returns the meta object for the reference '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getQualityControlPerformer <em>Quality Control Performer</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the reference '<em>Quality Control Performer</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.ActivityType#getQualityControlPerformer()
+    * @see #getActivityType()
+    * @generated
+    */
+   EReference getActivityType_QualityControlPerformer();
+
+   /**
     * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getSplit <em>Split</em>}'.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @return the meta object for the attribute '<em>Split</em>'.
@@ -16700,6 +16720,14 @@ public interface CarnotWorkflowModelPackage extends EPackage {
       EReference ACTIVITY_TYPE__PERFORMER = eINSTANCE.getActivityType_Performer();
 
 		/**
+       * The meta object literal for the '<em><b>Quality Control Performer</b></em>' reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER = eINSTANCE.getActivityType_QualityControlPerformer();
+
+      /**
        * The meta object literal for the '<em><b>Split</b></em>' attribute feature.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->

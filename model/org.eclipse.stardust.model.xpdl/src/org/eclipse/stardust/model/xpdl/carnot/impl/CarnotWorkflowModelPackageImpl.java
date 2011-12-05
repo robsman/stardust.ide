@@ -1041,18 +1041,20 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
 	/**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EReference getActivityType_QualityControlPerformer()
+   {
+        return (EReference)getActivityType().getEStructuralFeatures().get(10);
+   }
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    public EAttribute getActivityType_Split() {
-        return (EAttribute)getActivityType().getEStructuralFeatures().get(10);
-   }
-
-	/**
-    * <!-- begin-user-doc --> <!-- end-user-doc -->
-    * @generated
-    */
-   public EAttribute getActivityType_SubProcessMode() {
         return (EAttribute)getActivityType().getEStructuralFeatures().get(11);
    }
 
@@ -1060,15 +1062,15 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_ActivitySymbols() {
-        return (EReference)getActivityType().getEStructuralFeatures().get(12);
+   public EAttribute getActivityType_SubProcessMode() {
+        return (EAttribute)getActivityType().getEStructuralFeatures().get(12);
    }
 
 	/**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_StartingEventSymbols() {
+   public EReference getActivityType_ActivitySymbols() {
         return (EReference)getActivityType().getEStructuralFeatures().get(13);
    }
 
@@ -1076,7 +1078,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_InTransitions() {
+   public EReference getActivityType_StartingEventSymbols() {
         return (EReference)getActivityType().getEStructuralFeatures().get(14);
    }
 
@@ -1084,8 +1086,16 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_OutTransitions() {
+   public EReference getActivityType_InTransitions() {
         return (EReference)getActivityType().getEStructuralFeatures().get(15);
+   }
+
+	/**
+    * <!-- begin-user-doc --> <!-- end-user-doc -->
+    * @generated
+    */
+   public EReference getActivityType_OutTransitions() {
+        return (EReference)getActivityType().getEStructuralFeatures().get(16);
    }
 
 	/**
@@ -1095,7 +1105,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     */
    public EReference getActivityType_ExternalRef()
    {
-        return (EReference)getActivityType().getEStructuralFeatures().get(16);
+        return (EReference)getActivityType().getEStructuralFeatures().get(17);
    }
 
    /**
@@ -1105,7 +1115,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     */
    public EReference getActivityType_ValidQualityCodes()
    {
-        return (EReference)getActivityType().getEStructuralFeatures().get(17);
+        return (EReference)getActivityType().getEStructuralFeatures().get(18);
    }
 
    /**
