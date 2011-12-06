@@ -22,35 +22,7 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipantSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -174,7 +146,13 @@ public class MergerUtil
       if(performer != null && !globalElements.containsKey(performer))
       {
          globalElements.put(performer, copier.copy(performer)); 
-      }      
+      }   
+      IModelParticipant qualityControlPerformer = activity.getQualityControlPerformer();
+      if(qualityControlPerformer != null && !globalElements.containsKey(qualityControlPerformer))
+      {
+         globalElements.put(qualityControlPerformer, copier.copy(qualityControlPerformer)); 
+      }         
+      
       if(performer != null && performer instanceof ConditionalPerformerType)
       {
          DataType dataType = ((ConditionalPerformerType) performer).getData();
@@ -252,6 +230,15 @@ public class MergerUtil
       {
          processes.put(subProcess, copier.copy(subProcess));                  
       }  
+      
+      EList<Code> validQualityCodes = activity.getValidQualityCodes();
+      for(Code code : validQualityCodes)
+      {
+         if(!elements.containsKey(code))
+         {
+            elements.put(code, copier.copy(code));
+         }         
+      }      
    }
    
    // for each symbol (IModelElementNodeSymbol)
@@ -856,4 +843,41 @@ public class MergerUtil
       }
       return null;
    }   
+   
+   public static Code containsQC(ModelType targetModel, Code raw)
+   {
+      int rawIntValue = 0;
+      
+      try
+      {
+         rawIntValue = Integer.parseInt(raw.getCode());
+      }
+      catch (NumberFormatException e)
+      {
+         return null;
+      }               
+      
+      if(targetModel.getQualityControl() == null)
+      {
+         return null;         
+      }
+      
+      EList<Code> codes = targetModel.getQualityControl().getCode();
+      for(Code code : codes)
+      {
+         try
+         {
+            int intValue = Integer.parseInt(code.getCode());
+            if(intValue == rawIntValue)
+            {
+               return code;
+            }
+         }
+         catch (NumberFormatException e)
+         {
+         }               
+      }            
+      
+      return null;
+   }
 }

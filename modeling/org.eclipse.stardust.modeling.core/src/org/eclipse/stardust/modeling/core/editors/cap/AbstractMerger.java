@@ -27,45 +27,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.UUIDUtils;
@@ -566,7 +528,7 @@ public abstract class AbstractMerger
                      }
                   }                  
                }
-            }
+            }            
          }         
          
          if(copy instanceof ProcessDefinitionType)
@@ -668,6 +630,16 @@ public abstract class AbstractMerger
                ((ActivityType) copy).setPerformer((IModelParticipant) modelElement);
             }
          }
+         IModelParticipant rawQualityControlParticipant = ((ActivityType) raw).getQualityControlPerformer();
+         if(rawQualityControlParticipant != null)
+         {
+            IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawQualityControlParticipant);
+            if(modelElement != null)               
+            {
+               ((ActivityType) copy).setQualityControlPerformer((IModelParticipant) modelElement);
+            }
+         }         
+         
          ApplicationType rawApplication = ((ActivityType) raw).getApplication();
          if(rawApplication != null)
          {
@@ -686,7 +658,20 @@ public abstract class AbstractMerger
                ((ActivityType) copy).setImplementationProcess((ProcessDefinitionType) modelElement);
             }
          }
-         //((ActivityType) copy).setImplementation(((ActivityType) raw).getImplementation());
+         
+         EList<Code> rawValidQualityCodes = ((ActivityType) raw).getValidQualityCodes();
+         if(rawValidQualityCodes != null && !rawValidQualityCodes.isEmpty())
+         {
+            EList<Code> targetValidQualityCodes = ((ActivityType) copy).getValidQualityCodes();
+            for(Code code : rawValidQualityCodes)
+            {
+               Code targetCode = MergerUtil.containsQC(targetModel, code);
+               if(targetCode != null)
+               {
+                  targetValidQualityCodes.add(targetCode);                  
+               }
+            }            
+         }
       }     
       
       // when we have a lane symbol the lane may have a participant assigned
@@ -1245,6 +1230,8 @@ public abstract class AbstractMerger
       // will be removed from elements as we will copy the type declarations separate
       Map tempStructuredDatas = new HashMap();
       Map tempEventActionTypeTypes = new HashMap();      
+      Map tempQualityControlCodes =  new HashMap();
+      
       externalReferences = false;
       
       mergeElements.putAll(globalElements);
@@ -1267,7 +1254,34 @@ public abstract class AbstractMerger
          {
             tempEventActionTypeTypes.put(entry.getKey(), entry.getValue());            
          }
+         
+         if(!isSameModel)
+         {
+            if(raw instanceof Code)
+            {
+               if(MergerUtil.containsQC(targetModel, (Code) raw) == null)
+               {
+                  if(targetModel.getQualityControl() == null)
+                  {
+                     targetModel.setQualityControl(CarnotWorkflowModelFactory.eINSTANCE.createQualityControlType());
+                  }
+                  targetModel.getQualityControl().getCode().add((Code) entry.getValue());
+                  tempQualityControlCodes.put(entry.getKey(), entry.getValue());            
+               }
+            }
+         }         
       }
+      
+      if(!tempQualityControlCodes.isEmpty())
+      {
+         it = tempQualityControlCodes.entrySet().iterator(); 
+         while (it.hasNext()) 
+         {
+            Map.Entry entry = (Map.Entry) it.next();
+            EObject raw = (EObject) entry.getKey();
+            elements.remove(raw);
+         }         
+      }            
       if(!tempEventActionTypeTypes.isEmpty())
       {
          it = tempEventActionTypeTypes.entrySet().iterator(); 
