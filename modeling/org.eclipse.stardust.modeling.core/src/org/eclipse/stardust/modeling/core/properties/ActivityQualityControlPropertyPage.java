@@ -120,10 +120,10 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
 
       if(currentSelection)
       {
-         RoleType role = (RoleType) AttributeUtil.getIdentifiable((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PARTICIPANT_ATT);
-         if(role != null)
+         IModelParticipant qualityControlPerformer = activity.getQualityControlPerformer();         
+         if(qualityControlPerformer != null)
          {
-            performerViewer.setSelection(new StructuredSelection(role));
+            performerViewer.setSelection(new StructuredSelection(qualityControlPerformer));
          }
          createLabeledText.getText().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT));
          transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT));
@@ -137,14 +137,14 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       if(!currentSelection)
       {
          AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT, null);
-         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PARTICIPANT_ATT, null);
+         activity.setQualityControlPerformer(null);
          AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT, null);
          AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT, null);                        
       }
       else
       {
          AttributeUtil.setBooleanAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT, true);         
-         AttributeUtil.setReference((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PARTICIPANT_ATT, currentRole);
+         activity.setQualityControlPerformer(currentRole);
          AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT, transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().getText());                        
          AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT, createLabeledText.getText().getText());
       }
