@@ -63,7 +63,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
    private RoleType createRoleType;
    private String probability;
    
-   private RoleType currentRole;
+   private IModelParticipant currentRole;
 
    private void validate()
    {
@@ -206,7 +206,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       {
          public void selectionChanged(SelectionChangedEvent event)
          {
-            RoleType selection = (RoleType) ((IStructuredSelection) performerViewer.getSelection()).getFirstElement();
+            IModelParticipant selection = (IModelParticipant) ((IStructuredSelection) performerViewer.getSelection()).getFirstElement();
             if(selection.equals(createRoleType))
             {
                currentRole = null;
