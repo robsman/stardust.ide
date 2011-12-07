@@ -589,7 +589,6 @@ public class MessageTransformationApplicationControlsManager
          {
             TreeSelection selection = (TreeSelection) event.getSelection();
             controller.sourceMessageFieldSelected(selection);
-            
             if (!controller.isSimpleMode())
             {
                sourceFieldText = controller.getDraggedText();
@@ -662,14 +661,10 @@ public class MessageTransformationApplicationControlsManager
       {
          public void selectionChanged(SelectionChangedEvent event)
          {
-               controller.ignoreUpcomingAnnotationChanges();
-               TreeSelection selection = (TreeSelection) event.getSelection();
-
-               boolean refreshDocument = controller.targetMessageFieldSelected(selection);
-               
-               if (!controller.isSimpleMode()) 
-               {
-               if (!simpleMode)
+            controller.ignoreUpcomingAnnotationChanges();
+            TreeSelection selection = (TreeSelection) event.getSelection();
+            boolean refreshDocument = controller.targetMessageFieldSelected(selection);
+               if (!controller.isSimpleMode())
                {
                   if (null != controller.getSelectedTargetField())
                   {
@@ -701,9 +696,6 @@ public class MessageTransformationApplicationControlsManager
                   }
                   sourceMessageTreeViewer.refreshVisibleItems();
                }
-               
-            }
-            
          }
 
       });

@@ -481,53 +481,57 @@ private void extractAccessPoints(IModelElement element)
 		return expressionRegion;
 	}
 
-	public boolean targetMessageFieldSelected(TreeSelection targetTreeSelection) {
-		selectedTargetField = (AccessPointType) targetTreeSelection
-				.getFirstElement();
-		if (selectedTargetField == null) {
-			return false;
-		}
-		String xPath = getXPathFor(selectedTargetField);
-		if (selectedTargetField != null && xPath != null) {
-			this.selectedTargetFieldMapping = fieldMappings
-					.get(xPath);
-			if (null != selectedTargetFieldMapping) {
-				if (selectedTargetFieldMapping.getMappingExpression() != null) {
-					expressionDocument = "//Expression\n" //$NON-NLS-1$
-							+ selectedTargetFieldMapping.getMappingExpression();
-				} else {
-					expressionDocument = "//Expression\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
-				statementsDocument = "//Statements\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean targetMessageFieldSelected(TreeSelection targetTreeSelection) {
+       selectedTargetField = (AccessPointType) targetTreeSelection
+               .getFirstElement();
+       if (selectedTargetField == null) {
+           return false;
+       }
+       if (this.isSimpleMode()) {
+           String xPath = getXPathFor(selectedTargetField);
+           if (selectedTargetField != null && xPath != null) {
+               this.selectedTargetFieldMapping = fieldMappings
+                       .get(xPath);
+               if (null != selectedTargetFieldMapping) {
+                   if (selectedTargetFieldMapping.getMappingExpression() != null) {
+                       expressionDocument = "//Expression\n" //$NON-NLS-1$
+                               + selectedTargetFieldMapping.getMappingExpression();
+                   } else {
+                       expressionDocument = "//Expression\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+                   }
+                   statementsDocument = "//Statements\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
+                   return true;
+               }
+           }          
+       }
+       return false;
+   }
 
-	public void sourceMessageFieldSelected(TreeSelection sourceTreeSelection) {
-		selectedSourceFields = extractSelectedElements(sourceTreeSelection);
-		selectedSourceField = (AccessPointType) sourceTreeSelection.getFirstElement();
-		if (selectedSourceField == null) {
-			return;
-		}
-		arraySelectionDepthSource = getArraySelectionDepth(selectedSourceField);
-		String xPath = this.getXPathFor(selectedSourceField);
-		if (selectedSourceField != null && xPath != null) {
-			FieldMapping fm = fieldMappings.get(xPath);
-			if (fm != null) {
-			    String javaPath = getMapperByType(selectedSourceField).renderGetterCode(false, false, null);
-				draggedText = javaPath;
-				draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		} else {
-			if (selectedSourceField != null && isRoot(selectedSourceField)) {
-				draggedText = selectedSourceField.getName();
-				draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-		}
-	}
-
+   public void sourceMessageFieldSelected(TreeSelection sourceTreeSelection) {
+       selectedSourceFields = extractSelectedElements(sourceTreeSelection);
+       selectedSourceField = (AccessPointType) sourceTreeSelection.getFirstElement();
+       if (selectedSourceField == null) {
+           return;
+       }
+       if (!isSimpleMode()) {
+           arraySelectionDepthSource = getArraySelectionDepth(selectedSourceField);
+           String xPath = this.getXPathFor(selectedSourceField);
+           if (selectedSourceField != null && xPath != null) {
+               FieldMapping fm = fieldMappings.get(xPath);
+               if (fm != null) {
+                   String javaPath = getMapperByType(selectedSourceField).renderGetterCode(false, false, null);
+                   draggedText = javaPath;
+                   draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
+               }
+           } else {
+               if (selectedSourceField != null && isRoot(selectedSourceField)) {
+                   draggedText = selectedSourceField.getName();
+                   draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
+               }
+           }          
+       }
+   }
+   
 	private List<AccessPointType> extractSelectedElements(TreeSelection sourceTreeSelection) {
 		List<AccessPointType> result = new ArrayList<AccessPointType>();
 		for (Iterator<?> i = sourceTreeSelection.iterator(); i.hasNext();) {
