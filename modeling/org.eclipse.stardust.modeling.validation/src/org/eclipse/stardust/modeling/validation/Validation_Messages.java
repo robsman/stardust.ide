@@ -293,6 +293,8 @@ public class Validation_Messages extends NLS
 
    public static String ERR_ACTIVITY_NoPerformerSet;
 
+   public static String ERR_ACTIVITY_QualityAssurancePerformer;   
+   
    public static String ERR_ACTIVITY_PerformerWronglySet;
 
    public static String ERR_ACTIVITY_NoImplementationProcess;

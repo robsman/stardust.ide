@@ -15,8 +15,11 @@ import java.util.*;
 
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.*;
+
+import ag.carnot.workflow.model.PredefinedConstants;
 
 
 public class DefaultActivityValidator implements IModelElementValidator
@@ -232,6 +235,38 @@ public class DefaultActivityValidator implements IModelElementValidator
                   Validation_Messages.ERR_ACTIVITY_NoPerformerSet,
                   ValidationService.PKG_CWM.getActivityType_Performer()));
          }
+         
+         boolean isQualityAssurance = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT);      
+
+         if(isQualityAssurance)
+         {
+            IModelParticipant performer = activity.getPerformer();
+            if(performer != null)
+            {
+               if(performer instanceof ConditionalPerformerType)
+               {
+                  result.add(Issue.error(activity,
+                        Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
+                        ValidationService.PKG_CWM.getActivityType_Performer()));                  
+               }
+            }
+            
+            IModelParticipant qualityControlPerformer = activity.getQualityControlPerformer();
+            if(qualityControlPerformer == null)
+            {
+               
+            }
+            else
+            {
+               if(qualityControlPerformer instanceof ConditionalPerformerType)
+               {
+                  result.add(Issue.error(activity,
+                        Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
+                        ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
+               }               
+            }            
+         }         
+         
          /*
           * TODO rsauer: obsolete? if ((!StringUtils.isEmpty(activity.getPerformer())) &&
           * (findConditionalPerformer(activity) == null)) { result .add(Issue .error(
