@@ -39,7 +39,6 @@
       </dependency>
       <dependency org="xalan" name="xalan" rev="2.6.0" transitive="false" conf="bom->default"/>
       <dependency org="jdom" name="jdom" rev="1.0" transitive="false" conf="bom->default"/>
-      <dependency org="saxon" name="saxon" rev="6.5.5" transitive="false" conf="bom->default"/>
       <dependency org="xerces" name="xercesImpl" rev="2.9.0" transitive="false" conf="bom->default"/>
    </dependencies>
 </ivy-module>

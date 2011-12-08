@@ -5,29 +5,11 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.runtime.xml
 Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/saxon-6.5.5.jar,
- lib/xalan-2.6.0.jar,
+Bundle-ClassPath: lib/xalan-2.6.0.jar,
  lib/jaxen-1.1.1.jar,
  lib/jdom-1.0.jar,
  lib/xercesImpl-2.9.0.jar
 Export-Package: .,
- com.icl.saxon,
- com.icl.saxon.aelfred,
- com.icl.saxon.charcode,
- com.icl.saxon.expr,
- com.icl.saxon.exslt,
- com.icl.saxon.functions,
- com.icl.saxon.handlers,
- com.icl.saxon.number,
- com.icl.saxon.om,
- com.icl.saxon.output,
- com.icl.saxon.pattern,
- com.icl.saxon.sort,
- com.icl.saxon.sql,
- com.icl.saxon.style,
- com.icl.saxon.tinytree,
- com.icl.saxon.trace,
- com.icl.saxon.tree,
  java_cup.runtime,
  org.apache.bcel,
  org.apache.bcel.classfile,
@@ -134,6 +116,5 @@ Export-Package: .,
  org.jdom.transform,
  org.jdom.xpath,
  org.w3c.dom.html,
- org.w3c.dom.xpath,
- org.w3c.xsl
+ org.w3c.dom.xpath
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

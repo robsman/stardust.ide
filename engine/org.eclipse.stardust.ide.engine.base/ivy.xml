@@ -31,7 +31,6 @@
          <exclude org="javax.activation" module="activation"/>
          <exclude org="javax.mail" module="mail"/>
          <exclude org="commons-collections" module="commons-collections"/>
-         <exclude org="saxon" module="saxon"/>
          <exclude org="jaxen" module="jaxen"/>
          <exclude org="rhino" module="js"/>
          <exclude org="xom" module="xom"/>
