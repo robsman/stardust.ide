@@ -61,11 +61,29 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
    private Combo classCombo;
    private Composite sourceViewerComposite;
    private RoleType createRoleType;
-   private String probability;
-   
-   private IModelParticipant currentRole;
+   private String probability;   
+   private IModelParticipant currentPerformer;
 
    private void validate()
+   {
+      if(validateProbability())
+      {
+         setErrorMessage(Diagram_Messages.QUALITY_CONTROL_PROBABILITY_VALIDATION);
+         setValid(false);         
+      }
+      else if(validatePerformer())
+      {
+         setErrorMessage(Diagram_Messages.QUALITY_ASSURANCE_PERFORMER_VALIDATION);
+         setValid(false);         
+      }      
+      else
+      {
+         setErrorMessage(null);
+         setValid(true);         
+      }      
+   }
+   
+   private boolean validateProbability()
    {
       boolean error = false;      
       
@@ -90,18 +108,27 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
                error = true;            
             }
          }
-      }
-
-      if(error)
-      {
-         setErrorMessage(Diagram_Messages.QUALITY_CONTROL_PROBABILITY_VALIDATION);
-         setValid(false);
-      }
-      else
-      {
-         setErrorMessage(null);
-         setValid(true);         
       }      
+      return error;
+   }
+
+   private boolean validatePerformer()
+   {
+      boolean error = false;      
+      
+      if(currentSelection)
+      {      
+         if(currentPerformer == null)
+         {
+            error = true;            
+         }
+         else if(currentPerformer instanceof ConditionalPerformerType)
+         {
+            error = true;                        
+         }
+      }
+      
+      return error;
    }
    
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
@@ -144,7 +171,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       else
       {
          AttributeUtil.setBooleanAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT, true);         
-         activity.setQualityControlPerformer(currentRole);
+         activity.setQualityControlPerformer(currentPerformer);
          AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT, transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().getText());                        
          AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT, createLabeledText.getText().getText());
       }
@@ -197,8 +224,8 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       {
          public String getText(Object element)
          {
-            RoleType role = (RoleType) element;
-            return role.getName();
+            IModelParticipant performer = (IModelParticipant) element;
+            return performer.getName();
          }
       });
       
@@ -209,12 +236,13 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
             IModelParticipant selection = (IModelParticipant) ((IStructuredSelection) performerViewer.getSelection()).getFirstElement();
             if(selection.equals(createRoleType))
             {
-               currentRole = null;
+               currentPerformer = null;
             }
             else
             {
-               currentRole = selection;
-            }            
+               currentPerformer = selection;
+            }
+            validate();
          }         
       });      
       
@@ -266,7 +294,9 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       ((JSCompilationUnitEditor.AdaptedSourceViewer) transitionConditionEditor.getAdaptedSourceViewer()).setAutoCompletion(true); 
       sourceViewerComposite.setEnabled(true);
       sourceViewerComposite.setVisible(true);  
-            
+
+      validate();
+      
       return composite;
    }
    
