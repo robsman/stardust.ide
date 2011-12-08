@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.properties;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
@@ -254,7 +255,7 @@ public class QualityControlCodesPropertyPage extends AbstractModelElementPropert
    {
       if(selectedCode.getCode().equals(newCode))
       {
-         setMessage(Diagram_Messages.QUALITY_CONTROL_VALIDATION_NUMERIC, ERROR);
+         setMessage(Diagram_Messages.QUALITY_CONTROL_VALIDATION_CODE, ERROR);
          setValid(false);                  
          return;         
       }
@@ -266,14 +267,9 @@ public class QualityControlCodesPropertyPage extends AbstractModelElementPropert
          return;         
       }
       
-      try
+      if(!ModelUtils.isValidId(selectedCode.getCode()))
       {
-         Integer codeValue = Integer.valueOf(selectedCode.getCode());
-         //
-      }
-      catch (NumberFormatException e)
-      {
-         setMessage(Diagram_Messages.QUALITY_CONTROL_VALIDATION_NUMERIC, ERROR);
+         setMessage(Diagram_Messages.QUALITY_CONTROL_VALIDATION_CODE, ERROR);
          setValid(false);
          return;         
       }
