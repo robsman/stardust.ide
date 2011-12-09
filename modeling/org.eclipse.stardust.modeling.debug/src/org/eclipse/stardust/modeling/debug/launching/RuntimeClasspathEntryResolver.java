@@ -59,6 +59,7 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"},
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"},
+      {"org.eclipse.stardust.ide.engine.core", "lib/ipp-engine-ws-metro.jar"},
       {"org.eclipse.stardust.ide.engine.core", "etc"},
 
       {"org.eclipse.stardust.modeling.debug", ".eclipse/bin", "/"},

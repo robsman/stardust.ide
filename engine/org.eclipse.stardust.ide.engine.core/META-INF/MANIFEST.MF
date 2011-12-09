@@ -4,8 +4,9 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.engine.core;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Bundle-ClassPath: etc/,
+ lib/carnot-engine.jar,
  lib/carnot-emf-xsd-integration.jar,
- lib/carnot-engine.jar
+ lib/ipp-engine-ws-metro.jar
 Bundle-Localization: plugin
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.eclipse.stardust.ide.engine.base
@@ -124,12 +125,6 @@ Export-Package: ag.carnot.base,
  ag.carnot.workflow.spi.providers.actions.schedule,
  ag.carnot.workflow.spi.providers.actions.setdata,
  ag.carnot.workflow.spi.providers.actions.trigger,
- ag.carnot.workflow.spi.providers.applications.jca,
- ag.carnot.workflow.spi.providers.applications.jca.gui,
- ag.carnot.workflow.spi.providers.applications.jca.sap,
- ag.carnot.workflow.spi.providers.applications.jca.sap.application,
- ag.carnot.workflow.spi.providers.applications.jca.sap.data,
- ag.carnot.workflow.spi.providers.applications.jca.sap.gui,
  ag.carnot.workflow.spi.providers.applications.jms,
  ag.carnot.workflow.spi.providers.applications.mail,
  ag.carnot.workflow.spi.providers.applications.plainjava,

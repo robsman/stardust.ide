@@ -47,6 +47,8 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.engine.core", //$NON-NLS-1$
             "lib/carnot-engine.jar"); //$NON-NLS-1$
+      addLibraryEntry(entries, "org.eclipse.stardust.ide.engine.core", //$NON-NLS-1$
+            "lib/ipp-engine-ws-metro.jar"); //$NON-NLS-1$
 //      addLibraryEntry(entries, "ag.carnot.workflow.engine",//$NON-NLS-1$
 //            "etc"); //$NON-NLS-1$
 
