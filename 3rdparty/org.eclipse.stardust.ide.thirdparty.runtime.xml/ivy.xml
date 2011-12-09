@@ -5,7 +5,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -22,21 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.thirdparty.runtime.xml" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.runtime.xml" type="jar" conf="bom" />
    </publications>
 
    <dependencies>
-      <dependency org="jaxen" name="jaxen" rev="1.1.1" transitive="false" conf="bom->default">
-         <!--
-         <exclude org="dom4j" module="dom4j"/>
-         <exclude org="xml-apis" module="xml-apis"/>
-         <exclude org="xom" module="xom"/>
-         <exclude org="xerces" module="xercesImpl"/>
-         -->
-         <!--
-         <includes org="jdom" module="jdom"/> 
-         -->
-      </dependency>
       <dependency org="xalan" name="xalan" rev="2.6.0" transitive="false" conf="bom->default"/>
       <dependency org="jdom" name="jdom" rev="1.0" transitive="false" conf="bom->default"/>
       <dependency org="xerces" name="xercesImpl" rev="2.9.0" transitive="false" conf="bom->default"/>

@@ -44,8 +44,7 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       {"org.eclipse.debug.core", "/"},
       
       {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"},
-//      {"ag.carnot.runtime.xml", "lib/xalan-2.6.0.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/jaxen-1.1.1.jar"},
+//      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan-2.6.0.jar"},
       
       {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"},
       {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"},
