@@ -58,6 +58,8 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
             "xml-apis.jar"); //$NON-NLS-1$
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
+            "lib/commons-jxpath-1.3.jar"); //$NON-NLS-1$
+      addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
             "lib/xercesImpl-2.9.0.jar"); //$NON-NLS-1$
       // xalan is needed, see CRNT-10809
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
