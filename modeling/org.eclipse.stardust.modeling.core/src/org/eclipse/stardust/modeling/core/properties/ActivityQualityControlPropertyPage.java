@@ -63,6 +63,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
    private RoleType createRoleType;
    private String probability;   
    private IModelParticipant currentPerformer;
+   private IModelParticipant manualPerformer;
 
    private void validate()
    {
@@ -76,6 +77,11 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          setErrorMessage(Diagram_Messages.QUALITY_ASSURANCE_PERFORMER_VALIDATION);
          setValid(false);         
       }      
+      else if(validatePerformers())
+      {
+         setErrorMessage(Diagram_Messages.QUALITY_ASSURANCE_PERFORMERS_VALIDATION);
+         setValid(false);         
+      }            
       else
       {
          setErrorMessage(null);
@@ -130,6 +136,22 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       
       return error;
    }
+
+   private boolean validatePerformers()
+   {
+      boolean error = false;      
+      
+      if(currentSelection)
+      {      
+         if(currentPerformer != null && manualPerformer != null
+               && currentPerformer.equals(manualPerformer))
+         {
+            error = true;            
+         }
+      }
+      
+      return error;
+   }
    
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
@@ -142,6 +164,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
 
       currentSelection = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT);
       qualityControl.setSelection(currentSelection);
+      manualPerformer = activity.getPerformer();
       
       setFields();
 
