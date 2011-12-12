@@ -125,7 +125,7 @@ public class DataPathValidator implements IModelElementValidator
                   else try
                   {
                      IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(data);
-                     if (StructuredDataXPathUtils.returnSinglePrimitiveType(accessPath, xPathMap) != BigData.STRING)
+                     if (StructuredDataXPathUtils.returnSinglePrimitiveType(accessPath, xPathMap) == BigData.NULL)
                      {
                         result.add(Issue.error(dataPath,
                               "Structured key descriptors must have primitive type.",
