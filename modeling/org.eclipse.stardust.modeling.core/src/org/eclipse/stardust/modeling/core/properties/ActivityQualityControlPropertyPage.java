@@ -162,7 +162,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       
       refreshDocument();   
 
-      currentSelection = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT);
+      currentSelection = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT);
       qualityControl.setSelection(currentSelection);
       manualPerformer = activity.getPerformer();
       
@@ -175,8 +175,8 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          {
             performerViewer.setSelection(new StructuredSelection(qualityControlPerformer));
          }
-         createLabeledText.getText().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT));
-         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT));
+         createLabeledText.getText().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_PROBABILITY_ATT));
+         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText(AttributeUtil.getCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_FORMULA_ATT));
       }
    }
 
@@ -186,17 +186,17 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       
       if(!currentSelection)
       {
-         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT, null);
+         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT, null);
          activity.setQualityControlPerformer(null);
-         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT, null);
-         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT, null);                        
+         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_PROBABILITY_ATT, null);
+         AttributeUtil.setAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_FORMULA_ATT, null);                        
       }
       else
       {
-         AttributeUtil.setBooleanAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT, true);         
+         AttributeUtil.setBooleanAttribute((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT, true);         
          activity.setQualityControlPerformer(currentPerformer);
-         AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_FORMULA_ATT, transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().getText());                        
-         AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_CONTROL_PROBABILITY_ATT, createLabeledText.getText().getText());
+         AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_FORMULA_ATT, transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().getText());                        
+         AttributeUtil.setCDataAttribute((IExtensibleElement) activity, PredefinedConstants.QUALITY_ASSURANCE_PROBABILITY_ATT, createLabeledText.getText().getText());
       }
    }
 
