@@ -28,9 +28,8 @@
    <dependencies>
       <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" transitive="false" conf="bom->carnot-dms-module-runtime">
          <!--
-         <exclude org="jaxen" module="jaxen"/>
+         <exclude org="commons-jxpath" module="commons-jxpath"/>
          <exclude org="commons-collections" module="commons-collections"/>
-         <exclude org="xom" module="xom"/>
          <exclude org="org.apache.activemq" module="activemq-core"/>
          <exclude org="org.apache.activemq" module="activemq-ra"/>
          <exclude org="rhino" module="js"/>
