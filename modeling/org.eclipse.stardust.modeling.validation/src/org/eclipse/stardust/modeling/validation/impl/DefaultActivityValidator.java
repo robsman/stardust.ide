@@ -264,6 +264,17 @@ public class DefaultActivityValidator implements IModelElementValidator
                         Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
                         ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
                }               
+            }   
+            
+            if(qualityControlPerformer != null && performer != null
+                  && qualityControlPerformer.equals(performer))
+            {
+               result.add(Issue.error(activity,
+                     Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformers,
+                     ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
+               result.add(Issue.error(activity,
+                     Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformers,
+                     ValidationService.PKG_CWM.getActivityType_Performer()));                                                   
             }            
          }         
          
