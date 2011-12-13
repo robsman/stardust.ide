@@ -51,7 +51,6 @@ import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.wst.jsdt.core.ast.IAbstractVariableDeclaration;
 import org.eclipse.wst.jsdt.core.ast.IArrayReference;
 import org.eclipse.wst.jsdt.core.ast.IAssignment;
 import org.eclipse.wst.jsdt.core.ast.IBinaryExpression;
@@ -61,7 +60,6 @@ import org.eclipse.wst.jsdt.core.ast.IExpression;
 import org.eclipse.wst.jsdt.core.ast.IFieldReference;
 import org.eclipse.wst.jsdt.core.ast.IFunctionCall;
 import org.eclipse.wst.jsdt.core.ast.ILocalDeclaration;
-import org.eclipse.wst.jsdt.core.compiler.IProblem;
 import org.eclipse.wst.jsdt.core.infer.InferEngine;
 import org.eclipse.wst.jsdt.core.infer.InferredAttribute;
 import org.eclipse.wst.jsdt.core.infer.InferredMethod;
@@ -538,7 +536,35 @@ public class JavaScriptInferenceEngine extends InferEngine
     	  typeInfo = typeFinder.findType(className);  
       }	  
       if (typeInfo != null) {
-          List methods = typeInfo.getMethods();          
+          String[] parameterSignatures = {}; 
+          String[] parameterTypes = {}; 
+          List methods = typeInfo.getMethods();         
+          if (className.endsWith("ActivityInstance")) {
+             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, "J", "long", true);
+             methods.add(mi);             
+          }
+          if (className.endsWith("Activity")) {            
+             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, "Ljava.lang.String;", "java.lang.String", true);
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, "J", "long", true);       
+             methods.add(mi);
+             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, "I", "int", true);
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, "J", "long", true); 
+             methods.add(mi);
+             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, "D", "double", true); 
+             methods.add(mi);             
+             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, "D", "double", true); 
+             methods.add(mi); 
+             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, "B", "boolean", true); 
+             methods.add(mi);    
+          }
           for (int m = 0; m < methods.size(); m++)
           {
              MethodInfo methodInfo = (MethodInfo) methods.get(m);
@@ -632,6 +658,18 @@ public class JavaScriptInferenceEngine extends InferEngine
           }
       }
    }   
+   
+   private void addGetTargetExecutionTimeTo(InferredType attrType)
+   {
+      //String getContent()
+      MethodDeclaration md = new MethodDeclaration(
+            cu.compilationResult);
+      InferredMethod inferredMethod = attrType.addMethod("getTargetExecutionTime".toCharArray(), md, 0);
+      String returnType = "String";      
+      InferredType iType = StringType;                                
+      md.returnType = new SingleTypeReference(iType.getName(), 0);
+      md.inferredType = iType;      
+   }
    
    private void addContentMethodsTo(InferredType attrType)
    {
@@ -813,7 +851,6 @@ public class JavaScriptInferenceEngine extends InferEngine
                                 }
                                 //(rp) End of Workaround
                                 AttributeUtil.setAttribute(activityInstance, PredefinedConstants.BROWSABLE_ATT, "true");
-                                //AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, "ag.carnot.workflow.runtime.ActivityInstance");
                                 AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, "ag.carnot.workflow.runtime.ActivityInstance");
                                 dataType = activityInstance;
                              }
