@@ -236,7 +236,7 @@ public class DefaultActivityValidator implements IModelElementValidator
                   ValidationService.PKG_CWM.getActivityType_Performer()));
          }
          
-         boolean isQualityAssurance = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_CONTROL_ATT);      
+         boolean isQualityAssurance = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT);      
 
          if(isQualityAssurance)
          {
