@@ -22,11 +22,11 @@ import ag.carnot.base.log.LogManager;
 import ag.carnot.base.log.Logger;
 import ag.carnot.gui.ErrorDialog;
 import ag.carnot.security.authentication.LoginFailedException;
+import ag.carnot.workflow.model.removethis.AuditTrailModelsDialog;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 import ag.carnot.workflow.runtime.CredentialProvider;
 import ag.carnot.workflow.runtime.ServiceFactory;
 import ag.carnot.workflow.runtime.ServiceFactoryLocator;
-import ag.carnot.workflow.tools.defdesk.AuditTrailModelsDialog;
 
 /**
  * @author rsauer
