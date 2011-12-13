@@ -28,6 +28,6 @@
    <dependencies>
       <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" transitive="false" conf="bom->engine-module-runtime"/>
       <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" transitive="false" conf="bom->carnot-emf-xsd-module-runtime"/>
-      <dependency org="com.infinity.bpm" name="ipp-engine-ws-metro-module" rev="${ipp.version.full}" transitive="false" conf="bom->engine-ws-metro-module-runtime"/>
+      <dependency org="com.infinity.bpm" name="ipp-engine-ws-metro" rev="${ipp.version.full}" transitive="false" conf="bom->ipp-engine-ws-metro-runtime"/>
    </dependencies>
 </ivy-module>
