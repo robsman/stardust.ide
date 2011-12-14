@@ -216,21 +216,33 @@ public class PropertyModel
           || object instanceof TriggerType
           || object instanceof DataPathType
           || object instanceof DataMappingType
+          || object instanceof Code          
           || object instanceof EventHandlerType;
    }
 
    private void addDefaultKeys(Properties props, EObject model)
    {
       String prefix = computePrefix(null, model, null, true);
-      String nameKey = prefix + NAME;
-      if (shouldAddKey(nameKey))
+      if(model instanceof Code)
       {
-         props.put(nameKey, getNameFrom(model));
+         String descriptionKey = prefix + DESCRIPTION;
+         if (shouldAddKey(descriptionKey))
+         {
+            props.put(descriptionKey, getDescriptionFrom(model));
+         }                  
       }
-      String descriptionKey = prefix + DESCRIPTION;
-      if (shouldAddKey(descriptionKey))
+      else
       {
-         props.put(descriptionKey, getDescriptionFrom(model));
+         String nameKey = prefix + NAME;
+         if (shouldAddKey(nameKey))
+         {
+            props.put(nameKey, getNameFrom(model));
+         }
+         String descriptionKey = prefix + DESCRIPTION;
+         if (shouldAddKey(descriptionKey))
+         {
+            props.put(descriptionKey, getDescriptionFrom(model));
+         }         
       }
    }
 
@@ -263,6 +275,10 @@ public class PropertyModel
          description = ModelUtils.getDescriptionText(
                ((IIdentifiableModelElement) model).getDescription());
       }
+      else if (model instanceof Code)
+      {
+         description = ((Code) model).getValue();
+      }      
       return description == null ? "" : description; //$NON-NLS-1$
    }
 
@@ -415,6 +431,7 @@ public class PropertyModel
    {
       return object instanceof ModelType ? "Model" //$NON-NLS-1$
            : object instanceof DataType ? "Data" //$NON-NLS-1$
+           : object instanceof Code ? "QualityAssuranceCode" //$NON-NLS-1$                 
            : object instanceof RoleType ? "Role" //$NON-NLS-1$
            : object instanceof OrganizationType ? "Organization" //$NON-NLS-1$
            : object instanceof ConditionalPerformerType ? "CondPerformer" //$NON-NLS-1$
@@ -441,6 +458,11 @@ public class PropertyModel
       {
          return;
       }
+      if (element instanceof QualityControlType)
+      {
+         return;
+      }
+      
       appendToPrefix(buffer, changedElement, element.eContainer(), useThisId);
       buffer.append('.');
       if (element == changedElement && useThisId != null)
@@ -462,8 +484,12 @@ public class PropertyModel
       {
          buffer.append(((IModelElement) element).getElementOid());
       }
-      else
+      else if (element instanceof Code)
       {
+         buffer.append(((Code) element).getCode());
+      }      
+      else
+      {         
          buffer.append(element.toString());
       }
    }
