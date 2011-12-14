@@ -53,7 +53,8 @@ public class DeleteTargetMessageAction extends Action
 
    public String getText()
    {
-      return Modeling_Messages.MSG_DELETE_MESSAGE;
+      String message = Modeling_Messages.MSG_DELETE_MESSAGE;
+      return MessageFormat.format(message, new Object[]{controller.getNameString()});
    }
 
    @Override
