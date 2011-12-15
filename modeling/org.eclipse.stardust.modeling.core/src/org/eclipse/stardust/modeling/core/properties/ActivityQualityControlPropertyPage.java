@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -166,7 +167,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       qualityControl.setSelection(currentSelection);
       manualPerformer = activity.getPerformer();
       
-      setFields();
+      setFields(false);
 
       if(currentSelection)
       {
@@ -200,7 +201,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       }
    }
 
-   private void setFields()
+   private void setFields(boolean preselect)
    {
       if(!currentSelection)
       {
@@ -220,6 +221,18 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("true");               
          sourceViewerComposite.setVisible(true);               
          sourceViewerComposite.setEnabled(true);
+         
+         if(preselect)
+         {
+            ActivityType activity = (ActivityType) getModelElement();
+            ModelType model = ModelUtils.findContainingModel(activity);
+            QualityControlType qualityControlType = model.getQualityControl();
+            if(qualityControlType != null)
+            {
+               EList<Code> validQualityCodes = activity.getValidQualityCodes();
+               validQualityCodes.addAll(qualityControlType.getCode());
+            }
+         }         
       }      
    }
 
@@ -233,7 +246,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          public void widgetSelected(SelectionEvent e)
          {
             currentSelection = qualityControl.getSelection();
-            setFields();            
+            setFields(true);            
             validate();
          }
       });            
