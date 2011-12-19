@@ -33,7 +33,7 @@ import org.eclipse.ui.wizards.IWizardRegistry;
  */
 public class ImportModelElementsAction extends SelectionAction
 {
-   private static final String IMPORT_MODEL_ELEMENTS_WIZARD = "ag.carnot.workflow.modelimport.ImportModelElementsWizard"; //$NON-NLS-1$
+   private static final String IMPORT_MODEL_ELEMENTS_WIZARD = "org.eclipse.stardust.modeling.modelimport.ImportModelElementsWizard"; //$NON-NLS-1$
 
    public ImportModelElementsAction(WorkflowModelEditor editor)
    {
