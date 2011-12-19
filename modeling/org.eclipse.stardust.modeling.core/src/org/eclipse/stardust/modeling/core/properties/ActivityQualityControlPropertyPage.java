@@ -224,6 +224,8 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          
          if(preselect)
          {
+            createLabeledText.getText().setText("100");
+            
             ActivityType activity = (ActivityType) getModelElement();
             ModelType model = ModelUtils.findContainingModel(activity);
             QualityControlType qualityControlType = model.getQualityControl();
