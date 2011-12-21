@@ -664,38 +664,38 @@ public class MessageTransformationApplicationControlsManager
             controller.ignoreUpcomingAnnotationChanges();
             TreeSelection selection = (TreeSelection) event.getSelection();
             boolean refreshDocument = controller.targetMessageFieldSelected(selection);
-               if (!controller.isSimpleMode())
+            if (!controller.isSimpleMode())
+            {
+               if (null != controller.getSelectedTargetField())
                {
-                  if (null != controller.getSelectedTargetField())
+                  expressionsEditor.getAdaptedSourceViewer().setEditable(
+                        !controller.isRoot(controller.getSelectedTargetField())
+                              || controller.isPrimitive(controller
+                                    .getSelectedTargetField()));
+                  String targetXPath = controller.getXPathFor(controller
+                        .getSelectedTargetField());
+                  if (null != targetXPath)
                   {
-                     expressionsEditor.getAdaptedSourceViewer().setEditable(
-                           !controller.isRoot(controller.getSelectedTargetField())
-                                 || controller.isPrimitive(controller
-                                       .getSelectedTargetField()));
-                     String targetXPath = controller.getXPathFor(controller
-                           .getSelectedTargetField());
-                     if (null != targetXPath)
-                     {
-                        lblExpressionPrefix.setText(targetXPath.replaceAll("/", ".") + " ="); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                     }
-                     else
-                     {
-                        lblExpressionPrefix.setText(""); //$NON-NLS-1$
-                     }
+                     lblExpressionPrefix.setText(targetXPath.replaceAll("/", ".") + " ="); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                   }
                   else
                   {
-                     expressionsEditor.getAdaptedSourceViewer().setEditable(false);
+                     lblExpressionPrefix.setText(""); //$NON-NLS-1$
                   }
-
-                  updateMappingHeaderSection();
-
-                  if (refreshDocument)
-                  {
-                     refreshDocument();
-                  }
-                  sourceMessageTreeViewer.refreshVisibleItems();
                }
+               else
+               {
+                  expressionsEditor.getAdaptedSourceViewer().setEditable(false);
+               }
+
+               updateMappingHeaderSection();
+
+               if (refreshDocument)
+               {
+                  refreshDocument();
+               }
+               sourceMessageTreeViewer.refreshVisibleItems();
+            }
          }
 
       });
