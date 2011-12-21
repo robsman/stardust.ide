@@ -211,7 +211,7 @@ public class AccessPathWizard extends Dialog
       cutPressed = false;                  
       if (selectedPath != null)
       {
-      selectedPath = path.push(selectedPath);
+         selectedPath = path.push(selectedPath);
       }
       updateViewers();
    }
@@ -460,9 +460,10 @@ public class AccessPathWizard extends Dialog
             if(!StringUtils.isEmpty(method))
             {
                method = method + "/"; //$NON-NLS-1$
-      }
+            }
             
-            TypedXPath path_ = xPathMap.getXPath(method + selectedPath.getId());
+            String xPath = StructuredDataXPathUtils.getXPathWithoutIndexes(method + selectedPath.getId());            
+            TypedXPath path_ = xPathMap.getXPath(xPath);
             if(path_ != null)
             {
                if(path_.getChildXPaths().isEmpty())
