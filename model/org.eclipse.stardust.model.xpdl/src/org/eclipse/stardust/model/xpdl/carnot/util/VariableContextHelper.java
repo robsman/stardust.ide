@@ -22,7 +22,7 @@ public class VariableContextHelper
 
    private static VariableContextHelper instance = null;
 
-   private Map<ModelType, VariableContext> contextMap = new HashMap<ModelType, VariableContext>();
+   private Map<String, VariableContext> contextMap = new HashMap<String, VariableContext>();
 
    public VariableContextHelper()
    {
@@ -45,17 +45,17 @@ public class VariableContextHelper
 
    public synchronized void createContext(ModelType modelType)
    {
-      contextMap.put(modelType, new VariableContext());
+      contextMap.put(modelType.getId(), new VariableContext());
    }
 
    public synchronized void removeContext(ModelType modelType)
    {
-      contextMap.remove(modelType);
+      contextMap.remove(modelType.getId());
    }
 
    public synchronized VariableContext getContext(ModelType modelType)
    {
-      return contextMap.get(modelType);
+      return contextMap.get(modelType.getId());
    }
 
    public synchronized VariableContext getContext(IModelElement element)
@@ -70,7 +70,7 @@ public class VariableContextHelper
          {
             createContext(modelType);
          }
-         return contextMap.get(modelType);
+         return contextMap.get(modelType.getId());
       }
       return null;
    }

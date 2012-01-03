@@ -50,14 +50,19 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
@@ -196,6 +201,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createDefaultData(model);
       createDefaultPerformers(model);
       createDefaultProcess(model);
+      createDefaultCriticalityAttributes(model);
    }
 
    private void createDefaultProcess(ModelType model)
@@ -376,6 +382,69 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(currentModel, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(currentModel, PredefinedConstants.CLASS_NAME_ATT, null,
             "ag.carnot.workflow.runtime.DeployedModelDescription"); //$NON-NLS-1$ 
+   }
+   
+   private void createDefaultCriticalityAttributes(ModelType model)
+   {
+      VariableContextHelper.getInstance().createContext(model);
+      VariableContext context = VariableContextHelper.getInstance().getContext(model);
+      context.initializeVariables(model);
+
+      // TDefault
+      ModelVariable modelVariable = new ModelVariable("${TDefault}", "86400", "Target execution time");
+      context.createAttributeSet(modelVariable, 0);
+
+      // CLow
+      modelVariable = new ModelVariable("${CLow}", "0", "Initial criticality (Low)");
+      context.createAttributeSet(modelVariable, 0);
+
+      // CMed
+      modelVariable = new ModelVariable("${CMed}", "0.33", "Initial criticality (Medium)");
+      context.createAttributeSet(modelVariable, 1);
+
+      // CHigh
+      modelVariable = new ModelVariable("${CHigh}", "0.66", "Initial criticality (High)");
+      context.createAttributeSet(modelVariable, 2);
+
+      // MLow
+      modelVariable = new ModelVariable("${MLow}", "10", "Multiple of target execution time (Low)");
+      context.createAttributeSet(modelVariable, 3);
+
+      // MMed
+      modelVariable = new ModelVariable("${MMed}", "10", "Multiple of target execution time (Medium)");
+      context.createAttributeSet(modelVariable, 4);
+
+      // MHigh
+      modelVariable = new ModelVariable("${MHigh}", "10", "Multiple of target execution time (High)");
+      context.createAttributeSet(modelVariable, 5);
+      
+      //Default criticality formula
+      String formula = 
+         "if(activityInstance.getActivity().getTargetExecutionTime() == 0)\n" + 
+         "{\n" +
+         "  T = ${TDefault};\n" + 
+         "}\n" + 
+         "else\n" + 
+         "{\n" +
+         "  T = activityInstance.getActivity().getTargetExecutionTime();\n" +
+         "}\n" +
+         "if(PROCESS_PRIORITY == -1)\n" +
+         "{\n"+
+         "  Cp = ${CLow};\n" + 
+         "  Mp = ${MLow};\n" +
+         "}\n" +
+         "if(PROCESS_PRIORITY == 0)\n" +
+         "{\n" + 
+         "   Cp = ${CMed};\n" +
+         "   Mp = ${MLow};\n" +
+         "}\n" +
+         "if(PROCESS_PRIORITY == 1)\n" +
+         "{\n" +
+         "   Cp = ${CHigh};\n" +
+         "   Mp = ${MHigh};\n" +
+         "}\n" +
+         "t = activityInstance.getAge() / 1000;\n";
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula", "String", formula);
    }
 
    private void createAttribute(DataType data, String name, String type, String value)

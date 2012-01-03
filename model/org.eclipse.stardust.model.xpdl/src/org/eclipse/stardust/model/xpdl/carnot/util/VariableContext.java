@@ -116,17 +116,7 @@ public class VariableContext
       }
    }
    
-   private void removeAttributeSet(ModelVariable modelVariable, int j)
-   {
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:name", "String", null);
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:defaultValue", "String", null);
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:description", "String", null);
-   }
-   
-   private void createAttributeSet(ModelVariable modelVariable, int j)
+   public void createAttributeSet(ModelVariable modelVariable, int j)
    {
       if (!modelVariable.isRemoved())
       {
@@ -140,6 +130,16 @@ public class VariableContext
          AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
                + "]:description", "String", modelVariable.getDescription());
       }
+   }
+   
+   private void removeAttributeSet(ModelVariable modelVariable, int j)
+   {
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
+            + "]:name", "String", null);
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
+            + "]:defaultValue", "String", null);
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
+            + "]:description", "String", null);
    }
    
    private ModelVariable createModelVariable(AttributeType attribute)
@@ -249,26 +249,30 @@ public class VariableContext
    {
       Matcher matcher = pattern.matcher(modelElement.toString());
       if (modelElement.eContainer() != null)
-      {         
+      {
          while (matcher.find())
-         {            
-            if ((matcher.start() == 0) || ((matcher.start() > 0)
-                  && (modelElement.toString().charAt(matcher.start() - 1) != '\\')))
+         {
+            if ((matcher.start() == 0)
+                  || ((matcher.start() > 0) && (modelElement.toString().charAt(
+                        matcher.start() - 1) != '\\')))
             {
                String ref = modelElement.toString().substring(matcher.start(),
                      matcher.end());
                ref = ref.trim();
-               List<EObject> refList = variableReferences.get(ref);
-               if (refList == null)
+               if (!variableExists(ref))
                {
-                  refList = new ArrayList<EObject>();
-                  variableReferences.put(ref, refList);
-                  ModelVariable modelVariable = new ModelVariable(ref, "", "");
-                  variables.add(modelVariable);
-               }
-               if (!containedReference(modelElement, refList))
-               {
-                  refList.add(modelElement);
+                  List<EObject> refList = variableReferences.get(ref);
+                  if (refList == null)
+                  {
+                     refList = new ArrayList<EObject>();
+                     variableReferences.put(ref, refList);
+                     ModelVariable modelVariable = new ModelVariable(ref, "", "");
+                     variables.add(modelVariable);
+                  }
+                  if (!containedReference(modelElement, refList))
+                  {
+                     refList.add(modelElement);
+                  }
                }
             }
          }
@@ -277,6 +281,19 @@ public class VariableContext
       {
          refreshVariables(i.next());
       }
+   }
+
+   private boolean variableExists(String ref)
+   {
+      for (Iterator<ModelVariable> i = variables.iterator(); i.hasNext();)
+      {
+         ModelVariable variable = i.next();
+         if (variable.getName().equalsIgnoreCase(ref))
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
    private boolean containedReference(EObject modelElement, List<EObject> refList)
