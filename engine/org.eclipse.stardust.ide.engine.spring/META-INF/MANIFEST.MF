@@ -5,10 +5,13 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.engine.spring
 Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: SunGard CSA LLC
 Bundle-ClassPath: lib/carnot-spring.jar
-Export-Package: ag.carnot.workflow.runtime.spring,
- ag.carnot.workflow.runtime.spring.application,
- ag.carnot.workflow.runtime.spring.threading,
- ag.carnot.workflow.runtime.spring.utils,
- ag.carnot.workflow.runtime.spring.web
+Export-Package: org.eclipse.stardust.engine.api.spring,
+ org.eclipse.stardust.engine.spring.extensions.app,
+ org.eclipse.stardust.engine.spring.integration.jms,
+ org.eclipse.stardust.engine.spring.integration.jms.threading,
+ org.eclipse.stardust.engine.spring.schedulers,
+ org.eclipse.stardust.engine.spring.threading,
+ org.eclipse.stardust.engine.spring.utils,
+ org.eclipse.stardust.engine.spring.web
 Require-Bundle: org.eclipse.stardust.ide.thirdparty.springframework;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
