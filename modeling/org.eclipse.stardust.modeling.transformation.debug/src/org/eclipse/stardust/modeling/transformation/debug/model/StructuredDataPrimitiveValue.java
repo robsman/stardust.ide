@@ -13,8 +13,7 @@ package org.eclipse.stardust.modeling.transformation.debug.model;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 
 import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 

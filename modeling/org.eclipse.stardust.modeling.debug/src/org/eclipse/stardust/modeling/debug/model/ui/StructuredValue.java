@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.model.ui;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConverter;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 
 /**
  * Tree item of structured data

@@ -27,9 +27,8 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.StandardClasspathProvider;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.extensions.transformation.format.IMessageFormat;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
-
-import com.infinity.bpm.messaging.format.IMessageFormat;
 
 /**
  * Encapsulates all extension point handling.

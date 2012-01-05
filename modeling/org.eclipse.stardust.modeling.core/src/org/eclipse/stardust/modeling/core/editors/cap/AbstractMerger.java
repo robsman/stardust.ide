@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
@@ -96,10 +98,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
-
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
 
 /**
  * @author grotjahn

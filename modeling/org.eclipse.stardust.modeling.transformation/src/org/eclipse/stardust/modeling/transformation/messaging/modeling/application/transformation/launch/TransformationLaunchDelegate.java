@@ -30,6 +30,15 @@ import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConverter;
+import org.eclipse.stardust.engine.extensions.transformation.format.IMessageFormat;
+import org.eclipse.stardust.engine.extensions.transformation.format.ParsingException;
+import org.eclipse.stardust.engine.extensions.transformation.javascript.JScriptManager3;
+import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -50,17 +59,6 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.w3c.dom.Document;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
-
-import com.infinity.bpm.messaging.format.IMessageFormat;
-import com.infinity.bpm.messaging.format.ParsingException;
-import com.infinity.bpm.messaging.javascript.JScriptManager3;
-import com.infinity.bpm.messaging.model.MappingModelUtil;
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
-import com.infinity.bpm.messaging.model.mapping.TransformationProperty;
 
 public class TransformationLaunchDelegate extends LaunchConfigurationDelegate
 {

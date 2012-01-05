@@ -28,6 +28,9 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor;
+import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
+import org.eclipse.stardust.engine.extensions.jms.app.MessageType;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -48,9 +51,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.applications.jms.DefaultMessageAcceptor;
-import ag.carnot.workflow.spi.providers.applications.jms.JMSLocation;
-import ag.carnot.workflow.spi.providers.applications.jms.MessageType;
 
 /**
  * @author fherinean

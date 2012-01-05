@@ -25,6 +25,8 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.extensions.ejb.data.EntityBeanConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -43,8 +45,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanConstants;
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class JavaDataTypeUtils
 {

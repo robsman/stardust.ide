@@ -11,6 +11,9 @@
 package org.eclipse.stardust.modeling.data.structured.validation;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -26,10 +29,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 
 // TODO: arrays (collections) are not properly handled!
 public class StructBridgeObject extends BridgeObject

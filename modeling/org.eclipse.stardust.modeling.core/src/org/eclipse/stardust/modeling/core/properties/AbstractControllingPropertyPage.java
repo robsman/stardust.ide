@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -28,8 +29,6 @@ import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public abstract class AbstractControllingPropertyPage
       extends AbstractModelElementPropertyPage

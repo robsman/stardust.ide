@@ -12,7 +12,7 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 
 import java.util.Comparator;
 
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 
 public class FieldMappingsComparator implements Comparator<FieldMapping> {
 

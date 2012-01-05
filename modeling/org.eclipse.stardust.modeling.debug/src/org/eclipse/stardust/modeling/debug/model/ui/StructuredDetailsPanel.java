@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataValueFactory;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -27,10 +31,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataValueFactory;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.workflow.runtime.beans.BigData;
 
 /**

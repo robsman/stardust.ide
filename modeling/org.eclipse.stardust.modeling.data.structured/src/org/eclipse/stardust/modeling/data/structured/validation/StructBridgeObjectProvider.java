@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
+import org.eclipse.stardust.engine.core.struct.spi.StructuredDataTransformation;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -39,10 +43,6 @@ import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.Path;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.spi.StructDataTransformerKey;
-import ag.carnot.bpm.rt.data.structured.spi.StructuredDataTransformation;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 // TODO: implement

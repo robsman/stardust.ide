@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core;
 
-import ag.carnot.workflow.spi.providers.data.java.Type;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+
 
 /**
  * @author fherinean

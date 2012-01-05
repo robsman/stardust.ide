@@ -27,6 +27,8 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.InteractiveApplicationInstance;
+import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
 import ag.carnot.gui.interpreter.DefaultInterpreter;
@@ -40,8 +42,6 @@ import ag.carnot.workflow.runtime.ActivityCompletionLog;
 import ag.carnot.workflow.runtime.ActivityInstance;
 import ag.carnot.workflow.runtime.WorkflowService;
 import ag.carnot.workflow.runtime.gui.ApplicationEventListener;
-import ag.carnot.workflow.spi.providers.contexts.jfc.InteractiveApplicationInstance;
-import ag.carnot.workflow.spi.providers.data.java.JavaBeanAccessPathEvaluator;
 import ag.carnot.workflow.spi.runtime.AccessPathEvaluator;
 
 /**

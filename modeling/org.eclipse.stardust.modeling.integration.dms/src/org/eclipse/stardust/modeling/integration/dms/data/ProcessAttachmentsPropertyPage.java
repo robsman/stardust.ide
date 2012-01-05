@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -44,8 +45,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
 
 /**
  * @author fherinean
@@ -168,7 +167,7 @@ public class ProcessAttachmentsPropertyPage extends AbstractModelElementProperty
       {
          DataTypeType dataType = data.getType();
          if ((null == dataType)
-               || !com.infinity.bpm.rt.integration.data.dms.DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST.equals(dataType.getId()))
+               || !DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST.equals(dataType.getId()))
          {
             data.setType(findDocumentSetDataType(process));
          }

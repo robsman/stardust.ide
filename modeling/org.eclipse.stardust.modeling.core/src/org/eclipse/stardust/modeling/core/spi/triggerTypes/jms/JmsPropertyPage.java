@@ -32,6 +32,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor;
+import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
+import org.eclipse.stardust.engine.extensions.jms.app.MessageType;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -71,9 +74,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.applications.jms.DefaultMessageAcceptor;
-import ag.carnot.workflow.spi.providers.applications.jms.JMSLocation;
-import ag.carnot.workflow.spi.providers.applications.jms.MessageType;
 
 public class JmsPropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager

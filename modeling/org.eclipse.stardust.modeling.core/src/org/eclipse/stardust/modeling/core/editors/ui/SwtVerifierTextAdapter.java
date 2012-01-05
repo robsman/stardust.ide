@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.ui;
 
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtTextAdapter;
 import org.eclipse.stardust.modeling.core.Verifier;
@@ -17,8 +18,6 @@ import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class SwtVerifierTextAdapter extends SwtTextAdapter
 {

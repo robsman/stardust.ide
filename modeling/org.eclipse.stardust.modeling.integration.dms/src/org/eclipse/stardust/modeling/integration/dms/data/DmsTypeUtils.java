@@ -13,6 +13,13 @@ package org.eclipse.stardust.modeling.integration.dms.data;
 import java.util.Set;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.ClientXPathMap;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.engine.core.struct.emfxsd.XPathFinder;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.emfxsd.DmsSchemaProvider;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -33,15 +40,7 @@ import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPoint
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
 
-import ag.carnot.bpm.rt.data.structured.ClientXPathMap;
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
-import ag.carnot.bpm.rt.data.structured.emfxsd.XPathFinder;
 import ag.carnot.workflow.model.PredefinedConstants;
-
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
-import com.infinity.bpm.rt.integration.data.dms.emfxsd.DmsSchemaProvider;
 
 /**
  * @author rsauer

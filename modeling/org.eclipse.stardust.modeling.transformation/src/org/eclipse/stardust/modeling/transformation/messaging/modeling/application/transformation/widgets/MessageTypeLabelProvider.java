@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationModelingPlugin;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
@@ -20,8 +21,6 @@ import org.eclipse.stardust.modeling.transformation.messaging.modeling.applicati
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 /**
  * LabelProvider for the main element table.

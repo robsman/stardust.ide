@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.model.ui;
 
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.debug.debugger.UiAccessor;
 import org.eclipse.ui.IEditorPart;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
 
 public class DebuggerUtils
 {

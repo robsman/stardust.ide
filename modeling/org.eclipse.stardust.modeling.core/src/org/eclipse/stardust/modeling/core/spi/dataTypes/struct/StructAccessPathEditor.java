@@ -13,6 +13,10 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.struct;
 import java.util.List;
 
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -27,10 +31,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
 

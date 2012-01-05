@@ -18,6 +18,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.stardust.engine.extensions.jms.app.JMSDirection;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -53,8 +54,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
-
-import ag.carnot.workflow.spi.providers.applications.jms.JMSDirection;
 
 public class JmsPropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager

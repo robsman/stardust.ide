@@ -14,8 +14,7 @@ import java.util.List;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
-
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 
 import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
 

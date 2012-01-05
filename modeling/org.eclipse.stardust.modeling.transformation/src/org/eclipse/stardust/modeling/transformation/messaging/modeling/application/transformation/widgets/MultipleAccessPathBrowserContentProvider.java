@@ -16,15 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
-
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
-import com.infinity.bpm.messaging.model.mapping.MappingFactory;
 
 
 

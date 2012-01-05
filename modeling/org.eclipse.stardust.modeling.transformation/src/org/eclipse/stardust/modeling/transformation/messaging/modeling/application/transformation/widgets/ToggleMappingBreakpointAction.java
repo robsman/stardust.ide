@@ -12,12 +12,11 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.Action;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.IMessageTransformationApplicationView;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageTransformationMappingBreakpoint;
-
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 public class ToggleMappingBreakpointAction extends Action
 {

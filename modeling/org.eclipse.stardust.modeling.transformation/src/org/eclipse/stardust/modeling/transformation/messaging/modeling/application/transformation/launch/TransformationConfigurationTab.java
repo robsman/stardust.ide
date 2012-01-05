@@ -47,6 +47,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.debug.CwmFileSelectionDialog;
@@ -74,7 +75,6 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.eclipse.wst.jsdt.ui.JavaScriptElementLabelProvider;
 
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.IAccessPoint;
 import ag.carnot.workflow.model.IApplication;
 import ag.carnot.workflow.model.IModel;

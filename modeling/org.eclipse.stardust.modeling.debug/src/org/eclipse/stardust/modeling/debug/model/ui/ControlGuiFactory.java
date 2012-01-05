@@ -15,6 +15,9 @@ import java.util.Map;
 
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConverter;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.modeling.debug.debugger.types.DataField;
 import org.eclipse.stardust.modeling.debug.debugger.types.DataMappingDigest;
 import org.eclipse.swt.SWT;
@@ -32,10 +35,6 @@ import org.eclipse.swt.widgets.Sash;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
 
 /**
  * Creates GUI components depending on the data

@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.engine.extensions.jms.app.JMSDirection;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -26,8 +27,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.modeling.core.properties.ModelElementNotificationAdapter;
-
-import ag.carnot.workflow.spi.providers.applications.jms.JMSDirection;
 
 public class JmsAccessPointsTreeContentProvider extends ModelElementNotificationAdapter
       implements ITreeContentProvider

@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.stardust.engine.extensions.ejb.SessionBeanConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -27,8 +28,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-
-import ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanConstants;
 
 public class SessionBeanPropertyPage extends AbstractModelElementPropertyPage
 {

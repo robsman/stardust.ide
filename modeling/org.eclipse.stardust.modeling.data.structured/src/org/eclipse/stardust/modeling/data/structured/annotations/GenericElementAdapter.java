@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.data.structured.annotations;
 
+import org.eclipse.stardust.engine.core.struct.Utils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-
-import ag.carnot.bpm.rt.data.structured.Utils;
 
 public class GenericElementAdapter
 {

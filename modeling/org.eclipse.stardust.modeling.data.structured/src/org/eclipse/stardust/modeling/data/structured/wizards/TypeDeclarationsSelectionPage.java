@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -31,8 +32,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaContent;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 public class TypeDeclarationsSelectionPage extends WizardPage
 {

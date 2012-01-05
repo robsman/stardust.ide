@@ -14,10 +14,9 @@ import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.engine.core.struct.Utils;
 import org.eclipse.stardust.modeling.transformation.debug.WatchExpressionDelegate;
-
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
-import ag.carnot.bpm.rt.data.structured.Utils;
 
 import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 

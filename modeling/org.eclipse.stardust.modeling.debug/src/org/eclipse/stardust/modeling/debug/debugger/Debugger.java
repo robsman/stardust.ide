@@ -280,7 +280,7 @@ public class Debugger
                trace.debug("Setting data type primitive string for " + data);
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
-                  ag.carnot.workflow.spi.providers.data.java.Type.String);
+                     org.eclipse.stardust.engine.core.pojo.data.Type.String);
                data.setAttribute(PredefinedConstants.BROWSABLE_ATT,
                   Boolean.TRUE);
             }
@@ -289,7 +289,7 @@ public class Debugger
                trace.debug("Setting data type primitive double for " + data);
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
-                  ag.carnot.workflow.spi.providers.data.java.Type.Double);
+                     org.eclipse.stardust.engine.core.pojo.data.Type.Double);
                data.setAttribute(PredefinedConstants.BROWSABLE_ATT,
                   Boolean.TRUE);
             }
@@ -307,7 +307,7 @@ public class Debugger
                trace.debug("Setting data type primitive string for " + data);
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
-                  ag.carnot.workflow.spi.providers.data.java.Type.String);
+                     org.eclipse.stardust.engine.core.pojo.data.Type.String);
                data.setAttribute(PredefinedConstants.BROWSABLE_ATT,
                   Boolean.FALSE);
             }
@@ -337,7 +337,7 @@ public class Debugger
                   if (primitive.equals(data.getType()))
                   {
                      data.setAttribute(PredefinedConstants.TYPE_ATT,
-                        ag.carnot.workflow.spi.providers.data.java.Type.String);
+                           org.eclipse.stardust.engine.core.pojo.data.Type.String);
                      data.setAttribute(PredefinedConstants.BROWSABLE_ATT,
                         Boolean.FALSE);
                   }

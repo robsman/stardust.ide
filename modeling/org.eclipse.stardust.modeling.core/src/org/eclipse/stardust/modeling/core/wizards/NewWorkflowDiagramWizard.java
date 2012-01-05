@@ -46,6 +46,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -82,7 +83,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 /**

@@ -54,6 +54,9 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
+import org.eclipse.stardust.engine.extensions.jaxws.app.IBasicAuthenticationParameters;
+import org.eclipse.stardust.engine.extensions.jaxws.app.IWSSAuthenticationParameters;
+import org.eclipse.stardust.engine.extensions.jaxws.app.WSConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -99,10 +102,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.xml.sax.InputSource;
-
-import ag.carnot.workflow.spi.providers.applications.ws.IBasicAuthenticationParameters;
-import ag.carnot.workflow.spi.providers.applications.ws.IWSSAuthenticationParameters;
-import ag.carnot.workflow.spi.providers.applications.ws.WSConstants;
 
 import com.infinity.bpm.rt.integration.webservices.Addressing;
 import com.infinity.bpm.rt.integration.webservices.WSConstants50;

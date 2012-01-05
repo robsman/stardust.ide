@@ -15,6 +15,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.emfxsd.DmsSchemaProvider;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -38,11 +41,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.Path;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
-import com.infinity.bpm.rt.integration.data.dms.emfxsd.DmsSchemaProvider;
 
 /**
  * @author rsauer

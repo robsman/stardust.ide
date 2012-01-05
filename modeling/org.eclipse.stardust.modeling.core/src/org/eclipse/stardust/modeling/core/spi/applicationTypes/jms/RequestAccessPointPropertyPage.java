@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.jms;
 
+import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -36,7 +37,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.applications.jms.JMSLocation;
 
 /**
  * @author fherinean

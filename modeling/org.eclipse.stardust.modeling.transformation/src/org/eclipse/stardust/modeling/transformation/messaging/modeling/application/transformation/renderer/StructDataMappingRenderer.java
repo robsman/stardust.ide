@@ -11,13 +11,13 @@
 package org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.renderer;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MappingConfiguration;
 
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.workflow.runtime.beans.BigData;
 
 

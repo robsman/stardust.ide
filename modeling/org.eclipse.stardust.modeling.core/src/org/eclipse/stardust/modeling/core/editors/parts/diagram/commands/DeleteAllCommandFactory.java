@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -74,7 +75,6 @@ import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.views.bookmark.WorkflowModelBookmarkView;
 import org.eclipse.ui.PlatformUI;
 
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class DeleteAllCommandFactory

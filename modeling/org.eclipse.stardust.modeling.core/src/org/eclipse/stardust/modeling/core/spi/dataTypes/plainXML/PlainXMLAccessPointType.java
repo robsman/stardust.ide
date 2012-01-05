@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML;
 
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.model.xpdl.carnot.impl.AccessPointTypeImpl;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 
 public class PlainXMLAccessPointType extends AccessPointTypeImpl
 {

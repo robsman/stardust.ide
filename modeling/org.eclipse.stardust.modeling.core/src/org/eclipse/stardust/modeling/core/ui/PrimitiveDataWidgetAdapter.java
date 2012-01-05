@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractWidgetAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitivePropertyPage.DatePickerComposite;
@@ -25,8 +26,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class PrimitiveDataWidgetAdapter extends AbstractWidgetAdapter
 {

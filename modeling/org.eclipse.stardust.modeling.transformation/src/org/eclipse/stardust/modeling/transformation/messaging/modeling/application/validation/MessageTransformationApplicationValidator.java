@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -33,8 +34,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
-
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 
 public class MessageTransformationApplicationValidator implements IModelElementValidator

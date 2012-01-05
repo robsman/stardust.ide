@@ -19,6 +19,10 @@ import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
+import org.eclipse.stardust.engine.extensions.jaxws.app.WSConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -32,11 +36,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
-import ag.carnot.bpm.rt.data.structured.spi.StructDataTransformerKey;
-import ag.carnot.workflow.spi.providers.applications.ws.WSConstants;
 
 public final class JaxWSUtil
 {

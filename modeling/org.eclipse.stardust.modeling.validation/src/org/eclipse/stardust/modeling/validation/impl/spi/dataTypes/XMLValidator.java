@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.engine.extensions.xml.data.XPathEvaluator;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
@@ -26,8 +27,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import ag.carnot.workflow.spi.providers.data.plainxml.XPathEvaluator;
 
 public class XMLValidator implements IModelElementValidator, IBridgeObjectProvider
 {

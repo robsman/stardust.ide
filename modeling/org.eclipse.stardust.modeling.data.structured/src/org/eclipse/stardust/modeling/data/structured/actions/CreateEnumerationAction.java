@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gef.TreeEditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
@@ -38,8 +39,6 @@ import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 public class CreateEnumerationAction extends Action implements ISpiAction
 {

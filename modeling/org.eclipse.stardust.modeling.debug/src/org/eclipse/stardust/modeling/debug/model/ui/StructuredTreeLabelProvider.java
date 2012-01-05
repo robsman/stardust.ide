@@ -15,10 +15,9 @@ import java.util.Map;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.swt.graphics.Image;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 
 /**
  * Tree representation of structured data

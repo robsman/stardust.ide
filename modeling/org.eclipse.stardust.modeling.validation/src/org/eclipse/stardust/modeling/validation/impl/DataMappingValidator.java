@@ -19,6 +19,8 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -43,8 +45,6 @@ import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.spi.StructDataTransformerKey;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class DataMappingValidator implements IModelElementValidator

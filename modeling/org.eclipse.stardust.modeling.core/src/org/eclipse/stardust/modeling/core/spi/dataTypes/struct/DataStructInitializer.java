@@ -12,11 +12,10 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.struct;
 
 import java.util.List;
 
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 public class DataStructInitializer implements IDataInitializer
 {

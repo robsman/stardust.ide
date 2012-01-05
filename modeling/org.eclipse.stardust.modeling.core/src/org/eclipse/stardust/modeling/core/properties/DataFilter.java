@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.core.properties;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -21,7 +22,6 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class DataFilter extends ViewerFilter
 {

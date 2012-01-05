@@ -16,6 +16,9 @@ import java.util.List;
 
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.XPathAnnotations;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -31,9 +34,6 @@ import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 
 import ag.carnot.bpm.integration.dms.DmsConstants;
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.XPathAnnotations;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
 
@@ -61,7 +61,7 @@ public class DataPathValidator implements IModelElementValidator
       {
     	 DataPathType other = findOtherDataPath(dataPath);
     	 if (other == null || data == null || data != other.getData()
-    			 || !com.infinity.bpm.rt.integration.data.dms.DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST.equals(data.getType().getId())
+    			 || !org.eclipse.stardust.engine.extensions.dms.data.DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST.equals(data.getType().getId())
     			 || !StringUtils.isEmpty(dataPath.getDataPath())
     			 || !StringUtils.isEmpty(other.getDataPath()))
     	 {

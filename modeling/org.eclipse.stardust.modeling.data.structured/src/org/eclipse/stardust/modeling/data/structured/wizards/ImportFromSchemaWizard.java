@@ -43,6 +43,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.SchemaLocatorAdapter;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
@@ -65,8 +66,6 @@ import org.eclipse.xsd.XSDSchemaDirective;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.xml.sax.InputSource;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 /**
  * Extend the base wizard to select a file from the project or outside the workbench and

@@ -25,6 +25,13 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.ExternalClass;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
@@ -58,16 +65,9 @@ import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
 
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
-import com.infinity.bpm.messaging.model.MappingModelUtil;
-import com.infinity.bpm.messaging.model.mapping.ExternalClass;
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
-import com.infinity.bpm.messaging.model.mapping.MappingFactory;
-import com.infinity.bpm.messaging.model.mapping.TransformationProperty;
 import com.infinity.bpm.thirdparty.emf.common.util.ECollections;
 
 public class MessageTransformationController {

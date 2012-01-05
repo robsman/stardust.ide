@@ -44,10 +44,9 @@ import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.osgi.framework.Bundle;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 /**
  * @author fherinean

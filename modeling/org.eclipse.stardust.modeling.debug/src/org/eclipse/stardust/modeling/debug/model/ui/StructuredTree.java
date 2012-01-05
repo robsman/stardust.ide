@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -24,9 +27,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.workflow.runtime.beans.BigData;
 
 /**

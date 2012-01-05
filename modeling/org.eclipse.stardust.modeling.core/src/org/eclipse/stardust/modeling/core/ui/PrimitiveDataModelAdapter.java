@@ -10,12 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.ui;
 
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractModelAdapter;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class PrimitiveDataModelAdapter extends AbstractModelAdapter
 {

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.extensions.actions.delegate.TargetWorklist;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -27,7 +28,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.spi.providers.actions.delegate.TargetWorklist;
 
 /**
  * @author rsauer

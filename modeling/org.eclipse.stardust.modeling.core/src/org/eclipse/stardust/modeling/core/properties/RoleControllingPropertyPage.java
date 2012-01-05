@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class RoleControllingPropertyPage extends AbstractControllingPropertyPage
 {

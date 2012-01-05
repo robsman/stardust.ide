@@ -27,6 +27,10 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -90,12 +94,8 @@ import org.eclipse.wst.jsdt.internal.compiler.lookup.BlockScope;
 import org.eclipse.xsd.XSDEnumerationFacet;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 /**
  * @author sauer

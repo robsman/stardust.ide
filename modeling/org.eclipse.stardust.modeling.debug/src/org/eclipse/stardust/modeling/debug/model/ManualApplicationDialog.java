@@ -39,6 +39,8 @@ import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConverter;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.DebugPlugin;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
@@ -62,9 +64,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
-
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
 
 public class ManualApplicationDialog extends Dialog
 {

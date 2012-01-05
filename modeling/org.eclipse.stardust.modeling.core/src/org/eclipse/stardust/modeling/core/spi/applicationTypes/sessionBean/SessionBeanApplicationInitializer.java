@@ -12,11 +12,10 @@ package org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean;
 
 import java.util.List;
 
+import org.eclipse.stardust.engine.extensions.ejb.SessionBeanConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IApplicationInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-
-import ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanConstants;
 
 /**
  * @author fherinean

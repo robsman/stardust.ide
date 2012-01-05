@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi
 
 import java.util.Iterator;
 
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -25,8 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-
-import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 
 /**
