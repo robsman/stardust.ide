@@ -483,7 +483,7 @@ public class ManualApplicationDialog extends Dialog
                      // Eclipse debugger will deserialize it and show the value as Map / List
                      result.append("java.lang.String encodedResult = \"" + encodedResult + "\";");
                      result.append("byte[] encodedBytes = encodedResult.getBytes();");
-                     result.append("byte[] bytes = ag.carnot.base.Base64.decode(encodedBytes);");
+                     result.append("byte[] bytes = org.eclipse.stardust.common.Base64.decode(encodedBytes);");
                      result.append("java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(bytes);");
                      result.append("java.io.ObjectInputStream objectIn = new java.io.ObjectInputStream(in);");
                      result.append("return objectIn.readObject();");

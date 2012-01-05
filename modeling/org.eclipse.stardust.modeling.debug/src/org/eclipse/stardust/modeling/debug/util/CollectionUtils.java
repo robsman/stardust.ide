@@ -17,7 +17,7 @@ import org.eclipse.stardust.common.FilteringIterator;
 import org.eclipse.stardust.common.Predicate;
 
 /**
- * Later this class could be merged into {@link ag.carnot.base.CollectionUtils}
+ * Later this class could be merged into {@link org.eclipse.stardust.common.CollectionUtils}
  * 
  * @author sborn
  * @version $Revision$
