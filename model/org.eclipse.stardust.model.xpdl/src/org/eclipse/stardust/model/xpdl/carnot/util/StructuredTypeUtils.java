@@ -28,6 +28,15 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.ExtensionProviderUtils;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.struct.ClientXPathMap;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.core.struct.emfxsd.ClasspathUriConverter;
+import org.eclipse.stardust.engine.core.struct.emfxsd.XPathFinder;
+import org.eclipse.stardust.engine.core.struct.spi.ISchemaTypeProvider;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.emfxsd.DmsSchemaProvider;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -42,17 +51,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
-
-import ag.carnot.bpm.rt.data.structured.ClientXPathMap;
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.emfxsd.ClasspathUriConverter;
-import ag.carnot.bpm.rt.data.structured.emfxsd.XPathFinder;
-import ag.carnot.bpm.rt.data.structured.spi.ISchemaTypeProvider;
-
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
-import com.infinity.bpm.rt.integration.data.dms.emfxsd.DmsSchemaProvider;
 
 /**
  * @author rsauer

@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
@@ -24,8 +25,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.impl.AttributeCategory;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
-
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 /**
  * @author fherinean

@@ -13,6 +13,9 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import java.util.HashSet;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -22,11 +25,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 
-import ag.carnot.bpm.rt.data.structured.IXPathMap;
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
-import ag.carnot.workflow.spi.providers.data.java.Type;
 
 public class ScopeUtils
 {  
