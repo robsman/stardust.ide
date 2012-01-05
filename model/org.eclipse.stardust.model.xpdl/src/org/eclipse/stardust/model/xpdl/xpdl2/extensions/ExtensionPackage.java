@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions;
 
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.xsd.XSDPackage;

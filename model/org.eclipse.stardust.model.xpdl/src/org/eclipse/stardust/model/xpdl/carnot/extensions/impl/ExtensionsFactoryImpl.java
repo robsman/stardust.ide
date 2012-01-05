@@ -14,11 +14,12 @@ package org.eclipse.stardust.model.xpdl.carnot.extensions.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.model.xpdl.carnot.extensions.*;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 
 /**
  * <!-- begin-user-doc -->

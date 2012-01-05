@@ -14,7 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -34,6 +37,11 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
@@ -42,11 +50,6 @@ import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImp
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.w3c.dom.Document;
 
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.CompareHelper;
-import ag.carnot.error.InternalException;
-import ag.carnot.error.PublicException;
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.model.beans.XMLConstants;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 

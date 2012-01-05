@@ -13,12 +13,10 @@ package org.eclipse.stardust.model.xpdl.xpdl2.extensions.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.stardust.model.xpdl.xpdl2.extensions.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;

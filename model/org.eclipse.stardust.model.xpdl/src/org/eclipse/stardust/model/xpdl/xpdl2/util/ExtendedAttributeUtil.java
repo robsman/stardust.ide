@@ -12,13 +12,12 @@ package org.eclipse.stardust.model.xpdl.xpdl2.util;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributesType;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.StringUtils;
 
 /**
  * @author fherinean

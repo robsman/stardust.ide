@@ -12,7 +12,6 @@ package org.eclipse.stardust.model.xpdl.xpdl2;
 
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 

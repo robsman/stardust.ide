@@ -13,11 +13,11 @@ package org.eclipse.stardust.model.xpdl.carnot.extensions.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.carnot.extensions.*;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 
 /**
  * <!-- begin-user-doc -->

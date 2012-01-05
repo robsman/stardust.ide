@@ -14,11 +14,11 @@ package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.model.xpdl.xpdl2.extensions.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
 
 /**
  * <!-- begin-user-doc -->

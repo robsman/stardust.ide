@@ -16,13 +16,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
-//import org.eclipse.emf.ecore.xmi.impl.SAXWrapper;
 import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.xpdl.XpdlSaxParser;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 public class CwmXmlLoad extends XMLLoadImpl

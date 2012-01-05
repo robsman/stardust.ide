@@ -11,7 +11,6 @@
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions.util;
 
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 
 /**

@@ -14,7 +14,6 @@ package org.eclipse.stardust.model.xpdl.xpdl2.extensions.util;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;

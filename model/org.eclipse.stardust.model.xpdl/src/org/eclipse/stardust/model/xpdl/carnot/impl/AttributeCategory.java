@@ -14,14 +14,13 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelMessages;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-
-import ag.carnot.base.CollectionUtils;
 
 public class AttributeCategory implements IAttributeCategory
 {

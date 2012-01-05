@@ -15,7 +15,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.carnot.extensions.*;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 
 /**
  * <!-- begin-user-doc -->

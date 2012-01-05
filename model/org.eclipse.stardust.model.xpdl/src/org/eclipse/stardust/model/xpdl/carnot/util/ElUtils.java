@@ -17,11 +17,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 
+import ag.carnot.workflow.el.BooleanExpression;
+import ag.carnot.workflow.el.CombineOperation;
+import ag.carnot.workflow.el.ComparisonOperation;
+import ag.carnot.workflow.el.ConstantExpression;
+import ag.carnot.workflow.el.DereferencePath;
+import ag.carnot.workflow.el.Interpreter;
+import ag.carnot.workflow.el.SyntaxError;
+import ag.carnot.workflow.el.ValueExpression;
 
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.CompilerEnvirons;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
@@ -31,10 +41,6 @@ import com.infinity.bpm.thirdparty.org.mozilla.javascript.Node;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Parser;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptOrFnNode;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Token;
-
-import ag.carnot.error.InternalException;
-import ag.carnot.reflect.Reflect;
-import ag.carnot.workflow.el.*;
 
 /**
  * @author rsauer
