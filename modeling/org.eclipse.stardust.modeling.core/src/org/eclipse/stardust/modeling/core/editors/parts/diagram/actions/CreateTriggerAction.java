@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -26,7 +25,10 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CompoundDiagramCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateMetaTypeCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateTypedModelElementCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 
 

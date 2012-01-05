@@ -20,8 +20,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.URIHandler;
-
-import ag.carnot.error.PublicException;
+import org.eclipse.stardust.common.error.PublicException;
 
 /**
  * Supports URLs with scheme "classpath:/". Searches for resources in CLASSPATH

@@ -13,11 +13,11 @@ package org.eclipse.stardust.modeling.refactoring.query.matches;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.search.ui.text.Match;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.search.ui.text.Match;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 
 
 /**

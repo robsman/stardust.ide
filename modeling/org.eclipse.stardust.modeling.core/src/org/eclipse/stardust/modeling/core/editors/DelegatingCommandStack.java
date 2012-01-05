@@ -12,7 +12,12 @@ package org.eclipse.stardust.modeling.core.editors;
 
 import java.util.EventObject;
 
-import org.eclipse.gef.commands.*;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.commands.CommandStackEvent;
+import org.eclipse.gef.commands.CommandStackEventListener;
+import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.jface.util.ListenerList;
 
 public class DelegatingCommandStack extends CommandStack

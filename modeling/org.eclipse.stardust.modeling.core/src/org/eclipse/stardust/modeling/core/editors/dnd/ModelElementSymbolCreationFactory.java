@@ -29,6 +29,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.Pair;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -68,10 +71,6 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.Pair;
 
 public class ModelElementSymbolCreationFactory
 {

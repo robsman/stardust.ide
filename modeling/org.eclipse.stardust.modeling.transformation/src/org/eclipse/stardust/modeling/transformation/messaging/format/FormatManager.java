@@ -26,9 +26,8 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.StandardClasspathProvider;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
-
-import ag.carnot.base.CollectionUtils;
 
 import com.infinity.bpm.messaging.format.IMessageFormat;
 

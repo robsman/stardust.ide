@@ -14,7 +14,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.AbstractListViewer;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 

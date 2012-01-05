@@ -16,7 +16,6 @@ import java.net.URLClassLoader;
 
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 
 
 public class MTAClassLoader extends ClassLoader {

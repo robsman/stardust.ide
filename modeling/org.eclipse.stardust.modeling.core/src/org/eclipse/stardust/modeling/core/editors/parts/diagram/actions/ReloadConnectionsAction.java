@@ -10,7 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;

@@ -18,7 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import ag.carnot.error.ValidationException;
+import org.eclipse.stardust.common.error.ValidationException;
+
 import ag.carnot.gui.AbstractDialog;
 
 public class ProgressDialog extends AbstractDialog implements ActionListener

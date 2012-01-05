@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.repository.common;
 
-import ag.carnot.base.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,11 +17,11 @@ import java.io.InputStream;
 import javax.xml.transform.TransformerFactory;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
-
-import ag.carnot.config.Parameters;
-import ag.carnot.utils.xml.XmlProperties;
 
 public class ExtendedModelManager extends WorkflowModelManager
 {

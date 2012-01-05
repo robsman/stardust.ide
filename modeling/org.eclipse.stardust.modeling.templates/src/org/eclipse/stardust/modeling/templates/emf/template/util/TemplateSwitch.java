@@ -15,7 +15,15 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.modeling.templates.emf.template.*;
+import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
+import org.eclipse.stardust.modeling.templates.emf.template.FeatureType;
+import org.eclipse.stardust.modeling.templates.emf.template.ParameterType;
+import org.eclipse.stardust.modeling.templates.emf.template.ReferenceType;
+import org.eclipse.stardust.modeling.templates.emf.template.RootsType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatePackage;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatesType;
 
 /**
  * <!-- begin-user-doc -->

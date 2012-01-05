@@ -10,12 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.dataTypes.primitive;
 
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializableAccessPathEditor;
-
-import ag.carnot.reflect.Reflect;
 
 /**
  * @author fherinean

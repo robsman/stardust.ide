@@ -12,10 +12,9 @@ package org.eclipse.stardust.modeling.repository.common.ui;
 
 import java.util.Map;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.common.ui.jface.ImageManager;
-
-import ag.carnot.base.CollectionUtils;
 
 public class ImageUtil
 {

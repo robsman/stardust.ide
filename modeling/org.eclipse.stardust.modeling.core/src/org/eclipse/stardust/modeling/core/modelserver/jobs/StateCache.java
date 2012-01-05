@@ -18,14 +18,13 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.cap.CopyPasteUtil;
 import org.eclipse.stardust.modeling.core.modelserver.LockFileUtils;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.modelserver.VcsStatus;
 import org.eclipse.swt.widgets.Display;
-
-import ag.carnot.base.CompareHelper;
 
 public class StateCache
 {

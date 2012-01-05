@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.stardust.modeling.repository.common.Attribute;
 import org.eclipse.stardust.modeling.repository.common.Connection;
@@ -25,7 +24,6 @@ import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.Repository;
 import org.eclipse.stardust.modeling.repository.common.RepositoryFactory;
 import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
-import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 
 /**
  * <!-- begin-user-doc -->

@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
@@ -28,8 +29,6 @@ import org.eclipse.wst.jsdt.internal.ui.text.java.JavaMethodCompletionProposal;
 import org.eclipse.wst.jsdt.internal.ui.text.java.LazyJavaTypeCompletionProposal;
 import org.eclipse.wst.jsdt.ui.text.java.ContentAssistInvocationContext;
 import org.eclipse.wst.jsdt.ui.text.java.JavaContentAssistInvocationContext;
-
-import ag.carnot.reflect.Reflect;
 
 public class EditorCompletionProcessor extends JavaCompletionProcessor {
 

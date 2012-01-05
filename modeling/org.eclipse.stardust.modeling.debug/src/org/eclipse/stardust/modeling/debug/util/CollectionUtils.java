@@ -13,8 +13,8 @@ package org.eclipse.stardust.modeling.debug.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import ag.carnot.base.FilteringIterator;
-import ag.carnot.base.Predicate;
+import org.eclipse.stardust.common.FilteringIterator;
+import org.eclipse.stardust.common.Predicate;
 
 /**
  * Later this class could be merged into {@link ag.carnot.base.CollectionUtils}

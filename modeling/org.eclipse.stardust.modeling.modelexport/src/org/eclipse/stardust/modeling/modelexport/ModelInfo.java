@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.modelexport;
 
-import java.util.Date;
 import java.text.ParseException;
+import java.util.Date;
 
-import ag.carnot.base.DateUtils;
+import org.eclipse.stardust.common.DateUtils;
 
 /**
  * @author fherinean

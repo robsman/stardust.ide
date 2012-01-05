@@ -11,21 +11,25 @@
 package org.eclipse.stardust.modeling.debug.debugger.ui;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.eclipse.stardust.model.xpdl.*;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
-import ag.carnot.base.StringUtils;
-import ag.carnot.error.InternalException;
-import ag.carnot.error.PublicException;
 import ag.carnot.gui.interpreter.DefaultInterpreter;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.AccessPoint;
 import ag.carnot.workflow.model.Activity;
 import ag.carnot.workflow.model.ApplicationContext;

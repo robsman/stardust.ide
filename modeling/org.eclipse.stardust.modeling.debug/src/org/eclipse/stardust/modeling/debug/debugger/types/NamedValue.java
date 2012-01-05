@@ -12,8 +12,7 @@ package org.eclipse.stardust.modeling.debug.debugger.types;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
-
-import ag.carnot.error.InternalException;
+import org.eclipse.stardust.common.error.InternalException;
 
 public class NamedValue extends AbstractJavaTypeValue
 {

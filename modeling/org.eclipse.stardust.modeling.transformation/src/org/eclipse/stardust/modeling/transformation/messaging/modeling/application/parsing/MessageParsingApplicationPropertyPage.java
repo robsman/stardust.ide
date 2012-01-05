@@ -54,7 +54,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 
-
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 

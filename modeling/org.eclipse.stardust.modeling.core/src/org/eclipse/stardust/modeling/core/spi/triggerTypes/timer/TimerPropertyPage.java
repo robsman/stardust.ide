@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -38,8 +40,6 @@ import org.eclipse.swt.widgets.Text;
 
 import com.gface.date.DatePickerCombo;
 
-import ag.carnot.base.StringUtils;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class TimerPropertyPage extends DefaultModelElementPropertyPage

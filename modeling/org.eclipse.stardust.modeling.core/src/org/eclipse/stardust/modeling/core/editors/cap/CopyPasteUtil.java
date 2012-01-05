@@ -59,8 +59,8 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramRootEditP
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.SymbolGroupEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.AbstractEObjectTreeEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode;
-import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode.Spec;
+import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.xsd.XSDSchema;

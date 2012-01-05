@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.common.ui.preferences;
 
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.UI_Messages;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -24,8 +25,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.StringUtils;
 
 public class CollisionPreferencePage extends PreferencePage implements IWorkbenchPreferencePage
 {

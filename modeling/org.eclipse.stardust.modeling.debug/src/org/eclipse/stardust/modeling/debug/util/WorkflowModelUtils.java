@@ -12,11 +12,16 @@ package org.eclipse.stardust.modeling.debug.util;
 
 import java.util.List;
 
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-
-import ag.carnot.base.CollectionUtils;
 
 public final class WorkflowModelUtils
 {

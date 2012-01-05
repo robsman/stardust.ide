@@ -11,8 +11,8 @@
 package org.eclipse.stardust.modeling.repository.common;
 
 import java.util.List;
-
 import java.util.Map;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.xpdl.util.IConnection;
 

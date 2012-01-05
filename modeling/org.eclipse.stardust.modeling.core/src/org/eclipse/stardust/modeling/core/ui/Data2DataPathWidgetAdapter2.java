@@ -12,6 +12,11 @@ package org.eclipse.stardust.modeling.core.ui;
 
 import java.util.Collection;
 
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -20,7 +25,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediato
 import org.eclipse.stardust.modeling.core.editors.ui.AccessPathBrowserComposite;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.jface.viewers.*;
 
 
 /**

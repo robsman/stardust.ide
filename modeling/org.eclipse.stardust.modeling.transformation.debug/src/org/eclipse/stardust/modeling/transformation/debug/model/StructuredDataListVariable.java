@@ -15,9 +15,9 @@ import java.util.List;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 
-import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
-
 import ag.carnot.bpm.rt.data.structured.TypedXPath;
+
+import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
 
 public class StructuredDataListVariable extends AbstractVariable
 {

@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -28,8 +30,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 
-import ag.carnot.base.Period;
-import ag.carnot.base.StringUtils;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class TimerValidator implements IModelElementValidator

@@ -22,10 +22,8 @@ import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
 
 import ag.carnot.workflow.model.PredefinedConstants;
 

@@ -10,11 +10,30 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.highlighting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.FilteringIterator;
+import org.eclipse.stardust.common.Functor;
+import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.TransformingIterator;
+import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
+import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.modeling.core.editors.DiagramEditorPage;
 import org.eclipse.stardust.modeling.core.editors.IDiagramChangeListener;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -27,15 +46,16 @@ import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.debugger.UiAccessor;
 import org.eclipse.stardust.modeling.debug.util.EmptyIterator;
 import org.eclipse.stardust.modeling.debug.util.WorkflowModelUtils;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.MultiPageEditorSite;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.FilteringIterator;
-import ag.carnot.base.Functor;
-import ag.carnot.base.Predicate;
-import ag.carnot.base.StringUtils;
-import ag.carnot.base.TransformingIterator;
 
 public class HighlightManager implements IPartListener, IDiagramChangeListener
 {

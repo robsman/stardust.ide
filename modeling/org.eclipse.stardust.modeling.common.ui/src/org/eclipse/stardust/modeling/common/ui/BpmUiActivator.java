@@ -18,17 +18,24 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.BpmCommonActivator;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveListener;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PerspectiveAdapter;
+import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import ag.carnot.base.StringUtils;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
-import ag.carnot.config.Parameters;
 import ag.carnot.workflow.model.Modules;
 
 /**

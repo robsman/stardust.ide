@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.wst.jsdt.core.IBuffer;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptModelException;

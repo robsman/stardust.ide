@@ -16,12 +16,12 @@ import java.text.MessageFormat;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaVariable;
+import org.eclipse.stardust.common.Direction;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
-import ag.carnot.base.Direction;
-import ag.carnot.error.InternalException;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.IData;
 import ag.carnot.workflow.model.IModel;
 import ag.carnot.workflow.spi.model.BridgeObject;

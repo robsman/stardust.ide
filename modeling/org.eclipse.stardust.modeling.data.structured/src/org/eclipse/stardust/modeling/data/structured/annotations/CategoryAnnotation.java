@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.data.structured.annotations;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
@@ -23,8 +24,6 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
-
-import ag.carnot.base.CollectionUtils;
 
 public class CategoryAnnotation implements IAnnotation
 {

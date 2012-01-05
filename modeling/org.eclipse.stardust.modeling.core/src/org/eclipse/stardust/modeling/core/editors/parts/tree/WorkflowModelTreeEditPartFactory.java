@@ -28,6 +28,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -64,8 +65,6 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.swt.widgets.TreeItem;
-
-import ag.carnot.base.StringUtils;
 
 public class WorkflowModelTreeEditPartFactory implements EditPartFactory
 {

@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.views.repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;

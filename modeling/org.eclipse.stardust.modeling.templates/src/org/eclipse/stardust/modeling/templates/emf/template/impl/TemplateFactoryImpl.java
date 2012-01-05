@@ -15,11 +15,21 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.modeling.templates.emf.template.*;
+import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
+import org.eclipse.stardust.modeling.templates.emf.template.FeatureStyleType;
+import org.eclipse.stardust.modeling.templates.emf.template.FeatureType;
+import org.eclipse.stardust.modeling.templates.emf.template.ParameterType;
+import org.eclipse.stardust.modeling.templates.emf.template.ReferenceType;
+import org.eclipse.stardust.modeling.templates.emf.template.RootsType;
+import org.eclipse.stardust.modeling.templates.emf.template.ScopeType;
+import org.eclipse.stardust.modeling.templates.emf.template.StyleType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateFactory;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatePackage;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatesType;
 
 /**
  * <!-- begin-user-doc -->

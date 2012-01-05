@@ -11,8 +11,7 @@
 package org.eclipse.stardust.modeling.core.editors.figures;
 
 import org.eclipse.draw2d.Label;
-
-import ag.carnot.base.CompareHelper;
+import org.eclipse.stardust.common.CompareHelper;
 
 /**
  * @author rsauer

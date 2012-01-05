@@ -18,6 +18,7 @@ import java.text.MessageFormat;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.TreeEditPart;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
@@ -26,7 +27,10 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.properties.AbstractConnectionPropertyPage;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
+import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
+import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -36,8 +40,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
-
-import ag.carnot.base.StringUtils;
 
 /*
  * TODO: Layout

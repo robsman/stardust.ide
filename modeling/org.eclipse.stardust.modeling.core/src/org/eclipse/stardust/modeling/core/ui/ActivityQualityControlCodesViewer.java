@@ -11,7 +11,9 @@
 package org.eclipse.stardust.modeling.core.ui;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.Code;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -21,7 +23,9 @@ import org.eclipse.stardust.modeling.core.editors.ui.DefaultTableLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.TableLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Tree;
 
 
 public class ActivityQualityControlCodesViewer

@@ -10,7 +10,21 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.figures;
 
-import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.AbstractRouter;
+import org.eclipse.draw2d.BorderLayout;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.PrinterGraphics;
+import org.eclipse.draw2d.RectangleFigure;
+import org.eclipse.draw2d.RotatableDecoration;
+import org.eclipse.draw2d.RoundedRectangle;
+import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;

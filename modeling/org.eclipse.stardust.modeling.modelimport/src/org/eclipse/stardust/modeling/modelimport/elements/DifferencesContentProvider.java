@@ -17,8 +17,7 @@ import org.eclipse.compare.structuremergeviewer.IDiffContainer;
 import org.eclipse.compare.structuremergeviewer.IDiffElement;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.stardust.common.CollectionUtils;
 
 public class DifferencesContentProvider implements ITreeContentProvider {
     

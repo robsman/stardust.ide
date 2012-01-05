@@ -30,6 +30,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -68,8 +70,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.StringUtils;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.spi.providers.applications.jms.DefaultMessageAcceptor;
 import ag.carnot.workflow.spi.providers.applications.jms.JMSLocation;

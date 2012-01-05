@@ -40,7 +40,6 @@ import org.eclipse.gef.ui.palette.editparts.PaletteEditPart;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;

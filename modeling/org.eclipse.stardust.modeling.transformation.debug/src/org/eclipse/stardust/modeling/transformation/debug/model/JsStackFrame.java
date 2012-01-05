@@ -19,21 +19,19 @@ import org.eclipse.debug.core.model.IRegisterGroup;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.transformation.debug.common.CommonConstants;
 import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugFrame;
-
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptableObject;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableScript;
 
 import com.infinity.bpm.messaging.runtime.transformation.MessageTransformationScope;
 import com.infinity.bpm.rt.integration.javascript.AbstractStructuredDataAccessPointAdapter;
 import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
 import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
-
-import ag.carnot.base.StringUtils;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptableObject;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableScript;
 
 public class JsStackFrame extends JsDebugElement implements IStackFrame
 {

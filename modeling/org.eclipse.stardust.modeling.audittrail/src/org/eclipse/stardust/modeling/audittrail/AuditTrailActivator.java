@@ -14,9 +14,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.osgi.framework.BundleContext;
-
-import ag.carnot.base.CollectionUtils;
 
 /**
  * @author rsauer

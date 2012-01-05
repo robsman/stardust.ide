@@ -12,6 +12,8 @@ package org.eclipse.stardust.modeling.integration.dms.application;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringKey;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -21,9 +23,6 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPointProvider;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.StringKey;
 
 import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
 import com.infinity.bpm.rt.integration.data.dms.DmsOperation;

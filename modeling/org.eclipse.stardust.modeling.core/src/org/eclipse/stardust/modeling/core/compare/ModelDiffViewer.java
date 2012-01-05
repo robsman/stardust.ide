@@ -10,12 +10,21 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.compare;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.IContentChangeNotifier;
 import org.eclipse.compare.internal.Utilities;
-import org.eclipse.compare.structuremergeviewer.*;
+import org.eclipse.compare.structuremergeviewer.DiffNode;
+import org.eclipse.compare.structuremergeviewer.Differencer;
+import org.eclipse.compare.structuremergeviewer.IDiffContainer;
+import org.eclipse.compare.structuremergeviewer.IDiffElement;
+import org.eclipse.compare.structuremergeviewer.IStructureComparator;
+import org.eclipse.compare.structuremergeviewer.StructureDiffViewer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
@@ -24,11 +33,10 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Item;
-
-import ag.carnot.base.StringUtils;
 
 public class ModelDiffViewer extends StructureDiffViewer
 {

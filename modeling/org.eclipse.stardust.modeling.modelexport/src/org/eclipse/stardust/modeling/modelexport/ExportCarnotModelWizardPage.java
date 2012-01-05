@@ -24,6 +24,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -51,9 +53,6 @@ import org.eclipse.ui.internal.WorkbenchImages;
 import org.eclipse.ui.model.AdaptableList;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchPartLabelProvider;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.StringUtils;
 
 public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
 {

@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.templates.emf.template;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

@@ -18,9 +18,19 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
-import ag.carnot.error.ValidationException;
+import org.eclipse.stardust.common.error.ValidationException;
+
 import ag.carnot.gui.AbstractDialog;
 import ag.carnot.gui.ValidationExceptionDialog;
 import ag.carnot.workflow.model.IModel;

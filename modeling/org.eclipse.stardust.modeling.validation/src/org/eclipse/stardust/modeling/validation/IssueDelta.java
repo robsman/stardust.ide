@@ -13,7 +13,7 @@ package org.eclipse.stardust.modeling.validation;
 import java.util.Collections;
 import java.util.List;
 
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.stardust.common.CollectionUtils;
 
 public class IssueDelta
 {

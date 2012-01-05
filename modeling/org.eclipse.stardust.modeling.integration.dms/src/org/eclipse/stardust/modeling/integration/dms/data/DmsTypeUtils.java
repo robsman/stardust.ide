@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.integration.dms.data;
 
 import java.util.Set;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -32,16 +33,15 @@ import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPoint
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
 
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
-import com.infinity.bpm.rt.integration.data.dms.emfxsd.DmsSchemaProvider;
-
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.ClientXPathMap;
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.bpm.rt.data.structured.emfxsd.XPathFinder;
 import ag.carnot.workflow.model.PredefinedConstants;
+
+import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
+import com.infinity.bpm.rt.integration.data.dms.emfxsd.DmsSchemaProvider;
 
 /**
  * @author rsauer

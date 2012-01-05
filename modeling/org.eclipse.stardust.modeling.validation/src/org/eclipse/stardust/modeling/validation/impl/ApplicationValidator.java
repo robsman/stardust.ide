@@ -19,7 +19,12 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.ValidationPlugin;
+import org.eclipse.stardust.modeling.validation.ValidationService;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 
 public class ApplicationValidator implements IModelElementValidator

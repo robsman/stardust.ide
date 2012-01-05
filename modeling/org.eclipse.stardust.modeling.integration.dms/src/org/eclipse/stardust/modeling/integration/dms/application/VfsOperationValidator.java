@@ -12,6 +12,8 @@ package org.eclipse.stardust.modeling.integration.dms.application;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
@@ -28,9 +30,6 @@ import org.eclipse.stardust.modeling.validation.ValidationService;
 
 import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
 import com.infinity.bpm.rt.integration.data.dms.VfsOperationAccessPointProvider;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.StringUtils;
 
 public class VfsOperationValidator implements IModelElementValidator
 {

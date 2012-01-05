@@ -17,6 +17,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.stardust.common.DateUtils;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -30,9 +33,6 @@ import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
-import ag.carnot.base.DateUtils;
-import ag.carnot.base.StringUtils;
-import ag.carnot.config.CurrentVersion;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class DefaultModelValidator implements IModelValidator

@@ -13,7 +13,6 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
 
-
 import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 public class ExpressionFilter extends AbstractMessageFilter {

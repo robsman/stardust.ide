@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
+import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.swt.custom.BusyIndicator;
@@ -26,8 +27,6 @@ import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-
-import ag.carnot.error.PublicException;
 
 abstract class LazyLoadingTreeEditPart extends AbstractTreeEditPart
 {

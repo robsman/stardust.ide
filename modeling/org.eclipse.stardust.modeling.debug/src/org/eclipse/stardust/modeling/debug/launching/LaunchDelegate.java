@@ -10,21 +10,43 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.launching;
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.debug.core.*;
+import org.eclipse.debug.core.DebugEvent;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.IDebugEventSetListener;
+import org.eclipse.debug.core.ILaunch;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.jdt.debug.core.*;
+import org.eclipse.jdt.debug.core.IJavaDebugTarget;
+import org.eclipse.jdt.debug.core.IJavaMethodBreakpoint;
+import org.eclipse.jdt.debug.core.JDIDebugModel;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaLaunchDelegate;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -41,14 +63,13 @@ import org.eclipse.stardust.modeling.debug.debugger.types.TransitionTokenDigest;
 import org.eclipse.stardust.modeling.debug.engine.ManagedRunnerHelper;
 import org.eclipse.stardust.modeling.debug.highlighting.HighlightManager;
 import org.eclipse.stardust.modeling.debug.model.CWMDebugTarget;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationPlugin;
+import org.eclipse.stardust.modeling.validation.ValidationService;
+import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.progress.UIJob;
-
-import ag.carnot.base.Assert;
-import ag.carnot.base.StringUtils;
-import ag.carnot.error.ObjectNotFoundException;
 
 /**
  * @author sborn

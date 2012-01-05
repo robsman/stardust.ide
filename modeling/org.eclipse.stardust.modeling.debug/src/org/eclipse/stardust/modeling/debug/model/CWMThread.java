@@ -22,6 +22,11 @@ import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaStackFrame;
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.UiAccessor;
 import org.eclipse.stardust.modeling.debug.debugger.types.ActivityInstanceDigest;
@@ -30,12 +35,6 @@ import org.eclipse.stardust.modeling.debug.debugger.types.DataMappingDigest;
 import org.eclipse.stardust.modeling.debug.debugger.types.NamedValue;
 import org.eclipse.stardust.modeling.debug.debugger.types.ProcessInstanceDigest;
 import org.eclipse.stardust.modeling.debug.util.CollectionUtils;
-
-import ag.carnot.base.Predicate;
-import ag.carnot.base.StringUtils;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
-import ag.carnot.error.InternalException;
 
 public class CWMThread extends CWMDebugElement implements IThread 
 {

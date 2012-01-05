@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
@@ -22,8 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.CollectionUtils;
 
 public class SearchDialog extends Dialog
 {

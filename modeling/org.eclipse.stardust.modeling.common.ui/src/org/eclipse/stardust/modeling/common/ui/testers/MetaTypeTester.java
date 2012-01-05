@@ -11,10 +11,9 @@
 package org.eclipse.stardust.modeling.common.ui.testers;
 
 import org.eclipse.core.expressions.PropertyTester;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-
-import ag.carnot.base.CompareHelper;
 
 public class MetaTypeTester extends PropertyTester
 {

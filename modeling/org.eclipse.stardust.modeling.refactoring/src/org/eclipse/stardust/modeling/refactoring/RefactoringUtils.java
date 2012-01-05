@@ -13,8 +13,7 @@ package org.eclipse.stardust.modeling.refactoring;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.core.JavaProject;
-
-import ag.carnot.base.StringUtils;
+import org.eclipse.stardust.common.StringUtils;
 
 public class RefactoringUtils
 {

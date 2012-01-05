@@ -15,11 +15,11 @@ import java.util.Map;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.debug.Constants;
 
-import ag.carnot.base.Assert;
-import ag.carnot.error.InternalException;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.Application;
 import ag.carnot.workflow.model.ApplicationContext;
 

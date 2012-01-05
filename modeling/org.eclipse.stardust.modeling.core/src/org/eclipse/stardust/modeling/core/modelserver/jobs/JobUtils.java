@@ -17,12 +17,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.UUIDUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.StringUtils;
 
 public class JobUtils implements IPropertyChangeListener
 {

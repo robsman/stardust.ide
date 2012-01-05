@@ -13,9 +13,8 @@ package org.eclipse.stardust.modeling.debug.debugger.types;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.modeling.debug.Constants;
-
-import ag.carnot.error.InternalException;
 
 public abstract class AbstractJavaTypeValue implements IJavaTypeValue
 {

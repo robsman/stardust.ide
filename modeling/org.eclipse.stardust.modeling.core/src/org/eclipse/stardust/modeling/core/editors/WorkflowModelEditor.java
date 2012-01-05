@@ -55,6 +55,9 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.config.CurrentVersion;
+import org.eclipse.stardust.common.config.Version;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
@@ -162,10 +165,6 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
-import ag.carnot.base.CompareHelper;
-import ag.carnot.config.CurrentVersion;
-import ag.carnot.config.Version;
 
 public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       implements IWorkflowModelEditor, EditPartRegistry, IGotoMarker, IDecorationTarget

@@ -12,7 +12,7 @@ package org.eclipse.stardust.modeling.project.effort;
 
 import java.util.List;
 
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.stardust.common.CollectionUtils;
 
 public abstract class EffortNotifier
 {

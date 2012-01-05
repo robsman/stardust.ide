@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.modelexport;
 
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.IColorProvider;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * @author fherinean

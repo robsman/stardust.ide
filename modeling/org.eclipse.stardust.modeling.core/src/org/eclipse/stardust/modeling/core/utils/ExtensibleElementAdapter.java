@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -24,8 +25,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IModelAdapter;
-
-import ag.carnot.base.CompareHelper;
 
 public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapter
 {

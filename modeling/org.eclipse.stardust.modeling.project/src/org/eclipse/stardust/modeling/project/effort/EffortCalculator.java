@@ -12,12 +12,11 @@ package org.eclipse.stardust.modeling.project.effort;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.modeling.project.Constants;
-
-import ag.carnot.base.CollectionUtils;
 
 public class EffortCalculator
 {

@@ -10,12 +10,20 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.policies;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.geometry.*;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
+import org.eclipse.draw2d.geometry.PrecisionRectangle;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -53,7 +61,15 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.SymbolGroupEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.ChangeConstraintCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CompoundDiagramCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateModelElementCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateSymbolCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IDiagramCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNodeSymbolCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveSymbolCommandUtils;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
 import org.eclipse.stardust.modeling.core.editors.tools.SnapCenterToGrid;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;

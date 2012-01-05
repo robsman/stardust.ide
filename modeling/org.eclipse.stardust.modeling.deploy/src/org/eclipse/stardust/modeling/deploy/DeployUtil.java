@@ -24,14 +24,13 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.BpmCoreLibrariesClasspathContainer;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.Base64;
-import ag.carnot.base.StringUtils;
 
 public class DeployUtil
 {

@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.data.structured.properties;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.XSDMapping;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
@@ -25,8 +26,6 @@ import org.eclipse.xsd.XSDParticleContent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
-
-import ag.carnot.base.StringUtils;
 
 public class XSDElementCheckForType
 {

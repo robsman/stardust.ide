@@ -17,20 +17,13 @@ import org.eclipse.draw2d.ActionEvent;
 import org.eclipse.draw2d.ActionListener;
 import org.eclipse.draw2d.Border;
 import org.eclipse.draw2d.ButtonBorder;
-import org.eclipse.draw2d.Clickable;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Toggle;
-import org.eclipse.gef.internal.ui.palette.editparts.GroupEditPart;
-import org.eclipse.gef.internal.ui.palette.editparts.SliderPaletteEditPart;
 import org.eclipse.gef.internal.ui.palette.editparts.ToolEntryEditPart;
 import org.eclipse.gef.palette.PaletteEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.ui.palette.PaletteViewer;
-import org.eclipse.jdt.core.dom.ThisExpression;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 public class DynamicToolEditPart extends ToolEntryEditPart
 {

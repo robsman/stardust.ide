@@ -13,9 +13,8 @@ package org.eclipse.stardust.modeling.debug.debugger;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.debug.Constants;
-
-import ag.carnot.base.CollectionUtils;
 
 /**
  * @author sborn

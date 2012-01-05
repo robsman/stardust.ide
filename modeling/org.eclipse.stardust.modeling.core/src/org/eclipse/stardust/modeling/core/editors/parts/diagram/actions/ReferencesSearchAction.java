@@ -41,8 +41,6 @@ import org.eclipse.stardust.modeling.core.search.ReferenceSearchQuery;
 import org.eclipse.stardust.modeling.core.search.ReferencesSearchResult;
 import org.eclipse.ui.IWorkbenchPart;
 
-import ag.carnot.workflow.model.ExternalReference;
-
 public class ReferencesSearchAction extends SelectionAction
 {
    public ReferencesSearchAction(IWorkbenchPart part)

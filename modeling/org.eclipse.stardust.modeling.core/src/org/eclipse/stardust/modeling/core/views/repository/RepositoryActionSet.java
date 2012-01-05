@@ -11,7 +11,11 @@
 package org.eclipse.stardust.modeling.core.views.repository;
 
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.viewers.OpenEvent;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * @author fherinean

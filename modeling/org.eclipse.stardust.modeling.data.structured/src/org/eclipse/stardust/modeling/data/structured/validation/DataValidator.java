@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.data.structured.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -25,7 +26,6 @@ import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 public class DataValidator implements IModelElementValidator

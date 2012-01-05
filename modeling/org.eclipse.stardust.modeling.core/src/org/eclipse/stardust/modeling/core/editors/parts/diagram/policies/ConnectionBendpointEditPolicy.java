@@ -10,25 +10,27 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.policies;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Viewport;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.SnapToHelper;
-import org.eclipse.gef.editpolicies.BendpointEditPolicy;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
+import org.eclipse.gef.editpolicies.BendpointEditPolicy;
 import org.eclipse.gef.handles.BendpointCreationHandle;
 import org.eclipse.gef.handles.BendpointHandle;
 import org.eclipse.gef.requests.BendpointRequest;

@@ -21,6 +21,7 @@ import java.util.Locale;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.XSDMapping;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.swt.SWT;
@@ -40,8 +41,6 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDRepeatableFacet;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
-
-import ag.carnot.base.StringUtils;
 
 import com.gface.date.DatePickerCombo;
 

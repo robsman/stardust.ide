@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.modeling.core.ui.BooleanPropertyDescriptor;
 import org.eclipse.stardust.modeling.core.ui.EEnumPropertyDescriptor;
 import org.eclipse.stardust.modeling.core.ui.StringListPropertyDescriptor;

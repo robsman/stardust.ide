@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -60,11 +61,10 @@ import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 
-import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
-
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
+
+import com.infinity.bpm.rt.integration.data.dms.DmsConstants;
 
 public class UnusedModelElementsSearcher
 {

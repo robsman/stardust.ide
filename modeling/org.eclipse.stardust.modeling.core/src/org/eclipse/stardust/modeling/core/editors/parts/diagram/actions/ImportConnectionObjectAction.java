@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -29,8 +30,6 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
-
-import ag.carnot.reflect.Reflect;
 
 public class ImportConnectionObjectAction extends SelectionAction
 {

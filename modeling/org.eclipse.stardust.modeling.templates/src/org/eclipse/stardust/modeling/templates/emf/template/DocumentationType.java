@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.templates.emf.template;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**

@@ -14,12 +14,12 @@ import java.text.MessageFormat;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.highlighting.IHighlightable;
 
-import ag.carnot.base.Assert;
-import ag.carnot.error.InternalException;
 import ag.carnot.workflow.model.IModel;
 import ag.carnot.workflow.model.ITransition;
 import ag.carnot.workflow.runtime.beans.TransitionTokenBean;

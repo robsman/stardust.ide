@@ -20,8 +20,7 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.JavaCore;
-
-import ag.carnot.base.StringUtils;
+import org.eclipse.stardust.common.StringUtils;
 
 /**
  * @author rsauer

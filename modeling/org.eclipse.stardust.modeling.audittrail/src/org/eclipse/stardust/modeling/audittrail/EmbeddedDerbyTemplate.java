@@ -18,9 +18,9 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
+import org.eclipse.stardust.common.error.PublicException;
 
 import ag.carnot.db.jdbc.QueryUtils;
-import ag.carnot.error.PublicException;
 import ag.carnot.thirdparty.db.derby.IDerbyProperties;
 
 /**

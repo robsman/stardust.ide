@@ -22,8 +22,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.StandardClasspathProvider;
-
-import ag.carnot.base.StringUtils;
+import org.eclipse.stardust.common.StringUtils;
 
 /**
  * @author rsauer

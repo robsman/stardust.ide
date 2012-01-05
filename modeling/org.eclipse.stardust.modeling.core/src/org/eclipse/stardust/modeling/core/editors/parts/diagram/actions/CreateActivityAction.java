@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;

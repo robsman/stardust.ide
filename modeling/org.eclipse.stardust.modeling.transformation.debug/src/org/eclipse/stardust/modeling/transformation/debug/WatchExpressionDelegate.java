@@ -12,16 +12,25 @@ package org.eclipse.stardust.modeling.transformation.debug;
 
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugException;
-import org.eclipse.debug.core.model.*;
-import org.eclipse.stardust.modeling.transformation.debug.model.*;
+import org.eclipse.debug.core.model.IDebugElement;
+import org.eclipse.debug.core.model.IValue;
+import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.debug.core.model.IWatchExpressionDelegate;
+import org.eclipse.debug.core.model.IWatchExpressionListener;
+import org.eclipse.debug.core.model.IWatchExpressionResult;
+import org.eclipse.stardust.modeling.transformation.debug.model.JsStackFrame;
+import org.eclipse.stardust.modeling.transformation.debug.model.JsValue;
+import org.eclipse.stardust.modeling.transformation.debug.model.JsVariable;
+import org.eclipse.stardust.modeling.transformation.debug.model.NullElementVariable;
+import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataListVariable;
+import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataMapVariable;
 
+import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
+import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.Debugger;
-
-import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 
 /**
  * Delegate class which is responsible for evaluation expression entered in the 

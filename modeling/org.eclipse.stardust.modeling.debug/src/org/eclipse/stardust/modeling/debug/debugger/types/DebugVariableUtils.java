@@ -16,10 +16,9 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaValue;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
-
-import ag.carnot.error.InternalException;
 
 public class DebugVariableUtils
 {

@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.StringUtils;
 
 public class OverdueThresholdVerifier implements Verifier
 {

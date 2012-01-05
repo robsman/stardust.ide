@@ -51,6 +51,9 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -97,16 +100,13 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.xml.sax.InputSource;
 
-import com.infinity.bpm.rt.integration.webservices.Addressing;
-import com.infinity.bpm.rt.integration.webservices.WSConstants50;
-import com.infinity.bpm.rt.integration.webservices.addressing.EndpointReferenceType;
-
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.StringUtils;
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.spi.providers.applications.ws.IBasicAuthenticationParameters;
 import ag.carnot.workflow.spi.providers.applications.ws.IWSSAuthenticationParameters;
 import ag.carnot.workflow.spi.providers.applications.ws.WSConstants;
+
+import com.infinity.bpm.rt.integration.webservices.Addressing;
+import com.infinity.bpm.rt.integration.webservices.WSConstants50;
+import com.infinity.bpm.rt.integration.webservices.addressing.EndpointReferenceType;
 
 public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 {

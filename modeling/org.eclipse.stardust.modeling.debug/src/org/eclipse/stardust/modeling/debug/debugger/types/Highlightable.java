@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.debugger.types;
 
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.Pair;
 import org.eclipse.stardust.modeling.debug.highlighting.IHighlightable;
-
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.Pair;
 
 public class Highlightable extends Pair<String, String> implements IHighlightable
 {

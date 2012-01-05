@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -45,8 +46,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.progress.UIJob;
 import org.eclipse.ui.progress.WorkbenchJob;
-
-import ag.carnot.base.CompareHelper;
 
 public class MergeEditorInput extends CompareEditorInput
 {

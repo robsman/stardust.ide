@@ -49,6 +49,9 @@ import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.jface.viewers.IDecoration;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -85,10 +88,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.team.core.RepositoryProvider;
 import org.eclipse.xsd.XSDPackage;
 import org.w3c.dom.Node;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.CompareHelper;
-import ag.carnot.base.StringUtils;
 
 public class ModelServerUtils
 {   

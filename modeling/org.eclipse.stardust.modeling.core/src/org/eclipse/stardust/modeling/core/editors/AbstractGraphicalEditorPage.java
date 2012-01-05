@@ -29,6 +29,7 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.core.editors.tools.CarnotPaletteEditPartFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -42,8 +43,6 @@ import org.eclipse.ui.IPropertyListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-
-import ag.carnot.reflect.Reflect;
 
 public abstract class AbstractGraphicalEditorPage extends EditorPart
 {

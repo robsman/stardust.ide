@@ -18,9 +18,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntryResolver;
 import org.eclipse.jdt.launching.IVMInstall;
-
-import ag.carnot.base.Base64;
-import ag.carnot.error.InternalException;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.error.InternalException;
 
 /**
  * @author rsauer

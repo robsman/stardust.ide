@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui.jface.utils;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.StringUtils;
 
 public class NumericFieldVerifier implements VerifyListener
 {

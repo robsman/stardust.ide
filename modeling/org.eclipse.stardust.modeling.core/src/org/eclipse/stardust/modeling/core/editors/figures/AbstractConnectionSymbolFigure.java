@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.figures;
 
-import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.BendpointConnectionRouter;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionLayer;
+import org.eclipse.draw2d.ConnectionRouter;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.stardust.modeling.core.editors.figures.routers.DiagramShortestPathConnectionRouter;
 import org.eclipse.stardust.modeling.core.editors.figures.routers.TransitionConnectionRouter;
 import org.eclipse.swt.graphics.Color;

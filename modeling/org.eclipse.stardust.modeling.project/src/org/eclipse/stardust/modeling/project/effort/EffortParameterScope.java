@@ -13,10 +13,9 @@ package org.eclipse.stardust.modeling.project.effort;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.modeling.project.i18n.Messages;
-
-import ag.carnot.base.CompareHelper;
 
 public final class EffortParameterScope extends NamedItemList implements NamedItem
 {

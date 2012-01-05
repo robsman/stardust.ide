@@ -14,15 +14,32 @@ import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.marker.*;
+import org.eclipse.stardust.modeling.core.marker.ActivityResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.ConditionalPerformerResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.DanglingReferencesResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.DataMappingResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.DataResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.DiagramResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.IResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.IdentifiableResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.ModelResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.OrganizationResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.ProcessDefinitionResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.ReferencingModelIDMismatchResolutionGenerator;
+import org.eclipse.stardust.modeling.core.marker.TransitionResolutionGenerator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
-import org.eclipse.ui.*;
-
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IMarkerResolution;
+import org.eclipse.ui.IMarkerResolutionGenerator2;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 public class MarkerResolutionGenerator implements IMarkerResolutionGenerator2
 {

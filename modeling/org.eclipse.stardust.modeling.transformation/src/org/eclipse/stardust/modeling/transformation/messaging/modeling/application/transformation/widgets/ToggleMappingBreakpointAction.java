@@ -17,7 +17,7 @@ import org.eclipse.stardust.modeling.transformation.messaging.modeling.applicati
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageTransformationMappingBreakpoint;
 
-import  com.infinity.bpm.messaging.model.mapping.FieldMapping;
+import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 public class ToggleMappingBreakpointAction extends Action
 {

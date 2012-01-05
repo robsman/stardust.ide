@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -39,8 +41,6 @@ import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
 
-import ag.carnot.base.StringUtils;
-import ag.carnot.error.PublicException;
 import ag.carnot.workflow.el.EvaluationError;
 import ag.carnot.workflow.el.Interpreter;
 import ag.carnot.workflow.el.SymbolTable;

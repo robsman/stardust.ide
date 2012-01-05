@@ -13,16 +13,20 @@ package org.eclipse.stardust.modeling.validation.impl.spi.dataTypes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.BridgeObject;
+import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
-
-import ag.carnot.base.StringUtils;
  
 
 public class PrimitiveValidator implements IModelElementValidator, IBridgeObjectProvider

@@ -19,11 +19,8 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
@@ -39,7 +36,6 @@ import org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplatePackage;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplateType;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplatesType;
-import org.eclipse.xsd.XSDPackage;
 
 /**
  * <!-- begin-user-doc -->

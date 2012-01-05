@@ -43,6 +43,9 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.CurrentVersion;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -79,10 +82,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.config.CurrentVersion;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 /**

@@ -20,11 +20,10 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.eclipse.swt.widgets.Composite;
-
-import ag.carnot.base.CollectionUtils;
 
 public final class DifferencesViewer extends StructureDiffViewer
 {

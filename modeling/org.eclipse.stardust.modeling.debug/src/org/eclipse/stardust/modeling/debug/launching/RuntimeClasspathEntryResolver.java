@@ -31,11 +31,10 @@ import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntryResolver;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.osgi.framework.Bundle;
-
-import ag.carnot.base.StringUtils;
 
 public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryResolver
 {

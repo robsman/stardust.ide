@@ -15,6 +15,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.ui.wizards.IClasspathContainerPage;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.BpmClasspathUtils;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotWorkLocationClasspathContainer;
 import org.eclipse.stardust.modeling.common.ui.UI_Messages;
@@ -26,8 +27,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.StringUtils;
 
 /**
  * @author rsauer

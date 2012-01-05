@@ -25,11 +25,10 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
-
-import ag.carnot.base.Base64;
-import ag.carnot.base.StringUtils;
-import ag.carnot.error.InternalException;
 
 /**
  * @author rsauer

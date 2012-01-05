@@ -14,8 +14,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
-import ag.carnot.base.CompareHelper;
+import org.eclipse.stardust.common.CompareHelper;
 
 public class EObjectAdapter extends AdapterImpl implements IModelAdapter
 {

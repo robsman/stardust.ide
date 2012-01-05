@@ -13,6 +13,8 @@ package org.eclipse.stardust.modeling.integration.dms.data;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -37,8 +39,6 @@ import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.Path;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
 
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 import com.infinity.bpm.rt.integration.data.dms.DmsConstants;

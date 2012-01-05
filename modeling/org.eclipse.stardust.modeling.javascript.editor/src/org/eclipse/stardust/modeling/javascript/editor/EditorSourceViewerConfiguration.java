@@ -21,7 +21,6 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.jsdt.internal.ui.text.AbstractJavaScanner;
 import org.eclipse.wst.jsdt.internal.ui.text.ContentAssistPreference;
 import org.eclipse.wst.jsdt.internal.ui.text.java.ContentAssistProcessor;
-import org.eclipse.wst.jsdt.internal.ui.text.java.JavaCompletionProcessor;
 import org.eclipse.wst.jsdt.internal.ui.text.javadoc.JavadocCompletionProcessor;
 import org.eclipse.wst.jsdt.ui.text.IColorManager;
 import org.eclipse.wst.jsdt.ui.text.IJavaScriptPartitions;

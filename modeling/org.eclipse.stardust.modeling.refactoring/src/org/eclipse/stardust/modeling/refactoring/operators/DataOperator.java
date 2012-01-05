@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.refactoring.operators;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -21,13 +24,8 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.refactoring.RefactoringUtils;
-import org.eclipse.stardust.modeling.refactoring.operators.IJdtOperator;
-import org.eclipse.stardust.modeling.refactoring.operators.OperatorsRegistry;
 import org.eclipse.stardust.modeling.refactoring.query.matches.EObjectMatch;
 import org.eclipse.stardust.modeling.refactoring.refactoring.changes.AttributeValueChange;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.core.resources.IFile;
 
 
 /**

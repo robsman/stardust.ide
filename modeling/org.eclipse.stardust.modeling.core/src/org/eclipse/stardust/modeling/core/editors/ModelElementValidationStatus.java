@@ -10,10 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.modeling.validation.Issue;
 
 

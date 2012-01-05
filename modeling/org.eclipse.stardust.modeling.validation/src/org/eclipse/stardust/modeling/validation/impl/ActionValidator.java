@@ -11,13 +11,20 @@
 package org.eclipse.stardust.modeling.validation.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
+import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActionTypeUtil;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.ValidationService;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 
 public class ActionValidator implements IModelElementValidator

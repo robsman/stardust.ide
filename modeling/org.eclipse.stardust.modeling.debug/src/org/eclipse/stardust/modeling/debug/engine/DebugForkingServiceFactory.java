@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.engine;
 
-import ag.carnot.base.rt.IJobManager;
+import org.eclipse.stardust.common.rt.IJobManager;
+
 import ag.carnot.workflow.runtime.beans.ForkingService;
 import ag.carnot.workflow.runtime.beans.ForkingServiceFactory;
 import ag.carnot.workflow.runtime.beans.ForkingServiceJobManager;

@@ -22,18 +22,24 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
+import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
+import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
+import org.eclipse.stardust.modeling.repository.common.IFilter;
+import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-
-import ag.carnot.base.CollectionUtils;
 
 public class FileConnectionHandler implements ConnectionHandler
 {

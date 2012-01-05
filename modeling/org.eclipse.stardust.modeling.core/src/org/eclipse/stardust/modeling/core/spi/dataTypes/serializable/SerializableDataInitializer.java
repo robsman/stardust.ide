@@ -14,15 +14,14 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-
-import ag.carnot.base.StringUtils;
-import ag.carnot.error.InternalException;
-import ag.carnot.reflect.Reflect;
 
 /**
  * @author fherinean

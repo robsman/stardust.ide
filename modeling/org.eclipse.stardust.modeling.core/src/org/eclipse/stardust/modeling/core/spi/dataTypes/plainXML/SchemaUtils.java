@@ -18,18 +18,18 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.axis.wsdl.gen.Parser;
 import org.apache.xerces.impl.dtd.DTDGrammar;
 import org.apache.xerces.impl.dtd.XML11DTDProcessor;
 import org.apache.xerces.impl.dtd.XMLElementDecl;
 import org.apache.xerces.xni.parser.XMLInputSource;
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import ag.carnot.error.PublicException;
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.model.beans.XMLConstants;
-import org.apache.axis.wsdl.gen.Parser;
 
 public final class SchemaUtils
 {

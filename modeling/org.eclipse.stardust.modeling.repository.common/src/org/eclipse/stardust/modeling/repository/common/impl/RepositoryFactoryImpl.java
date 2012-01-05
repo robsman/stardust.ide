@@ -12,14 +12,17 @@ package org.eclipse.stardust.modeling.repository.common.impl;
 
 import java.text.MessageFormat;
 
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Attribute;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.Repository;
+import org.eclipse.stardust.modeling.repository.common.RepositoryFactory;
+import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
+import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 
 /**
  * <!-- begin-user-doc -->

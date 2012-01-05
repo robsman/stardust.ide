@@ -10,20 +10,19 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.refactoring.refactoring.changes;
 
-import java.util.StringTokenizer;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.OperationCanceledException;
-
-import ag.carnot.base.StringUtils;
 
 /**
  * @author fherinean

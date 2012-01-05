@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.dataTypes.primitive;
 
-import static ag.carnot.base.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;

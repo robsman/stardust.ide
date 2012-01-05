@@ -18,9 +18,8 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.stardust.common.StringUtils;
 import org.osgi.framework.Bundle;
-
-import ag.carnot.base.StringUtils;
 
 public class BundleUtils
 {

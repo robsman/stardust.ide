@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.data.structured.properties;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
@@ -30,7 +31,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.Utils;
 import ag.carnot.bpm.rt.data.structured.XPathAnnotations;
 

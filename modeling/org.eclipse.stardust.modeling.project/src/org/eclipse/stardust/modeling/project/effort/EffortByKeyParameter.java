@@ -13,7 +13,7 @@ package org.eclipse.stardust.modeling.project.effort;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
-import ag.carnot.base.CompareHelper;
+import org.eclipse.stardust.common.CompareHelper;
 
 public class EffortByKeyParameter extends NamedItemList
    implements EffortParameter

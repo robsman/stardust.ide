@@ -17,6 +17,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
@@ -26,8 +27,6 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescr
 import org.eclipse.stardust.modeling.repository.file.search.SearchDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.StringUtils;
 
 public class FileSearchConnectionHandler implements SearchConnectionHandler
 {

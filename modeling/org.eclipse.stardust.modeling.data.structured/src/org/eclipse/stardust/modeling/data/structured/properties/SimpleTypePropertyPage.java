@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
@@ -60,8 +61,6 @@ import org.eclipse.xsd.XSDPatternFacet;
 import org.eclipse.xsd.XSDRepeatableFacet;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
-
-import ag.carnot.base.StringUtils;
 
 public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    implements IDataPropertyPage

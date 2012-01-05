@@ -23,7 +23,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
-import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;

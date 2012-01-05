@@ -11,12 +11,11 @@
 package org.eclipse.stardust.modeling.common.ui.testers;
 
 import org.eclipse.core.expressions.PropertyTester;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.CompareHelper;
 
 public class PerspectiveTester extends PropertyTester
 {

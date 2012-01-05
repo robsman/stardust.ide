@@ -13,13 +13,12 @@ package org.eclipse.stardust.modeling.core.utils;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.Period;
-import ag.carnot.reflect.Reflect;
 
 public class TimeAttrUtils
 {

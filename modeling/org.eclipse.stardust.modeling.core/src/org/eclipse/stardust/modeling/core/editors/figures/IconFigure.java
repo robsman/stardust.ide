@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.figures;
 
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.swt.graphics.Image;
-
-import ag.carnot.base.CompareHelper;
 
 /**
  * @author fherinean

@@ -14,8 +14,8 @@ import javax.swing.text.Element;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTML;
-import javax.swing.text.html.ImageView;
 import javax.swing.text.html.HTMLEditorKit.HTMLFactory;
+import javax.swing.text.html.ImageView;
 
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
 

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.utils;
 
-import ag.carnot.base.Assert;
-import ag.carnot.base.StringKey;
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.StringKey;
 
 /**
  * @author rsauer

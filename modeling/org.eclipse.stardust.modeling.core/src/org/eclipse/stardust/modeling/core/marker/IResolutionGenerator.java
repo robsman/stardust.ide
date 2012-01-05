@@ -12,7 +12,6 @@ package org.eclipse.stardust.modeling.core.marker;
 
 import java.util.List;
 
-
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.ui.IMarkerResolution;

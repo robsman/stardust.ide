@@ -18,6 +18,7 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
@@ -27,8 +28,6 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.swt.widgets.TreeItem;
-
-import ag.carnot.base.StringUtils;
 
 public class IdentifiableModelElementTreeEditPart
       extends AbstractEObjectTreeEditPart

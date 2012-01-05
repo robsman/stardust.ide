@@ -14,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.gef.commands.Command;
 
 public class SetValueCmd extends ContainedElementCommand
 {

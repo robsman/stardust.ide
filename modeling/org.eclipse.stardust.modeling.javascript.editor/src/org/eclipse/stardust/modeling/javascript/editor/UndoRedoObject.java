@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.javascript.editor;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.swt.custom.ExtendedModifyEvent;
 import org.eclipse.swt.custom.StyledText;
-
-import ag.carnot.base.StringUtils;
 
 public class UndoRedoObject
 {

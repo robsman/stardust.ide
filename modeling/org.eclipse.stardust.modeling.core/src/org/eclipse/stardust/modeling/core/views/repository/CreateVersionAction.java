@@ -35,6 +35,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -44,9 +47,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.w3c.dom.Document;
 
-import ag.carnot.error.InternalException;
-import ag.carnot.error.PublicException;
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.model.beans.XMLConstants;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 

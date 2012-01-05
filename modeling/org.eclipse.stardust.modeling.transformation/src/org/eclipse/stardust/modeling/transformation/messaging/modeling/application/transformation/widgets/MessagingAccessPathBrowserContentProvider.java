@@ -38,7 +38,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.ui.AccessPathBrowserContentProvider;
 import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationUtils;
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 import org.eclipse.stardust.modeling.validation.util.FieldInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;

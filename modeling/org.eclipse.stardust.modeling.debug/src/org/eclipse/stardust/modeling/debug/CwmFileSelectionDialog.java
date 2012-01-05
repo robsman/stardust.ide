@@ -16,13 +16,12 @@ import java.lang.reflect.Method;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
-
-import ag.carnot.reflect.Reflect;
 
 public class CwmFileSelectionDialog extends ResourceListSelectionDialog
 {

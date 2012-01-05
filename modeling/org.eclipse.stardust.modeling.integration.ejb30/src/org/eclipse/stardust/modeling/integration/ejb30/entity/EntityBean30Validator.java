@@ -10,26 +10,31 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.integration.ejb30.entity;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.MessageFormat;
 
 import javax.ejb.EJBLocalObject;
 import javax.ejb.EJBObject;
 import javax.ejb.Handle;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.BridgeObject;
+import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class EntityBean30Validator implements IModelElementValidator, IBridgeObjectProvider

@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -32,7 +33,6 @@ import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 
-import ag.carnot.base.CollectionUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 
 public class ModelValidator implements IModelValidator {

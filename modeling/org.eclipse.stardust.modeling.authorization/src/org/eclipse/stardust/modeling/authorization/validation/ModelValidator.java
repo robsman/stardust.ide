@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.authorization.validation;
 import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -23,8 +24,6 @@ import org.eclipse.stardust.modeling.authorization.Permission;
 import org.eclipse.stardust.modeling.validation.IModelValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-
-import ag.carnot.base.CollectionUtils;
 
 public class ModelValidator implements IModelValidator
 {

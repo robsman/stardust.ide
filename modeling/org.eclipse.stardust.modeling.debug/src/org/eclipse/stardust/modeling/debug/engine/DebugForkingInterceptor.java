@@ -16,10 +16,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.config.ParametersFacade;
 import org.eclipse.stardust.modeling.debug.Constants;
 
-import ag.carnot.config.Parameters;
-import ag.carnot.config.ParametersFacade;
 import ag.carnot.workflow.runtime.beans.ActionCarrier;
 import ag.carnot.workflow.runtime.beans.ActivityThreadCarrier;
 import ag.carnot.workflow.runtime.beans.ForkingService;

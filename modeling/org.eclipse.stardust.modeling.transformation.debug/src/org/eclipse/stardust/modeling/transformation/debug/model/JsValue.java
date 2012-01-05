@@ -22,7 +22,16 @@ import java.util.List;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.*;
+
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.NativeJavaConstructor;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.NativeJavaMethod;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.NativeJavaObject;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.NativeJavaPackage;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptableObject;
+import com.infinity.bpm.thirdparty.org.mozilla.javascript.Undefined;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableObject;
 
 public class JsValue extends JsDebugElement implements IValue

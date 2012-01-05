@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -45,8 +46,6 @@ import org.eclipse.stardust.modeling.core.editors.figures.ILabeledFigure;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-
-import ag.carnot.base.StringUtils;
 
 public class AbstractModelElementNodeSymbolEditPart
       extends AbstractNodeSymbolEditPart

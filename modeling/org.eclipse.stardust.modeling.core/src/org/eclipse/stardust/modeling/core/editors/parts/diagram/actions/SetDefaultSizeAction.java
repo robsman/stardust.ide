@@ -12,6 +12,8 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -30,8 +32,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValu
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.FeatureMap;
 
 
 /**

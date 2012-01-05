@@ -13,8 +13,8 @@ package org.eclipse.stardust.modeling.project.effort;
 import java.util.Iterator;
 import java.util.List;
 
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.CompareHelper;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
 
 public abstract class NamedItemList extends EffortNotifier
 {

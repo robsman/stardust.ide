@@ -16,12 +16,13 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import ag.carnot.base.Base64;
-import ag.carnot.base.StringUtils;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.common.security.authentication.LoginFailedException;
+
 import ag.carnot.gui.ErrorDialog;
-import ag.carnot.security.authentication.LoginFailedException;
 import ag.carnot.workflow.model.removethis.AuditTrailModelsDialog;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 import ag.carnot.workflow.runtime.CredentialProvider;

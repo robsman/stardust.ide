@@ -15,13 +15,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-
-import ag.carnot.base.Money;
 
 /**
  * @author fherinean

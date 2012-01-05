@@ -10,16 +10,20 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.stardust.model.xpdl.carnot.*;
-
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public class ValidationService
 {

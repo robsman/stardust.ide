@@ -13,11 +13,13 @@ package org.eclipse.stardust.modeling.repository.common.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Attribute;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.Repository;
+import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -18,11 +18,11 @@ import java.util.Map.Entry;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.common.error.PublicException;
 
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
 import ag.carnot.bpm.rt.data.structured.TypedXPath;
-import ag.carnot.error.PublicException;
 import ag.carnot.workflow.runtime.beans.BigData;
 
 /**

@@ -23,16 +23,14 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.modeling.transformation.debug.PredefinedConstants;
 import org.eclipse.stardust.modeling.transformation.debug.common.SteppingManager;
 import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugFrame;
 import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugger;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageBreakpointManager;
-
-
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
 
 public class JsDebugTarget extends JsDebugElement
       implements IDebugTarget

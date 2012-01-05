@@ -15,8 +15,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 
 /**
  * Represents the german holidays of a year.

@@ -13,15 +13,14 @@ package org.eclipse.stardust.modeling.modelimport.convert;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
 
 /**
  * 

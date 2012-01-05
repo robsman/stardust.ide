@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.debug.debugger.types.DataField;
 import org.eclipse.stardust.modeling.debug.debugger.types.DataMappingDigest;
 import org.eclipse.swt.SWT;
@@ -21,10 +22,17 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Sash;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
 import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;

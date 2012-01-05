@@ -35,6 +35,11 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.jdt.debug.core.IJavaMethodBreakpoint;
 import org.eclipse.jdt.debug.core.IJavaStackFrame;
 import org.eclipse.jdt.debug.core.IJavaThread;
+import org.eclipse.stardust.common.OneElementIterator;
+import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.modeling.common.ui.ICWMDebugTarget;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
@@ -52,12 +57,6 @@ import org.eclipse.stardust.modeling.debug.engine.ManagedRunnerHelper;
 import org.eclipse.stardust.modeling.debug.highlighting.HighlightManager;
 import org.eclipse.stardust.modeling.debug.util.CollectionUtils;
 import org.eclipse.stardust.modeling.debug.views.WorklistView;
-
-import ag.carnot.base.OneElementIterator;
-import ag.carnot.base.Predicate;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
-import ag.carnot.error.InternalException;
 
 public class CWMDebugTarget extends CWMDebugElement
       implements ICWMDebugTarget, IDebugTarget

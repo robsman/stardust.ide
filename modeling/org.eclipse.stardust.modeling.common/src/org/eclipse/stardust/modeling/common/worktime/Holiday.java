@@ -12,8 +12,8 @@ package org.eclipse.stardust.modeling.common.worktime;
 
 import java.util.Date;
 
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 
 /**
  * Defines a Holiday

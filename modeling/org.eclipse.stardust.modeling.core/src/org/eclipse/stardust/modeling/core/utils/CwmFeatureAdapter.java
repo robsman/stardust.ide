@@ -11,14 +11,13 @@
 package org.eclipse.stardust.modeling.core.utils;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EFeatureAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
-
-import ag.carnot.base.StringUtils;
 
 public class CwmFeatureAdapter extends EFeatureAdapter
 {

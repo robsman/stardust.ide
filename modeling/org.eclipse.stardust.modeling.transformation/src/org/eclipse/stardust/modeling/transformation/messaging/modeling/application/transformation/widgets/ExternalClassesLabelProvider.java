@@ -15,9 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationModelingPlugin;
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 import org.eclipse.swt.graphics.Image;
-
 
 import ag.carnot.workflow.model.PredefinedConstants;
 

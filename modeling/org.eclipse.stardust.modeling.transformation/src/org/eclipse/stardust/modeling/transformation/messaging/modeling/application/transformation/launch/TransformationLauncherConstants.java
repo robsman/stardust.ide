@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch;
 
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 
 public interface TransformationLauncherConstants
 {

@@ -16,7 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import ag.carnot.config.ParametersFacade;
+import org.eclipse.stardust.common.config.ParametersFacade;
+
 import ag.carnot.db.Session;
 import ag.carnot.db.jdbc.SessionFactory;
 import ag.carnot.workflow.runtime.beans.interceptors.ManagedResource;

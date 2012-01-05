@@ -10,11 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.integration.spring.application;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -29,7 +30,6 @@ import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 
 import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.base.StringUtils;
 
 public class SpringBeanValidator implements IModelElementValidator
 {

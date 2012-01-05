@@ -32,7 +32,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
 import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
-import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.ui.dialogs.ClosureDisplayDialog;
 import org.eclipse.stardust.modeling.repository.common.util.CreateClosures;

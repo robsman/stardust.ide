@@ -23,7 +23,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
 
-
 import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 import com.infinity.bpm.messaging.model.mapping.MappingFactory;
 

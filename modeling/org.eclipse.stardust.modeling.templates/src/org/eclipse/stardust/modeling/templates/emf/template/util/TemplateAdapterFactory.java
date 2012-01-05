@@ -13,11 +13,17 @@ package org.eclipse.stardust.modeling.templates.emf.template.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.modeling.templates.emf.template.*;
+import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
+import org.eclipse.stardust.modeling.templates.emf.template.FeatureType;
+import org.eclipse.stardust.modeling.templates.emf.template.ParameterType;
+import org.eclipse.stardust.modeling.templates.emf.template.ReferenceType;
+import org.eclipse.stardust.modeling.templates.emf.template.RootsType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatePackage;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplateType;
+import org.eclipse.stardust.modeling.templates.emf.template.TemplatesType;
 
 /**
  * <!-- begin-user-doc -->

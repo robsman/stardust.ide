@@ -14,10 +14,9 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.audittrail.AuditTrailDbManager;
 import org.eclipse.swt.widgets.Shell;
-
-import ag.carnot.base.StringUtils;
 
 /**
  * @author rsauer

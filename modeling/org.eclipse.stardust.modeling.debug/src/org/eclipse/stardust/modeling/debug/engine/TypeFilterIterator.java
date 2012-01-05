@@ -13,12 +13,12 @@ package org.eclipse.stardust.modeling.debug.engine;
 import java.text.MessageFormat;
 import java.util.Iterator;
 
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
-import ag.carnot.base.Assert;
-import ag.carnot.base.Predicate;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
 import ag.carnot.db.ResultIterator;
 
 /**

@@ -21,19 +21,22 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.Assert;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
-import ag.carnot.base.Assert;
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
-import ag.carnot.error.InternalException;
 import ag.carnot.workflow.model.IData;
 import ag.carnot.workflow.model.IModel;
 import ag.carnot.workflow.model.IProcessDefinition;
 import ag.carnot.workflow.model.ProcessDefinition;
-import ag.carnot.workflow.runtime.beans.*;
+import ag.carnot.workflow.runtime.beans.DetailsFactory;
+import ag.carnot.workflow.runtime.beans.IDataValue;
+import ag.carnot.workflow.runtime.beans.IProcessInstance;
+import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
 import ag.carnot.workflow.runtime.details.ProcessDefinitionDetails;
 import ag.carnot.workflow.spi.runtime.AccessPathEvaluationContext;
 import ag.carnot.workflow.spi.runtime.ExtendedAccessPathEvaluator;

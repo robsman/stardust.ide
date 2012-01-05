@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.struct;
 
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -26,7 +27,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 
-import ag.carnot.base.CollectionUtils;
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;

@@ -33,6 +33,12 @@ import org.eclipse.jdt.debug.core.IJavaValue;
 import org.eclipse.jdt.debug.core.IJavaVariable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.DateUtils;
+import org.eclipse.stardust.common.Money;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.DebugPlugin;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
@@ -57,14 +63,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 
-import ag.carnot.base.Base64;
-import ag.carnot.base.DateUtils;
-import ag.carnot.base.Money;
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.IXPathMap;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConverter;
-import ag.carnot.error.InternalException;
-import ag.carnot.reflect.Reflect;
 
 public class ManualApplicationDialog extends Dialog
 {

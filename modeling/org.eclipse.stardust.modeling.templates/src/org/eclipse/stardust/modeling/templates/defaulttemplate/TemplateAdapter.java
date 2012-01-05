@@ -61,7 +61,6 @@ import org.eclipse.xsd.XSDSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 import ag.carnot.workflow.model.IDataType;
 
 public class TemplateAdapter implements ITemplate

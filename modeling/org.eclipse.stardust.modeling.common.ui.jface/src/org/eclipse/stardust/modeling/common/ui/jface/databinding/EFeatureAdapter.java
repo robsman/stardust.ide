@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui.jface.databinding;
 
-import ag.carnot.base.StringUtils;
+import org.eclipse.stardust.common.StringUtils;
 
 public class EFeatureAdapter
 {

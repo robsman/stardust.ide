@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -60,8 +61,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.base.CollectionUtils;
 
 /**
  * @author fherinean
@@ -325,7 +324,7 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
          accessPathBrowser.setAccessPoint(null, null);
       }
 
-      if (ag.carnot.base.StringUtils.isEmpty(dataMapping.getName()))
+      if (org.eclipse.stardust.common.StringUtils.isEmpty(dataMapping.getName()))
       {
          dataMapping.setName(dataMapping.getId());
       }

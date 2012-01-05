@@ -14,10 +14,10 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.common.Action;
+import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.modeling.debug.Constants;
 
-import ag.carnot.base.Action;
-import ag.carnot.config.Parameters;
 import ag.carnot.db.jdbc.SessionFactory;
 import ag.carnot.workflow.runtime.beans.ActionCarrier;
 import ag.carnot.workflow.runtime.beans.ActionRunner;

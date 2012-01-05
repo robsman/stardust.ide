@@ -14,7 +14,6 @@ package org.eclipse.stardust.modeling.templates.emf.template.util;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.util.XMLProcessor;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplatePackage;

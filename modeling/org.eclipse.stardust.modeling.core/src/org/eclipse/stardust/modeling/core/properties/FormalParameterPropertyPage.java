@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -70,9 +72,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import ag.carnot.base.CollectionUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.spi.providers.data.java.Type;
 

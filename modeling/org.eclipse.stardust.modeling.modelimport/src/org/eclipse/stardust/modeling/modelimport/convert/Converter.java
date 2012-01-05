@@ -12,21 +12,24 @@ package org.eclipse.stardust.modeling.modelimport.convert;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.eclipse.stardust.model.xpdl.*;
+import org.eclipse.stardust.common.Direction;
+import org.eclipse.stardust.common.error.ApplicationException;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import ag.carnot.base.Direction;
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
 import ag.carnot.diagram.Diagram;
 import ag.carnot.diagram.NodeSymbol;
-import ag.carnot.error.ApplicationException;
 import ag.carnot.utils.model.ModelElementList;
 import ag.carnot.workflow.model.IActivity;
 import ag.carnot.workflow.model.IApplication;
@@ -43,7 +46,16 @@ import ag.carnot.workflow.model.ImplementationType;
 import ag.carnot.workflow.model.Inconsistency;
 import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.model.builder.DefaultModelBuilder;
-import ag.carnot.workflow.model.gui.*;
+import ag.carnot.workflow.model.gui.ActivitySymbol;
+import ag.carnot.workflow.model.gui.ApplicationSymbol;
+import ag.carnot.workflow.model.gui.ConditionalPerformerSymbol;
+import ag.carnot.workflow.model.gui.DataMappingConnection;
+import ag.carnot.workflow.model.gui.DataSymbol;
+import ag.carnot.workflow.model.gui.ExecutedByConnection;
+import ag.carnot.workflow.model.gui.OrganizationSymbol;
+import ag.carnot.workflow.model.gui.PerformsConnection;
+import ag.carnot.workflow.model.gui.RoleSymbol;
+import ag.carnot.workflow.model.gui.TransitionConnection;
 
 /**
  * @author Marc Gille
@@ -386,12 +398,12 @@ public abstract class Converter
       DocumentBuilder domBuilder;
       Document document;
 
-      ag.carnot.base.Assert.isNotNull(inputStream, MessageFormat.format(
+      org.eclipse.stardust.common.Assert.isNotNull(inputStream, MessageFormat.format(
             ImportMessages.MSG_CannotCreateDocFromNull, null));
 
       try
       {
-         domBuilder = ag.carnot.utils.xml.XmlUtils.newDomBuilder();
+         domBuilder = org.eclipse.stardust.common.utils.xml.XmlUtils.newDomBuilder();
          document = domBuilder.parse(new InputSource(inputStream));
       }
       catch (Exception e)

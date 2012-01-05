@@ -14,9 +14,9 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
-
 import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
+
+import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 
 public class StructuredDataPrimitiveValue extends JsDebugElement implements IValue
 {

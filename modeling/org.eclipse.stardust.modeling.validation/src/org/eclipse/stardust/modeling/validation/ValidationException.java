@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation;
 
-import ag.carnot.error.PublicException;
+import org.eclipse.stardust.common.error.PublicException;
 
 /**
  * @author fherinean

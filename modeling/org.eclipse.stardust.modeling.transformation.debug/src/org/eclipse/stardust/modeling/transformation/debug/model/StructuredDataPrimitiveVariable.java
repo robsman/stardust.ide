@@ -16,10 +16,10 @@ import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
 import org.eclipse.stardust.modeling.transformation.debug.WatchExpressionDelegate;
 
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
-
 import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.bpm.rt.data.structured.Utils;
+
+import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 
 public class StructuredDataPrimitiveVariable extends AbstractVariable
 {

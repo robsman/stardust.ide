@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.core.properties;
 
 import java.util.Iterator;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -22,8 +23,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ElUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
-
-import ag.carnot.base.StringUtils;
 
 public class DataPropertyPage extends IdentifiablePropertyPage
 {

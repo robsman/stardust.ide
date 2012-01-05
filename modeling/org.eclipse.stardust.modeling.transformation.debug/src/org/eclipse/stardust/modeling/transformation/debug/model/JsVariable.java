@@ -16,10 +16,8 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.transformation.debug.WatchExpressionDelegate;
-
-
-import ag.carnot.base.StringUtils;
 
 public class JsVariable extends AbstractVariable
 {

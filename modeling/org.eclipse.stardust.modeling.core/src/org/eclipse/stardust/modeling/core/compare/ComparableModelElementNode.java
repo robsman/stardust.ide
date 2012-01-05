@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -52,8 +53,6 @@ import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
 import org.eclipse.swt.graphics.Image;
-
-import ag.carnot.reflect.Reflect;
 
 public class ComparableModelElementNode extends BufferedContent
       implements IStructureComparator, IStreamContentAccessor, IEditableContent,

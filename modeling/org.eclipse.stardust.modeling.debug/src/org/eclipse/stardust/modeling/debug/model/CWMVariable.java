@@ -14,10 +14,9 @@ import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.types.DataField;
-
-import ag.carnot.base.Assert;
 
 public class CWMVariable extends CWMDebugElement implements IVariable
 {

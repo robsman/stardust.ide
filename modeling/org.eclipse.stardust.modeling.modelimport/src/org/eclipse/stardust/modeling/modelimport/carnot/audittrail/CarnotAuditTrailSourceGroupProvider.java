@@ -31,6 +31,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
@@ -58,8 +60,6 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
-import ag.carnot.base.Base64;
-import ag.carnot.base.StringUtils;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupProvider

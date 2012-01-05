@@ -12,8 +12,6 @@ package org.eclipse.stardust.modeling.core.editors.tools;
 
 import org.eclipse.gef.tools.CreationTool;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Concrete implementation of a DynamicToolEntry.

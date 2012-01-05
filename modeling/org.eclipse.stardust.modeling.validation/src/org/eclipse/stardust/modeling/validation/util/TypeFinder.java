@@ -40,13 +40,13 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
+import org.eclipse.stardust.common.Money;
+import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.osgi.framework.Bundle;
 
-import ag.carnot.base.Money;
-import ag.carnot.base.Period;
-import ag.carnot.base.StringUtils;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.workflow.spi.providers.data.java.Type;
 
 /**

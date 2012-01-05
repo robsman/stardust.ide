@@ -13,13 +13,14 @@ package org.eclipse.stardust.modeling.debug.engine;
 import java.lang.reflect.Field;
 import java.util.Set;
 
+import org.eclipse.stardust.common.error.InternalException;
+
 import ag.carnot.db.DefaultPersistentVector;
 import ag.carnot.db.IdentifiablePersistent;
 import ag.carnot.db.PersistenceController;
 import ag.carnot.db.Persistent;
 import ag.carnot.db.Session;
 import ag.carnot.db.jdbc.SessionFactory;
-import ag.carnot.error.InternalException;
 
 /**
  * This class is adapted from 

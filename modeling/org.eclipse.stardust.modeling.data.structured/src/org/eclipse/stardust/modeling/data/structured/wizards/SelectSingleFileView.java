@@ -39,6 +39,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.swt.SWT;
@@ -63,10 +64,8 @@ import org.eclipse.ui.internal.wizards.datatransfer.MinimizedFileSystemElement;
 import org.eclipse.ui.internal.wizards.datatransfer.WizardFileSystemResourceImportPage1;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.ui.wizards.datatransfer.FileSystemImportWizard; // TODO: remove
+import org.eclipse.ui.wizards.datatransfer.FileSystemImportWizard;
 import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
-
-import ag.carnot.base.CollectionUtils;
 
 // TODO: (fh) cleanup: the filters, the file system import wizard
 public class SelectSingleFileView

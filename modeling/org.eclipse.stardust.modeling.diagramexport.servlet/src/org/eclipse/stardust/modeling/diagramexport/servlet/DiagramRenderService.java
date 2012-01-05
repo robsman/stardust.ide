@@ -14,10 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-
-import ag.carnot.base.log.LogManager;
-import ag.carnot.base.log.Logger;
 
 /**
  * @author rsauer

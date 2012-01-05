@@ -18,6 +18,7 @@ import javax.wsdl.Message;
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -32,7 +33,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 
-import ag.carnot.base.StringUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.bpm.rt.data.structured.TypedXPath;
 import ag.carnot.bpm.rt.data.structured.spi.StructDataTransformerKey;

@@ -24,6 +24,7 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -34,8 +35,6 @@ import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.w3c.dom.Document;
-
-import ag.carnot.error.PublicException;
 
 import com.infinity.bpm.messaging.format.IMessageFormat;
 import com.infinity.bpm.messaging.format.ParsingException;

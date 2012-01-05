@@ -14,6 +14,7 @@ import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.dnd.AbstractTransferDropTargetListener;
 import org.eclipse.gef.dnd.SimpleObjectTransfer;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -30,8 +31,6 @@ import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Tree;
-
-import ag.carnot.reflect.Reflect;
 
 public class ModelElementTransferDropTargetListener
       extends AbstractTransferDropTargetListener

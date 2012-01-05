@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -35,12 +37,15 @@ import org.eclipse.stardust.modeling.debug.debugger.types.ActivityInstanceDigest
 import org.eclipse.stardust.modeling.debug.debugger.types.DataMappingDigest;
 import org.eclipse.stardust.modeling.debug.model.CWMDebugTarget;
 import org.eclipse.stardust.modeling.debug.model.ManualApplicationDialog;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
-
-import ag.carnot.base.CollectionUtils;
-import ag.carnot.error.InternalException;
 
 public class UiAccessor
 {

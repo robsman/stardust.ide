@@ -42,13 +42,12 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPConstants;
 
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.modeling.integration.webservices.utils.WsdlUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import ag.carnot.error.PublicException;
-import ag.carnot.utils.xml.XmlUtils;
 
 
 /**

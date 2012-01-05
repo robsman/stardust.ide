@@ -45,6 +45,9 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.stardust.common.error.InternalException;
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceImpl;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.swt.events.SelectionEvent;
@@ -63,9 +66,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.w3c.dom.Document;
 
-import ag.carnot.error.InternalException;
-import ag.carnot.error.PublicException;
-import ag.carnot.utils.xml.XmlUtils;
 import ag.carnot.workflow.model.beans.XMLConstants;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
 

@@ -10,13 +10,17 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.ui.validation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.util.ListenerList;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IModelAdapter;

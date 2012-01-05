@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
-
 import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 /**

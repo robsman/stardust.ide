@@ -15,7 +15,11 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.modeling.repository.common.*;
+import org.eclipse.stardust.modeling.repository.common.Attribute;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.Repository;
+import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -26,9 +26,8 @@ import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.eclipse.stardust.common.Base64;
 import org.xml.sax.InputSource;
-
-import ag.carnot.base.Base64;
 
 /**
  * Utility class for retrieving WSDL files from a URI.

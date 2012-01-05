@@ -15,7 +15,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import ag.carnot.config.Parameters;
+import org.eclipse.stardust.common.config.Parameters;
+
 import ag.carnot.db.jdbc.DBMSKey;
 import ag.carnot.db.jdbc.QueryUtils;
 import ag.carnot.db.jdbc.Session;

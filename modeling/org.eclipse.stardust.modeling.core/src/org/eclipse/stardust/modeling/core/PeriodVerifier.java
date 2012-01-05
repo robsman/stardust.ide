@@ -12,14 +12,13 @@ package org.eclipse.stardust.modeling.core;
 
 import java.awt.Toolkit;
 
+import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.Period;
-import ag.carnot.base.StringUtils;
 
 public class PeriodVerifier implements Verifier, FocusListener
 {

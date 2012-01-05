@@ -11,9 +11,8 @@
 package org.eclipse.stardust.modeling.core.editors.figures;
 
 import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.swt.graphics.Color;
-
-import ag.carnot.base.CompareHelper;
 
 public abstract class AbstractLabeledIconFigure extends AbstractLabeledFigure
       implements IIconFigure

@@ -9,12 +9,11 @@
  *    SunGard CSA LLC - initial API and implementation and/or initial documentation
  *******************************************************************************/
 package org.eclipse.stardust.modeling.javascript;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.wst.jsdt.core.infer.InferredAttribute;
 import org.eclipse.wst.jsdt.core.infer.InferredType;
 import org.eclipse.wst.jsdt.internal.compiler.ast.ASTNode;
 import org.eclipse.wst.jsdt.internal.compiler.util.HashtableOfObject;
-
-import ag.carnot.reflect.Reflect;
 
 
 

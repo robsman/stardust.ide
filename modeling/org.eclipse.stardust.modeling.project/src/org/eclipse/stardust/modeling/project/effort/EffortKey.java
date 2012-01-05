@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.project.effort;
 
-import ag.carnot.base.CompareHelper;
+import org.eclipse.stardust.common.CompareHelper;
 
 public class EffortKey extends EffortNotifier implements NamedItem, ScopedItem
 {

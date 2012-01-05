@@ -20,7 +20,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor.RegionWithLineOffset;
 
-
 import ag.carnot.workflow.model.PredefinedConstants;
 
 public class JavaScriptEditorController

@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 
-
 import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 
 /**

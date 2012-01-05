@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.stardust.common.Direction;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
@@ -23,9 +26,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
-import ag.carnot.base.Direction;
-import ag.carnot.base.StringUtils;
-import ag.carnot.reflect.Reflect;
 import ag.carnot.utils.model.Hook;
 import ag.carnot.utils.model.ModelElement;
 import ag.carnot.utils.model.RootElement;

@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.transformation.debug;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupParticipant;
 import org.eclipse.stardust.modeling.transformation.debug.model.JsStackFrame;
 import org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView;

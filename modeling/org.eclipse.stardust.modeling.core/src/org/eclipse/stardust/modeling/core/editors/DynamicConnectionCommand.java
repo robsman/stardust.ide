@@ -32,6 +32,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -106,7 +107,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-import ag.carnot.base.CollectionUtils;
 import ag.carnot.bpm.rt.data.structured.StructuredDataConstants;
 import ag.carnot.workflow.model.PredefinedConstants;
 
@@ -373,7 +373,7 @@ public class DynamicConnectionCommand extends Command
                   final DataType data = dm.getData();      
                   final String context = PredefinedConstants.APPLICATION_CONTEXT;
                   // if empty, switch context
-                  if(ag.carnot.base.StringUtils.isEmpty(dm.getApplicationAccessPoint()))
+                  if(org.eclipse.stardust.common.StringUtils.isEmpty(dm.getApplicationAccessPoint()))
                   {
                      command.add(new SetValueCmd(dm, PKG.getDataMappingType_Context(), context));
                      Command myCmd = new DelegatingCommand()

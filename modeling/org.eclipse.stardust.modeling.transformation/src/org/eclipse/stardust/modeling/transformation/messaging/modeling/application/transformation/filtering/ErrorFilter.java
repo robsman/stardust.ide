@@ -11,10 +11,9 @@
 package org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.filtering;
 
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.MessageTransformationController;
-
-import ag.carnot.base.StringUtils;
 
 import com.infinity.bpm.messaging.model.mapping.FieldMapping;
 

@@ -21,8 +21,6 @@ import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 
-import ag.carnot.base.StringUtils;
-
 public class DereferencePathBrowserContentProvider implements ITreeContentProvider
 {
    private final TypeFinder finder;

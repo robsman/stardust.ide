@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.properties;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -22,8 +23,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.base.StringUtils;
 
 public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
 {

@@ -10,7 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram;
 
-import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.ColorConstants;
+import org.eclipse.draw2d.ConnectionLocator;
+import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.PolygonDecoration;
+import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.PolylineDecoration;
+import org.eclipse.draw2d.RotatableDecoration;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.LinkColor;

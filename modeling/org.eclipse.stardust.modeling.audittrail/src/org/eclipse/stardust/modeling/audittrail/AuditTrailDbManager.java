@@ -23,9 +23,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.stardust.common.error.PublicException;
 
 import ag.carnot.db.jdbc.Session;
-import ag.carnot.error.PublicException;
 import ag.carnot.thirdparty.db.derby.DerbyDbActivator;
 import ag.carnot.thirdparty.db.derby.IDerbyProperties;
 import ag.carnot.workflow.runtime.beans.SchemaHelper;

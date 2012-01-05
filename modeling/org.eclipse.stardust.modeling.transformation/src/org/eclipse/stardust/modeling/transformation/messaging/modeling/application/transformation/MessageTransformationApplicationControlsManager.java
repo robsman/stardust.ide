@@ -34,6 +34,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -52,7 +54,21 @@ import org.eclipse.stardust.modeling.transformation.messaging.modeling.applicati
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.filtering.SourceHighlightFilter;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.filtering.TargetHighlightFilter;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.filtering.TextFilter;
-import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.*;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.ClearMappingExpressionAction;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.ClearMappingStatementAction;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.DelegatingMessageTypeLabelProvider;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.DeleteSourceMessageAction;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.DeleteTargetMessageAction;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.ExternalClassesConfigurationDialog;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.IndexConfigurationDialog;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MTATreeViewer;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MappingConfiguration;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MessageAdditionDialog;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MessageTypeComparer;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MessagingJavaCodeScanner;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MultipleAccessPathBrowserContentProvider;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.RenameMessageAction;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.ToggleMappingBreakpointAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.dnd.DND;
@@ -99,9 +115,6 @@ import org.eclipse.ui.IPersistableElement;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.jsdt.internal.ui.JavaPluginImages;
-
-import ag.carnot.base.StringUtils;
-import ag.carnot.reflect.Reflect;
 
 
 public class MessageTransformationApplicationControlsManager

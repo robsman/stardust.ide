@@ -18,12 +18,12 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
+import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
+import ag.carnot.bpm.rt.data.structured.TypedXPath;
+
 import com.infinity.bpm.rt.integration.javascript.ListValuedXPathAdapter;
 import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
 import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
-
-import ag.carnot.bpm.rt.data.structured.StructuredDataXPathUtils;
-import ag.carnot.bpm.rt.data.structured.TypedXPath;
 
 public class StructuredDataMapValue extends JsDebugElement implements IValue
 {

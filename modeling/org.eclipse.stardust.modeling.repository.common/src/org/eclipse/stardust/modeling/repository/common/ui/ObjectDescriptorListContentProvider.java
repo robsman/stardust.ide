@@ -15,10 +15,9 @@ import java.util.Map;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
-
-import ag.carnot.base.CollectionUtils;
 
 public class ObjectDescriptorListContentProvider implements ITreeContentProvider
 {

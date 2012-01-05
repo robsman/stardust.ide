@@ -19,9 +19,7 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.IBreakpointManager;
 import org.eclipse.debug.core.model.IBreakpoint;
-
-
-import ag.carnot.base.CollectionUtils;
+import org.eclipse.stardust.common.CollectionUtils;
 
 public class MessageBreakpointManager implements IBreakpointListener
 {
