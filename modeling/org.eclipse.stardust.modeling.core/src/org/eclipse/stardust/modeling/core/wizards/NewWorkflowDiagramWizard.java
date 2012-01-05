@@ -396,27 +396,27 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
 
       // CLow
       modelVariable = new ModelVariable("${CLow}", "0", "Initial criticality (Low)");
-      context.createAttributeSet(modelVariable, 0);
+      context.createAttributeSet(modelVariable, 1);
 
       // CMed
       modelVariable = new ModelVariable("${CMed}", "0.33", "Initial criticality (Medium)");
-      context.createAttributeSet(modelVariable, 1);
+      context.createAttributeSet(modelVariable, 2);
 
       // CHigh
       modelVariable = new ModelVariable("${CHigh}", "0.66", "Initial criticality (High)");
-      context.createAttributeSet(modelVariable, 2);
+      context.createAttributeSet(modelVariable, 3);
 
       // MLow
       modelVariable = new ModelVariable("${MLow}", "10", "Multiple of target execution time (Low)");
-      context.createAttributeSet(modelVariable, 3);
+      context.createAttributeSet(modelVariable, 4);
 
       // MMed
       modelVariable = new ModelVariable("${MMed}", "10", "Multiple of target execution time (Medium)");
-      context.createAttributeSet(modelVariable, 4);
+      context.createAttributeSet(modelVariable, 5);
 
       // MHigh
       modelVariable = new ModelVariable("${MHigh}", "10", "Multiple of target execution time (High)");
-      context.createAttributeSet(modelVariable, 5);
+      context.createAttributeSet(modelVariable, 6);
       
       //Default criticality formula
       String formula = 
@@ -443,7 +443,8 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          "   Cp = ${CHigh};\n" +
          "   Mp = ${MHigh};\n" +
          "}\n" +
-         "t = activityInstance.getAge() / 1000;\n";
+         "t = activityInstance.getAge() / 1000;\n\n" +
+         "Cp + (1- Cp) * t/(Mp * T);\n";
       AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula", "String", formula);
    }
 
