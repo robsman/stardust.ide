@@ -12,6 +12,7 @@
  */
 package org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -24,8 +25,6 @@ import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ExternalWebappContextPropertyPage extends AbstractModelElementPropertyPage
       implements IContextPropertyPage

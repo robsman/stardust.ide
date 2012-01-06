@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -33,8 +34,6 @@ import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class SerializableValidator
       implements IModelElementValidator, IBridgeObjectProvider

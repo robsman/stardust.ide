@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.spi.conditionTypes.timer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -23,8 +24,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class TimerAccessPointProvider implements IAccessPointProvider
 {

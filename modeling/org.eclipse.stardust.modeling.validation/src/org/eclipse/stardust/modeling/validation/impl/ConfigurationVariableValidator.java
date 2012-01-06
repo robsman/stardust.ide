@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
@@ -30,8 +31,6 @@ import org.eclipse.stardust.modeling.validation.IModelValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ConfigurationVariableValidator implements IModelValidator
 {

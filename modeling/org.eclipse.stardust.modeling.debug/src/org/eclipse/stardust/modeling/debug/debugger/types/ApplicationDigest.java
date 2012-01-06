@@ -18,10 +18,9 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.api.model.Application;
+import org.eclipse.stardust.engine.api.model.ApplicationContext;
 import org.eclipse.stardust.modeling.debug.Constants;
-
-import ag.carnot.workflow.model.Application;
-import ag.carnot.workflow.model.ApplicationContext;
 
 public class ApplicationDigest extends AbstractJavaTypeValue
 {

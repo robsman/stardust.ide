@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -34,7 +35,6 @@ import org.eclipse.ui.IMarkerResolution;
 
 import ag.carnot.workflow.el.DataTypeResolver;
 import ag.carnot.workflow.el.JsConverter;
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class TransitionResolutionGenerator implements IResolutionGenerator
 {

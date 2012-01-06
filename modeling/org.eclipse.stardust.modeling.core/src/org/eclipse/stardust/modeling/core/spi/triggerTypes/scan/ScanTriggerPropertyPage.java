@@ -19,6 +19,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -42,8 +43,6 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
 {

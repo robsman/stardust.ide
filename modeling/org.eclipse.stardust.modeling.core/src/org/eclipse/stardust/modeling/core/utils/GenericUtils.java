@@ -29,6 +29,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.ejb.SessionBeanConstants;
@@ -61,8 +62,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
 import org.eclipse.ui.PlatformUI;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class GenericUtils
 {    

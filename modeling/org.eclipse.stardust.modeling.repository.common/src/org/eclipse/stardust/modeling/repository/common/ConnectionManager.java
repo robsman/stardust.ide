@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -50,8 +51,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ConnectionManager implements IConnectionManager
 {

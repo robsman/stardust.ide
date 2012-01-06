@@ -11,9 +11,8 @@
 package org.eclipse.stardust.modeling.integration.dms.data;
 
 
+import org.eclipse.stardust.engine.api.runtime.Folder;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
-
-import ag.carnot.workflow.runtime.Folder;
 
 /**
  * @author rsauer

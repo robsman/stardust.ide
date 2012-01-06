@@ -22,6 +22,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.BpmCommonActivator;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
@@ -35,8 +36,6 @@ import org.eclipse.ui.PerspectiveAdapter;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-
-import ag.carnot.workflow.model.Modules;
 
 /**
  * The activator class controls the plug-in life cycle

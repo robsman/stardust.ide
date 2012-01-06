@@ -19,6 +19,11 @@ import java.util.Map;
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.api.model.IData;
+import org.eclipse.stardust.engine.api.model.IDataType;
+import org.eclipse.stardust.engine.api.model.IReference;
+import org.eclipse.stardust.engine.api.model.PluggableType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
@@ -29,11 +34,6 @@ import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import ag.carnot.utils.model.Hook;
 import ag.carnot.utils.model.ModelElement;
 import ag.carnot.utils.model.RootElement;
-import ag.carnot.workflow.model.IData;
-import ag.carnot.workflow.model.IDataType;
-import ag.carnot.workflow.model.IReference;
-import ag.carnot.workflow.model.PluggableType;
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ElValidationIDataAdapter implements IData
 {

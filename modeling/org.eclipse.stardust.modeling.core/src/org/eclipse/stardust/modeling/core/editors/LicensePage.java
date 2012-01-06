@@ -19,6 +19,7 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -51,8 +52,6 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.EditorPart;
-
-import ag.carnot.workflow.model.Modules;
 
 public class LicensePage extends EditorPart
 {

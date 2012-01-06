@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.core.editors.ui;
 
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -32,8 +33,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class AccessPathBrowserComposite
 {

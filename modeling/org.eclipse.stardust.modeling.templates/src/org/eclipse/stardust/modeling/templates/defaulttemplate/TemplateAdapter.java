@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.stardust.engine.api.model.IDataType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.Coordinates;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -60,8 +61,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.xsd.XSDSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import ag.carnot.workflow.model.IDataType;
 
 public class TemplateAdapter implements ITemplate
 {

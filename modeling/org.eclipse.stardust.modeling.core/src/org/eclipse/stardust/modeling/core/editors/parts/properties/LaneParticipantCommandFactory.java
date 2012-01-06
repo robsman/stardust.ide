@@ -19,6 +19,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -42,8 +43,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValu
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
 {

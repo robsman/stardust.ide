@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.integration.dms.data;
 import java.util.Set;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.ClientXPathMap;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -39,8 +40,6 @@ import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPathE
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 /**
  * @author rsauer

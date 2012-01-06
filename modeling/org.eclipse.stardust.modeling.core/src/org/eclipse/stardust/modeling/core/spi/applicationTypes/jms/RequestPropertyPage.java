@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider;
 import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
 import org.eclipse.stardust.engine.extensions.jms.app.MessageType;
@@ -53,8 +54,6 @@ import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 /**
  * @author fherinean

@@ -12,12 +12,11 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationModelingPlugin;
 import org.eclipse.swt.graphics.Image;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ExternalClassesLabelProvider extends LabelProvider implements ITableLabelProvider {
 

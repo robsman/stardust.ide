@@ -47,14 +47,14 @@ import javax.swing.event.ListSelectionListener;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.DateUtils;
+import org.eclipse.stardust.engine.api.model.IModel;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.DeployedModelDescription;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import ag.carnot.utils.gui.DateEntry;
-import ag.carnot.workflow.model.IModel;
-import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.runtime.DeployedModelDescription;
 
 public class DeployedModelsView extends JComponent
 {

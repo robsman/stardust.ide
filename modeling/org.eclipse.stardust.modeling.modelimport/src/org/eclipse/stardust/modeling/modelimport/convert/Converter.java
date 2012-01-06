@@ -24,6 +24,20 @@ import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.error.ApplicationException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.model.IActivity;
+import org.eclipse.stardust.engine.api.model.IApplication;
+import org.eclipse.stardust.engine.api.model.IConditionalPerformer;
+import org.eclipse.stardust.engine.api.model.IDataMapping;
+import org.eclipse.stardust.engine.api.model.IModel;
+import org.eclipse.stardust.engine.api.model.IModelParticipant;
+import org.eclipse.stardust.engine.api.model.IOrganization;
+import org.eclipse.stardust.engine.api.model.IProcessDefinition;
+import org.eclipse.stardust.engine.api.model.IRole;
+import org.eclipse.stardust.engine.api.model.ITransition;
+import org.eclipse.stardust.engine.api.model.ITrigger;
+import org.eclipse.stardust.engine.api.model.ImplementationType;
+import org.eclipse.stardust.engine.api.model.Inconsistency;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -31,20 +45,6 @@ import org.xml.sax.InputSource;
 import ag.carnot.diagram.Diagram;
 import ag.carnot.diagram.NodeSymbol;
 import ag.carnot.utils.model.ModelElementList;
-import ag.carnot.workflow.model.IActivity;
-import ag.carnot.workflow.model.IApplication;
-import ag.carnot.workflow.model.IConditionalPerformer;
-import ag.carnot.workflow.model.IDataMapping;
-import ag.carnot.workflow.model.IModel;
-import ag.carnot.workflow.model.IModelParticipant;
-import ag.carnot.workflow.model.IOrganization;
-import ag.carnot.workflow.model.IProcessDefinition;
-import ag.carnot.workflow.model.IRole;
-import ag.carnot.workflow.model.ITransition;
-import ag.carnot.workflow.model.ITrigger;
-import ag.carnot.workflow.model.ImplementationType;
-import ag.carnot.workflow.model.Inconsistency;
-import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.model.builder.DefaultModelBuilder;
 import ag.carnot.workflow.model.gui.ActivitySymbol;
 import ag.carnot.workflow.model.gui.ApplicationSymbol;
@@ -185,7 +185,7 @@ public abstract class Converter
       while (outTransitions.hasNext())
       {
          ActivitySymbol nextActivitySymbol;
-         ag.carnot.workflow.model.ITransition transition = (ITransition) outTransitions
+         ITransition transition = (ITransition) outTransitions
                .next();
          IActivity nextActivity = transition.getToActivity();
 

@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -26,7 +27,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.integration.mail.MailConstants;
 
-import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.spi.utils.JavaAccessPointType;
 
 /**

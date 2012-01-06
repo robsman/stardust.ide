@@ -21,13 +21,13 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.security.authentication.LoginFailedException;
+import org.eclipse.stardust.engine.api.runtime.CredentialProvider;
+import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
+import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
 
 import ag.carnot.gui.ErrorDialog;
 import ag.carnot.workflow.model.removethis.AuditTrailModelsDialog;
 import ag.carnot.workflow.model.xpdl.XpdlUtils;
-import ag.carnot.workflow.runtime.CredentialProvider;
-import ag.carnot.workflow.runtime.ServiceFactory;
-import ag.carnot.workflow.runtime.ServiceFactoryLocator;
 
 /**
  * @author rsauer

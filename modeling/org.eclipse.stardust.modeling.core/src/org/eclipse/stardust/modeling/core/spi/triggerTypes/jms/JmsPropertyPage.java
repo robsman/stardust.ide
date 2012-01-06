@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor;
 import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
 import org.eclipse.stardust.engine.extensions.jms.app.MessageType;
@@ -72,8 +73,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class JmsPropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager

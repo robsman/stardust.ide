@@ -30,18 +30,18 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.eclipse.stardust.common.error.ValidationException;
+import org.eclipse.stardust.engine.api.model.IModel;
+import org.eclipse.stardust.engine.api.model.Inconsistency;
+import org.eclipse.stardust.engine.api.query.DeployedModelQuery;
+import org.eclipse.stardust.engine.api.runtime.Daemon;
+import org.eclipse.stardust.engine.api.runtime.DeploymentElement;
+import org.eclipse.stardust.engine.api.runtime.DeploymentException;
+import org.eclipse.stardust.engine.api.runtime.DeploymentOptions;
+import org.eclipse.stardust.engine.api.runtime.Models;
+import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 
 import ag.carnot.gui.AbstractDialog;
 import ag.carnot.gui.ValidationExceptionDialog;
-import ag.carnot.workflow.model.IModel;
-import ag.carnot.workflow.model.Inconsistency;
-import ag.carnot.workflow.query.DeployedModelQuery;
-import ag.carnot.workflow.runtime.Daemon;
-import ag.carnot.workflow.runtime.DeploymentElement;
-import ag.carnot.workflow.runtime.DeploymentException;
-import ag.carnot.workflow.runtime.DeploymentOptions;
-import ag.carnot.workflow.runtime.Models;
-import ag.carnot.workflow.runtime.ServiceFactory;
 import ag.carnot.workflow.tools.common.DeploymentCallback;
 import ag.carnot.workflow.tools.common.DeploymentUtils;
 

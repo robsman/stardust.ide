@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.spi.actionTypes.trigger;
 import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -33,8 +34,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class TriggerPropertyPage extends AbstractModelElementPropertyPage
       implements IActionPropertyPage

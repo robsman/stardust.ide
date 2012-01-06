@@ -12,10 +12,9 @@ package org.eclipse.stardust.modeling.validation.impl;
 
 import java.util.Map;
 
+import org.eclipse.stardust.engine.api.model.PluggableType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-
-import ag.carnot.workflow.model.PluggableType;
 
 public class ElValidationPluggableTypAdapter implements PluggableType
 {

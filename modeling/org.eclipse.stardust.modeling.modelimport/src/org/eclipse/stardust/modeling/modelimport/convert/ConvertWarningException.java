@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.modelimport.convert;
 
-import ag.carnot.workflow.model.IProcessDefinition;
+import org.eclipse.stardust.engine.api.model.IProcessDefinition;
 
 /** 
  *

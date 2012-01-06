@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
@@ -34,8 +35,6 @@ import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPoint
 import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.widgets.MTAClassLoader;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 
 public class MessageTransformationUtils

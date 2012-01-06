@@ -23,6 +23,7 @@ import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -54,8 +55,6 @@ import org.eclipse.stardust.modeling.core.modelserver.jobs.StateCache;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
       implements NotificationAdaptee

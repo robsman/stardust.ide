@@ -28,6 +28,13 @@ import org.eclipse.stardust.common.error.InvalidValueException;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.dto.ActivityInstanceDetails;
+import org.eclipse.stardust.engine.api.model.IActivity;
+import org.eclipse.stardust.engine.api.model.IDataMapping;
+import org.eclipse.stardust.engine.api.model.ImplementationType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
+import org.eclipse.stardust.engine.api.runtime.WorkflowService;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.Debugger;
@@ -36,12 +43,6 @@ import org.eclipse.stardust.modeling.debug.debugger.types.ProcessInstanceDigest;
 import org.eclipse.stardust.modeling.debug.debugger.ui.ApplicationFrame;
 import org.eclipse.stardust.modeling.debug.debugger.ui.WorkflowGUIAdapter;
 
-import ag.carnot.workflow.model.IActivity;
-import ag.carnot.workflow.model.IDataMapping;
-import ag.carnot.workflow.model.ImplementationType;
-import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.runtime.ServiceFactory;
-import ag.carnot.workflow.runtime.WorkflowService;
 import ag.carnot.workflow.runtime.beans.ActivityInstanceBean;
 import ag.carnot.workflow.runtime.beans.ForkingService;
 import ag.carnot.workflow.runtime.beans.IActivityInstance;
@@ -50,7 +51,6 @@ import ag.carnot.workflow.runtime.beans.IUser;
 import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
 import ag.carnot.workflow.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
 import ag.carnot.workflow.runtime.beans.removethis.SecurityProperties;
-import ag.carnot.workflow.runtime.details.ActivityInstanceDetails;
 
 /**
  * @author sborn

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gef.TreeEditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
@@ -45,8 +46,6 @@ import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class CreateCompositeAction extends Action implements ISpiAction
 {

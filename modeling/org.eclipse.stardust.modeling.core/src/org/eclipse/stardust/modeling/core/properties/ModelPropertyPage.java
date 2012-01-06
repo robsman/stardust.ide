@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -26,8 +27,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.gface.date.DatePickerCombo;
 import com.gface.date.DatePickerStyle;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ModelPropertyPage extends IdentifiablePropertyPage
 {

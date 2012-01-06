@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -28,8 +29,6 @@ import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class ManualTriggerValidator implements IModelElementValidator
 {

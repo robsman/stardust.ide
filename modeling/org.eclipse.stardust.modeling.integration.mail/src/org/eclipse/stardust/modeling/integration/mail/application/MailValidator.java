@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.mail.utils.MailValidationUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -29,8 +30,6 @@ import org.eclipse.stardust.modeling.integration.mail.Mail_Messages;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 /**
  * 

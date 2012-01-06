@@ -19,6 +19,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -28,8 +29,6 @@ import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.IdentifiableModelElementTreeEditPart;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class UpgradeDataAction extends SelectionAction
 {

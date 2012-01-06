@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -42,8 +43,6 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-
-import ag.carnot.workflow.model.Modules;
 
 public class UpgradePage extends EditorPart
 {

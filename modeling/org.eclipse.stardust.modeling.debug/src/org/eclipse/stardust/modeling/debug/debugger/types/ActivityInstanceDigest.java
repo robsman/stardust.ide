@@ -27,22 +27,22 @@ import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.dto.ActivityDetails;
+import org.eclipse.stardust.engine.api.model.Activity;
+import org.eclipse.stardust.engine.api.model.ApplicationContext;
+import org.eclipse.stardust.engine.api.model.DataMapping;
+import org.eclipse.stardust.engine.api.model.IModel;
+import org.eclipse.stardust.engine.api.model.IParticipant;
+import org.eclipse.stardust.engine.api.model.ImplementationType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
+import org.eclipse.stardust.engine.api.runtime.WorkflowService;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 import org.eclipse.stardust.modeling.debug.highlighting.IHighlightable;
 
-import ag.carnot.workflow.model.Activity;
-import ag.carnot.workflow.model.ApplicationContext;
-import ag.carnot.workflow.model.DataMapping;
-import ag.carnot.workflow.model.IModel;
-import ag.carnot.workflow.model.IParticipant;
-import ag.carnot.workflow.model.ImplementationType;
-import ag.carnot.workflow.model.PredefinedConstants;
-import ag.carnot.workflow.runtime.ServiceFactory;
-import ag.carnot.workflow.runtime.WorkflowService;
 import ag.carnot.workflow.runtime.beans.IActivityInstance;
 import ag.carnot.workflow.runtime.beans.IUser;
-import ag.carnot.workflow.runtime.details.ActivityDetails;
 
 /**
  * @author sborn

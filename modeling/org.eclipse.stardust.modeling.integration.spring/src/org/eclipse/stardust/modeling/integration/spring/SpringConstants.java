@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.integration.spring;
 
-import ag.carnot.workflow.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 
 public interface SpringConstants
 {

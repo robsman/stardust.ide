@@ -11,10 +11,9 @@
 package org.eclipse.stardust.modeling.integration.dms.data;
 
 
+import org.eclipse.stardust.engine.api.runtime.Folder;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
-
-import ag.carnot.workflow.runtime.Folder;
 
 /**
  * @author rsauer

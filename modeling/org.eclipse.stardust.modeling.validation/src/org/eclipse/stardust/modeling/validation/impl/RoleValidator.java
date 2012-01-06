@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.validation.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
@@ -25,8 +26,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.IModelParticipantUtils;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public class RoleValidator implements IModelElementValidator
 {

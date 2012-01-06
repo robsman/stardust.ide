@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -24,8 +25,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteV
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 /**
  * @author fherinean

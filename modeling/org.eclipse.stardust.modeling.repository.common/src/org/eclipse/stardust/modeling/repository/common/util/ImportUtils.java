@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
@@ -37,8 +38,6 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementD
 import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
 import org.eclipse.swt.graphics.Image;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 public final class ImportUtils
 {

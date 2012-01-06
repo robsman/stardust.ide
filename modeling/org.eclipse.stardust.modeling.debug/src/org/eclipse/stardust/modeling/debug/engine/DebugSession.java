@@ -29,6 +29,7 @@ import org.eclipse.stardust.common.TransformingIterator;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.dto.ActivityInstanceDetails;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
 import ag.carnot.db.AndTerm;
@@ -55,7 +56,6 @@ import ag.carnot.workflow.runtime.beans.IAuditTrailPartition;
 import ag.carnot.workflow.runtime.beans.IDataValue;
 import ag.carnot.workflow.runtime.beans.IProcessInstance;
 import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
-import ag.carnot.workflow.runtime.details.ActivityInstanceDetails;
 import ag.carnot.workflow.runtime.setup.DataClusterInstance;
 
 /**

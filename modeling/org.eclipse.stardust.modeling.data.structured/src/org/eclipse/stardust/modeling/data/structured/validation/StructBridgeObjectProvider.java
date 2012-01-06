@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
@@ -42,8 +43,6 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.Path;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
-
-import ag.carnot.workflow.model.PredefinedConstants;
 
 // TODO: implement
 public class StructBridgeObjectProvider implements IBridgeObjectProvider
