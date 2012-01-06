@@ -34,6 +34,8 @@ import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.engine.core.model.beans.ModelBean;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
@@ -54,9 +56,6 @@ import org.eclipse.xsd.util.XSDParser;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import ag.carnot.workflow.model.beans.ModelBean;
-import ag.carnot.workflow.model.beans.XMLConstants;
 
 public class CwmXmlHandler extends SAXXMLHandler
 {

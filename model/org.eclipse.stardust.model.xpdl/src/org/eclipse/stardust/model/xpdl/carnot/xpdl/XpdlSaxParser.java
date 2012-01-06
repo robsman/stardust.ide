@@ -31,6 +31,7 @@ import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelMessages;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -43,8 +44,6 @@ import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 public class XpdlSaxParser extends SAXParser
 {

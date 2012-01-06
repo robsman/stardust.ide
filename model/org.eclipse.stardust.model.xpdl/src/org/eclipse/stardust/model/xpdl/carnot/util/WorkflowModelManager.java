@@ -42,6 +42,8 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
@@ -49,9 +51,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.w3c.dom.Document;
-
-import ag.carnot.workflow.model.beans.XMLConstants;
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 public class WorkflowModelManager
 {
