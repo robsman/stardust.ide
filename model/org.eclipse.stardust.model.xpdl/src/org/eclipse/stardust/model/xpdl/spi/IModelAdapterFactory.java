@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.spi;
 
+import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-
-import ag.carnot.workflow.model.IModel;
 
 public interface IModelAdapterFactory
 {

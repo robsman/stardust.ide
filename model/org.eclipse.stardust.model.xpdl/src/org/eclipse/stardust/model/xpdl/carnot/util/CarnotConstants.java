@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
-import ag.carnot.workflow.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 
 /**
  * @author fherinean

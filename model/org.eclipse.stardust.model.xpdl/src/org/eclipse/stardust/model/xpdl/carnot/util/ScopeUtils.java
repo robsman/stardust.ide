@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import java.util.HashSet;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
@@ -25,7 +26,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 
-import ag.carnot.workflow.model.PredefinedConstants;
 import ag.carnot.workflow.runtime.beans.BigData;
 
 public class ScopeUtils
