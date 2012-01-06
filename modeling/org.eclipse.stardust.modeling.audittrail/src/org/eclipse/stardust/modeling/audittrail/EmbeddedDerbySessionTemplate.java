@@ -16,12 +16,11 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.eclipse.stardust.common.config.Parameters;
-
-import ag.carnot.db.jdbc.DBMSKey;
-import ag.carnot.db.jdbc.QueryUtils;
-import ag.carnot.db.jdbc.Session;
-import ag.carnot.db.jdbc.SessionFactory;
-import ag.carnot.db.jdbc.SessionProperties;
+import org.eclipse.stardust.engine.core.persistence.jdbc.DBMSKey;
+import org.eclipse.stardust.engine.core.persistence.jdbc.QueryUtils;
+import org.eclipse.stardust.engine.core.persistence.jdbc.Session;
+import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
+import org.eclipse.stardust.engine.core.persistence.jdbc.SessionProperties;
 
 /**
  * @author rsauer

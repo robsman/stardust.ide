@@ -14,13 +14,12 @@ import java.lang.reflect.Field;
 import java.util.Set;
 
 import org.eclipse.stardust.common.error.InternalException;
-
-import ag.carnot.db.DefaultPersistentVector;
-import ag.carnot.db.IdentifiablePersistent;
-import ag.carnot.db.PersistenceController;
-import ag.carnot.db.Persistent;
-import ag.carnot.db.Session;
-import ag.carnot.db.jdbc.SessionFactory;
+import org.eclipse.stardust.engine.core.persistence.DefaultPersistentVector;
+import org.eclipse.stardust.engine.core.persistence.IdentifiablePersistent;
+import org.eclipse.stardust.engine.core.persistence.PersistenceController;
+import org.eclipse.stardust.engine.core.persistence.Persistent;
+import org.eclipse.stardust.engine.core.persistence.Session;
+import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
 
 /**
  * This class is adapted from 

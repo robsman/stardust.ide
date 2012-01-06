@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.stardust.common.config.ParametersFacade;
-
-import ag.carnot.db.Session;
-import ag.carnot.db.jdbc.SessionFactory;
-import ag.carnot.workflow.runtime.beans.interceptors.ManagedResource;
-import ag.carnot.workflow.runtime.beans.interceptors.POJOSessionInterceptor;
-import ag.carnot.workflow.runtime.interceptor.MethodInterceptor;
-import ag.carnot.workflow.runtime.interceptor.MethodInvocation;
+import org.eclipse.stardust.engine.core.persistence.Session;
+import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.ManagedResource;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.POJOSessionInterceptor;
+import org.eclipse.stardust.engine.core.runtime.interceptor.MethodInterceptor;
+import org.eclipse.stardust.engine.core.runtime.interceptor.MethodInvocation;
 
 /**
  * This class is adapted from 

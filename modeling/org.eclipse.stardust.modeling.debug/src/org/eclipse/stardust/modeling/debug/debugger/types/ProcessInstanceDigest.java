@@ -31,16 +31,15 @@ import org.eclipse.stardust.engine.api.model.IData;
 import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.engine.api.model.IProcessDefinition;
 import org.eclipse.stardust.engine.api.model.ProcessDefinition;
+import org.eclipse.stardust.engine.core.runtime.beans.DetailsFactory;
+import org.eclipse.stardust.engine.core.runtime.beans.IDataValue;
+import org.eclipse.stardust.engine.core.runtime.beans.IProcessInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.ProcessInstanceBean;
 import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluationContext;
 import org.eclipse.stardust.engine.core.spi.extensions.runtime.ExtendedAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.spi.extensions.runtime.SpiUtils;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
-
-import ag.carnot.workflow.runtime.beans.DetailsFactory;
-import ag.carnot.workflow.runtime.beans.IDataValue;
-import ag.carnot.workflow.runtime.beans.IProcessInstance;
-import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
 
 /**
  * @author sborn

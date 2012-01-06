@@ -39,11 +39,11 @@ import org.eclipse.stardust.engine.api.runtime.DeploymentException;
 import org.eclipse.stardust.engine.api.runtime.DeploymentOptions;
 import org.eclipse.stardust.engine.api.runtime.Models;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
+import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
+import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
 
 import ag.carnot.gui.AbstractDialog;
 import ag.carnot.gui.ValidationExceptionDialog;
-import ag.carnot.workflow.tools.common.DeploymentCallback;
-import ag.carnot.workflow.tools.common.DeploymentUtils;
 
 public class DeployModelDialog extends AbstractDialog implements ActionListener
 {

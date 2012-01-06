@@ -18,6 +18,8 @@ import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.debug.core.model.IWatchExpressionDelegate;
 import org.eclipse.debug.core.model.IWatchExpressionListener;
 import org.eclipse.debug.core.model.IWatchExpressionResult;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataListAccessor;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataMapAccessor;
 import org.eclipse.stardust.modeling.transformation.debug.model.JsStackFrame;
 import org.eclipse.stardust.modeling.transformation.debug.model.JsValue;
 import org.eclipse.stardust.modeling.transformation.debug.model.JsVariable;
@@ -25,8 +27,6 @@ import org.eclipse.stardust.modeling.transformation.debug.model.NullElementVaria
 import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataListVariable;
 import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataMapVariable;
 
-import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;

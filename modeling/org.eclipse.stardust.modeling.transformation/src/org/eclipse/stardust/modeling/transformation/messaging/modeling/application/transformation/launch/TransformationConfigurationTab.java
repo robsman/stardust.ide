@@ -50,6 +50,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.engine.api.model.IAccessPoint;
 import org.eclipse.stardust.engine.api.model.IApplication;
 import org.eclipse.stardust.engine.api.model.IModel;
+import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
+import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
@@ -77,10 +80,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.ResourceListSelectionDialog;
 import org.eclipse.wst.jsdt.ui.JavaScriptElementLabelProvider;
-
-import ag.carnot.workflow.model.beans.DefaultConfigurationVariablesProvider;
-import ag.carnot.workflow.model.beans.DefaultXMLReader;
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 
 

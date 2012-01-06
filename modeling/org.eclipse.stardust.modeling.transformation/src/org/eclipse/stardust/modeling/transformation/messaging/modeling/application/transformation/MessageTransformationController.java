@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.ExternalClass;
@@ -65,8 +66,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
-
-import ag.carnot.workflow.runtime.beans.BigData;
 
 import com.infinity.bpm.thirdparty.emf.common.util.ECollections;
 

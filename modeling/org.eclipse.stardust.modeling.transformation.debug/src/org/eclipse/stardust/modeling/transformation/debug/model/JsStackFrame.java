@@ -20,13 +20,13 @@ import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.javascript.AbstractStructuredDataAccessPointAdapter;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataListAccessor;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataMapAccessor;
 import org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageTransformationScope;
 import org.eclipse.stardust.modeling.transformation.debug.common.CommonConstants;
 import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugFrame;
 
-import com.infinity.bpm.rt.integration.javascript.AbstractStructuredDataAccessPointAdapter;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;

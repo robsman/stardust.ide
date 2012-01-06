@@ -11,10 +11,9 @@
 package org.eclipse.stardust.modeling.debug.engine;
 
 import org.eclipse.stardust.engine.api.runtime.ProcessInstanceState;
+import org.eclipse.stardust.engine.core.runtime.beans.IProcessInstance;
 import org.eclipse.stardust.modeling.debug.debugger.Debugger;
 import org.eclipse.stardust.modeling.debug.debugger.types.ProcessInstanceDigest;
-
-import ag.carnot.workflow.runtime.beans.IProcessInstance;
 
 public class WorkflowCompletionWaiter implements Runnable
 {

@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
@@ -37,8 +38,6 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.WizardResourceImportPage;
-
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 public class CarnotXmlSourceGroupProvider extends ThirdPartySourceGroupProvider
       implements ISourceGroupProvider, IExecutableExtension

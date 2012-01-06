@@ -17,9 +17,8 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.config.ParametersFacade;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.engine.api.runtime.DeploymentElement;
-
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
-import ag.carnot.workflow.runtime.beans.removethis.KernelTweakingProperties;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.engine.core.runtime.beans.removethis.KernelTweakingProperties;
 
 public class RuntimeUtil
 {

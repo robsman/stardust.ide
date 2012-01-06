@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.engine;
 
-import ag.carnot.workflow.runtime.beans.IActivityInstance;
-import ag.carnot.workflow.runtime.beans.IWorkflowEventListener;
-import ag.carnot.workflow.runtime.beans.TransitionTokenBean;
+import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.IWorkflowEventListener;
+import org.eclipse.stardust.engine.core.runtime.beans.TransitionTokenBean;
 
 /**
  * This interface is adapted from 

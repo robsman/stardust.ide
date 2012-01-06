@@ -24,16 +24,15 @@ import org.eclipse.stardust.engine.api.model.IDataType;
 import org.eclipse.stardust.engine.api.model.IReference;
 import org.eclipse.stardust.engine.api.model.PluggableType;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.utils.Hook;
+import org.eclipse.stardust.engine.core.model.utils.ModelElement;
+import org.eclipse.stardust.engine.core.model.utils.RootElement;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
-import ag.carnot.utils.model.Hook;
-import ag.carnot.utils.model.ModelElement;
-import ag.carnot.utils.model.RootElement;
 
 public class ElValidationIDataAdapter implements IData
 {

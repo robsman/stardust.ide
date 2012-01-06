@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.engine.core.pojo.utils.JavaAccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -21,8 +22,6 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPointProvider;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-
-import ag.carnot.workflow.spi.utils.JavaAccessPointType;
 
 /**
  * 

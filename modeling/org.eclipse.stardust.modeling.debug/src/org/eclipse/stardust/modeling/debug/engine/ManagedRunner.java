@@ -35,6 +35,14 @@ import org.eclipse.stardust.engine.api.model.ImplementationType;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityInstanceBean;
+import org.eclipse.stardust.engine.core.runtime.beans.ForkingService;
+import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.IProcessInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.IUser;
+import org.eclipse.stardust.engine.core.runtime.beans.ProcessInstanceBean;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
+import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.Debugger;
@@ -42,15 +50,6 @@ import org.eclipse.stardust.modeling.debug.debugger.types.ActivityInstanceDigest
 import org.eclipse.stardust.modeling.debug.debugger.types.ProcessInstanceDigest;
 import org.eclipse.stardust.modeling.debug.debugger.ui.ApplicationFrame;
 import org.eclipse.stardust.modeling.debug.debugger.ui.WorkflowGUIAdapter;
-
-import ag.carnot.workflow.runtime.beans.ActivityInstanceBean;
-import ag.carnot.workflow.runtime.beans.ForkingService;
-import ag.carnot.workflow.runtime.beans.IActivityInstance;
-import ag.carnot.workflow.runtime.beans.IProcessInstance;
-import ag.carnot.workflow.runtime.beans.IUser;
-import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
-import ag.carnot.workflow.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
-import ag.carnot.workflow.runtime.beans.removethis.SecurityProperties;
 
 /**
  * @author sborn

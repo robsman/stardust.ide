@@ -19,11 +19,10 @@ import java.util.Map.Entry;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
-
-import ag.carnot.workflow.runtime.beans.BigData;
 
 /**
  * Tree representation of structured data

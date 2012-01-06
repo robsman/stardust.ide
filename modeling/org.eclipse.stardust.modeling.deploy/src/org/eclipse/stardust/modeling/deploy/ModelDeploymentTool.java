@@ -31,17 +31,17 @@ import org.eclipse.stardust.engine.api.runtime.DeploymentException;
 import org.eclipse.stardust.engine.api.runtime.DeploymentOptions;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
+import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
+import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
+import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
+import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
+import org.eclipse.stardust.engine.core.model.beans.IConfigurationVariablesProvider;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.engine.core.runtime.beans.BpmRuntimeEnvironment;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
+import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
 
 import ag.carnot.gui.ErrorDialog;
-import ag.carnot.workflow.model.beans.DefaultConfigurationVariablesProvider;
-import ag.carnot.workflow.model.beans.DefaultXMLReader;
-import ag.carnot.workflow.model.beans.IConfigurationVariablesProvider;
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
-import ag.carnot.workflow.runtime.beans.BpmRuntimeEnvironment;
-import ag.carnot.workflow.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
-import ag.carnot.workflow.runtime.beans.removethis.SecurityProperties;
-import ag.carnot.workflow.tools.common.DeploymentCallback;
-import ag.carnot.workflow.tools.common.DeploymentUtils;
 
 /**
  * @author rsauer

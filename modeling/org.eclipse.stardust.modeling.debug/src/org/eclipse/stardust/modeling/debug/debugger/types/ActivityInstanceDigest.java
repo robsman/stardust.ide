@@ -37,12 +37,11 @@ import org.eclipse.stardust.engine.api.model.ImplementationType;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
+import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.IUser;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 import org.eclipse.stardust.modeling.debug.highlighting.IHighlightable;
-
-import ag.carnot.workflow.runtime.beans.IActivityInstance;
-import ag.carnot.workflow.runtime.beans.IUser;
 
 /**
  * @author sborn

@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.core.spi.actionTypes.abort;
 import java.util.List;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.runtime.beans.AbortScope;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -30,8 +31,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-
-import ag.carnot.workflow.runtime.beans.AbortScope;
 
 public class AbortActionPropertyPage extends AbstractModelElementPropertyPage
       implements IActionPropertyPage

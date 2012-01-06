@@ -17,9 +17,8 @@ import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.core.persistence.ResultIterator;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
-
-import ag.carnot.db.ResultIterator;
 
 /**
  * This class is adapted from 

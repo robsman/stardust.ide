@@ -19,8 +19,8 @@ import javax.sql.DataSource;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.persistence.jdbc.QueryUtils;
 
-import ag.carnot.db.jdbc.QueryUtils;
 import ag.carnot.thirdparty.db.derby.IDerbyProperties;
 
 /**

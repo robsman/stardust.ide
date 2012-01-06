@@ -14,7 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ag.carnot.db.jdbc.QueryUtils;
+import org.eclipse.stardust.engine.core.persistence.jdbc.QueryUtils;
 
 /**
  * @author rsauer

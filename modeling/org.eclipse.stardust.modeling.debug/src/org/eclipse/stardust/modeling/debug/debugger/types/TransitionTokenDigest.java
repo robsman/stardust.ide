@@ -18,11 +18,10 @@ import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.engine.api.model.ITransition;
+import org.eclipse.stardust.engine.core.runtime.beans.TransitionTokenBean;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.highlighting.IHighlightable;
-
-import ag.carnot.workflow.runtime.beans.TransitionTokenBean;
 
 public class TransitionTokenDigest extends AbstractJavaTypeValue implements IHighlightable
 {

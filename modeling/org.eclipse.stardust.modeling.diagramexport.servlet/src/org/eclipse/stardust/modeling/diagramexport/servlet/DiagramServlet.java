@@ -48,16 +48,15 @@ import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.web.ServiceFactoryLocator;
 import org.eclipse.stardust.engine.api.web.ServiceFactoryProvider;
 import org.eclipse.stardust.engine.api.web.ServiceFactoryProvider.Factory;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.engine.core.runtime.beans.removethis.KernelTweakingProperties;
+import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceImpl;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.core.highlighting.HighlightState;
-
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
-import ag.carnot.workflow.runtime.beans.removethis.KernelTweakingProperties;
-import ag.carnot.workflow.runtime.beans.removethis.SecurityProperties;
 
 public class DiagramServlet extends HttpServlet
 {

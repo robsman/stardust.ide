@@ -12,9 +12,8 @@ package org.eclipse.stardust.modeling.transformation.debug.model;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataMapAccessor;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
-
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 
 public class StructuredDataMapVariable extends AbstractVariable
 {

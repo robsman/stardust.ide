@@ -36,6 +36,8 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
@@ -85,9 +87,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.w3c.dom.Document;
-
-import ag.carnot.workflow.model.beans.XMLConstants;
-import ag.carnot.workflow.model.xpdl.XpdlUtils;
 
 import com.infinity.bpm.rt.impl.api.ws.processinterface.WSDLGenerator;
 

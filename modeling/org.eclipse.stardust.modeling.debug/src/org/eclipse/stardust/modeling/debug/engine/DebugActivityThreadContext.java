@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ag.carnot.workflow.runtime.beans.ActivityThread;
-import ag.carnot.workflow.runtime.beans.ActivityThreadContextAdapter;
-import ag.carnot.workflow.runtime.beans.IActivityInstance;
-import ag.carnot.workflow.runtime.beans.TransitionTokenBean;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityThread;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityThreadContextAdapter;
+import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.TransitionTokenBean;
 
 /**
  * This class is adapted from

@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.pojo.app.PlainJavaConstants;
+import org.eclipse.stardust.engine.core.pojo.utils.JavaAccessPointType;
+import org.eclipse.stardust.engine.core.pojo.utils.JavaApplicationTypeHelper;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -32,9 +34,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-
-import ag.carnot.workflow.spi.utils.JavaAccessPointType;
-import ag.carnot.workflow.spi.utils.JavaApplicationTypeHelper;
 
 /**
  * @author fherinean

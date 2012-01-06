@@ -38,24 +38,24 @@ import org.eclipse.stardust.engine.api.model.ITrigger;
 import org.eclipse.stardust.engine.api.model.ImplementationType;
 import org.eclipse.stardust.engine.api.model.Inconsistency;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.builder.DefaultModelBuilder;
+import org.eclipse.stardust.engine.core.model.gui.ActivitySymbol;
+import org.eclipse.stardust.engine.core.model.gui.ApplicationSymbol;
+import org.eclipse.stardust.engine.core.model.gui.ConditionalPerformerSymbol;
+import org.eclipse.stardust.engine.core.model.gui.DataMappingConnection;
+import org.eclipse.stardust.engine.core.model.gui.DataSymbol;
+import org.eclipse.stardust.engine.core.model.gui.ExecutedByConnection;
+import org.eclipse.stardust.engine.core.model.gui.OrganizationSymbol;
+import org.eclipse.stardust.engine.core.model.gui.PerformsConnection;
+import org.eclipse.stardust.engine.core.model.gui.RoleSymbol;
+import org.eclipse.stardust.engine.core.model.gui.TransitionConnection;
+import org.eclipse.stardust.engine.core.model.utils.ModelElementList;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import ag.carnot.diagram.Diagram;
 import ag.carnot.diagram.NodeSymbol;
-import ag.carnot.utils.model.ModelElementList;
-import ag.carnot.workflow.model.builder.DefaultModelBuilder;
-import ag.carnot.workflow.model.gui.ActivitySymbol;
-import ag.carnot.workflow.model.gui.ApplicationSymbol;
-import ag.carnot.workflow.model.gui.ConditionalPerformerSymbol;
-import ag.carnot.workflow.model.gui.DataMappingConnection;
-import ag.carnot.workflow.model.gui.DataSymbol;
-import ag.carnot.workflow.model.gui.ExecutedByConnection;
-import ag.carnot.workflow.model.gui.OrganizationSymbol;
-import ag.carnot.workflow.model.gui.PerformsConnection;
-import ag.carnot.workflow.model.gui.RoleSymbol;
-import ag.carnot.workflow.model.gui.TransitionConnection;
 
 /**
  * @author Marc Gille

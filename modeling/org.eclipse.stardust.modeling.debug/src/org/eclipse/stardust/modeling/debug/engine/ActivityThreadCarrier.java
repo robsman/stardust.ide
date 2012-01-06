@@ -22,16 +22,15 @@ import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.IActivity;
 import org.eclipse.stardust.engine.api.runtime.TimeoutException;
+import org.eclipse.stardust.engine.core.runtime.beans.ActionCarrier;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityInstanceBean;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityThread;
+import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.IProcessInstance;
+import org.eclipse.stardust.engine.core.runtime.beans.ModelManagerFactory;
+import org.eclipse.stardust.engine.core.runtime.beans.ProcessInstanceBean;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
-
-import ag.carnot.workflow.runtime.beans.ActionCarrier;
-import ag.carnot.workflow.runtime.beans.ActivityInstanceBean;
-import ag.carnot.workflow.runtime.beans.ActivityThread;
-import ag.carnot.workflow.runtime.beans.IActivityInstance;
-import ag.carnot.workflow.runtime.beans.IProcessInstance;
-import ag.carnot.workflow.runtime.beans.ModelManagerFactory;
-import ag.carnot.workflow.runtime.beans.ProcessInstanceBean;
 
 /**
  * This class is adapted from

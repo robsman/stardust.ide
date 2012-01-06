@@ -25,11 +25,10 @@ import org.apache.xerces.impl.dtd.XMLElementDecl;
 import org.apache.xerces.xni.parser.XMLInputSource;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import ag.carnot.workflow.model.beans.XMLConstants;
 
 public final class SchemaUtils
 {

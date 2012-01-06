@@ -13,13 +13,13 @@ package org.eclipse.stardust.modeling.debug.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import ag.carnot.db.jdbc.SessionFactory;
-import ag.carnot.workflow.runtime.beans.InvocationManager;
-import ag.carnot.workflow.runtime.beans.interceptors.CallingInterceptor;
-import ag.carnot.workflow.runtime.beans.interceptors.DebugInterceptor;
-import ag.carnot.workflow.runtime.beans.interceptors.LoginInterceptor;
-import ag.carnot.workflow.runtime.beans.interceptors.POJOExceptionHandler;
-import ag.carnot.workflow.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
+import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
+import org.eclipse.stardust.engine.core.runtime.beans.InvocationManager;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.CallingInterceptor;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.DebugInterceptor;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.LoginInterceptor;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.POJOExceptionHandler;
+import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
 
 /**
  * This class is adapted from 

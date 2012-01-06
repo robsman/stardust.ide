@@ -24,11 +24,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.persistence.jdbc.Session;
+import org.eclipse.stardust.engine.core.runtime.beans.SchemaHelper;
 
-import ag.carnot.db.jdbc.Session;
 import ag.carnot.thirdparty.db.derby.DerbyDbActivator;
 import ag.carnot.thirdparty.db.derby.IDerbyProperties;
-import ag.carnot.workflow.runtime.beans.SchemaHelper;
 
 /**
  * @author rsauer

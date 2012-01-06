@@ -17,12 +17,11 @@ import java.util.List;
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
+import org.eclipse.stardust.engine.core.javascript.ListValuedXPathAdapter;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataListAccessor;
+import org.eclipse.stardust.engine.core.javascript.StructuredDataMapAccessor;
 import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
-
-import com.infinity.bpm.rt.integration.javascript.ListValuedXPathAdapter;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataListAccessor;
-import com.infinity.bpm.rt.integration.javascript.StructuredDataMapAccessor;
 
 public class StructuredDataMapValue extends JsDebugElement implements IValue
 {
