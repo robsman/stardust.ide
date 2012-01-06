@@ -20,6 +20,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.PrimitiveAccessPathEvaluator;
+import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -47,7 +48,6 @@ import ag.carnot.workflow.el.EvaluationError;
 import ag.carnot.workflow.el.Interpreter;
 import ag.carnot.workflow.el.SymbolTable;
 import ag.carnot.workflow.el.SyntaxError;
-import ag.carnot.workflow.spi.model.AccessPoint;
 
 
 public class TransitionValidator implements IModelElementValidator

@@ -38,11 +38,11 @@ import org.eclipse.stardust.engine.api.runtime.ActivityInstance;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
 import org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.InteractiveApplicationInstance;
 import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
+import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluator;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
 import ag.carnot.gui.interpreter.DefaultInterpreter;
 import ag.carnot.workflow.runtime.gui.ApplicationEventListener;
-import ag.carnot.workflow.spi.runtime.AccessPathEvaluator;
 
 /**
  * This class is adapted from
