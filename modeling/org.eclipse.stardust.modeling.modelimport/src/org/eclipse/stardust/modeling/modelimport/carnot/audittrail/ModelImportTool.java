@@ -24,10 +24,9 @@ import org.eclipse.stardust.common.security.authentication.LoginFailedException;
 import org.eclipse.stardust.engine.api.runtime.CredentialProvider;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
+import org.eclipse.stardust.engine.core.compatibility.gui.ErrorDialog;
 import org.eclipse.stardust.engine.core.model.removethis.AuditTrailModelsDialog;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
-
-import ag.carnot.gui.ErrorDialog;
 
 /**
  * @author rsauer

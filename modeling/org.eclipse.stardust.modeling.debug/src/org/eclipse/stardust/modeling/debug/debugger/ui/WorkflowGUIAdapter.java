@@ -36,13 +36,12 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.ActivityCompletionLog;
 import org.eclipse.stardust.engine.api.runtime.ActivityInstance;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
+import org.eclipse.stardust.engine.core.compatibility.gui.interpreter.DefaultInterpreter;
 import org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.InteractiveApplicationInstance;
 import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.runtime.gui.ApplicationEventListener;
 import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluator;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
-
-import ag.carnot.gui.interpreter.DefaultInterpreter;
 
 /**
  * This class is adapted from

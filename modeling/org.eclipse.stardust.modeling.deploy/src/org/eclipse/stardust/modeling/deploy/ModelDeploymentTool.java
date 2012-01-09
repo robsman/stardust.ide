@@ -33,6 +33,7 @@ import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
 import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
 import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
+import org.eclipse.stardust.engine.core.compatibility.gui.ErrorDialog;
 import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
 import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
 import org.eclipse.stardust.engine.core.model.beans.IConfigurationVariablesProvider;
@@ -40,8 +41,6 @@ import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.runtime.beans.BpmRuntimeEnvironment;
 import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
-
-import ag.carnot.gui.ErrorDialog;
 
 /**
  * @author rsauer

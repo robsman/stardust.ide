@@ -19,6 +19,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.compatibility.el.EvaluationError;
+import org.eclipse.stardust.engine.core.compatibility.el.Interpreter;
+import org.eclipse.stardust.engine.core.compatibility.el.SymbolTable;
+import org.eclipse.stardust.engine.core.compatibility.el.SyntaxError;
 import org.eclipse.stardust.engine.core.pojo.data.PrimitiveAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
@@ -43,11 +47,6 @@ import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
-
-import ag.carnot.workflow.el.EvaluationError;
-import ag.carnot.workflow.el.Interpreter;
-import ag.carnot.workflow.el.SymbolTable;
-import ag.carnot.workflow.el.SyntaxError;
 
 
 public class TransitionValidator implements IModelElementValidator

@@ -38,6 +38,8 @@ import org.eclipse.stardust.engine.api.model.ITrigger;
 import org.eclipse.stardust.engine.api.model.ImplementationType;
 import org.eclipse.stardust.engine.api.model.Inconsistency;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.compatibility.diagram.Diagram;
+import org.eclipse.stardust.engine.core.compatibility.diagram.NodeSymbol;
 import org.eclipse.stardust.engine.core.model.builder.DefaultModelBuilder;
 import org.eclipse.stardust.engine.core.model.gui.ActivitySymbol;
 import org.eclipse.stardust.engine.core.model.gui.ApplicationSymbol;
@@ -53,9 +55,6 @@ import org.eclipse.stardust.engine.core.model.utils.ModelElementList;
 import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
-
-import ag.carnot.diagram.Diagram;
-import ag.carnot.diagram.NodeSymbol;
 
 /**
  * @author Marc Gille

@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
@@ -37,8 +38,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
-
-import ag.carnot.bpm.integration.dms.DmsConstants;
 
 public class ProcessDefinitionDataPathsPropertyPage
       extends AbstractModelElementPropertyPage implements IButtonManager

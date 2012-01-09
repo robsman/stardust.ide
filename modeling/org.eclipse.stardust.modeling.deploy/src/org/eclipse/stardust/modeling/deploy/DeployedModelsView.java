@@ -50,11 +50,10 @@ import org.eclipse.stardust.common.DateUtils;
 import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.DeployedModelDescription;
+import org.eclipse.stardust.engine.core.compatibility.gui.utils.DateEntry;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
-
-import ag.carnot.utils.gui.DateEntry;
 
 public class DeployedModelsView extends JComponent
 {

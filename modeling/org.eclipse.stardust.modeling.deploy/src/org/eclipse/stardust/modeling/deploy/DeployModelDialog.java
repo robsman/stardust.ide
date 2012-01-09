@@ -41,9 +41,8 @@ import org.eclipse.stardust.engine.api.runtime.Models;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
 import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
-
-import ag.carnot.gui.AbstractDialog;
-import ag.carnot.gui.ValidationExceptionDialog;
+import org.eclipse.stardust.engine.core.compatibility.gui.AbstractDialog;
+import org.eclipse.stardust.engine.core.compatibility.gui.ValidationExceptionDialog;
 
 public class DeployModelDialog extends AbstractDialog implements ActionListener
 {

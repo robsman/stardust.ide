@@ -22,6 +22,8 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.compatibility.el.DataTypeResolver;
+import org.eclipse.stardust.engine.core.compatibility.el.JsConverter;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -54,9 +56,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IDiagra
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
-
-import ag.carnot.workflow.el.DataTypeResolver;
-import ag.carnot.workflow.el.JsConverter;
 
 public class UpdateProcessDiagramAction extends SelectionAction
 {

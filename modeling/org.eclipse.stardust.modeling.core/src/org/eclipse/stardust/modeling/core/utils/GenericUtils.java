@@ -282,8 +282,8 @@ public class GenericUtils
    public static boolean isDMSDataType(DataType data)
    {
       // DMS
-      if (data.getType().getId().equals(ag.carnot.bpm.integration.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
-            || data.getType().getId().equals(ag.carnot.bpm.integration.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
+      if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
+            || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER)
@@ -303,8 +303,8 @@ public class GenericUtils
    public static String getReferenceClassName(DataType data)
    {
       // DMS
-      if (data.getType().getId().equals(ag.carnot.bpm.integration.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
-            || data.getType().getId().equals(ag.carnot.bpm.integration.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
+      if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
+            || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER)
