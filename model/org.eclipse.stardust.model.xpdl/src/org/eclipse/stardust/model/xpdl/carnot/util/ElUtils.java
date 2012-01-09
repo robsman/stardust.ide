@@ -19,19 +19,18 @@ import java.util.Stack;
 
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.core.compatibility.el.BooleanExpression;
+import org.eclipse.stardust.engine.core.compatibility.el.CombineOperation;
+import org.eclipse.stardust.engine.core.compatibility.el.ComparisonOperation;
+import org.eclipse.stardust.engine.core.compatibility.el.ConstantExpression;
+import org.eclipse.stardust.engine.core.compatibility.el.DereferencePath;
+import org.eclipse.stardust.engine.core.compatibility.el.Interpreter;
+import org.eclipse.stardust.engine.core.compatibility.el.SyntaxError;
+import org.eclipse.stardust.engine.core.compatibility.el.ValueExpression;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-
-import ag.carnot.workflow.el.BooleanExpression;
-import ag.carnot.workflow.el.CombineOperation;
-import ag.carnot.workflow.el.ComparisonOperation;
-import ag.carnot.workflow.el.ConstantExpression;
-import ag.carnot.workflow.el.DereferencePath;
-import ag.carnot.workflow.el.Interpreter;
-import ag.carnot.workflow.el.SyntaxError;
-import ag.carnot.workflow.el.ValueExpression;
 
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.CompilerEnvirons;
 import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
