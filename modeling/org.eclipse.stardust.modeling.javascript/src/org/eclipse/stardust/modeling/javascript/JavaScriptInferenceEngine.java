@@ -850,7 +850,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                                 }
                                 //(rp) End of Workaround
                                 AttributeUtil.setAttribute(activityInstance, PredefinedConstants.BROWSABLE_ATT, "true");
-                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, "ag.carnot.workflow.runtime.ActivityInstance");
+                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.ActivityInstance");
                                 dataType = activityInstance;
                              }
                              else
