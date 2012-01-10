@@ -28,6 +28,7 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.ActivityInstance;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
@@ -850,7 +851,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                                 }
                                 //(rp) End of Workaround
                                 AttributeUtil.setAttribute(activityInstance, PredefinedConstants.BROWSABLE_ATT, "true");
-                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.ActivityInstance");
+                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, ActivityInstance.class.getName());
                                 dataType = activityInstance;
                              }
                              else
