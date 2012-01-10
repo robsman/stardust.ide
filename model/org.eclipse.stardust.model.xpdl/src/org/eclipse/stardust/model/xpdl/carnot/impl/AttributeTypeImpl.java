@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.stardust.engine.core.compatibility.ipp.PreStardustTypeNameResolver;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -54,6 +55,11 @@ public class AttributeTypeImpl extends EObjectImpl implements AttributeType
     * @generated
     */
    public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
+
+   /**
+    * @generated NOT
+    */
+   private static final PreStardustTypeNameResolver PRE_STARDUST_TYPE_NAME_RESOLVER = new PreStardustTypeNameResolver();
 
    /**
     * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list. <!--
@@ -258,11 +264,14 @@ public class AttributeTypeImpl extends EObjectImpl implements AttributeType
 
    /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
-    * @generated
+    * @generated NOT
     */
    public String getType()
    {
-      return type;
+      String resolvedStardustType = PRE_STARDUST_TYPE_NAME_RESOLVER.resolveTypeName(type);
+      return (null != resolvedStardustType) //
+            ? resolvedStardustType
+            : type;
    }
 
    /**
@@ -279,11 +288,14 @@ public class AttributeTypeImpl extends EObjectImpl implements AttributeType
 
    /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
-    * @generated
+    * @generated NOT
     */
    public String getValue()
    {
-      return value;
+      String resolvedStardustType = PRE_STARDUST_TYPE_NAME_RESOLVER.resolveTypeName(value);
+      return (null != resolvedStardustType) //
+            ? resolvedStardustType
+            : value;
    }
 
    /**
