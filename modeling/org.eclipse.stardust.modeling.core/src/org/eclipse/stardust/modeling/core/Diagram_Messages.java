@@ -1432,7 +1432,6 @@ public class Diagram_Messages extends NLS {
    public static String QUALITY_CONTROL_FORMULA;
    public static String QUALITY_CONTROL_PROBABILITY_VALIDATION; 
    public static String QUALITY_ASSURANCE_PERFORMER_VALIDATION;    
-   public static String QUALITY_ASSURANCE_PERFORMERS_VALIDATION;       
    public static String QUALITY_CONTROL_CODE;
    public static String QUALITY_CONTROL_CODE_AVAILABLE;   
    public static String QUALITY_CONTROL_DESCRIPTION;
