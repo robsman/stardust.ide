@@ -40,7 +40,6 @@ import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
-
 public class DefaultActivityValidator implements IModelElementValidator
 {
    private static final int JOIN = 0;
@@ -283,18 +282,7 @@ public class DefaultActivityValidator implements IModelElementValidator
                         Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
                         ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
                }               
-            }   
-            
-            if(qualityControlPerformer != null && performer != null
-                  && qualityControlPerformer.equals(performer))
-            {
-               result.add(Issue.error(activity,
-                     Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformers,
-                     ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
-               result.add(Issue.error(activity,
-                     Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformers,
-                     ValidationService.PKG_CWM.getActivityType_Performer()));                                                   
-            }            
+            }               
          }         
          
          /*
@@ -366,5 +354,4 @@ public class DefaultActivityValidator implements IModelElementValidator
       }
       return false;
    }
-
 }
