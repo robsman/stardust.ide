@@ -874,16 +874,7 @@ public class MergerUtil
    
    public static Code containsQC(ModelType targetModel, Code raw)
    {
-      int rawIntValue = 0;
-      
-      try
-      {
-         rawIntValue = Integer.parseInt(raw.getCode());
-      }
-      catch (NumberFormatException e)
-      {
-         return null;
-      }               
+      String keyValue = raw.getCode();
       
       if(targetModel.getQualityControl() == null)
       {
@@ -893,17 +884,10 @@ public class MergerUtil
       EList<Code> codes = targetModel.getQualityControl().getCode();
       for(Code code : codes)
       {
-         try
+         if(code.getCode().equals(keyValue))
          {
-            int intValue = Integer.parseInt(code.getCode());
-            if(intValue == rawIntValue)
-            {
-               return code;
-            }
+            return code;
          }
-         catch (NumberFormatException e)
-         {
-         }               
       }            
       
       return null;
