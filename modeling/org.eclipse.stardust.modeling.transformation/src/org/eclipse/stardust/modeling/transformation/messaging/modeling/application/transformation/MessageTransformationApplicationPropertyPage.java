@@ -78,7 +78,8 @@ public class MessageTransformationApplicationPropertyPage extends
          if (controller.getAvailableMessageTypes().isEmpty()) {
             setErrorMessage(Modeling_Messages.MSG_MD_NOT_CONTAIN_STR_DATA_TYPE_DEFINE_MSG);
          }         
-      } catch (RuntimeException t) {         
+      } catch (RuntimeException t) {  
+         t.printStackTrace();
          MessageBox messageBox = createMessageBoxByException(t);                                         
          if (messageBox == null) {
             throw t;

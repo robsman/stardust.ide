@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.compatibility.ipp.PreStardustTypeNameResolver;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -161,9 +162,14 @@ public class MessageTransformationController {
 	
 	public void intializeModel(ModelType model, IModelElementNodeSymbol symbol,
 			IModelElement element) {
-		
-		mtaUtils = new MessageTransformationUtils(ModelUtils.getProjectFromEObject(element), element, model);
+			    
+	    mtaUtils = new MessageTransformationUtils(ModelUtils.getProjectFromEObject(element), element, model);
 		String xmlString = AttributeUtil.getAttributeValue((IExtensibleElement) element, Constants.TRANSFORMATION_PROPERTY);
+        PreStardustTypeNameResolver typeNameResolver = new PreStardustTypeNameResolver();
+        String r1 = typeNameResolver.resolveTypeName("com.infinity.bpm.messaging.model");
+        String r2 = typeNameResolver.resolveTypeName("com.infinity.bpm.messaging.model.mapping.MappingPackage");
+        xmlString = xmlString.replaceAll("com.infinity.bpm.messaging.model.mapping.MappingPackage", r2);
+        xmlString = xmlString.replaceAll("com.infinity.bpm.messaging.model", r1);
 		if (xmlString != null) {
 			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString.getBytes());	
 		}
@@ -486,7 +492,7 @@ private void extractAccessPoints(IModelElement element)
        if (selectedTargetField == null) {
            return false;
        }
-       if (this.isSimpleMode()) {
+       
            String xPath = getXPathFor(selectedTargetField);
            if (selectedTargetField != null && xPath != null) {
                this.selectedTargetFieldMapping = fieldMappings
@@ -501,7 +507,7 @@ private void extractAccessPoints(IModelElement element)
                    statementsDocument = "//Statements\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
                    return true;
                }
-           }          
+                     
        }
        return false;
    }
