@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.QualityControlType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.cap.MergerUtil;
 import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -159,9 +160,12 @@ public class QualityControlCodesPropertyPage extends AbstractModelElementPropert
                   newQualityControlCode.setCode(newCode); 
                   newQualityControlCode.setValue(""); //$NON-NLS-1$
 
-                  qualityControlCode.add(newQualityControlCode);
-                  viewer.refresh();
-                  validateCodes(newQualityControlCode);
+                  if(MergerUtil.containsQC((ModelType) getModelElement(), newQualityControlCode) == null)
+                  {                  
+                     qualityControlCode.add(newQualityControlCode);
+                     viewer.refresh();
+                     validateCodes(newQualityControlCode);
+                  }
                }
             });
 
@@ -175,6 +179,8 @@ public class QualityControlCodesPropertyPage extends AbstractModelElementPropert
                      qualityControlCode.remove(selectedVariable);
                      selectedVariable = null;                     
                      viewer.refresh();                     
+                     setMessage(null);
+                     setValid(true);                           
                   }
                }
             });
