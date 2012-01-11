@@ -480,7 +480,7 @@ public abstract class AbstractMerger
                   
          // generic, feature of the container that holds the object
          EStructuralFeature feature = raw.eContainingFeature();
-         if(feature != null)
+         if(feature != null && targetObject != null)
          {
             // get the container from the target where this element has to be copied to
             List list = (List) targetObject.eGet(feature);
@@ -700,6 +700,7 @@ public abstract class AbstractMerger
          if(rawValidQualityCodes != null && !rawValidQualityCodes.isEmpty())
          {
             EList<Code> targetValidQualityCodes = ((ActivityType) copy).getValidQualityCodes();
+            targetValidQualityCodes.clear();
             for(Code code : rawValidQualityCodes)
             {
                Code targetCode = MergerUtil.containsQC(targetModel, code);
