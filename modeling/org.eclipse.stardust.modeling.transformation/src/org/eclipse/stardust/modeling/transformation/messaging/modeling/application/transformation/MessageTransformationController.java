@@ -165,13 +165,8 @@ public class MessageTransformationController {
 			    
 	    mtaUtils = new MessageTransformationUtils(ModelUtils.getProjectFromEObject(element), element, model);
 		String xmlString = AttributeUtil.getAttributeValue((IExtensibleElement) element, Constants.TRANSFORMATION_PROPERTY);
-        PreStardustTypeNameResolver typeNameResolver = new PreStardustTypeNameResolver();
-        String r1 = typeNameResolver.resolveTypeName("com.infinity.bpm.messaging.model");
-        String r2 = typeNameResolver.resolveTypeName("com.infinity.bpm.messaging.model.mapping.MappingPackage");
-        xmlString = xmlString.replaceAll("com.infinity.bpm.messaging.model.mapping.MappingPackage", r2);
-        xmlString = xmlString.replaceAll("com.infinity.bpm.messaging.model", r1);
 		if (xmlString != null) {
-			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString.getBytes());	
+			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString);	
 		}
 		CodeCompletionHelper.getInstance().getTypeMap().clear();
 		

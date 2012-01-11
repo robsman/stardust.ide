@@ -330,7 +330,7 @@ public class TransformationLaunchDelegate extends LaunchConfigurationDelegate
       if (xmlString != null)
       {
          trafoProp = (TransformationProperty) MappingModelUtil
-               .transformXML2Ecore(xmlString.getBytes());
+               .transformXML2Ecore(xmlString);
 
          this.fieldMappings = trafoProp.getFieldMappings();
       }
