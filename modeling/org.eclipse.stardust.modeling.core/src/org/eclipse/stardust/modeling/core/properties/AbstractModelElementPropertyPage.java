@@ -83,12 +83,12 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       Button applyButton = getApplyButton();
       if(applyButton != null)
       {
-         applyButton.setEnabled(enablePage);
+         applyButton.setEnabled(enablePage && isValid());
       }
       Button defaultsButton = getDefaultsButton();
       if(defaultsButton != null)
       {
-         defaultsButton.setEnabled(enablePage);
+         defaultsButton.setEnabled(enablePage && isValid());
       }          
    }
    
