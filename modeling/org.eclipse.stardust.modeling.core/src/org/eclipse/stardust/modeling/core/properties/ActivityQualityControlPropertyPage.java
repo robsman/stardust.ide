@@ -210,6 +210,13 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          sourceViewerComposite.setVisible(true);
          sourceViewerComposite.setEnabled(false);
          composite.setVisible(false);
+         
+         ActivityType activity = (ActivityType) getModelElement();
+         EList<Code> validQualityCodes = activity.getValidQualityCodes();
+         if(validQualityCodes != null)
+         {
+            validQualityCodes.clear();
+         }
       }
       else
       {               
