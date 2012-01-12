@@ -82,6 +82,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
    private RoleType createRoleType;
    private String probability;   
    private IModelParticipant currentPerformer;
+   private Composite composite;
 
    private void validate()
    {
@@ -208,6 +209,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("");
          sourceViewerComposite.setVisible(true);
          sourceViewerComposite.setEnabled(false);
+         composite.setVisible(false);
       }
       else
       {               
@@ -216,6 +218,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("true");               
          sourceViewerComposite.setVisible(true);               
          sourceViewerComposite.setEnabled(true);
+         composite.setVisible(true);
          
          if(preselect)
          {
@@ -235,9 +238,8 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
 
    public Control createBody(Composite parent)
    {
-      Composite composite = FormBuilder.createComposite(parent, 2);
-
-      qualityControl = FormBuilder.createCheckBox(composite, Diagram_Messages.QUALITY_CONTROL_ACTIVITY, 2);
+      Composite outer = FormBuilder.createComposite(parent, 2);
+      qualityControl = FormBuilder.createCheckBox(outer, Diagram_Messages.QUALITY_CONTROL_ACTIVITY, 2);
       qualityControl.addSelectionListener(new SelectionAdapter()
       {
          public void widgetSelected(SelectionEvent e)
@@ -247,7 +249,8 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
             validate();
          }
       });            
-      
+            
+      composite = FormBuilder.createComposite(outer, 2);
       FormBuilder.createLabelWithRightAlignedStatus(composite, Diagram_Messages.QUALITY_CONTROL_PARTICIPANT);
       classCombo = FormBuilder.createCombo(composite);
       
