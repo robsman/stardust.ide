@@ -62,6 +62,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       trigger = (TriggerType) element;
       model = ModelUtils.findContainingModel(element);
+      datas.clear();
       for (Iterator<DataType> i = model.getData().iterator(); i.hasNext();)
       {
          DataType dataType = i.next();
