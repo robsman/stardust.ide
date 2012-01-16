@@ -208,17 +208,19 @@ public void modifyText(ModifyEvent arg0) {
 }
 
 private void serializableTypeModified(ModifyEvent e) {
-	String messageName = classBrowser.getType().getType().getElementName();
-    String text = messageName;
-    int n = 1;
-    while ( isAccessPointIdDefined(text + n) )
-    {
-       n++;
-    }
-    text = text + n;
-    messageNameText.setText(text);
-	AccessPointType apt = controller.getMtaUtils().createSerializableAccessPoint(classBrowser.getType(), text, directionType);
-	this.messageType = apt;
+	if (classBrowser.getType() != null) {
+	   String messageName = classBrowser.getType().getType().getElementName();
+	    String text = messageName;
+	    int n = 1;
+	    while ( isAccessPointIdDefined(text + n) )
+	    {
+	       n++;
+	    }
+	    text = text + n;
+	    messageNameText.setText(text);
+	    AccessPointType apt = controller.getMtaUtils().createSerializableAccessPoint(classBrowser.getType(), text, directionType);
+	    this.messageType = apt;	   
+	}
 }
 
 public AccessPointType getMessageType() {
