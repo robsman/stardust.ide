@@ -44,192 +44,235 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
+public class ExternalClassAdditionDialog extends Dialog implements ModifyListener
+{
+   private static final int RESET_ID = IDialogConstants.NO_TO_ALL_ID + 1;
 
-public class ExternalClassAdditionDialog extends Dialog implements ModifyListener {
-  private static final int RESET_ID = IDialogConstants.NO_TO_ALL_ID + 1;
-  private Text messageNameText;
-  private String tagName;
+   private Text messageNameText;
 
-  private MessageTransformationController controller;
-  private AccessPointType messageType;
-  private String messageName;
-  private List messageTypes;
-  private String preset;
-  private List allMessageTypes = new ArrayList();
-  private List typeFilters = new ArrayList();
- 
-  
+   private String tagName;
 
-private Label errorLabel;
-private WorkflowModelEditor wfme;
-private Composite mainComposite;
-private boolean isError = false;
-//private Combo dataTypeCombo;
+   private MessageTransformationController controller;
 
+   private AccessPointType messageType;
 
-private TypeSelectionComposite classBrowser;
-private StackLayout stack;
-private Composite structPrimComposite;
+   private String messageName;
 
-private Composite messageComposite;
-protected ViewerFilter selectedFilter;
-private DirectionType directionType;
+   private List messageTypes;
 
+   private String preset;
 
-  public ExternalClassAdditionDialog(Shell parentShell, MessageTransformationController controller, List messageTypes, String preset, DirectionType directionType) {
-    super(parentShell);
-    this.controller = controller;
-    this.messageTypes = messageTypes;
-    this.directionType = directionType;
-    this.preset = preset;
-	allMessageTypes.addAll(controller.getSourceMessageTypes());
-	allMessageTypes.addAll(controller.getTargetMessageTypes());
-	allMessageTypes.addAll(controller.getExternalClassTypes());
-	typeFilters.add(new StructuredTypesFilter());
-	typeFilters.add(new PrimitivesFilter());
-	if (!controller.isSimpleMode()) {
-		typeFilters.add(new SerializableFilter());	
-	}	
-  }
+   private List allMessageTypes = new ArrayList();
 
-  protected Control createDialogArea(Composite parent) {
-     mainComposite = parent;
-     if ((null != PlatformUI.getWorkbench())
-           && (null != PlatformUI.getWorkbench().getActiveWorkbenchWindow())
-           && (null != PlatformUI.getWorkbench()
-                 .getActiveWorkbenchWindow()
-                 .getActivePage()))
-     {
-        IEditorPart currentEditor = PlatformUI.getWorkbench()
-              .getActiveWorkbenchWindow()
-              .getActivePage()
-              .getActiveEditor();
-        if (currentEditor instanceof WorkflowModelEditor)
-        {
-           wfme = (WorkflowModelEditor) currentEditor;
-        }
-     } 
-     
-     
-    Composite comp = (Composite) super.createDialogArea(parent);
-    comp.setLayout(new GridLayout());
-      
-    Composite groupComposite = new Group(comp, SWT.NONE);
+   private List typeFilters = new ArrayList();
 
-    GridLayout layout = new GridLayout();
-    layout.numColumns = 3;
-    groupComposite.setLayout(layout);
+   private Label errorLabel;
 
-    Label tagNameLabel = new Label(groupComposite, SWT.LEFT);
-    tagNameLabel.setText(MessageFormat.format(Modeling_Messages.TXT_NAME, new Object[]{controller.getNameString()}));
-    if (controller.isSimpleMode()) {
-    	
-    } else {
-        tagNameLabel.setText(Modeling_Messages.TXT_INSTANCE_NAME);    	
-    }
-    messageNameText = new Text(groupComposite, SWT.SINGLE | SWT.BORDER);
-    messageNameText.addModifyListener(this);
-    GridData data = new GridData(GridData.FILL_HORIZONTAL);
-    messageNameText.setLayoutData(data);
-    errorLabel = new Label(groupComposite, SWT.NONE);
-    errorLabel.setImage(MessageTransformationModelingPlugin.getDefault().getImageDescriptor("icons/error.gif").createImage()); //$NON-NLS-1$
-    errorLabel.setVisible(false);
+   private WorkflowModelEditor wfme;
 
+   private Composite mainComposite;
 
-    Label typeLabel = new Label(groupComposite, SWT.LEFT);
-    typeLabel.setText(Modeling_Messages.TXT_CLASS);
-    
-    
-    classBrowser = new TypeSelectionComposite(groupComposite, Modeling_Messages.PlainJavaPropertyPage_LB_Plain_Java);
-    classBrowser.getText().addModifyListener(new ModifyListener(){
-		public void modifyText(ModifyEvent e) {
-			serializableTypeModified(e);			
-		}
-    	
-    });
+   private boolean isError = false;
 
-    
-    
-    parent.getShell().setMinimumSize(300, 150);
-    parent.getShell().setText(Modeling_Messages.TXT_ADD_EXTERNAL_CL);
-    
-    return comp;
-  }
+   // private Combo dataTypeCombo;
 
+   private TypeSelectionComposite classBrowser;
 
-  protected void buttonEnablement() {
-	String text = messageNameText.getText(); 
-	this.errorLabel.setVisible(isError);
-	if (getButton(IDialogConstants.OK_ID) != null) {
-	getButton(IDialogConstants.OK_ID).setEnabled(!isError && !text.equalsIgnoreCase("") && text.indexOf(" ") == -1);			 //$NON-NLS-1$ //$NON-NLS-2$
-  }		
-}
+   private StackLayout stack;
 
+   private Composite structPrimComposite;
 
-protected void createButtonsForButtonBar(Composite parent) {
-    super.createButtonsForButtonBar(parent);
-    getButton(IDialogConstants.OK_ID).setEnabled(false);
-    this.buttonEnablement();
-}
+   private Composite messageComposite;
 
-  protected void buttonPressed(int buttonId) {
-    if (buttonId == IDialogConstants.OK_ID) {
-		messageName = messageNameText.getText();
-	}
-	super.buttonPressed(buttonId);		
-		
-  }
+   protected ViewerFilter selectedFilter;
 
-public void modifyText(ModifyEvent arg0) {	
-	String text = messageNameText.getText();
-	if (!controller.isSimpleMode()) {
-		if (getMessageTypeByName(text) != null) {
-			isError = true;
-			errorLabel.setToolTipText(MessageFormat.format(Modeling_Messages.TXT_ALREADY_EXIST_WITHIN_CONTEXT, new Object[]{text}));	
-		} else {
-			if (!StringUtils.isValidIdentifier(text)) {
-				isError = true;
-				errorLabel.setToolTipText(MessageFormat.format(Modeling_Messages.TXT_NOT_VALID_NAME, new Object[]{text}));				
-			} else {
-				isError = false;
-				errorLabel.setToolTipText(null);				
-			}
-		}		
-	} else {
-		if (!StringUtils.isValidIdentifier(text)) {
-			isError = true;
-			errorLabel.setToolTipText(MessageFormat.format(Modeling_Messages.TXT_NOT_VALID_NAME, new Object[]{text}));			
-		} else {
-			isError = false;
-			errorLabel.setToolTipText(null);				
-		}		
-	}
-	buttonEnablement();	
-}
+   private DirectionType directionType;
 
-private void serializableTypeModified(ModifyEvent e) {
-	if (classBrowser.getType() != null) {
-	   String messageName = classBrowser.getType().getType().getElementName();
-	    String text = messageName;
-	    int n = 1;
-	    while ( isAccessPointIdDefined(text + n) )
-	    {
-	       n++;
-	    }
-	    text = text + n;
-	    messageNameText.setText(text);
-	    AccessPointType apt = controller.getMtaUtils().createSerializableAccessPoint(classBrowser.getType(), text, directionType);
-	    this.messageType = apt;	   
-	}
-}
+   public ExternalClassAdditionDialog(Shell parentShell,
+         MessageTransformationController controller, List messageTypes, String preset,
+         DirectionType directionType)
+   {
+      super(parentShell);
+      this.controller = controller;
+      this.messageTypes = messageTypes;
+      this.directionType = directionType;
+      this.preset = preset;
+      allMessageTypes.addAll(controller.getSourceMessageTypes());
+      allMessageTypes.addAll(controller.getTargetMessageTypes());
+      allMessageTypes.addAll(controller.getExternalClassTypes());
+      typeFilters.add(new StructuredTypesFilter());
+      typeFilters.add(new PrimitivesFilter());
+      if (!controller.isSimpleMode())
+      {
+         typeFilters.add(new SerializableFilter());
+      }
+   }
 
-public AccessPointType getMessageType() {
-	return messageType;
-}
+   protected Control createDialogArea(Composite parent)
+   {
+      mainComposite = parent;
+      if ((null != PlatformUI.getWorkbench())
+            && (null != PlatformUI.getWorkbench().getActiveWorkbenchWindow())
+            && (null != PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+                  .getActivePage()))
+      {
+         IEditorPart currentEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+               .getActivePage().getActiveEditor();
+         if (currentEditor instanceof WorkflowModelEditor)
+         {
+            wfme = (WorkflowModelEditor) currentEditor;
+         }
+      }
 
-public String getMessageName() {
-	return messageName;
-}
+      Composite comp = (Composite) super.createDialogArea(parent);
+      comp.setLayout(new GridLayout());
+
+      Composite groupComposite = new Group(comp, SWT.NONE);
+
+      GridLayout layout = new GridLayout();
+      layout.numColumns = 3;
+      groupComposite.setLayout(layout);
+
+      Label tagNameLabel = new Label(groupComposite, SWT.LEFT);
+      tagNameLabel.setText(MessageFormat.format(Modeling_Messages.TXT_NAME,
+            new Object[] {controller.getNameString()}));
+      if (controller.isSimpleMode())
+      {
+
+      }
+      else
+      {
+         tagNameLabel.setText(Modeling_Messages.TXT_INSTANCE_NAME);
+      }
+      messageNameText = new Text(groupComposite, SWT.SINGLE | SWT.BORDER);
+      messageNameText.addModifyListener(this);
+      GridData data = new GridData(GridData.FILL_HORIZONTAL);
+      messageNameText.setLayoutData(data);
+      errorLabel = new Label(groupComposite, SWT.NONE);
+      errorLabel.setImage(MessageTransformationModelingPlugin.getDefault()
+            .getImageDescriptor("icons/error.gif").createImage()); //$NON-NLS-1$
+      errorLabel.setVisible(false);
+
+      Label typeLabel = new Label(groupComposite, SWT.LEFT);
+      typeLabel.setText(Modeling_Messages.TXT_CLASS);
+
+      classBrowser = new TypeSelectionComposite(groupComposite,
+            Modeling_Messages.PlainJavaPropertyPage_LB_Plain_Java);
+      classBrowser.getText().addModifyListener(new ModifyListener()
+      {
+         public void modifyText(ModifyEvent e)
+         {
+            serializableTypeModified(e);
+         }
+
+      });
+
+      parent.getShell().setMinimumSize(300, 150);
+      parent.getShell().setText(Modeling_Messages.TXT_ADD_EXTERNAL_CL);
+
+      return comp;
+   }
+
+   protected void buttonEnablement()
+   {
+      String text = messageNameText.getText();
+      this.errorLabel.setVisible(isError);
+      if (getButton(IDialogConstants.OK_ID) != null)
+      {
+         getButton(IDialogConstants.OK_ID).setEnabled(
+               !isError && !text.equalsIgnoreCase("") && text.indexOf(" ") == -1); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+   }
+
+   protected void createButtonsForButtonBar(Composite parent)
+   {
+      super.createButtonsForButtonBar(parent);
+      getButton(IDialogConstants.OK_ID).setEnabled(false);
+      this.buttonEnablement();
+   }
+
+   protected void buttonPressed(int buttonId)
+   {
+      if (buttonId == IDialogConstants.OK_ID)
+      {
+         messageName = messageNameText.getText();
+      }
+      super.buttonPressed(buttonId);
+
+   }
+
+   public void modifyText(ModifyEvent arg0)
+   {
+      String text = messageNameText.getText();
+      if (!controller.isSimpleMode())
+      {
+         if (getMessageTypeByName(text) != null)
+         {
+            isError = true;
+            errorLabel.setToolTipText(MessageFormat
+                  .format(Modeling_Messages.TXT_ALREADY_EXIST_WITHIN_CONTEXT,
+                        new Object[] {text}));
+         }
+         else
+         {
+            if (!StringUtils.isValidIdentifier(text))
+            {
+               isError = true;
+               errorLabel.setToolTipText(MessageFormat.format(
+                     Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
+            }
+            else
+            {
+               isError = false;
+               errorLabel.setToolTipText(null);
+            }
+         }
+      }
+      else
+      {
+         if (!StringUtils.isValidIdentifier(text))
+         {
+            isError = true;
+            errorLabel.setToolTipText(MessageFormat.format(
+                  Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
+         }
+         else
+         {
+            isError = false;
+            errorLabel.setToolTipText(null);
+         }
+      }
+      buttonEnablement();
+   }
+
+   private void serializableTypeModified(ModifyEvent e)
+   {
+      if (classBrowser.getType() != null)
+      {
+         String messageName = classBrowser.getType().getType().getElementName();
+         String text = messageName;
+         int n = 1;
+         while (isAccessPointIdDefined(text + n))
+         {
+            n++;
+         }
+         text = text + n;
+         messageNameText.setText(text);
+         AccessPointType apt = controller.getMtaUtils().createSerializableAccessPoint(
+               classBrowser.getType(), text, directionType);
+         this.messageType = apt;
+      }
+   }
+
+   public AccessPointType getMessageType()
+   {
+      return messageType;
+   }
+
+   public String getMessageName()
+   {
+      return messageName;
+   }
 
    private boolean isAccessPointIdDefined(String id)
    {
@@ -244,14 +287,17 @@ public String getMessageName() {
       return false;
    }
 
-private AccessPointType getMessageTypeByName(String name) {
-	for (Iterator i = allMessageTypes.iterator(); i.hasNext();) {
-	   AccessPointType messageType = (AccessPointType)i.next();		
-		if (messageType.getId().equalsIgnoreCase(name)) {
-			return messageType;
-		}
-	}
-	return null;
-}
+   private AccessPointType getMessageTypeByName(String name)
+   {
+      for (Iterator i = allMessageTypes.iterator(); i.hasNext();)
+      {
+         AccessPointType messageType = (AccessPointType) i.next();
+         if (messageType.getId().equalsIgnoreCase(name))
+         {
+            return messageType;
+         }
+      }
+      return null;
+   }
 
 }
