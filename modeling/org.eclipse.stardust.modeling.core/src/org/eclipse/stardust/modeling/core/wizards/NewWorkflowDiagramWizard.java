@@ -304,43 +304,43 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(lastActivityPerformer, PredefinedConstants.BROWSABLE_ATT,
             "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(lastActivityPerformer, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "ag.carnot.workflow.runtime.UserHome"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
       createAttribute(lastActivityPerformer, PredefinedConstants.IS_LOCAL_ATT,
             "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(lastActivityPerformer, PredefinedConstants.JNDI_PATH_ATT, null,
-            "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$ 
       createAttribute(lastActivityPerformer, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "ag.carnot.workflow.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
       createAttribute(lastActivityPerformer, PredefinedConstants.REMOTE_INTERFACE_ATT,
-            null, "ag.carnot.workflow.runtime.beans.IUser"); //$NON-NLS-1$ 
+            null, "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
 
       DataType startingUser = createData(model, dataType2,
             "STARTING_USER", Diagram_Messages.NAME_StartingUser, //$NON-NLS-1$ 
             Diagram_Messages.DESC_StartingUser);
       createAttribute(startingUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(startingUser, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "ag.carnot.workflow.runtime.UserHome"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
       createAttribute(startingUser, PredefinedConstants.IS_LOCAL_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(startingUser, PredefinedConstants.JNDI_PATH_ATT, null,
             "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$ 
       createAttribute(startingUser, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "ag.carnot.workflow.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
       createAttribute(startingUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
-            "ag.carnot.workflow.runtime.beans.IUser"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
 
       DataType currentUser = createData(model, dataType2,
             PredefinedConstants.CURRENT_USER, Diagram_Messages.NAME_CurrentUser,
             Diagram_Messages.DESC_CurrentUser);
       createAttribute(currentUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(currentUser, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "ag.carnot.workflow.runtime.UserHome"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
       createAttribute(currentUser, PredefinedConstants.IS_LOCAL_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(currentUser, PredefinedConstants.JNDI_PATH_ATT, null,
-            "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$ 
       createAttribute(currentUser, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "ag.carnot.workflow.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
       createAttribute(currentUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
-            "ag.carnot.workflow.runtime.beans.IUser"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
 
       DataType processId = createData(model, dataType0, PredefinedConstants.PROCESS_ID,
             Diagram_Messages.NAME_ProcessOID, Diagram_Messages.DESC_ProcessOID);
@@ -380,7 +380,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
             Diagram_Messages.DESC_CurrentModel);
       createAttribute(currentModel, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
       createAttribute(currentModel, PredefinedConstants.CLASS_NAME_ATT, null,
-            "ag.carnot.workflow.runtime.DeployedModelDescription"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"); //$NON-NLS-1$ 
    }
    
    private void createDefaultCriticalityAttributes(ModelType model)
@@ -435,7 +435,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          "if(PROCESS_PRIORITY == 0)\n" +
          "{\n" + 
          "   Cp = ${CMed};\n" +
-         "   Mp = ${MLow};\n" +
+         "   Mp = ${MMed};\n" +
          "}\n" +
          "if(PROCESS_PRIORITY == 1)\n" +
          "{\n" +
