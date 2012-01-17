@@ -126,7 +126,7 @@ public class DebugServiceFactory extends DefaultServiceFactory
       }
       String serviceName = service.getName();
       int dot = serviceName.lastIndexOf(".");  //$NON-NLS-1$
-      String packageName = serviceName.substring(0, dot);
+      String packageName = serviceName.substring(0, dot).replace(".api.", ".core."); //$NON-NLS-1$ //$NON-NLS-2$
       String className = serviceName.substring(dot + 1);
 
       Object inner;
