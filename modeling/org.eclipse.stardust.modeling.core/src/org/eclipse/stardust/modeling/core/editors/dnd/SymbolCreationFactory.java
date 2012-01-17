@@ -106,8 +106,7 @@ public abstract class SymbolCreationFactory implements CreationFactory
             {
                if (!editor.requireLock((EObject) container))
                {
-                  if (modelElement instanceof ProcessDefinitionType
-                        || modelElement instanceof IObjectDescriptor
+                  if (modelElement instanceof IObjectDescriptor
                         && PKG.getProcessDefinitionType().equals(
                               ((IObjectDescriptor) modelElement).getType()))
                   {
