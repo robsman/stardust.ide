@@ -592,7 +592,7 @@ public class UpgradeModelAction extends SelectionAction
                   PredefinedConstants.TRIGGER_ACTION);
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
-            "ag.carnot.workflow.spi.providers.actions.trigger.TriggerActionValidator"); //$NON-NLS-1$
+            "org.eclipse.stardust.engine.core.extensions.actions.trigger.TriggerActionValidator"); //$NON-NLS-1$
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.TriggerActionValidator"); //$NON-NLS-1$
@@ -601,7 +601,7 @@ public class UpgradeModelAction extends SelectionAction
             .getEventActionType(), PredefinedConstants.MAIL_ACTION);
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
-            "ag.carnot.workflow.spi.providers.actions.mail.MailActionValidator"); //$NON-NLS-1$
+            "org.eclipse.stardust.engine.extensions.mail.action.sendmail.MailActionValidator"); //$NON-NLS-1$
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.MailActionValidator"); //$NON-NLS-1$
@@ -611,7 +611,7 @@ public class UpgradeModelAction extends SelectionAction
                   PredefinedConstants.JFC_CONTEXT);
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
-            "ag.carnot.workflow.spi.providers.contexts.jfc.JFCValidator"); //$NON-NLS-1$
+            "org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.JFCValidator"); //$NON-NLS-1$
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"); //$NON-NLS-1$
@@ -620,7 +620,7 @@ public class UpgradeModelAction extends SelectionAction
             .getApplicationContextType(), PredefinedConstants.JSP_CONTEXT);
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
-            "ag.carnot.workflow.spi.providers.contexts.jsp.JSPValidator"); //$NON-NLS-1$
+            "org.eclipse.stardust.engine.extensions.web.jsp.contexts.JSPValidator"); //$NON-NLS-1$
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"); //$NON-NLS-1$
