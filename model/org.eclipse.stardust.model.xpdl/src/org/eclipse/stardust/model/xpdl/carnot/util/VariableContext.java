@@ -43,7 +43,8 @@ public class VariableContext
    
    private ModelType model;
    
-
+   private boolean criticalityFormulaChanged;
+   
    public VariableContext()
    {
       super();
@@ -398,6 +399,11 @@ public class VariableContext
          String value = (String) attribute.getValue();
          value = replace(modelVariable, newValue, value);
          attribute.setValue(value);
+         // CRNT-22739
+         if (attribute.getName().equalsIgnoreCase("ipp:criticalityFormula"))
+         {
+            setCriticalityFormulaChanged(true);
+         }
       }
       else
       {
@@ -521,6 +527,16 @@ public class VariableContext
          return false;
       }
       return true;
+   }
+   
+   public boolean isCriticalityFormulaChanged()
+   {
+      return criticalityFormulaChanged;
+   }
+
+   public void setCriticalityFormulaChanged(boolean criticalityFormulaChanged)
+   {
+      this.criticalityFormulaChanged = criticalityFormulaChanged;
    }
 
 }

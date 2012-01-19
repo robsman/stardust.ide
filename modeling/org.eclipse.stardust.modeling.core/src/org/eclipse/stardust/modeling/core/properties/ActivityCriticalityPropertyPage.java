@@ -19,6 +19,8 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
@@ -70,6 +72,11 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
    {
       ModelType model = ModelUtils.findContainingModel(element);
       controller.intializeModel(model);
+      loadFormula(element);
+   }
+
+   private void loadFormula(IModelElement element)
+   {
       String formula = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             "ipp:criticalityFormula");
       this.refreshDocument();
@@ -85,8 +92,16 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
       ModelType model = ModelUtils.findContainingModel(element);
       String formula = criticalityFormulaEditor.getAdaptedSourceViewer().getTextWidget()
             .getText().trim();
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula",
-            "String", formula);
+      VariableContext variableContext = VariableContextHelper.getInstance().getContext(
+            model);
+      if (!variableContext.isCriticalityFormulaChanged())
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula",
+               "String", formula);
+         variableContext.setCriticalityFormulaChanged(false);
+      } else {
+         loadFormula(element);
+      }
    }
 
    public void refreshDocument()
