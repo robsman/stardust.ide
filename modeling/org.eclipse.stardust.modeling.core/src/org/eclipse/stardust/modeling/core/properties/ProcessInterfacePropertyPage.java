@@ -970,8 +970,6 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
       {
          isProviding = false;
          isImplementing = true;
-         process.setFormalParameters(null);
-         process.setFormalParameterMappings(null);
          this.outlineSynchronizer.init(null);
       }
       if (combo.getSelectionIndex() == 1)
@@ -1062,6 +1060,5 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
             generateButton.setEnabled(true);
          }
       }
-   }
-   
+   }   
 }
