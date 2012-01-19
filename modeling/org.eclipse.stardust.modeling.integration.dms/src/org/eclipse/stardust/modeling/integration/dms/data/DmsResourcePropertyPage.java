@@ -237,7 +237,7 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
          }
       });
       
-      groupingCheckbox = FormBuilder.createCheckBox(composite, ""); //$NON-NLS-1$
+      groupingCheckbox = FormBuilder.createCheckBox(composite, DMS_Messages.DMS_PropertyPage_ShowTypes); 
       groupingCheckbox.addSelectionListener(new SelectionListener(){
 
         public void widgetDefaultSelected(SelectionEvent e) {

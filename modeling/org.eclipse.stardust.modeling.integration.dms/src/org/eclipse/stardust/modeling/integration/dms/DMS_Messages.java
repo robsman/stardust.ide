@@ -70,9 +70,11 @@ public static String DmsResourcePropertyPage_DefaultPropertiesSchema;
 
    public static String VfsOperationCoreProperties_OP_VersionDocument;
 
-public static String DataValidator_InvalidType;
+   public static String DataValidator_InvalidType;
    
    public static String DMSApplicationValidator_NoAccessPoint;
+
+   public static String DMS_PropertyPage_ShowTypes;   
    
    static
    {
