@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.jface.window.Window;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -101,28 +102,30 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
       
       String fullClassName = AttributeUtil.getAttributeValue(
             (IExtensibleElement) node, PredefinedConstants.CLASS_NAME_ATT);
-      
-      if (fullClassName.indexOf("${") > -1) //$NON-NLS-1$
-      {
-         variableType = fullClassName;
-      }
-      fullClassName = VariableContextHelper.getInstance().getContext(
-            (ModelType) this.getModelElement().eContainer())
-            .replaceAllVariablesByDefaultValue(fullClassName);
-      
-      
+
       boolean autoInitialize = AttributeUtil.getBooleanValue(
             (IExtensibleElement) node, PredefinedConstants.AUTO_INSTANTIATE_ATT);
-      autoInitializeCheckBox.setSelection(autoInitialize);
+      autoInitializeCheckBox.setSelection(autoInitialize);      
       
-      findType(fullClassName);
-      if (model != null)
-      {
-         classBrowser.setType(model.getType());
-      }
-      if (variableType != null)
-      {
-         classBrowser.setTypeText(variableType);
+      if(!StringUtils.isEmpty(fullClassName))
+         {
+         if (fullClassName.indexOf("${") > -1) //$NON-NLS-1$
+         {
+            variableType = fullClassName;
+         }
+         fullClassName = VariableContextHelper.getInstance().getContext(
+               (ModelType) this.getModelElement().eContainer())
+               .replaceAllVariablesByDefaultValue(fullClassName);
+      
+         findType(fullClassName);
+         if (model != null)
+         {
+            classBrowser.setType(model.getType());
+         }
+         if (variableType != null)
+         {
+            classBrowser.setTypeText(variableType);
+         }
       }
 
       setViewerInput();
