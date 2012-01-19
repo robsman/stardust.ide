@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,13 +44,14 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.window.Window;
-import org.eclipse.stardust.engine.api.model.IAccessPoint;
-import org.eclipse.stardust.engine.api.model.IApplication;
-import org.eclipse.stardust.engine.api.model.IModel;
-import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
-import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
-import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.debug.CwmFileSelectionDialog;
@@ -99,17 +97,17 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
    private Button browseProjectsButton;
    private Button browseProcessModelsButton;
    private TableViewer tableViewer;
-   private IModel model;
+   private ModelType model;
    private String[] configurationIds;
    private List configurationList;
    private List launcherIDList = new ArrayList();
+   private String modelUri;
 
    public TransformationConfigurationTab()
    {
       ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
       ILaunchConfigurationType ct = lm
-            .getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.messaging.modeling.application.launch.testType"); //$NON-NLS-1$
-
+            .getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.application.launch.testType"); //$NON-NLS-1$
       try
       {
          ILaunchConfiguration[] cfgs = lm.getLaunchConfigurations(ct);
@@ -199,9 +197,9 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
 
          public String getText(Object element)
          {
-            if (element instanceof IApplication)
+            if (element instanceof ApplicationType)
             {
-               return ((IApplication) element).getName();
+               return ((ApplicationType) element).getName();
             }
 
             return null;
@@ -371,9 +369,11 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
          String projectName = configuration.getAttribute(
                TransformationLauncherConstants.PROJECT_NAME, ""); //$NON-NLS-1$
          projectNameText.setText(projectName);
-         URI modelUri = URI.createURI(configuration.getAttribute(
+         URI uri = URI.createURI(configuration.getAttribute(
                TransformationLauncherConstants.PROCESS_MODEL_FILE_URI, "")); //$NON-NLS-1$
-         String modelPathRelativeToProject = modelUri.path();
+         //modelUri = configuration.getAttribute(ProcessingLauncherConstants.MODEL_URI, ""); //$NON-NLS-1$
+         modelUri = uri.toString();
+         String modelPathRelativeToProject = uri.path();
          int idx = modelPathRelativeToProject.lastIndexOf(projectName);
          if (idx != -1
                && idx + projectName.length() + 1 < modelPathRelativeToProject.length())
@@ -389,7 +389,7 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
                   TransformationLauncherConstants.APPLICATION_ID, ""); //$NON-NLS-1$
             if (applicationId != null && applicationId.length() != 0)
             {
-               IApplication application = model.findApplication(applicationId);
+               ApplicationType application = ModelUtils.findElementById(model.getApplication(), applicationId);
                if (application != null)
                {
                   transformationApplicationViewer.setSelection(new StructuredSelection(
@@ -422,7 +422,7 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
                   .getFirstElement() != null)
       {
          configuration.setAttribute(TransformationLauncherConstants.APPLICATION_ID,
-               ((IApplication) ((IStructuredSelection) transformationApplicationViewer
+               ((ApplicationType) ((IStructuredSelection) transformationApplicationViewer
                      .getSelection()).getFirstElement()).getId());
       }
    }
@@ -537,15 +537,50 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
                IResource.FILE);
          if (dialog.open() == Window.OK)
          {
-            Object[] files = dialog.getResult();
-            IFile file = (IFile) files[0];
-            String fullPath = file.getFullPath().toString();
+            Object[] modelFiles = dialog.getResult();
+            IFile modelFile = (IFile) modelFiles[0];
+            
+            modelUri = URI.createPlatformResourceURI(
+                  modelFile.getFullPath().toString(), true).toString();   
+            String fullPath = modelFile.getFullPath().toString();
+
             processModelText.setText(fullPath.substring(projectName.length() + 2));
             updateLaunchConfigurationDialog();
             updateProcessModel();       
          }         
       }         
    }
+   
+   /*private void browseModelFiles()
+   {
+       String projectName = projectText.getText();
+       if (StringUtils.isEmpty(projectName)) {
+          MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
+                SWT.ICON_WARNING | SWT.CANCEL);
+          messageBox.setText(Modeling_Messages.TXT_WR_LEER);
+          messageBox.setMessage(Modeling_Messages.MSG_FIRST_NEED_SELECTED_PROJECT);
+          messageBox.open();
+       } else {
+          ResourceListSelectionDialog dialog = new CwmFileSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot()
+                .getProject(projectName), IResource.FILE);
+
+          if (dialog.open() == Window.OK)
+          {
+             Object[] files = dialog.getResult();
+             IFile modelFile = (IFile) files[0];
+             modelUri = URI.createPlatformResourceURI(
+                   modelFile.getFullPath().toString(), true).toString();
+    
+             String fullPath = modelFile.getFullPath().toString();
+             modelText.setText(fullPath.substring(projectName.length() + 2));
+             updateLaunchConfigurationDialog();
+             //updateProcessModel();
+             updateStructruredData();
+             //updateLaunchConfigurationDialog();
+          }
+          
+       }
+   }*/
 
    private void updateProcessModel()
    {
@@ -568,7 +603,8 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
             {
                throw new RuntimeException(Modeling_Messages.EXC_FILE_DOES_NOT_EXIST);
             }
-            model = loadModel(file.getLocation().toFile());
+            //modelUri=URI.createFileURI(file.getFullPath().toString());
+            model = loadModel(modelUri);
             updateMessageTransformationApplications();
          }
          catch (Exception ex)
@@ -581,9 +617,9 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
    private void updateMessageTransformationApplications()
    {
       List list = new ArrayList();
-      for (int i=0; i<model.getApplications().size(); i++)
+      for (int i=0; i<model.getApplication().size(); i++)
       {
-         IApplication application = (IApplication)model.getApplications().get(i);
+         ApplicationType application = (ApplicationType)model.getApplication().get(i);
          // select non-interactive apps only (interactive return null as type (!) 
          if ( !application.isInteractive())
          {
@@ -600,29 +636,31 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
    {
       if (transformationApplicationViewer.getSelection() != null)
       {
-         IApplication application = (IApplication) ((IStructuredSelection) transformationApplicationViewer
+         ApplicationType application = (ApplicationType) ((IStructuredSelection) transformationApplicationViewer
                .getSelection()).getFirstElement();
          if (application != null)
          {
             configurationList = new ArrayList();
 
-            for (Iterator i = application.getAllInAccessPoints(); i.hasNext(); )
+            for (Iterator i = application.getAccessPoint().iterator(); i.hasNext(); )
             {
-               IAccessPoint accessPoint = (IAccessPoint)i.next();
-               String declaredTypeId = (String) accessPoint.getAttribute(StructuredDataConstants.TYPE_DECLARATION_ATT);
-
-               String configName = "";                                     //$NON-NLS-1$
-               for (Iterator l = launcherIDList.iterator(); l.hasNext();)
-               {                     
-                  String[] tuple = l.next().toString().split(","); //$NON-NLS-1$
-                  if (accessPoint.getId().equalsIgnoreCase(tuple[0]))
-                  {
-                     if (tuple.length > 1) {
-                        configName = tuple[1];                           
+               AccessPointType accessPoint = (AccessPointType)i.next();
+               if (accessPoint.getDirection().getName().equals(DirectionType.IN_LITERAL.getName())) 
+               {
+                  String declaredTypeId = AttributeUtil.getAttribute(accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT).getValue();
+                  String configName = "";                                     //$NON-NLS-1$
+                  for (Iterator l = launcherIDList.iterator(); l.hasNext();)
+                  {                     
+                     String[] tuple = l.next().toString().split(","); //$NON-NLS-1$
+                     if (accessPoint.getId().equalsIgnoreCase(tuple[0]))
+                     {
+                        if (tuple.length > 1) {
+                           configName = tuple[1];                           
+                        }
                      }
                   }
+                  configurationList.add(new InputMessageConfiguration(declaredTypeId, accessPoint.getId(), configName));
                }
-               configurationList.add(new InputMessageConfiguration(declaredTypeId, accessPoint.getId(), configName));
             }
             tableViewer.setInput(configurationList);
          }
@@ -647,37 +685,14 @@ public class TransformationConfigurationTab extends AbstractLaunchConfigurationT
       throw new IllegalArgumentException(MessageFormat.format(Modeling_Messages.EXC_CFG_DOES_NOT_EXIST, new Object[]{value}));
    }
 
-   public static IModel loadModel(File modelFile) throws Exception
+   public ModelType loadModel(String modelUri) throws Exception
    {
-      if ( !modelFile.exists())
-      {
-         throw new RuntimeException(
-               new FileNotFoundException(modelFile.getAbsolutePath()));
-      }
-      final DefaultConfigurationVariablesProvider confVarProvider = new DefaultConfigurationVariablesProvider();
-      if (modelFile.getName().endsWith(XpdlUtils.EXT_XPDL))
-      {
-         final ClassLoader cclBackup = Thread.currentThread().getContextClassLoader();
-
-         Thread.currentThread().setContextClassLoader(
-               TransformationConfigurationTab.class.getClassLoader());
-
-         try
-         {
-            return XpdlUtils.loadXpdlModel(modelFile, confVarProvider);
-         }
-         finally
-         {
-            Thread.currentThread().setContextClassLoader(cclBackup);
-         }
-      }
-      else
-      {
-         return new DefaultXMLReader(true, confVarProvider)
-               .importFromXML(new FileInputStream(modelFile));
-      }
+         WorkflowModelManager modelManager = new WorkflowModelManager();
+         modelManager.load(URI.createURI(modelUri));
+         ModelType model = modelManager.getModel();
+         return model;
    }
-
+   
    private static class InputMessageConfigurationLabelProvider extends LabelProvider
          implements ITableLabelProvider
    {
