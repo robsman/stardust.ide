@@ -31,6 +31,7 @@ public class ModelElementsOutlineSynchronizer
       extends ModelElementNotificationAdapter
 {
    private OutlineProvider provider;
+   private boolean isInit = false;
 
    public ModelElementsOutlineSynchronizer(OutlineProvider provider)
    {
@@ -40,15 +41,23 @@ public class ModelElementsOutlineSynchronizer
 
    public void init(EObject target)
    {
-      dispose();
-      super.init(target);
-      provider.removeChildrenNodes(provider.getParentNodeId());
-      if (target != null) {
-         List elements = getChildren(target);
-         for (int i = 0; i < elements.size(); i++)
-         {
-             addNode((EObject) elements.get(i), i); 
-         }         
+      if(!isInit)
+      {
+         dispose();
+         super.init(target);
+         provider.removeChildrenNodes(provider.getParentNodeId());
+         if (target != null) {
+            List elements = getChildren(target);
+            for (int i = 0; i < elements.size(); i++)
+            {
+                addNode((EObject) elements.get(i), i); 
+            }         
+         }
+         isInit = true;
+      }
+      else
+      {
+         super.init(target);         
       }
       provider.updateVisuals();
    }
