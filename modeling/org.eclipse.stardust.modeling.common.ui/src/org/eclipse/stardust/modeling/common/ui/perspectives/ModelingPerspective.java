@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.common.ui.perspectives;
 
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.BpmUiConstants;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -36,10 +35,6 @@ public class ModelingPerspective implements IPerspectiveFactory, BpmUiConstants
       fldDetails.addView(IPageLayout.ID_PROP_SHEET);
       fldDetails.addView(IPageLayout.ID_PROBLEM_VIEW);
 
-      if (BpmUiActivator.getDefault().hasBusinessLicense())
-      {
-         layout.addPerspectiveShortcut(CWB_PERSPECTIVE_ID);
-      }
       layout.addPerspectiveShortcut(CWD_PERSPECTIVE_ID);
 
       layout.addNewWizardShortcut(BpmUiConstants.ID_NEW_MODEL_WIZARD);

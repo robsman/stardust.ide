@@ -12,7 +12,6 @@ package org.eclipse.stardust.modeling.common.ui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -22,9 +21,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.modeling.common.BpmCommonActivator;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -197,7 +194,6 @@ public class BpmUiActivator extends Plugin
    public void start(BundleContext context) throws Exception
    {
       super.start(context);
-      synchronizeTraceFile();
 
       try
       {
@@ -305,8 +301,6 @@ public class BpmUiActivator extends Plugin
       IPreferenceStore store = PlatformUI.getPreferenceStore();
       store.setValue("org.eclipse.stardust.model.xpdl.license.path", path); //$NON-NLS-1$
 
-      BpmCommonActivator.getDefault().setTraceFilePath(path);
-
       IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
       for (int i = 0; i < windows.length; i++)
       {
@@ -345,44 +339,6 @@ public class BpmUiActivator extends Plugin
       }
    }
 
-   public String hasModule(String module)
-   {
-      moduleError = null;
-
-      synchronizeTraceFile();
-
-      Exception e = BpmCommonActivator.getDefault().traceModule(module);
-      if (null != e)
-      {
-         if (Parameters.instance().getString("License." + module + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
-         {
-            moduleError = MessageFormat.format(
-                  UI_Messages.BpmUiActivator_noLicenseIsPresent, new Object[] {module});
-         }
-         else
-         {
-            moduleError = e.getMessage();
-         }
-      }
-
-      return moduleError;
-   }
-
-   private void synchronizeTraceFile()
-   {
-      String path = getTraceFilePath();
-
-      if (path != null
-            && path.length() > 0
-            && !path.equals(Parameters.instance().getString(
-                  String.valueOf(new char[] {
-                        'L', 'i', 'c', 'e', 'n', 's', 'e', '.', 'L', 'i', 'c', 'e', 'n',
-                        's', 'e', 'F', 'i', 'l', 'e', 'P', 'a', 't', 'h'}))))
-      {
-         BpmCommonActivator.getDefault().setTraceFilePath(path);
-      }
-   }
-
    public String getString(String name)
    {
       return Parameters.instance().getString(name);
@@ -391,26 +347,6 @@ public class BpmUiActivator extends Plugin
    public String getString(String name, String defaultValue)
    {
       return Parameters.instance().getString(name, defaultValue);
-   }
-
-   public boolean hasLicense()
-   {
-      return hasDeveloperLicense() || hasOldModellingLicense();
-   }
-
-   public boolean hasOldModellingLicense()
-   {
-      return hasModule(Modules.MODELLING) == null;
-   }
-
-   public boolean hasDeveloperLicense()
-   {
-      return hasModule(Modules.PROCESS_WORKBENCH_4_DEVELOPERS) == null;
-   }
-
-   public boolean hasBusinessLicense()
-   {
-      return hasModule(Modules.PROCESS_WORKBENCH_4_ANALYSTS) == null;
    }
 
    public String getModuleError()

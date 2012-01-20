@@ -77,7 +77,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -203,8 +202,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    }
 
    private boolean changed;
-
-   private boolean hasLicense;
 
    private ModelValidationJob validationJob;
 
@@ -459,10 +456,9 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
 
    protected void createPages()
    {
-      checkLicense();
       try
       {
-         if (hasLicense && null != getWorkflowModel())
+         if (null != getWorkflowModel())
          {
             if (checkUpgradeModel())
             {
@@ -945,13 +941,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    {
       if (getSite().getPage().equals(workbenchPage))
       {
-         checkLicense();
-         if (!hasLicense)
-         {
-            closePages();
-            getOutlinePage().setOutlineContents(null);
-         }
-         else if (diagrams.isEmpty())
+         if (diagrams.isEmpty())
          {
             createPages();
          }
@@ -967,7 +957,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                UpgradePage page = (UpgradePage) getEditor(i);
                page.redraw();
             }
-            else if (hasLicense)
+            else
             {
                DiagramEditorPage page = (DiagramEditorPage) getEditor(i);
                Map registry = page.getGraphicalViewer().getEditPartRegistry();
@@ -978,20 +968,12 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                WorkflowModelEditorPaletteFactory.updatePalette(page);
             }
          }
-         if (hasLicense && checkUpgradeModel())
+         if (checkUpgradeModel())
          {
             getOutlinePage().initializeOutlineViewer();
          }
          validateModel();
       }
-   }
-
-   private void checkLicense()
-   {
-      hasLicense = DiagramPlugin.isBusinessPerspective()
-            && BpmUiActivator.getDefault().hasBusinessLicense()
-            || !DiagramPlugin.isBusinessPerspective()
-            && BpmUiActivator.getDefault().hasLicense();
    }
 
    private void forceRefresh()
@@ -1011,26 +993,23 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    {
       try
       {
-         if (BpmUiActivator.getDefault().hasLicense())
+         // we expect IFileEditorInput here,
+         // ClassCassException is catched to force PartInitException
+         if (input instanceof IFileEditorInput)
          {
-            // we expect IFileEditorInput here,
-            // ClassCassException is catched to force PartInitException
-            if (input instanceof IFileEditorInput)
-            {
-               IFile file = ((IFileEditorInput) input).getFile();
-               this.cwmModel = create(file);
-            }
-            else if (input instanceof IURIEditorInput)
-            {
-               java.net.URI uri = ((IURIEditorInput) input).getURI();
-               this.cwmModel = create(uri);
-            }
+            IFile file = ((IFileEditorInput) input).getFile();
+            this.cwmModel = create(file);
+         }
+         else if (input instanceof IURIEditorInput)
+         {
+            java.net.URI uri = ((IURIEditorInput) input).getURI();
+            this.cwmModel = create(uri);
+         }
 
-            // validate network
-            if (null == getWorkflowModel())
-            {
-               throw new PartInitException(Diagram_Messages.EX_SpecifiedInputNotValidModel);
-            }
+         // validate network
+         if (null == getWorkflowModel())
+         {
+            throw new PartInitException(Diagram_Messages.EX_SpecifiedInputNotValidModel);
          }
       }
       catch (CoreException e)
@@ -1062,39 +1041,21 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       {
          validationJob.cancel();
       }
-      if (hasLicense)
+
+      validationJob = new ModelValidationJob(this, getWorkflowModel(),
+            createPerspectiveFilter());
+      if (null != validationJob.getModelFile())
       {
-         validationJob = new ModelValidationJob(this, getWorkflowModel(),
-               createPerspectiveFilter());
-         if (null != validationJob.getModelFile())
-         {
-            validationJob.setRule(ResourcesPlugin.getWorkspace().getRuleFactory()
-                  .markerRule(validationJob.getModelFile()));
-         }
-         else
-         {
-            // TODO verify: if no file was created, schedule to workspace root?
-            validationJob.setRule(ResourcesPlugin.getWorkspace().getRuleFactory()
-                  .markerRule(ResourcesPlugin.getWorkspace().getRoot()));
-         }
-         validationJob.schedule();
+         validationJob.setRule(ResourcesPlugin.getWorkspace().getRuleFactory()
+               .markerRule(validationJob.getModelFile()));
       }
       else
       {
-         IResource modelFile = ((IFileEditorInput) getEditorInput()).getFile();
-         try
-         {
-            modelFile.deleteMarkers(ValidationPlugin.VALIDATION_MARKER_ID, true,
-                  IResource.DEPTH_INFINITE);
-            ValidationPlugin.getDefault().getValidationService()
-                  .removeMappings(modelFile);
-         }
-         catch (CoreException e)
-         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }
+         // TODO verify: if no file was created, schedule to workspace root?
+         validationJob.setRule(ResourcesPlugin.getWorkspace().getRuleFactory()
+               .markerRule(ResourcesPlugin.getWorkspace().getRoot()));
       }
+      validationJob.schedule();
    }
 
    private Map createPerspectiveFilter()
@@ -1656,7 +1617,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       {
          public void run()
          {
-            checkLicense();
             closePages();
             setInput(getEditorInput());
             try

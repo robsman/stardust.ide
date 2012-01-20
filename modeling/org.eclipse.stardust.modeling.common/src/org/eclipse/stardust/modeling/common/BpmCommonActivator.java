@@ -13,9 +13,7 @@ package org.eclipse.stardust.modeling.common;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Plugin;
-import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.config.ParametersFacade;
-import org.eclipse.stardust.common.utils.xml.CompressedDumpReader;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -69,50 +67,6 @@ public class BpmCommonActivator extends Plugin
       return plugin;
    }
 
-   /**
-    * Transiently sets the location of the license file for this session.
-    * <em>The method name was obfuscated by purpose.</em>.
-    * 
-    * @param path
-    *           The full path of the license file to be used.
-    */
-   public void setTraceFilePath(String path)
-   {
-      Parameters.instance().flush();
-
-      CompressedDumpReader.flush();
-
-      Parameters.instance().setString(
-            String.valueOf(new char[] {
-                  'L', 'i', 'c', 'e', 'n', 's', 'e', '.', 'L', 'i', 'c', 'e', 'n', 's',
-                  'e', 'F', 'i', 'l', 'e', 'P', 'a', 't', 'h'}), path);
-   }
-
-   /**
-    * Checks if a valid license for the given module is present.
-    * <em>The method name was obfuscated by purpose.</em>.
-    * 
-    * @param module
-    *           The name of the module to be checked.
-    * @return <code>null</code> if the module is licensed properly, or an exception
-    *         describing the reason while the license check failed.
-    */
-   public Exception traceModule(String module)
-   {
-      Exception moduleTrace = null;
-
-      try
-      {
-         CompressedDumpReader.instance().openStream(module);
-      }
-      catch (Exception e)
-      {
-         moduleTrace = e;
-      }
-
-      return moduleTrace;
-   }
-   
    public static void pushToNewPropertyLayer(Map<String, ?> properties)
    {
       ParametersFacade.pushLayer(properties);
