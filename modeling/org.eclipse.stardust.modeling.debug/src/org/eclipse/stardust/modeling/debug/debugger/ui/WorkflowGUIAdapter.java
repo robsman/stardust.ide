@@ -36,7 +36,6 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.runtime.ActivityCompletionLog;
 import org.eclipse.stardust.engine.api.runtime.ActivityInstance;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
-import org.eclipse.stardust.engine.core.compatibility.gui.interpreter.DefaultInterpreter;
 import org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.InteractiveApplicationInstance;
 import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.runtime.gui.ApplicationEventListener;
@@ -44,9 +43,6 @@ import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluat
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
 /**
- * This class is adapted from
- * {@link ag.carnot.workflow.runtime.gui.WorkflowGUIAdapter}. 
- * 
  * Executes manual activities or applications (user defined)
  * being registered with the user's worklist and being executed in his JFC.
  * <p/>
@@ -62,7 +58,7 @@ public class WorkflowGUIAdapter extends JInternalFrame
 {
    private static final long serialVersionUID = 1L;
    
-   private DefaultInterpreter manualInterpreter;
+//   private DefaultInterpreter manualInterpreter;
    private Vector listeners;
    private InteractiveApplicationInstance applicationInstance;
    private ImplementationType implementationType;
@@ -405,7 +401,7 @@ public class WorkflowGUIAdapter extends JInternalFrame
     */
    public Map processManualOutDataMappings(Iterator outMappings)
    {
-      Map values = manualInterpreter.getValues();
+      Map values = null; //manualInterpreter.getValues();
       Map outData = new HashMap();
 
       while (outMappings.hasNext())
