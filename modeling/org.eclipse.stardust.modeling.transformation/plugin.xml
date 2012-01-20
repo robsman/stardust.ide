@@ -16,7 +16,7 @@
    <extension
          point="org.eclipse.stardust.modeling.transformation.messageFormat">
       <messageFormat
-            class="com.infinity.bpm.messaging.modeling.format.XMLMessageFormat"
+            class="org.eclipse.stardust.engine.extensions.transformation.format.XMLMessageFormat"
             id="XML">
       </messageFormat>
    </extension>
