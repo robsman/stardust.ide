@@ -238,13 +238,19 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
       if (dataPath.isKey())
       {
          keyDescriptorButton.setSelection(true);
+         simpleDescriptorButton.setSelection(false);
+         noDescriptorButton.setSelection(false);
       }
       else if (dataPath.isDescriptor())
       {
+         keyDescriptorButton.setSelection(false);
          simpleDescriptorButton.setSelection(true);
+         noDescriptorButton.setSelection(false);
       }
       else
       {
+         keyDescriptorButton.setSelection(false);
+         simpleDescriptorButton.setSelection(false);
          noDescriptorButton.setSelection(true);
       }
 
