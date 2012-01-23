@@ -61,11 +61,11 @@ public class ExternalWebappContextPropertyPage extends AbstractModelElementPrope
       String iconName = "{org.eclipse.stardust.modeling.transformation.modeling.externalwebapp}icons/message_transformation_application_icon.gif";       //$NON-NLS-1$
       ConfigurationElement element = ConfigurationElement.createPageConfiguration("org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage", "Typed Access Points", iconName, org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage.class); //$NON-NLS-1$ //$NON-NLS-2$
       CarnotPreferenceNode actualNode = (CarnotPreferenceNode) getNode("_cwm_interactive_.externalWebApp");       //$NON-NLS-1$
-      //ModelElementPropertyDialog propDialog = (ModelElementPropertyDialog) getContainer();
-      //CarnotPreferenceNode newNode = new CarnotPreferenceNode(element, propDialog.getElement(), 0);
       CarnotPreferenceNode newNode = new CarnotPreferenceNode(element, getElement(), 0);
-      actualNode.add(newNode);
-      
+      if (actualNode.getSubNodes().length == 0)
+      {
+         actualNode.add(newNode);
+      }
       return composite;
    }
 }
