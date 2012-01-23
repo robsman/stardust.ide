@@ -70,7 +70,6 @@ public class OrganizationRuntimeBindingPropertyPage
             PredefinedConstants.BINDING_ATT);
       departmentsCheckBox.setSelection(hasDepartments);
 
-      dataText.setInput(model.getData());
       binding.getModelBindingManager().bind(
             new Data2DataPathModelAdapter2(model, model.getData()),
             new Data2DataPathWidgetAdapter2(dataText, dataPathBrowser,
