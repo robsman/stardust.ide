@@ -152,7 +152,7 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
       messageComboViewer = new ComboViewer(messageCombo);
       messageComboViewer.setContentProvider(new ArrayContentProvider());
       messageComboViewer.setLabelProvider(new EObjectLabelProvider(wfme));
-
+      
       parent.getShell().setMinimumSize(300, 150);
       parent.getShell().setText(Modeling_Messages.TXT_MODIFY + controller.getNameString());
       return comp;
@@ -249,10 +249,11 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
          }
          else
          {
+            String messageTypeType = AttributeUtil.getAttribute(messageType, "carnot:engine:dataType").getValue();
             DataTypeType type = currentType.getType();            
-            if(type.equals(messageType.getType()))
+            if(type.equals(messageType.getType()) && messageTypeType.equals(currentType.getId()))
             {
-               dataSelection.add(currentType);      
+               dataSelection.add(currentType);;      
                break;
             }            
          }
