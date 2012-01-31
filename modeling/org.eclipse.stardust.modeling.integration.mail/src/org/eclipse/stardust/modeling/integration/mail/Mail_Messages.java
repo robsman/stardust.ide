@@ -63,5 +63,7 @@ public class Mail_Messages extends NLS
 	public static String TXT_NO_RECEIVER_MAIL_ADDRESS_SPECIFIED;
 	public static String TXT_NO_SENDER_MAIL_ADDRESS_SPECIFIED;
 	public static String TXT_OUTPUT_VALUES;
+	public static String COL_NAME;
+	public static String COL_VALUE;
 	
 }

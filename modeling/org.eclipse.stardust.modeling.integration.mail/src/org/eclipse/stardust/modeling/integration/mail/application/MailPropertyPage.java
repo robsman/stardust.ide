@@ -376,7 +376,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 					SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION,
 					OutputValue.class, new String[]
 					{ "name" , "value"}, new String[] //$NON-NLS-1$ //$NON-NLS-2$
-					{ "Name" , "Value"}, new int[] //$NON-NLS-1$ //$NON-NLS-2$
+					{ Mail_Messages.COL_NAME , Mail_Messages.COL_VALUE}, new int[]
 					{ SWT.LEFT, SWT.LEFT }, new int[]
 					{ 200, 200 }, new Image[]
 					{ null, null });
