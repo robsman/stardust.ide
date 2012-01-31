@@ -480,7 +480,9 @@ public class UiAccessor
          editor = getEditorForModel(CollectionUtils.<String>newSet(), model, namespace);
          if (editor == null)
          {
-            throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+            throw new RuntimeException(MessageFormat.format(
+                  Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                  new Object[] { namespace }));
          }
       }
       return (WorkflowModelEditor) editor;

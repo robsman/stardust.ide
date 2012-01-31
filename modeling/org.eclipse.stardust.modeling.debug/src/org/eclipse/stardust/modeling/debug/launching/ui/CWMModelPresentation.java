@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.launching.ui;
 
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.UiAccessor;
 import org.eclipse.stardust.modeling.debug.debugger.types.ActivityInstanceDigest;
 import org.eclipse.stardust.modeling.debug.highlighting.HighlightManager;
@@ -44,7 +46,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class CWMModelPresentation implements IDebugModelPresentation, IDebugEditorPresentation
+public class CWMModelPresentation implements IDebugModelPresentation,
+      IDebugEditorPresentation
 {
    private boolean containsActivitySymbol(DiagramType diagram, ActivityType activity)
    {
@@ -64,7 +67,7 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
 
       return false;
    }
-   
+
    private boolean showDiagramContainingActivity(WorkflowModelEditor editor,
          ActivityType activity) throws PartInitException
    {
@@ -72,13 +75,13 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
       boolean found = containsActivitySymbol(editor.getActiveDiagram(), activity);
 
       // search for activity symbol in other opened diagrams
-      if (!found)
+      if ( !found)
       {
          List diagrams = editor.getOpenedDiagrams();
          for (Iterator diagIter = diagrams.iterator(); diagIter.hasNext();)
          {
             DiagramType diagram = (DiagramType) diagIter.next();
-            if (!editor.isActiveDiagram(diagram))
+            if ( !editor.isActiveDiagram(diagram))
             {
                found = containsActivitySymbol(diagram, activity);
                if (found)
@@ -91,9 +94,10 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
       }
 
       // search for activity symbol in not opened diagrams
-      if (!found)
+      if ( !found)
       {
-         ProcessDefinitionType processdefinition = (ProcessDefinitionType) activity.eContainer();
+         ProcessDefinitionType processdefinition = (ProcessDefinitionType) activity
+               .eContainer();
          EList allDiagrams = processdefinition.getDiagram();
          for (Iterator diagIter = allDiagrams.iterator(); diagIter.hasNext();)
          {
@@ -127,22 +131,27 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
 
             QName qproc = QName.valueOf(ai.getProcessDefinitionId());
             String namespace = qproc.getNamespaceURI();
-            if (!namespace.equals(model.getId()))
+            if ( !namespace.equals(model.getId()))
             {
-               editor = UiAccessor.getEditorForModel(CollectionUtils.<String>newSet(), model, namespace);
+               editor = UiAccessor.getEditorForModel(CollectionUtils.<String> newSet(),
+                     model, namespace);
                if (editor == null)
                {
-                  throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+                  throw new RuntimeException(MessageFormat.format(
+                        Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                        new Object[] { namespace }));
                }
                model = editor.getWorkflowModel();
             }
-            ProcessDefinitionType processDefinition = WorkflowModelUtils.findProcessDefinition(model,
-                  qproc.getLocalPart());
+            ProcessDefinitionType processDefinition = WorkflowModelUtils
+                  .findProcessDefinition(model, qproc.getLocalPart());
 
             QName qact = QName.valueOf(ai.getActivityId());
-            if (!qact.getNamespaceURI().equals(model.getId()))
+            if ( !qact.getNamespaceURI().equals(model.getId()))
             {
-               throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+               throw new RuntimeException(MessageFormat.format(
+                     Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                     new Object[] { qact.getNamespaceURI() }));
             }
             ActivityType activity = WorkflowModelUtils.findActivity(processDefinition,
                   qact.getLocalPart());
@@ -174,7 +183,8 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
             }
             else
             {
-               throw new RuntimeException("No activity symbol found for: " + activity);
+               throw new RuntimeException(MessageFormat.format(
+                     Debug_Messages.MSG_NoSymbolFoundForActivity, new Object[] { activity }));
             }
 
             return found;
@@ -190,7 +200,7 @@ public class CWMModelPresentation implements IDebugModelPresentation, IDebugEdit
 
    public void removeAnnotations(IEditorPart editorPart, IThread thread)
    {
-      System.out.println("To Remove Annotations");
+      System.out.println(Debug_Messages.MSG_RemoveAnnotations);
    }
 
    public void setAttribute(String attribute, Object value)

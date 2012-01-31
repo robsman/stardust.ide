@@ -130,7 +130,7 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
          elementsIterator.next(); // skip the bundle name
          throw new CoreException(new Status(IStatus.ERROR, Constants.ID_CWM_DEBUG_MODEL,
                0, MessageFormat.format(Debug_Messages.EXP_BundleDoesNotContain,
-               new String[] {elements[0], StringUtils.join(elementsIterator, ", ")}),
+               new String[] {elements[0], StringUtils.join(elementsIterator, ", ")}), //$NON-NLS-1$
                null));
       }
       

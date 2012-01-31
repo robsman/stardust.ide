@@ -114,11 +114,11 @@ public class ProcessInstanceDigest extends AbstractJavaTypeValue
          {
             IData data = model.findData(qname.getLocalPart());
             ExtendedAccessPathEvaluator evaluator = SpiUtils.createExtendedAccessPathEvaluator(data.getType());
-            Object evaluatedValue = evaluator.evaluate(data, entry.getValue(), "",
+            Object evaluatedValue = evaluator.evaluate(data, entry.getValue(), "", //$NON-NLS-1$
                   new AccessPathEvaluationContext(processInstance, null));
             if (trace.isDebugEnabled())
             {
-               trace.debug("data is " + data.getId() + " value is " + entry.getValue() + " evaluated value is " + evaluatedValue);
+               trace.debug("data is " + data.getId() + " value is " + entry.getValue() + " evaluated value is " + evaluatedValue); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
             digests.add(new DataValueDigest(data, (Serializable) evaluatedValue));
          }

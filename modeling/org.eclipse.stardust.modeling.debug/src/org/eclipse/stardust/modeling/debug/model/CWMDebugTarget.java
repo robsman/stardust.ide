@@ -399,19 +399,19 @@ public class CWMDebugTarget extends CWMDebugElement
                                           ActivityInstanceDigest details = null;
                                           if (Debugger.WorkflowEventListenerImpl.startedActivityInstanceMethodName.equals(methodName))
                                           {
-                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars);
+                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars); //$NON-NLS-1$
                                              workflowEventCallback.startedActivityInstance(details);
                                           }
                                           else if (Debugger.WorkflowEventListenerImpl.completedActivityInstanceMethodName
                                                 .equals(methodName))
                                           {
-                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars);
+                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars); //$NON-NLS-1$
                                              workflowEventCallback.completedActivityInstance(details);
                                           }
                                           else if (Debugger.WorkflowEventListenerImpl.appendedToWorklistMethodName
                                                 .equals(methodName))
                                           {
-                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars);
+                                             details = JavaTypeValueFactory.createInstance("activityInstance", vars); //$NON-NLS-1$
                                              workflowEventCallback.appendedToWorklist(details);
                                           }
                                           trace.info(MessageFormat.format(Debug_Messages.CWM_DEBUG_MSG_CurrentActivityInstanceDigest, details));

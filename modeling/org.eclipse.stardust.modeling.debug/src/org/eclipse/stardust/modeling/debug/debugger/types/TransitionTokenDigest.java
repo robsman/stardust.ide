@@ -60,8 +60,8 @@ public class TransitionTokenDigest extends AbstractJavaTypeValue implements IHig
 
       ITransition transition = transitionToken.getTransition();
       IModel model = transition == null ? null : (IModel) transition.getModel();
-      transitionId = transition == null ? null : "{" + model.getId() + '}' + transition.getId();
-      procDefId = transition == null ? null : "{" + model.getId() + '}' + transition.getProcessDefinition().getId();
+      transitionId = transition == null ? null : "{" + model.getId() + '}' + transition.getId(); //$NON-NLS-1$
+      procDefId = transition == null ? null : "{" + model.getId() + '}' + transition.getProcessDefinition().getId(); //$NON-NLS-1$
    }
    
    /**

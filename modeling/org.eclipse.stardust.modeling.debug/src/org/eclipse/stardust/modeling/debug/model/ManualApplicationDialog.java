@@ -92,7 +92,8 @@ public class ManualApplicationDialog extends Dialog
       }
       catch (Exception e)
       {
-         throw new InternalException("Cannot instantiate class '" + className + "'.", e);
+         throw new InternalException(MessageFormat.format(
+               Internal_Debugger_Messages.getString("MSG_CannotInstantiateClass"), new Object[] { className }), e); //$NON-NLS-1$
       }
    }
 
@@ -398,13 +399,13 @@ public class ManualApplicationDialog extends Dialog
             {
                if (String.class.isAssignableFrom(type))
                {
-                  result.append("new String(\"");
+                  result.append("new String(\""); //$NON-NLS-1$
                   result.append(value);
-                  result.append("\")");
+                  result.append("\")"); //$NON-NLS-1$
                }
                else if (Character.class.isAssignableFrom(type))
                {
-                  result.append("new Character('");
+                  result.append("new Character('"); //$NON-NLS-1$
                   if (StringUtils.isEmpty(value))
                   {
                      result.append(' ');
@@ -413,7 +414,7 @@ public class ManualApplicationDialog extends Dialog
                   {
                      result.append(value.charAt(0));
                   }
-                  result.append("')");
+                  result.append("')"); //$NON-NLS-1$
                }
                else if (Calendar.class.isAssignableFrom(type))
                {
@@ -421,15 +422,15 @@ public class ManualApplicationDialog extends Dialog
                   {
                      if (value.indexOf(' ') < 0)
                      {
-                        value += " 00:00:00";
+                        value += " 00:00:00"; //$NON-NLS-1$
                      }
                      Date date = DateUtils.getInteractiveDateFormat().parse(value);
                      result
-                           .append("java.util.Calendar result = java.util.Calendar.getInstance();");
-                     result.append("result.setTime(new java.util.Date(");
+                           .append("java.util.Calendar result = java.util.Calendar.getInstance();"); //$NON-NLS-1$
+                     result.append("result.setTime(new java.util.Date("); //$NON-NLS-1$
                      result.append(date.getTime());
-                     result.append("L));");
-                     result.append("return result;");
+                     result.append("L));"); //$NON-NLS-1$
+                     result.append("return result;"); //$NON-NLS-1$
                   }
                   catch (Exception e)
                   {
@@ -443,12 +444,12 @@ public class ManualApplicationDialog extends Dialog
                   {
                      if (value.indexOf(' ') < 0)
                      {
-                        value += " 00:00:00";
+                        value += " 00:00:00"; //$NON-NLS-1$
                      }
                      Date date = DateUtils.getInteractiveDateFormat().parse(value);
-                     result.append("new java.util.Date(");
+                     result.append("new java.util.Date("); //$NON-NLS-1$
                      result.append(date.getTime());
-                     result.append("L)");
+                     result.append("L)"); //$NON-NLS-1$
                   }
                   catch (Exception e)
                   {
@@ -462,7 +463,7 @@ public class ManualApplicationDialog extends Dialog
                   String dataPath = dataMappingDigest.getDataField().getDataPath();
                   if (dataPath == null)
                   {
-                     dataPath = "";
+                     dataPath = ""; //$NON-NLS-1$
                   }
                   try
                   {
@@ -503,11 +504,11 @@ public class ManualApplicationDialog extends Dialog
                      // will throw an exception if constructor is not available.
                      type.getConstructor(new Class[] {String.class});
 
-                     result.append("new ");
+                     result.append("new "); //$NON-NLS-1$
                      result.append(javaType.getName());
-                     result.append("(\"");
+                     result.append("(\""); //$NON-NLS-1$
                      result.append(value);
-                     result.append("\")");
+                     result.append("\")"); //$NON-NLS-1$
                   }
                   catch (Exception e)
                   {
@@ -530,7 +531,8 @@ public class ManualApplicationDialog extends Dialog
                return dataMappings[i];
             }
          }
-         throw new RuntimeException("Data mapping '" + mappingId + "' not found.");
+         throw new RuntimeException(MessageFormat.format(
+               Internal_Debugger_Messages.getString("MSG_DataMappingNotFound"), new Object[] { mappingId })); //$NON-NLS-1$
       }
    }
 
@@ -717,7 +719,7 @@ public class ManualApplicationDialog extends Dialog
       layout.numColumns = 4;
       c1.setLayout(layout);
       Button b1 = new Button(c1, SWT.PUSH);
-      b1.setText("first button");
+      b1.setText("first button"); //$NON-NLS-1$
       c1.setSize(c1.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
       // set the minimum width and height of the scrolled content - method 2
@@ -732,11 +734,11 @@ public class ManualApplicationDialog extends Dialog
       layout.numColumns = 4;
       c2.setLayout(layout);
       Button b2 = new Button(c2, SWT.PUSH);
-      b2.setText("first button");
+      b2.setText("first button"); //$NON-NLS-1$
       sc2.setMinSize(c2.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
       Button add = new Button(shell, SWT.PUSH);
-      add.setText("add children");
+      add.setText("add children"); //$NON-NLS-1$
       final int[] index = new int[] {0};
       add.addListener(SWT.Selection, new Listener()
       {
@@ -744,13 +746,13 @@ public class ManualApplicationDialog extends Dialog
          {
             index[0]++;
             Button button = new Button(c1, SWT.PUSH);
-            button.setText("button " + index[0]);
+            button.setText("button " + index[0]); //$NON-NLS-1$
             // reset size of content so children can be seen - method 1
             c1.setSize(c1.computeSize(SWT.DEFAULT, SWT.DEFAULT));
             c1.layout();
 
             button = new Button(c2, SWT.PUSH);
-            button.setText("button " + index[0]);
+            button.setText("button " + index[0]); //$NON-NLS-1$
             // reset the minimum width and height so children can be seen - method 2
             sc2.setMinSize(c2.computeSize(SWT.DEFAULT, SWT.DEFAULT));
             c2.layout();

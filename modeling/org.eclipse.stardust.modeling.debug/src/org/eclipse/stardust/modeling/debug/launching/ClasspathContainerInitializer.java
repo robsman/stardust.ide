@@ -16,6 +16,7 @@ import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.stardust.modeling.debug.Debug_Messages;
 
 public class ClasspathContainerInitializer
       extends org.eclipse.jdt.core.ClasspathContainerInitializer
@@ -35,7 +36,7 @@ public class ClasspathContainerInitializer
 
                public String getDescription()
                {
-                  return "Infinity Debug Library";
+                  return Debug_Messages.DSCR_InfinityDebugLibrary;
                }
 
                public int getKind()

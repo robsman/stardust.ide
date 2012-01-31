@@ -25,6 +25,7 @@ public class Debug_Messages extends NLS
       NLS.initializeMessages(BUNDLE_NAME, Debug_Messages.class);
    }
 
+   public static String LABEL_JOB_ChangeMode;
    public static String LaunchAction_Name;
    public static String LaunchAction_ToolTip;
    public static String LaunchDelegate_CanNotLaunch;
@@ -39,10 +40,8 @@ public class Debug_Messages extends NLS
    public static String LaunchDelegate_WARNING;
    public static String MSG_COND_isNoArrayType;
    public static String MSG_TransitionTokenDigest_ToString;
-   public static String MSG_ActivityInstanceDigest_ToString;
    public static String EXP_VariableDoesNotExist;
    public static String EXP_ErrorOccuredWhileLoadingModelFile;
-   public static String MSG_CONS_InstanceNeccessary;
    public static String TESTCHANGEKEY;
    public static String MSG_SelectWorkflowModelInProject;
    public static String TXT_ProjectHasToBeSpecified;
@@ -60,6 +59,7 @@ public class Debug_Messages extends NLS
    public static String ERR_SpecifyProcessDefinitionID;
    public static String EXP_BundleHasNotBeenLoadedYet;
    public static String EXP_BundleDoesNotContain;
+   public static String EXP_CannotFindEditorForModelNamespace;
    public static String EXP_ErrorWhileExtendingBootpath;
    public static String CWM_DEBUG_NAME_CARNOTWorkflowDebugger;
    public static String CWM_DEBUG_MSG_CurrentActivityInstanceDigest;
@@ -81,20 +81,23 @@ public class Debug_Messages extends NLS
    public static String MSG_ProcessDefinitionUnspecified;
    public static String MSG_ProcessDefIdEmpty;
    public static String MSG_ProcessDefWithIdNotFound;
-   public static String MSG_ProcessInstanceDigest_ToString;
    public static String ASSERT_ValueCarrierMayNotBeNull;
-   public static String ASSERT_ListOfActivityInstancesMayNotBeNull;
+   public static String BTN_AddToElement;
+   public static String BTN_Delete;
    public static String BUTTON_ClearContent;
    public static String TOOLTIP_ClearContent;
    public static String BUTTON_ClearEmptyPerformers;
    public static String TOOLTIP_ClearEmptyPerformers;
    public static String MSG_ActivityInstanceCannotBeResumedFromWorklist;
+   public static String MSG_NoSymbolFoundForActivity;
    public static String BUTTON_ActivateFromWorklist;
    public static String TOOLTIP_ActivateFromWorklist;
    public static String TITLE_CARNOTWorklist;
    public static String WorklistContentFormat;
    public static String CWMThread_MSG_RootProcessInstance;
    public static String CWMThread_MSG_NoRootProcessInstance;
+   public static String DSCR_InfinityDebugLibrary;
    public static String MSG_ProcessOID;
+   public static String MSG_RemoveAnnotations;
    public static String MSG_SelectType;
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.model.ui;
 
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 
 /**
  * Tree representation of structured data
@@ -55,7 +57,7 @@ public class StructuredTreeContentProvider implements ITreeContentProvider
       }
       else 
       {
-         return this.xPathMap.getXPath(parentXPath.getXPath()+"/"+childName);
+         return this.xPathMap.getXPath(parentXPath.getXPath()+"/"+childName); //$NON-NLS-1$
       }
    }
    
@@ -152,7 +154,8 @@ public class StructuredTreeContentProvider implements ITreeContentProvider
       }
       else 
       {
-         throw new PublicException("Unsupported class '"+rootData.getClass().getName()+"'");
+         throw new PublicException(MessageFormat.format(Internal_Debugger_Messages.getString("EXP_UnsupportedClass"), //$NON-NLS-1$
+               new Object[] { rootData.getClass().getName() }));
       }
    }
 

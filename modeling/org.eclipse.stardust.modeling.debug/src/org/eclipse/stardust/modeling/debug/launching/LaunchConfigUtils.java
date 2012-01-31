@@ -105,7 +105,7 @@ public class LaunchConfigUtils
          if (configuration.getAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS, (String) null) == null)
          {
             configuration.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-               "-Dcarnot.log.type=stdout");
+               "-Dcarnot.log.type=stdout"); //$NON-NLS-1$
          }
       }
       catch (CoreException e)

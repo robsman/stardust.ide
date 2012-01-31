@@ -55,7 +55,7 @@ public class StructuredTreeLabelProvider implements ILabelProvider
    {
       if (element == null)
       {
-         return "null";
+         return "null"; //$NON-NLS-1$
       }
       else
       {
@@ -75,7 +75,7 @@ public class StructuredTreeLabelProvider implements ILabelProvider
                Map parentMap = (Map)value.getParent().getData();
                List list = (List) parentMap.get(elementName);
                int position = list.indexOf(value.getData()) + 1;
-               return elementName + " ["+position+"]";
+               return elementName + " ["+position+"]"; //$NON-NLS-1$ //$NON-NLS-2$
             }
             else
             {

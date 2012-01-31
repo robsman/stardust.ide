@@ -275,7 +275,7 @@ public class DataField extends AbstractJavaTypeValue
          if (null == theSerializable)
          {
             type = Reflect.getClassFromClassName(typeName);
-            trace.info("initFittingField: "+typeName);
+            trace.info("initFittingField: "+typeName); //$NON-NLS-1$
             if (null == type)
             {
                trace.warn(MessageFormat.format(Internal_Debugger_Messages.getString("MSG_CannotFindClassForTypeName"), //$NON-NLS-1$
@@ -350,12 +350,12 @@ public class DataField extends AbstractJavaTypeValue
          else if (List.class.isAssignableFrom(type))
          {
             theList = (List)data;
-            this.variableName = "theList";
+            this.variableName = "theList"; //$NON-NLS-1$
          }
          else if (Map.class.isAssignableFrom(type))
          {
             theMap = (Map)data;
-            this.variableName = "theMap";
+            this.variableName = "theMap"; //$NON-NLS-1$
          }
          else
          {

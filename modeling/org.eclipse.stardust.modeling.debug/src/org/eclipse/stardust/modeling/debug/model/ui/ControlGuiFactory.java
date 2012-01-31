@@ -152,7 +152,7 @@ public class ControlGuiFactory
       {
          // old way (text field for everything else)
          Text control = new Text(panel, SWT.BORDER);
-         if ("java.lang.Character".equals(dataMappingDigest.getMappedTypeName()))
+         if ("java.lang.Character".equals(dataMappingDigest.getMappedTypeName())) //$NON-NLS-1$
          {
             control.setTextLimit(1);
          }

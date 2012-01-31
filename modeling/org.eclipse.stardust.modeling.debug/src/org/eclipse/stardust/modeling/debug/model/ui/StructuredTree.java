@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.model.ui;
 
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.eclipse.stardust.engine.core.runtime.beans.BigData;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -71,7 +73,8 @@ public class StructuredTree extends TreeViewer
                   {
                      MenuItem actionItem = new MenuItem(popupMenu, SWT.PUSH);
                      final String elementName = StructuredDataXPathUtils.getLastXPathPart(typedXPath.getXPath());
-                     actionItem.setText("Add to \""+elementName+"\"");
+                     actionItem.setText(MessageFormat.format(Debug_Messages.BTN_AddToElement,
+                           new Object[] { elementName }));
                      actionItem.addListener(SWT.Selection, new Listener()
                      {
                         public void handleEvent(Event e)
@@ -112,7 +115,7 @@ public class StructuredTree extends TreeViewer
             if (selectedValue.getXPath().isList())
             {
                MenuItem actionItem = new MenuItem(popupMenu, SWT.PUSH);
-               actionItem.setText("Delete");
+               actionItem.setText(Debug_Messages.BTN_Delete);
                actionItem.addListener(SWT.Selection, new Listener()
                {
                   public void handleEvent(Event e)

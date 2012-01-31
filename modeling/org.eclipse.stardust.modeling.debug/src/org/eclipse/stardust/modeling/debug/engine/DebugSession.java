@@ -693,7 +693,7 @@ public class DebugSession implements Session, Session.NotJoinEnabled
                else
                {
                   accepted &= (null == match.getValue())
-                        || "null".equals(match.getValue()) || "NULL".equals(match.getValue());  //$NON-NLS-1$
+                        || "null".equals(match.getValue()) || "NULL".equals(match.getValue());  //$NON-NLS-1$ //$NON-NLS-2$
                }
             }
             return accepted;

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.debug.highlighting;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,6 +44,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.IHighliteableGra
 import org.eclipse.stardust.modeling.core.highlighting.HighlightState;
 import org.eclipse.stardust.modeling.core.highlighting.HighlightUtils;
 import org.eclipse.stardust.modeling.debug.Constants;
+import org.eclipse.stardust.modeling.debug.Debug_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.UiAccessor;
 import org.eclipse.stardust.modeling.debug.util.EmptyIterator;
 import org.eclipse.stardust.modeling.debug.util.WorkflowModelUtils;
@@ -99,9 +101,11 @@ public class HighlightManager implements IPartListener, IDiagramChangeListener
       {
          QName qproc = QName.valueOf(processDefinitionId);
          String namespace = qproc.getNamespaceURI();
-         if (!namespace.equals(model.getId()))
+         if ( !namespace.equals(model.getId()))
          {
-            throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+            throw new RuntimeException(MessageFormat.format(
+                  Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                  new Object[] { namespace }));
          }
          processDefinition = WorkflowModelUtils.findProcessDefinition(model, qproc.getLocalPart());
       }
@@ -115,9 +119,11 @@ public class HighlightManager implements IPartListener, IDiagramChangeListener
       if (processDefinitionChildId != null)
       {
          QName qchild = QName.valueOf(processDefinitionChildId);
-         if (!qchild.getNamespaceURI().equals(model.getId()))
+         if ( !qchild.getNamespaceURI().equals(model.getId()))
          {
-            throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+            throw new RuntimeException(MessageFormat.format(
+                  Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                  new Object[] { qchild.getNamespaceURI() }));
          }
          String childId = qchild.getLocalPart();
          List contentList = processDefinition.eContents();
@@ -268,7 +274,9 @@ public class HighlightManager implements IPartListener, IDiagramChangeListener
                   WorkflowModelEditor editor = UiAccessor.getEditorForModel(CollectionUtils.<String>newSet(), model, namespace);
                   if (editor == null)
                   {
-                     throw new RuntimeException("TO IMPLEMENT SURGE DEBUG");
+                     throw new RuntimeException(MessageFormat.format(
+                           Debug_Messages.EXP_CannotFindEditorForModelNamespace,
+                           new Object[] { namespace }));
                   }
                }
             }

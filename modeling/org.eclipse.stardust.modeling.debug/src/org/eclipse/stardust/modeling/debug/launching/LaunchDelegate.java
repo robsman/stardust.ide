@@ -259,7 +259,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
             {
                Object result = method.invoke(finalConfiguration, args);
-               if ("getAttribute".equals(method.getName()))
+               if ("getAttribute".equals(method.getName())) //$NON-NLS-1$
                {
                   if (IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS.equals(args[0]))
                   {
@@ -302,7 +302,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
    private void setMode(final WorkflowModelEditor editor, final boolean analystMode)
    {
-      UIJob job = new UIJob("Change Mode")
+      UIJob job = new UIJob(Debug_Messages.LABEL_JOB_ChangeMode)
       {
          public IStatus runInUIThread(IProgressMonitor monitor)
          {
