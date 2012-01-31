@@ -69,7 +69,7 @@ public class ModelDeploymentTool
          // ignore
       }
 
-      trace.info(Internal_ExportMessages.getString("MSG_Starting")); //$NON-NLS-1$
+      trace.info(Deploy_Messages.getString("MSG_Starting")); //$NON-NLS-1$
 
       List<String> modelFiles = CollectionUtils.newList();
 
@@ -110,8 +110,8 @@ public class ModelDeploymentTool
          }
       }
 
-      trace.info(Internal_ExportMessages.getString("MSG_DeployModel") + modelFiles); //$NON-NLS-1$
-
+      trace.info(Deploy_Messages.getString("MSG_DeployModel") + modelFiles); //$NON-NLS-1$
+      
       // Activate below section if debugging is needed.
       /*trace.info("Waiting 30 sek for the debugger to connect...");
       try
@@ -130,14 +130,14 @@ public class ModelDeploymentTool
       }
       else
       {
-         trace.error(Internal_ExportMessages.getString("MSG_NoModelSpecified")); //$NON-NLS-1$
+         trace.error(Deploy_Messages.getString("MSG_NoModelSpecified")); //$NON-NLS-1$
       }
    }
 
    public ModelDeploymentTool(List<String> modelFiles)
    {
          ProgressDialog progress = ProgressDialog.showDialog(null,
-               Internal_ExportMessages.getString("MSG_LoadingModel"), //$NON-NLS-1$
+               Deploy_Messages.getString("MSG_LoadingModel"), //$NON-NLS-1$
                ProgressDialog.ON_CANCEL_EXIT_WITH_MINUS_ONE);
 
       List<IModel> models = CollectionUtils.newList(modelFiles.size());
@@ -164,11 +164,11 @@ public class ModelDeploymentTool
 
       if (deployModel(modelFiles, models))
       {
-         JOptionPane.showMessageDialog(null, Internal_ExportMessages.getString("MSG_ModelDeployed")); //$NON-NLS-1$
+         JOptionPane.showMessageDialog(null, Deploy_Messages.getString("MSG_ModelDeployed")); //$NON-NLS-1$
       }
       else
       {
-         JOptionPane.showMessageDialog(null, Internal_ExportMessages.getString("MSG_ModelNotDeployed")); //$NON-NLS-1$
+         JOptionPane.showMessageDialog(null, Deploy_Messages.getString("MSG_ModelNotDeployed")); //$NON-NLS-1$
       }
 
       System.exit(0);
@@ -201,9 +201,9 @@ public class ModelDeploymentTool
             {
                int dialogResult = JOptionPane.showConfirmDialog(null,
                   /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
-                     inconsistencies.get(0).getMessage() + " "
-                     + Internal_ExportMessages.getString("MSG_Continue"), //$NON-NLS-1$
-                  Internal_ExportMessages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
+                     inconsistencies.get(0).getMessage() + " " //$NON-NLS-1$
+                     + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
+                  Deploy_Messages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
                   JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                if (dialogResult != JOptionPane.OK_OPTION)
                {
@@ -256,7 +256,7 @@ public class ModelDeploymentTool
          {
             return deployed;
          }
-         JOptionPane.showMessageDialog(null, Internal_ExportMessages.getString("MSG_LoginFailed") //$NON-NLS-1$
+         JOptionPane.showMessageDialog(null, Deploy_Messages.getString("MSG_LoginFailed") //$NON-NLS-1$
                + e.getMessage());
       }
       catch (Exception x)

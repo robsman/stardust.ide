@@ -115,28 +115,28 @@ public class LoginDialog extends Dialog
          }
       };
 
-      idEntry = FormBuilder.createLabeledText(panel, "ID:");
+      idEntry = FormBuilder.createLabeledText(panel, Deploy_Messages.getString("LBL_ID")); //$NON-NLS-1$
       idEntry.getText().addKeyListener(listener);
       idEntry.getText().addModifyListener(modifyListener);
 
-      passwordField = FormBuilder.createLabeledText(panel, "Password:", true);
+      passwordField = FormBuilder.createLabeledText(panel, Deploy_Messages.getString("LBL_PASSWORD"), true); //$NON-NLS-1$
       passwordField.getText().addKeyListener(listener);
 
       if (Parameters.instance().getBoolean(SecurityProperties.PROMPT_FOR_PARTITION, false))
       {
-         partitionEntry = FormBuilder.createLabeledText(panel, "Partition:");
+         partitionEntry = FormBuilder.createLabeledText(panel, Deploy_Messages.getString("LBL_PARTITION")); //$NON-NLS-1$
          partitionEntry.getText().addKeyListener(listener);
       }
 
       if (Parameters.instance().getBoolean(SecurityProperties.PROMPT_FOR_DOMAIN, false))
       {
-         domainEntry = FormBuilder.createLabeledText(panel, "Domain:");
+         domainEntry = FormBuilder.createLabeledText(panel, Deploy_Messages.getString("LBL_DOMAIN")); //$NON-NLS-1$
          domainEntry.getText().addKeyListener(listener);
       }
 
       if (Parameters.instance().getBoolean(SecurityProperties.PROMPT_FOR_REALM, false))
       {
-         realmEntry = FormBuilder.createLabeledText(panel, "Realm:");
+         realmEntry = FormBuilder.createLabeledText(panel, Deploy_Messages.getString("LBL_REALM")); //$NON-NLS-1$
          realmEntry.getText().addKeyListener(listener);
       }
 
@@ -158,7 +158,7 @@ public class LoginDialog extends Dialog
    protected void configureShell(Shell shell)
    {
       super.configureShell(shell);
-      shell.setText("Login");
+      shell.setText(Deploy_Messages.getString("TITLE_LOGIN")); //$NON-NLS-1$
    }
 
    protected boolean checkCanClose()
@@ -203,13 +203,13 @@ public class LoginDialog extends Dialog
          if (StringUtils.isEmpty(entry.getText().getText()))
          {
             entry.getLabel().setValidationStatus(IQuickValidationStatus.ERRORS);
-            entry.getLabel().setToolTipText("Field must not be empty.");
+            entry.getLabel().setToolTipText(Deploy_Messages.getString("MSG_FIELD_NOT_EMPTY")); //$NON-NLS-1$
             result = false;
          }
          else
          {
             entry.getLabel().setValidationStatus(IQuickValidationStatus.OK);
-            entry.getLabel().setToolTipText("");
+            entry.getLabel().setToolTipText(""); //$NON-NLS-1$
             result = true;
          }
       }

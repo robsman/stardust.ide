@@ -89,7 +89,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
 
    protected JComponent createContent()
    {
-      overwriteButton = new JRadioButton(new AbstractAction(Internal_ExportMessages.getString("LB_Overwrite")) //$NON-NLS-1$
+      overwriteButton = new JRadioButton(new AbstractAction(Deploy_Messages.getString("LB_Overwrite")) //$NON-NLS-1$
       {
          private static final long serialVersionUID = 1L;
 
@@ -98,7 +98,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
             card.show(listPanel, OVERWRITE_CARD);
          }
       });
-      deployButton = new JRadioButton(new AbstractAction(Internal_ExportMessages.getString("LB_DeployVersion")) //$NON-NLS-1$
+      deployButton = new JRadioButton(new AbstractAction(Deploy_Messages.getString("LB_DeployVersion")) //$NON-NLS-1$
       {
          private static final long serialVersionUID = 1L;
 
@@ -114,7 +114,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
       JPanel mainPanel = new JPanel(new BorderLayout());
       Box options = new Box(BoxLayout.X_AXIS);
 
-      options.add(new JLabel(Internal_ExportMessages.getString("LB_Action"))); //$NON-NLS-1$
+      options.add(new JLabel(Deploy_Messages.getString("LB_Action"))); //$NON-NLS-1$
       options.add(deployButton);
       options.add(overwriteButton);
       mainPanel.add(options, BorderLayout.NORTH);
@@ -132,7 +132,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    {
       if (overwriteButton.isSelected() && overwriteView.getSelectedModelOID() == -1)
       {
-         throw new ValidationException(Internal_ExportMessages.getString("MSG_NoModelToOverwrite"), false); //$NON-NLS-1$
+         throw new ValidationException(Deploy_Messages.getString("MSG_NoModelToOverwrite"), false); //$NON-NLS-1$
       }
    }
 
@@ -196,7 +196,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    private boolean ignoreWarnings(List<Inconsistency> warnings)
    {
       boolean isDaemonRunning = false;
-      ValidationException e = new ValidationException(Internal_ExportMessages
+      ValidationException e = new ValidationException(Deploy_Messages
             .getString("MSG_ContinueDeploying"), warnings, true); //$NON-NLS-1$
       List<Daemon> daemons = sf.getAdministrationService().getAllDaemons(true);
       for (Daemon daemon : daemons)
@@ -205,8 +205,8 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
          {
             isDaemonRunning = true;
             JOptionPane.showMessageDialog(this,
-                        Internal_ExportMessages.getString("MSG_DeploymentNotPossible"), //$NON-NLS-1$
-                        Internal_ExportMessages.getString("TITLE_Warning"), //$NON-NLS-1$
+                        Deploy_Messages.getString("MSG_DeploymentNotPossible"), //$NON-NLS-1$
+                        Deploy_Messages.getString("TITLE_Warning"), //$NON-NLS-1$
                         JOptionPane.WARNING_MESSAGE);
          }
       }
@@ -217,7 +217,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    private void showErrors(List<Inconsistency> errors)
    {
       ValidationException e = new ValidationException(
-            Internal_ExportMessages.getString("MSG_NoErrors"), errors, false); //$NON-NLS-1$
+            Deploy_Messages.getString("MSG_NoErrors"), errors, false); //$NON-NLS-1$
       ValidationExceptionDialog.showDialog(this, e);
    }
 
@@ -237,7 +237,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    public static boolean showDialog(ServiceFactory service, List<String> modelFiles, List<IModel> models, JFrame parent)
    {
       DeployModelDialog instance = new DeployModelDialog(parent, service, modelFiles, models);
-      showDialog(Internal_ExportMessages.getString("DIALOG_Model"), instance, parent); //$NON-NLS-1$
+      showDialog(Deploy_Messages.getString("DIALOG_Model"), instance, parent); //$NON-NLS-1$
       return instance.wasDeployed;
    }
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.deploy;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -61,7 +62,7 @@ public class DeployUtil
             // String debug =
             // " -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000";
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-                  "-Xms50m -Xmx256m");
+                  "-Xms50m -Xmx256m"); //$NON-NLS-1$
             // "-Xms50m -Xmx256m" + debug);
                         
             boolean version = PlatformUI.getPreferenceStore().getBoolean(BpmProjectNature.PREFERENCE_DEPLOY_version);
@@ -76,7 +77,7 @@ public class DeployUtil
             boolean separator = false;
             for (IResource resource : resources)
             {
-               addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);            
+               addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);             //$NON-NLS-1$
                separator = true;
             }
             if (version)
@@ -153,8 +154,11 @@ public class DeployUtil
          IProject prj = resource.getProject();
          if (prj == null)
          {
-            throw new CoreException(new Status(IStatus.ERROR, DeployPlugin.PLUGIN_ID, DeployPlugin.INVALID_PROJECT_CODE,
-                  "Resource " + resource + " is not part of a project.", null));
+            throw new CoreException(new Status(IStatus.ERROR, DeployPlugin.PLUGIN_ID,
+                  DeployPlugin.INVALID_PROJECT_CODE, MessageFormat.format(
+                        Deploy_Messages
+                              .getString("MSG_RESOURCE_NOT_PART_OF_PROJECT"), resource), //$NON-NLS-1$
+                  null));
          }
          if (project == null)
          {
@@ -162,8 +166,10 @@ public class DeployUtil
          }
          else if (project != prj)
          {
-            throw new CoreException(new Status(IStatus.ERROR, DeployPlugin.PLUGIN_ID, DeployPlugin.INVALID_PROJECT_CODE,
-                  "Deployment of resources from different projects is not supported.", null));
+            throw new CoreException(new Status(IStatus.ERROR, DeployPlugin.PLUGIN_ID,
+                  DeployPlugin.INVALID_PROJECT_CODE,
+                  Deploy_Messages.getString("MSG_REOURCES_DIFFERENT_PROJECTS"), //$NON-NLS-1$
+                  null));
          }
       }
       return project;

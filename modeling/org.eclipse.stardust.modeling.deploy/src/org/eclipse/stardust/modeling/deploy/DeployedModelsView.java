@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -79,7 +80,8 @@ public class DeployedModelsView extends JComponent
    private List<ModelTemplate> templates = Collections.emptyList();
    private Map<Segment, ModelTemplate> segments = CollectionUtils.newMap();
 
-   private Action oneYearAction = new AbstractAction("1 year")
+   private Action oneYearAction = new AbstractAction(
+         Deploy_Messages.getString("MSG_ONE_YEAR")) //$NON-NLS-1$
    {
       private static final long serialVersionUID = 1L;
 
@@ -90,7 +92,8 @@ public class DeployedModelsView extends JComponent
       }
    };
 
-   private Action twoYearsAction = new AbstractAction("2 years")
+   private Action twoYearsAction = new AbstractAction(
+         Deploy_Messages.getString("MSG_TWO_YEARS")) //$NON-NLS-1$
    {
       private static final long serialVersionUID = 1L;
 
@@ -108,7 +111,8 @@ public class DeployedModelsView extends JComponent
       }
    };
 
-   private Action fullScaleAction = new AbstractAction("all")
+   private Action fullScaleAction = new AbstractAction(
+         Deploy_Messages.getString("MSG_ALL")) //$NON-NLS-1$
    {
       private static final long serialVersionUID = 1L;
 
@@ -122,7 +126,7 @@ public class DeployedModelsView extends JComponent
          for (ModelTemplate template : templates)
          {
             Date d = template.validFrom;
-            if (d != null && s >= d.getTime() )
+            if (d != null && s >= d.getTime())
             {
                s = d.getTime();
                set = true;
@@ -206,7 +210,7 @@ public class DeployedModelsView extends JComponent
       group.add(fullScale);
       oneYear.setSelected(true);
 
-      buttons.add(new JLabel("Scale: "));
+      buttons.add(new JLabel(Deploy_Messages.getString("LB_SCALE"))); //$NON-NLS-1$
       buttons.add(oneYear);
       buttons.add(twoYears);
       buttons.add(fullScale);
@@ -239,12 +243,12 @@ public class DeployedModelsView extends JComponent
       commentEntry.setInputVerifier(detailsVerifier);
 
       CellConstraints cc = new CellConstraints();
-      FormLayout layout = new FormLayout("4dlu, default, 4dlu, default",
-            "default, 4dlu, default, 4dlu, default, 4dlu, default, default, default");
+      FormLayout layout = new FormLayout("4dlu, default, 4dlu, default", //$NON-NLS-1$
+            "default, 4dlu, default, 4dlu, default, 4dlu, default, default, default"); //$NON-NLS-1$
       JPanel panel = new JPanel(layout);
-      panel.add(new JLabel("Valid from:"), cc.xy(2, 1));
+      panel.add(new JLabel(Deploy_Messages.getString("LBL_VALID_FROM")), cc.xy(2, 1)); //$NON-NLS-1$
       panel.add(validFromEntry, cc.xy(4, 1));
-      panel.add(new JLabel("Deployment comment:"), cc.xy(2, 3));
+      panel.add(new JLabel(Deploy_Messages.getString("LBL_DEPLOYMENT_COMMENT")), cc.xy(2, 3)); //$NON-NLS-1$
       panel.add(new JScrollPane(commentEntry), cc.xywh(2, 5, 3, 1));
       add(panel, BorderLayout.EAST);
       list.addListSelectionListener(listener);
@@ -431,7 +435,7 @@ public class DeployedModelsView extends JComponent
          StringBuffer text = new StringBuffer();
          text.append(' ');
          text.append(current.name);
-         text.append(": ");
+         text.append(": "); //$NON-NLS-1$
          text.append(DateUtils.formatDate(current.validFrom));
          setText(text.toString());
          if (deployments.contains(current))
@@ -469,8 +473,9 @@ public class DeployedModelsView extends JComponent
       {
          modelOID = md.getModelOID();
          id = md.getId();
-         name = md.getName() + " (version: " + md.getVersion() +
-               ", OID: " + md.getModelOID() + ")";
+         name = MessageFormat.format(
+               Deploy_Messages.getString("LBL_NAME_VERSION_OID"), new Object[] { //$NON-NLS-1$
+                     md.getName(), md.getVersion(), modelOID});
          validFrom = md.getValidFrom();
          comment = md.getDeploymentComment();
       }
@@ -480,8 +485,20 @@ public class DeployedModelsView extends JComponent
          modelOID = md.getModelOID();
          id = md.getId();
          String version = (String) md.getAttribute(PredefinedConstants.VERSION_ATT);
-         name = md.getName() + " (version: " + version +
-               (modelOID == 0 ? "" : ", OID: " + modelOID) + ")";
+        
+         if (modelOID == 0)
+         {
+            name = MessageFormat.format(
+                  Deploy_Messages.getString("LBL_NAME_VERSION"), //$NON-NLS-1$
+                  new Object[] {md.getName(), version});
+         }
+         else
+         {
+            name = MessageFormat.format(
+                  Deploy_Messages.getString("LBL_NAME_VERSION_OID"), //$NON-NLS-1$
+                  new Object[] {md.getName(), version, modelOID});
+         }
+
          validFrom = (Date) md.getAttribute(PredefinedConstants.VALID_FROM_ATT);
          comment = (String) md.getAttribute(PredefinedConstants.DEPLOYMENT_COMMENT_ATT);
       }
