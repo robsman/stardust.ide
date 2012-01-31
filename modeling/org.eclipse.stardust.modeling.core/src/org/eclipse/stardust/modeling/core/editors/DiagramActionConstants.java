@@ -185,15 +185,15 @@ public interface DiagramActionConstants
    
    final String RESET_SUBPROCESS = "org.eclipse.stardust.modeling.core.resetSubprocessDefinition"; //$NON-NLS-1$;
 
-   final String MODEL_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModel"; //$NON-NLS-1; //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+   final String MODEL_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModel"; //$NON-NLS-1$
    
-   final String MODEL_DIAGRAM_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModelDiagram"; //$NON-NLS-1; //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+   final String MODEL_DIAGRAM_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModelDiagram"; //$NON-NLS-1$
 
-   final String DATA_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeData"; //$NON-NLS-1; //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+   final String DATA_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeData"; //$NON-NLS-1$
 
    final String FORWARD_DELETE = "org.eclipse.stardust.modeling.core.forwardDelete"; //$NON-NLS-1$
 
-   final String PROCESS_DIAGRAM_UPDATE = "org.eclipse.stardust.model.xpdl.updateProcessDiagram"; //$NON-NLS-1; //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+   final String PROCESS_DIAGRAM_UPDATE = "org.eclipse.stardust.model.xpdl.updateProcessDiagram"; //$NON-NLS-1$
    
-   final String GROUP_COLLISION = "org.eclipse.stardust.modeling.core.group.collision"; //$NON-NLS-1;    //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+   final String GROUP_COLLISION = "org.eclipse.stardust.modeling.core.group.collision"; //$NON-NLS-1$
 }

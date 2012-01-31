@@ -561,17 +561,23 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                }
                else
                {
-            	  message = MessageFormat.format(Diagram_Messages.MSG_DIA_DEPRECATED_MD_FORMAT_DETECTED+"\n" +  //$NON-NLS-2$
-                        Diagram_Messages.MSG_DIA_DO_YOU_WANT_TO_UPDATE_MD_TO_CURRENT_SPECS_NULL, 
-                        new Object[]{modelVersion.toString()});
+                  message = MessageFormat
+                        .format(
+                              Diagram_Messages.MSG_DIA_DEPRECATED_MD_FORMAT_DETECTED
+                                    + "\n" //$NON-NLS-1$
+                                    + Diagram_Messages.MSG_DIA_DO_YOU_WANT_TO_UPDATE_MD_TO_CURRENT_SPECS_NULL,
+                              new Object[] {modelVersion.toString()});
                }
             }
             catch (Exception ex)
             {
-            	//Message_Format
-            	message = MessageFormat.format(Diagram_Messages.MSG_DIA_UNKNOWN_VERSION_FOR_MD_NULL+"\n" +  //$NON-NLS-2$
-               		Diagram_Messages.MSG_DO_YOU_WANT_TO_UPDATE_MD_TO_VERSION_ONE, 
-                     new Object[]{cwmModel.getName(), carnotVersion.toShortString()});
+               message = MessageFormat
+                     .format(
+                           Diagram_Messages.MSG_DIA_UNKNOWN_VERSION_FOR_MD_NULL
+                                 + "\n" //$NON-NLS-1$
+                                 + Diagram_Messages.MSG_DO_YOU_WANT_TO_UPDATE_MD_TO_VERSION_ONE,
+                           new Object[] {
+                                 cwmModel.getName(), carnotVersion.toShortString()});
             }
             MessageDialog dialog = new MessageDialog(getSite().getShell(),
                   Diagram_Messages.LB_UpgradeModel, null, message, MessageDialog.QUESTION,

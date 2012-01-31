@@ -28,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -247,7 +248,9 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       for (int i = start; i < enums.size(); i++)
       {
          Enumerator rawEnum = enums.get(i);
-         buttons[i] = createRadioButton(group, rawEnum.getLiteral() + "  ", rawEnum.getValue(), type);//$NON-NLS-1$
+         buttons[i] = createRadioButton(
+               group,
+               ModelUtils.getFlowTypeText(rawEnum.getLiteral()) + "  ", rawEnum.getValue(), type);//$NON-NLS-1$
       }
       return group;
    }

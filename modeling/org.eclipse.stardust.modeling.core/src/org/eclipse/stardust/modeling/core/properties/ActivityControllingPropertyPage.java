@@ -64,7 +64,7 @@ public class ActivityControllingPropertyPage extends AbstractControllingProperty
               Type.Money.getId(), Diagram_Messages.MEASURE_UNIT_EUR),
       new ControllingAttribute(Diagram_Messages.LB_TargetCostPerSecond, "targetCostPerSecond", //$NON-NLS-1$
               Type.Money.getId(), Diagram_Messages.MEASURE_UNIT_EUR),
-      new ControllingAttribute(Diagram_Messages.ActivityControllingPropertyPage_ResourcePerformanceCalculation_LB, "includeTime",  //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+      new ControllingAttribute(Diagram_Messages.ActivityControllingPropertyPage_ResourcePerformanceCalculation_LB, "includeTime",  //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
             Type.Boolean.getId(), "", rpCalculationByKeys, rpCalculationByValues ) //$NON-NLS-1$
    };
 

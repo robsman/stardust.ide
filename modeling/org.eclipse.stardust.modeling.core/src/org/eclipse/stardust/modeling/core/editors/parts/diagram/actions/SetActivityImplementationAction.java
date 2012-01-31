@@ -21,6 +21,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
@@ -41,7 +42,7 @@ public class SetActivityImplementationAction extends Action
    public SetActivityImplementationAction(ActivityImplementationType implType,
          ActivityType activity, EditDomain domain)
    {
-      super(implType.getName());
+      super(ModelUtils.getActivityImplementationTypeText(implType));
       this.implType = implType;
       this.activity = activity;
       this.domain = domain;

@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -612,7 +611,7 @@ public class DynamicConnectionCommand extends Command
       IdFactory idFactory = new IdFactory(mappingId, null,
             CarnotWorkflowModelPackage.eINSTANCE.getDataMappingType(),
             CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id(), null);
-      EList<DataMappingType> dataMappings = activity.getDataMapping();
+      List<DataMappingType> dataMappings = activity.getDataMapping();
       List<DataMappingType> idDomain = CollectionUtils.newList(dataMappings.size());
       for (DataMappingType mapping : dataMappings)
       {

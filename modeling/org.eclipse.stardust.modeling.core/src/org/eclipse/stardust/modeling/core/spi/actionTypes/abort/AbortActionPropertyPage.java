@@ -45,11 +45,21 @@ public class AbortActionPropertyPage extends AbstractModelElementPropertyPage
       List scopes = AbortScope.getKeys(AbortScope.class);
       for (int scopeCounter = 0; scopeCounter < scopes.size(); scopeCounter++)
       {
-         final AbortScope scope = (AbortScope) scopes.get(scopeCounter); 
-         final Button button = FormBuilder.createRadioButton(scopeGroup, scope.getName());
+         final AbortScope scope = (AbortScope) scopes.get(scopeCounter);
+         String scopeName;
+         if (scope.getName().equalsIgnoreCase(AbortScope.ROOT_HIERARCHY))
+         {
+            scopeName = Diagram_Messages.LBL_RootHierarchy;
+         }
+         else
+         {
+            scopeName = Diagram_Messages.LBL_SubHierarchy;
+         }
+         final Button button = FormBuilder.createRadioButton(scopeGroup, scopeName);
          button.addSelectionListener(new SelectionListener()
          {
-            public void widgetDefaultSelected(SelectionEvent e) {/* do nothing */}
+            public void widgetDefaultSelected(SelectionEvent e)
+            {/* do nothing */}
 
             public void widgetSelected(SelectionEvent e)
             {

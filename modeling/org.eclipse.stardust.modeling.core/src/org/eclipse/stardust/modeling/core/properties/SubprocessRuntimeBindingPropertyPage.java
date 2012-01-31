@@ -118,7 +118,7 @@ public class SubprocessRuntimeBindingPropertyPage
       }
       else
       {
-         setErrorMessage(Diagram_Messages.ERROR_MSG_SELECTED_DATA + "/" +Diagram_Messages.ERROR_MSG_DATA_PATH_MUST_RESOLVE_TO_A_STRING_VALUE); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+         setErrorMessage(Diagram_Messages.ERROR_MSG_SELECTED_DATA + "/" +Diagram_Messages.ERROR_MSG_DATA_PATH_MUST_RESOLVE_TO_A_STRING_VALUE);  //$NON-NLS-1$
          setValid(false);
       }            
    }

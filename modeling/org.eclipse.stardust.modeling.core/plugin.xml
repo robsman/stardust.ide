@@ -159,7 +159,7 @@
          icon="icons/full/obj16/entity_data.gif"
          id="entity"
          initializerClass="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBeanDataInitializer"
-         name="Entity Bean">
+         name="%entityBean">
          <attribute
             name="carnot:defdesk:accessPathEditor"
             value="ag.carnot.workflow.spi.providers.data.java.POJOAccessPathEditor"/>
@@ -733,7 +733,7 @@
       <page
             class="org.eclipse.stardust.modeling.core.editors.parts.properties.ExternalPackagePropertyPage"
             id="org.eclipse.stardust.modeling.core.editors.parts.properties.externalPackage"
-            name="External Package"
+            name="%propPageExternalPackage"
             objectClass="org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage">
       </page>
       <page
@@ -1249,7 +1249,7 @@
             class="org.eclipse.stardust.modeling.core.properties.ProcessInterfacePropertyPage"
             icon="icons/full/obj16/activity.gif"
             id="interface"
-            name="Process Interface"
+            name="%processInterface"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
       </page>
       <page

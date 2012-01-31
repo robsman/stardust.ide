@@ -15,6 +15,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetActivityControlFlowCmd;
 
@@ -38,7 +39,8 @@ public class SetActivityControlFlowAction extends Action
    public SetActivityControlFlowAction(WorkflowModelEditor editor, EditDomain domain, ActivityType activity,
          FlowControlType aspect, JoinSplitType controlFlowType)
    {
-      super(controlFlowType.getName());
+      
+      super(ModelUtils.getFlowTypeText(controlFlowType.getLiteral()));
       this.editor = editor;
       this.domain = domain;
       this.activity = activity;

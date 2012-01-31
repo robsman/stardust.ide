@@ -175,8 +175,10 @@ public class WorkflowModelEditorPaletteFactory
    {
       PaletteGroup controls = new PaletteGroup(Diagram_Messages.LB_PALETTEGROUP_Controls);
 
-      ToolEntry selectionEntry = new PanningSelectionToolEntry();
+      ToolEntry selectionEntry = new PanningSelectionToolEntry();      
       selectionEntry.setToolClass(CarnotSelectionTool.class);
+      selectionEntry.setLabel(Diagram_Messages.LBL_SELECT);
+      
       controls.add(selectionEntry);
 //      controls.add(new MarqueeToolEntry());
 

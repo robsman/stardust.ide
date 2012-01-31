@@ -325,7 +325,7 @@ public class DistributeAction extends SelectionAction
       public DistributionGridDialog()
       {
          super(null, Diagram_Messages.TITLE_SnapToGrid, null,
-               "", MessageDialog.QUESTION, new String[] { //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+               "", MessageDialog.QUESTION, new String[] {  //$NON-NLS-1$
                IDialogConstants.OK_LABEL, IDialogConstants.CANCEL_LABEL}, 0,
                Diagram_Messages.LB_RememberDecision, false);
       }

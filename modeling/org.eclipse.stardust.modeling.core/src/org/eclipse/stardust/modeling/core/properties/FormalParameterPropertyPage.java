@@ -532,7 +532,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
                }
             });
 
-      categoryCombo = FormBuilder.createComboViewer(composite, "Category", //$NON-NLS-1$
+      categoryCombo = FormBuilder.createComboViewer(composite, Diagram_Messages.LBL_CATEGORY,
             new ArrayList<Object>());
       categoryCombo.getViewer().getControl().setEnabled(enablePage);
       categoryCombo.getViewer().setContentProvider(new ArrayContentProvider());
@@ -557,7 +557,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
                }
             });
 
-      dataTypeCombo = FormBuilder.createComboViewer(composite, "Data Type", //$NON-NLS-1$
+      dataTypeCombo = FormBuilder.createComboViewer(composite, Diagram_Messages.LBL_DATA_TYPE,
             new ArrayList<Object>());
       dataTypeCombo.getViewer().getControl().setEnabled(enablePage);
       dataTypeCombo.getViewer().setSorter(new ViewerSorter());

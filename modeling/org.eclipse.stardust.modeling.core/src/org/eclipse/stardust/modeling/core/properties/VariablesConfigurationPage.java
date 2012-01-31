@@ -192,7 +192,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             {
                public void widgetSelected(SelectionEvent e)
                {                  
-                  variablesContext.getVariables().add(new ModelVariable("<new>", "", ""));       //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                  variablesContext.getVariables().add(new ModelVariable(Diagram_Messages.CONFIGURATION_VARIABLE_NEW, "", ""));       //$NON-NLS-1$ //$NON-NLS-2$
                   viewer.refresh();
                   validateVariables();
                }
@@ -340,7 +340,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
          ModelVariable modelVariable = i.next();
          if (!modelVariable.isRemoved())
          {
-            if (modelVariable.getName().equalsIgnoreCase("<new>")) //$NON-NLS-1$
+            if (modelVariable.getName().equalsIgnoreCase(Diagram_Messages.CONFIGURATION_VARIABLE_NEW));
             {
                provideError(Diagram_Messages.PROVIDE_ERROR_PROVIDE_A_VALID_NAME_FOR_NEW_VARIABLE, false);
             }

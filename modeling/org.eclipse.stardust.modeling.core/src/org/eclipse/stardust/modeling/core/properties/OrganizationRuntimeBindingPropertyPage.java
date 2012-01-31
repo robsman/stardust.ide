@@ -153,7 +153,7 @@ public class OrganizationRuntimeBindingPropertyPage
             validate(null);
          }
       });
-      FormBuilder.createLabel(composite, " ", 2);
+      FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
       dataGroup = FormBuilder.createGroup(composite, Diagram_Messages.LB_Department_Oid, 2, 2);
       GridData gridDataGroup = new GridData(SWT.FILL, SWT.NONE, false, false);
       gridDataGroup.horizontalSpan = 2;
@@ -188,7 +188,7 @@ public class OrganizationRuntimeBindingPropertyPage
             if(e.getSource() instanceof Text)
             {
                Text text = (Text) e.getSource();
-               if (text.getText() != "")
+               if (text.getText() != "") //$NON-NLS-1$
                {
                   validate(text.getText());
                }

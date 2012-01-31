@@ -37,7 +37,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
-import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractWidgetAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EFeatureAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
@@ -50,7 +49,6 @@ import org.eclipse.stardust.modeling.core.editors.ui.AccessPathBrowserComposite;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathModelAdapter2;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathWidgetAdapter2;
-import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -91,7 +89,6 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
    private DirectionType direction;
    
    private String dataMappingContext;
-   private boolean startup = true;
    
    private SelectionListener autoIdListener = new SelectionListener()
    {
@@ -163,13 +160,7 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
                   if (null != activity)
                   {
                      ActivityUtil.updateConnections(activity);
-                     computeDataMappingId(dataMapping, activity);                      
-                     if (autoIdButton.getSelection() && !startup)
-                     {
-                        dataMapping.setId(dataMapping.getName());
-                        startup = false;
                   }
-               }
                }
             });
 
@@ -331,9 +322,9 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
 
       // this mapping must be last!!!      
       binding.bind(txtName, element, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
-      binding.bind(txtId, element, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id());
-
       txtName.getText().addModifyListener(listener);
+      
+      binding.bind(txtId, element, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id());
    }
 
    private void updateAccessPoints()
@@ -482,29 +473,4 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
 		}
 		return browsePrimAllowed;
 	}
-
-   private void computeDataMappingId(final DataMappingType dataMapping, ActivityType activity)
-   {
-      DataType data = dataMapping.getData();
-      if (data != null)
-      {
-         String mappingId = StringUtils.isEmpty(data.getId())
-               ? dataMapping.getDirection().toString().toLowerCase()
-               : data.getId();
-         IdFactory idFactory = new IdFactory(mappingId, null,
-               CarnotWorkflowModelPackage.eINSTANCE.getDataMappingType(),
-               CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id(), null);
-         List<DataMappingType> mappings = activity.getDataMapping();
-         List<DataMappingType> idDomain = CollectionUtils.newList(mappings.size());
-         for (DataMappingType mapping : mappings)
-         {
-            if (dataMapping != mapping && dataMapping.getDirection().equals(mapping.getDirection()))
-            {
-               idDomain.add(mapping);
-            }
-         }
-         idFactory.computeNames(idDomain, false);
-         dataMapping.setName(idFactory.getId());         
-      }      
-      }
 }

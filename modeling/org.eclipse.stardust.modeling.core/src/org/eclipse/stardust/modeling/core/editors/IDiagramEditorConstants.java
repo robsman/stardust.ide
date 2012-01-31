@@ -16,5 +16,5 @@ package org.eclipse.stardust.modeling.core.editors;
  */
 public interface IDiagramEditorConstants
 {
-   public static final String DECORATION_LAYER = "BPMN Decoration Layer";
+   public static final String DECORATION_LAYER = "BPMN Decoration Layer"; //$NON-NLS-1$
 }

@@ -48,6 +48,12 @@ public class TimerPropertyPage extends DefaultModelElementPropertyPage
    private static final String MONTHS = Diagram_Messages.MONTHS; 
 
    private static final String YEARS = Diagram_Messages.YEARS; 
+   
+   private static final String HOURS = Diagram_Messages.SHORT_HOURS;
+   
+   private static final String MINUTES = Diagram_Messages.SHORT_MINUTES;
+   
+   private static final String SECONDS = Diagram_Messages.SHORT_SECONDS;
 
    private DatePickerCombo timestampStartCombo;
    
@@ -258,13 +264,13 @@ public class TimerPropertyPage extends DefaultModelElementPropertyPage
       FormBuilder.createLabel(pnlPeriod, DAYS);
 
       createHoursText(pnlPeriod, gdPeriod);
-      FormBuilder.createLabel(pnlPeriod, "hh"); //$NON-NLS-1$
+      FormBuilder.createLabel(pnlPeriod, HOURS); 
 
       createMinText(pnlPeriod, gdPeriod);
-      FormBuilder.createLabel(pnlPeriod, "mm"); //$NON-NLS-1$
+      FormBuilder.createLabel(pnlPeriod, MINUTES); 
 
       createSecText(pnlPeriod, gdPeriod);
-      FormBuilder.createLabel(pnlPeriod, "ss"); //$NON-NLS-1$
+      FormBuilder.createLabel(pnlPeriod, SECONDS); 
 
    }
 

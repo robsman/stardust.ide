@@ -65,10 +65,9 @@ public class NodeCreationFactory
          boolean isEnding)
    {
       IdFactory id = new IdFactory(config == null
-            ? isEnding ? "EndEvent" : "StartEvent" : config.getAttribute("id"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            ? isEnding ? "EndEvent" : "StartEvent" : config.getAttribute("id"),  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             config == null
                   ? isEnding ? "End Event" : "Start Event" : config.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
       CompoundDiagramCommand compound = new CompoundDiagramCommand();
       if (config != null)
       {
@@ -94,9 +93,9 @@ public class NodeCreationFactory
    public static CreationFactory getProcessInterfaceFactory(final IConfigurationElement config)
 	   {
 	      IdFactory id = new IdFactory(config == null
-	            ? "ProcessInterface" : config.getAttribute("id"),  //$NON-NLS-1$ //$NON-NLS-2$
+	            ? "ProcessInterface" : config.getAttribute("id"),   //$NON-NLS-1$ //$NON-NLS-2$
 	            config == null
-	                  ? "ProcessInterface" : config.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
+	                  ? "ProcessInterface" : config.getAttribute("name"));  //$NON-NLS-1$ //$NON-NLS-2$
 	      CompoundDiagramCommand compound = new CompoundDiagramCommand();
 	      FormalParametersType fmt = XpdlPackage.eINSTANCE.getXpdlFactory().createFormalParametersType();
 	      SetValueCmd command = new SetValueCmd(IContainedElementCommand.PROCESS,  CarnotWorkflowModelPackage.eINSTANCE.getProcessDefinitionType_FormalParameters(), fmt); //int parentLevel, EStructuralFeature feature, Object object
@@ -110,7 +109,7 @@ public class NodeCreationFactory
    {
       IdFactory id = new IdFactory(config == null ? "data" : config.getAttribute("id"), //$NON-NLS-1$ //$NON-NLS-2$
             config == null ? Diagram_Messages.NodeCreationFactory_BASENAME_Data : config
-                  .getAttribute("name")); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+                  .getAttribute("name")); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
       CompoundDiagramCommand command = new CompoundDiagramCommand();
       if (config != null)
       {
@@ -186,10 +185,10 @@ public class NodeCreationFactory
    public static CreationFactory getApplicationFactory(final IConfigurationElement config)
    {
       IdFactory id = new IdFactory(config == null
-            ? "application" : config.getAttribute("id"), //$NON-NLS-1$ //$NON-NLS-2$
+            ? "application" : config.getAttribute("id"),  //$NON-NLS-1$ //$NON-NLS-2$
             config == null
                   ? Diagram_Messages.NodeCreationFactory_BASENAME_Application
-                  : config.getAttribute("name")); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+                  : config.getAttribute("name"));  //$NON-NLS-1$
       CompoundDiagramCommand command = new CompoundDiagramCommand();
       if (config != null)
       {
@@ -256,7 +255,8 @@ public class NodeCreationFactory
    {
       IdFactory id = new IdFactory("Activity", implementation == null //$NON-NLS-1$
             ? "Activity" //$NON-NLS-1$
-            : implementation + Diagram_Messages.BASENAME_P2_Activity);
+            : ModelUtils.getActivityImplementationTypeText(implementation)
+                  + Diagram_Messages.BASENAME_P2_Activity);
       CompoundDiagramCommand command = new CompoundDiagramCommand();
       command.add(new CreateModelElementCommand(IContainedElementCommand.PROCESS, id,
             CarnotWorkflowModelPackage.eINSTANCE.getActivityType())

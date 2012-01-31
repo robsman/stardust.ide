@@ -41,7 +41,6 @@ public class AccessPathBrowserComposite
    private DirectionType staticDirection = DirectionType.OUT_LITERAL;
    private ITypedElement accessPoint;
    private Button browseButton;
-   private WorkflowModelEditor editor;
    private boolean browsePrimitiveAllowed = true;
 
    public AccessPathBrowserComposite(WorkflowModelEditor editor, Composite parent, String title)
@@ -63,7 +62,6 @@ public class AccessPathBrowserComposite
 
    private void init(final WorkflowModelEditor editor, Composite parent, final String title, int span)
    {
-      this.editor = editor;
       final Composite composite = FormBuilder.createComposite(parent, 2);
       GridData gd = FormBuilder.createDefaultSingleLineWidgetGridData();
       gd.horizontalSpan = span;
@@ -131,11 +129,6 @@ public class AccessPathBrowserComposite
          enable = true;
       }
 
-      if(enable && !editor.getModelServer().isLockedByUser())
-      {
-         enable = false;
-      }
-      
       methodText.setEnabled(enable && element != null && dataTypeSupportsBrowsing(element.getMetaType()));
       browseButton.setEnabled(enable && element != null && dataTypeSupportsBrowsing(element.getMetaType()));
       if (!enable)

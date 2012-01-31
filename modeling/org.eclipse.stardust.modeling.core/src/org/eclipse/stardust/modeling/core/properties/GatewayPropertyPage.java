@@ -234,7 +234,7 @@ public class GatewayPropertyPage extends AbstractModelElementPropertyPage
       GatewaySymbol gateway = getGateway();
       FlowControlType kind = gateway.getFlowKind();
       final boolean isIn = kind != null && kind.getValue() == FlowControlType.JOIN;
-      setTitle(isIn ? "Incoming Transitions" : "Outgoing Transitions"); //$NON-NLS-1$ //$NON-NLS-2$
+      setTitle(isIn ? Diagram_Messages.LBL_Incoming_Transitions : Diagram_Messages.LBL_Outgoing_Transitions); 
 
       ActivitySymbolType activitySymbol = gateway.getActivitySymbol();
       final ActivityType activity = activitySymbol == null ? null : activitySymbol.getActivity();

@@ -348,9 +348,10 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       createAttribute(processId, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$ 
 
-      DataType processPriority = createData(model, dataType0, PredefinedConstants.PROCESS_PRIORITY,
-            "Process Priority", "Priority assigned to the current process."); //$NON-NLS-1$ //$NON-NLS-2$
-//      createAttribute(processPriority, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      DataType processPriority = createData(model, dataType0,
+            PredefinedConstants.PROCESS_PRIORITY, Diagram_Messages.NAME_ProcessPriority,
+            Diagram_Messages.DESC_ProcessPriority);
+ 
       createAttribute(processPriority, PredefinedConstants.TYPE_ATT,
             "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$ 
 

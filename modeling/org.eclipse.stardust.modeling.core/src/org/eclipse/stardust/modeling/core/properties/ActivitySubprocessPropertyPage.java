@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -34,6 +35,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
@@ -134,46 +136,6 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
    {
       Composite composite = FormBuilder.createComposite(parent, 1);
 
-      LabelWithStatus comboLabel = FormBuilder.createLabelWithRightAlignedStatus(
-            composite, Diagram_Messages.FORMBUILDER_LB_ExecutionType);
-      comboViewer = new ComboViewer(FormBuilder.createCombo(composite));
-      comboViewer.add(SubProcessModeType.VALUES.toArray());       
-      labeledComboViewer = new LabeledViewer(comboViewer, comboLabel);
-
-      checkCopyData = FormBuilder.createCheckBox(composite, Diagram_Messages.BOX_COPY_ALL_DATA, 2);
-
-      comboViewer.addSelectionChangedListener(new ISelectionChangedListener()
-      {
-         public void selectionChanged(SelectionChangedEvent event)
-         {
-            Object obj = ((EditPart) getElement()).getModel();
-            ActivityType activity = (obj instanceof ActivitySymbolType
-                  ? ((ActivitySymbolType) obj).getActivity()
-                  : (ActivityType) obj);
-
-            Object selection = ((IStructuredSelection) comboViewer.getSelection())
-                  .getFirstElement();
-            if (selection != null)
-            {
-                boolean isCopyAllData = selection.equals(SubProcessModeType.ASYNC_SEPARATE_LITERAL) ? true
-                      : selection.equals(SubProcessModeType.SYNC_SHARED_LITERAL) ? false
-                      : AttributeUtil.getBooleanValue(activity,CarnotConstants.ACTIVITY_SUBPROCESS_COPY_ALL_DATA_ATT);
-
-                checkCopyData.setSelection(isCopyAllData);
-                checkCopyData.setEnabled(selection.equals(SubProcessModeType.SYNC_SEPARATE_LITERAL));
-                updateModelData();
-            }
-         }
-      });
-
-      checkCopyData.addSelectionListener(new SelectionAdapter()
-      {
-         public void widgetSelected(SelectionEvent e)
-         {
-            updateModelData();
-         }
-      });
-
       LabelWithStatus label = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.FORMBUILDER_LB_Subprocess);
       Table table = new Table(composite, SWT.BORDER);
@@ -193,10 +155,10 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
                if (selection != null
                      && selection.getFirstElement() instanceof ProcessDefinitionType)
                {
-            	  ProcessDefinitionType pdt = (ProcessDefinitionType) selection.getFirstElement();
-            	  String defaultName = ((ProcessDefinitionType) selection.getFirstElement()).getName();
-            	  ((ActivityType) getModelElement()).setName(defaultName);
-            	  ModelType externalModel = (ModelType)pdt.eContainer();
+                  ProcessDefinitionType pdt = (ProcessDefinitionType) selection.getFirstElement();
+                  String defaultName = ((ProcessDefinitionType) selection.getFirstElement()).getName();
+                  ((ActivityType) getModelElement()).setName(defaultName);
+                  ModelType externalModel = (ModelType)pdt.eContainer();
                   comboViewer.refresh();
                   comboViewer.add(SubProcessModeType.VALUES.toArray());  
                   if (((ActivityType) getModelElement()).getSubProcessMode().equals(SubProcessModeType.SYNC_SHARED_LITERAL))
@@ -231,12 +193,63 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
          public void widgetSelected(SelectionEvent e)
          {
             procSorter.setGrouped(groupingCheckbox.getSelection());
-            labelProvider.setShowGroupInfo(groupingCheckbox.getSelection());    	
+            labelProvider.setShowGroupInfo(groupingCheckbox.getSelection());        
             TableViewer viewer = (TableViewer) labeledViewer.getViewer();
             ISelection selection = viewer.getSelection();
-		    viewer.getTable().removeAll();
-		    viewer.add(processes.toArray());
-		    viewer.setSelection(selection);
+            viewer.getTable().removeAll();
+            viewer.add(processes.toArray());
+            viewer.setSelection(selection);
+         }
+      });
+      
+      LabelWithStatus comboLabel = FormBuilder.createLabelWithRightAlignedStatus(
+            composite, Diagram_Messages.FORMBUILDER_LB_ExecutionType);
+      comboViewer = new ComboViewer(FormBuilder.createCombo(composite));
+      comboViewer.add(SubProcessModeType.VALUES.toArray()); 
+      comboViewer.setLabelProvider(new LabelProvider()
+      {
+
+         public String getText(Object element)
+         {
+            return ModelUtils.getSubprocessModeTypeText((SubProcessModeType) element);
+         }
+
+      });
+      
+      
+      labeledComboViewer = new LabeledViewer(comboViewer, comboLabel);
+
+      checkCopyData = FormBuilder.createCheckBox(composite, Diagram_Messages.BOX_COPY_ALL_DATA, 2);
+
+      comboViewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+         public void selectionChanged(SelectionChangedEvent event)
+         {
+            Object obj = ((EditPart) getElement()).getModel();
+            ActivityType activity = (obj instanceof ActivitySymbolType
+                  ? ((ActivitySymbolType) obj).getActivity()
+                  : (ActivityType) obj);
+
+            Object selection = ((IStructuredSelection) comboViewer.getSelection())
+                  .getFirstElement();
+            if (selection != null)
+            {
+                boolean isCopyAllData = selection.equals(SubProcessModeType.ASYNC_SEPARATE_LITERAL) ? true
+                      : selection.equals(SubProcessModeType.SYNC_SHARED_LITERAL) ? false
+                      : AttributeUtil.getBooleanValue(activity,CarnotConstants.ACTIVITY_SUBPROCESS_COPY_ALL_DATA_ATT);
+
+                checkCopyData.setSelection(isCopyAllData);
+                checkCopyData.setEnabled(selection.equals(SubProcessModeType.SYNC_SEPARATE_LITERAL));
+                updateModelData();
+            }
+         }
+      });
+
+      checkCopyData.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            updateModelData();
          }
       });
 

@@ -18,6 +18,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -46,7 +47,8 @@ public class CreateActivityAction extends SelectionAction
       }
       else
       {
-         setText(implementation + Diagram_Messages.TXT_Activity);
+         setText(ModelUtils.getActivityImplementationTypeText(implementation)
+               + Diagram_Messages.TXT_Activity);
          setImageDescriptor(DiagramPlugin.getImageDescriptor("icons/full/obj16/activity_" //$NON-NLS-1$
                + implementation.getName().toLowerCase() + ".gif")); //$NON-NLS-1$
       }
@@ -93,10 +95,11 @@ public class CreateActivityAction extends SelectionAction
    {
       IdFactory id = new IdFactory(Diagram_Messages.ID_Activity, implementation == null
             ? Diagram_Messages.BASENAME_Activity
-            : implementation + Diagram_Messages.BASENAME_Activity);
+            : ModelUtils.getActivityImplementationTypeText(implementation)
+                  + Diagram_Messages.BASENAME_Activity);
       CreateModelElementCommand command = new CreateModelElementCommand(
-            IContainedElementCommand.PROCESS, id, CarnotWorkflowModelPackage.eINSTANCE
-                  .getActivityType())
+            IContainedElementCommand.PROCESS, id,
+            CarnotWorkflowModelPackage.eINSTANCE.getActivityType())
       {
          protected IModelElement createModelElement()
          {
