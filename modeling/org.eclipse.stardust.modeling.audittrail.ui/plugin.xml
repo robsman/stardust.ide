@@ -18,7 +18,7 @@
             category="org.eclipse.stardust.modeling.common.ui"
             class="org.eclipse.stardust.modeling.audittrail.ui.AuditTrailPreferencePage"
             id="org.eclipse.stardust.modeling.audittrail.ui.auditTrailDbms"
-            name="AuditTrail Databases">
+            name="%auditTrailDB">
       </page>
    </extension>
 
