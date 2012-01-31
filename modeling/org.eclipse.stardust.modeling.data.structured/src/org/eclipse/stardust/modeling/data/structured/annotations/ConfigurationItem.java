@@ -94,7 +94,7 @@ public class ConfigurationItem
    
    public String getName()
    {
-      String name = getConfigurationAttribute("label");
+      String name = getConfigurationAttribute("label"); //$NON-NLS-1$
       if (name == null)
       {
          name = getConfigurationAttribute("name"); //$NON-NLS-1$

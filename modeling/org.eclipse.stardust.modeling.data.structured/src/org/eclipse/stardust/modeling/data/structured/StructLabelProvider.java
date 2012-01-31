@@ -166,9 +166,25 @@ public class StructLabelProvider extends LabelProvider
       
       if (element instanceof EObject)
       {
-         return (String) xpdlTextProvider.doSwitch((EObject) element);
+         String xpdlProviderText = (String) xpdlTextProvider.doSwitch((EObject) element);
+         String xpdli18nText = getTextForProviderText(xpdlProviderText);
+         if (xpdli18nText == null)
+         {
+            return xpdlProviderText;
+         }
+         return xpdli18nText;
       }
       return getDefaultLabel(element);
+   }
+
+   private String getTextForProviderText(String xpdlProviderText)
+   {
+      if (xpdlProviderText.equalsIgnoreCase("<sequence>")) { //$NON-NLS-1$
+         return Structured_Messages.LBL_Sequence;
+      }
+      // Further types
+      // ...
+      return null;
    }
 
    private String getDefaultLabel(Object element)
@@ -461,7 +477,7 @@ public class StructLabelProvider extends LabelProvider
          case 1:
             if (attribute.getTypeDefinition() == null)
             {
-               return("<unresolved>");
+               return("<unresolved>"); //$NON-NLS-1$
             }
             return attribute.getTypeDefinition().getName();
          case 2:

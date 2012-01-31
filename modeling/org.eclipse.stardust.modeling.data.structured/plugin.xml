@@ -42,7 +42,7 @@
 			namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
 			<element name="storage"
 				empty="true"
-				label="Storage">
+				label="%storage">
 				<element name="indexed"
 					empty="false"
 					label="%indexing"

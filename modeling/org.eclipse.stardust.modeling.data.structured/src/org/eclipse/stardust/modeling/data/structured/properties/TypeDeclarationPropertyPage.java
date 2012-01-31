@@ -198,7 +198,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
          XSDSchema xsdSchema = declaration.getSchema();
          String oldTargetNamespace = xsdSchema.getTargetNamespace();
                   
-         if (!namespaceLabel.getText().equals(oldTargetNamespace == null ? "" : oldTargetNamespace))
+         if (!namespaceLabel.getText().equals(oldTargetNamespace == null ? "" : oldTargetNamespace)) //$NON-NLS-1$
          {
             xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), id));         
          }
@@ -295,24 +295,25 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             if (publicType)
             {
                ExtendedAttributeUtil.setAttribute(declaration.getExtendedAttributes(),
-                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Public");
+                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Public"); //$NON-NLS-1$
             }
             else
             {
                ExtendedAttributeUtil.setAttribute(declaration.getExtendedAttributes(),
-                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Private");
+                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Private"); //$NON-NLS-1$
             }
          }
       });
       
-      FormBuilder.createLabel(composite, " ", 2);
+      FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
       FormBuilder.createHorizontalSeparator(composite, 2);
-      FormBuilder.createLabel(composite, " ", 2);
-      
-      FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_NamespaceLabel);
+      FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
+
+      FormBuilder.createLabel(composite,
+            Structured_Messages.SimpleTypePropertyPage_NamespaceLabel);
       namespaceLabel = FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
       autoNamespaceButton = FormBuilder.createCheckBox(composite,
-            "Synchronize namespace with type id", 2);
+            Structured_Messages.SYNCHRONIZE_NAMESPACE_AND_ID, 2); //$NON-NLS-1$
       autoNamespaceButton.setSelection(PlatformUI.getPreferenceStore().getBoolean(
             BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION));
 
@@ -326,7 +327,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
      if (txtName.getText().getText().length() == 0
            || txtId.getText().getText().length() == 0)           
      {
-        setMessage(Structured_Messages.TypeDeclarationPropertyPage_EmptyValuesMessage, ERROR);
+        setMessage("", ERROR); //$NON-NLS-1$
         setValid(false);
         return;
      }
@@ -334,7 +335,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
      if(!ModelUtils.isValidId(txtId.getText().getText()))
      {
         setMessage(MessageFormat.format(
-              Structured_Messages.ComplexTypePropertyPage_InvalidFieldIdentifierErrorMessage,
+              "", //$NON-NLS-1$
               new Object [] {txtId.getText().getText()}), ERROR);
         setValid(false);
         return;                                   
@@ -351,7 +352,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
            if (td.getId().equals(txtId.getText().getText()))
            {
               setMessage(MessageFormat.format(
-                    Structured_Messages.TypeDeclarationPropertyPage_DuplicateValueMessage,
+                    "", //$NON-NLS-1$
                     new Object [] {txtId.getText().getText()}), ERROR);
               setValid(false);
               return;     
@@ -359,7 +360,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
            if (td.getName().equals(txtName.getText().getText()))
            {
               setMessage(MessageFormat.format(
-                    Structured_Messages.TypeDeclarationPropertyPage_DuplicateValueMessage,
+                    "", //$NON-NLS-1$
                     new Object [] {txtName.getText().getText()}), ERROR);
               setValid(false);
               return;
@@ -378,18 +379,18 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       {
          String visibilityDefault = PlatformUI.getPreferenceStore().getString(
                BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
-         if (visibilityDefault == null || visibilityDefault == ""
-               || visibilityDefault.equalsIgnoreCase("Public"))
+         if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
+               || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
          {
 
             ExtendedAttributeUtil.createAttribute(declaration,
-                  PredefinedConstants.MODELELEMENT_VISIBILITY).setValue("Public");
+                  PredefinedConstants.MODELELEMENT_VISIBILITY).setValue("Public"); //$NON-NLS-1$
             publicType = true;
          }
       }
       else
       {
-         if (visibility.getValue().equalsIgnoreCase("Public"))
+         if (visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
          {
             publicType = true;
          }

@@ -171,7 +171,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
       });
       
       annotationContentProvider.setCurrentElement(null);
-      viewer.setInput("dummy");
+      viewer.setInput("dummy"); //$NON-NLS-1$
       viewer.expandAll();
       viewer.getControl().setVisible(false);
       

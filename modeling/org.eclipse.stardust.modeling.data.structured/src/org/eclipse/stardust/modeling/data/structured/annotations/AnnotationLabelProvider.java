@@ -54,7 +54,7 @@ public class AnnotationLabelProvider extends LabelProvider
 
    public String getColumnText(Object element, int columnIndex)
    {
-      Object result = "?";
+      Object result = "?"; //$NON-NLS-1$
       if (element instanceof IAnnotation)
       {
          IAnnotation annotation = (IAnnotation) element;
