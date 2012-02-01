@@ -132,8 +132,8 @@ public class JavaScriptInferenceEngine extends InferEngine
     }
 
 
-   private static final char[] NAME_IPP_INITIALIZE = "ippInitialize".toCharArray();
-   private static final char[] NAME_IPP_IMPORT = "ippImport".toCharArray();
+   private static final char[] NAME_IPP_INITIALIZE = "ippInitialize".toCharArray(); //$NON-NLS-1$
+   private static final char[] NAME_IPP_IMPORT = "ippImport".toCharArray(); //$NON-NLS-1$
 
    private CompilationUnitDeclaration cu;
 
@@ -349,13 +349,13 @@ public class JavaScriptInferenceEngine extends InferEngine
                      if (attrType == null)
                      {
                         // ROOT                     
-                        if ("/".equals(xPath))
+                        if ("/".equals(xPath)) //$NON-NLS-1$
                         {
                            attrType = addType((((IIdentifiableElement) data).getId()).toCharArray());
                         }
                         else
                         {
-                           attrType = addType((((IIdentifiableElement) data).getId() + "_" + xPath.replace('/', '_')).toCharArray());
+                           attrType = addType((((IIdentifiableElement) data).getId() + "_" + xPath.replace('/', '_')).toCharArray()); //$NON-NLS-1$
                         }
                         
                         attrType.isDefinition = true;
@@ -373,13 +373,13 @@ public class JavaScriptInferenceEngine extends InferEngine
                      {                     
                         List<AccessPointType> apAttributes;
                         // ROOT                     
-                        if ("/".equals(xPath))
+                        if ("/".equals(xPath)) //$NON-NLS-1$
                         {
                            apAttributes = apEditor.getAccessPoints(null, (IExtensibleElement) data, DirectionType.INOUT_LITERAL);                        
                         }                        
                         else
                         {
-                           int idx = xPath.lastIndexOf("/") + 1;
+                           int idx = xPath.lastIndexOf("/") + 1; //$NON-NLS-1$
                            String elementName = xPath.substring(idx, xPath.length());
                            ITypedElement accessPointType = inferredIppAccessPointsByName
                                  .get(elementName);
@@ -395,8 +395,8 @@ public class JavaScriptInferenceEngine extends InferEngine
                            AccessPointType apAttribute = apAttributes.get(i);
                            String attrName = apAttribute.getId();
                            boolean isAtAttribute = false;
-                           if (attrName.startsWith("@")) {
-                              attrName = attrName.replace("@", "");
+                           if (attrName.startsWith("@")) { //$NON-NLS-1$
+                              attrName = attrName.replace("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
                               isAtAttribute = true;
                            }
                            InferredAttribute ia = attrType.addAttribute(attrName.toCharArray(), cu, 0);
@@ -412,10 +412,10 @@ public class JavaScriptInferenceEngine extends InferEngine
                                  if(isArray)                                    
                                  {                                    
                                     if (apAttribute instanceof StructAccessPointType) {
-                                       arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true");                                  
+                                       arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true");                                   //$NON-NLS-1$
                                        ia.type = getInferredTypeFromXPath(((StructAccessPointType) apAttribute).getXPath());
                                     } else {
-                                       arrayMap.put(apAttribute.getId(), "true");                                    
+                                       arrayMap.put(apAttribute.getId(), "true");                                     //$NON-NLS-1$
                                     }
                                  }
                                  else
@@ -429,9 +429,9 @@ public class JavaScriptInferenceEngine extends InferEngine
                                  if(isArray)
                                  {                                    
                                     if (apAttribute instanceof StructAccessPointType) {
-                                       arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true");
+                                       arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true"); //$NON-NLS-1$
                                     } else {
-                                       arrayMap.put(apAttribute.getId(), "true");                                    
+                                       arrayMap.put(apAttribute.getId(), "true");                                     //$NON-NLS-1$
                                     }
                                  }
                                  else
@@ -446,21 +446,21 @@ public class JavaScriptInferenceEngine extends InferEngine
                               if(isArray)
                               {
                                  if (apAttribute instanceof StructAccessPointType) {
-                                    arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true");
+                                    arrayMap.put(((StructAccessPointType)apAttribute).getXPath().toString(), "true"); //$NON-NLS-1$
                                  } else {
-                                    arrayMap.put(apAttribute.getId(), "true");                                    
+                                    arrayMap.put(apAttribute.getId(), "true");                                     //$NON-NLS-1$
                                  }
                               }
                            }
                            
                            bpmAttributesToAp.put(ia, data);
-                           if ("/".equals(xPath))
+                           if ("/".equals(xPath)) //$NON-NLS-1$
                            {                           
-                              bpmAttributesToXPath.put(ia, "/" + apAttribute.getId());
+                              bpmAttributesToXPath.put(ia, "/" + apAttribute.getId()); //$NON-NLS-1$
                            }
                            else
                            {
-                              bpmAttributesToXPath.put(ia, xPath + "/" + apAttribute.getId());                                 
+                              bpmAttributesToXPath.put(ia, xPath + "/" + apAttribute.getId());                                  //$NON-NLS-1$
                            }                                 
                            inferredIppAccessPointsByName.put(apAttribute.getId(), (AccessPointType) apAttribute);
                         }
@@ -468,7 +468,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                      if (isJavaType)
                      {
                         InferredType myType = null;
-                        if (!("/".equals(xPath)))
+                        if (!("/".equals(xPath))) //$NON-NLS-1$
                         {                           
                            String useClassName = xPathToJavaType.get(xPath);;
                            if(!StringUtils.isEmpty(useClassName))
@@ -485,7 +485,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                               inferredDerefPaths.put(xPath, myType);                              
                            }
                         }                        
-                        if (!("/".equals(xPath)) && myType == null)
+                        if (!("/".equals(xPath)) && myType == null) //$NON-NLS-1$
                         {                           
                            String useClassName = xPathToJavaField.get(xPath);
                            if(!StringUtils.isEmpty(useClassName))
@@ -530,8 +530,8 @@ public class JavaScriptInferenceEngine extends InferEngine
          String className) throws JavaModelException
    {
       TypeInfo typeInfo = null;
-      if (className.startsWith("java.util.List_")) {
-    	  typeInfo = typeFinder.findType("java.util.List");    	  
+      if (className.startsWith("java.util.List_")) { //$NON-NLS-1$
+    	  typeInfo = typeFinder.findType("java.util.List");    	   //$NON-NLS-1$
       } else {
     	  typeInfo = typeFinder.findType(className);  
       }	  
@@ -539,55 +539,55 @@ public class JavaScriptInferenceEngine extends InferEngine
           String[] parameterSignatures = {}; 
           String[] parameterTypes = {}; 
           List methods = typeInfo.getMethods();         
-          if (className.endsWith("ActivityInstance")) {
-             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, "J", "long", true);
+          if (className.endsWith("ActivityInstance")) { //$NON-NLS-1$
+             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, "J", "long", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
           }
-          if (className.endsWith("Activity")) {            
-             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, "Ljava.lang.String;", "java.lang.String", true);
+          if (className.endsWith("Activity")) {             //$NON-NLS-1$
+             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, "Ljava.lang.String;", "java.lang.String", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, "J", "long", true);       
+             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, "J", "long", true);        //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, "I", "int", true);
+             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, "I", "int", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, "J", "long", true); 
+             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, "J", "long", true); 
+             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, "D", "double", true); 
+             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
-             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, "D", "double", true); 
+             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi); 
-             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, "B", "boolean", true); 
+             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, "B", "boolean", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);    
           }
           for (int m = 0; m < methods.size(); m++)
           {
              MethodInfo methodInfo = (MethodInfo) methods.get(m);
              String methodName = getMethodName(methodInfo);
-             if (!methodName.startsWith("<") && methodInfo.isAccessible())
+             if (!methodName.startsWith("<") && methodInfo.isAccessible()) //$NON-NLS-1$
              {
             	MethodDeclaration md = new MethodDeclaration(cu.compilationResult);;
                 InferredMethod inferredMethod = attrType.addMethod(methodName.toCharArray(), md, 0);
                 String returnType = methodInfo.getReturnType();                
                 String xPathForJava;         
-                if ("/".equals(xPath))
+                if ("/".equals(xPath)) //$NON-NLS-1$
                 {
                    xPathForJava = xPath + methodName;
                 }
                 else
                 {
-                   xPathForJava = xPath + "/" + methodName;                                    
+                   xPathForJava = xPath + "/" + methodName;                                     //$NON-NLS-1$
                 }
-                if (returnType.startsWith("java.util.List<")) {
-                	String realType = returnType.replaceAll("java.util.List", "");
-                	realType = realType.replaceAll("<", "");
-                	realType = realType.replaceAll(">", "");
-                	returnType = "java.util.List_" + realType;
+                if (returnType.startsWith("java.util.List<")) { //$NON-NLS-1$
+                	String realType = returnType.replaceAll("java.util.List", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                	realType = realType.replaceAll("<", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                	realType = realType.replaceAll(">", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                	returnType = "java.util.List_" + realType; //$NON-NLS-1$
                 	xPathToRealJavaType.put(xPathForJava, realType);                	
                 }
                 if (xPathToRealJavaType.get(xPath) != null) {
@@ -614,7 +614,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                                                     
                 for (int p = 0; p < paramCnt; p++)
                 {
-                   md.arguments[p] = new Argument(new String("param" + p).toCharArray(), 0, null, 0);;
+                   md.arguments[p] = new Argument(new String("param" + p).toCharArray(), 0, null, 0);; //$NON-NLS-1$
                 }                                    
              }
           }
@@ -636,13 +636,13 @@ public class JavaScriptInferenceEngine extends InferEngine
                  InferredAttribute iAttribute = attrType.addAttribute(fieldName.toCharArray(), cu, 0);
                  String xPathForJavaField;
                  // ROOT                     
-                 if ("/".equals(xPath))
+                 if ("/".equals(xPath)) //$NON-NLS-1$
                  {
                     xPathForJavaField = xPath + fieldName;
                  }
                  else
                  {
-                    xPathForJavaField = xPath + "/" + fieldName;
+                    xPathForJavaField = xPath + "/" + fieldName; //$NON-NLS-1$
                  }
                  xPathToJavaField.put(xPathForJavaField, fieldName);   
                  
@@ -664,8 +664,8 @@ public class JavaScriptInferenceEngine extends InferEngine
       //String getContent()
       MethodDeclaration md = new MethodDeclaration(
             cu.compilationResult);
-      InferredMethod inferredMethod = attrType.addMethod("getTargetExecutionTime".toCharArray(), md, 0);
-      String returnType = "String";      
+      InferredMethod inferredMethod = attrType.addMethod("getTargetExecutionTime".toCharArray(), md, 0); //$NON-NLS-1$
+      String returnType = "String";       //$NON-NLS-1$
       InferredType iType = StringType;                                
       md.returnType = new SingleTypeReference(iType.getName(), 0);
       md.inferredType = iType;      
@@ -676,16 +676,16 @@ public class JavaScriptInferenceEngine extends InferEngine
       //String getContent()
       MethodDeclaration md = new MethodDeclaration(
             cu.compilationResult);
-      InferredMethod inferredMethod = attrType.addMethod("getContent".toCharArray(), md, 0);
-      String returnType = "String";      
+      InferredMethod inferredMethod = attrType.addMethod("getContent".toCharArray(), md, 0); //$NON-NLS-1$
+      String returnType = "String";       //$NON-NLS-1$
       InferredType iType = StringType;                                
       md.returnType = new SingleTypeReference(iType.getName(), 0);
       md.inferredType = iType;
       
       //void setContent(String content)
       md = new MethodDeclaration(cu.compilationResult);
-      inferredMethod = attrType.addMethod("setContent".toCharArray(), md, 0);           
-      returnType = "void";
+      inferredMethod = attrType.addMethod("setContent".toCharArray(), md, 0);            //$NON-NLS-1$
+      returnType = "void"; //$NON-NLS-1$
       iType = getInferredTypeFromJavaType(returnType, null, null);
       if(iType == null)
       {
@@ -696,7 +696,7 @@ public class JavaScriptInferenceEngine extends InferEngine
       
       md.returnType = new SingleTypeReference(iType.getName(), 0);
       md.arguments = new Argument[1];                                                                                 
-      md.arguments[0] = new Argument(new String("param" + 0).toCharArray(), 0, null, 0);                                                
+      md.arguments[0] = new Argument(new String("param" + 0).toCharArray(), 0, null, 0);                                                 //$NON-NLS-1$
    }
    
    private void addEnumsTo(InferredType attrType, String xPath, List<XSDEnumerationFacet> enums)
@@ -707,13 +707,13 @@ public class JavaScriptInferenceEngine extends InferEngine
     	   InferredAttribute iAttribute = attrType.addAttribute(fieldName.toCharArray(), cu, 0);
            String xPathForJavaField;
            // ROOT                     
-           if ("/".equals(xPath))
+           if ("/".equals(xPath)) //$NON-NLS-1$
            {
               xPathForJavaField = xPath + fieldName;
            }
            else
            {
-              xPathForJavaField = xPath + "/" + fieldName;
+              xPathForJavaField = xPath + "/" + fieldName; //$NON-NLS-1$
            }
            xPathToJavaField.put(xPathForJavaField, fieldName);   
            
@@ -819,7 +819,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                       ITypedElement dataType = null;
                       if ((null == accessPoint) && (null != model))
                       {
-                         if (targetTypeName.indexOf(".") > -1) {
+                         if (targetTypeName.indexOf(".") > -1) { //$NON-NLS-1$
                              DataType serializableType = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
                              serializableType.setId(name);
                              serializableType.setName(name);
@@ -827,12 +827,12 @@ public class JavaScriptInferenceEngine extends InferEngine
                              DataTypeType serializableDataType = (DataTypeType) ModelUtils.findElementById(model.getDataType(), PredefinedConstants.SERIALIZABLE_DATA);
                              //(rp) Workaround for CRNT-12167
                              try {
-                                 Reflect.setFieldValue(serializableType, "type", serializableDataType);                        	
+                                 Reflect.setFieldValue(serializableType, "type", serializableDataType);                        	 //$NON-NLS-1$
                              } catch (Throwable t) {                        	
                             	 serializableType.setType(serializableDataType);
                              }
                              //(rp) End of Workaround
-                             AttributeUtil.setAttribute(serializableType, PredefinedConstants.BROWSABLE_ATT, "true");
+                             AttributeUtil.setAttribute(serializableType, PredefinedConstants.BROWSABLE_ATT, "true"); //$NON-NLS-1$
                              AttributeUtil.setAttribute(serializableType, PredefinedConstants.CLASS_NAME_ATT, targetTypeName);
                              dataType = serializableType;
                          } else {
@@ -840,17 +840,17 @@ public class JavaScriptInferenceEngine extends InferEngine
                              {
                                 DataType activityInstance = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
                                 activityInstance.setId(PredefinedConstants.ACTIVITY_INSTANCE_ACCESSPOINT);
-                                activityInstance.setName("Activity Instance");
+                                activityInstance.setName("Activity Instance"); //$NON-NLS-1$
                                 activityInstance.setPredefined(true);
                                 DataTypeType serializableDataType = (DataTypeType) ModelUtils.findElementById(model.getDataType(), PredefinedConstants.SERIALIZABLE_DATA);
                                 //(rp) Workaround for CRNT-12167
                                 try {
-                                    Reflect.setFieldValue(activityInstance, "type", serializableDataType);                        	
+                                    Reflect.setFieldValue(activityInstance, "type", serializableDataType);                        	 //$NON-NLS-1$
                                 } catch (Throwable t) {                        	
                                     activityInstance.setType(serializableDataType);
                                 }
                                 //(rp) End of Workaround
-                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.BROWSABLE_ATT, "true");
+                                AttributeUtil.setAttribute(activityInstance, PredefinedConstants.BROWSABLE_ATT, "true"); //$NON-NLS-1$
                                 AttributeUtil.setAttribute(activityInstance, PredefinedConstants.CLASS_NAME_ATT, ActivityInstance.class.getName());
                                 dataType = activityInstance;
                              }
@@ -875,7 +875,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                             ((StructAccessPointType) accessPoint).setId(targetTypeName);
                             ((StructAccessPointType) accessPoint)
                                   .setType((DataTypeType) ModelUtils.findIdentifiableElement(
-                                        model.getDataType(), "struct"));                        
+                                        model.getDataType(), "struct"));                         //$NON-NLS-1$
                          }
                          inferredIppAccessPointsByType.put(targetTypeName, accessPoint);
                       }
@@ -914,7 +914,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                          }
                          else
                          {
-                            localDeclaration.setInferredType(derefPaths.get("/"));
+                            localDeclaration.setInferredType(derefPaths.get("/")); //$NON-NLS-1$
                          }
                          inferredIppVariables.put(String.valueOf(localDeclaration.getName()),
                                accessPoint);
@@ -1022,12 +1022,12 @@ public class JavaScriptInferenceEngine extends InferEngine
          String entry = (String) stack.pop();
          if(xPath.length() == 0)
          {
-            xPath.insert(0, "/");               
+            xPath.insert(0, "/");                //$NON-NLS-1$
             xPath.append(entry);
          }
          else
          {
-            xPath.append("/");
+            xPath.append("/"); //$NON-NLS-1$
             xPath.append(entry);            
          }         
       }
@@ -1042,7 +1042,7 @@ public class JavaScriptInferenceEngine extends InferEngine
          if (receiver instanceof FieldReference)
          {
             xPath.insert(0, String.valueOf(((FieldReference) receiver).token));
-            xPath.insert(0, "/");
+            xPath.insert(0, "/"); //$NON-NLS-1$
 
             receiver = ((FieldReference) receiver).receiver;
          }
@@ -1053,14 +1053,14 @@ public class JavaScriptInferenceEngine extends InferEngine
       }
       while ((receiver instanceof FieldReference) || (receiver instanceof ArrayReference));
 
-      return (0 < xPath.length()) ? xPath.toString() : "/";
+      return (0 < xPath.length()) ? xPath.toString() : "/"; //$NON-NLS-1$
    }  
 
 
 
 synchronized private String findParentXPath(String xPath)
    {
-      int posSeparator = xPath.lastIndexOf("/");
+      int posSeparator = xPath.lastIndexOf("/"); //$NON-NLS-1$
 
       if (0 < posSeparator)
       {
@@ -1068,7 +1068,7 @@ synchronized private String findParentXPath(String xPath)
       }
       else
       {
-         return "/";
+         return "/"; //$NON-NLS-1$
       }
    }
 
@@ -1079,7 +1079,7 @@ synchronized private String findParentXPath(String xPath)
             || type.equals(Type.Timestamp.getId()))
       {
          // JavaScript has already a Date type
-         inferredType = addType("Date".toCharArray());
+         inferredType = addType("Date".toCharArray()); //$NON-NLS-1$
       }      
       if (type.equals(Type.String.getId()) 
             || type.equals(Type.Char.getId()) 
@@ -1110,26 +1110,26 @@ synchronized private String findParentXPath(String xPath)
       {
          inferredType = BooleanType;
       }
-      else if (type.equals("void")
+      else if (type.equals("void") //$NON-NLS-1$
             || type.equals(Void.class.getName()))
       {
          inferredType = VoidType;
       }
       else if (type.equals(Object.class.getName())
-            || type.equals("java.lang.Class<java.lang.Object>"))
+            || type.equals("java.lang.Class<java.lang.Object>")) //$NON-NLS-1$
       {
          inferredType = ObjectType;         
       }  
-      else if (type.endsWith("[]") && (className != null))
+      else if (type.endsWith("[]") && (className != null)) //$NON-NLS-1$
       {
           InferredType myType = null;            
           String fullQualifiedName = getFullQualifiedName(type, className);
           if (fullQualifiedName != null) {
-              fullQualifiedName = fullQualifiedName.replace("[]", "");
-              if (xPath.startsWith("/")) {
+              fullQualifiedName = fullQualifiedName.replace("[]", ""); //$NON-NLS-1$ //$NON-NLS-2$
+              if (xPath.startsWith("/")) { //$NON-NLS-1$
             	  xPath = xPath.substring(1, xPath.length());  
               }
-              arrayMap.put(xPath, "true");
+              arrayMap.put(xPath, "true"); //$NON-NLS-1$
               myType = addType(fullQualifiedName.toCharArray());
               myType.isDefinition = true;
               myType.isAnonymous = false;
@@ -1227,7 +1227,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
    
    synchronized public String getMethodName(MethodInfo methodInfo)
    {
-      return methodInfo.getLabel().substring(0, methodInfo.getLabel().indexOf("("));
+      return methodInfo.getLabel().substring(0, methodInfo.getLabel().indexOf("(")); //$NON-NLS-1$
    }   
    
    synchronized private JSAssignment buildAssignment(Assignment assignment) {

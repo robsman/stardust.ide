@@ -45,7 +45,7 @@ public class JSInferredType extends InferredType
                        this.numberAttributes );
                        this.attributes [this.numberAttributes  ++] = attribute;
    
-           HashtableOfObject htoo = (HashtableOfObject) Reflect.getFieldValue(this,"attributesHash");
+           HashtableOfObject htoo = (HashtableOfObject) Reflect.getFieldValue(this,"attributesHash"); //$NON-NLS-1$
            htoo.put(name, attribute);           
            if( !isAnonymous )
                this.updatePositions(definer.sourceStart, definer.sourceEnd);

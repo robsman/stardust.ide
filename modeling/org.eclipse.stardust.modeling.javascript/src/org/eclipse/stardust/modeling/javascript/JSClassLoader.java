@@ -19,12 +19,12 @@ import org.eclipse.jdt.launching.JavaRuntime;
 
 public class JSClassLoader extends ClassLoader {
 	private IJavaProject javaProject;
-	private static final String PROTOCAL_PREFIX = "file:///";
+	private static final String PROTOCAL_PREFIX = "file:///"; //$NON-NLS-1$
 
 	public JSClassLoader(IJavaProject project) {
 		super();
 		if (project == null || !project.exists() || !project.isOpen())
-			throw new IllegalArgumentException("Invalid javaProject");
+			throw new IllegalArgumentException("Invalid javaProject"); //$NON-NLS-1$
 		this.javaProject = project;
 	}
 
@@ -46,10 +46,10 @@ public class JSClassLoader extends ClassLoader {
 	}
 
 	private static String computeForURLClassLoader(String classpath) {
-		if (!classpath.endsWith("/")) {
+		if (!classpath.endsWith("/")) { //$NON-NLS-1$
 			File file = new File(classpath);
 			if (file.exists() && file.isDirectory())
-				classpath = classpath.concat("/");
+				classpath = classpath.concat("/"); //$NON-NLS-1$
 		}
 		return classpath;
 	}

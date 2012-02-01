@@ -29,7 +29,7 @@ public class JavaScriptInferenceProvider implements InferrenceProvider
   }
 
   public String getID() {
-      return "JavaScriptInferrenceProvider";
+      return "JavaScriptInferrenceProvider"; //$NON-NLS-1$
   }
 
   public InferEngine getInferEngine() {

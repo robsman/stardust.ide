@@ -52,17 +52,17 @@ public class JSCompletionOnMemberAccess extends CompletionOnMemberAccess{
 
    public TypeBinding resolveType(BlockScope scope) {
          String key = this.receiver.toString();
-         key = key.replaceAll("\\[[^\\]]*\\]|\\..*/", "");
+         key = key.replaceAll("\\[[^\\]]*\\]|\\..*/", ""); //$NON-NLS-1$ //$NON-NLS-2$
          key = key.substring(key.indexOf('.') + 1, key.length());         
-         key = key.replace(".", "/");
-         key = key.replace("(", "");
-         key = key.replace(")", "");
+         key = key.replace(".", "/"); //$NON-NLS-1$ //$NON-NLS-2$
+         key = key.replace("(", ""); //$NON-NLS-1$ //$NON-NLS-2$
+         key = key.replace(")", ""); //$NON-NLS-1$ //$NON-NLS-2$
          Object value = arrayMap.get(key);
          if (this.receiver instanceof ArrayReference) {             
             ArrayReference arref = (ArrayReference)this.receiver;               
             this.receiver = arref.receiver;      
          } else {
-            if (value != null && value.toString().equalsIgnoreCase("true")) {
+            if (value != null && value.toString().equalsIgnoreCase("true")) { //$NON-NLS-1$
                CompilationUnitScope superScope = (CompilationUnitScope) this.getRootScope(scope);
                receiverType = superScope.getJavaLangArray();                           
             }             
