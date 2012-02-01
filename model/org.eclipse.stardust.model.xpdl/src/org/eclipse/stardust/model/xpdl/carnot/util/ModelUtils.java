@@ -52,6 +52,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -81,8 +82,10 @@ import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
@@ -400,7 +403,7 @@ public class ModelUtils
    {
       if (normalizeCrLf)
       {
-         description = StringUtils.replace(description, "\r\n", "\n");
+         description = StringUtils.replace(description, "\r\n", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
       }
 
       // clean up any pending previous non-CDATA content (i.e. from XPDL load)
@@ -729,7 +732,7 @@ public class ModelUtils
          {
             try
             {
-               return (IDataInitializer) config.createExecutableExtension("initializerClass");
+               return (IDataInitializer) config.createExecutableExtension("initializerClass"); //$NON-NLS-1$
             }
             catch (CoreException e)
             {
@@ -946,14 +949,14 @@ public class ModelUtils
       IConfigurationElement config = SpiExtensionRegistry.getConfiguration(extensible);
       if (config != null)
       {
-         IConfigurationElement[] refs = config.getChildren("reference");
+         IConfigurationElement[] refs = config.getChildren("reference"); //$NON-NLS-1$
          for (IConfigurationElement ref : refs)
          {
             AttributeType attribute = AttributeUtil.getAttribute(extensible,
-                  ref.getAttribute("attributeName"));
+                  ref.getAttribute("attributeName")); //$NON-NLS-1$
             if (attribute != null)
             {
-               String scopeList = ref.getAttribute("scope");
+               String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
                setReference(attribute, model, scopeList);
             }
          }
@@ -961,10 +964,10 @@ public class ModelUtils
       
       // resolve permissions
       // TODO: make permissions a first class element
-      IAttributeCategory category = AttributeUtil.createAttributeCategory(extensible, "authorization");
+      IAttributeCategory category = AttributeUtil.createAttributeCategory(extensible, "authorization"); //$NON-NLS-1$
       for (AttributeType attribute : category.getAttributes())
       {
-         setReference(attribute, model, "role+organization");
+         setReference(attribute, model, "role+organization"); //$NON-NLS-1$
       }
       
       for (Object item : extensible.eContents())
@@ -980,11 +983,11 @@ public class ModelUtils
          String scopeList)
    {
       String id = attribute.getValue();
-      StringTokenizer st = new StringTokenizer(scopeList, "+");
+      StringTokenizer st = new StringTokenizer(scopeList, "+"); //$NON-NLS-1$
       while (st.hasMoreTokens())
       {
          String scope = st.nextToken();
-         if ("struct".equals(scope))
+         if ("struct".equals(scope)) //$NON-NLS-1$
          {
             // special case of a reference to a structured type
             TypeDeclarationsType declarations = model.getTypeDeclarations();
@@ -1037,12 +1040,12 @@ public class ModelUtils
       String modelXmlEncoding = getXmlEncoding(modelString);
 
       CarnotWorkflowModelResourceImpl resource = new CarnotWorkflowModelResourceImpl(
-            URI.createURI("http://only/a/dummy/URI"));
+            URI.createURI("http://only/a/dummy/URI")); //$NON-NLS-1$
       ResourceSetImpl resourceSet = new ResourceSetImpl();
       resourceSet.getResources().add(resource);
 
       Map<String, Object> options = CollectionUtils.newMap();
-      options.put("RECORD_UNKNOWN_FEATURE", Boolean.TRUE);
+      options.put("RECORD_UNKNOWN_FEATURE", Boolean.TRUE); //$NON-NLS-1$
       try
       {
          resource.load(new ByteArrayInputStream(modelString.getBytes(modelXmlEncoding)), options);
@@ -1062,14 +1065,14 @@ public class ModelUtils
          }
       }
 
-      throw new RuntimeException("Could not load the model (DocumentRoot not found).");
+      throw new RuntimeException(Model_Messages.EXC_COULD_NOT_LOAD_MODEL_DOC_ROOT_NOT_FOUND);
    }
    
    private static String getXmlEncoding(String text)
    {
-      String pattern = "encoding=\"";
+      String pattern = "encoding=\""; //$NON-NLS-1$
       int offset = text.indexOf(pattern) + pattern.length();
-      int pos = text.indexOf("\"", offset);
+      int pos = text.indexOf("\"", offset); //$NON-NLS-1$
       return text.substring(offset, pos);
    }
    
@@ -1181,7 +1184,7 @@ public class ModelUtils
          {
             ExternalPackage externalPackage = i.next();
             ExtendedAttributeType attribute = ExtendedAttributeUtil.getAttribute(
-                  externalPackage.getExtendedAttributes(), "carnot:connection:uri");
+                  externalPackage.getExtendedAttributes(), "carnot:connection:uri"); //$NON-NLS-1$
             if (attribute != null && attribute.getValue() != null)
             {
                result.add(attribute.getValue());
@@ -1203,7 +1206,7 @@ public class ModelUtils
             Object aObject = model.getConnectionManager().find(aUri);
             if (aObject != null)
             {
-               ModelType aModel = (ModelType) Reflect.getFieldValue(aObject, "eObject");
+               ModelType aModel = (ModelType) Reflect.getFieldValue(aObject, "eObject"); //$NON-NLS-1$
                if (aModel.getId().equalsIgnoreCase(refModel.getId()))
                {
                   return true;
@@ -1218,7 +1221,7 @@ public class ModelUtils
    {
       EObject o = model.getConnectionManager().find(uri);
       ModelType refModel = null;
-      Object refObject = Reflect.getFieldValue(o, "eObject");
+      Object refObject = Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
       if (refObject != null && refObject instanceof ModelType)
       {
          refModel = (ModelType) refObject;
@@ -1502,5 +1505,74 @@ public class ModelUtils
          }
       }
       return result;
+   }
+   
+   public static String getActivityImplementationTypeText(
+         ActivityImplementationType implementation)
+   {
+      switch (implementation)
+      {
+      case MANUAL_LITERAL:
+         return Model_Messages.MANUAL_ACTIVITY;
+
+      case ROUTE_LITERAL:
+         return Model_Messages.ROUTE_ACTIVITY;
+
+      case APPLICATION_LITERAL:
+         return Model_Messages.APPLICATION_ACTIVITY;
+
+      case SUBPROCESS_LITERAL:
+         return Model_Messages.SUBPROCESS_ACTIVITY;
+      }
+      return ""; //$NON-NLS-1$
+   }
+
+   public static String getSubprocessModeTypeText(SubProcessModeType modeType)
+   {
+      switch (modeType)
+      {
+      case SYNC_SHARED_LITERAL:
+         return Model_Messages.SYNC_SHARED;
+
+      case SYNC_SEPARATE_LITERAL:
+         return Model_Messages.SYNC_SEPARATE;
+
+      case ASYNC_SEPARATE_LITERAL:
+         return Model_Messages.ASYNC_SEPARATE;
+      }
+      return ""; //$NON-NLS-1$
+   }
+
+   public static String getFlowTypeText(String literal)
+   {
+      if (literal.equals("AND")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_AND;
+      }
+      if (literal.equals("XOR")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_XOR;
+      }
+      if (literal.equals("None")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_NONE;
+      }
+      if (literal.equals("No Loop")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_NOLOOP;
+      }
+      if (literal.equals("Repeat")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_REPEAT;
+      }
+      if (literal.equals("While")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_WHILE;
+      }
+      if (literal.equals("Unknown")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_UNKNOWN;
+      }
+      return literal;
    }
 }
