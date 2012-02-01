@@ -36,7 +36,8 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.project.Constants;
-import org.eclipse.stardust.modeling.project.i18n.Messages;
+import org.eclipse.stardust.modeling.project.Project_Messages;
+
 
 public class EffortParameters extends EffortNotifier
 {
@@ -127,144 +128,144 @@ public class EffortParameters extends EffortNotifier
    {
       // Parameters for models
       MODEL_SCOPE.addParameter(new EffortByKeyParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.ApplicationServerParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.ApplicationServerParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.WeblogicKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.WebSphereKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.JBossKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.NetWeaverKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.WeblogicKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.WebSphereKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.JBossKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.NetWeaverKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0, 1.0}));
       MODEL_SCOPE.addParameter(new EffortByKeyParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.DBMSParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.DBMSParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.OracleKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.SqlServerKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MySqlKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.OracleKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.SqlServerKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MySqlKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
       MODEL_SCOPE.addParameter(new EffortByKeyParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.DirectoryServiceParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.DirectoryServiceParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.LDAPKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.ActiveDirectoryKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LDAPKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.ActiveDirectoryKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0}));
       MODEL_SCOPE.addParameter(new EffortByKeyParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.PortalTechnologyParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.PortalTechnologyParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.SWTKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.SwingKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.JSFKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.JSPKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.DotNetKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.OtherPortalKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.SWTKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.SwingKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.JSFKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.JSPKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.DotNetKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.OtherPortalKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0}));
       MODEL_SCOPE.addParameter(new EffortByQuantityParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.HighComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.HighComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
       MODEL_SCOPE.addParameter(new EffortByQuantityParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.MediumComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.MediumComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
       MODEL_SCOPE.addParameter(new EffortByQuantityParameter(MODEL_SCOPE,
-            Messages.getString("EffortParameters.LowComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.LowComplexityReportsParameter"), 1.0)); //$NON-NLS-1$
 
       // Parameters for processes
       PROCESS_SCOPE.addParameter(new EffortByKeyParameter(PROCESS_SCOPE,
-            Messages.getString("EffortParameters.RemainingModelingComplexityParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.RemainingModelingComplexityParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.WellDefinedKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.ComplexKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.SimpleKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.WellDefinedKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.ComplexKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.SimpleKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0, 1.0}));
 
       // Parameters for activities
       ACTIVITY_SCOPE.addParameter(new EffortByKeyParameter(ACTIVITY_SCOPE,
-            Messages.getString("EffortParameters.SubprocessRefinementParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.SubprocessRefinementParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.NoRefinementKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.HighComplexityRefinementKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumComplexityRefinementKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LowComplexityRefinementKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.NoRefinementKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.HighComplexityRefinementKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumComplexityRefinementKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LowComplexityRefinementKey")}, //$NON-NLS-1$
             new double[] {0.0, 3.0, 2.0, 1.0}));
 
       // Parameters for transition
       TRANSITION_SCOPE.addParameter(new EffortByKeyParameter(TRANSITION_SCOPE,
-            Messages.getString("EffortParameters.TransitionTypeParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.TransitionTypeParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.ExpressionOnProcessDataKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.ComplexOrAuxillaryLogicKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.ExpressionOnProcessDataKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.ComplexOrAuxillaryLogicKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0}));
       TRANSITION_SCOPE.addParameter(new EffortByKeyParameter(TRANSITION_SCOPE,
-            Messages.getString("EffortParameters.TransitionComplexityParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.TransitionComplexityParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
 
       // Parameters for data
       List<String> dataTechnologies = collectDataTechnologies();
-      dataTechnologies.add(Messages.getString("EffortParameters.NewDevelopmentKey")); //$NON-NLS-1$
+      dataTechnologies.add(Project_Messages.getString("EffortParameters.NewDevelopmentKey")); //$NON-NLS-1$
       DATA_SCOPE.addParameter(new EffortByKeyParameter(DATA_SCOPE,
-            Messages.getString("EffortParameters.DataTechnologyParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.DataTechnologyParameter"), //$NON-NLS-1$
             (String[]) dataTechnologies.toArray(new String[dataTechnologies.size()]),
             createDoubleArray(dataTechnologies.size(), 1.0)));
       DATA_SCOPE.addParameter(new EffortByKeyParameter(DATA_SCOPE,
-            Messages.getString("EffortParameters.DataDevelopmentParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.DataDevelopmentParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.LinkToDBMSKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LinkToOtherKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.NewDataModelKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LinkToDBMSKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LinkToOtherKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.NewDataModelKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
 
       // Parameters for Interactive Application
       INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.ImplementationParameter"), //$NON-NLS-1$
-            new String[] {Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.ImplementationParameter"), //$NON-NLS-1$
+            new String[] {Project_Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
             new double[] {1.0}));
       INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.ComplexityParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.ComplexityParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
 
       // Parameters for Non-Interactive Application
       NON_INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(NON_INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.TechnologyParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.TechnologyParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.ToDoKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.NewDevelopmentKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.ToDoKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.NewDevelopmentKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0}));
       NON_INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(NON_INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.QualityAvailableDocumentationParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.QualityAvailableDocumentationParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
       NON_INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(NON_INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.TechnologyParameter"), //$NON-NLS-1$
-            new String[] {Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.TechnologyParameter"), //$NON-NLS-1$
+            new String[] {Project_Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
             new double[] {1.0}));
       NON_INTERACTIVE_APPLICATION_SCOPE.addParameter(new EffortByKeyParameter(NON_INTERACTIVE_APPLICATION_SCOPE,
-            Messages.getString("EffortParameters.ComplexityParameter"), //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.ComplexityParameter"), //$NON-NLS-1$
             new String[] {
-                  Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
-                  Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.HighKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.MediumKey"), //$NON-NLS-1$
+                  Project_Messages.getString("EffortParameters.LowKey")}, //$NON-NLS-1$
             new double[] {1.0, 1.0, 1.0}));
 
       // Parameters for Participants
       CONDITIONAL_PERFORMER_SCOPE.addParameter(new EffortByKeyParameter(CONDITIONAL_PERFORMER_SCOPE,
-            Messages.getString("EffortParameters.PerformerComplexityParameter"), //$NON-NLS-1$
-            new String[] {Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.PerformerComplexityParameter"), //$NON-NLS-1$
+            new String[] {Project_Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
             new double[] {1.0}));
       ROLE_SCOPE.addParameter(new EffortByKeyParameter(ROLE_SCOPE,
-            Messages.getString("EffortParameters.RoleComplexityParameter"), //$NON-NLS-1$
-            new String[] {Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.RoleComplexityParameter"), //$NON-NLS-1$
+            new String[] {Project_Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
             new double[] {1.0}));
       ORGANIZATION_SCOPE.addParameter(new EffortByKeyParameter(ORGANIZATION_SCOPE,
-            Messages.getString("EffortParameters.OrganizationComplexityParameter"), //$NON-NLS-1$
-            new String[] {Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
+            Project_Messages.getString("EffortParameters.OrganizationComplexityParameter"), //$NON-NLS-1$
+            new String[] {Project_Messages.getString("EffortParameters.ToDoKey")}, //$NON-NLS-1$
             new double[] {1.0}));
    }
 
@@ -298,11 +299,11 @@ public class EffortParameters extends EffortNotifier
       {
          if (category.getId().startsWith(Constants.EFFORT_PARAMETER))
          {
-            String scopeClassName = getAttribute(category, "scope");
-            String filter = getAttribute(category, "filter");
-            String typeName = getAttribute(category, "type");
-            String name = getAttribute(category, "name");
-            String initializers = getAttribute(category, "initializers");
+            String scopeClassName = getAttribute(category, "scope"); //$NON-NLS-1$
+            String filter = getAttribute(category, "filter"); //$NON-NLS-1$
+            String typeName = getAttribute(category, "type"); //$NON-NLS-1$
+            String name = getAttribute(category, "name"); //$NON-NLS-1$
+            String initializers = getAttribute(category, "initializers"); //$NON-NLS-1$
             try
             {
                Class<?> scopeClass = Class.forName(scopeClassName);
@@ -310,12 +311,12 @@ public class EffortParameters extends EffortNotifier
                if (scope != null)
                {
                   EffortParameter parameter = null;
-                  if ("org.eclipse.stardust.modeling.project.effort.EffortByKeyParameter"
+                  if ("org.eclipse.stardust.modeling.project.effort.EffortByKeyParameter" //$NON-NLS-1$
                         .equals(typeName))
                   {
                      parameter = new EffortByKeyParameter(scope, name, initializers);
                   }
-                  if ("org.eclipse.stardust.modeling.project.effort.EffortByQuantityParameter"
+                  if ("org.eclipse.stardust.modeling.project.effort.EffortByQuantityParameter" //$NON-NLS-1$
                         .equals(typeName))
                   {
                      parameter = new EffortByQuantityParameter(scope, name, initializers);
@@ -335,7 +336,7 @@ public class EffortParameters extends EffortNotifier
       }
       loading = false;
       modified = false;
-      notifyListeners(new EffortEvent(this, "scopes", null, null));
+      notifyListeners(new EffortEvent(this, "scopes", null, null)); //$NON-NLS-1$
    }
 
    public void saveToModel()
