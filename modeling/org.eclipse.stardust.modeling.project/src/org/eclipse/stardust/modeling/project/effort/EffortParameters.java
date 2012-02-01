@@ -362,11 +362,11 @@ public class EffortParameters extends EffortNotifier
             EffortParameter parameter = scope.getParameter(name);
             IAttributeCategory category = planningCat
                   .createAttributeCategory(Constants.EFFORT_PARAMETER + "[" + n++ + "]"); //$NON-NLS-1$ //$NON-NLS-2$
-            setAttribute(category, "scope", scope.getScopeClass().getName());
-            setAttribute(category, "filter", scope.getFilter());
-            setAttribute(category, "type", parameter.getClass().getName());
-            setAttribute(category, "name", name);
-            setAttribute(category, "initializers", parameter.getInitializers());
+            setAttribute(category, "scope", scope.getScopeClass().getName()); //$NON-NLS-1$
+            setAttribute(category, "filter", scope.getFilter()); //$NON-NLS-1$
+            setAttribute(category, "type", parameter.getClass().getName()); //$NON-NLS-1$
+            setAttribute(category, "name", name); //$NON-NLS-1$
+            setAttribute(category, "initializers", parameter.getInitializers()); //$NON-NLS-1$
          }
       }
       // remove change notifier if set
@@ -481,7 +481,7 @@ public class EffortParameters extends EffortNotifier
       if (!loading)
       {
          modified = true;
-         AttributeUtil.setAttribute(model, Constants.NOTIFIER, "dummy");
+         AttributeUtil.setAttribute(model, Constants.NOTIFIER, "dummy"); //$NON-NLS-1$
       }
    }
 

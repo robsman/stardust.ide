@@ -14,7 +14,7 @@ public final class Constants
 {
    public static final String SCOPE = "project-planning"; //$NON-NLS-1$
    public static final String EFFORT_PARAMETER = "effortParameter"; //$NON-NLS-1$
-   public static final String NOTIFIER = SCOPE + ":notifier";
+   public static final String NOTIFIER = SCOPE + ":notifier"; //$NON-NLS-1$
     
    private Constants() {}
 }

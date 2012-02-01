@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.project.effort;
 
-import org.eclipse.stardust.modeling.project.i18n.Messages;
+import org.eclipse.stardust.modeling.project.Project_Messages;
 
 public class EffortEntry
 {
@@ -64,6 +64,6 @@ public class EffortEntry
     
     public String getSimpleName()
     {
-       return Messages.getString(getScope().getSimpleName());
+       return Project_Messages.getString(getScope().getSimpleName());
     }
 }

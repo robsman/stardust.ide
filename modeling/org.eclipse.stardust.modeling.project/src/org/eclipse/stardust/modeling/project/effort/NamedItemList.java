@@ -18,8 +18,8 @@ import org.eclipse.stardust.common.CompareHelper;
 
 public abstract class NamedItemList extends EffortNotifier
 {
-   public static final String ADD_PROPERTY = "items.add";
-   public static final String REMOVE_PROPERTY = "items.remove";
+   public static final String ADD_PROPERTY = "items.add"; //$NON-NLS-1$
+   public static final String REMOVE_PROPERTY = "items.remove"; //$NON-NLS-1$
    
    private List<NamedItem> items = CollectionUtils.newList();
    

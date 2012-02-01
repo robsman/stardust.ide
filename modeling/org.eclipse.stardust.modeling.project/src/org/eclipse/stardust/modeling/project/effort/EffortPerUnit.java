@@ -12,17 +12,17 @@ package org.eclipse.stardust.modeling.project.effort;
 
 import java.util.StringTokenizer;
 
-import org.eclipse.stardust.modeling.project.i18n.Messages;
+import org.eclipse.stardust.modeling.project.Project_Messages;
 
 
 public class EffortPerUnit extends EffortNotifier
 {
     public static final String[] DEFAULT_LABELS = {
-       Messages.getString("EffortPerUnit.DefineColumnLabel"), //$NON-NLS-1$
-       Messages.getString("EffortPerUnit.DesignColumnLabel"), //$NON-NLS-1$
-       Messages.getString("EffortPerUnit.ImplementationColumnLabel"), //$NON-NLS-1$
-       Messages.getString("EffortPerUnit.ValidationColumnLabel"), //$NON-NLS-1$
-       Messages.getString("EffortPerUnit.RolloutColumnLabel") //$NON-NLS-1$
+       Project_Messages.getString("EffortPerUnit.DefineColumnLabel"), //$NON-NLS-1$
+       Project_Messages.getString("EffortPerUnit.DesignColumnLabel"), //$NON-NLS-1$
+       Project_Messages.getString("EffortPerUnit.ImplementationColumnLabel"), //$NON-NLS-1$
+       Project_Messages.getString("EffortPerUnit.ValidationColumnLabel"), //$NON-NLS-1$
+       Project_Messages.getString("EffortPerUnit.RolloutColumnLabel") //$NON-NLS-1$
     };
     
     private double[] values;

@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.modeling.project.i18n.Messages;
+import org.eclipse.stardust.modeling.project.Project_Messages;
 
 public final class EffortParameterScope extends NamedItemList implements NamedItem
 {
@@ -47,11 +47,11 @@ public final class EffortParameterScope extends NamedItemList implements NamedIt
    {
       // TODO keep in sync with the declarations
       ApplicationType app = (ApplicationType) target;
-      if ("Interactive".equals(filter))
+      if ("Interactive".equals(filter)) //$NON-NLS-1$
       {
          return app.isInteractive();
       }
-      if ("Service".equals(filter))
+      if ("Service".equals(filter)) //$NON-NLS-1$
       {
          return !app.isInteractive();
       }
@@ -70,7 +70,7 @@ public final class EffortParameterScope extends NamedItemList implements NamedIt
 
    public String getDisplayName()
    {
-      return Messages.getString(getName());
+      return Project_Messages.getString(getName());
    }
 
    public String toString()

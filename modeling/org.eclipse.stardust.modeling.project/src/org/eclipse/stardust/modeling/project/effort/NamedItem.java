@@ -12,7 +12,7 @@ package org.eclipse.stardust.modeling.project.effort;
 
 public interface NamedItem
 {
-   final String NAME_PROPERTY = "name";
+   final String NAME_PROPERTY = "name"; //$NON-NLS-1$
    
    String getName();
    

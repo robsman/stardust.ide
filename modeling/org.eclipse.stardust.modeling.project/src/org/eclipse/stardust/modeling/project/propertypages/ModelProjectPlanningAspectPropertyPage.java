@@ -50,6 +50,7 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Verifier;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.stardust.modeling.project.ProjectPlanningAspectPlugin;
+import org.eclipse.stardust.modeling.project.Project_Messages;
 import org.eclipse.stardust.modeling.project.effort.EffortByKeyParameter;
 import org.eclipse.stardust.modeling.project.effort.EffortByQuantityParameter;
 import org.eclipse.stardust.modeling.project.effort.EffortCalculator;
@@ -61,7 +62,6 @@ import org.eclipse.stardust.modeling.project.effort.EffortParameter;
 import org.eclipse.stardust.modeling.project.effort.EffortParameterScope;
 import org.eclipse.stardust.modeling.project.effort.EffortParameters;
 import org.eclipse.stardust.modeling.project.effort.EffortPerUnit;
-import org.eclipse.stardust.modeling.project.i18n.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceAdapter;
@@ -113,12 +113,12 @@ public class ModelProjectPlanningAspectPropertyPage
    private static final String TR = "tr"; //$NON-NLS-1$
    private static final String H1 = "h1"; //$NON-NLS-1$
 
-   private static final String PARAMETER_LABEL = Messages.getString("PropertyPage.ParameterColumnLabel"); //$NON-NLS-1$
+   private static final String PARAMETER_LABEL = Project_Messages.getString("PropertyPage.ParameterColumnLabel"); //$NON-NLS-1$
    private static final String[] EFFORT_LABELS = {
-      Messages.getString("PropertyPage.ScopeColumnLabel"), //$NON-NLS-1$
-      Messages.getString("PropertyPage.ObjectColumnLabel"), //$NON-NLS-1$
-      Messages.getString("PropertyPage.DriverColumnLabel"), //$NON-NLS-1$
-      Messages.getString("PropertyPage.ValueColumnLabel")}; //$NON-NLS-1$
+      Project_Messages.getString("PropertyPage.ScopeColumnLabel"), //$NON-NLS-1$
+      Project_Messages.getString("PropertyPage.ObjectColumnLabel"), //$NON-NLS-1$
+      Project_Messages.getString("PropertyPage.DriverColumnLabel"), //$NON-NLS-1$
+      Project_Messages.getString("PropertyPage.ValueColumnLabel")}; //$NON-NLS-1$
    private static final Verifier verifier = VerifierFactory.doubleVerifier;
 
    private String dragData;
@@ -165,7 +165,7 @@ public class ModelProjectPlanningAspectPropertyPage
    private void createParametersTab(TabFolder tabFolder)
    {
       TabItem parametersTabItem = new TabItem(tabFolder, SWT.NONE);
-      parametersTabItem.setText(Messages.getString("PropertyPage.ParametersTabLabel")); //$NON-NLS-1$
+      parametersTabItem.setText(Project_Messages.getString("PropertyPage.ParametersTabLabel")); //$NON-NLS-1$
       parametersTabItem.setControl(createParameterComposite(tabFolder));
    }
 
@@ -174,10 +174,10 @@ public class ModelProjectPlanningAspectPropertyPage
       Composite composite = FormBuilder.createComposite(tabFolder, 1);
       TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 
-      tabItem.setText(Messages.getString("PropertyPage.EffortTabLabel")); //$NON-NLS-1$
+      tabItem.setText(Project_Messages.getString("PropertyPage.EffortTabLabel")); //$NON-NLS-1$
       tabItem.setControl(composite);
 
-      FormBuilder.createButton(composite, Messages.getString("PropertyPage.CalculateEffortButtonLabel"),	new SelectionListener() //$NON-NLS-1$
+      FormBuilder.createButton(composite, Project_Messages.getString("PropertyPage.CalculateEffortButtonLabel"),	new SelectionListener() //$NON-NLS-1$
       {
          public void widgetDefaultSelected(SelectionEvent e)
          {
@@ -227,7 +227,7 @@ public class ModelProjectPlanningAspectPropertyPage
       Composite composite = FormBuilder.createComposite(tabFolder, 1);
       TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 
-      tabItem.setText(Messages.getString("PropertyPage.CostDriversTabLabel")); //$NON-NLS-1$
+      tabItem.setText(Project_Messages.getString("PropertyPage.CostDriversTabLabel")); //$NON-NLS-1$
       tabItem.setControl(composite);
 
       Tree tree = FormBuilder.createTree(composite,
@@ -352,8 +352,8 @@ public class ModelProjectPlanningAspectPropertyPage
 
       List<String> rows = CollectionUtils.newList();
       String[] columns = new String[2 + EffortPerUnit.DEFAULT_LABELS.length];
-      columns[0] = column(bold(Messages.getString("ModelProjectPlanningAspectPropertyPage.CostDriverExcelColumnLabel"))); //$NON-NLS-1$
-      columns[1] = column(bold(Messages.getString("ModelProjectPlanningAspectPropertyPage.ValueExcelColumnLabel"))); //$NON-NLS-1$
+      columns[0] = column(bold(Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.CostDriverExcelColumnLabel"))); //$NON-NLS-1$
+      columns[1] = column(bold(Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.ValueExcelColumnLabel"))); //$NON-NLS-1$
       for (int i = 0; i < EffortPerUnit.DEFAULT_LABELS.length; i++)
       {
          columns[2 + i] = column(bold(EffortPerUnit.DEFAULT_LABELS[i]));
@@ -377,7 +377,7 @@ public class ModelProjectPlanningAspectPropertyPage
          {
             int colspan = 2 + EffortPerUnit.DEFAULT_LABELS.length;
             String label2 = effortEntry.getName();
-            String label = Messages.getString("ModelProjectPlanningAspectPropertyPage.ExcelEffortLabel") + //$NON-NLS-1$
+            String label = Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.ExcelEffortLabel") + //$NON-NLS-1$
             BLANK + effortEntry.getSimpleName() +
             BLANK + quote(DOUBLE_QUOTE, label2);
             rows.add(row(new String[] {column(colspan, bold(label))}));
@@ -395,14 +395,14 @@ public class ModelProjectPlanningAspectPropertyPage
       }
 
       columns = new String[1 + EffortPerUnit.DEFAULT_LABELS.length];
-      columns[0] = column(2, bold(Messages.getString("ModelProjectPlanningAspectPropertyPage.TotalEffortExcelLabel"))); //$NON-NLS-1$
+      columns[0] = column(2, bold(Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.TotalEffortExcelLabel"))); //$NON-NLS-1$
       for (int i = 0, len = effort.length; i < len; i++)
       {
          columns[1 + i] = column(effort[i], true);
       }
       rows.add(row(columns));
 
-      dragData = title(Messages.getString("ModelProjectPlanningAspectPropertyPage.ExcelTitle")) + table(1, rows); //$NON-NLS-1$
+      dragData = title(Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.ExcelTitle")) + table(1, rows); //$NON-NLS-1$
 
       effortTableViewer.setInput(items);
    }
@@ -548,7 +548,7 @@ public class ModelProjectPlanningAspectPropertyPage
       public CreateEffortKeyAction(TreeViewer treeViewer)
       {
          this.treeViewer = treeViewer;
-         setText(Messages.getString("PropertyPage.NewKeyActionLabel")); //$NON-NLS-1$
+         setText(Project_Messages.getString("PropertyPage.NewKeyActionLabel")); //$NON-NLS-1$
       }
 
       public boolean isEnabled()
@@ -571,7 +571,7 @@ public class ModelProjectPlanningAspectPropertyPage
 
       private void createEffortKey(EffortByKeyParameter parameter)
       {
-         String baseName = Messages.getString("PropertyPage.EffortKeyBaseName"); //$NON-NLS-1$
+         String baseName = Project_Messages.getString("PropertyPage.EffortKeyBaseName"); //$NON-NLS-1$
          int start = parameter.keyCount();
          while (parameter.getKey(baseName + start) != null)
          {
@@ -596,8 +596,8 @@ public class ModelProjectPlanningAspectPropertyPage
       private static final int BY_VALUE_PARAMETER_TYPE = 1;
 
       private static final String[] LABELS = {
-         Messages.getString("PropertyPage.NewByKeyParameterActionLabel"), //$NON-NLS-1$
-         Messages.getString("PropertyPage.NewByQuantityParameterActionLabel") //$NON-NLS-1$
+         Project_Messages.getString("PropertyPage.NewByKeyParameterActionLabel"), //$NON-NLS-1$
+         Project_Messages.getString("PropertyPage.NewByQuantityParameterActionLabel") //$NON-NLS-1$
       };
 
       private TreeViewer treeViewer;
@@ -640,7 +640,7 @@ public class ModelProjectPlanningAspectPropertyPage
       {
          // TODO: label generation algorithm may create duplicate labels
          EffortByKeyParameter parameter = new EffortByKeyParameter(scope,
-               createParameterName(Messages.getString("PropertyPage.ByKeyParameterBaseName"), scope), //$NON-NLS-1$ 
+               createParameterName(Project_Messages.getString("PropertyPage.ByKeyParameterBaseName"), scope), //$NON-NLS-1$ 
                new String[] {}, new double[] {});
          scope.addParameter(parameter);
          treeViewer.refresh(scope);
@@ -649,7 +649,7 @@ public class ModelProjectPlanningAspectPropertyPage
       private void createByValueParameter(EffortParameterScope scope)
       {
          EffortByQuantityParameter parameter = new EffortByQuantityParameter(scope,
-               createParameterName(Messages.getString("PropertyPage.ByValueParameterBaseName"), scope), 1.0); //$NON-NLS-1$ 
+               createParameterName(Project_Messages.getString("PropertyPage.ByValueParameterBaseName"), scope), 1.0); //$NON-NLS-1$ 
          scope.addParameter(parameter);
          treeViewer.refresh(scope);
       }
@@ -677,8 +677,8 @@ public class ModelProjectPlanningAspectPropertyPage
       private static final int EFFORT_KEY_TYPE = 1;
 
       private static final String[] LABELS = {
-         Messages.getString("PropertyPage.DeleteParameterActionLabel"), //$NON-NLS-1$
-         Messages.getString("PropertyPage.DeleteKeyActionLabel") //$NON-NLS-1$
+         Project_Messages.getString("PropertyPage.DeleteParameterActionLabel"), //$NON-NLS-1$
+         Project_Messages.getString("PropertyPage.DeleteKeyActionLabel") //$NON-NLS-1$
       };
 
       private TreeViewer treeViewer;
@@ -849,7 +849,7 @@ public class ModelProjectPlanningAspectPropertyPage
                   double newValue = Double.parseDouble(verifier.getInternalValue((String) value));
                   if (newValue < 0)
                   {
-                     throw new NumberFormatException(Messages.getString("ModelProjectPlanningAspectPropertyPage.NegativeValuesErrorMessage")); //$NON-NLS-1$
+                     throw new NumberFormatException(Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.NegativeValuesErrorMessage")); //$NON-NLS-1$
                   }
                   else
                   {
@@ -861,7 +861,7 @@ public class ModelProjectPlanningAspectPropertyPage
                   IStatus status = new Status(IStatus.ERROR,
                         ProjectPlanningAspectPlugin.getDefault().getBundle().getSymbolicName(),
                         IStatus.ERROR, nfe.getMessage(), nfe);
-                  ErrorDialog.openError(getShell(), Messages.getString("ModelProjectPlanningAspectPropertyPage.ErrorDialogTitle"), Messages.getString("ModelProjectPlanningAspectPropertyPage.ErrorDialogText"), status); //$NON-NLS-1$ //$NON-NLS-2$
+                  ErrorDialog.openError(getShell(), Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.ErrorDialogTitle"), Project_Messages.getString("ModelProjectPlanningAspectPropertyPage.ErrorDialogText"), status); //$NON-NLS-1$ //$NON-NLS-2$
                }
             }
          }
