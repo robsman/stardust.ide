@@ -232,9 +232,9 @@ public class AttributeImpl extends EObjectImpl implements Attribute
          return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (" +Repository_Messages.TXT_NAME + ": "); //$NON-NLS-1$ //$NON-NLS-3$
+      result.append(" (" +Repository_Messages.TXT_NAME + ": "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       result.append(name);
-      result.append(","+ Repository_Messages.TXT_VALUE +": "); //$NON-NLS-1$ //$NON-NLS-3$
+      result.append(","+ Repository_Messages.TXT_VALUE +": "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       result.append(value);
       result.append(')');
       return result.toString();

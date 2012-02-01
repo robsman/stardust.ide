@@ -42,7 +42,7 @@ public class ErrorDialog extends Dialog
 
    protected Control createDialogArea(Composite parent)
    {
-      getShell().setText(Repository_Messages.TXT_ERROR + ":"+ Repository_Messages.TXT_INVALID_CONTAINING_FEATURE); //$NON-NLS-2$
+      getShell().setText(Repository_Messages.TXT_ERROR + ":"+ Repository_Messages.TXT_INVALID_CONTAINING_FEATURE);  //$NON-NLS-1$
       
       Composite composite = (Composite) super.createDialogArea(parent);
       GridData data = (GridData) composite.getLayoutData();
@@ -55,7 +55,7 @@ public class ErrorDialog extends Dialog
             FormBuilder.createLabel(content, createIdLabel(MergeUtils.getId(eObject), eObject.eClass())));
       FormBuilder.createLabel(content, Repository_Messages.LBL_NAME); //$NON-NLS-2$
       String name = MergeUtils.getName(eObject);
-      FormBuilder.createLabel(content, name == null ? "<" +Repository_Messages.LBL_NAME_KLEIN_GESCHRIEBEN + ">" : name); //$NON-NLS-1$ //$NON-NLS-3$
+      FormBuilder.createLabel(content, name == null ? "<" +Repository_Messages.LBL_NAME_KLEIN_GESCHRIEBEN + ">" : name); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
       FormBuilder.createLabel(content, Repository_Messages.LBL_CONTAINER); //$NON-NLS-2$
       EObject container = eObject.eContainer();

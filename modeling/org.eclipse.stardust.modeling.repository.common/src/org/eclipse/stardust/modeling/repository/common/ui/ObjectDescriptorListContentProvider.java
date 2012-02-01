@@ -137,6 +137,6 @@ public class ObjectDescriptorListContentProvider implements ITreeContentProvider
    
    public String toString()
    {
-      return "<"+Repository_Messages.TXT_TYPELESS+">"; //$NON-NLS-1$ //$NON-NLS-3$
+      return "<"+Repository_Messages.TXT_TYPELESS+">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 }
