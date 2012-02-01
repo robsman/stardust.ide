@@ -180,12 +180,12 @@ public class JaxWSOutlineSynchronizer
       }
       Operation op = operation.getOperation();
       
-      checkMappings(op.getInput() == null ? null : op.getInput().getMessage(), "input", DirectionType.IN_LITERAL);
-      checkMappings(op.getOutput() == null ? null : op.getOutput().getMessage(), "output", DirectionType.OUT_LITERAL);
+      checkMappings(op.getInput() == null ? null : op.getInput().getMessage(), "input", DirectionType.IN_LITERAL); //$NON-NLS-1$
+      checkMappings(op.getOutput() == null ? null : op.getOutput().getMessage(), "output", DirectionType.OUT_LITERAL); //$NON-NLS-1$
       for (Iterator<Fault> i = op.getFaults().values().iterator(); i.hasNext();)
       {
          Fault fault = i.next();
-         checkMappings(fault.getMessage(), "fault:" + fault.getName(), DirectionType.OUT_LITERAL);
+         checkMappings(fault.getMessage(), "fault:" + fault.getName(), DirectionType.OUT_LITERAL); //$NON-NLS-1$
       }
       
       for (Iterator<Part> i = xmlParts.iterator(); i.hasNext();)

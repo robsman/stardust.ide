@@ -75,8 +75,8 @@ public class JaxWSResource
       jaxbDefaultMappings.put("boolean", Boolean.class.getName()); //$NON-NLS-1$
       jaxbDefaultMappings.put("byte", Byte.class.getName()); //$NON-NLS-1$
       jaxbDefaultMappings.put("QName", QName.class.getName()); //$NON-NLS-1$
-      jaxbDefaultMappings.put("base64Binary", byte.class.getName() + "[]"); //$NON-NLS-1$
-      jaxbDefaultMappings.put("hexBinary", byte.class.getName() + "[]"); //$NON-NLS-1$
+      jaxbDefaultMappings.put("base64Binary", byte.class.getName() + "[]"); //$NON-NLS-1$ //$NON-NLS-2$
+      jaxbDefaultMappings.put("hexBinary", byte.class.getName() + "[]"); //$NON-NLS-1$ //$NON-NLS-2$
       // optional types
       jaxbDefaultMappings.put("unsignedInt", Long.class.getName()); //$NON-NLS-1$
       jaxbDefaultMappings.put("unsignedShort", Integer.class.getName()); //$NON-NLS-1$

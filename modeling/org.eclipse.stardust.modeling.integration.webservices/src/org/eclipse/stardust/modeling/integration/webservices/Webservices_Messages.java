@@ -79,4 +79,7 @@ public class Webservices_Messages extends NLS
    public static String WebServicePropertyPage_UnknownPartValidationError;
    public static String WebServicePropertyPage_TypeNotFoundForInputPart;
    public static String WebServicePropertyPage_TypeNotFoundForOutputPart;
+   public static String WebServicePropertyPage_WSDL;   
+   public static String WebServicePropertyPage_Generate_Classes;
+   public static String WebServicePropertyPage_Retrieving_WSDL;
 }

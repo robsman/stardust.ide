@@ -76,7 +76,6 @@ import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidation
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
@@ -939,13 +938,15 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                XmlUtils.class.getClassLoader(), project, resource));
          String[] buttons = new String[] {IDialogConstants.CANCEL_LABEL };
          dialog = new MessageDialog(Display.getDefault().getActiveShell(),
-               "WSDL", null, "Retrieving WSDL....",
-               MessageDialog.INFORMATION, buttons, 0) {
-                  protected void buttonPressed(int buttonId)
-                  {
-                     threadMap.put(currentLoader, true);
-                     super.buttonPressed(buttonId);
-                  }
+               Webservices_Messages.WebServicePropertyPage_WSDL, null,
+               Webservices_Messages.WebServicePropertyPage_Retrieving_WSDL,
+               MessageDialog.INFORMATION, buttons, 0)
+         {
+            protected void buttonPressed(int buttonId)
+            {
+               threadMap.put(currentLoader, true);
+               super.buttonPressed(buttonId);
+            }
          };
          currentLoader = new WSDLLoader(resource);
          threadMap.put(currentLoader, false);
@@ -1152,7 +1153,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       IProject project = ModelUtils.getProjectFromEObject(getApplication());
       String resource = wsdlText.getText().getText().trim();
       ProjectClassLoader cl = new ProjectClassLoader(
-            XmlUtils.class.getClassLoader(), project, resource.startsWith("/")
+            XmlUtils.class.getClassLoader(), project, resource.startsWith("/") //$NON-NLS-1$
             ? resource.substring(1) : resource);
       URL url = cl.getResource(resource);
       return url == null ? resource : url.toString();
@@ -1197,7 +1198,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                   public void run()
                   {
                      String message = e.getMessage() == null ? e.toString() : e.getMessage();
-                     ErrorDialog.openError(null, Diagram_Messages.ERR_Error, Diagram_Messages.ERR_CannotLoadWSDLFile,  
+                     ErrorDialog.openError(null, "", "", //$NON-NLS-1$ //$NON-NLS-2$
                         new Status(Status.WARNING, CarnotConstants.DIAGRAM_PLUGIN_ID, 1, message, e));
                   }                  
                  });                

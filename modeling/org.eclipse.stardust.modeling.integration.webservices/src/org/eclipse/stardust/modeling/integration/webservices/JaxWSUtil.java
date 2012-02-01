@@ -154,7 +154,7 @@ public final class JaxWSUtil
       }
       
       AccessPointType ap = null;
-      String name = id+" ("+typeDeclaration.getName()+")";
+      String name = id+" ("+typeDeclaration.getName()+")"; //$NON-NLS-1$ //$NON-NLS-2$
       DataTypeType dataType = ModelUtils.getDataType(application, StructuredDataConstants.STRUCTURED_DATA);
       if (rawAccessPoints != null)
       {

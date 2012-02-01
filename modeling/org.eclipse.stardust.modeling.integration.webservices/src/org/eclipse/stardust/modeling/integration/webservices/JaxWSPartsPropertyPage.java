@@ -192,7 +192,7 @@ public class JaxWSPartsPropertyPage extends
    {
       ((GridLayout) parent.getLayout()).numColumns++;
       Button button = new Button(parent, SWT.PUSH);
-      button.setText("Generate classes...");
+      button.setText(Webservices_Messages.WebServicePropertyPage_Generate_Classes);
       setButtonLayoutData(button);
       button.addSelectionListener(new SelectionListener()
       {
@@ -317,7 +317,7 @@ public class JaxWSPartsPropertyPage extends
 
    private String toJavaClassName(String localPart)
    {
-      return localPart.substring(0, 1).toUpperCase() + localPart.substring(1) + ".java";
+      return localPart.substring(0, 1).toUpperCase() + localPart.substring(1) + ".java"; //$NON-NLS-1$
    }
 
    @SuppressWarnings("unchecked")
@@ -329,7 +329,7 @@ public class JaxWSPartsPropertyPage extends
       for (int i = 0; i < fragments.length; i++)
       {
          ICompilationUnit unit = ((IPackageFragment) fragments[i])
-               .getCompilationUnit("package-info.java");
+               .getCompilationUnit("package-info.java"); //$NON-NLS-1$
          if (unit.exists())
          {
             NormalAnnotation annotation = (NormalAnnotation) JaxWSASTVisitor.getAnnotation(unit, XmlSchema.class);
@@ -338,7 +338,7 @@ public class JaxWSPartsPropertyPage extends
                List<MemberValuePair> values = annotation.values();
                for (MemberValuePair valuePair : values)
                {
-                  if ("namespace".equals(valuePair.getName().toString()))
+                  if ("namespace".equals(valuePair.getName().toString())) //$NON-NLS-1$
                   {
                      ns2pkgs.put(unquote(valuePair.getValue().toString()), (IPackageFragment) fragments[i]);
                      break;
@@ -376,10 +376,10 @@ public class JaxWSPartsPropertyPage extends
       String wsdlLocation = getSynchronizer().getWsdlLocation();
 
       String[] args = new String[] {
-         "-d", location,
-         "-keep",
-         "-Xnocompile",
-         "-extension",
+         "-d", location, //$NON-NLS-1$
+         "-keep", //$NON-NLS-1$
+         "-Xnocompile", //$NON-NLS-1$
+         "-extension", //$NON-NLS-1$
          wsdlLocation
       };
 

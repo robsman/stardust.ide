@@ -72,18 +72,18 @@ public class QNameLabelProvider extends LabelProvider
                }
                else
                {
-                  return name + "(:none," + outputName + ")";
+                  return name + "(:none," + outputName + ")"; //$NON-NLS-1$ //$NON-NLS-2$
                }
             }
             else
             {
                if (outputName == null)
                {
-                  return name + "(" + inputName + ",:none)";
+                  return name + "(" + inputName + ",:none)"; //$NON-NLS-1$ //$NON-NLS-2$
                }
                else
                {
-                  return name + "(" + inputName + "," + outputName + ")";
+                  return name + "(" + inputName + "," + outputName + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                }
             }
          }
