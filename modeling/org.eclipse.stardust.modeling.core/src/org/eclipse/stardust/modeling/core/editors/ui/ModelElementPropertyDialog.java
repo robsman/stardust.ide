@@ -54,6 +54,7 @@ import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.util.IConnection;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
@@ -230,8 +231,11 @@ public class ModelElementPropertyDialog extends PreferenceDialog
             executeCommands();
             if (!(getCurrentPage() instanceof VariablesConfigurationPage))
             {
-               VariableContextHelper.getInstance().getContext(editor.getWorkflowModel())
-                     .refreshVariables(editor.getWorkflowModel());
+               VariableContext context = VariableContextHelper.getInstance().getContext(editor.getWorkflowModel());
+               if(context != null)
+               {
+                  context.refreshVariables(editor.getWorkflowModel());
+               }
             }
          }
       }
@@ -272,8 +276,11 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       notifyPages(false);
       if (!(getCurrentPage() instanceof VariablesConfigurationPage))
       {
-         VariableContextHelper.getInstance().getContext(editor.getWorkflowModel())
-               .refreshVariables(editor.getWorkflowModel());
+         VariableContext context = VariableContextHelper.getInstance().getContext(editor.getWorkflowModel());
+         if(context != null)
+         {
+            context.refreshVariables(editor.getWorkflowModel());
+         }
       }
    }
 
