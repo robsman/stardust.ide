@@ -340,7 +340,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
          ModelVariable modelVariable = i.next();
          if (!modelVariable.isRemoved())
          {
-            if (modelVariable.getName().equalsIgnoreCase(Diagram_Messages.CONFIGURATION_VARIABLE_NEW));
+            if (modelVariable.getName().equalsIgnoreCase(Diagram_Messages.CONFIGURATION_VARIABLE_NEW))
             {
                provideError(Diagram_Messages.PROVIDE_ERROR_PROVIDE_A_VALID_NAME_FOR_NEW_VARIABLE, false);
             }
