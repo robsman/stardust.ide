@@ -21,7 +21,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
-import org.eclipse.stardust.modeling.model.i18n.Messages;
+import org.eclipse.stardust.modeling.model.i18n.I18N_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -49,7 +49,7 @@ public class I18NBundlesModelPropertyPage extends AbstractModelElementPropertyPa
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
-      FormBuilder.createLabel(composite, Messages.I18NBundlesPropertyPage_Bundle_Basename_Label);
+      FormBuilder.createLabel(composite, I18N_Messages.I18NBundlesPropertyPage_Bundle_Basename_Label);
       if (getModelElement() instanceof ModelType)
       {
          baseNameText = FormBuilder.createText(composite);
@@ -100,7 +100,7 @@ public class I18NBundlesModelPropertyPage extends AbstractModelElementPropertyPa
    public void contributeButtons(Composite parent)
    {
       ((GridLayout) parent.getLayout()).numColumns++;
-      deleteButton = FormBuilder.createButton(parent, Messages.I18NBundlesModelPropertyPage_DeleteButtonLabel, new SelectionListener()
+      deleteButton = FormBuilder.createButton(parent, I18N_Messages.I18NBundlesModelPropertyPage_DeleteButtonLabel, new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e)
          {
@@ -110,9 +110,9 @@ public class I18NBundlesModelPropertyPage extends AbstractModelElementPropertyPa
          {
             Locale locale = localesList.getSelectedNLS();
             if (MessageDialog.openConfirm(getShell(),
-                  Messages.I18NBundlesModelPropertyPage_DeleteConfirmationDialogTitle,
+                  I18N_Messages.I18NBundlesModelPropertyPage_DeleteConfirmationDialogTitle,
                   MessageFormat.format(
-                        Messages.I18NBundlesModelPropertyPage_DeleteConfirmationMessage,
+                        I18N_Messages.I18NBundlesModelPropertyPage_DeleteConfirmationMessage,
                         new Object[] {locale.getDisplayName()})))
             {
                model.deleteNls(localesList.getSelectedNLS());
@@ -137,7 +137,7 @@ public class I18NBundlesModelPropertyPage extends AbstractModelElementPropertyPa
       
       if (!model.hasSourceFolders())
       {
-         setErrorMessage(Messages.I18NBundlesModelPropertyPage_NoSourceFolderMessage);
+         setErrorMessage(I18N_Messages.I18NBundlesModelPropertyPage_NoSourceFolderMessage);
       }
    }
 

@@ -56,7 +56,7 @@ public class I18NBundlesValidator implements IModelElementValidator, IModelValid
                            missing = CollectionUtils.newList();
                         }
                         missing.add(Issue.warning(element, MessageFormat.format(
-                              Messages.I18NBundlesValidator_MISSING_VALUE,
+                              I18N_Messages.I18NBundlesValidator_MISSING_VALUE,
                               propertyName, getLocale(locale)),
                               propertyName + SEPARATOR + locale));
                      }

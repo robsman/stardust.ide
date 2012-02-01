@@ -17,7 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
-import org.eclipse.stardust.modeling.model.i18n.Messages;
+import org.eclipse.stardust.modeling.model.i18n.I18N_Messages;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Control;
 
 public class I18NBundlesPropertyPage extends AbstractModelElementPropertyPage
 {
-   private static String MESSAGE = Messages.I18NBundlesPropertyPage_Bundle_Basename_Label;
+   private static String MESSAGE = I18N_Messages.I18NBundlesPropertyPage_Bundle_Basename_Label;
    
    private PropertiesList propertiesList;
    private PropertyValuesEditor valuesEditor;
@@ -88,7 +88,7 @@ public class I18NBundlesPropertyPage extends AbstractModelElementPropertyPage
    {
       if (!model.getPropertyModel().hasLocales())
       {
-         setMessage(Messages.I18NBundlesPropertyPage_NoLanguageBundles, INFORMATION);
+         setMessage(I18N_Messages.I18NBundlesPropertyPage_NoLanguageBundles, INFORMATION);
       }
       else
       {

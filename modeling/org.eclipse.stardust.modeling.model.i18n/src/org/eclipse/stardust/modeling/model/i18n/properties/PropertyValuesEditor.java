@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.model.i18n.Messages;
+import org.eclipse.stardust.modeling.model.i18n.I18N_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class PropertyValuesEditor implements IPropertyModelListener
 {
-   private static final String[] columnProperties = new String[] {Messages.PropertyValuesEditor_NLS, Messages.PropertyValuesEditor_Value};
+   private static final String[] columnProperties = new String[] {I18N_Messages.PropertyValuesEditor_NLS, I18N_Messages.PropertyValuesEditor_Value};
    private static final String[] updateProperties = new String[] {columnProperties[1]};
    
    private TableViewer viewer;

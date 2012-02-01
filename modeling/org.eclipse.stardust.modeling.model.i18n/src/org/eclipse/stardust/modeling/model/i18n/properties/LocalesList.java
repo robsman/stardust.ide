@@ -28,7 +28,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.model.i18n.Activator;
-import org.eclipse.stardust.modeling.model.i18n.Messages;
+import org.eclipse.stardust.modeling.model.i18n.I18N_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -38,7 +38,7 @@ public class LocalesList implements IPropertyModelListener
 {
    private static final String NEW_LOCALE_PLACEHOLDER = ""; //$NON-NLS-1$
 
-   private static final String[] columnProperties = new String[] {Messages.PropertyValuesEditor_NLS};
+   private static final String[] columnProperties = new String[] {I18N_Messages.PropertyValuesEditor_NLS};
    
    private TableViewer viewer;
    private PropertyModel model;

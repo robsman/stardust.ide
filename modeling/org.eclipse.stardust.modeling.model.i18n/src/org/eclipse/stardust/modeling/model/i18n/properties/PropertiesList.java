@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.model.i18n.Messages;
+import org.eclipse.stardust.modeling.model.i18n.I18N_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Table;
 public class PropertiesList implements IPropertyModelListener
 {
    private static final String[] columnProperties = new String[] {
-      Messages.PropertiesList_PropertyName};
+      I18N_Messages.PropertiesList_PropertyName};
    
    private TableViewer viewer;
    private ScopedPropertyModel model;
