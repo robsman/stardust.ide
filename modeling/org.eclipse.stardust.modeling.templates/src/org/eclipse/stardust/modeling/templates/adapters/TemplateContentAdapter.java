@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.templates.adapters;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -45,6 +46,7 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.cap.NameIdDialog;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CommandUtils;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
 
 
@@ -65,7 +67,7 @@ public class TemplateContentAdapter extends EContentAdapter
       super();
       
       this.targetModel = targetModel;
-      templateID = template.getId() + "-" + ModelUtils.getMaxUsedOid(targetModel);      
+      templateID = template.getId() + "-" + ModelUtils.getMaxUsedOid(targetModel);       //$NON-NLS-1$
       collectTargetData(this.targetModel);
    }
 
@@ -150,15 +152,15 @@ public class TemplateContentAdapter extends EContentAdapter
          if (element instanceof TypeDeclarationType) 
          {
             String orgName = ((TypeDeclarationType)element).getName();
-            ((TypeDeclarationType)element).setName("CopyOf" + orgName);
-            ((TypeDeclarationType)element).setId("CopyOf" + orgName);
+            ((TypeDeclarationType)element).setName(MessageFormat.format(Templates_Messages.TXT_COPY_OF, new Object[]{orgName}));
+            ((TypeDeclarationType)element).setId(MessageFormat.format(Templates_Messages.TXT_COPY_OF, new Object[]{orgName}));
             dataRefCache.put(orgName, ((TypeDeclarationType)element).getName());
          } else {
             openDialog(container, element);
             if (element instanceof DataType) {
-               String type = AttributeUtil.getAttributeValue((DataType) element, "carnot:engine:dataType");
+               String type = AttributeUtil.getAttributeValue((DataType) element, "carnot:engine:dataType"); //$NON-NLS-1$
                String newType = (String) dataRefCache.get(type);
-               AttributeUtil.setAttribute((IExtensibleElement)element, "carnot:engine:dataType", newType);
+               AttributeUtil.setAttribute((IExtensibleElement)element, "carnot:engine:dataType", newType); //$NON-NLS-1$
             }
          }               
       }

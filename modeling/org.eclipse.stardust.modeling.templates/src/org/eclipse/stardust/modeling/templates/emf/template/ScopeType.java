@@ -35,7 +35,7 @@ public enum ScopeType implements Enumerator
     * @generated
     * @ordered
     */
-   MODEL(0, "model", "model"),
+   MODEL(0, "model", "model"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Process</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum ScopeType implements Enumerator
     * @generated
     * @ordered
     */
-   PROCESS(1, "process", "process");
+   PROCESS(1, "process", "process"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Model</b></em>' literal value.
     * <!-- begin-user-doc -->

@@ -38,7 +38,7 @@ public interface TemplatePackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNAME = "template";
+	String eNAME = "template"; //$NON-NLS-1$
 
 	/**
     * The package namespace URI.
@@ -46,7 +46,7 @@ public interface TemplatePackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_URI = "http://www.carnot.ag/workflowmodel/templates";
+	String eNS_URI = "http://www.carnot.ag/workflowmodel/templates"; //$NON-NLS-1$
 
 	/**
     * The package namespace name.
@@ -54,7 +54,7 @@ public interface TemplatePackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_PREFIX = "tmplt";
+	String eNS_PREFIX = "tmplt"; //$NON-NLS-1$
 
 	/**
     * The singleton instance of the package.

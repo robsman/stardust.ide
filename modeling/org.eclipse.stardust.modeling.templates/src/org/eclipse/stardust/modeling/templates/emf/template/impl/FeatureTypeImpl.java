@@ -322,13 +322,13 @@ public class FeatureTypeImpl extends EObjectImpl implements FeatureType {
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (label: ");
+      result.append(" (label: "); //$NON-NLS-1$
       result.append(label);
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
-      result.append(", type: ");
+      result.append(", type: "); //$NON-NLS-1$
       result.append(type);
-      result.append(", scope: ");
+      result.append(", scope: "); //$NON-NLS-1$
       result.append(scope);
       result.append(')');
       return result.toString();

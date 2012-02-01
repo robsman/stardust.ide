@@ -26,17 +26,17 @@
       </factory>
    </extension>
    <extension
-      name="Property View"
       point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.stardust.modeling.core.viewcategory"
+            name="%infinityCategory"/>
       <view
             allowMultiple="false"
             category="org.eclipse.stardust.modeling.core.viewcategory"
             class="org.eclipse.stardust.modeling.templates.views.PatternsView"
             icon="icons/diagram.gif"
             id="org.eclipse.stardust.modeling.templates.patternsView"
-            name="Patterns View"/>
+            name="%templateView"/>
    </extension>
-   
-		
    
 </plugin>

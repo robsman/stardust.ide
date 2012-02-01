@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.templates.defaulttemplate;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -40,7 +42,9 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CommandUtils;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.spi.ITemplateFactory;
+import org.osgi.framework.Bundle;
 
 
 
@@ -76,19 +80,18 @@ public class TemplateHelper
    public ActivityType createActivity(String name, String kind)
    {
       IdFactory idFactory = null;
-      ActivityImplementationType implType = null;        
-      //Quick and dirty ;-)
-      if (kind.startsWith("Rou")) {
+      ActivityImplementationType implType = null;              
+      if (kind.equals(Templates_Messages.ROUTE_ACTIVITY)) {
          implType = ActivityImplementationType.ROUTE_LITERAL;                
       } 
-      if (kind.startsWith("App")) {
+      if (kind.equals(Templates_Messages.APPLICATION_ACTIVITY)) { 
          implType = ActivityImplementationType.APPLICATION_LITERAL;             
       } 
-      if (kind.startsWith("Man")) {
+      if (kind.equals(Templates_Messages.MANUAL_ACTIVITY)) { 
          implType = ActivityImplementationType.MANUAL_LITERAL;             
       } 
       idFactory = new IdFactory(Diagram_Messages.ID_Activity, 
-            implType + Diagram_Messages.BASENAME_Activity);
+            ModelUtils.getActivityImplementationTypeText(implType) + Diagram_Messages.BASENAME_Activity);
       EClass eClass = PKG.getActivityType();         
       ActivityType activity = (ActivityType) createModelElement(idFactory, eClass, process);
       activity.setImplementation(implType); 
@@ -192,13 +195,49 @@ public class TemplateHelper
       symbolContainment.add(symbol);      
    }
    
-   public static String readResourceToString (String path, ITemplateFactory templateFactory) throws Throwable {
+   public static String readDescriptionFromBundle(String nlBundleID, String htmlFileName,
+         ITemplateFactory templateFactory)
+   {
+      try
+      {
+         String nl = Platform.getNL();
+         Bundle bundle = Platform.getBundle(nlBundleID);
+         if (bundle != null)
+         {
+            String path = "/html/" + nl + "/" + htmlFileName; //$NON-NLS-1$ //$NON-NLS-2$
+            if (bundle.getEntry(path) != null)
+            {
+               InputStream in = bundle.getEntry(path).openStream();
+               if (in != null)
+               {
+                  return TemplateHelper.streamToText(in);
+               }
+            }
+         }
+         return TemplateHelper.readResourceToString(
+               "/html/" + htmlFileName, templateFactory); //$NON-NLS-1$ 
+      }
+      catch (Throwable t)
+      {
+      }
+      return "No description provided."; //$NON-NLS-1$
+   }
+   
+   public static String readResourceToString(String path, ITemplateFactory templateFactory)
+         throws Throwable
+   {
       InputStream in = (InputStream) templateFactory.getClass().getResourceAsStream(path);
+      return streamToText(in);
+   }
+
+   public static String streamToText(InputStream in) throws IOException
+   {
       StringBuffer out = new StringBuffer();
       byte[] b = new byte[4096];
-      for (int n; (n = in.read(b)) != -1;) {
-          out.append(new String(b, 0, n));
+      for (int n; (n = in.read(b)) != -1;)
+      {
+         out.append(new String(b, 0, n));
       }
       return out.toString();
-  }
+   }
 }

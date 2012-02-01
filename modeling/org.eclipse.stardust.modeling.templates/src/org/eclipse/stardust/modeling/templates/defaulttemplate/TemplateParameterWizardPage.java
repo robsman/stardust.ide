@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.emf.template.FeatureStyleType;
 import org.eclipse.stardust.modeling.templates.emf.template.FeatureType;
 import org.eclipse.stardust.modeling.templates.emf.template.ParameterType;
@@ -104,7 +105,7 @@ public class TemplateParameterWizardPage extends WizardPage
                
                Label kind = new Label(group, SWT.NONE);
                label = feature.getLabel();
-               kind.setText(label == null ? feature.getName()+ ":" : label + ":");
+               kind.setText(label == null ? feature.getName()+ ":" : label + ":"); //$NON-NLS-1$ //$NON-NLS-2$
                if (FeatureStyleType.SELECTION == feature.getType())
                {
                   Combo combo = new Combo(group, SWT.READ_ONLY);
@@ -179,7 +180,7 @@ public class TemplateParameterWizardPage extends WizardPage
    {
       if (false)
       {
-         setErrorMessage("Please provide a number of activities.");
+         setErrorMessage(Templates_Messages.ERROR_PROVIDE_A_NUMBER_OF_ACTIVITIES);
          setPageComplete(false);
          return;
       }

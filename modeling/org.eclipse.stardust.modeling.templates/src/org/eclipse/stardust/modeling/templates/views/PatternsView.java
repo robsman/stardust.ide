@@ -78,9 +78,9 @@ public class PatternsView extends ViewPart
       textPane = new JTextPane();
       JScrollPane scrollPane = new JScrollPane(textPane);      
       locationFrame.add(scrollPane);
-      textPane.setContentType("text/html");
+      textPane.setContentType("text/html"); //$NON-NLS-1$
       StyleSheet css = ((HTMLEditorKit)textPane.getEditorKit()).getStyleSheet();
-      URL url = this.getClass().getResource("/html/carnot.css");
+      URL url = this.getClass().getResource("/html/carnot.css"); //$NON-NLS-1$
       css.importStyleSheet(url);
       textPane.setEditable(false);
       sashForm.setWeights(new int[] { 1, 2});      
@@ -136,7 +136,7 @@ public class PatternsView extends ViewPart
       {
          public void run()
          {
-            viewer.setInput("org.eclipse.stardust.modeling.templates.templateProvider");
+            viewer.setInput("org.eclipse.stardust.modeling.templates.templateProvider"); //$NON-NLS-1$
          }
       };
       tbm.add(refreshAction);

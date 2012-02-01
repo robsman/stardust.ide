@@ -39,7 +39,7 @@ public class ExtendedImageView extends ImageView
    {
       super(elem);      
       String fullPath = (String)getElement().getAttributes().getAttribute(HTML.Attribute.SRC);      
-      String imageLocation = fullPath.substring(fullPath.indexOf("/"), fullPath.length());
+      String imageLocation = fullPath.substring(fullPath.indexOf("/"), fullPath.length()); //$NON-NLS-1$
       //Really?
       url = template.getParentFactory().getClass().getResource(imageLocation);
       ImageDescriptor image = ImageDescriptor.createFromURL(url);

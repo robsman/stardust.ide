@@ -213,7 +213,7 @@ public class DocumentationTypeImpl extends EObjectImpl implements DocumentationT
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (mixed: ");
+      result.append(" (mixed: "); //$NON-NLS-1$
       result.append(mixed);
       result.append(')');
       return result.toString();
@@ -276,7 +276,7 @@ public class DocumentationTypeImpl extends EObjectImpl implements DocumentationT
             sb.append(' ');
             sb.append(feature.getName());
             sb.append('=');
-            String stringValue = value == null ? "" : value.toString();
+            String stringValue = value == null ? "" : value.toString(); //$NON-NLS-1$
             char c = '\"';
             int x = stringValue.indexOf('\"');
             if (x >= 0)

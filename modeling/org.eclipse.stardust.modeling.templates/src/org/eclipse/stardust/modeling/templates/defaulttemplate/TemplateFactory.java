@@ -29,7 +29,7 @@ import org.eclipse.stardust.modeling.templates.spi.ITemplateFactory;
 
 public class TemplateFactory implements ITemplateFactory
 {
-   private static final String XPDL_PARAMETER = "xpdl";
+   private static final String XPDL_PARAMETER = "xpdl"; //$NON-NLS-1$
    
    private static final ClasspathUriConverter CLASSPATH_URI_CONVERTER = new ClasspathUriConverter();
    
@@ -48,11 +48,11 @@ public class TemplateFactory implements ITemplateFactory
       if (uri.scheme() == null)
       {
          loadingFromClasspath = true;
-         if(location.startsWith("/"))
+         if(location.startsWith("/")) //$NON-NLS-1$
          {
             location = location.substring(1);
          }
-         uri = URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME + ":/" + location);
+         uri = URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME + ":/" + location); //$NON-NLS-1$
       }
       else
       {
@@ -135,7 +135,7 @@ public class TemplateFactory implements ITemplateFactory
    {
       TemplateFactory factory = new TemplateFactory();
       Map parameters = new HashMap();
-      parameters.put(XPDL_PARAMETER, "/com/infinity/bpm/modeling/templates/poc/resources/template.cwmt");
+      parameters.put(XPDL_PARAMETER, "/com/infinity/bpm/modeling/templates/poc/resources/template.cwmt"); //$NON-NLS-1$
       factory.initialize(parameters);
       System.out.println(factory.getId());
       System.out.println(factory.getName());
@@ -143,7 +143,7 @@ public class TemplateFactory implements ITemplateFactory
       ITemplate[] templates = factory.getTemplates();
       for (int i = 0; i < templates.length; i++)
       {
-         System.out.println("-----------");
+         System.out.println("-----------"); //$NON-NLS-1$
          System.out.println(templates[i].getId());
          System.out.println(templates[i].getName());
          System.out.println(templates[i].getDescription());

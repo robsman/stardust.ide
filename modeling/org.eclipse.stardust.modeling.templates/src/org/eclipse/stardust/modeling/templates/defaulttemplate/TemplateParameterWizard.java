@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.templates.defaulttemplate;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplateType;
 
 
@@ -25,8 +27,9 @@ public class TemplateParameterWizard extends Wizard
    public TemplateParameterWizard(ModelType model, TemplateType template, Map mapping)
    {
       newTemplateParameterPage = new TemplateParameterWizardPage(model, template, mapping, null);
-      this.setWindowTitle("Apply \"" + template.getName() + "\"");
-   }
+      
+      this.setWindowTitle(MessageFormat.format(Templates_Messages.TITLE_APPLY, new Object[]{template.getName()})); 
+      }
 
    public void addPages()
    {

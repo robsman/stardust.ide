@@ -24,11 +24,11 @@ public class PatternsLabelProvider extends LabelProvider
    public Image getImage(Object element)
    {      
       if (element instanceof Category) {
-         URL url = Platform.getBundle("org.eclipse.stardust.modeling.templates").getResource("icons/folder.gif");
+         URL url = Platform.getBundle("org.eclipse.stardust.modeling.templates").getResource("icons/folder.gif"); //$NON-NLS-1$ //$NON-NLS-2$
          ImageDescriptor image = ImageDescriptor.createFromURL(url);
          return image.createImage();         
       } else {
-         URL url = Platform.getBundle("org.eclipse.stardust.modeling.templates").getResource("icons/diagram.gif");
+         URL url = Platform.getBundle("org.eclipse.stardust.modeling.templates").getResource("icons/diagram.gif"); //$NON-NLS-1$ //$NON-NLS-2$
          ImageDescriptor image = ImageDescriptor.createFromURL(url);
          return image.createImage();               
       }

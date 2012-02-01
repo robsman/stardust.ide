@@ -77,15 +77,15 @@ public class PatternsContentProvider implements ITreeContentProvider
             try
             {
                String name = cfg.getName();
-               if ("factory".equals(name))
+               if ("factory".equals(name)) //$NON-NLS-1$
                {
-                  ITemplateFactory factory = (ITemplateFactory) cfg.createExecutableExtension("class");
+                  ITemplateFactory factory = (ITemplateFactory) cfg.createExecutableExtension("class"); //$NON-NLS-1$
                   Map parameters = new HashMap();
-                  IConfigurationElement[] children = extensions[i].getChildren("parameter");
+                  IConfigurationElement[] children = extensions[i].getChildren("parameter"); //$NON-NLS-1$
                   for (int j = 0; j < children.length; j++)
                   {
-                     String cname = children[j].getAttribute("name");
-                     String value = children[j].getAttribute("value");
+                     String cname = children[j].getAttribute("name"); //$NON-NLS-1$
+                     String value = children[j].getAttribute("value"); //$NON-NLS-1$
                      parameters.put(cname, value);
                   }
                   factory.initialize(parameters);

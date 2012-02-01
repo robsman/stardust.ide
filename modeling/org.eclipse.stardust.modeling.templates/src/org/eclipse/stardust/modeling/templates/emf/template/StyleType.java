@@ -35,7 +35,7 @@ public enum StyleType implements Enumerator
     * @generated
     * @ordered
     */
-   STANDALONE(0, "standalone", "standalone"),
+   STANDALONE(0, "standalone", "standalone"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Embedded</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum StyleType implements Enumerator
     * @generated
     * @ordered
     */
-   EMBEDDED(1, "embedded", "embedded");
+   EMBEDDED(1, "embedded", "embedded"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Standalone</b></em>' literal value.
     * <!-- begin-user-doc -->

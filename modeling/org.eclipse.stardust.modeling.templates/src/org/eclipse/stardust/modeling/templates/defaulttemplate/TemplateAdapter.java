@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.templates.defaulttemplate;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -48,6 +49,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
 import org.eclipse.stardust.modeling.templates.emf.template.ReferenceType;
 import org.eclipse.stardust.modeling.templates.emf.template.RootsType;
@@ -85,6 +87,11 @@ public class TemplateAdapter implements ITemplate
    public String getName()
    {
       return template.getName();
+   }
+   
+   public void setName(String name)
+   {
+      template.setName(name);
    }
 
    public String getDescription()
@@ -302,7 +309,7 @@ public class TemplateAdapter implements ITemplate
       }
       else
       {
-         System.err.println("Incompatible container.");
+         System.err.println(Templates_Messages.CSL_INCOMPATIBLE_CONTAINER);
       }
    }
 
@@ -383,8 +390,9 @@ public class TemplateAdapter implements ITemplate
          }
       }
       else
-      {
-         System.err.println("Containment feature not found for: " + object);
+      {	
+    	  
+         System.err.println(MessageFormat.format(Templates_Messages.CSL_CONTAINMENT_FEATURE_NOT_FOUND_FOR, new Object[] {object}));
       }
    }
 

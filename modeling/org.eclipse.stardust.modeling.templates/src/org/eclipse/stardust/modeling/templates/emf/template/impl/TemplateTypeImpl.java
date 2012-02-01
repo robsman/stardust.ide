@@ -474,15 +474,15 @@ public class TemplateTypeImpl extends EObjectImpl implements TemplateType {
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (id: ");
+      result.append(" (id: "); //$NON-NLS-1$
       result.append(id);
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
-      result.append(", style: ");
+      result.append(", style: "); //$NON-NLS-1$
       result.append(style);
-      result.append(", category: ");
+      result.append(", category: "); //$NON-NLS-1$
       result.append(category);
-      result.append(')');
+      result.append(')'); //$NON-NLS-1$
       return result.toString();
    }
 

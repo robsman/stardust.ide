@@ -32,7 +32,7 @@ public class ExtendedViewFactory extends HTMLFactory implements ViewFactory
    public View create(Element element)
    {
       HTML.Tag kind = (HTML.Tag) (element.getAttributes().getAttribute(javax.swing.text.StyleConstants.NameAttribute));
-      if (kind.toString().equalsIgnoreCase("img")) {
+      if (kind.toString().equalsIgnoreCase("img")) { //$NON-NLS-1$
          ImageView imageView = new ExtendedImageView(template, element);        
          return imageView;
       }

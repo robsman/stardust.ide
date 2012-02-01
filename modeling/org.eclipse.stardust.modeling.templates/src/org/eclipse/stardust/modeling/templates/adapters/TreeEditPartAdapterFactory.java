@@ -18,6 +18,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.TreeEditPart;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.emf.template.TemplateLibraryType;
 
 
@@ -52,7 +53,7 @@ public class TreeEditPartAdapterFactory implements IAdapterFactory
                   }
                   if (text == null)
                   {
-                     text = "TemplateLibrary";
+                     text = Templates_Messages.TXT_TEMPLATE_LIBRARY;
                   }
                   return text;
                }

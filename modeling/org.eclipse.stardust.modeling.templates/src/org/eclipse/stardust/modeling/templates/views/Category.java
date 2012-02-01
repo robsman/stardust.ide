@@ -70,7 +70,7 @@ public class Category
    {
       if (name == null)
       {
-         return id == null ? "" : id;
+         return id == null ? "" : id; //$NON-NLS-1$
       }
       return name;
    }

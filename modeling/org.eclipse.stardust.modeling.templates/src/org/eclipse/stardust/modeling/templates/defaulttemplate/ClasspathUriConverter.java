@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -21,13 +22,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.URIHandler;
 import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 
 /**
  * Supports URLs with scheme "classpath:/". Searches for resources in CLASSPATH
  */
 public class ClasspathUriConverter implements URIConverter
 {
-   public static final String CLASSPATH_SCHEME = "classpath";
+   public static final String CLASSPATH_SCHEME = "classpath"; //$NON-NLS-1$
 
 
    public InputStream createInputStream(URI uri) throws IOException
@@ -35,14 +37,14 @@ public class ClasspathUriConverter implements URIConverter
       URL resourceUrl = this.getClass().getResource(uri.path());
       if (resourceUrl == null)
       {
-         throw new PublicException("Could not find resource '" + uri.path() + "'.");
+         throw new PublicException(MessageFormat.format(Templates_Messages.Could_not_find_resource, new Object[]{uri.path()}));
       }
       return resourceUrl.openStream();
    }
 
    public OutputStream createOutputStream(URI uri) throws IOException
    {
-      throw new RuntimeException("Not supported.");
+      throw new RuntimeException(Templates_Messages.EXC_NOT_SUPPORTED);
    }
 
    public Map getURIMap()
@@ -65,7 +67,7 @@ public InputStream createInputStream(URI uri, Map arg1) throws IOException {
     URL resourceUrl = this.getClass().getResource(uri.path());
     if (resourceUrl == null)
     {
-       throw new PublicException("Could not find resource '" + uri.path() + "'.");
+       throw new PublicException(MessageFormat.format(Templates_Messages.Could_not_find_resource, new Object[]{uri.path()}));
     }
     return resourceUrl.openStream();
 }

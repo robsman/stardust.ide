@@ -11,12 +11,15 @@
 package org.eclipse.stardust.modeling.templates.emf.template.impl;
 
 
+import java.text.MessageFormat;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
 import org.eclipse.stardust.modeling.templates.emf.template.DocumentationType;
 import org.eclipse.stardust.modeling.templates.emf.template.FeatureStyleType;
 import org.eclipse.stardust.modeling.templates.emf.template.FeatureType;
@@ -47,7 +50,7 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
 	public static TemplateFactory init() {
       try
       {
-         TemplateFactory theTemplateFactory = (TemplateFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/templates"); 
+         TemplateFactory theTemplateFactory = (TemplateFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/templates");  //$NON-NLS-1$
          if (theTemplateFactory != null)
          {
             return theTemplateFactory;
@@ -88,7 +91,7 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
          case TemplatePackage.TEMPLATES_TYPE: return createTemplatesType();
          case TemplatePackage.TEMPLATE_LIBRARY_TYPE: return createTemplateLibraryType();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_class_is_not_a_valid_classifier,new Object[]{eClass.getName()}));
       }
    }
 
@@ -108,7 +111,7 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
          case TemplatePackage.STYLE_TYPE:
             return createStyleTypeFromString(eDataType, initialValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_datatype_is_not_a_valid_classifier, new Object[]{eDataType.getName()}));
       }
    }
 
@@ -128,7 +131,7 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
          case TemplatePackage.STYLE_TYPE:
             return convertStyleTypeToString(eDataType, instanceValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_datatype_is_not_a_valid_classifier, new Object[]{eDataType.getName()}));
       }
    }
 
@@ -219,7 +222,8 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
     */
 	public FeatureStyleType createFeatureStyleTypeFromString(EDataType eDataType, String initialValue) {
       FeatureStyleType result = FeatureStyleType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_value_is_not_a_valid_enumerator_of,
+    		      new Object[]{initialValue,eDataType.getName()}));
       return result;
    }
 
@@ -239,7 +243,8 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
     */
 	public ScopeType createScopeTypeFromString(EDataType eDataType, String initialValue) {
       ScopeType result = ScopeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_value_is_not_a_valid_enumerator_of,
+		      new Object[]{initialValue,eDataType.getName()}));
       return result;
    }
 
@@ -259,7 +264,8 @@ public class TemplateFactoryImpl extends EFactoryImpl implements TemplateFactory
     */
 	public StyleType createStyleTypeFromString(EDataType eDataType, String initialValue) {
       StyleType result = StyleType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Templates_Messages.The_value_is_not_a_valid_enumerator_of,
+		      new Object[]{initialValue,eDataType.getName()}));
       return result;
    }
 

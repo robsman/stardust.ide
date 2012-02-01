@@ -731,76 +731,76 @@ public class TemplatePackageImpl extends EPackageImpl implements TemplatePackage
       parameterTypeEClass.getESuperTypes().add(this.getReferenceType());
 
       // Initialize classes and features; add operations and parameters
-      initEClass(documentationTypeEClass, DocumentationType.class, "DocumentationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getDocumentationType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, DocumentationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getDocumentationType_Group(), ecorePackage.getEFeatureMapEntry(), "group", null, 0, -1, DocumentationType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-      initEAttribute(getDocumentationType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, DocumentationType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+      initEClass(documentationTypeEClass, DocumentationType.class, "DocumentationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEAttribute(getDocumentationType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, DocumentationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getDocumentationType_Group(), ecorePackage.getEFeatureMapEntry(), "group", null, 0, -1, DocumentationType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getDocumentationType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, DocumentationType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(featureTypeEClass, FeatureType.class, "FeatureType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getFeatureType_Label(), theXMLTypePackage.getString(), "label", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getFeatureType_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getFeatureType_Type(), this.getFeatureStyleType(), "type", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getFeatureType_Scope(), this.getScopeType(), "scope", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(featureTypeEClass, FeatureType.class, "FeatureType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEAttribute(getFeatureType_Label(), theXMLTypePackage.getString(), "label", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getFeatureType_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getFeatureType_Type(), this.getFeatureStyleType(), "type", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getFeatureType_Scope(), this.getScopeType(), "scope", null, 0, 1, FeatureType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(parameterTypeEClass, ParameterType.class, "ParameterType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getParameterType_Activity(), theCarnotWorkflowModelPackage.getActivityType(), null, "activity", null, 0, 1, ParameterType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getParameterType_Features(), this.getFeatureType(), null, "features", null, 0, -1, ParameterType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(parameterTypeEClass, ParameterType.class, "ParameterType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEReference(getParameterType_Activity(), theCarnotWorkflowModelPackage.getActivityType(), null, "activity", null, 0, 1, ParameterType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getParameterType_Features(), this.getFeatureType(), null, "features", null, 0, -1, ParameterType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(referenceTypeEClass, ReferenceType.class, "ReferenceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getReferenceType_ApplicationType(), theCarnotWorkflowModelPackage.getApplicationTypeType(), null, "applicationType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_ApplicationContextType(), theCarnotWorkflowModelPackage.getApplicationContextTypeType(), null, "applicationContextType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_DataType(), theCarnotWorkflowModelPackage.getDataTypeType(), null, "dataType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_EventActionType(), theCarnotWorkflowModelPackage.getEventActionTypeType(), null, "eventActionType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_EventConditionType(), theCarnotWorkflowModelPackage.getEventConditionTypeType(), null, "eventConditionType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_TriggerType(), theCarnotWorkflowModelPackage.getTriggerTypeType(), null, "triggerType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_Application(), theCarnotWorkflowModelPackage.getApplicationType(), null, "application", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_Data(), theCarnotWorkflowModelPackage.getDataType(), null, "data", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_ConditionalPerformer(), theCarnotWorkflowModelPackage.getConditionalPerformerType(), null, "conditionalPerformer", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_Organization(), theCarnotWorkflowModelPackage.getOrganizationType(), null, "organization", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_Role(), theCarnotWorkflowModelPackage.getRoleType(), null, "role", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_ProcessDefinition(), theCarnotWorkflowModelPackage.getProcessDefinitionType(), null, "processDefinition", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_TypeDeclaration(), theXpdlPackage.getTypeDeclarationType(), null, "typeDeclaration", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getReferenceType_Parameters(), this.getParameterType(), null, "parameters", null, 0, -1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(referenceTypeEClass, ReferenceType.class, "ReferenceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEReference(getReferenceType_ApplicationType(), theCarnotWorkflowModelPackage.getApplicationTypeType(), null, "applicationType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_ApplicationContextType(), theCarnotWorkflowModelPackage.getApplicationContextTypeType(), null, "applicationContextType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_DataType(), theCarnotWorkflowModelPackage.getDataTypeType(), null, "dataType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_EventActionType(), theCarnotWorkflowModelPackage.getEventActionTypeType(), null, "eventActionType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_EventConditionType(), theCarnotWorkflowModelPackage.getEventConditionTypeType(), null, "eventConditionType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_TriggerType(), theCarnotWorkflowModelPackage.getTriggerTypeType(), null, "triggerType", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_Application(), theCarnotWorkflowModelPackage.getApplicationType(), null, "application", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_Data(), theCarnotWorkflowModelPackage.getDataType(), null, "data", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_ConditionalPerformer(), theCarnotWorkflowModelPackage.getConditionalPerformerType(), null, "conditionalPerformer", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_Organization(), theCarnotWorkflowModelPackage.getOrganizationType(), null, "organization", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_Role(), theCarnotWorkflowModelPackage.getRoleType(), null, "role", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_ProcessDefinition(), theCarnotWorkflowModelPackage.getProcessDefinitionType(), null, "processDefinition", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_TypeDeclaration(), theXpdlPackage.getTypeDeclarationType(), null, "typeDeclaration", null, 0, 1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getReferenceType_Parameters(), this.getParameterType(), null, "parameters", null, 0, -1, ReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      addEOperation(referenceTypeEClass, ecorePackage.getEObject(), "getReference", 0, 1, IS_UNIQUE, IS_ORDERED);
+      addEOperation(referenceTypeEClass, ecorePackage.getEObject(), "getReference", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-      EOperation op = addEOperation(referenceTypeEClass, null, "setReference", 0, 1, IS_UNIQUE, IS_ORDERED);
-      addEParameter(op, ecorePackage.getEObject(), "reference", 0, 1, IS_UNIQUE, IS_ORDERED);
+      EOperation op = addEOperation(referenceTypeEClass, null, "setReference", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+      addEParameter(op, ecorePackage.getEObject(), "reference", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(rootsTypeEClass, RootsType.class, "RootsType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getRootsType_Root(), this.getReferenceType(), null, "root", null, 0, -1, RootsType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(rootsTypeEClass, RootsType.class, "RootsType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEReference(getRootsType_Root(), this.getReferenceType(), null, "root", null, 0, -1, RootsType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(templateTypeEClass, TemplateType.class, "TemplateType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getTemplateType_Id(), theXMLTypePackage.getID(), "id", null, 1, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getTemplateType_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getTemplateType_Documentation(), this.getDocumentationType(), null, "documentation", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getTemplateType_Roots(), this.getRootsType(), null, "roots", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getTemplateType_Style(), this.getStyleType(), "style", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getTemplateType_Category(), theXMLTypePackage.getString(), "category", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(templateTypeEClass, TemplateType.class, "TemplateType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEAttribute(getTemplateType_Id(), theXMLTypePackage.getID(), "id", null, 1, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getTemplateType_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getTemplateType_Documentation(), this.getDocumentationType(), null, "documentation", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getTemplateType_Roots(), this.getRootsType(), null, "roots", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getTemplateType_Style(), this.getStyleType(), "style", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getTemplateType_Category(), theXMLTypePackage.getString(), "category", null, 0, 1, TemplateType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(templatesTypeEClass, TemplatesType.class, "TemplatesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEReference(getTemplatesType_Template(), this.getTemplateType(), null, "template", null, 0, -1, TemplatesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(templatesTypeEClass, TemplatesType.class, "TemplatesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEReference(getTemplatesType_Template(), this.getTemplateType(), null, "template", null, 0, -1, TemplatesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-      op = addEOperation(templatesTypeEClass, this.getTemplateType(), "getTemplate", 0, 1, IS_UNIQUE, IS_ORDERED);
-      addEParameter(op, theXMLTypePackage.getString(), "templateId", 0, 1, IS_UNIQUE, IS_ORDERED);
+      op = addEOperation(templatesTypeEClass, this.getTemplateType(), "getTemplate", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
+      addEParameter(op, theXMLTypePackage.getString(), "templateId", 0, 1, IS_UNIQUE, IS_ORDERED); //$NON-NLS-1$
 
-      initEClass(templateLibraryTypeEClass, TemplateLibraryType.class, "TemplateLibraryType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-      initEAttribute(getTemplateLibraryType_Id(), theXMLTypePackage.getID(), "id", null, 1, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEAttribute(getTemplateLibraryType_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getTemplateLibraryType_Documentation(), this.getDocumentationType(), null, "documentation", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getTemplateLibraryType_Templates(), this.getTemplatesType(), null, "templates", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-      initEReference(getTemplateLibraryType_Model(), theCarnotWorkflowModelPackage.getModelType(), null, "model", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEClass(templateLibraryTypeEClass, TemplateLibraryType.class, "TemplateLibraryType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEAttribute(getTemplateLibraryType_Id(), theXMLTypePackage.getID(), "id", null, 1, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEAttribute(getTemplateLibraryType_Name(), theXMLTypePackage.getString(), "name", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getTemplateLibraryType_Documentation(), this.getDocumentationType(), null, "documentation", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getTemplateLibraryType_Templates(), this.getTemplatesType(), null, "templates", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+      initEReference(getTemplateLibraryType_Model(), theCarnotWorkflowModelPackage.getModelType(), null, "model", null, 0, 1, TemplateLibraryType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
       // Initialize enums and add enum literals
-      initEEnum(featureStyleTypeEEnum, FeatureStyleType.class, "FeatureStyleType");
+      initEEnum(featureStyleTypeEEnum, FeatureStyleType.class, "FeatureStyleType"); //$NON-NLS-1$
       addEEnumLiteral(featureStyleTypeEEnum, FeatureStyleType.TEXT);
       addEEnumLiteral(featureStyleTypeEEnum, FeatureStyleType.SELECTION);
 
-      initEEnum(scopeTypeEEnum, ScopeType.class, "ScopeType");
+      initEEnum(scopeTypeEEnum, ScopeType.class, "ScopeType"); //$NON-NLS-1$
       addEEnumLiteral(scopeTypeEEnum, ScopeType.MODEL);
       addEEnumLiteral(scopeTypeEEnum, ScopeType.PROCESS);
 
-      initEEnum(styleTypeEEnum, StyleType.class, "StyleType");
+      initEEnum(styleTypeEEnum, StyleType.class, "StyleType"); //$NON-NLS-1$
       addEEnumLiteral(styleTypeEEnum, StyleType.STANDALONE);
       addEEnumLiteral(styleTypeEEnum, StyleType.EMBEDDED);
 
@@ -821,391 +821,391 @@ public class TemplatePackageImpl extends EPackageImpl implements TemplatePackage
     * @generated
     */
 	protected void createExtendedMetaDataAnnotations() {
-      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		 //$NON-NLS-1$
       addAnnotation
         (documentationTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "documentation",
-          "kind", "mixed"
+          "name", "documentation", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "mixed" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getDocumentationType_Mixed(), 
          source, 
          new String[] 
          {
-          "kind", "elementWildcard",
-          "name", ":mixed"
+          "kind", "elementWildcard", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", ":mixed" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getDocumentationType_Group(), 
          source, 
          new String[] 
          {
-          "kind", "group",
-          "name", "group:1"
+          "kind", "group", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "group:1" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getDocumentationType_Any(), 
          source, 
          new String[] 
          {
-          "kind", "elementWildcard",
-          "wildcards", "##any",
-          "name", ":2",
-          "processing", "lax",
-          "group", "#group:1"
+          "kind", "elementWildcard", //$NON-NLS-1$ //$NON-NLS-2$
+          "wildcards", "##any", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", ":2", //$NON-NLS-1$ //$NON-NLS-2$
+          "processing", "lax", //$NON-NLS-1$ //$NON-NLS-2$
+          "group", "#group:1" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (featureTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "feature",
-          "kind", "elementOnly"
+          "name", "feature", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getFeatureType_Label(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "label"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "label" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getFeatureType_Name(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "name"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getFeatureType_Type(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "type"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "type" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getFeatureType_Scope(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "scope"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "scope" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (parameterTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "parameter",
-          "kind", "elementOnly"
+          "name", "parameter", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getParameterType_Activity(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "activity"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "activity" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getParameterType_Features(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "feature",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "feature", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (referenceTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "reference",
-          "kind", "elementOnly"
+          "name", "reference", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getReferenceType_ApplicationType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "applicationType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "applicationType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ApplicationContextType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "applicationContextType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "applicationContextType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_DataType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "dataType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "dataType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_EventActionType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "eventActionType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "eventActionType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_EventConditionType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "eventConditionType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "eventConditionType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_TriggerType(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "triggerType"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "triggerType" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Application(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "application"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "application" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Data(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "data"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "data" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ConditionalPerformer(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "conditionalPerformer"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "conditionalPerformer" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Organization(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "organization"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "organization" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Role(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "role"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "role" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ProcessDefinition(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "process"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "process" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_TypeDeclaration(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "typeDeclaration"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "typeDeclaration" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Parameters(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "parameter",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "parameter", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (rootsTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "roots",
-          "kind", "elementOnly"
+          "name", "roots", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getRootsType_Root(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "root",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "root", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (templateTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "template",
-          "kind", "elementOnly"
+          "name", "template", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Id(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "id"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "id" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Name(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "name"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Documentation(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "documentation",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "documentation", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Roots(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "roots",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "roots", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Style(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "style"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "style" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateType_Category(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "category"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (templatesTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "templates",
-          "kind", "elementOnly"
+          "name", "templates", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplatesType_Template(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "template",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "template", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (templateLibraryTypeEClass, 
          source, 
          new String[] 
          {
-          "kind", "elementOnly",
-          "name", "TemplateLibrary"
+          "kind", "elementOnly", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "TemplateLibrary" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateLibraryType_Id(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "id"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "id" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateLibraryType_Name(), 
          source, 
          new String[] 
          {
-          "kind", "attribute",
-          "name", "name"
+          "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateLibraryType_Documentation(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "documentation",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "documentation", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateLibraryType_Templates(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "templates",
-          "namespace", "##targetNamespace"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "templates", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "##targetNamespace" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (getTemplateLibraryType_Model(), 
          source, 
          new String[] 
          {
-          "kind", "element",
-          "name", "model",
-          "namespace", "http://www.carnot.ag/workflowmodel/3.1"
+          "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "model", //$NON-NLS-1$ //$NON-NLS-2$
+          "namespace", "http://www.carnot.ag/workflowmodel/3.1" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (featureStyleTypeEEnum, 
          source, 
          new String[] 
          {
-          "name", "type"
+          "name", "type" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (scopeTypeEEnum, 
          source, 
          new String[] 
          {
-          "name", "type"
+          "name", "type" //$NON-NLS-1$ //$NON-NLS-2$
          });		
       addAnnotation
         (styleTypeEEnum, 
          source, 
          new String[] 
          {
-          "name", "style"
+          "name", "style" //$NON-NLS-1$ //$NON-NLS-2$
          });
    }
 
@@ -1216,104 +1216,104 @@ public class TemplatePackageImpl extends EPackageImpl implements TemplatePackage
     * @generated
     */
 	protected void createElementIdRefAnnotations() {
-      String source = "http://www.carnot.ag/workflow/model/ElementIdRef";													
+      String source = "http://www.carnot.ag/workflow/model/ElementIdRef";													 //$NON-NLS-1$
       addAnnotation
         (getParameterType_Activity(), 
          source, 
          new String[] 
          {
-          "scope", "process"
+          "scope", "process" //$NON-NLS-1$ //$NON-NLS-2$
          });					
       addAnnotation
         (getReferenceType_ApplicationType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ApplicationContextType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_DataType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_EventActionType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_EventConditionType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_TriggerType(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Application(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Data(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ConditionalPerformer(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Organization(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_Role(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_ProcessDefinition(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });			
       addAnnotation
         (getReferenceType_TypeDeclaration(), 
          source, 
          new String[] 
          {
-          "scope", "model"
+          "scope", "model" //$NON-NLS-1$ //$NON-NLS-2$
          });																					
    }
 

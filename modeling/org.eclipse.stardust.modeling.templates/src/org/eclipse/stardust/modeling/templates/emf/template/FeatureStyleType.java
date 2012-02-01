@@ -35,7 +35,7 @@ public enum FeatureStyleType implements Enumerator
     * @generated
     * @ordered
     */
-   TEXT(0, "text", "text"),
+   TEXT(0, "text", "text"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Selection</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum FeatureStyleType implements Enumerator
     * @generated
     * @ordered
     */
-   SELECTION(1, "selection", "selection");
+   SELECTION(1, "selection", "selection"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Text</b></em>' literal value.
     * <!-- begin-user-doc -->

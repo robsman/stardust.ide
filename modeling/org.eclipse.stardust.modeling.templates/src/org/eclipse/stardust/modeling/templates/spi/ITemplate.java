@@ -21,6 +21,8 @@ public interface ITemplate
    String getId();
 
    String getName();
+   
+   void setName(String name);
 
    String getDescription();
    
