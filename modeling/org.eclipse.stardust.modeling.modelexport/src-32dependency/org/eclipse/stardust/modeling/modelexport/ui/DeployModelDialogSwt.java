@@ -123,11 +123,11 @@ public class DeployModelDialogSwt extends Dialog
 
       ((GridLayout) panel.getLayout()).numColumns = 3;
       
-      FormBuilder.createLabel(panel, Internal_ExportMessages.getString("LB_Action")); //$NON-NLS-1$
+      FormBuilder.createLabel(panel, Internal_Export_Messages.getString("LB_Action")); //$NON-NLS-1$
       this.overwriteButton = FormBuilder.createRadioButton(panel,
-            Internal_ExportMessages.getString("LB_Overwrite")); //$NON-NLS-1$
+            Internal_Export_Messages.getString("LB_Overwrite")); //$NON-NLS-1$
       this.deployButton = FormBuilder.createRadioButton(panel,
-            Internal_ExportMessages.getString("LB_DeployVersion")); //$NON-NLS-1$
+            Internal_Export_Messages.getString("LB_DeployVersion")); //$NON-NLS-1$
 
       overwriteButton.addSelectionListener(new SelectionAdapter()
       {
@@ -163,14 +163,14 @@ public class DeployModelDialogSwt extends Dialog
    {
       super.configureShell(shell);
       
-      shell.setText(Internal_ExportMessages.getString("DIALOG_Model"));
+      shell.setText(Internal_Export_Messages.getString("DIALOG_Model")); //$NON-NLS-1$
    }
 
    public void validateSettings() throws ValidationException
    {
       if (overwriteButton.getSelection() && overwriteView.getSelectedModelOID() == -1)
       {
-         throw new ValidationException(Internal_ExportMessages.getString("MSG_NoModelToOverwrite"), false); //$NON-NLS-1$
+         throw new ValidationException(Internal_Export_Messages.getString("MSG_NoModelToOverwrite"), false); //$NON-NLS-1$
       }
    }
 
@@ -214,7 +214,7 @@ public class DeployModelDialogSwt extends Dialog
 
    private void overwrite()
    {
-      String modelFile = "";
+      String modelFile = ""; //$NON-NLS-1$
 
       String modelXml = XmlUtils.getXMLString(modelFile);
       
@@ -245,14 +245,14 @@ public class DeployModelDialogSwt extends Dialog
    private boolean ignoreWarnings(List warnings)
    {
       ValidationException e = new ValidationException(
-            Internal_ExportMessages.getString("MSG_ContinueDeploying"), warnings, true); //$NON-NLS-1$
+            Internal_Export_Messages.getString("MSG_ContinueDeploying"), warnings, true); //$NON-NLS-1$
       return false; // TODO ValidationExceptionDialog.showDialog(this, e, false);
    }
 
    private void showErrors(List errors)
    {
       ValidationException e = new ValidationException(
-            Internal_ExportMessages.getString("MSG_NoErrors"), errors, false); //$NON-NLS-1$
+            Internal_Export_Messages.getString("MSG_NoErrors"), errors, false); //$NON-NLS-1$
       // TODO ValidationExceptionDialog.showDialog(this, e);
    }
 

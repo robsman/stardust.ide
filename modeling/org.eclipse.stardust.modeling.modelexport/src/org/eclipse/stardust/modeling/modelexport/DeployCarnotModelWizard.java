@@ -38,7 +38,7 @@ public class DeployCarnotModelWizard extends Wizard implements IExportWizard
          section = workbenchSettings.addNewSection(WIZARD_NAME);
       }
       setDialogSettings(section);
-      setWindowTitle(ExportMessages.TITLE_DeployModelWiz);
+      setWindowTitle(Export_Messages.TITLE_DeployModelWiz);
    }
 
    public boolean performFinish()

@@ -26,7 +26,7 @@ public class ModelInfo
    private long oid;
    private Date validFrom;
    private Date validTo;
-   private static final String UNSPECIFIED = ExportMessages.STR_Unspecified;
+   private static final String UNSPECIFIED = Export_Messages.STR_Unspecified;
    private boolean active;
 
    public void setName(String name)

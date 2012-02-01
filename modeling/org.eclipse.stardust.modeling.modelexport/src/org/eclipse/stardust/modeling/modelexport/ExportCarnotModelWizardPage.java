@@ -56,8 +56,8 @@ import org.eclipse.ui.model.WorkbenchPartLabelProvider;
 
 public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
 {
-   private static final String DIRECTORY_LABEL = ExportMessages.LB_ToDir;
-   private static final String CONTAINER_BROWSE_BUTTON_LABEL = ExportMessages.Btn_Browse;
+   private static final String DIRECTORY_LABEL = Export_Messages.LB_ToDir;
+   private static final String CONTAINER_BROWSE_BUTTON_LABEL = Export_Messages.Btn_Browse;
 
    private Composite parent;
    private Text fileNameField;
@@ -74,12 +74,12 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
       for (Iterator<?> _iterator = getSelectedResources().iterator(); _iterator.hasNext();)
       {
          IResource resource = (IResource) _iterator.next();
-         String modelName = "";
+         String modelName = ""; //$NON-NLS-1$
 
          try
          {
             modelName = resource.getName().substring(0,
-                  resource.getName().lastIndexOf("."));
+                  resource.getName().lastIndexOf(".")); //$NON-NLS-1$
          }
          catch (Throwable t)
          {
@@ -99,8 +99,8 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
                //WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
                //Shell shell = editor.getSite().getShell();
                // skip file, when user does not want to overwrite file
-               String message = ExportMessages.ExportCarnotModelWizardPage_OverwriteQuestionString + pathBuf.toString() + "?"; //$NON-NLS-2$
-               boolean answer = MessageDialog.openQuestion(null, ExportMessages.ExportCarnotModelWizardPage_OverwriteQuestionTitle, message);
+               String message = Export_Messages.ExportCarnotModelWizardPage_OverwriteQuestionString + pathBuf.toString() + "?";  //$NON-NLS-1$
+               boolean answer = MessageDialog.openQuestion(null, Export_Messages.ExportCarnotModelWizardPage_OverwriteQuestionTitle, message);
                if (!answer)
                {
                   continue;
@@ -147,9 +147,9 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
          ListSelectionDialog modelsToSaveDialog = new ListSelectionDialog(getShell(),
                new AdaptableList(saveEditors), new WorkbenchContentProvider(),
                new WorkbenchPartLabelProvider(),
-               ExportMessages.MSG_SaveModelsBeforeExporting);
+               Export_Messages.MSG_SaveModelsBeforeExporting);
          modelsToSaveDialog.setInitialSelections(saveEditors.toArray());
-         modelsToSaveDialog.setTitle(ExportMessages.TITLE_SaveModels);
+         modelsToSaveDialog.setTitle(Export_Messages.TITLE_SaveModels);
          int result = modelsToSaveDialog.open();
          if (result == IDialogConstants.OK_ID)
          {
@@ -227,8 +227,8 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
          }
 
       });
-      setTitle(ExportMessages.LB_Select);
-      setDescription(ExportMessages.DESC_ModelsToExport); // TODO
+      setTitle(Export_Messages.LB_Select);
+      setDescription(Export_Messages.DESC_ModelsToExport); // TODO
 
       setControl(containerGroup);
 
@@ -273,18 +273,18 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
    {
       if (StringUtils.isEmpty(fileNameField.getText()))
       {
-         setErrorMessage(ExportMessages.MSG_NoDirectory);
+         setErrorMessage(Export_Messages.MSG_NoDirectory);
          return false;
       }
       File targetFile = new File(fileNameField.getText());
       if (!targetFile.exists())
       {
-         setErrorMessage(ExportMessages.MSG_DirectoryDoesNotExist);
+         setErrorMessage(Export_Messages.MSG_DirectoryDoesNotExist);
          return false;
       }
       if (getSelectedResources().isEmpty())
       {
-         setErrorMessage(ExportMessages.MSG_NoModelSelected);
+         setErrorMessage(Export_Messages.MSG_NoModelSelected);
          return false;
       }
 
@@ -292,10 +292,10 @@ public class ExportCarnotModelWizardPage extends WizardExportResourcesPage
             .hasNext();)
       {
          IResource resource = (IResource) _iterator.next();
-         if (!("cwm".equals(resource.getFileExtension()) || ("xpdl").equals(resource
+         if (!("cwm".equals(resource.getFileExtension()) || ("xpdl").equals(resource //$NON-NLS-1$ //$NON-NLS-2$
                .getFileExtension())))
          {
-            setErrorMessage(ExportMessages.MSG_InvalidResource);
+            setErrorMessage(Export_Messages.MSG_InvalidResource);
             return false;
          }
       }

@@ -29,7 +29,7 @@ public class ExportCarnotModelWizard extends Wizard implements IExportWizard
    public ExportCarnotModelWizard()
    {
       super();
-      setWindowTitle(ExportMessages.DESC_ExportModel);
+      setWindowTitle(Export_Messages.DESC_ExportModel);
    }
 
    public boolean performFinish()

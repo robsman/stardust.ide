@@ -43,7 +43,7 @@ public class SelectCarnotModelWizardPage extends WizardExportResourcesPage
 
 //   private static final String DIRECTORY_LABEL = ExportMessages.LB_CarnotWorkspace;
 
-   private static final String CONTAINER_BROWSE_BUTTON_LABEL = ExportMessages.BTN_Browse;
+   private static final String CONTAINER_BROWSE_BUTTON_LABEL = Export_Messages.BTN_Browse;
 
    private ExpandableComposite sctAdvanced;
    
@@ -108,12 +108,12 @@ public class SelectCarnotModelWizardPage extends WizardExportResourcesPage
       sctAdvanced.setLayout(layout);
       sctAdvanced.setLayoutData(FormBuilder.createDefaultMultiLineWidgetGridData());
       
-      sctAdvanced.setText("Advanced");
+      sctAdvanced.setText(Export_Messages.LB_ADVANCED);
       
       Composite containerGroup = FormBuilder.createComposite(sctAdvanced, 3);
       sctAdvanced.setClient(containerGroup);
 
-      this.chkWithCarnotHome = FormBuilder.createCheckBox(containerGroup, "Custom CARNOT HOME");
+      this.chkWithCarnotHome = FormBuilder.createCheckBox(containerGroup, Export_Messages.BTN_CUSTOM_CARNOT_HOME);
       this.txtCarnotHome = FormBuilder.createText(containerGroup);
       FormBuilder.applyDefaultTextControlWidth(txtCarnotHome);
       this.btnBrowseCarnotHome = FormBuilder.createButton(containerGroup, CONTAINER_BROWSE_BUTTON_LABEL,
@@ -124,7 +124,7 @@ public class SelectCarnotModelWizardPage extends WizardExportResourcesPage
                   browseForFile(txtCarnotHome);
                }
             });
-      this.chkWithCarnotWork = FormBuilder.createCheckBox(containerGroup, "Custom CARNOT Workspace");
+      this.chkWithCarnotWork = FormBuilder.createCheckBox(containerGroup, Export_Messages.BTN_CUSTOM_CARNOT_WORKSPACE);
       this.txtCarnotWork = FormBuilder.createText(containerGroup);
       // data.widthHint = SIZING_TEXT_FIELD_WIDTH;
       FormBuilder.applyDefaultTextControlWidth(txtCarnotWork);
@@ -172,8 +172,8 @@ public class SelectCarnotModelWizardPage extends WizardExportResourcesPage
          }
       });*/
 
-      setTitle(ExportMessages.LB_Select);
-      setDescription(ExportMessages.DESC_DeployModelEnvironment);
+      setTitle(Export_Messages.LB_Select);
+      setDescription(Export_Messages.DESC_DeployModelEnvironment);
 
       setImageDescriptor(ExportPlugin.getImageDescriptor("icons/full/wizbean/export_wiz.zip")); //$NON-NLS-1$
 
@@ -291,7 +291,7 @@ public class SelectCarnotModelWizardPage extends WizardExportResourcesPage
          
          if ( !chkWithLocation.getSelection())
          {
-            txtLocation.setText("");
+            txtLocation.setText(""); //$NON-NLS-1$
          }
       }
 
