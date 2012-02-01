@@ -13,7 +13,7 @@ package org.eclipse.stardust.modeling.templates.basic.factories;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateFactory;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
 import org.eclipse.stardust.modeling.templates.spi.ITemplateFactory;
 
@@ -29,17 +29,17 @@ public class GenericPatternsFactory implements ITemplateFactory
 
    public String getDescription()
    {
-      return "Generic Patterns";
+      return Templates_Basic_Messages.TXT_GENERIC_PATTERNS;
    }
 
    public String getId()
    {
-      return "Generic Patterns";
+      return "Generic Patterns"; //$NON-NLS-1$
    }
 
    public String getName() 
    {
-      return "Generic Patterns";
+      return Templates_Basic_Messages.TXT_GENERIC_PATTERNS;
    }
 
    public ITemplateFactory getParentFactory()

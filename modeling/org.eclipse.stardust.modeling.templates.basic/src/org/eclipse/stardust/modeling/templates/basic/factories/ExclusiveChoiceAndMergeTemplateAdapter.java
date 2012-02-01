@@ -17,6 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.basic.ui.ExclusiveChoiceAndMergeTemplateWizard;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
@@ -37,39 +38,19 @@ public class ExclusiveChoiceAndMergeTemplateAdapter implements ITemplate
 
    public String getDescription()
    {
-      String description = null;
-      try
-      {
-         description = TemplateHelper.readResourceToString("/html/exclusivechoiceandmerge.html", parentTemplateFactory);
-      }
-      catch (Throwable e)
-      {
-         description = null;
-      }
-      if (description != null) {
-         return description;
-      } 
-      return "<h1><b>Exclusive Choice and Merge with N-Threads</b></h1>" + 
-      "<p><b>Description</b><p>" + 
-      "This pattern consists of a start activity which spawns via <i>XOR</i> to N threads with one activity each and joins via <i>XOR</i> to one end activity." +
-      "<p><b>Parameter</b></p>" +
-      "<ul>" +
-      "    <li>Number of activities</li>" +
-      "    <li>Type of activity (Default: Application Activity)</li>" +   
-      "</ul>" +
-      "<p><b>Example</b></p>" +
-      "<img src=\"/images/exclusivesplitandmerge.JPG\"\\>";        
+      return TemplateHelper.readDescriptionFromBundle(
+            "com.infinity.bpm.modeling.templates.basic.nl", //$NON-NLS-1$
+            "exclusivechoiceandmerge.html", parentTemplateFactory); //$NON-NLS-1$
    }
    
-  
    public String getId()
    {
-      return "Exclusive Choice and Merge";
+      return "Exclusive Choice and Merge"; //$NON-NLS-1$
    }
 
    public String getName()
    {
-      return "Exclusive Choice and Merge";
+      return Templates_Basic_Messages.TXT_ECLUSIVE_CHOICE_AND_MERGE;
    }
 
    public String getCategory()
@@ -113,6 +94,12 @@ public class ExclusiveChoiceAndMergeTemplateAdapter implements ITemplate
    public ITemplateFactory getParentFactory()
    {
       return parentTemplateFactory;
+   }
+
+   public void setName(String name)
+   {
+      // TODO Auto-generated method stub
+      
    }
    
    

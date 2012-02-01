@@ -26,6 +26,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.figures.anchors.TransitionConnectionAnchor;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 
 
@@ -56,7 +57,7 @@ public class SequenceTemplateWizard extends Wizard  {
          DiagramType targetDiagram, EditPart editPart, int xHint, int yHint)
    {
 	 super();
-	 this.setWindowTitle("Apply \"Sequence Template\"");
+	 this.setWindowTitle(Templates_Basic_Messages.TXT_APPLY_SEQUENCE_TEMPLATE);
 	 this.editPart = editPart;
 	 model = targetModel;
 	 editor = targetEditor;
@@ -74,7 +75,7 @@ public class SequenceTemplateWizard extends Wizard  {
 
    public void addPages() {
 		super.addPages();
-		newTemplatePage = new SequenceTemplatePage("Sequence Template", "Sequence Template", null);
+		newTemplatePage = new SequenceTemplatePage(Templates_Basic_Messages.TXT_SEQUENCE_TEMPLATE, Templates_Basic_Messages.TXT_SEQUENCE_TEMPLATE, null);
 		this.addPage(newTemplatePage);
 	}
 
@@ -88,21 +89,21 @@ public class SequenceTemplateWizard extends Wizard  {
 		ActivityType lastActivity = null;
 		ActivitySymbolType lastActivitySymbol = null;
 
-		for (int i = 0; i < number; i++) {		   
-		   ActivityType sequenceActivity = templateHelper.createActivity(kind + " " + (i + 1), kind);
+		for (int i = 0; i < number; i++) {			 
+		   ActivityType sequenceActivity = templateHelper.createActivity(kind + " " + (i + 1), kind); //$NON-NLS-1$
 		   ActivitySymbolType sequenceActivitySymbol = templateHelper.createActivitySymbol(sequenceActivity, x, y);
 		   if (lastActivity != null) {
-	           TransitionType sequenceTransition = templateHelper.createTransition("Transition " + i);
-	           sequenceTransition.setCondition("CONDITION");
+	           TransitionType sequenceTransition = templateHelper.createTransition("Transition " + i); //$NON-NLS-1$
+	           sequenceTransition.setCondition("CONDITION"); //$NON-NLS-1$
 	           expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
 	           sequenceTransition.setExpression(expression);
-	           ModelUtils.setCDataString(expression.getMixed(), "true", true); 
+	           ModelUtils.setCDataString(expression.getMixed(), "true", true);  //$NON-NLS-1$
 	           TransitionConnectionType sequenceTransitionSymbol = templateHelper.createTransitionSymbol(sequenceTransition);          
 	           sequenceTransition.setFrom(lastActivity);
 	           sequenceTransition.setTo(sequenceActivity);
 	           sequenceTransitionSymbol.setSourceActivitySymbol(lastActivitySymbol);
 	           sequenceTransitionSymbol.setTargetActivitySymbol(sequenceActivitySymbol);
-	           if (orientation.equalsIgnoreCase("Vertical")) {
+	           if (orientation.equalsIgnoreCase(Templates_Basic_Messages.TXT_VERTICAL)) { 
 	               sequenceTransitionSymbol.setSourceAnchor(TransitionConnectionAnchor.BOTTOM);
 	               sequenceTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.TOP);            
 	           } else {
@@ -110,7 +111,7 @@ public class SequenceTemplateWizard extends Wizard  {
 	               sequenceTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.LEFT);    
 	           }
 		   }
-		   if (orientation.equalsIgnoreCase("Vertical")) {
+		   if (orientation.equalsIgnoreCase(Templates_Basic_Messages.TXT_VERTICAL)) { 
 	           y = y + 100;		      
 		   } else {
 		       x = x + 250;

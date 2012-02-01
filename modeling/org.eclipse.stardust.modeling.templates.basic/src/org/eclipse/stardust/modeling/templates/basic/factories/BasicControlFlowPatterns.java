@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.templates.basic.factories;
 
 import java.util.Map;
 
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
 import org.eclipse.stardust.modeling.templates.spi.ITemplateFactory;
 
@@ -27,17 +28,17 @@ public class BasicControlFlowPatterns implements ITemplateFactory
 
    public String getDescription()
    {
-      return "Basic Control Flow Patterns";
+      return Templates_Basic_Messages.TXT_BASIC_CONTROL_FLOW_PATTERN;
    }
 
    public String getId()
    {
-      return "Basic Control Flow Patterns";
+      return "Basic Control Flow Patterns"; //$NON-NLS-1$
    }
 
    public String getName() 
    {
-      return "Basic Control Flow Patterns";
+      return Templates_Basic_Messages.TXT_BASIC_CONTROL_FLOW_PATTERN;
    }
 
    public ITemplateFactory getParentFactory()

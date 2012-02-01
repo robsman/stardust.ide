@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.figures.anchors.TransitionConnectionAnchor;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 
 
@@ -59,7 +60,7 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
          DiagramType targetDiagram, EditPart editPart, int xHint, int yHint)
    {
 	 super();
-	 this.setWindowTitle("Apply \"Exclusive Choice And Merge Template\"");
+	 this.setWindowTitle(Templates_Basic_Messages.TXT_APPLY_EXCLUSIVE_CHOICE_AND_MERGE_TEMPLATE);
 	 this.editPart = editPart;
 	 model = targetModel;
 	 editor = targetEditor;
@@ -77,7 +78,7 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
 
    public void addPages() {
 		super.addPages();
-		newTemplatePage = new ExclusiveChoiceAndMergeTemplatePage("Exclusive Choice and Merge Template", "Exclusive Choice and Merge Template", null);
+		newTemplatePage = new ExclusiveChoiceAndMergeTemplatePage(Templates_Basic_Messages.TXT_EXCLUSIVE_CHOICE_AND_MERGE_TEMPLATE, Templates_Basic_Messages.TXT_EXCLUSIVE_CHOICE_AND_MERGE_TEMPLATE, null);
 		this.addPage(newTemplatePage);
 	}
 
@@ -87,7 +88,7 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
       int x = xHint;
       int y = yHint;      
       //Create activity which contains the AND Split
-      ActivityType rootActivity = templateHelper.createActivity(kind + " 0", kind);       
+      ActivityType rootActivity = templateHelper.createActivity(kind + " 0", kind);        //$NON-NLS-1$
       rootActivity.setSplit(JoinSplitType.XOR_LITERAL);               
       ActivitySymbolType rootActivitySymbol = templateHelper.createActivitySymbol(rootActivity, x, y);              
       GatewaySymbol gatewaySymbol = templateHelper.createGatewaySymbol(rootActivitySymbol, FlowControlType.SPLIT_LITERAL);
@@ -98,7 +99,7 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
       rootTransitionSymbol.setSourceActivitySymbol(rootActivitySymbol);
       rootTransitionSymbol.setTargetActivitySymbol(gatewaySymbol);
       //Create activity which contains the XOR Join
-      ActivityType joinActivity = templateHelper.createActivity(kind + " 99", kind);               
+      ActivityType joinActivity = templateHelper.createActivity(kind + " 99", kind);                //$NON-NLS-1$
       joinActivity.setJoin(JoinSplitType.XOR_LITERAL);               
       ActivitySymbolType joinActivitySymbol = templateHelper.createActivitySymbol(joinActivity, xHint, y + 300);               
       GatewaySymbol joinGatewaySymbol = templateHelper.createGatewaySymbol(joinActivitySymbol, FlowControlType.JOIN_LITERAL);
@@ -107,13 +108,13 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
       //Create the split activities for the split
       y = y + 100;
       for (int i = 0; i < number; i++) {         
-         ActivityType splitActivity = templateHelper.createActivity(kind + " " + (i + 1), kind);
+         ActivityType splitActivity = templateHelper.createActivity(kind + " " + (i + 1), kind); //$NON-NLS-1$
          ActivitySymbolType splitActivitySymbol = templateHelper.createActivitySymbol(splitActivity, x, y);
-         TransitionType splitTransition = templateHelper.createTransition("Transition " + i);
-         splitTransition.setCondition("CONDITION");
+         TransitionType splitTransition = templateHelper.createTransition("Transition " + i); //$NON-NLS-1$
+         splitTransition.setCondition("CONDITION"); //$NON-NLS-1$
          expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
          splitTransition.setExpression(expression);
-         ModelUtils.setCDataString(expression.getMixed(), "true", true); 
+         ModelUtils.setCDataString(expression.getMixed(), "true", true);  //$NON-NLS-1$
          TransitionConnectionType splitTransitionSymbol = templateHelper.createTransitionSymbol(splitTransition);
          splitTransition.setFrom(rootActivity);
          splitTransition.setTo(splitActivity);
@@ -122,11 +123,11 @@ public class ExclusiveChoiceAndMergeTemplateWizard extends Wizard  {
          splitTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.TOP);
          x = x + 200;
          //Connect to join activity
-         TransitionType joinTransition = templateHelper.createTransition("Transition " + i);
-         joinTransition.setCondition("CONDITION");
+         TransitionType joinTransition = templateHelper.createTransition("Transition " + i); //$NON-NLS-1$
+         joinTransition.setCondition("CONDITION"); //$NON-NLS-1$
          expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
          joinTransition.setExpression(expression);
-         ModelUtils.setCDataString(expression.getMixed(), "true", true); 
+         ModelUtils.setCDataString(expression.getMixed(), "true", true);  //$NON-NLS-1$
          TransitionConnectionType joinTransitionSymbol = templateHelper.createTransitionSymbol(joinTransition);
          joinTransition.setFrom(splitActivity);
          joinTransition.setTo(joinActivity);

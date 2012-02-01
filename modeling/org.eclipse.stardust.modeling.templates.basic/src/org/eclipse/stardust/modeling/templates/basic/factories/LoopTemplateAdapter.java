@@ -17,6 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.basic.ui.LoopTemplateWizard;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
@@ -37,42 +38,20 @@ public class LoopTemplateAdapter implements ITemplate
 
    public String getDescription()
    {
-      String description = null;
-      try
-      {
-         description = TemplateHelper.readResourceToString("/html/loop.html", parentTemplateFactory);
-      }
-      catch (Throwable e)
-      {
-         description = null;
-      }
-      if (description != null) {
-         return description;
-      } 
-      return "<h1><b>Loop Pattern</b></h1>" + 
-      "<p><b>Description</b><p>" +
-      "This pattern consists of a sequence of N activities and a loop transition back to the first." +
-      "<p><b>Parameter</b></p>" +
-      "<ul>" +
-      "    <li>Number of activities</li>" +
-      "    <li>Type of activity (Default: Application Activity)</li>" +
-      "    <li>Loop condition</li>" +
-      "    <li>Orientation (Default: Vertical)</li>" +
-      "</ul>" +
-      "<p><b>Example</b></p>" +
-      "<img src=\"/images/loop.JPG\"\\>";           
+      return TemplateHelper.readDescriptionFromBundle(
+            "com.infinity.bpm.modeling.templates.basic.nl", "loop.html", //$NON-NLS-1$ //$NON-NLS-2$
+            parentTemplateFactory);
+
    }
    
-
-
    public String getId()
    {
-      return "Loop";
+      return "Loop"; //$NON-NLS-1$
    }
 
    public String getName()
    {
-      return "Loop";
+      return Templates_Basic_Messages.TXT_LOOP;
    }
 
    public String getCategory()
@@ -116,6 +95,12 @@ public class LoopTemplateAdapter implements ITemplate
    public ITemplateFactory getParentFactory()
    {
       return parentTemplateFactory;
+   }
+
+   public void setName(String name)
+   {
+      // TODO Auto-generated method stub
+      
    }
    
    

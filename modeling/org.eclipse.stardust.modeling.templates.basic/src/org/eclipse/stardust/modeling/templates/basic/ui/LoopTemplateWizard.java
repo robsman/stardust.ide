@@ -26,6 +26,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.figures.anchors.TransitionConnectionAnchor;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 
 
@@ -56,7 +57,7 @@ public class LoopTemplateWizard extends Wizard  {
          DiagramType targetDiagram, EditPart editPart, int xHint, int yHint)
    {
 	 super();
-	 this.setWindowTitle("Apply \"Loop Template\"");
+	 this.setWindowTitle(Templates_Basic_Messages.TXT_APPLY_LOOP_TEMPLATE);
 	 this.editPart = editPart;
 	 model = targetModel;
 	 editor = targetEditor;
@@ -74,7 +75,7 @@ public class LoopTemplateWizard extends Wizard  {
 
    public void addPages() {
 		super.addPages();
-		newTemplatePage = new LoopTemplatePage("Loop Template", "Loop Template", null);
+		newTemplatePage = new LoopTemplatePage(Templates_Basic_Messages.TXT_LOOP_TEMPLATE, Templates_Basic_Messages.TXT_LOOP_TEMPLATE, null);
 		this.addPage(newTemplatePage);
 	}
 
@@ -92,20 +93,20 @@ public class LoopTemplateWizard extends Wizard  {
 		ActivitySymbolType firstActivitySymbol = null;
 		
 		for (int i = 0; i < number; i++) {		   
-		   ActivityType sequenceActivity = templateHelper.createActivity(kind + " " + (i + 1), kind);
+		   ActivityType sequenceActivity = templateHelper.createActivity(kind + " " + (i + 1), kind); //$NON-NLS-1$
 		   ActivitySymbolType sequenceActivitySymbol = templateHelper.createActivitySymbol(sequenceActivity, x, y);
 		   if (lastActivity != null) {
-	           TransitionType sequenceTransition = templateHelper.createTransition("Transition " + i);
-	           sequenceTransition.setCondition("CONDITION");
+	           TransitionType sequenceTransition = templateHelper.createTransition("Transition " + i); //$NON-NLS-1$
+	           sequenceTransition.setCondition("CONDITION"); //$NON-NLS-1$
 	           expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
 	           sequenceTransition.setExpression(expression);
-	           ModelUtils.setCDataString(expression.getMixed(), "true", true); 
+	           ModelUtils.setCDataString(expression.getMixed(), "true", true);  //$NON-NLS-1$
 	           TransitionConnectionType sequenceTransitionSymbol = templateHelper.createTransitionSymbol(sequenceTransition);          
 	           sequenceTransition.setFrom(lastActivity);
 	           sequenceTransition.setTo(sequenceActivity);
 	           sequenceTransitionSymbol.setSourceActivitySymbol(lastActivitySymbol);
 	           sequenceTransitionSymbol.setTargetActivitySymbol(sequenceActivitySymbol);
-	           if (orientation.equalsIgnoreCase("Vertical")) {
+	           if (orientation.equalsIgnoreCase("Vertical")) { //$NON-NLS-1$
 	               sequenceTransitionSymbol.setSourceAnchor(TransitionConnectionAnchor.BOTTOM);
 	               sequenceTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.TOP);            
 	           } else {
@@ -113,7 +114,7 @@ public class LoopTemplateWizard extends Wizard  {
 	               sequenceTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.LEFT);    
 	           }
 		   }
-		   if (orientation.equalsIgnoreCase("Vertical")) {
+		   if (orientation.equalsIgnoreCase("Vertical")) { //$NON-NLS-1$
 	           y = y + 100;		      
 		   } else {
 		       x = x + 250;
@@ -126,8 +127,8 @@ public class LoopTemplateWizard extends Wizard  {
 		   }
 		}
 		//Create Loop transition
-        TransitionType loopTransition = templateHelper.createTransition("Transition");
-        loopTransition.setCondition("CONDITION");
+        TransitionType loopTransition = templateHelper.createTransition("Transition"); //$NON-NLS-1$
+        loopTransition.setCondition("CONDITION"); //$NON-NLS-1$
         expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
         loopTransition.setExpression(expression);
         ModelUtils.setCDataString(expression.getMixed(), condition, true); 
@@ -136,7 +137,7 @@ public class LoopTemplateWizard extends Wizard  {
         loopTransition.setTo(firstActivity);
         loopTransitionSymbol.setSourceActivitySymbol(lastActivitySymbol);
         loopTransitionSymbol.setTargetActivitySymbol(firstActivitySymbol);
-        if (orientation.equalsIgnoreCase("Vertical")) {
+        if (orientation.equalsIgnoreCase("Vertical")) { //$NON-NLS-1$
            loopTransitionSymbol.setSourceAnchor(TransitionConnectionAnchor.RIGHT);
            loopTransitionSymbol.setTargetAnchor(TransitionConnectionAnchor.RIGHT);           
         } else {

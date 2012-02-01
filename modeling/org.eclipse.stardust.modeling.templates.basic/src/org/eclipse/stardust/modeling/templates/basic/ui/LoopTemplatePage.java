@@ -17,6 +17,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.stardust.modeling.templates.Templates_Messages;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -59,9 +61,9 @@ public class LoopTemplatePage extends WizardPage {
 		gd.horizontalAlignment = SWT.FILL;
 		gd.verticalAlignment = SWT.FILL;
 		composite.setLayoutData(gd);
-		Group group = createGroup(composite, "Loop Pattern");
+		Group group = createGroup(composite, Templates_Basic_Messages.TXT_LOOP_PATTERN);
 		Label nameLabel = new Label(group, SWT.NONE);
-		nameLabel.setText("Number of Activities:");
+		nameLabel.setText(Templates_Basic_Messages.LBL_TXT_NUMBER_OF_ACTIVITIES);
 		numberText = new Text(group, SWT.BORDER);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		data.widthHint = IDialogConstants.ENTRY_FIELD_WIDTH;
@@ -69,17 +71,17 @@ public class LoopTemplatePage extends WizardPage {
 				
         
 	    Label kind = new Label(group, SWT.NONE);
-	    kind.setText("Activity Kind:");
+	    kind.setText(Templates_Basic_Messages.LBL_TXT_ACTIVITY_KIND);
 		combo = new Combo(group, SWT.READ_ONLY);
         data = new GridData(GridData.FILL_HORIZONTAL);
         data.widthHint = IDialogConstants.ENTRY_FIELD_WIDTH;
         combo.setLayoutData(data);
-        combo.setItems(new String[]{"Manual Activity", "Application Activity", "Route Activity"});
+        combo.setItems(new String[]{Templates_Messages.MANUAL_ACTIVITY, Templates_Messages.APPLICATION_ACTIVITY, Templates_Messages.ROUTE_ACTIVITY});
         combo.select(1);
-        kindText = "Application Activity";
+        kindText = Templates_Basic_Messages.TXT_APPLICATION_ACTIVITY;
         
         Label conditionLabel = new Label(group, SWT.NONE);
-        conditionLabel.setText("Loop Condition:");
+        conditionLabel.setText(Templates_Basic_Messages.LBL_TXT_LOOP_CONDITIONS);
         conditionText = new Text(group, SWT.BORDER);
         data = new GridData(GridData.FILL_HORIZONTAL);
         data.widthHint = IDialogConstants.ENTRY_FIELD_WIDTH;
@@ -102,14 +104,14 @@ public class LoopTemplatePage extends WizardPage {
 		});
 		
 	    Label orientation = new Label(group, SWT.NONE);
-	    orientation.setText("Orientation:");
+	    orientation.setText(Templates_Basic_Messages.LBL_TXT_ORIENTATION);
 	    orientationCombo = new Combo(group, SWT.READ_ONLY);
 	    data = new GridData(GridData.FILL_HORIZONTAL);
 	    data.widthHint = IDialogConstants.ENTRY_FIELD_WIDTH;
 	    orientationCombo.setLayoutData(data);
-	    orientationCombo.setItems(new String[]{"Vertical", "Horizontal"});
+	    orientationCombo.setItems(new String[]{Templates_Basic_Messages.COMBO_BOX_VERTICAL, Templates_Basic_Messages.COMBO_BOX_HORIZONTAL});
 	    orientationCombo.select(0);
-	    orientationText = "Vertical";
+	    orientationText = Templates_Basic_Messages.TXT_VERTICAL;
 	    
 	    orientationCombo.addSelectionListener(new SelectionListener(){
 
@@ -143,24 +145,24 @@ public class LoopTemplatePage extends WizardPage {
         kindText = combo.getText();
         loopCondition = conditionText.getText();
         if (number.length() == 0) {
-           setErrorMessage("Please provide a valid number of activities (>=2 and <=99)");
+           setErrorMessage(Templates_Basic_Messages.ERR_MSG_PLEASE_PROVIDE_A_VALID_NUMBER_OF_ACTIVITIES);
            setPageComplete(false);
            return;
        }
        try {
           int i = Integer.parseInt(number);
           if (i < 2 || i >99) {
-              setErrorMessage("Please provide a valid number of activities (>=2 and <=99)");
+              setErrorMessage(Templates_Basic_Messages.ERR_MSG_PLEASE_PROVIDE_A_VALID_NUMBER_OF_ACTIVITIES);
               setPageComplete(false);
               return;  
           }
         } catch (Throwable t) {
-           setErrorMessage("Please provide a valid number of activities (>=2 and <=99)");
+           setErrorMessage(Templates_Basic_Messages.ERR_MSG_PLEASE_PROVIDE_A_VALID_NUMBER_OF_ACTIVITIES);
            setPageComplete(false);
            return;         
         }
         if (loopCondition.length() == 0) {
-           setErrorMessage("Please provide a loop condition.");
+           setErrorMessage(Templates_Basic_Messages.ERR_MSG_PLEASE_PROVIDE_A_LOOP_CONDITION);
            setPageComplete(false);
            return;         
         }

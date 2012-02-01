@@ -17,6 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.templates.basic.Templates_Basic_Messages;
 import org.eclipse.stardust.modeling.templates.basic.ui.ParallelSplitAndSynchronizationTemplateWizard;
 import org.eclipse.stardust.modeling.templates.defaulttemplate.TemplateHelper;
 import org.eclipse.stardust.modeling.templates.spi.ITemplate;
@@ -37,28 +38,10 @@ public class ParallelSplitAndSynchronizationTemplateAdapter implements ITemplate
 
    public String getDescription()
    {
-      String description = null;
-      try
-      {
-         description = TemplateHelper.readResourceToString("/html/parallelandsplitwithjoin.html", parentTemplateFactory);
-      }
-      catch (Throwable e)
-      {
-         description = null;
-      }
-      if (description != null) {
-         return description;
-      } 
-      return "<h1><b>Parallel Split and Synchronization Pattern</b></h1>" + 
-      "<p><b>Description</b><p>" +
-      "This pattern consists of a start activity which spawns via <i>AND</i> to N threads with one activity each and joins via <i>AND</i> to one end activity."+
-      "<p><b>Parameter</b></p>" +
-      "<ul>" +
-      "    <li>Number of activities</li>" +
-      "    <li>Type of activity (Default: Application Activity)</li>" +  
-      "</ul>" +
-      "<p><b>Example</b></p>" +
-      "<img src=\"/images/parallelandsplitwithjoin.JPG\"\\>";        
+      return TemplateHelper.readDescriptionFromBundle(
+            "com.infinity.bpm.modeling.templates.basic.nl", //$NON-NLS-1$
+            "parallelandsplitwithjoin.html", parentTemplateFactory); //$NON-NLS-1$
+
    }
    
    
@@ -66,12 +49,12 @@ public class ParallelSplitAndSynchronizationTemplateAdapter implements ITemplate
 
    public String getId()
    {
-      return "Parallel Split and Synchronization";
+      return "Parallel Split and Synchronization"; //$NON-NLS-1$
    }
 
    public String getName()
    {
-      return "Parallel Split and Synchronization";
+      return Templates_Basic_Messages.TXT_PARALLEL_SPLIT_AND_SYNC;
    }
 
    public String getCategory()
@@ -115,6 +98,12 @@ public class ParallelSplitAndSynchronizationTemplateAdapter implements ITemplate
    public ITemplateFactory getParentFactory()
    {
       return parentTemplateFactory;
+   }
+
+   public void setName(String name)
+   {
+      // TODO Auto-generated method stub
+      
    }
    
    
