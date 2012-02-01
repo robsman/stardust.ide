@@ -79,7 +79,7 @@ public class JavaScriptValidator
       IBuffer buffer;
       try
       {        
-         BasicCompilationUnit bcu = new BasicCompilationUnit(code.toCharArray(), this.getPackageName("com.test.validation.class"), "");         
+         BasicCompilationUnit bcu = new BasicCompilationUnit(code.toCharArray(), this.getPackageName("com.test.validation.class"), "");          //$NON-NLS-1$ //$NON-NLS-2$
          CompilationUnitDeclaration result = problemFinder.resolve(bcu, true, true, true);
          IProblem[] problems = result.compilationResult.getErrors();         
          //rp: Workaround
@@ -103,7 +103,7 @@ public class JavaScriptValidator
       for (int i = 0; i < problems.length; i++) 
       {
          IProblem problem = problems[i];
-         if (!(problem.getMessage().indexOf("The return type is incompatible") > -1)) 
+         if (!(problem.getMessage().indexOf("The return type is incompatible") > -1))  //$NON-NLS-1$
          {
             filteredProblems.add(problem);
          }         
@@ -129,7 +129,7 @@ public class JavaScriptValidator
   }
    
    public char[][] getPackageName(String className) {
-      StringTokenizer izer = new StringTokenizer(className, ".");
+      StringTokenizer izer = new StringTokenizer(className, "."); //$NON-NLS-1$
       char[][] result = new char[izer.countTokens() - 1][];
       for (int i = 0; i < result.length; i++) {
          String tok = izer.nextToken();

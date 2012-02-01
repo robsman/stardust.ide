@@ -19,7 +19,7 @@ public class SwitchToModeAction extends TextEditorAction
 {
    
    private boolean basicMapping = true;
-   private String menuText = "Switch To Advanced Mapping Mode";
+   private String menuText = "Switch To Advanced Mapping Mode"; //$NON-NLS-1$
    
    protected SwitchToModeAction(ResourceBundle bundle, String prefix, ITextEditor editor)
    {
@@ -37,9 +37,9 @@ public class SwitchToModeAction extends TextEditorAction
    {
       basicMapping = !basicMapping;
       if (basicMapping) {
-         menuText = "Switch To Advanced Mapping Mode";
+         menuText = "Switch To Advanced Mapping Mode"; //$NON-NLS-1$
       } else {
-         menuText = "Switch To Basic Mapping Mode";
+         menuText = "Switch To Basic Mapping Mode"; //$NON-NLS-1$
       }
       this.setText(menuText);
       super.run();

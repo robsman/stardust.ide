@@ -155,7 +155,6 @@ public class JSCompilationUnitEditor extends JavaEditor implements IJavaReconcil
     private ToggleCommentAction toggleCommentAction;
     private AbstractJavaScanner codeScanner; 
     private AdjustableLineNumberRuler adjustableLineNumberRuler;
-    private SwitchToModeAction switchToModeAction;
     
     /**
      * Text operation code for requesting common prefix completion.
@@ -1247,7 +1246,7 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
 
 	private void addPopupAction(IMenuManager manager) {
         //manager.add(switchToModeAction);
-        manager.add(new Separator("EditorActions"));
+        manager.add(new Separator("EditorActions")); //$NON-NLS-1$
 //	    manager.add(toggleCommentAction);
 //		manager.add(contentAssistAction);
 //		manager.add(addBlockCommentAction);
@@ -1362,7 +1361,7 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
                  * Missing resources.
                  */
                 Shell shell= getSite().getShell();
-                MessageDialog.openError(shell, EditorMessages.CompilationUnitEditor_error_saving_title1, EditorMessages.CompilationUnitEditor_error_saving_message1);
+                MessageDialog.openError(shell, "Error", "Error"); //$NON-NLS-1$ //$NON-NLS-2$
             }
 
         } else {
@@ -1396,7 +1395,7 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
                 protected Control createDialogArea(Composite parent) {
                     parent= (Composite)super.createDialogArea(parent);
                     Link link= new Link(parent, SWT.NONE);
-                    link.setText(EditorMessages.CompilationUnitEditor_error_saving_saveParticipant);
+                    link.setText("Error"); //$NON-NLS-1$
                     link.addSelectionListener(new SelectionAdapter() {
                         public void widgetSelected(SelectionEvent e) {
                             PreferencesUtil.createPreferenceDialogOn(getShell(), "org.eclipse.wst.jsdt.ui.preferences.SaveParticipantPreferencePage", null, null).open(); //$NON-NLS-1$
@@ -1867,7 +1866,7 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
           UndoRedoObject undoRedo = (UndoRedoObject)undoStack.remove(0); 
           String text = undoRedo.getText();
           if (undoRedo.isAdded()) {
-             adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), undoRedo.getEnd() - undoRedo.getStart(), "");
+             adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), undoRedo.getEnd() - undoRedo.getStart(), ""); //$NON-NLS-1$
           } else {
              adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), 0, text);
           } 
@@ -1883,7 +1882,7 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
            UndoRedoObject undoRedo = (UndoRedoObject)redoStack.remove(0); 
            String text = undoRedo.getText();
            if (undoRedo.isAdded()) {
-              adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), undoRedo.getEnd() - undoRedo.getStart(), "");  
+              adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), undoRedo.getEnd() - undoRedo.getStart(), "");   //$NON-NLS-1$
            } else {
               adaptedSourceViewer.getTextWidget().replaceTextRange(undoRedo.getStart(), 0, text); 
            }
@@ -1931,9 +1930,6 @@ private EditorSourceViewerConfiguration sourceViewerConfiguration;
       this.setSourceViewerConfiguration(this.createJavaSourceViewerConfiguration());
    }     
      
-     public boolean isBasicMapping() {
-        return switchToModeAction.isBasicMapping();
-     }
       
      public void setLineOffset(int lineOffset)
      {

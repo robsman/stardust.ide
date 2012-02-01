@@ -20,7 +20,7 @@ import org.osgi.framework.BundleContext;
 public class JavaScriptEditorPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.javascript.editor";
+	public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.javascript.editor"; //$NON-NLS-1$
 
 	// The shared instance
 	private static JavaScriptEditorPlugin plugin;

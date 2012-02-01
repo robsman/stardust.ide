@@ -34,19 +34,19 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 
 	private Map<String, Object> typeMap;
 	   private static final Image primitiveImage = JavaScriptEditorPlugin.getDefault()
-       .getImageDescriptor("icons/primitive_data.JPG").createImage();
+       .getImageDescriptor("icons/primitive_data.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image legoImage = JavaScriptEditorPlugin.getDefault()
-	   .getImageDescriptor("icons/lego_icon.JPG").createImage();
+	   .getImageDescriptor("icons/lego_icon.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image primitiveBpImage = JavaScriptEditorPlugin.getDefault()
-       .getImageDescriptor("icons/primitive_data_bp.JPG").createImage();
+       .getImageDescriptor("icons/primitive_data_bp.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image legoBpImage = JavaScriptEditorPlugin.getDefault()
-       .getImageDescriptor("icons/lego_icon_bp.JPG").createImage();
+       .getImageDescriptor("icons/lego_icon_bp.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image serializableImage = JavaScriptEditorPlugin.getDefault()
-	   .getImageDescriptor("icons/serializable_data.JPG").createImage();
+	   .getImageDescriptor("icons/serializable_data.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image entityImage = JavaScriptEditorPlugin.getDefault()
-	   .getImageDescriptor("icons/entity_data.JPG").createImage();
+	   .getImageDescriptor("icons/entity_data.JPG").createImage(); //$NON-NLS-1$
 	   private static final Image libraryImage = JavaScriptEditorPlugin.getDefault()
-	   .getImageDescriptor("icons/jarlibrary.JPG").createImage();	   
+	   .getImageDescriptor("icons/jarlibrary.JPG").createImage();	    //$NON-NLS-1$
 
 	public EditorCompletionProcessor(IEditorPart editor,	ContentAssistant assistant, String partition) {
 		super(editor, assistant, partition);
@@ -66,7 +66,7 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 			if (isProposalValid(proposal)) 
 			{
 				if (proposal instanceof JavaMethodCompletionProposal) {
-					Reflect.setFieldValue(proposal, "fProposalInfoComputed", true);
+					Reflect.setFieldValue(proposal, "fProposalInfoComputed", true); //$NON-NLS-1$
 				}
 				if (!root || isIppProposal(proposal))
 				{
@@ -87,10 +87,10 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 	private void setLabelProvider(ContentAssistInvocationContext context) {
 		JavaContentAssistInvocationContext invocationContext = (JavaContentAssistInvocationContext)context;
 		Object actLabelProvider = invocationContext.getLabelProvider();
-		Object fContext = Reflect.getFieldValue(actLabelProvider, "fContext");
+		Object fContext = Reflect.getFieldValue(actLabelProvider, "fContext"); //$NON-NLS-1$
 		JSCompletionProposalLabelProvider lp = new JSCompletionProposalLabelProvider();
-		Reflect.setFieldValue(lp, "fContext", fContext);
-		Reflect.setFieldValue(invocationContext, "fLabelProvider", lp);
+		Reflect.setFieldValue(lp, "fContext", fContext); //$NON-NLS-1$
+		Reflect.setFieldValue(invocationContext, "fLabelProvider", lp); //$NON-NLS-1$
 	}
 
 	private boolean isIppProposal(AbstractJavaCompletionProposal proposal) {
@@ -150,8 +150,8 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 				String displayString = proposal.getDisplayString();
 				String ippTypeId = ((AccessPointType)ippType).getId();
 				String ippTypeName = ((AccessPointType)ippType).getMetaType().getName();	
-				displayString = displayString.replace("any", ippTypeName);
-				Reflect.setFieldValue(proposal, "fDisplayString", displayString);
+				displayString = displayString.replace("any", ippTypeName); //$NON-NLS-1$
+				Reflect.setFieldValue(proposal, "fDisplayString", displayString); //$NON-NLS-1$
 				proposal.setImage(getImageByType(ippType, proposal));
 			}
 			if (ippType instanceof DataType) {
@@ -159,11 +159,11 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 				String ippTypeId = ((DataType)ippType).getType().getId();
 				String ippTypeName = ((DataType)ippType).getType().getName();
 				if (CodeCompletionHelper.getInstance().getExternalTypeMap().containsKey(((DataType)ippType).getId())) {
-					displayString = displayString.replace("any", "External Class");
+					displayString = displayString.replace("any", "External Class"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					displayString = displayString.replace("any", ippTypeName);					
+					displayString = displayString.replace("any", ippTypeName);					 //$NON-NLS-1$
 				}
-				Reflect.setFieldValue(proposal, "fDisplayString", displayString);
+				Reflect.setFieldValue(proposal, "fDisplayString", displayString); //$NON-NLS-1$
 				proposal.setImage(getImageByType(ippType, proposal));				
 			}
 		}
@@ -174,14 +174,14 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 		if (ippType instanceof AccessPointType)
 		{
 			AccessPointType apt = (AccessPointType)ippType;	
-			if (apt.getType().getId().equalsIgnoreCase("struct")) {
+			if (apt.getType().getId().equalsIgnoreCase("struct")) { //$NON-NLS-1$
 				image = legoImage;	
 			} else {
 				image = primitiveImage;
 			}			
 		} else {
 			String ippTypeId = ((DataType)ippType).getType().getId();
-			if (ippTypeId.equalsIgnoreCase("serializable")) 
+			if (ippTypeId.equalsIgnoreCase("serializable"))  //$NON-NLS-1$
 			{
 				if (CodeCompletionHelper.getInstance().getExternalTypeMap().containsKey(((DataType)ippType).getId())) {
 					image = libraryImage;
@@ -189,15 +189,15 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 					image = serializableImage;					
 				}
 			}
-			if (ippTypeId.equalsIgnoreCase("primitive"))
+			if (ippTypeId.equalsIgnoreCase("primitive")) //$NON-NLS-1$
 			{
 				image = primitiveImage;
 			}
-			if (ippTypeId.equalsIgnoreCase("entity"))
+			if (ippTypeId.equalsIgnoreCase("entity")) //$NON-NLS-1$
 			{
 				image = entityImage;
 			}			
-			if (ippTypeId.startsWith("struct")) 
+			if (ippTypeId.startsWith("struct"))  //$NON-NLS-1$
 			{
 				image = legoImage;
 			}			
@@ -207,53 +207,53 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 
 
 	private String[] badGlobalProposals = new String[]{
-			"Window",
-			"ippInitialize",
-			"ippImport",
-			"Global",
-			"[ECMA",
-			"[JavaScript",
-			"[Common",
-			"debugger",
-			"prototype"
+			"Window", //$NON-NLS-1$
+			"ippInitialize", //$NON-NLS-1$
+			"ippImport", //$NON-NLS-1$
+			"Global", //$NON-NLS-1$
+			"[ECMA", //$NON-NLS-1$
+			"[JavaScript", //$NON-NLS-1$
+			"[Common", //$NON-NLS-1$
+			"debugger", //$NON-NLS-1$
+			"prototype" //$NON-NLS-1$
 	};
 	
 	private String[] badProposals = new String[]{
-			"Class    String - Object",
-			"constructor    Function - Object",
-			"prototype - String",
-			"Value    Number - Object",
-			"CanPut(String property)  Boolean - Object",
-			"charAt(Number pos)  String - String",
-			"charCodeAt(Number pos)  Number - String",			
-			"DefaultValue()  void - Object",
-			"Delete(String property)  void - Object",
-			"Get(String property)  Object - Object",
-			"hasOwnProperty(Object V)  Boolean - Object",
-			"HasProperty(String property)  Boolean - Object",
-			"indexOf(String searchString, Number position)  Number - String",
-			"isPrototypeOf(Object V)  Boolean - Object",
-			"lastIndexOf(String searchString, Number position)  Number - String",
-			"localeCompare(String otherString)  Number - String",
-			"match(String regexp)  any[] - String",
-			"Match(String value, String index)  Object - Object",
-			"propertyIsEnumerable(Object V)  Boolean - Object",
-			"Put(String property, String value)  void - Object",
-			"replace(String searchValue, String replaceValue)  String - String",
-			"search(String regexp)  Number - String",
-			"slice(Number start, Number end)  String - String",
-			"split(String separator, Number limit)  any[] - String",
-			"valueOf()  Object - Object",
-			"fromCharCode(Number charCode) - String",
-			"concat(Array args)  any[] - Array",
-			"join(String seperator)  any[] - Array",
-			"pop()  Object - Array",
-			"push(Array args)  void - Array",
-			"reverse()  any[] - Array",
-			"shift()  Object - Array",
-			"slice(Number start, Number end)  any[] - Array",
-			"sort(Function funct)  any[] - Array",
-			"splice(Number start, Number deletecount, Array items)  any[] - Array",
-			"unshift(Array start)  any[] - Array"
+			"Class    String - Object", //$NON-NLS-1$
+			"constructor    Function - Object", //$NON-NLS-1$
+			"prototype - String", //$NON-NLS-1$
+			"Value    Number - Object", //$NON-NLS-1$
+			"CanPut(String property)  Boolean - Object", //$NON-NLS-1$
+			"charAt(Number pos)  String - String", //$NON-NLS-1$
+			"charCodeAt(Number pos)  Number - String",			 //$NON-NLS-1$
+			"DefaultValue()  void - Object", //$NON-NLS-1$
+			"Delete(String property)  void - Object", //$NON-NLS-1$
+			"Get(String property)  Object - Object", //$NON-NLS-1$
+			"hasOwnProperty(Object V)  Boolean - Object", //$NON-NLS-1$
+			"HasProperty(String property)  Boolean - Object", //$NON-NLS-1$
+			"indexOf(String searchString, Number position)  Number - String", //$NON-NLS-1$
+			"isPrototypeOf(Object V)  Boolean - Object", //$NON-NLS-1$
+			"lastIndexOf(String searchString, Number position)  Number - String", //$NON-NLS-1$
+			"localeCompare(String otherString)  Number - String", //$NON-NLS-1$
+			"match(String regexp)  any[] - String", //$NON-NLS-1$
+			"Match(String value, String index)  Object - Object", //$NON-NLS-1$
+			"propertyIsEnumerable(Object V)  Boolean - Object", //$NON-NLS-1$
+			"Put(String property, String value)  void - Object", //$NON-NLS-1$
+			"replace(String searchValue, String replaceValue)  String - String", //$NON-NLS-1$
+			"search(String regexp)  Number - String", //$NON-NLS-1$
+			"slice(Number start, Number end)  String - String", //$NON-NLS-1$
+			"split(String separator, Number limit)  any[] - String", //$NON-NLS-1$
+			"valueOf()  Object - Object", //$NON-NLS-1$
+			"fromCharCode(Number charCode) - String", //$NON-NLS-1$
+			"concat(Array args)  any[] - Array", //$NON-NLS-1$
+			"join(String seperator)  any[] - Array", //$NON-NLS-1$
+			"pop()  Object - Array", //$NON-NLS-1$
+			"push(Array args)  void - Array", //$NON-NLS-1$
+			"reverse()  any[] - Array", //$NON-NLS-1$
+			"shift()  Object - Array", //$NON-NLS-1$
+			"slice(Number start, Number end)  any[] - Array", //$NON-NLS-1$
+			"sort(Function funct)  any[] - Array", //$NON-NLS-1$
+			"splice(Number start, Number deletecount, Array items)  any[] - Array", //$NON-NLS-1$
+			"unshift(Array start)  any[] - Array" //$NON-NLS-1$
 	};	
 }

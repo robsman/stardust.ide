@@ -30,9 +30,9 @@ public class JavaScriptEditorController
 
 protected String masterDocument;
 
-   protected String fieldsDocument = "//Fields\n";
-   protected String expressionDocument = "//Expressions\n";
-   protected String statementsDocument = "//Statements\n";
+   protected String fieldsDocument = "//Fields\n"; //$NON-NLS-1$
+   protected String expressionDocument = "//Expressions\n"; //$NON-NLS-1$
+   protected String statementsDocument = "//Statements\n"; //$NON-NLS-1$
 
    protected Region fieldsRegion;
    protected Region statementsRegion;
@@ -42,18 +42,18 @@ protected String masterDocument;
    
    public void intializeModel(ModelType model)
    {
-      jScript = "function ippInitialize(e) {return null}\n";
-      jScript = jScript + "function ippImport(e) {return null}\n";
+      jScript = "function ippInitialize(e) {return null}\n"; //$NON-NLS-1$
+      jScript = jScript + "function ippImport(e) {return null}\n"; //$NON-NLS-1$
       
       List modelDatas = model.getData();      
       for(int i = 0; i < modelDatas.size(); i++)
       {
          DataType data = (DataType) modelDatas.get(i);         
-         jScript = jScript + "var " + data.getId() + " = ippInitialize(\"" + data.getId() + "\");\n";
+         jScript = jScript + "var " + data.getId() + " = ippInitialize(\"" + data.getId() + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
-      jScript = jScript + "var " + PredefinedConstants.ACTIVITY_INSTANCE_ACCESSPOINT +
-            " = ippInitialize(\"" + PredefinedConstants.ACTIVITY_INSTANCE_ACCESSPOINT + "\");\n";
-      fieldsDocument = "//Fields\n" + jScript;
+      jScript = jScript + "var " + PredefinedConstants.ACTIVITY_INSTANCE_ACCESSPOINT + //$NON-NLS-1$
+            " = ippInitialize(\"" + PredefinedConstants.ACTIVITY_INSTANCE_ACCESSPOINT + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+      fieldsDocument = "//Fields\n" + jScript; //$NON-NLS-1$
    }
       
    public String getJScript()
@@ -75,12 +75,12 @@ protected String masterDocument;
             // constructor, etc.
             IRegion region = document.getLineInformation(i);
             String content = document.get(region.getOffset(), document.getLineLength(i));
-            if (content.startsWith("//Fields"))
+            if (content.startsWith("//Fields")) //$NON-NLS-1$
             {
                fo = document.getLineOffset(i + 1);
             }
             // functions
-            if (content.startsWith("//Statements"))
+            if (content.startsWith("//Statements")) //$NON-NLS-1$
             {
                fl = (document.getLineOffset(i - 1) + document.getLineLength(i - 1)) - fo;
                so = document.getLineOffset(i + 1);
@@ -88,7 +88,7 @@ protected String masterDocument;
                document.get(eo, el);
             }
             // expression for boolean
-            if (content.startsWith("//Expression"))
+            if (content.startsWith("//Expression")) //$NON-NLS-1$
             {
                sl = document.getLineOffset(i - 1) + document.getLineLength(i - 1) - so;
                eo = document.getLineOffset(i + 1);

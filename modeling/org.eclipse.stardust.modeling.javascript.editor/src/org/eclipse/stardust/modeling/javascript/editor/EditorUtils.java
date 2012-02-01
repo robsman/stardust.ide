@@ -31,7 +31,7 @@ public class EditorUtils
 {
    public static IFile createFileStructure(IProject project, ModelType model, String jsFileName)
    {
-      String id = "." + model.getId();
+      String id = "." + model.getId(); //$NON-NLS-1$
       File tempFile;
       IFile tempFileResource = null;
       try
@@ -42,7 +42,7 @@ public class EditorUtils
             kwFolder.create(true, true, null);
          }
          // ?
-         String filePath = kwFolder.getLocation().toString() + "/" + jsFileName;
+         String filePath = kwFolder.getLocation().toString() + "/" + jsFileName; //$NON-NLS-1$
          tempFileResource = null;
          tempFile = new File(filePath);
          if (!tempFile.exists())
@@ -66,19 +66,19 @@ public class EditorUtils
    public static void addJSSupport(IProject project, ModelType model) throws CoreException
    {
       //deleteFileStructure(project, model);
-      if (null != project  && !project.hasNature("org.eclipse.wst.jsdt.core.jsNature"))
+      if (null != project  && !project.hasNature("org.eclipse.wst.jsdt.core.jsNature")) //$NON-NLS-1$
       {
          IProjectDescription description = project.getDescription();
          String[] natures = description.getNatureIds();
          String[] newNatures = new String[natures.length + 1];
          System.arraycopy(natures, 0, newNatures, 0, natures.length);
-         newNatures[newNatures.length - 1] = "org.eclipse.wst.jsdt.core.jsNature";
+         newNatures[newNatures.length - 1] = "org.eclipse.wst.jsdt.core.jsNature"; //$NON-NLS-1$
          description.setNatureIds(newNatures);
          project.setDescription(description, null);      
       }
-      Bundle bundle = Platform.getBundle("org.eclipse.stardust.modeling.javascript.editor");
-      URL url = (URL) BundleUtility.find(bundle, "lib/.jsdtscope");
-      IFile systemJSResource = project.getFile(".jsdtscope");
+      Bundle bundle = Platform.getBundle("org.eclipse.stardust.modeling.javascript.editor"); //$NON-NLS-1$
+      URL url = (URL) BundleUtility.find(bundle, "lib/.jsdtscope"); //$NON-NLS-1$
+      IFile systemJSResource = project.getFile(".jsdtscope"); //$NON-NLS-1$
       if (!systemJSResource.exists())
       {
          try
@@ -99,7 +99,7 @@ public class EditorUtils
 
    public static void deleteFileStructure(IProject project, ModelType model)
    {
-      String id = "." + model.getId();
+      String id = "." + model.getId(); //$NON-NLS-1$
       IFolder modelFolder = project.getFolder(id);
       if (modelFolder.exists())
       {

@@ -26,7 +26,7 @@ public class EditorContentAssistant extends ContentAssistant {
       } catch (Throwable t){
          t.printStackTrace();
       }
-      return "";
+      return ""; //$NON-NLS-1$
    }
 
 }

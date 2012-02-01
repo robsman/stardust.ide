@@ -53,7 +53,7 @@ public class CancelableJSProblemFactory extends DefaultProblemFactory {
       {
          return ProblemSeverities.Warning;
       } 
-      if (message.indexOf("Duplicate") > -1) {
+      if (message.indexOf("Duplicate") > -1) { //$NON-NLS-1$
          return ProblemSeverities.Warning;
       }
       return ProblemSeverities.Error;
