@@ -223,8 +223,8 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       }
 
       setPageComplete(false);
-      setTitle(ImportMessages.LB_Select); // TODO
-      setDescription(ImportMessages.DESC_ImportFile); // TODO
+      setTitle(Import_Messages.LB_Select); // TODO
+      setDescription(Import_Messages.DESC_ImportFile); // TODO
       setImageDescriptor(WorkbenchImages
             .getImageDescriptor(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_WIZ));
 
@@ -313,7 +313,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       }
 
       Label modelTypsComboLabel = new Label(composite, SWT.NONE);
-      modelTypsComboLabel.setText(ImportMessages.LB_Types); // TODO
+      modelTypsComboLabel.setText(Import_Messages.LB_Types); // TODO
 
       modelTypsCombo = new Combo(composite, SWT.READ_ONLY);
 
@@ -399,7 +399,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       {
          if (checkFileExists())
          {
-            setMessage(ImportMessages.ImportModelWizardPage_WarningIdAlreadyExists, 2);
+            setMessage(Import_Messages.ImportModelWizardPage_WarningIdAlreadyExists, 2);
          }
          else
          {
@@ -491,7 +491,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       catch (InvocationTargetException e)
       {
          Throwable realException = e.getTargetException();
-         MessageDialog.openError(getShell(), ImportMessages.MSG_Err, realException
+         MessageDialog.openError(getShell(), Import_Messages.MSG_Err, realException
                .getMessage());
       }
       return result[0];

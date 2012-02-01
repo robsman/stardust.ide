@@ -22,7 +22,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -45,8 +45,8 @@ public class MergeModelElementsWizardPage extends WizardPage
    protected MergeModelElementsWizardPage(String pageName, ImportModelElementsWizardPage sourcePage)
    {
       super(pageName);
-      setTitle(ImportMessages.MergeModelElementsWizardPage_Title); // TODO
-      setDescription(ImportMessages.MergeModelElementsWizardPage_Comment);
+      setTitle(Import_Messages.MergeModelElementsWizardPage_Title); // TODO
+      setDescription(Import_Messages.MergeModelElementsWizardPage_Comment);
       // TODO: replace with CARNOT EXP specific image
       ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
       setImageDescriptor(sharedImages.getImageDescriptor(IMG_WIZBAN_IMPORT_WIZ));
@@ -73,7 +73,7 @@ public class MergeModelElementsWizardPage extends WizardPage
       }
       catch (CoreException e)
       {
-         ErrorDialog.openError(getShell(), ImportMessages.MergeModelElementsWizardPage_ERROR_DIALOG_TITLE, e.getMessage(), e.getStatus());
+         ErrorDialog.openError(getShell(), Import_Messages.MergeModelElementsWizardPage_ERROR_DIALOG_TITLE, e.getMessage(), e.getStatus());
          result = false;
       }
       return result;
@@ -160,7 +160,7 @@ public class MergeModelElementsWizardPage extends WizardPage
       {
          WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
          Shell shell = editor.getSite().getShell();
-         MessageDialog.openInformation(shell, ImportMessages.MergeModelElementsWizardPage_InfoDialogTitle, ImportMessages.MergeModelElementsWizardPage_InfoDialogText);            
+         MessageDialog.openInformation(shell, Import_Messages.MergeModelElementsWizardPage_InfoDialogTitle, Import_Messages.MergeModelElementsWizardPage_InfoDialogText);            
       }
       return canFlip;
    }

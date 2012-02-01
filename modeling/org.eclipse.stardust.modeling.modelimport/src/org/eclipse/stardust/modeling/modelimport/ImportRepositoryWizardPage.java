@@ -91,15 +91,15 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
 
    private final static String STORE_CREATE_CONTAINER_STRUCTURE_ID = "ImportRepositoryWizardPage.STORE_CREATE_CONTAINER_STRUCTURE_ID";//$NON-NLS-1$
 
-   private static final String SELECT_ALL_TITLE = ImportMessages.STR_SelectAll;
+   private static final String SELECT_ALL_TITLE = Import_Messages.STR_SelectAll;
 
-   private static final String DESELECT_ALL_TITLE = ImportMessages.STR_DeselectAll;
+   private static final String DESELECT_ALL_TITLE = Import_Messages.STR_DeselectAll;
 
-   private static final String SELECT_SOURCE_TITLE = ImportMessages.STR_ImportFromRepository;
+   private static final String SELECT_SOURCE_TITLE = Import_Messages.STR_ImportFromRepository;
 
-   private static final String SELECT_SOURCE_MESSAGE = ImportMessages.MSG_SelectImportDir;
+   private static final String SELECT_SOURCE_MESSAGE = Import_Messages.MSG_SelectImportDir;
 
-   protected static final String SOURCE_EMPTY_MESSAGE = ImportMessages.MSG_SrcNotEmpty;
+   protected static final String SOURCE_EMPTY_MESSAGE = Import_Messages.MSG_SrcNotEmpty;
 
    protected ImportRepositoryWizardPage(String name, IWorkbench aWorkbench,
                                         IStructuredSelection selection)
@@ -204,12 +204,12 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
       // overwrite... checkbox
       overwriteExistingResourcesCheckbox = new Button(optionsGroup, SWT.CHECK);
       overwriteExistingResourcesCheckbox.setFont(optionsGroup.getFont());
-      overwriteExistingResourcesCheckbox.setText(ImportMessages.BTN_OverwriteModels);
+      overwriteExistingResourcesCheckbox.setText(Import_Messages.BTN_OverwriteModels);
 
       // create containers radio
       createContainerStructureButton = new Button(optionsGroup, SWT.CHECK);
       createContainerStructureButton.setFont(optionsGroup.getFont());
-      createContainerStructureButton.setText(ImportMessages.BTN_CreateDirStructure);
+      createContainerStructureButton.setText(Import_Messages.BTN_CreateDirStructure);
       createContainerStructureButton.setSelection(false);
 
       // create selection only radio
@@ -298,7 +298,7 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
 
       // source browse button
       sourceBrowseButton = new Button(sourceContainerGroup, SWT.PUSH);
-      sourceBrowseButton.setText(ImportMessages.BTN_Browse);
+      sourceBrowseButton.setText(Import_Messages.BTN_Browse);
       sourceBrowseButton.addListener(SWT.Selection, this);
       sourceBrowseButton.setLayoutData(new GridData(
          GridData.HORIZONTAL_ALIGN_FILL));
@@ -412,7 +412,7 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
       if (new File(getSourceDirectoryName()).isDirectory())
          return true;
 
-      displayErrorDialog(ImportMessages.MSG_InvalidSrc);
+      displayErrorDialog(Import_Messages.MSG_InvalidSrc);
       sourceNameField.setFocus();
       return false;
    }
@@ -442,7 +442,7 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
       if (!status.isOK())
       {
          ErrorDialog
-            .openError(getContainer().getShell(), ImportMessages.MSG_ImportProblems,
+            .openError(getContainer().getShell(), Import_Messages.MSG_ImportProblems,
                null, // no special message
                status);
          return false;
@@ -476,8 +476,8 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
          return importResources(fileSystemObjects);
 
       MessageDialog.openInformation(getContainer().getShell(),
-         ImportMessages.TITLE_Info,
-         ImportMessages.MSG_NoFilesSelected);
+         Import_Messages.TITLE_Info,
+         Import_Messages.MSG_NoFilesSelected);
 
       return false;
    }
@@ -584,7 +584,7 @@ public class ImportRepositoryWizardPage extends WizardResourceImportPage
     */
    protected String getSourceLabel()
    {
-      return ImportMessages.LB_FromDir;
+      return Import_Messages.LB_FromDir;
    }
 
    /**

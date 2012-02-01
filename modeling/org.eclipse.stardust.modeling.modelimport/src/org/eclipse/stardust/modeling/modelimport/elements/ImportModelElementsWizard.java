@@ -29,8 +29,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
@@ -44,7 +44,7 @@ public class ImportModelElementsWizard extends Wizard implements IImportWizard
    public ImportModelElementsWizard()
    {
       super();
-      setWindowTitle(ImportMessages.DESC_CarnotFileImport);
+      setWindowTitle(Import_Messages.DESC_CarnotFileImport);
    }
 
    private ImportModelElementsWizardPage importModelElementsWizardPage;
@@ -79,10 +79,12 @@ public class ImportModelElementsWizard extends Wizard implements IImportWizard
                ModelServer modelServer = wme.getModelServer();
                if(modelServer.isModelShared())
                {
-                  if(!modelServer.isLockedAll())
+                  if (!modelServer.isLockedAll())
                   {
-                     MessageDialog.openInformation(getShell(), "Import Model Elements",
-                     "This operation requires the whole model to be locked.\nYou must lock the whole Model to proceed!");
+                     MessageDialog.openInformation(getShell(),
+                           Import_Messages.MSG_IMPORT_MODEL_ELEMENTS,
+                           Import_Messages.MSG_LOCK_MODEL_REQUIRED);
+
                      proceed = false;
                   }
                }
@@ -115,13 +117,13 @@ public class ImportModelElementsWizard extends Wizard implements IImportWizard
       
          if (selectedResources.isEmpty())
          {
-            MessageDialog.openInformation(getShell(), ImportMessages.MSG_InvalidSel,
-                  ImportMessages.MSG_SelectModel);
+            MessageDialog.openInformation(getShell(), Import_Messages.MSG_InvalidSel,
+                  Import_Messages.MSG_SelectModel);
          }
          else
          {
             importModelElementsWizardPage = new ImportModelElementsWizardPage(
-                  ImportMessages.LB_ElementsImport, selection);
+                  Import_Messages.LB_ElementsImport, selection);
             mergeModelElementsWizardPage = new MergeModelElementsWizardPage("merge",  //$NON-NLS-1$
                   importModelElementsWizardPage);
    

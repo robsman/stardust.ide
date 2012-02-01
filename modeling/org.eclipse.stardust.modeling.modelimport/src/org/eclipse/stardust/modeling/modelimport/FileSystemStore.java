@@ -121,7 +121,7 @@ public class FileSystemStore
    {
       if (findRootModel(id) != null)
       {
-         throw new IOException(ImportMessages.MSG_RootModelWithId + id + "'."); //$NON-NLS-1$
+         throw new IOException(Import_Messages.MSG_RootModelWithId + id + "'."); //$NON-NLS-1$
       }
       else
       {

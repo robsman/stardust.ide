@@ -23,7 +23,7 @@ public class ImportCarnotModelRepositoryWizard extends Wizard
 
    private ImportRepositoryWizardPage page;
    private IWorkbench workbench;
-   private static final String WIZARD_NAME = ImportMessages.NAME_ImportWiz;
+   private static final String WIZARD_NAME = Import_Messages.NAME_ImportWiz;
 
    public ImportCarnotModelRepositoryWizard()
    {
@@ -45,7 +45,7 @@ public class ImportCarnotModelRepositoryWizard extends Wizard
    {
       this.workbench = workbench;
       this.selection = selection;
-      this.setWindowTitle(ImportMessages.TITLE_ImportWiz);
+      this.setWindowTitle(Import_Messages.TITLE_ImportWiz);
    }
 
    public void addPages()

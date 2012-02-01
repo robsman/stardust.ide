@@ -22,7 +22,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.swt.widgets.Composite;
 
 public final class DifferencesViewer extends StructureDiffViewer
@@ -50,7 +50,7 @@ public final class DifferencesViewer extends StructureDiffViewer
 
       public String getName()
       {
-         return ImportMessages.DifferencesViewer_Title;
+         return Import_Messages.DifferencesViewer_Title;
       }
 
       public IStructureComparator getStructure(Object input)
@@ -250,8 +250,8 @@ public final class DifferencesViewer extends StructureDiffViewer
             DifferencesViewer.this.refresh();
          }
       };
-      allFilterAction.setText(ImportMessages.DifferencesViewer_allFilterActionText);
-      allFilterAction.setToolTipText(ImportMessages.DifferencesViewer_allFilterActionTooltip);
+      allFilterAction.setText(Import_Messages.DifferencesViewer_allFilterActionText);
+      allFilterAction.setToolTipText(Import_Messages.DifferencesViewer_allFilterActionTooltip);
       allFilterAction.setImageDescriptor(DiagramPlugin
             .getImageDescriptor(ICONS_FULL_OBJ16_PATH
                   + "all_changes.gif")); //$NON-NLS-1$
@@ -269,8 +269,8 @@ public final class DifferencesViewer extends StructureDiffViewer
             DifferencesViewer.this.refresh();
          }
       };
-      additionFilterAction.setText(ImportMessages.DifferencesViewer_additionFilterText);
-      additionFilterAction.setToolTipText(ImportMessages.DifferencesViewer_additionFilterTooltip);
+      additionFilterAction.setText(Import_Messages.DifferencesViewer_additionFilterText);
+      additionFilterAction.setToolTipText(Import_Messages.DifferencesViewer_additionFilterTooltip);
       additionFilterAction.setImageDescriptor(DiagramPlugin
             .getImageDescriptor(ICONS_FULL_OBJ16_PATH
                   + "additive_changes.gif")); //$NON-NLS-1$
@@ -287,8 +287,8 @@ public final class DifferencesViewer extends StructureDiffViewer
          }
       };
 
-      deletionFilterAction.setText(ImportMessages.DifferencesViewer_deletionFilterText);
-      deletionFilterAction.setToolTipText(ImportMessages.DifferencesViewer_deletionFilterTooltip);
+      deletionFilterAction.setText(Import_Messages.DifferencesViewer_deletionFilterText);
+      deletionFilterAction.setToolTipText(Import_Messages.DifferencesViewer_deletionFilterTooltip);
       deletionFilterAction.setImageDescriptor(DiagramPlugin
             .getImageDescriptor(ICONS_FULL_OBJ16_PATH
                   + "subtractive_changes.gif")); //$NON-NLS-1$
@@ -304,8 +304,8 @@ public final class DifferencesViewer extends StructureDiffViewer
          }
       };
 
-      changeFilterAction.setText(ImportMessages.DifferencesViewer_changedFilterText);
-      changeFilterAction.setToolTipText(ImportMessages.DifferencesViewer_changedFilterToolTip);
+      changeFilterAction.setText(Import_Messages.DifferencesViewer_changedFilterText);
+      changeFilterAction.setToolTipText(Import_Messages.DifferencesViewer_changedFilterToolTip);
       changeFilterAction.setImageDescriptor(DiagramPlugin
             .getImageDescriptor(ICONS_FULL_OBJ16_PATH
                   + "update_changes.gif")); //$NON-NLS-1$

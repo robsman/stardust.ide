@@ -52,7 +52,7 @@ import org.eclipse.stardust.engine.core.model.gui.PerformsConnection;
 import org.eclipse.stardust.engine.core.model.gui.RoleSymbol;
 import org.eclipse.stardust.engine.core.model.gui.TransitionConnection;
 import org.eclipse.stardust.engine.core.model.utils.ModelElementList;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -122,11 +122,11 @@ public abstract class Converter
          catch (Exception e)
          {
             trace.warn(
-                  ImportMessages.MSG_CouldNotCreateActivityGraphForProcess
+                  Import_Messages.MSG_CouldNotCreateActivityGraphForProcess
                         + processDefinition.getName()
                         + "(" + processDefinition.getId() + ")", e); //$NON-NLS-1$ //$NON-NLS-2$
             ConvertWarningException warning = new ConvertWarningException(
-                  ImportMessages.MSG_CouldNotCreateActivityGraph + e.getMessage());
+                  Import_Messages.MSG_CouldNotCreateActivityGraph + e.getMessage());
             warning.setProcessDefinition(processDefinition);
             converterWarnings.addLast(warning);
          }
@@ -210,7 +210,7 @@ public abstract class Converter
          }
          catch (Throwable e)
          {
-            System.out.println(ImportMessages.MSG_CreateTransitions
+            System.out.println(Import_Messages.MSG_CreateTransitions
                   + startActivity.getName() + "-> " + nextActivity.getName() + ": " + e); //$NON-NLS-1$ //$NON-NLS-2$
          }
       }
@@ -398,7 +398,7 @@ public abstract class Converter
       Document document;
 
       org.eclipse.stardust.common.Assert.isNotNull(inputStream, MessageFormat.format(
-            ImportMessages.MSG_CannotCreateDocFromNull, null));
+            Import_Messages.MSG_CannotCreateDocFromNull, null));
 
       try
       {
@@ -407,7 +407,7 @@ public abstract class Converter
       }
       catch (Exception e)
       {
-         throw new ApplicationException(ImportMessages.MSG_CouldNotCreateFromInputStream,
+         throw new ApplicationException(Import_Messages.MSG_CouldNotCreateFromInputStream,
                e);
       }
 

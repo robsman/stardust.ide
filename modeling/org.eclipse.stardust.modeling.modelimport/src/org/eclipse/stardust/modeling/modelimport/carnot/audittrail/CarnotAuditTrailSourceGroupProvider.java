@@ -43,9 +43,9 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.eclipse.stardust.modeling.modelimport.ImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.stardust.modeling.modelimport.ThirdPartySourceGroupProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -73,7 +73,7 @@ public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupPr
    public static final String ATTR_CARNOT_USER = ImportPlugin.PLUGIN_ID
          + ".deployment.User"; //$NON-NLS-1$
 
-   private static final String CONTAINER_BROWSE_BUTTON_LABEL = ImportMessages.BTN_Browse;
+   private static final String CONTAINER_BROWSE_BUTTON_LABEL = Import_Messages.BTN_Browse;
 
    private IImportModelWizardPage wizardPage;
 
@@ -130,7 +130,7 @@ public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupPr
       if (wizardPage instanceof ImportModelWizardPage)
       {
          this.txtTargetFileName = FormBuilder.createLabeledText(containerGroup,
-               ImportMessages.LB_TargetFile);
+               Import_Messages.LB_TargetFile);
          ((GridData) txtTargetFileName.getText().getLayoutData()).horizontalSpan = 2;
          txtTargetFileName.getText().addModifyListener(txtModifyListener);
       }
@@ -159,7 +159,7 @@ public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupPr
 
          if (!chkWithLocation.getSelection())
          {
-            txtLocation.setText("");
+            txtLocation.setText(""); //$NON-NLS-1$
          }
       }
       setComplete(true);
@@ -391,13 +391,13 @@ public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupPr
       expComp.setLayout(layout);
       expComp.setLayoutData(FormBuilder.createDefaultMultiLineWidgetGridData());
 
-      expComp.setText("Advanced");
+      expComp.setText(Import_Messages.CarnotAuditTrailSourceGroupProvider_1);
 
       Composite containerGroup = FormBuilder.createComposite(expComp, 3);
       expComp.setClient(containerGroup);
 
       this.chkWithCarnotHome = FormBuilder.createCheckBox(containerGroup,
-            "Custom CARNOT HOME");
+            Import_Messages.CarnotAuditTrailSourceGroupProvider_2);
       this.txtCarnotHome = FormBuilder.createText(containerGroup);
       FormBuilder.applyDefaultTextControlWidth(txtCarnotHome);
       this.btnBrowseCarnotHome = FormBuilder.createButton(containerGroup,
@@ -409,7 +409,7 @@ public class CarnotAuditTrailSourceGroupProvider extends ThirdPartySourceGroupPr
                }
             });
       this.chkWithCarnotWork = FormBuilder.createCheckBox(containerGroup,
-            "Custom CARNOT Workspace");
+            Import_Messages.CarnotAuditTrailSourceGroupProvider_3);
       this.txtCarnotWork = FormBuilder.createText(containerGroup);
 
       FormBuilder.applyDefaultTextControlWidth(txtCarnotWork);

@@ -29,7 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.xsd.XSDSchema;
 
 
@@ -224,11 +224,11 @@ public class MergeUtil
       }
       if ((result & DUPLICATE_OID) != 0)
       {
-         errors.add(ImportMessages.MergeUtil_DUPLICATE_OIDS_TARGET);            
+         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_TARGET);            
       }
       if ((result & MISSING_OID) != 0)
       {
-         errors.add(ImportMessages.MergeUtil_MISSING_OIDS_TARGET);
+         errors.add(Import_Messages.MergeUtil_MISSING_OIDS_TARGET);
       }
       
       // collect new oids and fix duplicates
@@ -245,11 +245,11 @@ public class MergeUtil
       }
       if ((result & DUPLICATE_OID) != 0)
       {
-         errors.add(ImportMessages.MergeUtil_DUPLICATE_OIDS_SOURCE);            
+         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_SOURCE);            
       }
       if ((result & MISSING_OID) != 0)
       {
-         errors.add(ImportMessages.MergeUtil_MISSING_OIDS_SOURCE);
+         errors.add(Import_Messages.MergeUtil_MISSING_OIDS_SOURCE);
       }
       
       // an Error occured

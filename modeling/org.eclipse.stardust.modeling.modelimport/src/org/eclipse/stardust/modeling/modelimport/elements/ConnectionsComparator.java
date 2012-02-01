@@ -55,7 +55,7 @@ public class ConnectionsComparator extends StructureComparator
 
    String computeUniqueIdentifier()
    {
-      return "ConnectionManager";
+      return "ConnectionManager"; //$NON-NLS-1$
    }
 
    @Override

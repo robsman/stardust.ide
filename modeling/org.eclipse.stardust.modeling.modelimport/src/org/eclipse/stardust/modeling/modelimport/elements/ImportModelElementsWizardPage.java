@@ -37,8 +37,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFa
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
@@ -216,7 +216,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
             }
          }
       }
-      return new Path("");
+      return new Path(""); //$NON-NLS-1$
    }
 
    protected void createSourceGroup(Composite parent)
@@ -245,8 +245,8 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       }
 
       setPageComplete(false);
-      setTitle(ImportMessages.LB_Select); // TODO
-      setDescription(ImportMessages.DESC_CarnotFileImport);
+      setTitle(Import_Messages.LB_Select); // TODO
+      setDescription(Import_Messages.DESC_CarnotFileImport);
       // TODO: replace with CARNOT EXP specific image
       setImageDescriptor(WorkbenchImages.getImageDescriptor(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_WIZ));
    }
@@ -307,7 +307,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       }
 
       Label modelTypsComboLabel = new Label(composite, SWT.NONE);
-      modelTypsComboLabel.setText(ImportMessages.LB_ModelTypes); // TODO
+      modelTypsComboLabel.setText(Import_Messages.LB_ModelTypes); // TODO
 
       modelTypsCombo = new Combo(composite, SWT.READ_ONLY);
 

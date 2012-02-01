@@ -36,8 +36,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
 import org.eclipse.stardust.modeling.modelimport.ImportPlugin;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -76,7 +76,7 @@ public class MergeEditorInput extends CompareEditorInput
       {
          return null;
       }
-      monitor.beginTask(ImportMessages.MergeEditorInput_OpenCompareViewerTaskName, 4);
+      monitor.beginTask(Import_Messages.MergeEditorInput_OpenCompareViewerTaskName, 4);
 
       load(monitor, source, sourceName);
       if (monitor.isCanceled())
@@ -111,7 +111,7 @@ public class MergeEditorInput extends CompareEditorInput
          }
       }.schedule();
 
-      monitor.subTask(ImportMessages.MergeEditorInput_CheckingDuplicateOidsTaskName);
+      monitor.subTask(Import_Messages.MergeEditorInput_CheckingDuplicateOidsTaskName);
       returnCode = MergeUtil.initialize(sourceRoot.getModel(), targetRoot.getModel(), this);
       if (returnCode == true)
       {
@@ -125,7 +125,7 @@ public class MergeEditorInput extends CompareEditorInput
       monitor.worked(1);
       
       // nodeTwo is local
-      monitor.subTask(ImportMessages.MergeEditorInput_ComparingTaskName);
+      monitor.subTask(Import_Messages.MergeEditorInput_ComparingTaskName);
       Differencer differencer = new Differencer();
       Object input = differencer.findDifferences(false, null, null,
             null, nodeOne, nodeTwo);
@@ -152,7 +152,7 @@ public class MergeEditorInput extends CompareEditorInput
    public static void load(IProgressMonitor monitor, WorkflowModelManager resource, String name)
       throws InvocationTargetException
    {
-      monitor.subTask(MessageFormat.format(ImportMessages.MergeEditorInput_LoadingTaskName,
+      monitor.subTask(MessageFormat.format(Import_Messages.MergeEditorInput_LoadingTaskName,
             new Object[] {name}));
       try
       {
@@ -225,7 +225,7 @@ public class MergeEditorInput extends CompareEditorInput
             }
          }
 
-         new WorkbenchJob(ImportMessages.MergeEditorInput_OpenEditorJobName)
+         new WorkbenchJob(Import_Messages.MergeEditorInput_OpenEditorJobName)
          {
             public IStatus runInUIThread(IProgressMonitor monitor)
             {
@@ -278,14 +278,14 @@ public class MergeEditorInput extends CompareEditorInput
          public void run()
          {
             StringBuffer message = new StringBuffer();
-            message.append(ImportMessages.MergeEditorInput_ERROR_MESSAGE_HEADLINE);
+            message.append(Import_Messages.MergeEditorInput_ERROR_MESSAGE_HEADLINE);
             for (int i = 0; i < errors.length; i++)
             {
                message.append("\n  - ").append(errors[i]).append(';'); //$NON-NLS-1$
             }
-            message.append(ImportMessages.MergeEditorInput_ERROR_MESSAGE_NEWOIDS);
-            message.append(ImportMessages.MergeEditorInput_ERROR_MESSAGE_CONTINUE);
-            result[0] = MessageDialog.openQuestion(((WizardPage) page).getShell(), ImportMessages.MergeEditorInput_ERROR_MESSAGE_TITLE, message.toString());
+            message.append(Import_Messages.MergeEditorInput_ERROR_MESSAGE_NEWOIDS);
+            message.append(Import_Messages.MergeEditorInput_ERROR_MESSAGE_CONTINUE);
+            result[0] = MessageDialog.openQuestion(((WizardPage) page).getShell(), Import_Messages.MergeEditorInput_ERROR_MESSAGE_TITLE, message.toString());
          }
       });
       return result[0];

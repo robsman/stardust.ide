@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -50,7 +50,7 @@ public class XMLUtil
       }
       catch (Exception e)
       {
-         trace.warn(MessageFormat.format(ImportMessages.MSG_ErrRetrievingChild,
+         trace.warn(MessageFormat.format(Import_Messages.MSG_ErrRetrievingChild,
                new Object[] {name, parent}), e);
       }
 
@@ -76,7 +76,7 @@ public class XMLUtil
       }
       catch (Exception e)
       {
-         trace.warn(MessageFormat.format(ImportMessages.MSG_ErrRetrievingChild,
+         trace.warn(MessageFormat.format(Import_Messages.MSG_ErrRetrievingChild,
                new Object[] {name, parent}), e);
       }
 

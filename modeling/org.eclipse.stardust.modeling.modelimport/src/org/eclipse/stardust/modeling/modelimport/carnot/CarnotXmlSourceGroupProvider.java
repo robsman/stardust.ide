@@ -21,7 +21,7 @@ import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl;
 import org.eclipse.stardust.modeling.modelimport.IImportModelWizardPage;
 import org.eclipse.stardust.modeling.modelimport.ISourceGroupProvider;
-import org.eclipse.stardust.modeling.modelimport.ImportMessages;
+import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.eclipse.stardust.modeling.modelimport.ThirdPartySourceGroupProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -46,9 +46,9 @@ public class CarnotXmlSourceGroupProvider extends ThirdPartySourceGroupProvider
 
    private static final int SIZING_TEXT_LABEL_WIDTH = 55;
 
-   private static final String XML_SOURCE_FILE_LABEL = ImportMessages.LB_FromXML;
+   private static final String XML_SOURCE_FILE_LABEL = Import_Messages.LB_FromXML;
 
-   private static final String CONTAINER_BROWSE_BUTTON_LABEL = ImportMessages.BTN_Browse;
+   private static final String CONTAINER_BROWSE_BUTTON_LABEL = Import_Messages.BTN_Browse;
 
    private IImportModelWizardPage wizardPage;
 
@@ -141,8 +141,8 @@ public class CarnotXmlSourceGroupProvider extends ThirdPartySourceGroupProvider
       FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
       dialog.setFilterExtensions(new String[] {"*.xpdl", "*.xml", "*.mod", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
       dialog.setFilterNames(new String[] {
-            ImportMessages.STR_XpdlFiles, ImportMessages.STR_XmlFiles,
-            ImportMessages.STR_ModFiles, ImportMessages.STR_AnyFile});
+            Import_Messages.STR_XpdlFiles, Import_Messages.STR_XmlFiles,
+            Import_Messages.STR_ModFiles, Import_Messages.STR_AnyFile});
       String filename = dialog.open();
       if (filename != null)
       {

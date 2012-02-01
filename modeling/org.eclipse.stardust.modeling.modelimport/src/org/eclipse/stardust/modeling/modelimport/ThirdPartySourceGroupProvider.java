@@ -53,12 +53,12 @@ public class ThirdPartySourceGroupProvider
          data.horizontalSpan = 3;
          withDiagramLabel.setLayoutData(data);
       }
-      withDiagramLabel.setText(ImportMessages.LB_IncludeDiagram); // TODO
+      withDiagramLabel.setText(Import_Messages.LB_IncludeDiagram); // TODO
 
       prototypeModeButton = new Button(addtionalOptionsComposite, SWT.RADIO);
       prototypeModeButton.setEnabled(enabled);
       Label prototypeModeLabel = new Label(addtionalOptionsComposite, SWT.NONE);
-      prototypeModeLabel.setText(ImportMessages.LB_PrototypeMode); // TODO
+      prototypeModeLabel.setText(Import_Messages.LB_PrototypeMode); // TODO
       if (enabled)
       {
          prototypeModeButton.setSelection(true);
@@ -67,7 +67,7 @@ public class ThirdPartySourceGroupProvider
       productionModeButton = new Button(addtionalOptionsComposite, SWT.RADIO);
       productionModeButton.setEnabled(enabled);
       Label productionModeLabel = new Label(addtionalOptionsComposite, SWT.NONE);
-      productionModeLabel.setText(ImportMessages.LB_ProductionMode); // TODO
+      productionModeLabel.setText(Import_Messages.LB_ProductionMode); // TODO
 
       return addtionalOptionsComposite;
    }

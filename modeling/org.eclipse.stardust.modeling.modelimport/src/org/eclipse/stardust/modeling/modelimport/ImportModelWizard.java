@@ -37,8 +37,8 @@ public class ImportModelWizard extends Wizard implements IImportWizard
 
    public ImportModelWizard()
    {
-      setWindowTitle(ImportMessages.DESC_ImportFile);
-      String WIZARD_NAME = ImportMessages.NAME_ImportCarnotProcessModelWiz;
+      setWindowTitle(Import_Messages.DESC_ImportFile);
+      String WIZARD_NAME = Import_Messages.NAME_ImportCarnotProcessModelWiz;
 
       ImportPlugin plugin = ImportPlugin.getDefault();
       IDialogSettings workbenchSettings = plugin.getDialogSettings();
@@ -69,7 +69,7 @@ public class ImportModelWizard extends Wizard implements IImportWizard
 
    public void addPages()
    {
-      importModelWizardPage = new ImportModelWizardPage(ImportMessages.NAME_CarnotWorkflowImportPage,
+      importModelWizardPage = new ImportModelWizardPage(Import_Messages.NAME_CarnotWorkflowImportPage,
             selection);
       addPage(importModelWizardPage);
    }
@@ -81,7 +81,7 @@ public class ImportModelWizard extends Wizard implements IImportWizard
 
    public void openEditor(IProgressMonitor monitor, final IFile file, final boolean reopen)
    {
-      monitor.setTaskName(ImportMessages.TASK_OpenFile);
+      monitor.setTaskName(Import_Messages.TASK_OpenFile);
       getShell().getDisplay().asyncExec(new Runnable()
       {
          public void run()
