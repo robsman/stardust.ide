@@ -114,11 +114,11 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
                      URI projectRelative = projectURI.relativize(platformRelative);
                      if (projectRelative != platformRelative)
                      {
-                        text.getText().setText("project:/" + projectRelative);
+                        text.getText().setText("project:/" + projectRelative); //$NON-NLS-1$
                         return;
                      }
                   }
-                  text.getText().setText("platform:/" + platformRelative);
+                  text.getText().setText("platform:/" + platformRelative); //$NON-NLS-1$
                }
                else
                {
@@ -191,7 +191,7 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
                    SWT.ICON_WARNING | SWT.CANCEL);
              messageBox.setText(File_Messages.TXT_CIRCULAR_DEPENDENCY_DETECTED);
              String message = MessageFormat.format(File_Messages.MSG_IS_DIRECTLY_OR_INDIRECTLY_REFERENCED_BY_MD, new Object[]{modelID, referencedModel.getId()});
-             message = message + "\n\n" + File_Messages.MSG_CIRCULAR_REFERENCES_BETWEEN_MD_FILES_ARE_NOT_ALLOWED;
+             message = message + "\n\n" + File_Messages.MSG_CIRCULAR_REFERENCES_BETWEEN_MD_FILES_ARE_NOT_ALLOWED; //$NON-NLS-1$
              messageBox.setMessage(message);
              messageBox.open();
              return result;
