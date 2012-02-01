@@ -94,7 +94,7 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
             .getText().trim();
       VariableContext variableContext = VariableContextHelper.getInstance().getContext(
             model);
-      if (!variableContext.isCriticalityFormulaChanged())
+      if (variableContext != null && !variableContext.isCriticalityFormulaChanged())
       {
          AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula",
                "String", formula);
