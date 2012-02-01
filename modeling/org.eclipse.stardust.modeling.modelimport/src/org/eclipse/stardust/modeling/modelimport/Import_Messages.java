@@ -14,7 +14,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Import_Messages extends NLS
 {
-   private static final String BUNDLE_NAME = "ag.carnot.workflow.modelimport.import-messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.modelimport.import-messages"; //$NON-NLS-1$
 
    public static  String MSG_LOCK_MODEL_REQUIRED;
 
