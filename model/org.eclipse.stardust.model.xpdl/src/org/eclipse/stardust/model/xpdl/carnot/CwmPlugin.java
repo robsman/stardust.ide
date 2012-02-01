@@ -15,9 +15,9 @@ import org.osgi.framework.BundleContext;
 
 public class CwmPlugin extends Plugin
 {
-   public static final String PLUGIN_ID = "org.eclipse.stardust.model.xpdl";
+   public static final String PLUGIN_ID = "org.eclipse.stardust.model.xpdl"; //$NON-NLS-1$
 
-   public static final String EXTENSION_POINT_MODEL_ADAPTER_FACTORY = "modelAdapterFactory";
+   public static final String EXTENSION_POINT_MODEL_ADAPTER_FACTORY = "modelAdapterFactory"; //$NON-NLS-1$
 
    private static CwmPlugin instance;
 

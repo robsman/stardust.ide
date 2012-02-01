@@ -35,7 +35,7 @@ public enum LoopType implements Enumerator
     * @generated
     * @ordered
     */
-   UNKNOWN_LITERAL(0, "Unknown", "Unknown"),
+   UNKNOWN_LITERAL(0, "Unknown", "Unknown"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>None</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum LoopType implements Enumerator
     * @generated NOT
     * @ordered
     */
-   NONE_LITERAL(1, "No Loop", "No Loop"),
+   NONE_LITERAL(1, "No Loop", "No Loop"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>While</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum LoopType implements Enumerator
     * @generated
     * @ordered
     */
-   WHILE_LITERAL(2, "While", "While"),
+   WHILE_LITERAL(2, "While", "While"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Repeat</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,13 +62,13 @@ public enum LoopType implements Enumerator
     * @generated
     * @ordered
     */
-   REPEAT_LITERAL(3, "Repeat", "Repeat");
+   REPEAT_LITERAL(3, "Repeat", "Repeat"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Unknown</b></em>' literal value.

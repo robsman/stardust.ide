@@ -1256,27 +1256,27 @@ public class EventConditionTypeTypeImpl extends EObjectImpl implements EventCond
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", activityCondition: ");
-      if (activityConditionESet) result.append(activityCondition); else result.append("<unset>");
-      result.append(", binderClass: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", activityCondition: "); //$NON-NLS-1$
+      if (activityConditionESet) result.append(activityCondition); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", binderClass: "); //$NON-NLS-1$
       result.append(binderClass);
-      result.append(", implementation: ");
-      if (implementationESet) result.append(implementation); else result.append("<unset>");
-      result.append(", panelClass: ");
+      result.append(", implementation: "); //$NON-NLS-1$
+      if (implementationESet) result.append(implementation); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", processCondition: ");
-      if (processConditionESet) result.append(processCondition); else result.append("<unset>");
-      result.append(", pullEventEmitterClass: ");
+      result.append(", processCondition: "); //$NON-NLS-1$
+      if (processConditionESet) result.append(processCondition); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", pullEventEmitterClass: "); //$NON-NLS-1$
       result.append(pullEventEmitterClass);
-      result.append(", rule: ");
+      result.append(", rule: "); //$NON-NLS-1$
       result.append(rule);
       result.append(')');
       return result.toString();

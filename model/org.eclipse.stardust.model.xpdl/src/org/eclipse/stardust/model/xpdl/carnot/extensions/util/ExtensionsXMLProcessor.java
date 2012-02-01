@@ -31,7 +31,7 @@ public class ExtensionsXMLProcessor extends XMLProcessor
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 
    /**

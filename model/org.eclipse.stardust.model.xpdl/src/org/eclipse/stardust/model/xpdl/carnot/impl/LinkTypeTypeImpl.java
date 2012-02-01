@@ -1491,38 +1491,38 @@ public class LinkTypeTypeImpl extends EObjectImpl implements LinkTypeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", sourceRole: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", sourceRole: "); //$NON-NLS-1$
       result.append(sourceRole);
-      result.append(", sourceClass: ");
+      result.append(", sourceClass: "); //$NON-NLS-1$
       result.append(sourceClass);
-      result.append(", sourceCardinality: ");
+      result.append(", sourceCardinality: "); //$NON-NLS-1$
       result.append(sourceCardinality);
-      result.append(", targetRole: ");
+      result.append(", targetRole: "); //$NON-NLS-1$
       result.append(targetRole);
-      result.append(", targetClass: ");
+      result.append(", targetClass: "); //$NON-NLS-1$
       result.append(targetClass);
-      result.append(", targetCardinality: ");
+      result.append(", targetCardinality: "); //$NON-NLS-1$
       result.append(targetCardinality);
-      result.append(", lineStyle: ");
+      result.append(", lineStyle: "); //$NON-NLS-1$
       result.append(lineStyle);
-      result.append(", lineColor: ");
+      result.append(", lineColor: "); //$NON-NLS-1$
       result.append(lineColor);
-      result.append(", sourceSymbol: ");
+      result.append(", sourceSymbol: "); //$NON-NLS-1$
       result.append(sourceSymbol);
-      result.append(", targetSymbol: ");
+      result.append(", targetSymbol: "); //$NON-NLS-1$
       result.append(targetSymbol);
-      result.append(", showRoleNames: ");
-      if (showRoleNamesESet) result.append(showRoleNames); else result.append("<unset>");
-      result.append(", showLinkTypeName: ");
-      if (showLinkTypeNameESet) result.append(showLinkTypeName); else result.append("<unset>");
+      result.append(", showRoleNames: "); //$NON-NLS-1$
+      if (showRoleNamesESet) result.append(showRoleNames); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", showLinkTypeName: "); //$NON-NLS-1$
+      if (showLinkTypeNameESet) result.append(showLinkTypeName); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

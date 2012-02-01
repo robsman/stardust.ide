@@ -35,7 +35,7 @@ public enum JoinSplitType implements Enumerator
     * @generated
     * @ordered
     */
-   NONE_LITERAL(0, "None", "None"),
+   NONE_LITERAL(0, "None", "None"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>XOR</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum JoinSplitType implements Enumerator
     * @generated
     * @ordered
     */
-   XOR_LITERAL(1, "XOR", "XOR"),
+   XOR_LITERAL(1, "XOR", "XOR"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>AND</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum JoinSplitType implements Enumerator
     * @generated
     * @ordered
     */
-   AND_LITERAL(2, "AND", "AND");
+   AND_LITERAL(2, "AND", "AND"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

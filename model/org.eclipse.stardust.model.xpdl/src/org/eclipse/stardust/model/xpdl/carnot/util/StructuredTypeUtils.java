@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +41,7 @@ import org.eclipse.stardust.engine.extensions.dms.data.emfxsd.DmsSchemaProvider;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
@@ -58,7 +60,7 @@ import org.eclipse.xsd.XSDSchema;
  */
 public class StructuredTypeUtils
 {
-   public static final Pattern TRANSFORMATION_PATTERN = Pattern.compile("(DOM) *\\((.*)\\)");
+   public static final Pattern TRANSFORMATION_PATTERN = Pattern.compile("(DOM) *\\((.*)\\)"); //$NON-NLS-1$
    
    public static IXPathMap getXPathMap(DataType data)
    {
@@ -69,8 +71,8 @@ public class StructuredTypeUtils
          TypeDeclarationType typeDeclarationType = getTypeDeclaration(data);
          if (typeDeclarationType == null)
          {
-            throw new PublicException("No type declaration specified for data '"
-               + data.getId() + "'.");
+        	 String message = Model_Messages.EXC_NO_TYPE_DECLARATION_SPECIFIED_FOR_DATA_NULL;
+            throw new PublicException( MessageFormat.format(message, new Object[]{data.getId()}));
          }
          return getXPathMap(typeDeclarationType);
       }
@@ -104,9 +106,8 @@ public class StructuredTypeUtils
                }
             }
          }
-         throw new InternalException("Could not find predefined XPaths for data type '"
-               + dataTypeId
-               + "'. Check if schema providers are configured correctly.");
+         String message = Model_Messages.EXC_COULD_NOT_FIND_PREDEFINED_XPATHS_FOR_DATA_TYPE_NULL;
+         throw new InternalException(MessageFormat.format(message, new Object[]{dataTypeId}));
       }
    }
 
@@ -169,10 +170,10 @@ public class StructuredTypeUtils
          allXPaths = XPathFinder.findAllXPaths(schema, component);
       }
       else
-      {
-         throw new RuntimeException(
-               "Neither external reference not schema type is set in the type declaration for '"
-                     + typeDeclaration.getId() + "'.");
+      {	
+    	  String message = Model_Messages.EXC_NEITHER_EXTERNAL_REFERENCE_NOR_SCHEME_TYPE_IS_SET_FOR_NULL;
+         throw new RuntimeException(MessageFormat.format(message, new Object[]{typeDeclaration.getId()}));
+         
       }
       return new ClientXPathMap(allXPaths);
    }
@@ -185,7 +186,7 @@ public class StructuredTypeUtils
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
        
       resourceSet.setURIConverter(new ClasspathUriConverter());
-      Resource resource = resourceSet.createResource(URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME+":/"+schemaLocation));
+      Resource resource = resourceSet.createResource(URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME+":/"+schemaLocation)); //$NON-NLS-1$
       try
       {
          resource.load(options);
@@ -211,8 +212,8 @@ public class StructuredTypeUtils
       {
          AttributeUtil.setAttribute(accessPoint, StructuredDataConstants.TRANSFORMATION_ATT, transformationType);
       }
-      AttributeUtil.setAttribute(accessPoint, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); 
-      AttributeUtil.setBooleanAttribute(accessPoint, "carnot:engine:data:bidirectional", true);
+      AttributeUtil.setAttribute(accessPoint, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR);  //$NON-NLS-1$
+      AttributeUtil.setBooleanAttribute(accessPoint, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
    }
    
    public static boolean isValidDomAccessPath(DataType dataType, String accessPath)
@@ -229,7 +230,7 @@ public class StructuredTypeUtils
    {
       TypeDeclarationType typeDeclaration = XpdlFactory.eINSTANCE
             .createTypeDeclarationType();
-      typeDeclaration.setName("<default>");
+      typeDeclaration.setName("<default>"); //$NON-NLS-1$
       typeDeclaration.setId(DmsSchemaProvider.RESOURCE_PROPERTY_COMPLEX_TYPE_NAME);
       SchemaTypeType schemaType = XpdlFactory.eINSTANCE.createSchemaTypeType();
       schemaType.setSchema(StructuredTypeUtils

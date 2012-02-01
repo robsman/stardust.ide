@@ -162,7 +162,7 @@ public class ActionTypeUtil
 
    private static boolean getBoolean(IConfigurationElement action, String attName)
    {
-	  return "true".equalsIgnoreCase(action.getAttribute(attName));
+	  return "true".equalsIgnoreCase(action.getAttribute(attName)); //$NON-NLS-1$
    }
 
    public static boolean isAction(Object selection)

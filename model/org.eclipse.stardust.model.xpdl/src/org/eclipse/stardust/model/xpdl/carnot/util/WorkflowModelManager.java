@@ -48,6 +48,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.w3c.dom.Document;
@@ -227,7 +228,7 @@ public class WorkflowModelManager
          Set<String> keySet = map.keySet();
          for (String nsKey : keySet)
          {
-            if (!nsKey.startsWith("_"))
+            if (!nsKey.startsWith("_")) //$NON-NLS-1$
             {
                if (checkNamespace(map, namespaces, duplicatedNSKeys, nsKey) && xpdlKey == null)
                {
@@ -238,7 +239,7 @@ public class WorkflowModelManager
          // get namespaces for all keys with underscore, find duplicate namespaces
          for (String nsKey : keySet)
          {
-            if (nsKey.startsWith("_"))
+            if (nsKey.startsWith("_")) //$NON-NLS-1$
             {
                if (checkNamespace(map, namespaces, duplicatedNSKeys, nsKey) && xpdlKey == null)
                {
@@ -318,13 +319,13 @@ public class WorkflowModelManager
                final URL xsltURL = XpdlUtils.getCarnot2XpdlStylesheet();
                if (xsltURL == null)
                {
-                  throw new InternalException("Unable to find XPDL export stylesheet.");
+                  throw new InternalException("Unable to find XPDL export stylesheet."); //$NON-NLS-1$
                }
                xsltSource = new StreamSource(xsltURL.openStream());
             }
             catch (IOException e)
             {
-               throw new PublicException("Invalid JAXP setup", e);
+               throw new PublicException(Model_Messages.EXC_INVALID_JAXP_SETUP, e);
             }
 
             // need to override context class loader so XpdlUtils extension class is
@@ -345,7 +346,7 @@ public class WorkflowModelManager
             }
             catch (TransformerConfigurationException e)
             {
-               throw new PublicException("Invalid JAXP setup", e);
+               throw new PublicException(Model_Messages.EXC_INVALID_JAXP_SETUP, e);
             }
             finally
             {

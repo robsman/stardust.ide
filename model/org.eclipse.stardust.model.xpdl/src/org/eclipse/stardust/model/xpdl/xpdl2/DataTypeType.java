@@ -39,7 +39,7 @@ public interface DataTypeType extends EObject
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * Returns the value of the '<em><b>Basic Type</b></em>' containment reference.

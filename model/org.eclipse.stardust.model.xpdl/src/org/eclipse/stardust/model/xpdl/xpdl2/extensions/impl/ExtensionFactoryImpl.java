@@ -11,11 +11,14 @@
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 
 
+import java.text.MessageFormat;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
@@ -32,7 +35,7 @@ public class ExtensionFactoryImpl extends EFactoryImpl implements ExtensionFacto
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Creates the default factory implementation.
@@ -43,7 +46,7 @@ public class ExtensionFactoryImpl extends EFactoryImpl implements ExtensionFacto
 	public static ExtensionFactory init() {
       try
       {
-         ExtensionFactory theExtensionFactory = (ExtensionFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"); 
+         ExtensionFactory theExtensionFactory = (ExtensionFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions");  //$NON-NLS-1$
          if (theExtensionFactory != null)
          {
             return theExtensionFactory;
@@ -77,7 +80,7 @@ public class ExtensionFactoryImpl extends EFactoryImpl implements ExtensionFacto
       {
          case ExtensionPackage.EXTENDED_ANNOTATION_TYPE: return createExtendedAnnotationType();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_CLASS_NULL_IS_NOT_A_VALID_CLASSIFIER, new Object[]{eClass.getName()}));
       }
    }
 

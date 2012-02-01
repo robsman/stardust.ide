@@ -19,7 +19,7 @@ import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelMessages;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 public class AttributeCategory implements IAttributeCategory
@@ -61,12 +61,12 @@ public class AttributeCategory implements IAttributeCategory
       String prefix = getFullId();
       if (prefix != null)
       {
-         prefix += ":";
+         prefix += ":"; //$NON-NLS-1$
       }
       for (AttributeType attribute : target.getAttribute())
       {
          String name = attribute.getName();
-         if (prefix == null && name.indexOf(":") < 0
+         if (prefix == null && name.indexOf(":") < 0 //$NON-NLS-1$
                || name != null && name.startsWith(prefix)
                   && name.indexOf(':', prefix.length()) < 0)
          {
@@ -83,7 +83,7 @@ public class AttributeCategory implements IAttributeCategory
       String prefix = getFullId();
       if (prefix != null)
       {
-         prefix += ":";
+         prefix += ":"; //$NON-NLS-1$
          for (AttributeType attribute : target.getAttribute())
          {
             String name = attribute.getName();
@@ -169,7 +169,7 @@ public class AttributeCategory implements IAttributeCategory
          if (AttributeUtil.getAttribute(target, attName) != null)
          {
             throw new IllegalArgumentException(MessageFormat.format(
-                  ModelMessages.MSG_ATTRIBUTE_EXISTS, new Object[] {attName})); //$NON-NLS-1$
+                  Model_Messages.MSG_ATTRIBUTE_EXISTS, new Object[] {attName})); //$NON-NLS-1$
          }
          AttributeType attribute = CarnotWorkflowModelFactory.eINSTANCE
                .createAttributeType();
@@ -190,7 +190,7 @@ public class AttributeCategory implements IAttributeCategory
             if (attribute.getName().startsWith(prefix))
             {
                throw new IllegalArgumentException(MessageFormat.format(
-                     ModelMessages.MSG_ATTRIBUTE_CATEGORY_EXISTS, //$NON-NLS-1$
+                     Model_Messages.MSG_ATTRIBUTE_CATEGORY_EXISTS, //$NON-NLS-1$
                      new Object[] {prefix}));
             }
          }

@@ -35,7 +35,7 @@ public interface Extensible extends EObject
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2008 by SunGard";
+   String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * Returns the value of the '<em><b>Extended Attributes</b></em>' containment reference.

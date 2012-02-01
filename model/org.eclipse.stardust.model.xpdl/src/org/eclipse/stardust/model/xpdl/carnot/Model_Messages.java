@@ -105,6 +105,8 @@ public class Model_Messages extends NLS
    public static String ASYNC_SEPARATE;
    
    public static String NEW_ENTRY;
+   
+   public static String EXC_FAILED_INSTANTIATING_EXTENSION;
 
 
 }

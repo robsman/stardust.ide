@@ -46,7 +46,7 @@ public class FormalParameterTypeImpl extends EObjectImpl implements FormalParame
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getDataType() <em>Data Type</em>}' containment reference.
@@ -468,13 +468,13 @@ public class FormalParameterTypeImpl extends EObjectImpl implements FormalParame
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (description: ");
+      result.append(" (description: "); //$NON-NLS-1$
       result.append(description);
-      result.append(", id: ");
+      result.append(", id: "); //$NON-NLS-1$
       result.append(id);
-      result.append(", mode: ");
-      if (modeESet) result.append(mode); else result.append("<unset>");
-      result.append(", name: ");
+      result.append(", mode: "); //$NON-NLS-1$
+      if (modeESet) result.append(mode); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
       result.append(')');
       return result.toString();

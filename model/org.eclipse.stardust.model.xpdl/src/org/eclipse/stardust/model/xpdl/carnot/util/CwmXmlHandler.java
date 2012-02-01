@@ -59,15 +59,15 @@ import org.xml.sax.SAXException;
 
 public class CwmXmlHandler extends SAXXMLHandler
 {
-   private static final String STOPPER = "__stopper__";
+   private static final String STOPPER = "__stopper__"; //$NON-NLS-1$
 
    private static final CarnotWorkflowModelPackage CWM_PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private static final XpdlPackage XPDL_PKG = XpdlPackage.eINSTANCE;
    
    // MUST be kept in ascending order
    private static final String[] SCHEMA_KEYWORDS_45 = {
-      "complexType", "element", "enumeration",
-      "restriction", "schema", "sequence", "simpleType"};
+      "complexType", "element", "enumeration", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      "restriction", "schema", "sequence", "simpleType"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
    
    private boolean isSchemaKeyword45(String name)
    {
@@ -415,7 +415,7 @@ public class CwmXmlHandler extends SAXXMLHandler
    private String getPrefix(String name)
    {
       int ix = name.indexOf(':');
-      return ix < 0 ? "" : name.substring(0, ix);
+      return ix < 0 ? "" : name.substring(0, ix); //$NON-NLS-1$
    }
 
    private boolean isSchemaElement(String uri, String prefix)
@@ -448,7 +448,7 @@ public class CwmXmlHandler extends SAXXMLHandler
          return null;
       }
       String uri = helper.getURI(prefix);
-      return uri == null ? "" : uri;
+      return uri == null ? "" : uri; //$NON-NLS-1$
    }
 
    private void handleNamespaces()
@@ -457,10 +457,10 @@ public class CwmXmlHandler extends SAXXMLHandler
       for (int i = 0, size = attribs.getLength(); i < size; ++i)
       {
         String attrib = attribs.getQName(i);
-        if (attrib.equals(XMLResource.XML_NS) || attrib.startsWith(XMLResource.XML_NS + ":"))
+        if (attrib.equals(XMLResource.XML_NS) || attrib.startsWith(XMLResource.XML_NS + ":")) //$NON-NLS-1$
         {
            int ix = attrib.indexOf(':');
-           String prefix = ix < 0 ? "" : attrib.substring(ix + 1);
+           String prefix = ix < 0 ? "" : attrib.substring(ix + 1); //$NON-NLS-1$
            current.put(prefix, attribs.getValue(i));
         }
       }
@@ -595,7 +595,7 @@ public class CwmXmlHandler extends SAXXMLHandler
                || systemId.endsWith(XMLConstants.DTD_NAME))
          {
             // strip old DTD (not doing so would include the DTD inline on save)
-            return new InputSource(new StringReader(""));
+            return new InputSource(new StringReader("")); //$NON-NLS-1$
          }
          else if (XMLConstants.WORKFLOWMODEL_31_XSD_URL.equals(systemId)
                || systemId.endsWith(XMLConstants.WORKFLOWMODEL_XSD))

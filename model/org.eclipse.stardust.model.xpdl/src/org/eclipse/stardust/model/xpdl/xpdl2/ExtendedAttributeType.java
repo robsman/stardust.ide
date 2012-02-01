@@ -42,14 +42,14 @@ public interface ExtendedAttributeType extends EObject {
      * <!-- end-user-doc -->
      * @generated NOT
      */
-    public static final String EXTERNAL_ANNOTATIONS_NAME = "carnot:engine:resource:mapping:annotations";
+    public static final String EXTERNAL_ANNOTATIONS_NAME = "carnot:engine:resource:mapping:annotations"; //$NON-NLS-1$
 
 	/**
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Returns the value of the '<em><b>Extended Annotation</b></em>' containment reference.

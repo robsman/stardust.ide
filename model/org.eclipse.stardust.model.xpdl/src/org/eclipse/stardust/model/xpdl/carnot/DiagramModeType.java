@@ -35,7 +35,7 @@ public enum DiagramModeType implements Enumerator
     * @generated
     * @ordered
     */
-   MODE_400_LITERAL(0, "MODE_4_0_0", "MODE_4_0_0"),
+   MODE_400_LITERAL(0, "MODE_4_0_0", "MODE_4_0_0"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>MODE 450</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,13 +44,13 @@ public enum DiagramModeType implements Enumerator
     * @generated
     * @ordered
     */
-   MODE_450_LITERAL(1, "MODE_4_5_0", "MODE_4_5_0");
+   MODE_450_LITERAL(1, "MODE_4_5_0", "MODE_4_5_0"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>MODE 400</b></em>' literal value.

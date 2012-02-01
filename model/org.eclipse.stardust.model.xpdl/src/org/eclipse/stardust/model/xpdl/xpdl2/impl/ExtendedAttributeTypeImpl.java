@@ -49,7 +49,7 @@ public class ExtendedAttributeTypeImpl extends EObjectImpl implements ExtendedAt
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The cached value of the '{@link #getExtendedAnnotation() <em>Extended Annotation</em>}' containment reference.
@@ -394,11 +394,11 @@ public class ExtendedAttributeTypeImpl extends EObjectImpl implements ExtendedAt
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (mixed: ");
+      result.append(" (mixed: "); //$NON-NLS-1$
       result.append(mixed);
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
-      result.append(", value: ");
+      result.append(", value: "); //$NON-NLS-1$
       result.append(value);
       result.append(')');
       return result.toString();

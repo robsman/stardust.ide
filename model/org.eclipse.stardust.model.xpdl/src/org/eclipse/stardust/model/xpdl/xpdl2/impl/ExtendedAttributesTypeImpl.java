@@ -43,7 +43,7 @@ public class ExtendedAttributesTypeImpl extends EObjectImpl implements ExtendedA
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The cached value of the '{@link #getExtendedAttribute() <em>Extended Attribute</em>}' containment reference list.

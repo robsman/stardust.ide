@@ -35,7 +35,7 @@ public enum DirectionType implements Enumerator
     * @generated
     * @ordered
     */
-   IN_LITERAL(1, "IN", "IN"),
+   IN_LITERAL(1, "IN", "IN"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>OUT</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum DirectionType implements Enumerator
     * @generated
     * @ordered
     */
-   OUT_LITERAL(2, "OUT", "OUT"),
+   OUT_LITERAL(2, "OUT", "OUT"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>INOUT</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum DirectionType implements Enumerator
     * @generated
     * @ordered
     */
-   INOUT_LITERAL(3, "INOUT", "INOUT");
+   INOUT_LITERAL(3, "INOUT", "INOUT"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

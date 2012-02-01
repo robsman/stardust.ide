@@ -44,7 +44,7 @@ public class QualityControlTypeImpl extends EObjectImpl implements QualityContro
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getCode() <em>Code</em>}' containment reference list.

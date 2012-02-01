@@ -35,7 +35,7 @@ public enum ImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   ENGINE_LITERAL(0, "engine", "engine"),
+   ENGINE_LITERAL(0, "engine", "engine"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Pull</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum ImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   PULL_LITERAL(1, "pull", "pull"),
+   PULL_LITERAL(1, "pull", "pull"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Push</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum ImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   PUSH_LITERAL(2, "push", "push");
+   PUSH_LITERAL(2, "push", "push"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

@@ -47,7 +47,7 @@ public interface LinkTypeType extends IMetaType, IExtensibleElement
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * Returns the value of the '<em><b>Source Role</b></em>' attribute.

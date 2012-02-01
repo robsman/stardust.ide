@@ -1733,21 +1733,21 @@ public class ModelTypeImpl extends EObjectImpl implements ModelType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", author: ");
+      result.append(" (id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", author: "); //$NON-NLS-1$
       result.append(author);
-      result.append(", carnotVersion: ");
+      result.append(", carnotVersion: "); //$NON-NLS-1$
       result.append(carnotVersion);
-      result.append(", created: ");
+      result.append(", created: "); //$NON-NLS-1$
       result.append(created);
-      result.append(", modelOID: ");
-      if (modelOIDESet) result.append(modelOID); else result.append("<unset>");
-      result.append(", oid: ");
-      if (oidESet) result.append(oid); else result.append("<unset>");
-      result.append(", vendor: ");
+      result.append(", modelOID: "); //$NON-NLS-1$
+      if (modelOIDESet) result.append(modelOID); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", oid: "); //$NON-NLS-1$
+      if (oidESet) result.append(oid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", vendor: "); //$NON-NLS-1$
       result.append(vendor);
       result.append(')');
       return result.toString();

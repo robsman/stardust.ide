@@ -149,15 +149,15 @@ public class DiagramUtil
 
    public static boolean isDefaultPool(ISwimlaneSymbol pool)
    {
-      return pool instanceof PoolSymbol && "_default_pool__1".equals(pool.getId())
+      return pool instanceof PoolSymbol && "_default_pool__1".equals(pool.getId()) //$NON-NLS-1$
          && pool.eContainer().eContainer() instanceof ProcessDefinitionType;
    }
 
    public static PoolSymbol createDefaultPool(DiagramType diagram)
    {
       PoolSymbol pool = CarnotWorkflowModelFactory.eINSTANCE.createPoolSymbol();
-      pool.setId("_default_pool__1");
-      pool.setName("Default Pool");
+      pool.setId("_default_pool__1"); //$NON-NLS-1$
+      pool.setName("Default Pool"); //$NON-NLS-1$
       pool.setXPos(0);
       pool.setYPos(0);
       pool.setWidth(-1);

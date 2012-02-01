@@ -27,7 +27,7 @@ public interface ExtensionsFactory extends EFactory
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The singleton instance of the factory.

@@ -11,11 +11,14 @@
 package org.eclipse.stardust.model.xpdl.carnot.extensions.impl;
 
 
+import java.text.MessageFormat;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingType;
@@ -34,7 +37,7 @@ public class ExtensionsFactoryImpl extends EFactoryImpl implements ExtensionsFac
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * Creates the default factory implementation.
@@ -46,7 +49,7 @@ public class ExtensionsFactoryImpl extends EFactoryImpl implements ExtensionsFac
    {
       try
       {
-         ExtensionsFactory theExtensionsFactory = (ExtensionsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/xpdl/3.1"); 
+         ExtensionsFactory theExtensionsFactory = (ExtensionsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/xpdl/3.1");  //$NON-NLS-1$
          if (theExtensionsFactory != null)
          {
             return theExtensionsFactory;
@@ -83,7 +86,7 @@ public class ExtensionsFactoryImpl extends EFactoryImpl implements ExtensionsFac
          case ExtensionsPackage.FORMAL_PARAMETER_MAPPING_TYPE: return createFormalParameterMappingType();
          case ExtensionsPackage.FORMAL_PARAMETER_MAPPINGS_TYPE: return createFormalParameterMappingsType();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_CLASS_NULL_IS_NOT_A_VALID_CLASSIFIER, new Object[]{eClass.getName()}));
       }
    }
 

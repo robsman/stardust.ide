@@ -35,7 +35,7 @@ public enum LinkLineStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   UNKNOWN_LITERAL(-1, "", ""),
+   UNKNOWN_LITERAL(-1, "", ""), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Normal</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum LinkLineStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   NORMAL_LITERAL(0, "normal line", "normal line"),
+   NORMAL_LITERAL(0, "normal line", "normal line"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Short Strokes</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum LinkLineStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   SHORT_STROKES_LITERAL(1, "short strokes", "short strokes"),
+   SHORT_STROKES_LITERAL(1, "short strokes", "short strokes"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Long Strokes</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,13 +62,13 @@ public enum LinkLineStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   LONG_STROKES_LITERAL(2, "long strokes", "long strokes");
+   LONG_STROKES_LITERAL(2, "long strokes", "long strokes"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Unknown</b></em>' literal value.

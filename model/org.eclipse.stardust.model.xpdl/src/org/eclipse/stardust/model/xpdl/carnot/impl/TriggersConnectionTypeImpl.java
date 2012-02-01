@@ -63,7 +63,7 @@ public class TriggersConnectionTypeImpl extends EObjectImpl implements TriggersC
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The default value of the '{@link #getElementOid() <em>Element Oid</em>}' attribute.
@@ -182,7 +182,7 @@ public class TriggersConnectionTypeImpl extends EObjectImpl implements TriggersC
     * @generated
     * @ordered
     */
-   protected static final String SOURCE_ANCHOR_EDEFAULT = "center";
+   protected static final String SOURCE_ANCHOR_EDEFAULT = "center"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getSourceAnchor() <em>Source Anchor</em>}' attribute.
@@ -211,7 +211,7 @@ public class TriggersConnectionTypeImpl extends EObjectImpl implements TriggersC
     * @generated
     * @ordered
     */
-   protected static final String TARGET_ANCHOR_EDEFAULT = "center";
+   protected static final String TARGET_ANCHOR_EDEFAULT = "center"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getTargetAnchor() <em>Target Anchor</em>}' attribute.
@@ -1001,20 +1001,20 @@ public class TriggersConnectionTypeImpl extends EObjectImpl implements TriggersC
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", borderColor: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", borderColor: "); //$NON-NLS-1$
       result.append(borderColor);
-      result.append(", fillColor: ");
+      result.append(", fillColor: "); //$NON-NLS-1$
       result.append(fillColor);
-      result.append(", style: ");
+      result.append(", style: "); //$NON-NLS-1$
       result.append(style);
-      result.append(", sourceAnchor: ");
-      if (sourceAnchorESet) result.append(sourceAnchor); else result.append("<unset>");
-      result.append(", targetAnchor: ");
-      if (targetAnchorESet) result.append(targetAnchor); else result.append("<unset>");
-      result.append(", routing: ");
-      if (routingESet) result.append(routing); else result.append("<unset>");
+      result.append(", sourceAnchor: "); //$NON-NLS-1$
+      if (sourceAnchorESet) result.append(sourceAnchor); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", targetAnchor: "); //$NON-NLS-1$
+      if (targetAnchorESet) result.append(targetAnchor); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", routing: "); //$NON-NLS-1$
+      if (routingESet) result.append(routing); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

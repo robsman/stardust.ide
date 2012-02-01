@@ -36,7 +36,7 @@ public interface ExternalPackages extends EObject
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2008 by SunGard";
+   String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * Returns the value of the '<em><b>External Package</b></em>' containment reference list.

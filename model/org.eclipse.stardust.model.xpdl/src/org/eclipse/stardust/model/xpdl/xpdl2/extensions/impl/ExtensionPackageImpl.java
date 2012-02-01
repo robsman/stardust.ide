@@ -35,7 +35,7 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * <!-- begin-user-doc -->
@@ -194,7 +194,7 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
       extendedAnnotationTypeEClass.getESuperTypes().add(theXSDPackage.getXSDAnnotation());
 
       // Initialize classes and features; add operations and parameters
-      initEClass(extendedAnnotationTypeEClass, ExtendedAnnotationType.class, "ExtendedAnnotationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEClass(extendedAnnotationTypeEClass, ExtendedAnnotationType.class, "ExtendedAnnotationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
       // Create annotations
       // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
@@ -208,14 +208,14 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
     * @generated
     */
 	protected void createExtendedMetaDataAnnotations() {
-      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		 //$NON-NLS-1$
       addAnnotation
         (extendedAnnotationTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "ExternalAnnotation_._type",
-          "kind", "empty"
+          "name", "ExternalAnnotation_._type", //$NON-NLS-1$ //$NON-NLS-2$
+          "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
          });
    }
 

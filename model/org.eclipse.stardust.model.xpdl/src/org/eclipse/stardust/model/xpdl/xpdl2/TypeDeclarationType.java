@@ -40,7 +40,7 @@ public interface TypeDeclarationType extends Extensible {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Returns the value of the '<em><b>Basic Type</b></em>' containment reference.

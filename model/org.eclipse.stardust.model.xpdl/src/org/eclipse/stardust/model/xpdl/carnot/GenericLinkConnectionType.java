@@ -36,7 +36,7 @@ public interface GenericLinkConnectionType extends IConnectionSymbol, ITypedElem
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * Returns the value of the '<em><b>Link Type</b></em>' reference.

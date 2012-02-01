@@ -40,7 +40,7 @@ import org.osgi.framework.Bundle;
  */
 public class SpiExtensionRegistry
 {
-   public static final String FEATURE_PREFIX = "feature:";
+   public static final String FEATURE_PREFIX = "feature:"; //$NON-NLS-1$
 
    private static SpiExtensionRegistry instance;
 
@@ -64,7 +64,7 @@ public class SpiExtensionRegistry
 
    public Map<String, IConfigurationElement> getExtensions(String packageName, String extensionPointId)
    {
-      String expandedId = packageName + "." + extensionPointId;
+      String expandedId = packageName + "." + extensionPointId; //$NON-NLS-1$
       Map<String, IConfigurationElement> extensions = registry.get(expandedId);
       if (extensions == null)
       {
@@ -82,7 +82,7 @@ public class SpiExtensionRegistry
    
    public List<IConfigurationElement> getExtensionList(String packageName, String extensionPointId)
    {
-      String expandedId = packageName + "." + extensionPointId;
+      String expandedId = packageName + "." + extensionPointId; //$NON-NLS-1$
       List<IConfigurationElement> extensions = CollectionUtils.newList();
       try
       {
@@ -157,8 +157,8 @@ public class SpiExtensionRegistry
     */
    public static Object createPropertyPage(String pageId, String metaType)
    {
-      return createExecutableExtension("org.eclipse.ui.propertyPages", "class", pageId,
-            "filter", "metaType", metaType);
+      return createExecutableExtension("org.eclipse.ui.propertyPages", "class", pageId, //$NON-NLS-1$ //$NON-NLS-2$
+            "filter", "metaType", metaType); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public static Object createExecutableExtension(String extensionId,
@@ -411,7 +411,7 @@ public class SpiExtensionRegistry
 
    private static Object getFeatureValue(EObject element, String featureName)
    {
-      String[] featureNames = featureName.split("\\.");
+      String[] featureNames = featureName.split("\\."); //$NON-NLS-1$
       if(featureNames.length > 1)
       {
          String first = featureNames[0];

@@ -1165,25 +1165,25 @@ public class EventActionTypeTypeImpl extends EObjectImpl implements EventActionT
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", actionClass: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", actionClass: "); //$NON-NLS-1$
       result.append(actionClass);
-      result.append(", activityAction: ");
-      if (activityActionESet) result.append(activityAction); else result.append("<unset>");
-      result.append(", panelClass: ");
+      result.append(", activityAction: "); //$NON-NLS-1$
+      if (activityActionESet) result.append(activityAction); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", processAction: ");
-      if (processActionESet) result.append(processAction); else result.append("<unset>");
-      result.append(", supportedConditionTypes: ");
+      result.append(", processAction: "); //$NON-NLS-1$
+      if (processActionESet) result.append(processAction); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", supportedConditionTypes: "); //$NON-NLS-1$
       result.append(supportedConditionTypes);
-      result.append(", unsupportedContexts: ");
+      result.append(", unsupportedContexts: "); //$NON-NLS-1$
       result.append(unsupportedContexts);
       result.append(')');
       return result.toString();

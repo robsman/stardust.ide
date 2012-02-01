@@ -352,8 +352,8 @@ public class GatewaySymbolImpl extends IFlowObjectSymbolImpl implements GatewayS
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (flowKind: ");
-      if (flowKindESet) result.append(flowKind); else result.append("<unset>");
+      result.append(" (flowKind: "); //$NON-NLS-1$
+      if (flowKindESet) result.append(flowKind); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

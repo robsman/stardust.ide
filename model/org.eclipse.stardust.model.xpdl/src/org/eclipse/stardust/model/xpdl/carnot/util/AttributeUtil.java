@@ -299,10 +299,10 @@ public class AttributeUtil
       IConfigurationElement config = SpiExtensionRegistry.getConfiguration(element);
       if (config != null)
       {
-         IConfigurationElement[] refs = config.getChildren("reference");
+         IConfigurationElement[] refs = config.getChildren("reference"); //$NON-NLS-1$
          for (int k = 0; k < refs.length; k++)
          {
-            if (feature.equals(refs[k].getAttribute("attributeName")))
+            if (feature.equals(refs[k].getAttribute("attributeName"))) //$NON-NLS-1$
             {
                return true;
             }

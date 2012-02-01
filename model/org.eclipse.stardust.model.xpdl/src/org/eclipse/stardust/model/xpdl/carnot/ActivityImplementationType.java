@@ -35,7 +35,7 @@ public enum ActivityImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   ROUTE_LITERAL(0, "Route", "Route"),
+   ROUTE_LITERAL(0, "Route", "Route"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Manual</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum ActivityImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   MANUAL_LITERAL(1, "Manual", "Manual"),
+   MANUAL_LITERAL(1, "Manual", "Manual"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Application</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum ActivityImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   APPLICATION_LITERAL(2, "Application", "Application"),
+   APPLICATION_LITERAL(2, "Application", "Application"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Subprocess</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum ActivityImplementationType implements Enumerator
     * @generated
     * @ordered
     */
-   SUBPROCESS_LITERAL(3, "Subprocess", "Subprocess");
+   SUBPROCESS_LITERAL(3, "Subprocess", "Subprocess"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

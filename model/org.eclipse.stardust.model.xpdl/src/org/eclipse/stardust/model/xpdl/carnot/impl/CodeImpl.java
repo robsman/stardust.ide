@@ -39,7 +39,7 @@ public class CodeImpl extends EObjectImpl implements Code
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The default value of the '{@link #getCode() <em>Code</em>}' attribute.
@@ -235,9 +235,9 @@ public class CodeImpl extends EObjectImpl implements Code
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (code: ");
+      result.append(" (code: "); //$NON-NLS-1$
       result.append(code);
-      result.append(", value: ");
+      result.append(", value: "); //$NON-NLS-1$
       result.append(value);
       result.append(')');
       return result.toString();

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import org.eclipse.stardust.engine.core.compatibility.el.SyntaxError;
 import org.eclipse.stardust.engine.core.compatibility.el.ValueExpression;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 
@@ -66,32 +68,32 @@ public class ElUtils
 
    public static BooleanExpression getLhsExpression(CombineOperation term)
    {
-      return (BooleanExpression) Reflect.getFieldValue(term, "lhsExpression");
+      return (BooleanExpression) Reflect.getFieldValue(term, "lhsExpression"); //$NON-NLS-1$
    }
 
    public static BooleanExpression getRhsExpression(CombineOperation term)
    {
-      return (BooleanExpression) Reflect.getFieldValue(term, "rhsExpression");
+      return (BooleanExpression) Reflect.getFieldValue(term, "rhsExpression"); //$NON-NLS-1$
    }
 
    public static ValueExpression getLhsOperand(ComparisonOperation term)
    {
-      return (ValueExpression) Reflect.getFieldValue(term, "lhsValue");
+      return (ValueExpression) Reflect.getFieldValue(term, "lhsValue"); //$NON-NLS-1$
    }
 
    public static ValueExpression getRhsOperand(ComparisonOperation term)
    {
-      return (ValueExpression) Reflect.getFieldValue(term, "rhsValue");
+      return (ValueExpression) Reflect.getFieldValue(term, "rhsValue"); //$NON-NLS-1$
    }
 
    public static String getDataId(DereferencePath derefExpression)
    {
-      return (String) Reflect.getFieldValue(derefExpression, "baseReference");
+      return (String) Reflect.getFieldValue(derefExpression, "baseReference"); //$NON-NLS-1$
    }
 
    public static String getDerefExpression(DereferencePath derefExpression)
    {
-      return (String) Reflect.getFieldValue(derefExpression, "accessPath");
+      return (String) Reflect.getFieldValue(derefExpression, "accessPath"); //$NON-NLS-1$
    }
 
    private static void xrefData(BooleanExpression expression,
@@ -113,7 +115,7 @@ public class ElUtils
       }
       else
       {
-         throw new InternalException("Unsupported boolean expression: " + expression);
+         throw new InternalException(MessageFormat.format(Model_Messages.EXC_UNSUPPORTED_BOOLEAN_EXPRESSION_NULL, new Object[]{expression}));
       }
    }
 
@@ -138,7 +140,7 @@ public class ElUtils
       }
       else
       {
-         throw new InternalException("Unsupported boolean expression: " + expression);
+    	  throw new InternalException(MessageFormat.format(Model_Messages.EXC_UNSUPPORTED_BOOLEAN_EXPRESSION_NULL, new Object[]{expression}));
       }
    }
    
@@ -158,7 +160,7 @@ public class ElUtils
 
          Parser p = new Parser(compilerEnv, compilationErrorReporter);
 
-         return p.parse(expression, "expression", 1);
+         return p.parse(expression, "expression", 1); //$NON-NLS-1$
       }
       finally
       {
@@ -181,7 +183,7 @@ public class ElUtils
          {
             if (Token.ENTERWITH == astNode.getType())
             {
-               throw new UnsupportedElSyntaxException("'with (..)' is not supported.");
+               throw new UnsupportedElSyntaxException(Model_Messages.EXC_WITH_IS_NOT_SUPPORTED);
             }
             else if (Token.NAME == astNode.getType())
             {

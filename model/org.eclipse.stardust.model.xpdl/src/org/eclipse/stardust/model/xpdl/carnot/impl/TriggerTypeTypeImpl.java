@@ -1021,21 +1021,21 @@ public class TriggerTypeTypeImpl extends EObjectImpl implements TriggerTypeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", panelClass: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", pullTrigger: ");
-      if (pullTriggerESet) result.append(pullTrigger); else result.append("<unset>");
-      result.append(", pullTriggerEvaluator: ");
+      result.append(", pullTrigger: "); //$NON-NLS-1$
+      if (pullTriggerESet) result.append(pullTrigger); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", pullTriggerEvaluator: "); //$NON-NLS-1$
       result.append(pullTriggerEvaluator);
-      result.append(", rule: ");
+      result.append(", rule: "); //$NON-NLS-1$
       result.append(rule);
       result.append(')');
       return result.toString();

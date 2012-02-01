@@ -43,7 +43,7 @@ public class TypeDeclarationsTypeImpl extends EObjectImpl implements TypeDeclara
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The cached value of the '{@link #getTypeDeclaration() <em>Type Declaration</em>}' containment reference list.

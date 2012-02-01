@@ -1111,23 +1111,23 @@ public class ApplicationContextTypeTypeImpl extends EObjectImpl implements Appli
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", accessPointProviderClass: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", accessPointProviderClass: "); //$NON-NLS-1$
       result.append(accessPointProviderClass);
-      result.append(", hasApplicationPath: ");
-      if (hasApplicationPathESet) result.append(hasApplicationPath); else result.append("<unset>");
-      result.append(", hasMappingId: ");
-      if (hasMappingIdESet) result.append(hasMappingId); else result.append("<unset>");
-      result.append(", panelClass: ");
+      result.append(", hasApplicationPath: "); //$NON-NLS-1$
+      if (hasApplicationPathESet) result.append(hasApplicationPath); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", hasMappingId: "); //$NON-NLS-1$
+      if (hasMappingIdESet) result.append(hasMappingId); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", validatorClass: ");
+      result.append(", validatorClass: "); //$NON-NLS-1$
       result.append(validatorClass);
       result.append(')');
       return result.toString();

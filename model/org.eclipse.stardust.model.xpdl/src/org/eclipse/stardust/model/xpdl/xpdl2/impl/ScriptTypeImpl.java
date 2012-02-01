@@ -40,7 +40,7 @@ public class ScriptTypeImpl extends EObjectImpl implements ScriptType
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The default value of the '{@link #getGrammar() <em>Grammar</em>}' attribute.
@@ -289,11 +289,11 @@ public class ScriptTypeImpl extends EObjectImpl implements ScriptType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (grammar: ");
+      result.append(" (grammar: "); //$NON-NLS-1$
       result.append(grammar);
-      result.append(", type: ");
+      result.append(", type: "); //$NON-NLS-1$
       result.append(type);
-      result.append(", version: ");
+      result.append(", version: "); //$NON-NLS-1$
       result.append(version);
       result.append(')');
       return result.toString();

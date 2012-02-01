@@ -11,12 +11,15 @@
 package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
 
+import java.text.MessageFormat;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
@@ -49,7 +52,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * Creates the default factory implementation.
@@ -61,7 +64,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
    {
       try
       {
-         XpdlFactory theXpdlFactory = (XpdlFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.wfmc.org/2008/XPDL2.1"); 
+         XpdlFactory theXpdlFactory = (XpdlFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.wfmc.org/2008/XPDL2.1");  //$NON-NLS-1$
          if (theXpdlFactory != null)
          {
             return theXpdlFactory;
@@ -110,7 +113,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
          case XpdlPackage.TYPE_DECLARATIONS_TYPE: return createTypeDeclarationsType();
          case XpdlPackage.TYPE_DECLARATION_TYPE: return createTypeDeclarationType();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_CLASS_NULL_IS_NOT_A_VALID_CLASSIFIER, new Object[]{eClass.getName()}));
       }
    }
 
@@ -133,7 +136,8 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
          case XpdlPackage.TYPE_TYPE_OBJECT:
             return createTypeTypeObjectFromString(eDataType, initialValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        	 
+            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_DATATYPE_NULL_IS_NOT_VALID_CLASSIFIER, new Object[]{eDataType.getName()}));
       }
    }
 
@@ -156,7 +160,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
          case XpdlPackage.TYPE_TYPE_OBJECT:
             return convertTypeTypeObjectToString(eDataType, instanceValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_DATATYPE_NULL_IS_NOT_VALID_CLASSIFIER, new Object[]{eDataType.getName()}));
       }
    }
 
@@ -322,7 +326,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
    public ModeType createModeTypeFromString(EDataType eDataType, String initialValue)
    {
       ModeType result = ModeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_VALUE_NULL_IS_NOT_VALID_ENUMERATION_OF_ONE, new Object[]{initialValue, eDataType.getName()}));
       return result;
    }
 
@@ -344,7 +348,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 	public TypeType createTypeTypeFromString(EDataType eDataType, String initialValue)
    {
       TypeType result = TypeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_VALUE_NULL_IS_NOT_VALID_ENUMERATION_OF_ONE, new Object[]{initialValue, eDataType.getName()}));
       return result;
    }
 

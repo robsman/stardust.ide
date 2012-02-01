@@ -49,7 +49,7 @@ public class FormalParameterMappingsTypeImpl extends EObjectImpl implements Form
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getMapping() <em>Mapping</em>}' containment reference list.

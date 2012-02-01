@@ -656,14 +656,14 @@ public class DiagramTypeImpl extends ISymbolContainerImpl implements DiagramType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", name: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
-      result.append(", orientation: ");
-      if (orientationESet) result.append(orientation); else result.append("<unset>");
-      result.append(", mode: ");
-      if (modeESet) result.append(mode); else result.append("<unset>");
+      result.append(", orientation: "); //$NON-NLS-1$
+      if (orientationESet) result.append(orientation); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", mode: "); //$NON-NLS-1$
+      if (modeESet) result.append(mode); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

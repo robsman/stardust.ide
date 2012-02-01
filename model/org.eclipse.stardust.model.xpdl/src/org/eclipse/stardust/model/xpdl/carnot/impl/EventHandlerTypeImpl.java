@@ -1250,20 +1250,20 @@ public class EventHandlerTypeImpl extends EObjectImpl implements EventHandlerTyp
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", autoBind: ");
-      if (autoBindESet) result.append(autoBind); else result.append("<unset>");
-      result.append(", consumeOnMatch: ");
-      if (consumeOnMatchESet) result.append(consumeOnMatch); else result.append("<unset>");
-      result.append(", logHandler: ");
-      if (logHandlerESet) result.append(logHandler); else result.append("<unset>");
-      result.append(", unbindOnMatch: ");
-      if (unbindOnMatchESet) result.append(unbindOnMatch); else result.append("<unset>");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", autoBind: "); //$NON-NLS-1$
+      if (autoBindESet) result.append(autoBind); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", consumeOnMatch: "); //$NON-NLS-1$
+      if (consumeOnMatchESet) result.append(consumeOnMatch); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", logHandler: "); //$NON-NLS-1$
+      if (logHandlerESet) result.append(logHandler); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", unbindOnMatch: "); //$NON-NLS-1$
+      if (unbindOnMatchESet) result.append(unbindOnMatch); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

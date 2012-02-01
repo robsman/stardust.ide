@@ -49,7 +49,7 @@ public class DataTypeTypeImpl extends EObjectImpl implements DataTypeType
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getBasicType() <em>Basic Type</em>}' containment reference.
@@ -498,7 +498,7 @@ public class DataTypeTypeImpl extends EObjectImpl implements DataTypeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (carnotType: ");
+      result.append(" (carnotType: "); //$NON-NLS-1$
       result.append(carnotType);
       result.append(')');
       return result.toString();

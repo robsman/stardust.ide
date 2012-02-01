@@ -35,7 +35,7 @@ public enum RoutingType implements Enumerator
     * @generated
     * @ordered
     */
-   DEFAULT_LITERAL(0, "Default", "Default"),
+   DEFAULT_LITERAL(0, "Default", "Default"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Shortest Path</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum RoutingType implements Enumerator
     * @generated
     * @ordered
     */
-   SHORTEST_PATH_LITERAL(1, "ShortestPath", "ShortestPath"),
+   SHORTEST_PATH_LITERAL(1, "ShortestPath", "ShortestPath"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Manhattan</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum RoutingType implements Enumerator
     * @generated
     * @ordered
     */
-   MANHATTAN_LITERAL(2, "Manhattan", "Manhattan"),
+   MANHATTAN_LITERAL(2, "Manhattan", "Manhattan"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Explicit</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum RoutingType implements Enumerator
     * @generated
     * @ordered
     */
-   EXPLICIT_LITERAL(3, "Explicit", "Explicit");
+   EXPLICIT_LITERAL(3, "Explicit", "Explicit"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

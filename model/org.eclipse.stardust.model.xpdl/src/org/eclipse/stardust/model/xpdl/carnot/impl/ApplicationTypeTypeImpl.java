@@ -1075,23 +1075,23 @@ public class ApplicationTypeTypeImpl extends EObjectImpl implements ApplicationT
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", accessPointProviderClass: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", accessPointProviderClass: "); //$NON-NLS-1$
       result.append(accessPointProviderClass);
-      result.append(", instanceClass: ");
+      result.append(", instanceClass: "); //$NON-NLS-1$
       result.append(instanceClass);
-      result.append(", panelClass: ");
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", synchronous: ");
-      if (synchronousESet) result.append(synchronous); else result.append("<unset>");
-      result.append(", validatorClass: ");
+      result.append(", synchronous: "); //$NON-NLS-1$
+      if (synchronousESet) result.append(synchronous); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", validatorClass: "); //$NON-NLS-1$
       result.append(validatorClass);
       result.append(')');
       return result.toString();

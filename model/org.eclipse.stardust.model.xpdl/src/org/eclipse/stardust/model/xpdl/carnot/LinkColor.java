@@ -35,7 +35,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   UNKNOWN_LITERAL(-1, "", ""),
+   UNKNOWN_LITERAL(-1, "", ""), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Black</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   BLACK_LITERAL(0, "black", "black"),
+   BLACK_LITERAL(0, "black", "black"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Dark Blue</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   DARK_BLUE_LITERAL(1, "dark blue", "dark blue"),
+   DARK_BLUE_LITERAL(1, "dark blue", "dark blue"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Dark Gray</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   DARK_GRAY_LITERAL(2, "dark gray", "dark gray"),
+   DARK_GRAY_LITERAL(2, "dark gray", "dark gray"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Blue</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -71,7 +71,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   BLUE_LITERAL(3, "blue", "blue"),
+   BLUE_LITERAL(3, "blue", "blue"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Light Gray</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -80,7 +80,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   LIGHT_GRAY_LITERAL(4, "light gray", "light gray"),
+   LIGHT_GRAY_LITERAL(4, "light gray", "light gray"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Red</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -89,7 +89,7 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   RED_LITERAL(5, "red", "red"),
+   RED_LITERAL(5, "red", "red"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Yellow</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -98,13 +98,13 @@ public enum LinkColor implements Enumerator
     * @generated NOT
     * @ordered
     */
-   YELLOW_LITERAL(6, "yellow", "yellow");
+   YELLOW_LITERAL(6, "yellow", "yellow"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Unknown</b></em>' literal value.
@@ -261,7 +261,7 @@ public enum LinkColor implements Enumerator
     */
    public static LinkColor get(String literal)
    {
-      if ("ligth gray".equals(literal))
+      if ("ligth gray".equals(literal)) //$NON-NLS-1$
       {
          return LIGHT_GRAY_LITERAL;
       }
@@ -284,7 +284,7 @@ public enum LinkColor implements Enumerator
     */
    public static LinkColor getByName(String name)
    {
-      if ("ligth gray".equals(name))
+      if ("ligth gray".equals(name)) //$NON-NLS-1$
       {
          return LIGHT_GRAY_LITERAL;
       }

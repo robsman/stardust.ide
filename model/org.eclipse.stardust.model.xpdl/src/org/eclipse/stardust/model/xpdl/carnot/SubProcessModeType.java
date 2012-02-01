@@ -35,7 +35,7 @@ public enum SubProcessModeType implements Enumerator
     * @generated
     * @ordered
     */
-   SYNC_SHARED_LITERAL(0, "sync_shared", "Synchronous / Shared Data"),
+   SYNC_SHARED_LITERAL(0, "sync_shared", "Synchronous / Shared Data"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Sync separate</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum SubProcessModeType implements Enumerator
     * @generated
     * @ordered
     */
-   SYNC_SEPARATE_LITERAL(1, "sync_separate", "Synchronous / Separate Data"),
+   SYNC_SEPARATE_LITERAL(1, "sync_separate", "Synchronous / Separate Data"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Async separate</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,13 +53,13 @@ public enum SubProcessModeType implements Enumerator
     * @generated
     * @ordered
     */
-   ASYNC_SEPARATE_LITERAL(2, "async_separate", "Asynchronous / Separate Data");
+   ASYNC_SEPARATE_LITERAL(2, "async_separate", "Asynchronous / Separate Data"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Sync shared</b></em>' literal value.

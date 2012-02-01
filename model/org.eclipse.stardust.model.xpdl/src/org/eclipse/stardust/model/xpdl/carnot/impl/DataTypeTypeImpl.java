@@ -1327,32 +1327,32 @@ public class DataTypeTypeImpl extends EObjectImpl implements DataTypeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", isPredefined: ");
-      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>");
-      result.append(", accessPathEditor: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", isPredefined: "); //$NON-NLS-1$
+      if (isPredefinedESet) result.append(isPredefined); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", accessPathEditor: "); //$NON-NLS-1$
       result.append(accessPathEditor);
-      result.append(", evaluator: ");
+      result.append(", evaluator: "); //$NON-NLS-1$
       result.append(evaluator);
-      result.append(", instanceClass: ");
+      result.append(", instanceClass: "); //$NON-NLS-1$
       result.append(instanceClass);
-      result.append(", panelClass: ");
+      result.append(", panelClass: "); //$NON-NLS-1$
       result.append(panelClass);
-      result.append(", readable: ");
-      if (readableESet) result.append(readable); else result.append("<unset>");
-      result.append(", storageStrategy: ");
+      result.append(", readable: "); //$NON-NLS-1$
+      if (readableESet) result.append(readable); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", storageStrategy: "); //$NON-NLS-1$
       result.append(storageStrategy);
-      result.append(", validatorClass: ");
+      result.append(", validatorClass: "); //$NON-NLS-1$
       result.append(validatorClass);
-      result.append(", valueCreator: ");
+      result.append(", valueCreator: "); //$NON-NLS-1$
       result.append(valueCreator);
-      result.append(", writable: ");
-      if (writableESet) result.append(writable); else result.append("<unset>");
+      result.append(", writable: "); //$NON-NLS-1$
+      if (writableESet) result.append(writable); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

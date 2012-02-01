@@ -44,7 +44,7 @@ public class FormalParametersTypeImpl extends EObjectImpl implements FormalParam
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getFormalParameter() <em>Formal Parameter</em>}' containment reference list.

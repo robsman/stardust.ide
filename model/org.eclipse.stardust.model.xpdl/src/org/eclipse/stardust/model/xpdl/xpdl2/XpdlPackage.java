@@ -39,7 +39,7 @@ public interface XpdlPackage extends EPackage
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The package name.
@@ -47,7 +47,7 @@ public interface XpdlPackage extends EPackage
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNAME = "xpdl";
+	String eNAME = "xpdl"; //$NON-NLS-1$
 
    /**
     * The package namespace URI.
@@ -55,21 +55,21 @@ public interface XpdlPackage extends EPackage
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_URI = "http://www.wfmc.org/2008/XPDL2.1";
+	String eNS_URI = "http://www.wfmc.org/2008/XPDL2.1"; //$NON-NLS-1$
 
    /**
     * The XPDL 1.0 namespace URI.
     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
     */
-    String eNS_URI1 = "http://www.wfmc.org/2002/XPDL1.0";
+    String eNS_URI1 = "http://www.wfmc.org/2002/XPDL1.0"; //$NON-NLS-1$
 
    /**
     * The XPDL 2.0 namespace URI.
     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
     */
-    String eNS_URI2 = "http://www.wfmc.org/2004/XPDL2.0alpha";
+    String eNS_URI2 = "http://www.wfmc.org/2004/XPDL2.0alpha"; //$NON-NLS-1$
 
    /**
     * The package namespace name.
@@ -77,7 +77,7 @@ public interface XpdlPackage extends EPackage
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_PREFIX = "xpdl";
+	String eNS_PREFIX = "xpdl"; //$NON-NLS-1$
 
    /**
     * The singleton instance of the package.

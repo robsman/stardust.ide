@@ -35,7 +35,7 @@ public enum ModeType implements Enumerator
     * @generated
     * @ordered
     */
-   IN(0, "IN", "IN"),
+   IN(0, "IN", "IN"), //$NON-NLS-1$ //$NON-NLS-2$
 
    /**
     * The '<em><b>OUT</b></em>' literal object.
@@ -45,7 +45,7 @@ public enum ModeType implements Enumerator
     * @generated
     * @ordered
     */
-   OUT(1, "OUT", "OUT"),
+   OUT(1, "OUT", "OUT"), //$NON-NLS-1$ //$NON-NLS-2$
 
    /**
     * The '<em><b>INOUT</b></em>' literal object.
@@ -55,14 +55,14 @@ public enum ModeType implements Enumerator
     * @generated
     * @ordered
     */
-   INOUT(2, "INOUT", "INOUT");
+   INOUT(2, "INOUT", "INOUT"); //$NON-NLS-1$ //$NON-NLS-2$
 
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The '<em><b>IN</b></em>' literal value.

@@ -37,7 +37,7 @@ public class DeclaredTypeTypeImpl extends EObjectImpl implements DeclaredTypeTyp
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The default value of the '{@link #getId() <em>Id</em>}' attribute.
@@ -171,7 +171,7 @@ public class DeclaredTypeTypeImpl extends EObjectImpl implements DeclaredTypeTyp
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (id: ");
+      result.append(" (id: "); //$NON-NLS-1$
       result.append(id);
       result.append(')');
       return result.toString();

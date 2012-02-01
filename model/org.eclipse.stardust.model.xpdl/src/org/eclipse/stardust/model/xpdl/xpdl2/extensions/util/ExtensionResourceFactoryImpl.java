@@ -28,7 +28,7 @@ public class ExtensionResourceFactoryImpl extends ResourceFactoryImpl {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Creates an instance of the resource factory.

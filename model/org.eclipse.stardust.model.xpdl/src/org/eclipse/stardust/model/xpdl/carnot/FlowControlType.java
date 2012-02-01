@@ -35,7 +35,7 @@ public enum FlowControlType implements Enumerator
     * @generated
     * @ordered
     */
-   NONE_LITERAL(0, "none", "none"),
+   NONE_LITERAL(0, "none", "none"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Join</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum FlowControlType implements Enumerator
     * @generated
     * @ordered
     */
-   JOIN_LITERAL(1, "join", "join"),
+   JOIN_LITERAL(1, "join", "join"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Split</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum FlowControlType implements Enumerator
     * @generated
     * @ordered
     */
-   SPLIT_LITERAL(2, "split", "split");
+   SPLIT_LITERAL(2, "split", "split"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

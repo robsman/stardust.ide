@@ -38,7 +38,7 @@ public class ExtensionsPackageImpl extends EPackageImpl implements ExtensionsPac
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * <!-- begin-user-doc -->
@@ -222,7 +222,7 @@ public class ExtensionsPackageImpl extends EPackageImpl implements ExtensionsPac
    {
       if (eClassifier.getInstanceClassName() == null)
       {
-         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot.extensions." + eClassifier.getName());
+         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot.extensions." + eClassifier.getName()); //$NON-NLS-1$
          setGeneratedClassName(eClassifier);
       }
    }

@@ -266,7 +266,7 @@ public class TypeDeclarationUtils
       HashMap options = new HashMap();
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
        
-      URI uri = !location.toLowerCase().startsWith("http://") 
+      URI uri = !location.toLowerCase().startsWith("http://")  //$NON-NLS-1$
             ? URI.createPlatformResourceURI(location, true)
             : URI.createURI(location);
       XSDResourceImpl resource = new XSDResourceImpl(uri);
@@ -384,7 +384,7 @@ public class TypeDeclarationUtils
       }
       if (name == null || name.length() == 0)
       {
-         prefix="p";
+         prefix="p"; //$NON-NLS-1$
       }
       else
       {
@@ -431,7 +431,7 @@ public class TypeDeclarationUtils
          if (imports != null && !imports.isEmpty()) {
             for (Iterator<XSDImport> j = imports.iterator(); j.hasNext();) {
                XSDImport xsdImport = j.next();
-               if (xsdImport.getSchemaLocation().endsWith(":" + oldId)) {
+               if (xsdImport.getSchemaLocation().endsWith(":" + oldId)) { //$NON-NLS-1$
                   xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + id);                  
                }
             }

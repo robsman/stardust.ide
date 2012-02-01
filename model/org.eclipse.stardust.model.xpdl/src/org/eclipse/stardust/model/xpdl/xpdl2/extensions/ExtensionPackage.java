@@ -35,7 +35,7 @@ public interface ExtensionPackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The package name.
@@ -43,7 +43,7 @@ public interface ExtensionPackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNAME = "extensions";
+	String eNAME = "extensions"; //$NON-NLS-1$
 
 	/**
     * The package namespace URI.
@@ -51,7 +51,7 @@ public interface ExtensionPackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_URI = "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions";
+	String eNS_URI = "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"; //$NON-NLS-1$
 
 	/**
     * The package namespace name.
@@ -59,7 +59,7 @@ public interface ExtensionPackage extends EPackage {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNS_PREFIX = "ext";
+	String eNS_PREFIX = "ext"; //$NON-NLS-1$
 
 	/**
     * The singleton instance of the package.

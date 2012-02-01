@@ -1065,23 +1065,23 @@ public class GroupSymbolTypeImpl extends ISymbolContainerImpl implements GroupSy
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", borderColor: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", borderColor: "); //$NON-NLS-1$
       result.append(borderColor);
-      result.append(", fillColor: ");
+      result.append(", fillColor: "); //$NON-NLS-1$
       result.append(fillColor);
-      result.append(", style: ");
+      result.append(", style: "); //$NON-NLS-1$
       result.append(style);
-      result.append(", xPos: ");
-      if (xPosESet) result.append(xPos); else result.append("<unset>");
-      result.append(", yPos: ");
-      if (yPosESet) result.append(yPos); else result.append("<unset>");
-      result.append(", width: ");
-      if (widthESet) result.append(width); else result.append("<unset>");
-      result.append(", height: ");
-      if (heightESet) result.append(height); else result.append("<unset>");
-      result.append(", shape: ");
+      result.append(", xPos: "); //$NON-NLS-1$
+      if (xPosESet) result.append(xPos); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", yPos: "); //$NON-NLS-1$
+      if (yPosESet) result.append(yPos); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", width: "); //$NON-NLS-1$
+      if (widthESet) result.append(width); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", height: "); //$NON-NLS-1$
+      if (heightESet) result.append(height); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", shape: "); //$NON-NLS-1$
       result.append(shape);
       result.append(')');
       return result.toString();

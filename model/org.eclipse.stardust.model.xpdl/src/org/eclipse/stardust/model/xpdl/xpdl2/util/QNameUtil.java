@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.util;
 
+import java.text.MessageFormat;
+
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
+
 public final class QNameUtil
 {
    private QNameUtil() {};
@@ -22,7 +26,7 @@ public final class QNameUtil
       }
       else
       {
-         return "{" + namespaceURI + "}" + localPart;
+         return "{" + namespaceURI + "}" + localPart; //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
    
@@ -45,7 +49,7 @@ public final class QNameUtil
       }
 
       // Namespace URI improperly specified?
-      if (qNameAsString.startsWith("{}"))
+      if (qNameAsString.startsWith("{}")) //$NON-NLS-1$
       {
          return null;
       }
@@ -54,8 +58,8 @@ public final class QNameUtil
       int endOfNamespaceURI = qNameAsString.indexOf('}');
       if (endOfNamespaceURI == -1)
       {
-          throw new IllegalArgumentException(
-              "Cannot parse QName from \"" + qNameAsString + "\", missing closing \"}\"");
+    	  
+          throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_CANNOT_PARSE_QNAME_FROM_NULL, new Object[]{qNameAsString}));
       }
       return qNameAsString.substring(1, endOfNamespaceURI);
    }
@@ -79,7 +83,7 @@ public final class QNameUtil
       }
 
       // Namespace URI improperly specified?
-      if (qNameAsString.startsWith("{}"))
+      if (qNameAsString.startsWith("{}")) //$NON-NLS-1$
       {
          return qNameAsString.substring(2);
       }
@@ -89,7 +93,7 @@ public final class QNameUtil
       if (endOfNamespaceURI == -1)
       {
           throw new IllegalArgumentException(
-              "Cannot parse QName from \"" + qNameAsString + "\", missing closing \"}\"");
+        		  MessageFormat.format(Model_Messages.EXC_CANNOT_PARSE_QNAME_FROM_NULL, new Object[]{qNameAsString}));
       }
       return qNameAsString.substring(endOfNamespaceURI + 1);
    }

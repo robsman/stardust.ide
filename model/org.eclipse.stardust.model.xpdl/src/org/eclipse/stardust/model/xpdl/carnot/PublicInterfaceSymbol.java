@@ -28,6 +28,6 @@ public interface PublicInterfaceSymbol extends AbstractEventSymbol
     * <!-- end-user-doc -->
     * @generated
     */
-   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
 } // PublicInterfaceSymbol

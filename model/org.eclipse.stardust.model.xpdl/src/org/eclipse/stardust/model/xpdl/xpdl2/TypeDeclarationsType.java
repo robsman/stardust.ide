@@ -35,7 +35,7 @@ public interface TypeDeclarationsType extends EObject {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Returns the value of the '<em><b>Type Declaration</b></em>' containment reference list.

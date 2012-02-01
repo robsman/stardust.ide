@@ -35,7 +35,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   UNKNOWN_LITERAL(-1, "", ""),
+   UNKNOWN_LITERAL(-1, "", ""), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>No Arrow</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   NO_ARROW_LITERAL(0, "without Symbol", "without Symbol"),
+   NO_ARROW_LITERAL(0, "without Symbol", "without Symbol"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Open Triangle</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   OPEN_TRIANGLE_LITERAL(1, "open Triangle", "open Triangle"),
+   OPEN_TRIANGLE_LITERAL(1, "open Triangle", "open Triangle"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Empty Triangle</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   EMPTY_TRIANGLE_LITERAL(2, "empty Triangle", "empty Triangle"),
+   EMPTY_TRIANGLE_LITERAL(2, "empty Triangle", "empty Triangle"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Filled Triangle</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -71,7 +71,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   FILLED_TRIANGLE_LITERAL(3, "filled Triangle", "filled Triangle"),
+   FILLED_TRIANGLE_LITERAL(3, "filled Triangle", "filled Triangle"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Empty Rhombus</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -80,7 +80,7 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   EMPTY_RHOMBUS_LITERAL(4, "empty Rhombus", "empty Rhombus"),
+   EMPTY_RHOMBUS_LITERAL(4, "empty Rhombus", "empty Rhombus"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Filled Rhombus</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -89,13 +89,13 @@ public enum LinkEndStyle implements Enumerator
     * @generated NOT
     * @ordered
     */
-   FILLED_RHOMBUS_LITERAL(5, "filled Rhombus", "filled Rhombus");
+   FILLED_RHOMBUS_LITERAL(5, "filled Rhombus", "filled Rhombus"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Unknown</b></em>' literal value.

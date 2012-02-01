@@ -57,7 +57,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getSchema() <em>Schema</em>}' reference.
@@ -299,7 +299,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        {
           url = location;
        }
-       if (!url.toLowerCase().startsWith("http://"))
+       if (!url.toLowerCase().startsWith("http://")) //$NON-NLS-1$
       {
          IProject project = ModelUtils.getProjectFromEObject(declaration);
          if (project != null)
@@ -443,11 +443,11 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (location: ");
+      result.append(" (location: "); //$NON-NLS-1$
       result.append(location);
-      result.append(", namespace: ");
+      result.append(", namespace: "); //$NON-NLS-1$
       result.append(namespace);
-      result.append(", xref: ");
+      result.append(", xref: "); //$NON-NLS-1$
       result.append(xref);
       result.append(')');
       return result.toString();

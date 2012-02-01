@@ -587,13 +587,13 @@ public class AttributeTypeImpl extends EObjectImpl implements AttributeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (mixed: ");
+      result.append(" (mixed: "); //$NON-NLS-1$
       result.append(mixed);
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
-      result.append(", type: ");
+      result.append(", type: "); //$NON-NLS-1$
       result.append(type);
-      result.append(", value: ");
+      result.append(", value: "); //$NON-NLS-1$
       result.append(value);
       result.append(')');
       return result.toString();

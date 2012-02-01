@@ -44,7 +44,7 @@ public class ExternalPackagesImpl extends EObjectImpl implements ExternalPackage
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard";
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getExternalPackage() <em>External Package</em>}' containment reference list.

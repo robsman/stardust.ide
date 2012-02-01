@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.stardust.model.xpdl.carnot.CwmPlugin;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 
 public class ModelAdapterUtils
 {
@@ -29,12 +30,12 @@ public class ModelAdapterUtils
       {
          try
          {
-            adapterFactory = (IModelAdapterFactory) configElement.createExecutableExtension("implementation");
+            adapterFactory = (IModelAdapterFactory) configElement.createExecutableExtension("implementation"); //$NON-NLS-1$
             break;
          }
          catch (CoreException ce)
          {
-            System.out.println("Failed instantiating extension: " + ce.getMessage());
+            System.out.println(Model_Messages.EXC_FAILED_INSTANTIATING_EXTENSION + ce.getMessage());
          }
       }
 

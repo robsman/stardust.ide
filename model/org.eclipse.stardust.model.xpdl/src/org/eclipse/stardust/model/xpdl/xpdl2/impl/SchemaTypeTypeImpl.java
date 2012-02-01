@@ -40,7 +40,7 @@ public class SchemaTypeTypeImpl extends EObjectImpl implements SchemaTypeType {
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The cached value of the '{@link #getSchema() <em>Schema</em>}' containment reference.

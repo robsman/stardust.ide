@@ -53,7 +53,7 @@ public class TypeDeclarationTypeImpl extends EObjectImpl implements TypeDeclarat
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * The cached value of the '{@link #getExtendedAttributes() <em>Extended Attributes</em>}' containment reference.
@@ -676,11 +676,11 @@ public class TypeDeclarationTypeImpl extends EObjectImpl implements TypeDeclarat
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (description: ");
+      result.append(" (description: "); //$NON-NLS-1$
       result.append(description);
-      result.append(", id: ");
+      result.append(", id: "); //$NON-NLS-1$
       result.append(id);
-      result.append(", name: ");
+      result.append(", name: "); //$NON-NLS-1$
       result.append(name);
       result.append(')');
       return result.toString();

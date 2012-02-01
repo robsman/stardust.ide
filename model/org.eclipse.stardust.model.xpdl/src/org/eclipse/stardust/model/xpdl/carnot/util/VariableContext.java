@@ -39,7 +39,7 @@ public class VariableContext
 
    private Map<String, Map<EObject, String>> elementReferences = new HashMap<String, Map<EObject, String>>();
 
-   private Pattern pattern = Pattern.compile("(\\$\\{[^{}]+\\})");
+   private Pattern pattern = Pattern.compile("(\\$\\{[^{}]+\\})"); //$NON-NLS-1$
    
    private ModelType model;
    
@@ -63,7 +63,7 @@ public class VariableContext
          while (i <= attributes.size() - 1)
          {
             AttributeType attribute = attributes.get(i);
-            if (attribute.getName().startsWith("ipp:variables"))
+            if (attribute.getName().startsWith("ipp:variables")) //$NON-NLS-1$
             {
                int variableIndex = getIndex(attribute.getName());
                ModelVariable modelVariable = createModelVariable(attribute);
@@ -121,25 +121,25 @@ public class VariableContext
       if (!modelVariable.isRemoved())
       {
          String saveName = modelVariable.getName().substring(2, modelVariable.getName().length() - 1);
-         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-               + "]:name", "String", saveName);
+         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+               + "]:name", "String", saveName); //$NON-NLS-1$ //$NON-NLS-2$
 
-         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-               + "]:defaultValue", "String", modelVariable.getDefaultValue());
+         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+               + "]:defaultValue", "String", modelVariable.getDefaultValue()); //$NON-NLS-1$ //$NON-NLS-2$
 
-         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-               + "]:description", "String", modelVariable.getDescription());
+         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+               + "]:description", "String", modelVariable.getDescription()); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
    
    private void removeAttributeSet(ModelVariable modelVariable, int j)
    {
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:name", "String", null);
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:defaultValue", "String", null);
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j
-            + "]:description", "String", null);
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+            + "]:name", "String", null); //$NON-NLS-1$ //$NON-NLS-2$
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+            + "]:defaultValue", "String", null); //$NON-NLS-1$ //$NON-NLS-2$
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
+            + "]:description", "String", null); //$NON-NLS-1$ //$NON-NLS-2$
    }
    
    private ModelVariable createModelVariable(AttributeType attribute)
@@ -148,21 +148,21 @@ public class VariableContext
       int index = getIndex(attribute.getName());
       if (index + 1 > variables.size())
       {
-         modelVariable = new ModelVariable("", "", "");
+         modelVariable = new ModelVariable("", "", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          variables.add(modelVariable);
       }
       modelVariable = variables.get(index);
       String feature = attribute.getName()
-            .substring(attribute.getName().indexOf("]") + 2);
-      if (feature.equals("name"))
+            .substring(attribute.getName().indexOf("]") + 2); //$NON-NLS-1$
+      if (feature.equals("name")) //$NON-NLS-1$
       {
-         modelVariable.setName("${" + attribute.getValue() + "}");
+         modelVariable.setName("${" + attribute.getValue() + "}"); //$NON-NLS-1$ //$NON-NLS-2$
       }
-      if (feature.equals("defaultValue"))
+      if (feature.equals("defaultValue")) //$NON-NLS-1$
       {
          modelVariable.setDefaultValue(attribute.getValue());
       }
-      if (feature.equals("description"))
+      if (feature.equals("description")) //$NON-NLS-1$
       {
          modelVariable.setDescription(attribute.getValue());
       }
@@ -171,8 +171,8 @@ public class VariableContext
 
    private int getIndex(String name)
    {
-      int startIndex = name.indexOf("[");
-      int endIndex = name.indexOf("]");
+      int startIndex = name.indexOf("["); //$NON-NLS-1$
+      int endIndex = name.indexOf("]"); //$NON-NLS-1$
       String index = name.substring(startIndex + 1, endIndex);
       return Integer.parseInt(index);
    }
@@ -225,7 +225,7 @@ public class VariableContext
             for (Iterator<EObject> j = refList.iterator(); j.hasNext();)
             {
                EObject modelElement = j.next();
-               if (modelElement.eContainer().toString().indexOf("ChangeDescriptionImpl") > -1)
+               if (modelElement.eContainer().toString().indexOf("ChangeDescriptionImpl") > -1) //$NON-NLS-1$
                {
                   invalidReferences.add(modelElement);
                }
@@ -266,7 +266,7 @@ public class VariableContext
                   {
                      refList = new ArrayList<EObject>();
                      variableReferences.put(ref, refList);
-                     ModelVariable modelVariable = new ModelVariable(ref, "", "");
+                     ModelVariable modelVariable = new ModelVariable(ref, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
                      variables.add(modelVariable);
                   }
                   if (!containedReference(modelElement, refList))
@@ -387,7 +387,7 @@ public class VariableContext
          result = replace(modelVariable, modelVariable.getDefaultValue(), result);
       }
       //Additionally deal with escaped variables
-      result = result.replaceAll("\\\\\\$\\{", "\\$\\{");
+      result = result.replaceAll("\\\\\\$\\{", "\\$\\{"); //$NON-NLS-1$ //$NON-NLS-2$
       return result;
    }
 
@@ -400,7 +400,7 @@ public class VariableContext
          value = replace(modelVariable, newValue, value);
          attribute.setValue(value);
          // CRNT-22739
-         if (attribute.getName().equalsIgnoreCase("ipp:criticalityFormula"))
+         if (attribute.getName().equalsIgnoreCase("ipp:criticalityFormula")) //$NON-NLS-1$
          {
             setCriticalityFormulaChanged(true);
          }
@@ -464,46 +464,46 @@ public class VariableContext
    {
       List<String> list1 = new ArrayList<String>();
       String n = modelVariable.getName();
-      String tobeReplaced = "";
-      String replacement = "";
-      if (!newValue.startsWith("${"))
+      String tobeReplaced = ""; //$NON-NLS-1$
+      String replacement = ""; //$NON-NLS-1$
+      if (!newValue.startsWith("${")) //$NON-NLS-1$
       {
          tobeReplaced = n.substring(2, n.length() - 1);
          replacement = newValue;
-         if (replacement.indexOf("$") > -1)
+         if (replacement.indexOf("$") > -1) //$NON-NLS-1$
          {
-            replacement = replacement.replace("$", "\\$");
+            replacement = replacement.replace("$", "\\$"); //$NON-NLS-1$ //$NON-NLS-2$
          }
-         while (value.indexOf("${" + tobeReplaced + "}") > -1)
+         while (value.indexOf("${" + tobeReplaced + "}") > -1) //$NON-NLS-1$ //$NON-NLS-2$
          {
-            int idx = value.indexOf("${" + tobeReplaced + "}");
+            int idx = value.indexOf("${" + tobeReplaced + "}"); //$NON-NLS-1$ //$NON-NLS-2$
             if (idx == 0 || (idx > 0 && value.charAt(idx - 1) != '\\'))
             {
-               value = value.replaceFirst("(\\$\\{" + tobeReplaced + "\\})", replacement);
+               value = value.replaceFirst("(\\$\\{" + tobeReplaced + "\\})", replacement); //$NON-NLS-1$ //$NON-NLS-2$
             }
             else
             {
-               list1.add("\\$\\{" + tobeReplaced + "\\}");
-               value = value.replaceFirst("(\\$\\{" + tobeReplaced + "\\})", "*0*0*0*0*");
+               list1.add("\\$\\{" + tobeReplaced + "\\}"); //$NON-NLS-1$ //$NON-NLS-2$
+               value = value.replaceFirst("(\\$\\{" + tobeReplaced + "\\})", "*0*0*0*0*"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
          }
          for (Iterator<String> i = list1.iterator(); i.hasNext();)
          {
             String string = i.next();
-            value = value.replaceFirst("(\\*0\\*0\\*0\\*0\\*)", string);
+            value = value.replaceFirst("(\\*0\\*0\\*0\\*0\\*)", string); //$NON-NLS-1$
          }
       }
       else
       {
          tobeReplaced = n.substring(2, n.length() - 1);
          replacement = newValue.substring(2, newValue.length() - 1);
-         if (replacement.indexOf("$") > -1)
+         if (replacement.indexOf("$") > -1) //$NON-NLS-1$
          {
-            replacement = replacement.replace("$", "\\$");
+            replacement = replacement.replace("$", "\\$"); //$NON-NLS-1$ //$NON-NLS-2$
          }
          tobeReplaced = RegEx.REUtil.quoteMeta(tobeReplaced);
-         value = value.replaceAll("(\\$\\{" + tobeReplaced + "\\})", "\\$\\{"
-               + replacement + "\\}");
+         value = value.replaceAll("(\\$\\{" + tobeReplaced + "\\})", "\\$\\{" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+               + replacement + "\\}"); //$NON-NLS-1$
       }
       return value;
    }
@@ -514,11 +514,11 @@ public class VariableContext
       {
          return false;
       }
-      if (name.startsWith("${"))
+      if (name.startsWith("${")) //$NON-NLS-1$
       {
          name = name.substring(2, name.length() - 1);
       }
-      if (name == "" || StringUtils.isEmpty(name))
+      if (name == "" || StringUtils.isEmpty(name)) //$NON-NLS-1$
       {
          return false;
       }

@@ -27,7 +27,7 @@ public interface XpdlFactory extends EFactory
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String copyright = "Copyright 2008 by SunGard";
+	String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The singleton instance of the factory.

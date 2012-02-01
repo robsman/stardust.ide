@@ -48,7 +48,7 @@ public class IdRefImpl extends EObjectImpl implements IdRef
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The cached value of the '{@link #getPackageRef() <em>Package Ref</em>}' reference.
@@ -234,7 +234,7 @@ public class IdRefImpl extends EObjectImpl implements IdRef
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (ref: ");
+      result.append(" (ref: "); //$NON-NLS-1$
       result.append(ref);
       result.append(')');
       return result.toString();

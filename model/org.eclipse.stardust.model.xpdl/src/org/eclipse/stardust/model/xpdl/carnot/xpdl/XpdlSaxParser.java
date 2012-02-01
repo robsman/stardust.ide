@@ -32,7 +32,7 @@ import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ModelMessages;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.HandlerBase;
@@ -108,7 +108,7 @@ public class XpdlSaxParser extends SAXParser
       final URL xsdURL = XpdlUtils.getXpdl_10_Schema();
       if (null == xsdURL)
       {
-         throw new InternalException(ModelMessages.MSG_UNABLE_TO_FIND_XPDL_IMPORT + XpdlUtils.XPDL_1_0_XSD); //$NON-NLS-1$
+         throw new InternalException(Model_Messages.MSG_UNABLE_TO_FIND_XPDL_IMPORT + XpdlUtils.XPDL_1_0_XSD); //$NON-NLS-1$
       }
 
       // by default, this will return Aelfred
@@ -144,7 +144,7 @@ public class XpdlSaxParser extends SAXParser
       }
       catch (TransformerException e)
       {
-         throw new PublicException(ModelMessages.MSG_FAILED_LOADING_MODEL, e); //$NON-NLS-1$
+         throw new PublicException(Model_Messages.MSG_FAILED_LOADING_MODEL, e); //$NON-NLS-1$
       }
       finally
       {
@@ -202,17 +202,17 @@ public class XpdlSaxParser extends SAXParser
 
 	public void warning(SAXParseException exception) throws SAXException
       {
-         trace.warn(formatParseException(ModelMessages.MSG_WARN, exception)); //$NON-NLS-1$
+         trace.warn(formatParseException(Model_Messages.MSG_WARN, exception)); //$NON-NLS-1$
       }
 
       public void error(SAXParseException exception) throws SAXException
       {
-         trace.error(formatParseException(ModelMessages.MSG_ERR, exception)); //$NON-NLS-1$
+         trace.error(formatParseException(Model_Messages.MSG_ERR, exception)); //$NON-NLS-1$
       }
 
       public void fatalError(SAXParseException exception) throws SAXException
       {
-         trace.error(formatParseException(ModelMessages.MSG_FATAL_ERR, exception)); //$NON-NLS-1$
+         trace.error(formatParseException(Model_Messages.MSG_FATAL_ERR, exception)); //$NON-NLS-1$
       }
 
       private String formatParseException(String label, SAXParseException e)
@@ -235,7 +235,7 @@ public class XpdlSaxParser extends SAXParser
          final URL xsltURL = XpdlUtils.getXpdl2CarnotStylesheet();
          if (null == xsltURL)
          {
-            throw new InternalException(ModelMessages.MSG_UNABLE_TO_FIND_XPDL_IMPORT); //$NON-NLS-1$
+            throw new InternalException(Model_Messages.MSG_UNABLE_TO_FIND_XPDL_IMPORT); //$NON-NLS-1$
          }
 
          try
@@ -248,7 +248,7 @@ public class XpdlSaxParser extends SAXParser
             }
             catch (IOException e)
             {
-               throw new PublicException(ModelMessages.MSG_UNABLE_TO_LOAD_XPDL_IMPORT, e); //$NON-NLS-1$
+               throw new PublicException(Model_Messages.MSG_UNABLE_TO_LOAD_XPDL_IMPORT, e); //$NON-NLS-1$
             }
 
             xpdl2cwmTransformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
@@ -262,7 +262,7 @@ public class XpdlSaxParser extends SAXParser
          }
          catch (TransformerConfigurationException e)
          {
-            throw new PublicException(ModelMessages.MSG_INVALID_JAXP_SETUP, e); //$NON-NLS-1$
+            throw new PublicException(Model_Messages.MSG_INVALID_JAXP_SETUP, e); //$NON-NLS-1$
          }
       }
       

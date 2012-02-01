@@ -147,7 +147,7 @@ public class CwmXmlSave extends XMLSaveImpl
       {
          if (helper.getResource() != null)
          {
-            if (helper.getResource().getURI().toString().endsWith(".cwm"))
+            if (helper.getResource().getURI().toString().endsWith(".cwm")) //$NON-NLS-1$
             {
                if (eObjectToExtensionMap != null)
                {
@@ -161,9 +161,9 @@ public class CwmXmlSave extends XMLSaveImpl
                         if (o instanceof SimpleFeatureMapEntry)
                         {
                            SimpleFeatureMapEntry s = (SimpleFeatureMapEntry) o;
-                           if (s.getEStructuralFeature().getName().equalsIgnoreCase("xmlns"))
+                           if (s.getEStructuralFeature().getName().equalsIgnoreCase("xmlns")) //$NON-NLS-1$
                            {
-                              if (s.getValue().equals("http://www.carnot.ag/workflowmodel/3.1"))
+                              if (s.getValue().equals("http://www.carnot.ag/workflowmodel/3.1")) //$NON-NLS-1$
                               {
                                  toBeRemoved = s;
                               }
@@ -272,7 +272,7 @@ public class CwmXmlSave extends XMLSaveImpl
       }
       if (end < 0)
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
       while (begin < end && Character.isWhitespace(value.charAt(begin)))
       {

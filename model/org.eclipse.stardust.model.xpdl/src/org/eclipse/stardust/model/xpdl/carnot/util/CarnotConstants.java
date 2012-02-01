@@ -114,9 +114,9 @@ public interface CarnotConstants
    String SEND_MAIL_ACTION_ID = PredefinedConstants.MAIL_ACTION;
    String EXCLUDE_USER_ACTION_ID = PredefinedConstants.EXCLUDE_USER_ACTION;
    String DATA_TYPE_HINT_ATT = ENGINE_SCOPE + "typeHint"; //$NON-NLS-1$
-   String NUMERIC_HINT = "numeric";
-   String COMPLEX_HINT = "complex";
-   String TEXT_HINT = "text";
+   String NUMERIC_HINT = "numeric"; //$NON-NLS-1$
+   String COMPLEX_HINT = "complex"; //$NON-NLS-1$
+   String TEXT_HINT = "text"; //$NON-NLS-1$
    
    String AUTO_ID_GENERATION = "auto_id_generation"; //$NON-NLS-1$   
 }

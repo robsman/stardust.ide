@@ -1960,28 +1960,28 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", id: ");
-      if (idESet) result.append(id); else result.append("<unset>");
-      result.append(", name: ");
-      if (nameESet) result.append(name); else result.append("<unset>");
-      result.append(", allowsAbortByPerformer: ");
-      if (allowsAbortByPerformerESet) result.append(allowsAbortByPerformer); else result.append("<unset>");
-      result.append(", hibernateOnCreation: ");
-      if (hibernateOnCreationESet) result.append(hibernateOnCreation); else result.append("<unset>");
-      result.append(", implementation: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", id: "); //$NON-NLS-1$
+      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", name: "); //$NON-NLS-1$
+      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", allowsAbortByPerformer: "); //$NON-NLS-1$
+      if (allowsAbortByPerformerESet) result.append(allowsAbortByPerformer); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", hibernateOnCreation: "); //$NON-NLS-1$
+      if (hibernateOnCreationESet) result.append(hibernateOnCreation); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", implementation: "); //$NON-NLS-1$
       result.append(implementation);
-      result.append(", join: ");
-      if (joinESet) result.append(join); else result.append("<unset>");
-      result.append(", loopCondition: ");
+      result.append(", join: "); //$NON-NLS-1$
+      if (joinESet) result.append(join); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", loopCondition: "); //$NON-NLS-1$
       result.append(loopCondition);
-      result.append(", loopType: ");
-      if (loopTypeESet) result.append(loopType); else result.append("<unset>");
-      result.append(", split: ");
-      if (splitESet) result.append(split); else result.append("<unset>");
-      result.append(", subProcessMode: ");
-      if (subProcessModeESet) result.append(subProcessMode); else result.append("<unset>");
+      result.append(", loopType: "); //$NON-NLS-1$
+      if (loopTypeESet) result.append(loopType); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", split: "); //$NON-NLS-1$
+      if (splitESet) result.append(split); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", subProcessMode: "); //$NON-NLS-1$
+      if (subProcessModeESet) result.append(subProcessMode); else result.append("<unset>"); //$NON-NLS-1$
       result.append(')');
       return result.toString();
    }

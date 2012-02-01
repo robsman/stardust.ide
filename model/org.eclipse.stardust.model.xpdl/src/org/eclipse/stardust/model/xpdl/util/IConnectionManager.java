@@ -18,12 +18,12 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 
 public interface IConnectionManager
 {
-   public static final String BY_REFERENCE = "importByReference";
-   public static final String CONNECTION_MANAGER_CREATED = "ConnectionManager.CREATED";
-   public static final String CONNECTION_MANAGER = "ConnectionManager";
-   public static final String SCHEME = "cnx";
-   public static final String CONNECTION_SCOPE = "carnot:connection:";
-   public static final String URI_ATTRIBUTE_NAME = CONNECTION_SCOPE + "uri";
+   public static final String BY_REFERENCE = "importByReference"; //$NON-NLS-1$
+   public static final String CONNECTION_MANAGER_CREATED = "ConnectionManager.CREATED"; //$NON-NLS-1$
+   public static final String CONNECTION_MANAGER = "ConnectionManager"; //$NON-NLS-1$
+   public static final String SCHEME = "cnx"; //$NON-NLS-1$
+   public static final String CONNECTION_SCOPE = "carnot:connection:"; //$NON-NLS-1$
+   public static final String URI_ATTRIBUTE_NAME = CONNECTION_SCOPE + "uri"; //$NON-NLS-1$
 
    EObject find(String uri);
    EObject find(URI uri);

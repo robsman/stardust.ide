@@ -981,9 +981,9 @@ public abstract class ISymbolContainerImpl extends EObjectImpl implements ISymbo
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (nodes: ");
+      result.append(" (nodes: "); //$NON-NLS-1$
       result.append(nodes);
-      result.append(", connections: ");
+      result.append(", connections: "); //$NON-NLS-1$
       result.append(connections);
       result.append(')');
       return result.toString();

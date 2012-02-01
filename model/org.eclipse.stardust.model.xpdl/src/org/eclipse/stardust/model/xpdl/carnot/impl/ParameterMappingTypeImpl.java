@@ -485,13 +485,13 @@ public class ParameterMappingTypeImpl extends EObjectImpl implements ParameterMa
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: ");
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
-      result.append(", dataPath: ");
+      result.append(" (elementOid: "); //$NON-NLS-1$
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
+      result.append(", dataPath: "); //$NON-NLS-1$
       result.append(dataPath);
-      result.append(", parameter: ");
+      result.append(", parameter: "); //$NON-NLS-1$
       result.append(parameter);
-      result.append(", parameterPath: ");
+      result.append(", parameterPath: "); //$NON-NLS-1$
       result.append(parameterPath);
       result.append(')');
       return result.toString();

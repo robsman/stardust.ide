@@ -35,7 +35,7 @@ public enum OrientationType implements Enumerator
     * @generated
     * @ordered
     */
-   VERTICAL_LITERAL(0, "Vertical", "Vertical"),
+   VERTICAL_LITERAL(0, "Vertical", "Vertical"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Horizontal</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum OrientationType implements Enumerator
     * @generated
     * @ordered
     */
-   HORIZONTAL_LITERAL(1, "Horizontal", "Horizontal");
+   HORIZONTAL_LITERAL(1, "Horizontal", "Horizontal"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

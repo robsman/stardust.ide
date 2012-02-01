@@ -35,7 +35,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   STRING_LITERAL(0, "STRING", "STRING"),
+   STRING_LITERAL(0, "STRING", "STRING"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>FLOAT</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   FLOAT_LITERAL(1, "FLOAT", "FLOAT"),
+   FLOAT_LITERAL(1, "FLOAT", "FLOAT"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>INTEGER</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   INTEGER_LITERAL(2, "INTEGER", "INTEGER"),
+   INTEGER_LITERAL(2, "INTEGER", "INTEGER"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>REFERENCE</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   REFERENCE_LITERAL(3, "REFERENCE", "REFERENCE"),
+   REFERENCE_LITERAL(3, "REFERENCE", "REFERENCE"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>DATETIME</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -71,7 +71,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   DATETIME_LITERAL(4, "DATETIME", "DATETIME"),
+   DATETIME_LITERAL(4, "DATETIME", "DATETIME"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>BOOLEAN</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -80,7 +80,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   BOOLEAN_LITERAL(5, "BOOLEAN", "BOOLEAN"),
+   BOOLEAN_LITERAL(5, "BOOLEAN", "BOOLEAN"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>PERFORMER</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -89,13 +89,13 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   PERFORMER_LITERAL(6, "PERFORMER", "PERFORMER");
+   PERFORMER_LITERAL(6, "PERFORMER", "PERFORMER"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard";
+	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * The '<em><b>STRING</b></em>' literal value.

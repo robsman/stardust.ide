@@ -35,7 +35,7 @@ public enum LinkCardinality implements Enumerator
     * @generated NOT
     * @ordered
     */
-   UNKNOWN_LITERAL(-1, "", ""),
+   UNKNOWN_LITERAL(-1, "", ""), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>One</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum LinkCardinality implements Enumerator
     * @generated NOT
     * @ordered
     */
-   ONE_LITERAL(0, "*:1", "*:1"),
+   ONE_LITERAL(0, "*:1", "*:1"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>Many</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,13 +53,13 @@ public enum LinkCardinality implements Enumerator
     * @generated NOT
     * @ordered
     */
-   MANY_LITERAL(1, "*:N", "*:N");
+   MANY_LITERAL(1, "*:N", "*:N"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * The '<em><b>Unknown</b></em>' literal value.
