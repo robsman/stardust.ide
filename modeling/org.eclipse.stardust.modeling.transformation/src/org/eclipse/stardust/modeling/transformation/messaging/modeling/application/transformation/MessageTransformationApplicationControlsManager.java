@@ -319,7 +319,7 @@ public class MessageTransformationApplicationControlsManager
                                  | SWT.CANCEL);
                            messageBox.setText(Modeling_Messages.TXT_WR_LEER);
                            messageBox
-                                 .setMessage(Modeling_Messages.MSG_TARGET_FIELD_ALREADY_CONTAINS_EXPR+ "\n\n" + Modeling_Messages.MSG_WANT_OVERWRITE_SEL_MSG); //$NON-NLS-2$
+                                 .setMessage(Modeling_Messages.MSG_TARGET_FIELD_ALREADY_CONTAINS_EXPR+ "\n\n" + Modeling_Messages.MSG_WANT_OVERWRITE_SEL_MSG); //$NON-NLS-1$
                            if (messageBox.open() == SWT.OK)
                            {
                               performDropMapping((AccessPointType) mapTarget);

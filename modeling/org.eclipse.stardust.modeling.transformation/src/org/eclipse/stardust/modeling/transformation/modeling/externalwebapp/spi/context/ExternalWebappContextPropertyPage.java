@@ -23,6 +23,7 @@ import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -59,7 +60,7 @@ public class ExternalWebappContextPropertyPage extends AbstractModelElementPrope
             "URL:"); //$NON-NLS-1$
 
       String iconName = "{org.eclipse.stardust.modeling.transformation.modeling.externalwebapp}icons/message_transformation_application_icon.gif";       //$NON-NLS-1$
-      ConfigurationElement element = ConfigurationElement.createPageConfiguration("org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage", "Typed Access Points", iconName, org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage.class); //$NON-NLS-1$ //$NON-NLS-2$
+      ConfigurationElement element = ConfigurationElement.createPageConfiguration("org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage", Modeling_Messages.LBL_TYPED_ACCESS_POINTS, iconName, org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.InputOutputApplicationPropertyPage.class); //$NON-NLS-1$ //$NON-NLS-2$
       CarnotPreferenceNode actualNode = (CarnotPreferenceNode) getNode("_cwm_interactive_.externalWebApp");       //$NON-NLS-1$
       CarnotPreferenceNode newNode = new CarnotPreferenceNode(element, getElement(), 0);
       if (actualNode.getSubNodes().length == 0)

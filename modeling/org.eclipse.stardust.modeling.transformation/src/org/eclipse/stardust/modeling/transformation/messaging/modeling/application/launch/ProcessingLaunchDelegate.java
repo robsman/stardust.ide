@@ -92,15 +92,15 @@ public class ProcessingLaunchDelegate extends LaunchConfigurationDelegate
 	        }       
 	        catch (FileNotFoundException e)
 	        {
-	            throw new RuntimeException(Modeling_Messages.EXC_IP_FILE_NOT_FOUND+inputFileName+"'.", e); //$NON-NLS-2$
+	            throw new RuntimeException(Modeling_Messages.EXC_IP_FILE_NOT_FOUND+inputFileName+"'.", e); //$NON-NLS-1$
 	        }
 	        catch (ParsingException e)
 	        {
-	            throw new RuntimeException(Modeling_Messages.EXC_PB_PR_FILE_CONTENT_OF+inputFileName+"'.", e); //$NON-NLS-2$
+	            throw new RuntimeException(Modeling_Messages.EXC_PB_PR_FILE_CONTENT_OF+inputFileName+"'.", e); //$NON-NLS-1$
 	        }
 	        catch (Throwable e)
 	        {
-	            throw new RuntimeException(Modeling_Messages.EXC_PB_PR_FILE_CONTENT_OF+inputFileName+"'.", e); //$NON-NLS-2$
+	            throw new RuntimeException(Modeling_Messages.EXC_PB_PR_FILE_CONTENT_OF+inputFileName+"'.", e); //$NON-NLS-1$
 	        }
 	        
 	        if (configuration.getAttribute(ProcessingLauncherConstants.TEST_SERIALIZATION,  true))
@@ -120,7 +120,7 @@ public class ProcessingLaunchDelegate extends LaunchConfigurationDelegate
 	            {
 	                try
 	                {
-	                    msgStream.println(Modeling_Messages.TXT_WRT_OP_TO + configuration.getAttribute(ProcessingLauncherConstants.TARGET_FILE_PATH,   "")); //$NON-NLS-2$
+	                    msgStream.println(Modeling_Messages.TXT_WRT_OP_TO + configuration.getAttribute(ProcessingLauncherConstants.TARGET_FILE_PATH,   "")); //$NON-NLS-1$
 	                    performSerializing(sourceDoc, new FileOutputStream(configuration.getAttribute(ProcessingLauncherConstants.TARGET_FILE_PATH, "")), schemaDocument, configuration); //$NON-NLS-1$
 	                    msgStream.println(Modeling_Messages.TXT_DONE);
 	                }

@@ -238,7 +238,7 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
             
             AttributeType currentAttribute = AttributeUtil.getAttribute(currentType, CarnotConstants.TYPE_ATT);
             String currentAttributeType = attribute.getType();
-            if(currentAttributeType.equals("ag.carnot.workflow.spi.providers.data.java.Type"))
+            if(currentAttributeType.equals("ag.carnot.workflow.spi.providers.data.java.Type")) //$NON-NLS-1$
             {
                if(currentAttribute.getValue().equals(attribute.getValue()))
                {
@@ -249,7 +249,7 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
          }
          else
          {
-            String messageTypeType = AttributeUtil.getAttribute(messageType, "carnot:engine:dataType").getValue();
+            String messageTypeType = AttributeUtil.getAttribute(messageType, "carnot:engine:dataType").getValue(); //$NON-NLS-1$
             DataTypeType type = currentType.getType();            
             if(type.equals(messageType.getType()) && messageTypeType.equals(currentType.getId()))
             {

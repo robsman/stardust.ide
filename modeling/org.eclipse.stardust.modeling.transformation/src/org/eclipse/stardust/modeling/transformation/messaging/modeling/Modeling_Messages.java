@@ -167,6 +167,10 @@ public class Modeling_Messages extends NLS {
 	public static String TXT_TRANSF_SEL;
 	public static String TXT_WR_LEER;
 	public static String TXT_WRT_OP_TO;
+	public static String LBL_TYPED_ACCESS_POINTS;
+	public static String LBL_STRUCTURED_TYPE;
+	public static String LBL_PRIMITIVE_DATA;
+	public static String LBL_SERIALIZABLE_DATA;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Modeling_Messages.class);

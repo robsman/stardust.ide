@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 
 
 public class StructuredTypesFilter extends ViewerFilter 
@@ -25,7 +26,7 @@ public class StructuredTypesFilter extends ViewerFilter
 
    public String toString()
    {
-      return "Structured Data"; //$NON-NLS-1$
+      return Modeling_Messages.LBL_STRUCTURED_TYPE; 
    }
 
 }

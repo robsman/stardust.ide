@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
+import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
 
 
 public class PrimitivesFilter extends ViewerFilter 
@@ -33,7 +34,7 @@ public class PrimitivesFilter extends ViewerFilter
 
    public String toString()
    {
-      return "Primitive Data"; //$NON-NLS-1$
+      return Modeling_Messages.LBL_PRIMITIVE_DATA;
    }
 
 }
