@@ -168,7 +168,7 @@ public class TypeInfo
          TypeInfo descriptor = finder.findType(superType);
          if (descriptor == null)
          {
-            System.err.println(Validation_Messages.CSL_ERR_UNABLE_TO_RESOLVE_CL + superType + "'."); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$
+            System.err.println(Validation_Messages.CSL_ERR_UNABLE_TO_RESOLVE_CL + superType + "'.");  //$NON-NLS-1$
          }
          else
          {

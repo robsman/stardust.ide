@@ -431,7 +431,9 @@ public static String EXC_NOT_IMPLEMENTED;
 
 public static String WR_IS_A_RESERVED_IDENTIFIER;
 
-public static String WR_MAPPING_INCONSISTENT_DATA_MAPPING_ID;
+   public static String WR_MAPPING_INCONSISTENT_DATA_MAPPING_ID;
+   
+   public static String MSG_REMOVED_TRANSFORMATION;
 
 public static String WR_MAPPING_NO_IN_DATA_MAPPING_SPECIFIED;
 
