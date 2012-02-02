@@ -40,7 +40,7 @@
             class="org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView"
             icon="icons/debug_view.gif"
             id="org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView"
-            name="Message Transformation Application Debug View">
+            name="%mtaDebugView">
       </view>
    </extension>
    <extension
