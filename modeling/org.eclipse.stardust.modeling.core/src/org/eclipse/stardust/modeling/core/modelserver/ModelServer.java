@@ -36,6 +36,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.UUIDUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -610,6 +611,7 @@ public class ModelServer extends ModelServerHelper
                ModelServerUtils.mergeElements3(updateUtil.getSelectedElementsChanged(), remoteModelHead, model);
             }
          });                      
+         MergeUtils.fixDuplicateOids(model);
       }
       catch (Exception e)
       {
@@ -975,6 +977,7 @@ public class ModelServer extends ModelServerHelper
             // to prevent an out of date error
             updateModelFile(monitor);
             doCommit(commitUtil, checkedElements, commitString, keepLocks, monitor);
+            MergeUtils.fixDuplicateOids(model);            
             editor.getEditDomain().getCommandStack().flush();
          }
          catch (Exception ex)
