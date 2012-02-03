@@ -277,7 +277,7 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          public void selectionChanged(SelectionChangedEvent event)
          {
             IModelParticipant selection = (IModelParticipant) ((IStructuredSelection) performerViewer.getSelection()).getFirstElement();
-            if(selection.equals(createRoleType))
+            if(selection == null || selection.equals(createRoleType))
             {
                currentPerformer = null;
             }
