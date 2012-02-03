@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -648,4 +649,32 @@ public class MergeUtils
       return null;
    }
    
+   public static void fixDuplicateOids(ModelType model)
+   {
+      long highestOid = ModelUtils.getMaxUsedOid(model);
+      Set<Long> oids = new HashSet<Long>();
+      
+      if (model.isSetOid())
+      {
+         oids.add(model.getOid());
+      }
+      
+      for (TreeIterator i = model.eAllContents(); i.hasNext();)
+      {
+         EObject obj = (EObject) i.next();
+         if (obj instanceof IModelElement && ((IModelElement) obj).isSetElementOid())
+         {
+            // check if in list
+            long elementOid = ((IModelElement) obj).getElementOid();
+            if(oids.contains(elementOid))
+            {
+               ((IModelElement) obj).setElementOid(highestOid++);
+            }
+            else
+            {
+               oids.add(((IModelElement) obj).getElementOid());
+            }            
+         }
+      }
+   }   
 }
