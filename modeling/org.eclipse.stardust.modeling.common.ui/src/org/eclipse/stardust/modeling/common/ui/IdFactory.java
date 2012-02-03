@@ -182,7 +182,10 @@ public class IdFactory
       else
       {
          id = searchId + counter;
-         name = searchName + counter;
+         if(baseName != null)
+         {
+            name = searchName + counter;
+         }
       }
    }
 
