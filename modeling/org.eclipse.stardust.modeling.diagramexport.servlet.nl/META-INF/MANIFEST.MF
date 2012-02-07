@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %nlsFragmentName
+Bundle-SymbolicName: org.eclipse.stardust.modeling.diagramexport.servlet.nl
+Bundle-Version: 9.9.9.qualifier
+Bundle-Vendor: %nlsProviderName
+Fragment-Host: org.eclipse.stardust.modeling.diagramexport.servlet
+Bundle-Localization: fragment
