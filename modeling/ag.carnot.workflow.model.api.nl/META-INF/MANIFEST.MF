@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %nlsFragmentName
+Bundle-SymbolicName: ag.carnot.workflow.model.api.nl
+Bundle-Version: 9.9.9.qualifier
+Bundle-Vendor: %nlsProviderName
+Fragment-Host: ag.carnot.workflow.model.api
+Bundle-Localization: fragment
