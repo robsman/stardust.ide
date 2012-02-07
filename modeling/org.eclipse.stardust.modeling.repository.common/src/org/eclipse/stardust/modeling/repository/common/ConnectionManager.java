@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
@@ -32,11 +34,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -48,7 +46,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
 
@@ -58,18 +55,6 @@ public class ConnectionManager implements IConnectionManager
    {
       public boolean accept(Object object)
       {
-         if (object instanceof CategoryDescriptor)
-         {
-            CategoryDescriptor categoryDescriptor = (CategoryDescriptor) object;
-            if ("data".equals(categoryDescriptor.getType())) //$NON-NLS-1$
-            {
-               return false;
-            }
-            if ("participants".equals(categoryDescriptor.getType())) //$NON-NLS-1$
-            {
-               return false;
-            }
-         }
          if (object instanceof EObjectDescriptor)
          {
             EObjectDescriptor eObjectdescriptor = (EObjectDescriptor) object;
@@ -687,6 +672,30 @@ public class ConnectionManager implements IConnectionManager
             if (object instanceof EObjectImpl)
             {
                URI uri = ((EObjectImpl) object).eProxyURI();
+               
+               // decode uri from the format produced by xpdl transformation
+               if (uri.opaquePart() != null)
+               {
+                  try
+                  {
+                     QName qname = QName.valueOf(uri.opaquePart());
+                     if (model.getExternalPackages() != null)
+                     {
+                        ExternalPackage pkg = model.getExternalPackages().getExternalPackage(qname.getNamespaceURI());
+                        if (pkg != null)
+                        {
+                           String pkgConnectionUri = ExtendedAttributeUtil.getAttributeValue(pkg, IConnectionManager.URI_ATTRIBUTE_NAME);
+                           uri = URI.createURI(pkgConnectionUri + uri.scheme() + '/' + qname.getLocalPart());
+                           ((InternalEObject) object).eSetProxyURI(uri);
+                        }
+                     }
+                  }
+                  catch (Exception ex)
+                  {
+                     // not a special reference
+                  }
+               }
+               
                resolve(object, uri);
             }
          }

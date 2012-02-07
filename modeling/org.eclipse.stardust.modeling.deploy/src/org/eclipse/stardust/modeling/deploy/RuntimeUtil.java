@@ -10,39 +10,43 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.deploy;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.config.ParametersFacade;
 import org.eclipse.stardust.common.utils.xml.XmlUtils;
-import org.eclipse.stardust.engine.api.runtime.DeploymentElement;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.DeploymentElement;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.KernelTweakingProperties;
 
 public class RuntimeUtil
 {
-   public static List<DeploymentElement> createDeploymentElements(List<String> modelFiles)
+   public static List<DeploymentElement> createDeploymentElements(List<File> modelFiles)
          throws IOException
    {
       List<DeploymentElement> units = CollectionUtils.newList(modelFiles.size());
-      for (String modelFile : modelFiles)
+      for (File file : modelFiles)
       {
-         units.add(createDeploymentElement(modelFile));
+         units.add(createDeploymentElement(file));
       }
       return units;
    }
 
-   public static DeploymentElement createDeploymentElement(String modelFile)
+   public static DeploymentElement createDeploymentElement(File file)
          throws IOException
    {
-      byte[] content = XmlUtils.getContent(modelFile);
-      if (!modelFile.endsWith(XpdlUtils.EXT_XPDL))
+      byte[] content = XmlUtils.getContent(file);
+      if (!file.getName().endsWith(XpdlUtils.EXT_XPDL))
       {
          if (ParametersFacade.instance().getBoolean(
                KernelTweakingProperties.XPDL_MODEL_DEPLOYMENT, true))
          {
-            content = XpdlUtils.convertCarnot2Xpdl(content, XpdlUtils.ISO8859_1_ENCODING);
+            String encoding = Parameters.instance().getObject(PredefinedConstants.XML_ENCODING, XpdlUtils.ISO8859_1_ENCODING);
+            content = XpdlUtils.convertCarnot2Xpdl(content, encoding);
          }
       }
       else
@@ -50,7 +54,8 @@ public class RuntimeUtil
          if (!ParametersFacade.instance().getBoolean(
                KernelTweakingProperties.XPDL_MODEL_DEPLOYMENT, true))
          {
-            content = XpdlUtils.convertXpdl2Carnot(content, XpdlUtils.ISO8859_1_ENCODING);
+            String encoding = Parameters.instance().getObject(PredefinedConstants.XML_ENCODING, XpdlUtils.ISO8859_1_ENCODING);
+            content = XpdlUtils.convertXpdl2Carnot(content, encoding);
          }
       }
       return new DeploymentElement(content);

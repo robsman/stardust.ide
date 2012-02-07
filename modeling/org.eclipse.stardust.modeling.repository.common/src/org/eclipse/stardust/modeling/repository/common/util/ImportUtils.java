@@ -24,12 +24,13 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
@@ -183,5 +184,32 @@ public final class ImportUtils
             descriptors.add(descriptor);
          }
       }
+   }
+
+   public static ExternalPackage getPackageRef(IObjectDescriptor descriptor, ModelType targetModel, ModelType sourceModel)
+   {
+      LinkAttribute linkAttribute;
+      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
+      String packageRef = sourceModel.getId();
+      ExternalPackages packages = targetModel.getExternalPackages();
+      if (packages == null)
+      {
+         packages = xFactory.createExternalPackages();
+         targetModel.setExternalPackages(packages);
+      }
+      ExternalPackage pkg = packages.getExternalPackage(packageRef);
+      if (pkg == null)
+      {
+         pkg = xFactory.createExternalPackage();
+         pkg.setId(packageRef);
+         pkg.setName(sourceModel.getName());
+         pkg.setHref(packageRef);
+   
+         linkAttribute = new LinkAttribute(descriptor.getURI().trimSegments(2), false, false, IConnectionManager.URI_ATTRIBUTE_NAME);
+         linkAttribute.setLinkInfo(pkg, false);
+         
+         packages.getExternalPackage().add(pkg);
+      }
+      return pkg;
    }   
 }

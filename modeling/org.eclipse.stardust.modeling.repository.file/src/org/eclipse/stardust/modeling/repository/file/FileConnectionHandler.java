@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.repository.file;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,6 +48,10 @@ public class FileConnectionHandler implements ConnectionHandler
    private URI uri;
    private IObjectDescriptor[] children = null;
    private Connection connection;
+   
+   private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
+         "role", "organization", "conditionalPerformer"
+   });
    
    private EObjectDescriptor modelDescriptor;
    
@@ -181,12 +186,29 @@ public class FileConnectionHandler implements ConnectionHandler
          {
             return child;
          }
-         else if (child instanceof CategoryDescriptor && uri.toString().startsWith(child.getURI().toString()))
+         else if (child instanceof CategoryDescriptor)
          {
-            return ((CategoryDescriptor) child).find(uri);
+            URI categoryUri = child.getURI();
+            if (isChildOf(categoryUri, uri))
+            {
+               return ((CategoryDescriptor) child).find(uri);
+            }
          }
       }
       return null;
+   }
+
+   public boolean isChildOf(URI categoryUri, URI uri)
+   {
+      if (uri.toString().startsWith(categoryUri.toString()))
+      {
+         return true;
+      }
+      if ("participants".equals(categoryUri.lastSegment()) && uri.segmentCount() > categoryUri.segmentCount())
+      {
+         return PARTICIPANTS.contains(uri.segment(categoryUri.segmentCount() - 1));
+      }
+      return false;
    }
 
    static File resolve(Connection connection, String fileName)

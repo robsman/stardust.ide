@@ -34,108 +34,102 @@ import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 
-public class ModelValidator implements IModelValidator {
-	private static final Issue[] ISSUE_ARRAY = new Issue[0];
+public class ModelValidator implements IModelValidator
+{
+   private static final Issue[] ISSUE_ARRAY = new Issue[0];
 
-	// validate references
-	public Issue[] validate(ModelType model) throws ValidationException {
-		IProject project = ModelUtils.getProjectFromEObject(model);
-		List<Issue> result = CollectionUtils.newList();
+   // validate references
+   public Issue[] validate(ModelType model) throws ValidationException
+   {
+      IProject project = ModelUtils.getProjectFromEObject(model);
+      List<Issue> result = CollectionUtils.newList();
 
-		TypeDeclarationsType declarations = model.getTypeDeclarations();
-		List<TypeDeclarationType> allDeclarations = declarations
-				.getTypeDeclaration();
-		for (TypeDeclarationType declaration : allDeclarations) {
-			Issue duplicateId = checkTypeDeclaration(declaration,
-					allDeclarations);
-			if (duplicateId != null) {
-				result.add(duplicateId);
-			}
+      TypeDeclarationsType declarations = model.getTypeDeclarations();
+      List<TypeDeclarationType> allDeclarations = declarations.getTypeDeclaration();
+      for (TypeDeclarationType declaration : allDeclarations)
+      {
+         Issue duplicateId = checkTypeDeclaration(declaration, allDeclarations);
+         if (duplicateId != null)
+         {
+            result.add(duplicateId);
+         }
 
-			XpdlTypeType dataType = declaration.getDataType();
-			if (dataType instanceof SchemaTypeType
-					|| dataType instanceof ExternalReferenceType) {
-				if (dataType instanceof ExternalReferenceType) {
-					String location = ((ExternalReferenceType) dataType)
-							.getLocation();
-					if (location != null
-							&& !location
-									.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX)) {
-						try {
-							new URL(location);
-							// if it's a real url do nothing
-						} catch (MalformedURLException e) {
-							if (GenericUtils.getFile(project, location) == null) {
-								result
-										.add(Issue
-												.error(
-														declaration,
-														MessageFormat
-																.format(
-																		"TypeDeclaration ''{0}'': imported file ''{1}'' not found.", //$NON-NLS-1$
-																		declaration
-																				.getId(),
-																		location)));
-							}
-						}
-					}
-				}
-				if (dataType instanceof SchemaTypeType) {
-					XSDSchema schema = declaration.getSchema();
-					if (schema != null) {
-						schema.validate();						
-						List<XSDDiagnostic> diagnostics = schema
-								.getDiagnostics();
-						schema.clearDiagnostics();
-						for (XSDDiagnostic diagnostic : diagnostics) {
-							String message = diagnostic.getMessage();
-							result.add(Issue.error(declaration, message));
-						}
+         XpdlTypeType dataType = declaration.getDataType();
+         if (dataType instanceof SchemaTypeType || dataType instanceof ExternalReferenceType)
+         {
+            if (dataType instanceof ExternalReferenceType)
+            {
+               String location = ((ExternalReferenceType) dataType).getLocation();
+               if (location != null && !location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+               {
+                  try
+                  {
+                     new URL(location);
+                     // if it's a real url do nothing
+                  }
+                  catch (MalformedURLException e)
+                  {
+                     if (GenericUtils.getFile(project, location) == null)
+                     {
+                        result.add(Issue.error(declaration,
+                              MessageFormat.format("TypeDeclaration ''{0}'': imported file ''{1}'' not found.", //$NON-NLS-1$
+                                    declaration.getId(), location)));
+                     }
+                  }
+               }
+            }
+            if (dataType instanceof SchemaTypeType)
+            {
+               XSDSchema schema = declaration.getSchema();
+               if (schema != null)
+               {
+                  schema.validate();
+                  List<XSDDiagnostic> diagnostics = schema.getDiagnostics();
+                  schema.clearDiagnostics();
+                  for (XSDDiagnostic diagnostic : diagnostics)
+                  {
+                     String message = diagnostic.getMessage();
+                     result.add(Issue.error(declaration, message));
+                  }
 
-						List<XSDImport> xsdImports = TypeDeclarationUtils
-								.getImports(schema);
-						if (xsdImports != null) {
-							for (XSDImport xsdImport : xsdImports) {
-								String location = ((XSDImport) xsdImport)
-										.getSchemaLocation();
-								if (location
-										.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX)) {
-									String typeId = location
-											.substring(StructuredDataConstants.URN_INTERNAL_PREFIX
-													.length());
-									if (declarations.getTypeDeclaration(typeId) == null) {
-										result
-												.add(Issue
-														.error(
-																declaration,
-																MessageFormat
-																		.format(
-																				"TypeDeclaration ''{0}'': referenced type ''{1}'' not found.", //$NON-NLS-1$
-																				declaration
-																						.getId(),
-																				typeId)));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return result.toArray(ISSUE_ARRAY);
-	}
+                  List<XSDImport> xsdImports = TypeDeclarationUtils.getImports(schema);
+                  if (xsdImports != null)
+                  {
+                     for (XSDImport xsdImport : xsdImports)
+                     {
+                        String location = ((XSDImport) xsdImport).getSchemaLocation();
+                        if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+                        {
+                           String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
+                           if (declarations.getTypeDeclaration(typeId) == null)
+                           {
+                              result.add(Issue.error(declaration,
+                                    MessageFormat.format("TypeDeclaration ''{0}'': referenced type ''{1}'' not found.", //$NON-NLS-1$
+                                          declaration.getId(), typeId)));
+                           }
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+      return result.toArray(ISSUE_ARRAY);
+   }
 
-	private Issue checkTypeDeclaration(TypeDeclarationType checkDeclaration,
-			List<TypeDeclarationType> allDeclarations) {
-		for (TypeDeclarationType declaration : allDeclarations) {
-			if (!declaration.equals(checkDeclaration)) {
-				if (declaration.getId().equals(checkDeclaration.getId())) {
-					return Issue.error(checkDeclaration, MessageFormat.format(
-							"TypeDeclaration ''{0}'' has duplicate Id.", //$NON-NLS-1$
-							checkDeclaration.getId()));
-				}
-			}
-		}
-		return null;
-	}
+   private Issue checkTypeDeclaration(TypeDeclarationType checkDeclaration, List<TypeDeclarationType> allDeclarations)
+   {
+      for (TypeDeclarationType declaration : allDeclarations)
+      {
+         if (!declaration.equals(checkDeclaration))
+         {
+            if (declaration.getId().equals(checkDeclaration.getId()))
+            {
+               return Issue.error(checkDeclaration, MessageFormat.format("TypeDeclaration ''{0}'' has duplicate Id.", //$NON-NLS-1$
+                     checkDeclaration.getId()));
+            }
+         }
+      }
+      return null;
+   }
 }

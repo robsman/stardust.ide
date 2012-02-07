@@ -11,8 +11,11 @@
 package org.eclipse.stardust.modeling.deploy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -25,12 +28,7 @@ import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.security.authentication.LoginFailedException;
 import org.eclipse.stardust.engine.api.model.IModel;
 import org.eclipse.stardust.engine.api.model.Inconsistency;
-import org.eclipse.stardust.engine.api.runtime.CredentialProvider;
-import org.eclipse.stardust.engine.api.runtime.DeploymentElement;
-import org.eclipse.stardust.engine.api.runtime.DeploymentException;
-import org.eclipse.stardust.engine.api.runtime.DeploymentOptions;
-import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
-import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
+import org.eclipse.stardust.engine.api.runtime.*;
 import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
 import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
 import org.eclipse.stardust.engine.core.compatibility.gui.ErrorDialog;
@@ -71,17 +69,25 @@ public class ModelDeploymentTool
 
       trace.info(Deploy_Messages.getString("MSG_Starting")); //$NON-NLS-1$
 
-      List<String> modelFiles = CollectionUtils.newList();
+      List<File> modelFiles = CollectionUtils.newList();
 
       for (int i = 0; i < args.length; i++)
       {
          if ("--filename".equals(args[i]) && ((i + 1) < args.length)) //$NON-NLS-1$
          {
-            modelFiles.add(args[++i]);
+            modelFiles.add(new File(args[++i]));
          }
          else if ("--filename64".equals(args[i]) && ((i + 1) < args.length)) //$NON-NLS-1$
          {
-            modelFiles.add(new String(Base64.decode(args[++i].getBytes())));
+            try
+            {
+               modelFiles.add(new File(new String(Base64.decode(args[++i].getBytes()), XpdlUtils.UTF8_ENCODING)));
+            }
+            catch (UnsupportedEncodingException e)
+            {
+               // should never happen since UTF-8 is standard supported on all java versions.
+               e.printStackTrace();
+            }
          }
 
          if ("--version".equals(args[i]) && ((i + 1) < args.length)) //$NON-NLS-1$
@@ -134,31 +140,63 @@ public class ModelDeploymentTool
       }
    }
 
-   public ModelDeploymentTool(List<String> modelFiles)
+   public ModelDeploymentTool(List<File> modelFiles)
    {
          ProgressDialog progress = ProgressDialog.showDialog(null,
                Deploy_Messages.getString("MSG_LoadingModel"), //$NON-NLS-1$
                ProgressDialog.ON_CANCEL_EXIT_WITH_MINUS_ONE);
 
+      BpmRuntimeEnvironment runtimeEnvironment = PropertyLayerProviderInterceptor.getCurrent();
       List<IModel> models = CollectionUtils.newList(modelFiles.size());
       try
       {
-         for (String modelFile : modelFiles)
+         // 1. Collect model references.
+         Map<String, File> fileMap = CollectionUtils.newMap();
+         Map<String, QuickModelInfo> infoMap = CollectionUtils.newMap();
+         for (File file : modelFiles)
          {
-            File file = new File(modelFile);
-            final IConfigurationVariablesProvider confVarProvider = new DefaultConfigurationVariablesProvider();
-            if (modelFile.endsWith(XpdlUtils.EXT_XPDL))
+            try
             {
-               models.add(XpdlUtils.loadXpdlModel(file, confVarProvider, false));
+               QuickModelInfo info = new QuickModelInfo(file);
+               String modelId = info.getModelId();
+               infoMap.put(modelId, info);
+               fileMap.put(modelId, file);
+            }
+            catch (FileNotFoundException e)
+            {
+               // TODO: (fh)
+               e.printStackTrace();
+            }
+         }
+         
+         // 2. order models and prepare overrides
+         if (runtimeEnvironment == null)
+         {
+            runtimeEnvironment = new BpmRuntimeEnvironment(null);
+            PropertyLayerProviderInterceptor.setCurrent(runtimeEnvironment);
+         }
+         Map<String, IModel> overrides = CollectionUtils.newMap();
+         runtimeEnvironment.setModelOverrides(overrides);
+         final IConfigurationVariablesProvider confVarProvider = new DefaultConfigurationVariablesProvider();
+         for (String modelId : orderModels(infoMap))
+         {
+            File file = fileMap.get(modelId);
+            IModel model = null;
+            if (file.getName().endsWith(XpdlUtils.EXT_XPDL))
+            {
+               model = XpdlUtils.loadXpdlModel(file, confVarProvider, false);
             }
             else
             {
-               models.add(new DefaultXMLReader(false, confVarProvider).importFromXML(file));
+               model = new DefaultXMLReader(false, confVarProvider).importFromXML(file);
             }
+            models.add(model);
+            overrides.put(modelId, model);
          }
       }
       finally
       {
+//         runtimeEnvironment.setModelOverrides(null); why is that needed ?
          progress.setVisible(false);
       }
 
@@ -174,47 +212,56 @@ public class ModelDeploymentTool
       System.exit(0);
    }
 
+   private List<String> orderModels(Map<String, QuickModelInfo> infos)
+   {
+      List<String> orderedModelIds = CollectionUtils.newList();
+      Set<QuickModelInfo> visited = CollectionUtils.newSet();
+      for (QuickModelInfo info : infos.values())
+      {
+         addModel(orderedModelIds, info, infos, visited);
+      }
+      return orderedModelIds;
+   }
+
+   private void addModel(List<String> orderedModelIds, QuickModelInfo info, Map<String, QuickModelInfo> infos, Set<QuickModelInfo> visited)
+   {
+      if (info != null && !visited.contains(info))
+      {
+         visited.add(info);
+         List<String> refs = info.getReferencedModelIds();
+         if (refs != null)
+         {
+            for (String ref : refs)
+            {
+               addModel(orderedModelIds, infos.get(ref), infos, visited);
+            }
+         }
+         orderedModelIds.add(info.getModelId());
+      }
+   }
+
    /**
     * Returns false, if the user vetoes on closing.
     */
-   private boolean deployModel(List<String> modelFiles, List<IModel> models)
+   private boolean deployModel(List<File> modelFiles, List<IModel> models)
    {
       boolean deployed = false;
-      BpmRuntimeEnvironment runtimeEnvironment = PropertyLayerProviderInterceptor.getCurrent();
-      if (runtimeEnvironment == null)
+      for (IModel model : models)
       {
-         runtimeEnvironment = new BpmRuntimeEnvironment(null);
-         PropertyLayerProviderInterceptor.setCurrent(runtimeEnvironment);
-      }
-      try
-      {
-         Map<String, IModel> overrides = CollectionUtils.newMap();
-         for (IModel model : models)
+         List<Inconsistency> inconsistencies = model.checkConsistency();
+         if (inconsistencies.size() > 0)
          {
-            overrides.put(model.getId(), model);
-         }
-         runtimeEnvironment.setModelOverrides(overrides);
-         for (IModel model : models)
-         {
-            List<Inconsistency> inconsistencies = model.checkConsistency();
-            if (inconsistencies.size() > 0)
-            {
-               int dialogResult = JOptionPane.showConfirmDialog(null,
-                  /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
-                     inconsistencies.get(0).getMessage() + " " //$NON-NLS-1$
-                     + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
+            int dialogResult = JOptionPane.showConfirmDialog(null,
+               /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
+                  inconsistencies.get(0).getMessage() + " "
+                  + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
                   Deploy_Messages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
-                  JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-               if (dialogResult != JOptionPane.OK_OPTION)
-               {
-                  return false;
-               }
+               JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (dialogResult != JOptionPane.OK_OPTION)
+            {
+               return false;
             }
          }
-      }
-      finally
-      {
-         runtimeEnvironment.setModelOverrides(null);
       }
 
       try
@@ -308,17 +355,17 @@ public class ModelDeploymentTool
          credentials.put(SecurityProperties.CRED_PASSWORD, password);
          if (!StringUtils.isEmpty(domain))
          {
-               credentials.put(SecurityProperties.DOMAIN, domain);
-            }
+            credentials.put(SecurityProperties.DOMAIN, domain);
+         }
          if (!StringUtils.isEmpty(realm))
-            {
-               credentials.put(SecurityProperties.REALM, realm);
-            }
+         {
+            credentials.put(SecurityProperties.REALM, realm);
+         }
          if (!StringUtils.isEmpty(partition))
-            {
-               credentials.put(SecurityProperties.PARTITION, partition);
-            }
-            serviceFactory = ServiceFactoryLocator.get(credentials);
+         {
+            credentials.put(SecurityProperties.PARTITION, partition);
          }
-         }
+         serviceFactory = ServiceFactoryLocator.get(credentials);
+      }
+   }
 }

@@ -52,7 +52,7 @@ public class ReferencedModelElementValidator implements IModelElementValidator
       AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element,
             "carnot:connection:uri"); //$NON-NLS-1$
       boolean invalid = false;
-      if (attribute != null)
+      if (attribute != null && !element.eIsProxy()) // TODO: validation that proxy elements are resolved
       {
          String uri = attribute.getValue();
          URI aRealUri = URI.createURI(uri);

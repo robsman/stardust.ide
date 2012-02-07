@@ -32,26 +32,11 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Pair;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
@@ -60,16 +45,10 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractNodeSymbolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpdateDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CompoundDiagramCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateConnectionSymbolCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateSymbolCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegateCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.SymbolContainerLayoutEditPolicy;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 
 public class ModelElementSymbolCreationFactory
@@ -348,7 +327,7 @@ public class ModelElementSymbolCreationFactory
          }
          else if (object instanceof TypeDeclarationType)
          {
-            if(CompareHelper.areEqual(((EObjectDescriptor) descriptor).getId(), ((TypeDeclarationType) object).getId()))
+            if(CompareHelper.areEqual(((IObjectReference) descriptor).getId(), ((TypeDeclarationType) object).getId()))
             {
                similar = (TypeDeclarationType) object;
             }

@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.modelexport.ui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Frame;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -201,7 +202,7 @@ public class DeployModelDialogSwt extends Dialog
       List<DeploymentElement> units = null;
       try
       {
-         units = RuntimeUtil.createDeploymentElements(Collections.<String>emptyList());
+         units = RuntimeUtil.createDeploymentElements(Collections.<File>emptyList());
       }
       catch (IOException ex)
       {

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.deploy;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -18,20 +19,17 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.core.*;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.stardust.common.Base64;
-import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.BpmCoreLibrariesClasspathContainer;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider;
 import org.eclipse.ui.PlatformUI;
+
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 
 public class DeployUtil
 {
@@ -77,8 +75,20 @@ public class DeployUtil
             boolean separator = false;
             for (IResource resource : resources)
             {
-               addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);             //$NON-NLS-1$
-               separator = true;
+               //addArgument(programAttributes, "filename64", resource.getLocation().toOSString(), true, separator);            
+               //separator = true;
+               try
+               {
+                  String fileName = resource.getLocation().toOSString();
+                  String encodedFileName = new String(Base64.encode(fileName.getBytes(XpdlUtils.UTF8_ENCODING)));
+                  addArgument(programAttributes, "filename64", encodedFileName, false, separator);            
+                  separator = true;
+               }
+               catch (UnsupportedEncodingException e)
+               {
+                  // should never happen since UTF-8 is standard supported on all java versions.
+                  e.printStackTrace();
+               }
             }
             if (version)
             {

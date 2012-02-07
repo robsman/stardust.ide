@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -61,9 +62,9 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    private Models data;
    
    private boolean wasDeployed = false;
-   private List<String> modelFiles;
+   private List<File> modelFiles;
 
-   public DeployModelDialog(JFrame parent, ServiceFactory service, List<String> modelFiles, List<IModel> models)
+   public DeployModelDialog(JFrame parent, ServiceFactory service, List<File> modelFiles, List<IModel> models)
    {
       super(parent);
       this.sf = service;
@@ -167,7 +168,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
       }
       catch (IOException ex)
       {
-         callback.reportErrors(Collections.singletonList(new Inconsistency(ex.getMessage(), Inconsistency.ERROR)));
+         callback.reportErrors(Collections.singletonList(new Inconsistency(ex.getMessage(), null, Inconsistency.ERROR)));
          return;
       }
       DeploymentUtils.deployFromFiles(sf, callback, units, options);      
@@ -186,7 +187,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
       }
       catch (IOException ex)
       {
-         callback.reportErrors(Collections.singletonList(new Inconsistency(ex.getMessage(), Inconsistency.ERROR)));
+         callback.reportErrors(Collections.singletonList(new Inconsistency(ex.getMessage(), null, Inconsistency.ERROR)));
          return;
       }
       DeploymentUtils.overwriteFromFile(sf, callback, unit, overwriteView.getSelectedModelOID(), options);
@@ -234,7 +235,7 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
       }
    }
 
-   public static boolean showDialog(ServiceFactory service, List<String> modelFiles, List<IModel> models, JFrame parent)
+   public static boolean showDialog(ServiceFactory service, List<File> modelFiles, List<IModel> models, JFrame parent)
    {
       DeployModelDialog instance = new DeployModelDialog(parent, service, modelFiles, models);
       showDialog(Deploy_Messages.getString("DIALOG_Model"), instance, parent); //$NON-NLS-1$

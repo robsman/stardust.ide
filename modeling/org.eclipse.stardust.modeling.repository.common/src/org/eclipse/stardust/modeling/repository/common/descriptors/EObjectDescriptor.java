@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -24,6 +25,7 @@ import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
@@ -37,7 +39,6 @@ import org.eclipse.stardust.modeling.repository.common.ui.dialogs.ClosureDisplay
 import org.eclipse.stardust.modeling.repository.common.util.CreateClosures;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.swt.graphics.Image;
-
 
 public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor, IObjectReference, ImportableDescriptor
 {
@@ -170,10 +171,26 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          throw new ImportCancelledException();
       }
       
-      URI rootURI = uri.trimSegments(1);
-      LinkAttribute linkAttribute = new LinkAttribute(rootURI, asLink, true, IConnectionManager.URI_ATTRIBUTE_NAME);
-      
+      LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), asLink, isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);
+      if (asLink && !(eObject instanceof Extensible))
+      {
+         ModelType thisModel = ModelUtils.findContainingModel(eObject);
+         if (!thisModel.getId().equals(targetModel.getId()))
+         {
+            ImportUtils.getPackageRef(this, targetModel, thisModel);
+         }
+      }
       MergeUtils.importElements(eObject, targetModel, closure, map, reuseReplace, linkAttribute);
+   }
+
+   public boolean isQualifyUri()
+   {
+      return true;
+   }
+
+   public URI getRootURI()
+   {
+      return uri.trimSegments(1);
    }
    
    public EObject resolveElement(EObject eObject)
@@ -181,7 +198,9 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
       LinkAttribute.setLinkInfoAttr(eObject, getURI(), true, IConnectionManager.URI_ATTRIBUTE_NAME);
       if (eObject.eIsProxy())
       {
-         MergeUtils.replace(eObject, eObject);
+         MergeUtils.replace(eObject, this.eObject);
+         ((InternalEObject) this.eObject).eSetProxyURI(((InternalEObject) eObject).eProxyURI());
+         return this.eObject;
       }
       return eObject;
    }

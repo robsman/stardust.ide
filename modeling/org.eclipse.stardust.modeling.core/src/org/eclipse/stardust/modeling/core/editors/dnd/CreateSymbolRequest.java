@@ -36,7 +36,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -44,8 +43,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
@@ -63,6 +60,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateS
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -198,7 +196,7 @@ public class CreateSymbolRequest extends CreateRequest
                      {
                         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
                         idRef.setRef(subprocess.getId());
-                        idRef.setPackageRef(getPackageRef(descriptor, model, processModel));
+                        idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, processModel));
                         activity.setExternalRef(idRef);
                         activity.setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
                      }
@@ -216,33 +214,6 @@ public class CreateSymbolRequest extends CreateRequest
             CarnotWorkflowModelPackage.eINSTANCE.getActivitySymbolType()));
       setFactory(new CommandHolder(id, command, CarnotWorkflowModelPackage.eINSTANCE
             .getActivitySymbolType()));
-   }
-   
-   private ExternalPackage getPackageRef(IObjectDescriptor descriptor, ModelType targetModel, ModelType sourceModel)
-   {
-      LinkAttribute linkAttribute;
-      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
-      String packageRef = sourceModel.getId();
-      ExternalPackages packages = targetModel.getExternalPackages();
-      if (packages == null)
-      {
-         packages = xFactory.createExternalPackages();
-         targetModel.setExternalPackages(packages);
-      }
-      ExternalPackage pkg = packages.getExternalPackage(packageRef);
-      if (pkg == null)
-      {
-         pkg = xFactory.createExternalPackage();
-         pkg.setId(packageRef);
-         pkg.setName(sourceModel.getName());
-         pkg.setHref(packageRef);
-
-         linkAttribute = new LinkAttribute(descriptor.getURI().trimSegments(2), false, false, IConnectionManager.URI_ATTRIBUTE_NAME);
-         linkAttribute.setLinkInfo(pkg, false);
-         
-         packages.getExternalPackage().add(pkg);
-      }
-      return pkg;
    }
    
    public void setFactoryForDescriptor(IObjectDescriptor descriptor)
@@ -316,7 +287,7 @@ public class CreateSymbolRequest extends CreateRequest
                      {
                         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
                         idRef.setRef(application.getId());
-                        idRef.setPackageRef(getPackageRef(descriptor, model, processModel));
+                        idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, processModel));
                         activity.setExternalRef(idRef);
                      }
                   }
@@ -432,7 +403,7 @@ public class CreateSymbolRequest extends CreateRequest
                   ModelType processModel = ModelUtils.findContainingModel(decl);
                   if (processModel != null)
                   {
-                     reference.setLocation(getPackageRef(descriptor, model, processModel).getId());
+                     reference.setLocation(ImportUtils.getPackageRef(descriptor, model, processModel).getId());
                   }
                   reference.setXref(remoteDeclaration[0].getId());
                   data.setExternalReference(reference);
