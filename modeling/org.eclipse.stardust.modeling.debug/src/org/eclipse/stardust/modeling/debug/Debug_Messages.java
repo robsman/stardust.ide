@@ -14,7 +14,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Debug_Messages extends NLS
 {
-   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.debug.debug_messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.debug.debug-messages"; //$NON-NLS-1$
 
    private Debug_Messages()
    {}
