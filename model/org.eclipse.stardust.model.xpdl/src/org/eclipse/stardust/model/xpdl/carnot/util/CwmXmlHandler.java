@@ -77,6 +77,7 @@ public class CwmXmlHandler extends SAXXMLHandler
    public CwmXmlHandler(XMLResource xmiResource, XMLHelper helper, Map<?, ?> options)
    {
       super(xmiResource, helper, options);
+      hrefAttribute = WorkflowModelManager.PROXY_ATT;
       xmiResource.eAdapters().add(new SchemaLocatorAdapter());
    }
 
@@ -313,11 +314,7 @@ public class CwmXmlHandler extends SAXXMLHandler
    private static String getId(EObject content, String refType)
    {
       String id = null;
-      if (content.eIsProxy())
-      {
-         id = ((EObjectImpl) content).eProxyURI().toString();
-      }
-      else if (content instanceof ExternalPackage)
+      if (content instanceof ExternalPackage)
       {
          id = ((ExternalPackage) content).getId();
       }
@@ -328,6 +325,10 @@ public class CwmXmlHandler extends SAXXMLHandler
       else if (content instanceof IModelElement && ElementIdRefs.REF_TYPE_OID.equals(refType))
       {
          id = Long.toString(((IModelElement) content).getElementOid());
+      }
+      else if (content.eIsProxy())
+      {
+         id = ((EObjectImpl) content).eProxyURI().toString();
       }
       return id;
    }

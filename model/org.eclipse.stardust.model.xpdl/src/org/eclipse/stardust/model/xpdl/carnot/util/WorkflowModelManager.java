@@ -55,6 +55,8 @@ import org.w3c.dom.Document;
 
 public class WorkflowModelManager
 {
+   static final String PROXY_ATT = "proxy"; //$NON-NLS-1$
+
    private static final String EXT_CWM = "cwm"; //$NON-NLS-1$
 
    private static final String PROTOCOL_VCS = "vcs"; //$NON-NLS-1$

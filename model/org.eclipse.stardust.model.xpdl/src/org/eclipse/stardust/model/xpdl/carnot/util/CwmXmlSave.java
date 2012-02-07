@@ -23,23 +23,10 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.impl.XMLSaveImpl;
 import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.xsd.XSDComponent;
-import org.w3c.dom.Attr;
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Element;
-import org.w3c.dom.Entity;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
-
+import org.w3c.dom.*;
 
 public class CwmXmlSave extends XMLSaveImpl
 {
@@ -96,20 +83,98 @@ public class CwmXmlSave extends XMLSaveImpl
       }
    }
 
-   private static String getId(EObject eObject, EObject content, String refType)
+   protected void saveHref(EObject remote, EStructuralFeature f)
+   {   
+     String href = helper.getHREF(remote);
+     if (href != null)
+     {
+       href = convertURI(href);
+       EClass eClass = remote.eClass();
+       EClass expectedType = (EClass) f.getEType();
+       boolean shouldSaveType = 
+         saveTypeInfo ? 
+           xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : 
+           eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null);
+       if (elementHandler != null)
+       {
+         EStructuralFeature substitutionGroup = featureTable.getSubstitutionGroup(f, eClass);
+         if (substitutionGroup != null)
+         {
+           f = substitutionGroup;
+           shouldSaveType = substitutionGroup.getEType() != eClass;
+         }
+       }
+       if (!toDOM)
+       {
+         String name = helper.getQName(f);
+         doc.startElement(name);
+       }
+       else
+       {
+         helper.populateNameInfo(nameInfo, f);
+         Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());       
+         currentNode = currentNode.appendChild(elem);
+         handler.recordValues(elem, remote.eContainer(), f, remote);
+       }
+       if (shouldSaveType)
+       {
+         saveTypeAttribute(eClass);
+       }
+       if (!toDOM)
+       {
+         if (remote instanceof IIdentifiableModelElement)
+         {
+            doc.addAttribute("id", ((IIdentifiableModelElement) remote).getId());
+         }
+         doc.addAttribute(WorkflowModelManager.PROXY_ATT, href);
+         if (eObjectToExtensionMap != null)
+         {
+           processAttributeExtensions(remote);
+           if (processElementExtensions(remote))
+           {
+             doc.endElement();
+           }
+           else
+           {
+             doc.endEmptyElement();
+           }
+         }
+         else
+         {
+           doc.endEmptyElement();
+         }
+       }
+       else
+       {
+         if (remote instanceof IIdentifiableModelElement)
+         {
+            ((Element)currentNode).setAttributeNS(null, "id", ((IIdentifiableModelElement) remote).getId());
+         }
+         ((Element)currentNode).setAttributeNS(null, WorkflowModelManager.PROXY_ATT, href);
+         if (eObjectToExtensionMap != null)
+         {
+           processAttributeExtensions(remote);
+           processElementExtensions(remote);
+         }
+         currentNode = currentNode.getParentNode();
+       }
+     }
+   }
+
+   private String getId(EObject eObject, EObject content, String refType)
    {
       String id = null;
-      if (content.eIsProxy())
-      {
-         id = ((EObjectImpl) content).eProxyURI().toString();
-      }
-      else if (refType == null || ElementIdRefs.REF_TYPE_ID.equals(refType))
+      if (refType == null || ElementIdRefs.REF_TYPE_ID.equals(refType))
       {
          id = ((IIdentifiableElement) content).getId();
       }
       else if (content instanceof IModelElement && ElementIdRefs.REF_TYPE_OID.equals(refType))
       {
          id = Long.toString(((IModelElement) content).getElementOid());
+      }
+      else if (content.eIsProxy())
+      {
+         id = helper.getHREF(content);
       }
       /*Resource resource = content.eResource();
       Resource targetResource = eObject.eResource();

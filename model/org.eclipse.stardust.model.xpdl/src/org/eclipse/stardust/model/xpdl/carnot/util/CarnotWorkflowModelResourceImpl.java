@@ -13,9 +13,12 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.xml.namespace.QName;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.NameInfo;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -25,7 +28,11 @@ import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 
 
 /**
@@ -81,6 +88,32 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
          {
             // don't save element OIDs per EMF or we get duplicate oid attributes
             return (obj instanceof IModelElement) ? null : super.getID(obj);
+         }
+
+         @Override
+         public String getHREF(EObject obj)
+         {
+            // encode href to a format that can be transformed to xpdl
+            ModelType model = ModelUtils.findContainingModel(obj);
+            if (model != null && model.getExternalPackages() != null)
+            {
+               String id = ((EObjectImpl) obj).eProxyURI().toString();
+               for (ExternalPackage pkg : model.getExternalPackages().getExternalPackage())
+               {
+                  String pkgConnectionUri = ExtendedAttributeUtil.getAttributeValue(pkg, IConnectionManager.URI_ATTRIBUTE_NAME);
+                  if (id.startsWith(pkgConnectionUri))
+                  {
+                     String path = id.substring(pkgConnectionUri.length());
+                     int ix = path.indexOf('/');
+                     if (ix > 0)
+                     {
+                        return path.substring(0, ix) + ':' +  new QName(pkg.getId(), path.substring(ix + 1));
+                     }
+                  }
+               }
+            }
+            
+            return super.getHREF(obj);
          }
 
          public void populateNameInfo(NameInfo nameInfo, EStructuralFeature feature)
