@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="mergeProps" default="localizeProperties">
+
+	<property environment="env"/>
+	<property name="cm.home" value="${env.CM_HOME}"/>
+	<property file="${cm.home}/etc/global.properties"/>
+
+	<property name="locale" value="en" />
+	<property name="rootdir" value="${basedir}/../" />
+	<property name="antdir" value="${rootdir}ag.carnot.scm.ant/bin"/>
+
+	<property name="package" value="org.eclipse.stardust.modeling.transformation" />
+	<property name="srcpath" value="src/org/eclipse/stardust/modeling/transformation/messaging/modeling" />
+	<property name="tempfile" value="${srcpath}/tempfile.properties"/>
+
+	<property name="localize.jar" value="$localizeproperties.jar" />
+
+	<taskdef name="foreach" classname="ag.carnot.scm.ant.ForEachTask" 
+		classpath="${antdir}"/> 
+	
+	<taskdef name="localizeProps" classname="ag.carnot.scm.ant.LocalizeProperties" 
+		description="adds new entries in internationalized property-files" 
+		classpath="${antdir}"/> 
+				
+	<target name="localizeProperties">
+		<localizeProps sourcepath="${srcpath}" locale="${locale}">
+			<fileset dir="${rootdir}${package}/${srcpath}" casesensitive="yes">
+				<include name="**/*messages.properties" />
+			</fileset>
+		</localizeProps>
+		<localizeProps sourcepath="${basedir}" locale="${locale}">
+			<fileset dir="${rootdir}${package}" casesensitive="yes">
+				<include name="**/*plugin.properties" />
+			</fileset>
+		</localizeProps>
+		<foreach target="toUnicode">
+			<param name="f">
+			   <fileset dir="." casesensitive="yes">
+				  <include name="**/*messages_${locale}.properties" />
+			   </fileset>
+			   <fileset dir="${basedir}" casesensitive="yes">
+				  <include name="**/*plugin_${locale}.properties" />
+			   </fileset>
+			</param>
+		</foreach>
+	</target>
+	
+	<target name="toUnicode">
+	   <exec executable="cmd">
+		  <arg value="/c ${env.JAVA_HOME}\bin\native2ascii.exe ${f} ${tempfile}"/>
+	   </exec>
+	   <copy file="${tempfile}" tofile="${f}" overwrite="on"/>
+	   <delete file="${tempfile}"/>
+	</target>
+
+</project>
