@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class Internal_ImportMessages
 {
-   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.modelimport.carnot.audittrail.internal_import_messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.modelimport.carnot.audittrail.internal-import-messages"; //$NON-NLS-1$
 
    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
          .getBundle(BUNDLE_NAME);
