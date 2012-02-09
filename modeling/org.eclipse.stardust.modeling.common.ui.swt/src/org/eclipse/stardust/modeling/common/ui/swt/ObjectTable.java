@@ -11,11 +11,11 @@
 package org.eclipse.stardust.modeling.common.ui.swt;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
@@ -299,7 +299,7 @@ public class ObjectTable extends Composite
 			}
 			if (n == 1)
 			{
-				values[n] = "<New Entry>";
+				values[n] = Model_Messages.NEW_ENTRY;
 			}
 			else
 			{
