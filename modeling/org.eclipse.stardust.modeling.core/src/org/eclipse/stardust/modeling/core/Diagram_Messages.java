@@ -2029,16 +2029,43 @@ public class Diagram_Messages extends NLS {
    public static String QUALITY_CONTROL_LABEL;   
    
    public static String QUALITY_CONTROL_CODES_LABEL;   
-   public static String QUALITY_CONTROL_ACTIVITY;   
+   
+   public static String QUALITY_CONTROL_ACTIVITY;
+   
    public static String QUALITY_CONTROL_PARTICIPANT;
+   
    public static String QUALITY_CONTROL_PROBABILITY;
+   
    public static String QUALITY_CONTROL_FORMULA;
-   public static String QUALITY_CONTROL_PROBABILITY_VALIDATION; 
-   public static String QUALITY_ASSURANCE_PERFORMER_VALIDATION;    
+   
+   public static String QUALITY_CONTROL_PROBABILITY_VALIDATION;
+   
+   public static String QUALITY_ASSURANCE_PERFORMER_VALIDATION;
+   
    public static String QUALITY_CONTROL_CODE;
-   public static String QUALITY_CONTROL_CODE_AVAILABLE;   
+   
+   public static String QUALITY_CONTROL_CODE_AVAILABLE;
+   
    public static String QUALITY_CONTROL_DESCRIPTION;
+   
    public static String QUALITY_CONTROL_VALIDATION_CODE;
+   
    public static String QUALITY_CONTROL_VALIDATION_DUPLICATE;
+   
    public static String QUALITY_CONTROL_VALIDATION_EMPTY;   
+   
+   public static String CRITICALITY_TARGET_EXECUTION_TIME;
+   
+   public static String CRITICALITY_INITIAL_CRITICALITY_LOW;
+   
+   public static String CRITICALITY_INITIAL_CRITICALITY_MEDIUM;
+   
+   public static String CRITICALITY_INITIAL_CRITICALITY_HIGH;
+   
+   public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_LOW;
+   
+   public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_MEDIUM;
+   
+   public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_HIGH;
+   
 }

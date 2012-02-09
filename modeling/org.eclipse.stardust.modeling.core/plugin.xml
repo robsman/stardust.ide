@@ -936,7 +936,7 @@
             class="org.eclipse.stardust.modeling.core.properties.ActivityCriticalityPropertyPage"
             icon="icons/full/obj16/model.gif"
             id="_cwm_model_variables_"
-            name="Activity Criticality"
+            name="%propPageActivityCriticality"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                      
       <page
             category="core"

@@ -204,9 +204,9 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
          // disable 
          classCombo.setEnabled(false);
          performerViewer.setSelection(new StructuredSelection(createRoleType));
-         createLabeledText.getText().setText("");
+         createLabeledText.getText().setText(""); //$NON-NLS-1$
          createLabeledText.getText().setEnabled(false);
-         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("");
+         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText(""); //$NON-NLS-1$
          sourceViewerComposite.setVisible(true);
          sourceViewerComposite.setEnabled(false);
          composite.setVisible(false);
@@ -222,14 +222,14 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       {               
          classCombo.setEnabled(true);
          createLabeledText.getText().setEnabled(true);
-         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("true");               
+         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText("true");                //$NON-NLS-1$
          sourceViewerComposite.setVisible(true);               
          sourceViewerComposite.setEnabled(true);
          composite.setVisible(true);
          
          if(preselect)
          {
-            createLabeledText.getText().setText("100");
+            createLabeledText.getText().setText("100"); //$NON-NLS-1$
             
             ActivityType activity = (ActivityType) getModelElement();
             ModelType model = ModelUtils.findContainingModel(activity);

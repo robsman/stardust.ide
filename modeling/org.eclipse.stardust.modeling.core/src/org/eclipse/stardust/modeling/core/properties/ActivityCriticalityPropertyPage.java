@@ -78,7 +78,7 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
    private void loadFormula(IModelElement element)
    {
       String formula = AttributeUtil.getAttributeValue((IExtensibleElement) element,
-            "ipp:criticalityFormula");
+            "ipp:criticalityFormula"); //$NON-NLS-1$
       this.refreshDocument();
       if (formula != null)
       {
@@ -96,8 +96,8 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
             model);
       if (variableContext != null && !variableContext.isCriticalityFormulaChanged())
       {
-         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula",
-               "String", formula);
+         AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula", //$NON-NLS-1$
+               "String", formula); //$NON-NLS-1$
          variableContext.setCriticalityFormulaChanged(false);
       } else {
          loadFormula(element);
@@ -128,7 +128,7 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
 
       project = ModelUtils.getProjectFromEObject(getModelElement());
 
-      criticalityFormula = FormBuilder.createLabel(composite, "Formula", 2);
+      criticalityFormula = FormBuilder.createLabel(composite, "Formula", 2); //$NON-NLS-1$
 
       EditorUtils.deleteFileStructure(project, model);
       try

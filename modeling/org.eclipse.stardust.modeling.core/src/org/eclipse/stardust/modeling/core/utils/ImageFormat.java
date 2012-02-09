@@ -12,10 +12,10 @@ package org.eclipse.stardust.modeling.core.utils;
 
 public class ImageFormat
 {
-   public static final java.lang.String PNG = "png";
+   public static final java.lang.String PNG = "png"; //$NON-NLS-1$
    
-   public static final java.lang.String JPEG = "jpeg";
+   public static final java.lang.String JPEG = "jpeg"; //$NON-NLS-1$
    
-   public static final java.lang.String GIF = "gif";
+   public static final java.lang.String GIF = "gif"; //$NON-NLS-1$
 
 }

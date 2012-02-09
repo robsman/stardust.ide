@@ -109,7 +109,7 @@ public class NodeCreationFactory
    {
       IdFactory id = new IdFactory(config == null ? "data" : config.getAttribute("id"), //$NON-NLS-1$ //$NON-NLS-2$
             config == null ? Diagram_Messages.NodeCreationFactory_BASENAME_Data : config
-                  .getAttribute("name")); //$NON-NLS-2$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$ //$NON-NLS-1$
+                  .getAttribute("name")); //$NON-NLS-1$
       CompoundDiagramCommand command = new CompoundDiagramCommand();
       if (config != null)
       {

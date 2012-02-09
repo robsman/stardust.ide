@@ -391,61 +391,68 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       context.initializeVariables(model);
 
       // TDefault
-      ModelVariable modelVariable = new ModelVariable("${TDefault}", "86400", "Target execution time");
+      ModelVariable modelVariable = new ModelVariable("${TDefault}", "86400", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_TARGET_EXECUTION_TIME);
       context.createAttributeSet(modelVariable, 0);
 
       // CLow
-      modelVariable = new ModelVariable("${CLow}", "0", "Initial criticality (Low)");
+      modelVariable = new ModelVariable("${CLow}", "0", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_INITIAL_CRITICALITY_LOW);
       context.createAttributeSet(modelVariable, 1);
 
       // CMed
-      modelVariable = new ModelVariable("${CMed}", "0.33", "Initial criticality (Medium)");
+      modelVariable = new ModelVariable("${CMed}", "0.33", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_INITIAL_CRITICALITY_MEDIUM);
       context.createAttributeSet(modelVariable, 2);
 
       // CHigh
-      modelVariable = new ModelVariable("${CHigh}", "0.66", "Initial criticality (High)");
+      modelVariable = new ModelVariable("${CHigh}", "0.66", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_INITIAL_CRITICALITY_HIGH);
       context.createAttributeSet(modelVariable, 3);
 
       // MLow
-      modelVariable = new ModelVariable("${MLow}", "10", "Multiple of target execution time (Low)");
+      modelVariable = new ModelVariable("${MLow}", "10", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_MULTIPLE_TARGET_EXECUTION_LOW);
       context.createAttributeSet(modelVariable, 4);
 
       // MMed
-      modelVariable = new ModelVariable("${MMed}", "10", "Multiple of target execution time (Medium)");
+      modelVariable = new ModelVariable("${MMed}", "10", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_MULTIPLE_TARGET_EXECUTION_MEDIUM);
       context.createAttributeSet(modelVariable, 5);
 
       // MHigh
-      modelVariable = new ModelVariable("${MHigh}", "10", "Multiple of target execution time (High)");
+      modelVariable = new ModelVariable("${MHigh}", "10", //$NON-NLS-1$ //$NON-NLS-2$
+            Diagram_Messages.CRITICALITY_MULTIPLE_TARGET_EXECUTION_HIGH);
       context.createAttributeSet(modelVariable, 6);
       
       //Default criticality formula
       String formula = 
-         "if(activityInstance.getActivity().getTargetExecutionTime() == 0)\n" + 
-         "{\n" +
-         "  T = ${TDefault};\n" + 
-         "}\n" + 
-         "else\n" + 
-         "{\n" +
-         "  T = activityInstance.getActivity().getTargetExecutionTime();\n" +
-         "}\n" +
-         "if(PROCESS_PRIORITY == -1)\n" +
-         "{\n"+
-         "  Cp = ${CLow};\n" + 
-         "  Mp = ${MLow};\n" +
-         "}\n" +
-         "if(PROCESS_PRIORITY == 0)\n" +
-         "{\n" + 
-         "   Cp = ${CMed};\n" +
-         "   Mp = ${MMed};\n" +
-         "}\n" +
-         "if(PROCESS_PRIORITY == 1)\n" +
-         "{\n" +
-         "   Cp = ${CHigh};\n" +
-         "   Mp = ${MHigh};\n" +
-         "}\n" +
-         "t = activityInstance.getAge() / 1000;\n\n" +
-         "Cp + (1- Cp) * t/(Mp * T);\n";
-      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula", "String", formula);
+         "if(activityInstance.getActivity().getTargetExecutionTime() == 0)\n" +  //$NON-NLS-1$
+         "{\n" + //$NON-NLS-1$
+         "  T = ${TDefault};\n" +  //$NON-NLS-1$
+         "}\n" +  //$NON-NLS-1$
+         "else\n" +  //$NON-NLS-1$
+         "{\n" + //$NON-NLS-1$
+         "  T = activityInstance.getActivity().getTargetExecutionTime();\n" + //$NON-NLS-1$
+         "}\n" + //$NON-NLS-1$
+         "if(PROCESS_PRIORITY == -1)\n" + //$NON-NLS-1$
+         "{\n"+ //$NON-NLS-1$
+         "  Cp = ${CLow};\n" +  //$NON-NLS-1$
+         "  Mp = ${MLow};\n" + //$NON-NLS-1$
+         "}\n" + //$NON-NLS-1$
+         "if(PROCESS_PRIORITY == 0)\n" + //$NON-NLS-1$
+         "{\n" +  //$NON-NLS-1$
+         "   Cp = ${CMed};\n" + //$NON-NLS-1$
+         "   Mp = ${MMed};\n" + //$NON-NLS-1$
+         "}\n" + //$NON-NLS-1$
+         "if(PROCESS_PRIORITY == 1)\n" + //$NON-NLS-1$
+         "{\n" + //$NON-NLS-1$
+         "   Cp = ${CHigh};\n" + //$NON-NLS-1$
+         "   Mp = ${MHigh};\n" + //$NON-NLS-1$
+         "}\n" + //$NON-NLS-1$
+         "t = activityInstance.getAge() / 1000;\n\n" + //$NON-NLS-1$
+         "Cp + (1- Cp) * t/(Mp * T);\n"; //$NON-NLS-1$
+      AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:criticalityFormula", "String", formula); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    private void createAttribute(DataType data, String name, String type, String value)

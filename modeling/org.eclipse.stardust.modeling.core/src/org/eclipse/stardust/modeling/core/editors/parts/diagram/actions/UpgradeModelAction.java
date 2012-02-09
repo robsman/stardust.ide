@@ -148,21 +148,21 @@ public class UpgradeModelAction extends SelectionAction
       for (Iterator<AttributeType> i = model.getAttribute().iterator(); i.hasNext();)
       {
          AttributeType attribute = i.next();
-         if (attribute.getName().indexOf("project-planning") > -1)
+         if (attribute.getName().indexOf("project-planning") > -1) //$NON-NLS-1$
          {
             String value = attribute.getValue();
-            if (value != null && value.startsWith("ag.carnot.workflow.model.carnot"))
+            if (value != null && value.startsWith("ag.carnot.workflow.model.carnot")) //$NON-NLS-1$
             {
-               value = value.replaceAll("ag.carnot.workflow.model.carnot",
-                     "org.eclipse.stardust.model.xpdl.carnot");
+               value = value.replaceAll("ag.carnot.workflow.model.carnot", //$NON-NLS-1$
+                     "org.eclipse.stardust.model.xpdl.carnot"); //$NON-NLS-1$
                command
                      .add(new SetValueCmd(attribute, CarnotWorkflowModelPackage.eINSTANCE
                            .getAttributeType_Value(), value));
             }
-            if (value != null && value.startsWith("ag.carnot.modeling.project"))
+            if (value != null && value.startsWith("ag.carnot.modeling.project")) //$NON-NLS-1$
             {
-               value = value.replaceAll("ag.carnot.modeling.project",
-                     "org.eclipse.stardust.modeling.project");
+               value = value.replaceAll("ag.carnot.modeling.project", //$NON-NLS-1$
+                     "org.eclipse.stardust.modeling.project"); //$NON-NLS-1$
                command
                      .add(new SetValueCmd(attribute, CarnotWorkflowModelPackage.eINSTANCE
                            .getAttributeType_Value(), value));
