@@ -39,29 +39,29 @@ import org.osgi.framework.Bundle;
 public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryResolver
 {
    private static final String[][] carnot_libs = {
-      {"org.eclipse.equinox.common", "/"},
-      {"org.eclipse.debug.core", "/"},
+      {"org.eclipse.equinox.common", "/"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.debug.core", "/"}, //$NON-NLS-1$ //$NON-NLS-2$
       
-      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/commons-jxpath-1.3.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"},
+      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/commons-jxpath-1.3.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 //      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan-2.6.0.jar"},
       
-      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"},
+      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-rt-1.5.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-extra-1.5.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"},
+      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-rt-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-extra-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 
-      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/ejb-2.1.jar"},
-      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/jms-1.1.jar"},
+      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/ejb-2.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/jms-1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       
-      {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"},
-      {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"},
-      {"org.eclipse.stardust.ide.engine.core", "lib/ipp-engine-ws-metro.jar"},
-      {"org.eclipse.stardust.ide.engine.core", "etc"},
+      {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.engine.core", "lib/ipp-engine-ws-metro.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.engine.core", "etc"}, //$NON-NLS-1$ //$NON-NLS-2$
 
-      {"org.eclipse.stardust.modeling.debug", ".eclipse/bin", "/"},
+      {"org.eclipse.stardust.modeling.debug", ".eclipse/bin", "/"}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    };
 
    public IRuntimeClasspathEntry[] resolveRuntimeClasspathEntry(

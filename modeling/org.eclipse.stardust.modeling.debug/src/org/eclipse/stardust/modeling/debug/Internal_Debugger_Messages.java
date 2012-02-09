@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class Internal_Debugger_Messages
 {
-   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.debug.internal-debugger_messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.debug.internal-debugger-messages"; //$NON-NLS-1$
 
    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
          .getBundle(BUNDLE_NAME);

@@ -79,7 +79,7 @@ import org.eclipse.stardust.modeling.debug.engine.WorkflowEventListener;
  */
 public class Debugger
 {
-   private static final String CARNOT_SPRING_DEBUGGING_CONTEXT_XML = "carnot-spring-debugging-context.xml";
+   private static final String CARNOT_SPRING_DEBUGGING_CONTEXT_XML = "carnot-spring-debugging-context.xml"; //$NON-NLS-1$
    private static final Logger trace = LogManager.getLogger(Debugger.class);
    private static final String unsupportedImplType = Internal_Debugger_Messages.getString("MSG_UnsupportedActivityImplType"); //$NON-NLS-1$
    
@@ -127,7 +127,7 @@ public class Debugger
    {
       // Workaround (rsauer): fixing #5261 (route activities with performers are to be accepted for analyst models)
       boolean analystView = "analyst".equals(arg.getViewType()); //$NON-NLS-1$
-      Parameters.instance().setBoolean("Carnot.Internal.EnableDebuggerHacks", analystView);
+      Parameters.instance().setBoolean("Carnot.Internal.EnableDebuggerHacks", analystView); //$NON-NLS-1$
       
       List<String> deps = arg.getDependencyPaths();
       List<String> paths = CollectionUtils.newList(deps.size() + 1);
@@ -137,7 +137,7 @@ public class Debugger
       oldStyleModels = CollectionUtils.newList(paths.size());
       for (String modelPath : paths)
       {
-         System.err.println("Bootstrap: loading model from: " + modelPath);
+         System.err.println("Bootstrap: loading model from: " + modelPath); //$NON-NLS-1$
          File modelFile = new File(modelPath);
          try
          {
@@ -276,7 +276,7 @@ public class Debugger
             String hint = (String) data.getAttribute(CarnotConstants.DATA_TYPE_HINT_ATT);
             if (CarnotConstants.TEXT_HINT.equals(hint) && primitive != null)
             {
-               trace.debug("Setting data type primitive string for " + data);
+               trace.debug("Setting data type primitive string for " + data); //$NON-NLS-1$
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
                      org.eclipse.stardust.engine.core.pojo.data.Type.String);
@@ -285,7 +285,7 @@ public class Debugger
             }
             else if (CarnotConstants.NUMERIC_HINT.equals(hint) && primitive != null)
             {
-               trace.debug("Setting data type primitive double for " + data);
+               trace.debug("Setting data type primitive double for " + data); //$NON-NLS-1$
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
                      org.eclipse.stardust.engine.core.pojo.data.Type.Double);
@@ -294,7 +294,7 @@ public class Debugger
             }
             else if (CarnotConstants.COMPLEX_HINT.equals(hint) && serializable != null)
             {
-               trace.debug("Setting data type serializable for " + data);
+               trace.debug("Setting data type serializable for " + data); //$NON-NLS-1$
                data.setDataType(serializable);
                data.setAttribute(PredefinedConstants.CLASS_NAME_ATT,
                      "java.io.Serializable"); //$NON-NLS-1$
@@ -303,7 +303,7 @@ public class Debugger
             }
             else if (primitive != null)
             {
-               trace.debug("Setting data type primitive string for " + data);
+               trace.debug("Setting data type primitive string for " + data); //$NON-NLS-1$
                data.setDataType(primitive);
                data.setAttribute(PredefinedConstants.TYPE_ATT,
                      org.eclipse.stardust.engine.core.pojo.data.Type.String);
@@ -312,7 +312,7 @@ public class Debugger
             }
             else if (serializable != null)
             {
-               trace.debug("Setting data type serializable for " + data);
+               trace.debug("Setting data type serializable for " + data); //$NON-NLS-1$
                data.setDataType(serializable);
                data.setAttribute(PredefinedConstants.CLASS_NAME_ATT,
                      "java.io.Serializable"); //$NON-NLS-1$
@@ -321,7 +321,7 @@ public class Debugger
             }
             else
             {
-               trace.warn("No suitable data type found for " + data);
+               trace.warn("No suitable data type found for " + data); //$NON-NLS-1$
             }
          }
          else
@@ -412,7 +412,7 @@ public class Debugger
                for (IExternalPackage pkg : packages)
                {
                   IModel ref = pkg.getReferencedModel();
-                  System.err.println("Bootstrap: " + model + " uses " + ref);
+                  System.err.println("Bootstrap: " + model + " uses " + ref); //$NON-NLS-1$ //$NON-NLS-2$
                }
             }
          }
@@ -460,7 +460,7 @@ public class Debugger
          {
             IModel model = oldStyleModels.get(0);
             String qualifiedId = '{' + model.getId() + '}' + oldStyleProcessDefinition.getId();
-            System.err.println("Bootstrap: starting process " + qualifiedId);
+            System.err.println("Bootstrap: starting process " + qualifiedId); //$NON-NLS-1$
             processInstance = workflowService.startProcess(qualifiedId, null, false);
          }
          finally
@@ -629,7 +629,7 @@ public class Debugger
          Class clsSpringUtils = null;
          try
          {
-            clsSpringUtils = Class.forName("ag.carnot.workflow.runtime.spring.SpringUtils");
+            clsSpringUtils = Class.forName("ag.carnot.workflow.runtime.spring.SpringUtils"); //$NON-NLS-1$
             File file = new File(CARNOT_SPRING_DEBUGGING_CONTEXT_XML);
             if (file.exists())
             {
@@ -643,18 +643,18 @@ public class Debugger
 
          if (hasSpringContext)
          {
-            Parameters.instance().set("Carnot.Spring.ApplicationContextFile",
+            Parameters.instance().set("Carnot.Spring.ApplicationContextFile", //$NON-NLS-1$
                   CARNOT_SPRING_DEBUGGING_CONTEXT_XML);
             
             Method mthdGetAppContext = clsSpringUtils.getDeclaredMethod(
-                  "getApplicationContext", new Class[0]);
+                  "getApplicationContext", new Class[0]); //$NON-NLS-1$
             if (null != mthdGetAppContext)
             {
                Object context = mthdGetAppContext.invoke(null, new Object [0]);
                if (null != context)
                {
                   Parameters.instance().set(
-                        "ag.carnot.workflow.runtime.spring.applicationContext", context);
+                        "ag.carnot.workflow.runtime.spring.applicationContext", context); //$NON-NLS-1$
 
                   springInitiated = true;
                }
@@ -663,16 +663,16 @@ public class Debugger
       }
       catch (Exception e)
       {
-         trace.warn("", e);
+         trace.warn("", e); //$NON-NLS-1$
       }
       
       if (springInitiated)
       {
-         trace.info("Spring RT support is available.");
+         trace.info("Spring RT support is available."); //$NON-NLS-1$
       }
       else
       {
-         trace.info("Spring RT support is not available.");
+         trace.info("Spring RT support is not available."); //$NON-NLS-1$
       }
    }
 

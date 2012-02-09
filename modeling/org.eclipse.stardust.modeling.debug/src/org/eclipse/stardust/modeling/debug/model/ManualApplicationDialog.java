@@ -481,12 +481,12 @@ public class ManualApplicationDialog extends Dialog
                      String encodedResult = new String(Base64.encode(out.toByteArray()));
 
                      // Eclipse debugger will deserialize it and show the value as Map / List
-                     result.append("java.lang.String encodedResult = \"" + encodedResult + "\";");
-                     result.append("byte[] encodedBytes = encodedResult.getBytes();");
-                     result.append("byte[] bytes = org.eclipse.stardust.common.Base64.decode(encodedBytes);");
-                     result.append("java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(bytes);");
-                     result.append("java.io.ObjectInputStream objectIn = new java.io.ObjectInputStream(in);");
-                     result.append("return objectIn.readObject();");
+                     result.append("java.lang.String encodedResult = \"" + encodedResult + "\";"); //$NON-NLS-1$ //$NON-NLS-2$
+                     result.append("byte[] encodedBytes = encodedResult.getBytes();"); //$NON-NLS-1$
+                     result.append("byte[] bytes = org.eclipse.stardust.common.Base64.decode(encodedBytes);"); //$NON-NLS-1$
+                     result.append("java.io.ByteArrayInputStream in = new java.io.ByteArrayInputStream(bytes);"); //$NON-NLS-1$
+                     result.append("java.io.ObjectInputStream objectIn = new java.io.ObjectInputStream(in);"); //$NON-NLS-1$
+                     result.append("return objectIn.readObject();"); //$NON-NLS-1$
                   }
                   catch (Exception e)
                   {
