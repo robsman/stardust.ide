@@ -68,7 +68,7 @@ public class TableRowToolTipListener implements Listener
 				{
 					case SWT.MouseDown:
 						Event e = new Event();
-						e.item = (TableItem) label.getData("_TABLEITEM");
+						e.item = (TableItem) label.getData("_TABLEITEM"); //$NON-NLS-1$
 						// Assuming table is single select, set the selection as if
 						// the mouse down event went through to the table
 						table.setSelection(new TableItem[]
@@ -160,7 +160,7 @@ public class TableRowToolTipListener implements Listener
 								.getSystemColor(SWT.COLOR_INFO_FOREGROUND));
 					label.setBackground(display
 								.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-					label.setData("_TABLEITEM", item);					
+					label.setData("_TABLEITEM", item);					 //$NON-NLS-1$
 					label.setText(text);					
 					label.addListener(SWT.MouseExit, labelListener);
 					label.addListener(SWT.MouseDown, labelListener);

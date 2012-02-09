@@ -148,7 +148,7 @@ public class ObjectTable extends Composite
 		{
 			TableColumn number = new TableColumn(table, SWT.RIGHT);
 
-			number.setText("");
+			number.setText(""); //$NON-NLS-1$
 			number.setWidth(25);
 		}
 
@@ -183,7 +183,7 @@ public class ObjectTable extends Composite
 
 			deleteButton = new Button(buttonComposite, 0);
 
-			deleteButton.setText("X");
+			deleteButton.setText("X"); //$NON-NLS-1$
 			deleteButton.addListener(SWT.Selection, new Listener()
 			{
 				public void handleEvent(Event event)
@@ -253,7 +253,7 @@ public class ObjectTable extends Composite
 		if ((style & NUMBER_COLUMN) == NUMBER_COLUMN)
 		{
 			values = new String[metadataManager.getPropertyNames().length + 1];
-			values[0] = "" + table.getItemCount();
+			values[0] = "" + table.getItemCount(); //$NON-NLS-1$
 
 			++start;
 		}
@@ -272,7 +272,7 @@ public class ObjectTable extends Composite
 			}
 			else
 			{
-				values[start] = "";
+				values[start] = ""; //$NON-NLS-1$
 			}
 
 			++start;
@@ -295,7 +295,7 @@ public class ObjectTable extends Composite
 		{
 			if (n == 0)
 			{
-				values[n] = "" + table.getItemCount();
+				values[n] = "" + table.getItemCount(); //$NON-NLS-1$
 			}
 			if (n == 1)
 			{
@@ -303,7 +303,7 @@ public class ObjectTable extends Composite
 			}
 			else
 			{
-				values[n] = "";
+				values[n] = ""; //$NON-NLS-1$
 			}
 		}
 

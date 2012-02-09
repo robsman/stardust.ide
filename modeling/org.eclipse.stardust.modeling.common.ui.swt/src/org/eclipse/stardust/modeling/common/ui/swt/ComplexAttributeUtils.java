@@ -39,8 +39,8 @@ public class ComplexAttributeUtils
 
 		while (true)
 		{
-			String value = AttributeUtil.getAttributeValue(element, property + "["
-						+ n + "]");
+			String value = AttributeUtil.getAttributeValue(element, property + "[" //$NON-NLS-1$
+						+ n + "]"); //$NON-NLS-1$
 
 			if (value != null)
 			{
@@ -152,7 +152,7 @@ public class ComplexAttributeUtils
 			try
 			{
 				AttributeUtil.setAttribute((IExtensibleElement) element, property
-							+ "[" + n + "]", identificationMethod.invoke(object, null)
+							+ "[" + n + "]", identificationMethod.invoke(object, null) //$NON-NLS-1$ //$NON-NLS-2$
 							.toString());
 			}
 			catch (IllegalArgumentException e)
@@ -191,7 +191,7 @@ public class ComplexAttributeUtils
 			for (int m = 0; m < objectTable.getPropertyNames().length; ++m)
 			{
 				String value = AttributeUtil.getAttributeValue(element, property
-							+ "[" + n + "]." + objectTable.getPropertyNames()[m]);
+							+ "[" + n + "]." + objectTable.getPropertyNames()[m]); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if (value != null)
 				{
@@ -239,13 +239,13 @@ public class ComplexAttributeUtils
 			for (int m = 0; m < table.getPropertyNames().length; ++m)
 			{
 				value = AttributeUtil.getAttributeValue(element, property
-							+ "[" + k + "]." + table.getPropertyNames()[m]);
+							+ "[" + k + "]." + table.getPropertyNames()[m]); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if (value != null)
 				{
 					AttributeUtil
 					.setAttribute((IExtensibleElement) element,
-								property + "[" + k + "]."
+								property + "[" + k + "]." //$NON-NLS-1$ //$NON-NLS-2$
 											+ table.getPropertyNames()[m], null);
 				}
 				else
@@ -278,7 +278,7 @@ public class ComplexAttributeUtils
 				{
 					AttributeUtil
 								.setAttribute((IExtensibleElement) element,
-											property + "[" + n + "]."
+											property + "[" + n + "]." //$NON-NLS-1$ //$NON-NLS-2$
 														+ table.getPropertyNames()[m], value);
 				}
 			}
@@ -305,7 +305,7 @@ public class ComplexAttributeUtils
 			for (int m = 0; m < metadataManager.getPropertyNames().length; ++m)
 			{
 				String value = AttributeUtil.getAttributeValue(element, property
-							+ "[" + n + "]." + metadataManager.getPropertyNames()[m]);
+							+ "[" + n + "]." + metadataManager.getPropertyNames()[m]); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if (value != null)
 				{

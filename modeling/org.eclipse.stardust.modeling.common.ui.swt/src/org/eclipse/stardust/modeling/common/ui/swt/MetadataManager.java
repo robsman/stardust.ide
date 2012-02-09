@@ -107,7 +107,7 @@ public class MetadataManager
 	{
 		if (defaultConstructor == null)
 		{
-			throw new UnsupportedOperationException("No default constructor for class " + type.getName() + ".");
+			throw new UnsupportedOperationException("No default constructor for class " + type.getName() + "."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		try
@@ -162,8 +162,8 @@ public class MetadataManager
 		}
 		catch (IllegalArgumentException e)
 		{
-			throw new RuntimeException("Illegal argument \"" + value
-						+ "\" for property \"" + propertyNames[index] + "\".");
+			throw new RuntimeException("Illegal argument \"" + value //$NON-NLS-1$
+						+ "\" for property \"" + propertyNames[index] + "\"."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		catch (IllegalAccessException e)
 		{
@@ -230,7 +230,7 @@ public class MetadataManager
 		String suffix = property.substring(0, 1).toUpperCase()
 					+ property.substring(1);
 
-		return "get" + suffix;
+		return "get" + suffix; //$NON-NLS-1$
 	}
 
 	/**
@@ -243,6 +243,6 @@ public class MetadataManager
 		String suffix = property.substring(0, 1).toUpperCase()
 					+ property.substring(1);
 
-		return "set" + suffix;
+		return "set" + suffix; //$NON-NLS-1$
 	}
 }
