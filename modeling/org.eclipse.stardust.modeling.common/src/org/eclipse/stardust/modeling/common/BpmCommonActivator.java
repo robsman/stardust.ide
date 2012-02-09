@@ -23,7 +23,7 @@ public class BpmCommonActivator extends Plugin
 {
 
    // The plug-in ID
-   public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.common";
+   public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.common"; //$NON-NLS-1$
 
    // The shared instance
    private static BpmCommonActivator plugin;

@@ -47,7 +47,7 @@ public class Holiday
 		this.nationWide = nationWide;
 		this.states = states;
 		
-		log.debug("Holiday " + name + " created for date " + new Date(time));
+		log.debug("Holiday " + name + " created for date " + new Date(time)); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public boolean isHoliday()

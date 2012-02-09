@@ -44,14 +44,14 @@ public class Holidays
 	 */
 	public Holidays(int year)
 	{
-		log.debug("Creating holidays for year " + year);
+		log.debug("Creating holidays for year " + year); //$NON-NLS-1$
 
 		GregorianCalendar eastern = eastern(year);
 		GregorianCalendar temp;
 
-		days.add(new Holiday("Neujahr", new GregorianCalendar(year, 0, 1)
+		days.add(new Holiday("Neujahr", new GregorianCalendar(year, 0, 1) //$NON-NLS-1$
 					.getTimeInMillis(), true, true, null));
-		days.add(new Holiday("Heilige drei Könige", new GregorianCalendar(year,
+		days.add(new Holiday("Heilige drei Könige", new GregorianCalendar(year, //$NON-NLS-1$
 					0, 6).getTimeInMillis(), true, true, new String[]
 		{ States.BAYERN, States.BADEN_WUERTTEMBERG, States.SACHSEN_ANHALT }));
 
@@ -60,18 +60,18 @@ public class Holidays
 		temp = (GregorianCalendar) eastern.clone();
 
 		temp.add(Calendar.DAY_OF_MONTH, -2);
-		days.add(new Holiday("Karfreitag", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Karfreitag", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 		temp.add(Calendar.DAY_OF_MONTH, +2);
-		days.add(new Holiday("Ostersonntag", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Ostersonntag", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 		temp.add(Calendar.DAY_OF_MONTH, +1);
-		days.add(new Holiday("Ostermontag", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Ostermontag", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 
 		// Maifeiertag
 
-		days.add(new Holiday("Tag der Arbeit", new GregorianCalendar(year, 4, 1)
+		days.add(new Holiday("Tag der Arbeit", new GregorianCalendar(year, 4, 1) //$NON-NLS-1$
 					.getTimeInMillis(), true, true, null));
 
 		// Himmelfahrt
@@ -80,7 +80,7 @@ public class Holidays
 
 		temp.add(Calendar.DAY_OF_MONTH, 39);
 
-		days.add(new Holiday("Himmelfahrt", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Himmelfahrt", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 
 		// Pfingsten
@@ -88,10 +88,10 @@ public class Holidays
 		temp = (GregorianCalendar) eastern.clone();
 
 		temp.add(Calendar.DAY_OF_MONTH, 49);
-		days.add(new Holiday("Pfingssonntag", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Pfingssonntag", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 		temp.add(Calendar.DAY_OF_MONTH, 1);
-		days.add(new Holiday("Pfingsmontag", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Pfingsmontag", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					null));
 
 		// Fronleichnam
@@ -100,7 +100,7 @@ public class Holidays
 
 		temp.add(Calendar.DAY_OF_MONTH, 60);
 
-		days.add(new Holiday("Fronleichnam", temp.getTimeInMillis(), true, true,
+		days.add(new Holiday("Fronleichnam", temp.getTimeInMillis(), true, true, //$NON-NLS-1$
 					new String[]
 					{ States.BAYERN, States.BADEN_WUERTTEMBERG,
 								States.NORDRHEIN_WESTFALEN, States.HESSEN,
@@ -109,30 +109,30 @@ public class Holidays
 
 		// Tag der Deutschen Einheit
 
-		days.add(new Holiday("Tag der deutschen Einheit", new GregorianCalendar(
+		days.add(new Holiday("Tag der deutschen Einheit", new GregorianCalendar( //$NON-NLS-1$
 					year, 9, 3).getTimeInMillis(), true, true, null));
 
 		// Reformationstag
 
-		days.add(new Holiday("Reformationstag",
+		days.add(new Holiday("Reformationstag", //$NON-NLS-1$
 					new GregorianCalendar(year, 9, 31).getTimeInMillis(), true,
 					true, new String[]
 					{ States.BRANDENBURG, States.MECKLENBURG_VORPOMMERN,
 								States.SACHSEN, States.SACHSEN_ANHALT,
 								States.THUERINGEN }));
 
-		days.add(new Holiday("Allerheiligen", new GregorianCalendar(year, 10, 1)
+		days.add(new Holiday("Allerheiligen", new GregorianCalendar(year, 10, 1) //$NON-NLS-1$
 					.getTimeInMillis(), true, true, new String[]
 		{ States.BADEN_WUERTTEMBERG, States.BAYERN, States.NORDRHEIN_WESTFALEN,
 					States.RHEINLAND_PFALZ, States.SAARLAND }));
 
 		// Weihnachtsfeiertage
 
-		days.add(new Holiday("Heiligabend", new GregorianCalendar(year, 11, 24)
+		days.add(new Holiday("Heiligabend", new GregorianCalendar(year, 11, 24) //$NON-NLS-1$
 					.getTimeInMillis(), true, true, null));
-		days.add(new Holiday("1. Weihnachtstag", new GregorianCalendar(year, 11,
+		days.add(new Holiday("1. Weihnachtstag", new GregorianCalendar(year, 11, //$NON-NLS-1$
 					25).getTimeInMillis(), true, true, null));
-		days.add(new Holiday("2. Weihnachtstage", new GregorianCalendar(year, 11,
+		days.add(new Holiday("2. Weihnachtstage", new GregorianCalendar(year, 11, //$NON-NLS-1$
 					26).getTimeInMillis(), true, true, null));
 	}
 
@@ -192,7 +192,7 @@ public class Holidays
 
 			if (currentDay.getTime() == day.getTimeInMillis())
 			{
-				log.debug("Day found " + currentDay.getName());
+				log.debug("Day found " + currentDay.getName()); //$NON-NLS-1$
 
 				return currentDay;
 			}
@@ -213,8 +213,8 @@ public class Holidays
 
 		if (year < 2001 || year > 2030)
 		{
-			throw new UnsupportedOperationException("Year " + year
-						+ " is not supported.");
+			throw new UnsupportedOperationException("Year " + year //$NON-NLS-1$
+						+ " is not supported."); //$NON-NLS-1$
 		}
 
 		return HOLIDAYS[year - 2001];
