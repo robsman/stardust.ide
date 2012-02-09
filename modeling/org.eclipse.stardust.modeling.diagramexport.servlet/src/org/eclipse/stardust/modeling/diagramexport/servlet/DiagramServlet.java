@@ -63,24 +63,24 @@ public class DiagramServlet extends HttpServlet
    private static final long serialVersionUID = 2L;
 
    private static final Map<Long, HighlightState> NO_HIGHLIGHTING = Collections.emptyMap();
-   private static final String MISSING_MANDATORY_PARAMETER_ERROR = "Exact one of these parameters is mandatory for diagram retrieval: {0}, {1} or {2}.";
+   private static final String MISSING_MANDATORY_PARAMETER_ERROR = Servlet_Messages.DiagramServlet_EXC_EXACT_ONE_OF_THESE_PARAMETERS_IS_MANDATORY_FOR_DIAGRAM_RETRIVAL_NULL_ONE_TWO;
 
-   public static final String INIT_PRM_CARNOT_USER = "carnotUser";
-   public static final String INIT_PRM_CARNOT_PASSWORD = "carnotPassword";
-   public static final String INIT_PRM_FONT_SIZE = "fontSize";
+   public static final String INIT_PRM_CARNOT_USER = "carnotUser"; //$NON-NLS-1$
+   public static final String INIT_PRM_CARNOT_PASSWORD = "carnotPassword"; //$NON-NLS-1$
+   public static final String INIT_PRM_FONT_SIZE = "fontSize"; //$NON-NLS-1$
 
-   public static final String PRM_ENCODING = "encoding";
-   public static final String PRM_MODEL_VERSION = "modelVersion";
-   public static final String PRM_MODEL_OID = "modelOid";
-   public static final String PRM_ACTIVITY_OID = "activityInstanceOid";
-   public static final String PRM_ACTIVITY_ID = "activityId";
-   public static final String PRM_PROCESS_OID = "processInstanceOid";
-   public static final String PRM_PROCESS_ID = "processId";
-   public static final String PRM_DIAGRAM_ID = "diagramId";
+   public static final String PRM_ENCODING = "encoding"; //$NON-NLS-1$
+   public static final String PRM_MODEL_VERSION = "modelVersion"; //$NON-NLS-1$
+   public static final String PRM_MODEL_OID = "modelOid"; //$NON-NLS-1$
+   public static final String PRM_ACTIVITY_OID = "activityInstanceOid"; //$NON-NLS-1$
+   public static final String PRM_ACTIVITY_ID = "activityId"; //$NON-NLS-1$
+   public static final String PRM_PROCESS_OID = "processInstanceOid"; //$NON-NLS-1$
+   public static final String PRM_PROCESS_ID = "processId"; //$NON-NLS-1$
+   public static final String PRM_DIAGRAM_ID = "diagramId"; //$NON-NLS-1$
    public static final String PRM_FONT_SIZE = INIT_PRM_FONT_SIZE;
-   public static final String PRM_PARTITION_ID = "partitionId";
-   public static final String PRM_REALM_ID = "realmId";
-   public static final String PRM_MODEL_SOURCE = "modelSource";
+   public static final String PRM_PARTITION_ID = "partitionId"; //$NON-NLS-1$
+   public static final String PRM_REALM_ID = "realmId"; //$NON-NLS-1$
+   public static final String PRM_MODEL_SOURCE = "modelSource"; //$NON-NLS-1$
 
    public static final Integer DEFAULT_DIAGRAM_FONT_SIZE = new Integer(7);
    
@@ -120,22 +120,27 @@ public class DiagramServlet extends HttpServlet
    {
       String value = getStringParam(paramName, params);
       if(StringUtils.isEmpty(value))
-      {
-         StringBuffer errorMessage = new StringBuffer();
-         errorMessage.append("The paramater ");
-         errorMessage.append(paramName);
-         errorMessage.append(" must not be empty"); 
-         throw new IllegalArgumentException(errorMessage.toString());
+      {	    	  
+    	  String message = Servlet_Messages.EXC_THE_PARAMETER_NULL_MUST_NOT_BE_EMPTY;
+    	  throw new IllegalArgumentException(MessageFormat.format(message, new Object[]{paramName}));
+//         StringBuffer errorMessage = new StringBuffer();
+//         errorMessage.append("The paramater ");
+//         errorMessage.append(paramName);
+//         errorMessage.append(" must not be empty"); 
+         
       }
    }
    
    private void validateNumeric(String paramName, Map< ? , ? > params)
    {
       validateRequired(paramName, params);
-      StringBuffer errorMessageTemplate = new StringBuffer();
-      errorMessageTemplate.append("The paramater ");
-      errorMessageTemplate.append(paramName);
-      errorMessageTemplate.append(" must be a numeric value");
+//      StringBuffer errorMessageTemplate = new StringBuffer();
+//      errorMessageTemplate.append("The paramater ");
+//      errorMessageTemplate.append(paramName);
+//      errorMessageTemplate.append(" must be a numeric value");
+      
+      String message = Servlet_Messages.EXC_THE_PARAMETER_NULL_MUST_BE_NUMERIC_VALUE;
+      
 
       long id = -1;
       String param = getStringParam(paramName, params);
@@ -145,13 +150,15 @@ public class DiagramServlet extends HttpServlet
       }
       catch (Exception e)
       {
-         throw new IllegalArgumentException(errorMessageTemplate.toString());
+         throw new IllegalArgumentException(MessageFormat.format(message, new Object[]{paramName}));
       }
 
       if (id <= 0)
       {
-         errorMessageTemplate.append(" bigger than 0");
-         throw new IllegalArgumentException(errorMessageTemplate.toString());
+//         errorMessageTemplate.append(" bigger than 0");
+//         throw new IllegalArgumentException(errorMessageTemplate.toString());
+    	  message = message + Servlet_Messages.EXC_BIGGER_THAN_0;
+    	  throw new IllegalArgumentException(MessageFormat.format(message, new Object[]{paramName}));
       }
    }
    
@@ -166,7 +173,7 @@ public class DiagramServlet extends HttpServlet
       String imgEncoding = getStringParam(PRM_ENCODING, params);
       if (null == imgEncoding)
       {
-         imgEncoding = "image/png";
+         imgEncoding = "image/png"; //$NON-NLS-1$
       }
       
       try
@@ -266,9 +273,9 @@ public class DiagramServlet extends HttpServlet
 
    private static String getXmlEncoding(String text)
    {
-      String pattern = "encoding=\"";
+      String pattern = "encoding=\""; //$NON-NLS-1$
       int offset = text.indexOf(pattern) + pattern.length();
-      int pos = text.indexOf("\"", offset);
+      int pos = text.indexOf("\"", offset); //$NON-NLS-1$
       return text.substring(offset, pos);
    }
    
@@ -450,22 +457,18 @@ public class DiagramServlet extends HttpServlet
                   modelDescr = qSrvc.getModelDescription(pi.getModelOID());
                }
                catch(ObjectNotFoundException e)
-               {
-                  StringBuffer errorMessage = new StringBuffer();
-                  errorMessage.append("Could not find process instance for oid ");
-                  errorMessage.append(processOid);
-                  throw new IllegalArgumentException(errorMessage.toString());
+               {                  
+                  String message = Servlet_Messages.EXC_COULD_NOT_FIND_PROCESS_INSTANCE_FOR_OID;  
+                  throw new IllegalArgumentException(MessageFormat.format(message, new Object[]{processOid}));
                }
             }
             else
             {
                modelDescr = qSrvc.getModelDescription(modelOid);
                if(modelDescr == null) 
-               {
-                  StringBuffer errorMessage = new StringBuffer();
-                  errorMessage.append("Could not find model for oid ");
-                  errorMessage.append(modelOid);
-                  throw new IllegalArgumentException(errorMessage.toString());
+               {            	   
+                  String message = Servlet_Messages.EXC_COULD_NOT_FIND_MODEL_FOR_OID;  
+                  throw new IllegalArgumentException(MessageFormat.format(message, new Object[]{modelOid}));
                }
             }
 
@@ -487,10 +490,10 @@ public class DiagramServlet extends HttpServlet
                String modelXmlEncoding = getXmlEncoding(modelXml);
 
                CarnotWorkflowModelResourceImpl resource = new CarnotWorkflowModelResourceImpl(
-                     URI.createURI("http://only/a/dummy/URI"));
+                     URI.createURI("http://only/a/dummy/URI")); //$NON-NLS-1$
 
                Map<String, Boolean> options = CollectionUtils.newHashMap();
-               options.put("RECORD_UNKNOWN_FEATURE", Boolean.TRUE);
+               options.put("RECORD_UNKNOWN_FEATURE", Boolean.TRUE); //$NON-NLS-1$
                resource.load(new ByteArrayInputStream(modelXml
                      .getBytes(modelXmlEncoding)), options);
 
@@ -533,7 +536,7 @@ public class DiagramServlet extends HttpServlet
             if (null == model)
             {
                throw new InternalException(MessageFormat.format(
-                     "Model {0} cannot be loaded.", new Object[] { modelFile }));
+                     Servlet_Messages.EXC_MODEL_NULL_CANNOT_BE_LOADED, new Object[] { modelFile }));
             }
          }
 
@@ -564,7 +567,7 @@ public class DiagramServlet extends HttpServlet
 
                if (null != job.error)
                {
-                  throw new PublicException("Failed rendering diagram.", job.error);
+                  throw new PublicException(Servlet_Messages.EXC_FAILED_RENDERING_DIAGRAM, job.error);
                }
 
                imgData = job.imgData;
@@ -741,7 +744,7 @@ public class DiagramServlet extends HttpServlet
          renderService = new DiagramRenderService();
          Thread renderThread = new Thread(renderService);
          renderThread.setDaemon(true);
-         renderThread.setName(DiagramRenderService.class.getName() + "  "
+         renderThread.setName(DiagramRenderService.class.getName() + "  " //$NON-NLS-1$
                + renderThread.getName());
          renderThread.start();
       }
@@ -766,7 +769,7 @@ public class DiagramServlet extends HttpServlet
 
       if (StringUtils.isEmpty(modelSource))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       File modelSourceFile = new File(modelSource);
@@ -780,7 +783,7 @@ public class DiagramServlet extends HttpServlet
       if (!modelSourceFile.exists())
       {
          throw new ParameterException(MessageFormat.format(
-               "Path {0} for modelSource does not exists.", new Object[] {absolutePath}));
+               Servlet_Messages.EXC_PATH_NULL_FOR_MODELSOURCE_DOES_NOT_EXIST, new Object[] {absolutePath}));
       }
 
       return absolutePath;
@@ -805,8 +808,8 @@ public class DiagramServlet extends HttpServlet
       CacheKey key1 = new CacheKey(1, ts1);
       CacheKey key2 = new CacheKey(2, ts2);
 
-      testCache.put(key1, "Key1");
-      testCache.put(key2, "Key2");
+      testCache.put(key1, "Key1"); //$NON-NLS-1$
+      testCache.put(key2, "Key2"); //$NON-NLS-1$
 
       System.out.println(testCache.get(new CacheKey(3, ts1)));
       System.out.println(testCache.get(new CacheKey(3, ts2)));

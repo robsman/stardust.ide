@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.diagramexport.servlet;
 
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,9 @@ public class DiagramRenderService implements Runnable
 
          if (SHUTDOWN != currentJob)
          {
-            trace.info("Executing render job for diagram " + currentJob.diagram);
+            trace.info(MessageFormat.format(
+                  Servlet_Messages.LOG_EXECUTING_RENDERJOB_FOR_DIAGRAM,
+                  new Object[] {currentJob.diagram}));
 
             try
             {
@@ -87,15 +90,15 @@ public class DiagramRenderService implements Runnable
                      currentJob.diagram, currentJob.fontSize);
                diagramExporter.setHighligteStates(currentJob.highlighting);
 
-               if ("image/png".equals(currentJob.encoding))
+               if ("image/png".equals(currentJob.encoding)) //$NON-NLS-1$
                {
                   currentJob.imgData = diagramExporter.dumpDiagramToPNG();
                }
-               else if ("image/gif".equals(currentJob.encoding))
+               else if ("image/gif".equals(currentJob.encoding)) //$NON-NLS-1$
                {
                   currentJob.imgData = diagramExporter.dumpDiagramToGIF();
                }
-               else if ("image/jpeg".equals(currentJob.encoding))
+               else if ("image/jpeg".equals(currentJob.encoding)) //$NON-NLS-1$
                {
                   currentJob.imgData = diagramExporter.dumpDiagramToJPEG();
                }
@@ -120,6 +123,6 @@ public class DiagramRenderService implements Runnable
       }
       while (currentJob != SHUTDOWN);
 
-      trace.info("Shutting down ...");
+      trace.info(Servlet_Messages.LOG_SHUTTING_DOWN);
    }
 }
