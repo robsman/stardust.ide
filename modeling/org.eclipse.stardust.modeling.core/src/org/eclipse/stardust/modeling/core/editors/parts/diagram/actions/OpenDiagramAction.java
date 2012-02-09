@@ -12,22 +12,29 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import java.util.List;
 
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
-import org.eclipse.ui.PartInitException;
-
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.*;
+import org.eclipse.ui.ide.IDE;
 
 /**
  * @author fherinean
@@ -59,6 +66,7 @@ public class OpenDiagramAction extends UpdateDiagramAction
       try
       {
          DiagramType diagram = getDiagram();
+         
          Command command = createUpdateDiagramCommand(diagram);
          if (command.canExecute())
          {
@@ -82,7 +90,37 @@ public class OpenDiagramAction extends UpdateDiagramAction
                   return;
             }
          }
-         ((WorkflowModelEditor) getWorkbenchPart()).showDiagramPage(diagram);
+         
+         ModelType model = (ModelType) ((WorkflowModelEditor) getWorkbenchPart()).getModel();         
+         ModelType containingModel = ModelUtils.findContainingModel(diagram);
+         if(!model.equals(containingModel))
+         {
+            Dialog dialog = new Dialog(Display.getDefault().getActiveShell())
+            {
+               protected void configureShell(Shell shell)
+               {
+                  super.configureShell(shell);
+                  shell.setText(Diagram_Messages.LB_OPEN_REFERENCED_MODEL);         
+               }                  
+            };
+            
+            if (Dialog.OK == dialog.open())
+            {               
+               Path path = new Path(ModelUtils.getLocation(containingModel));
+               IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+               IFile file = path.isAbsolute() ? root.getFileForLocation(path) : root.getFile(path);
+               if(file != null)
+               {            
+                  WorkflowModelEditor editor = getEditor(file);            
+                  editor.showDiagramPage(diagram);
+               }
+            }
+            
+         }
+         else
+         {
+            ((WorkflowModelEditor) getWorkbenchPart()).showDiagramPage(diagram);            
+         }         
       }
       catch (PartInitException e)
       {
@@ -166,4 +204,69 @@ public class OpenDiagramAction extends UpdateDiagramAction
             break;
       }
    }
+   
+   private WorkflowModelEditor getEditor(IFile file)
+   {
+      final IWorkbench workbench = PlatformUI.getWorkbench();
+      ModelLoader loader = new ModelLoader(workbench, file, true);
+      
+      // syncExec() will block the current thread as long as Runnable.run()
+      // has not been executed.
+      workbench.getDisplay().syncExec(loader);
+      PartInitException x = loader.getException();
+      
+      if (null != x)
+      {
+         throw new InternalException("");
+      }
+      return loader.getEditor();
+      
+   }
+   
+   
+   private static final class ModelLoader implements Runnable
+   {
+      private final IWorkbench workbench;
+      private IFile file;
+      private boolean activate;
+      private PartInitException exception;
+      private WorkflowModelEditor editor;
+   
+      private ModelLoader(IWorkbench workbench, IFile file, boolean activate)
+      {
+         this.workbench = workbench;
+         this.file = file;
+         this.activate = activate;
+      }
+   
+      public void run()
+      {
+         editor = null;
+         /* inspired by JavaUI.openInEditor(...) */
+         IWorkbenchWindow wbw = workbench.getActiveWorkbenchWindow();
+         IWorkbenchPage wbp = wbw.getActivePage();
+         try
+         {
+            IEditorPart part = IDE.openEditor(wbp, file, activate);
+            if (part instanceof WorkflowModelEditor)
+            {
+               editor = (WorkflowModelEditor) part;
+            }
+         }
+         catch (PartInitException x)
+         {
+            exception = x;
+         }
+      }
+   
+      public PartInitException getException()
+      {
+         return exception;
+      }
+
+      public WorkflowModelEditor getEditor()
+      {
+         return editor;
+      }
+   }   
 }
