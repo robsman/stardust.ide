@@ -57,7 +57,7 @@ public class GenericPatternsFactory implements ITemplateFactory
       childFactories = new ITemplateFactory[2];
       childFactories[0] = new BasicControlFlowPatterns(); 
       parameters = new HashMap();
-      parameters.put("xpdl", "/org/eclipse/stardust/modeling/templates/basic/resources/dynamicspawn.cwmt");      
+      parameters.put("xpdl", "/org/eclipse/stardust/modeling/templates/basic/resources/dynamicspawn.cwmt");       //$NON-NLS-1$ //$NON-NLS-2$
       ITemplateFactory factory = new DynamicSpawnTemplateFactory();
       factory.initialize(parameters);
       childFactories[1] = factory;

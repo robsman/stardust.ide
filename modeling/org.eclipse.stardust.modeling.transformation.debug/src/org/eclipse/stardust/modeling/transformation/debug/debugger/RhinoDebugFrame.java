@@ -284,7 +284,7 @@ public class RhinoDebugFrame implements DebugFrame
          if(debugTarget.getSteppingManager().requestedTermination())
          {
             context.setDebugger(null, null);
-            throw new DebuggerTerminatedException("Debugger terminated.");
+            throw new DebuggerTerminatedException("Debugger terminated."); //$NON-NLS-1$
          }
       }
    }

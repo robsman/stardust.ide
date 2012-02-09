@@ -38,7 +38,7 @@ public class NullElementVariable extends JsDebugElement implements IVariable
 
    public String getReferenceTypeName() throws DebugException
    {
-      return "<null>";
+      return "<null>"; //$NON-NLS-1$
    }
 
    public IValue getValue() throws DebugException

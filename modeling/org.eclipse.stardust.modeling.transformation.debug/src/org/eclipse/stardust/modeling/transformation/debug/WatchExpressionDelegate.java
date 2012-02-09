@@ -139,22 +139,22 @@ public class WatchExpressionDelegate implements IWatchExpressionDelegate
                IVariable variable = null;
                if (null == rawResult)
                {
-                  variable = new NullElementVariable(frame, "xyz");
+                  variable = new NullElementVariable(frame, "xyz"); //$NON-NLS-1$
                }
                else if (rawResult instanceof StructuredDataMapAccessor)
                {
-                  variable = new StructuredDataMapVariable(frame, null, "xyz",
+                  variable = new StructuredDataMapVariable(frame, null, "xyz", //$NON-NLS-1$
                         (StructuredDataMapAccessor) rawResult);
                }
                else if (rawResult instanceof StructuredDataListAccessor)
                {
-                  variable = new StructuredDataListVariable(frame, null, "xyz",
+                  variable = new StructuredDataListVariable(frame, null, "xyz", //$NON-NLS-1$
                         (StructuredDataListAccessor) rawResult);
                }
                else if (JsValue.isValidJsValue(rawResult))
                {
                   final boolean isPrimitive = rawResult.getClass().isPrimitive();
-                  variable = new JsVariable(frame, null, "xyz", rawResult, isPrimitive);
+                  variable = new JsVariable(frame, null, "xyz", rawResult, isPrimitive); //$NON-NLS-1$
                }
    
                if (null != variable)

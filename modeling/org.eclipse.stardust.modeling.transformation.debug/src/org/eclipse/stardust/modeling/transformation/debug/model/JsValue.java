@@ -68,7 +68,7 @@ public class JsValue extends JsDebugElement implements IValue
 
    public String getValueString() throws DebugException
    {
-      return null == rawValue ? "" :rawValue.toString(); // TODO
+      return null == rawValue ? "" :rawValue.toString(); // TODO //$NON-NLS-1$
    }
 
    public boolean isAllocated() throws DebugException
@@ -143,8 +143,8 @@ public class JsValue extends JsDebugElement implements IValue
 
             if (isValidJsValue(aobj))
             {
-               children.add(new JsVariable(variable.getFrame(), variable, "["
-                     + children.size() + "]", aobj, primitive));
+               children.add(new JsVariable(variable.getFrame(), variable, "[" //$NON-NLS-1$
+                     + children.size() + "]", aobj, primitive)); //$NON-NLS-1$
             }
          }
       }

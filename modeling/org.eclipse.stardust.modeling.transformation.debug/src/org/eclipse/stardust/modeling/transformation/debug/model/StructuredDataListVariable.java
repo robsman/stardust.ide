@@ -79,8 +79,8 @@ public class StructuredDataListVariable extends AbstractVariable
 
    public String getReferenceTypeName() throws DebugException
    {
-      return accessor == null ? "null" : getTypedXPath().getXsdTypeName() + "[" + size
-            + "]";
+      return accessor == null ? "null" : getTypedXPath().getXsdTypeName() + "[" + size //$NON-NLS-1$ //$NON-NLS-2$
+            + "]"; //$NON-NLS-1$
    }
 
    public IValue getValue() throws DebugException

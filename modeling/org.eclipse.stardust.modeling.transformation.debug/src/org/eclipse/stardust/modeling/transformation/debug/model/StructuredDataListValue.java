@@ -52,7 +52,7 @@ public class StructuredDataListValue extends JsDebugElement implements IValue
          {
             Object rawValue = accessor.get(idx, null);
 
-            final String name = "[" + idx + "]";
+            final String name = "[" + idx + "]"; //$NON-NLS-1$ //$NON-NLS-2$
             if (null == rawValue)
             {
                variables.add(new NullElementVariable(variable.getStackFrame(), name));

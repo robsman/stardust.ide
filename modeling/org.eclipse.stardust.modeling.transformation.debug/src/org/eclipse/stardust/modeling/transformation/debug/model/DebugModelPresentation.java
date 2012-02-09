@@ -39,7 +39,7 @@ public class DebugModelPresentation implements IDebugModelPresentation
       if (element instanceof MessageTransformationMappingBreakpoint)
       {
          MessageTransformationMappingBreakpoint breakpoint = (MessageTransformationMappingBreakpoint) element;
-         return "FieldPath: " + breakpoint.getFieldPath();
+         return "FieldPath: " + breakpoint.getFieldPath(); //$NON-NLS-1$
       }
       
       return null;

@@ -169,7 +169,7 @@ public class JsDebugTarget extends JsDebugElement
 
    public String getName() throws DebugException
    {
-      return "Infinity Message Transformation";
+      return "Infinity Message Transformation"; //$NON-NLS-1$
    }
 
    public boolean supportsBreakpoint(IBreakpoint breakpoint)
@@ -271,7 +271,7 @@ public class JsDebugTarget extends JsDebugElement
          throws DebugException
    {
       throw new DebugException(new Status(IStatus.ERROR,
-            PredefinedConstants.ID_KNITWARE_DEBUG_MODEL, "Feature not supported."));
+            PredefinedConstants.ID_KNITWARE_DEBUG_MODEL, "Feature not supported.")); //$NON-NLS-1$
    }
    
    // Breakpoint management

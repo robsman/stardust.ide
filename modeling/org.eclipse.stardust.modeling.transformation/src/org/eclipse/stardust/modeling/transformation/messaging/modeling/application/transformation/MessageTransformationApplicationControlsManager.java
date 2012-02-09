@@ -1399,7 +1399,7 @@ public class MessageTransformationApplicationControlsManager
             {
             case SWT.MouseDown:
                Event e = new Event();
-               e.item = (TreeItem) label.getData("_TABLEITEM");
+               e.item = (TreeItem) label.getData("_TABLEITEM"); //$NON-NLS-1$
                // Assuming table is single select, set the selection as if
                // the mouse down event went through to the table
                targetMessageTreeViewer.getTree().setSelection(

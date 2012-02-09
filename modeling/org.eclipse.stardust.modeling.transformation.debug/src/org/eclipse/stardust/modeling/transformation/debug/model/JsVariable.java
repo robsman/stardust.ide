@@ -51,7 +51,7 @@ public class JsVariable extends AbstractVariable
 
    public String getReferenceTypeName() throws DebugException
    {
-      return StringUtils.isEmpty(typeName) ? "<no type available>" : typeName;
+      return StringUtils.isEmpty(typeName) ? "<no type available>" : typeName; //$NON-NLS-1$
    }
 
    public void setReferenceTypeName(String typeName) throws DebugException
@@ -67,11 +67,11 @@ public class JsVariable extends AbstractVariable
       while (null != parent)
       {
          // prepend parent-name followed by "."
-         buffer.insert(0, ".").insert(0, parent.getQualifiedName());
+         buffer.insert(0, ".").insert(0, parent.getQualifiedName()); //$NON-NLS-1$
          parent = parent.getParent();
       }
 
-      buffer.append(" = ").append(expression);
+      buffer.append(" = ").append(expression); //$NON-NLS-1$
 
       if (verifyValue(buffer.toString()))
       {

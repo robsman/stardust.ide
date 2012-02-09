@@ -95,7 +95,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 public class TransformationMappingDebugView extends ViewPart
 {
-   public static final String VIEW_ID = "org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView";
+   public static final String VIEW_ID = "org.eclipse.stardust.modeling.transformation.debug.views.TransformationMappingDebugView"; //$NON-NLS-1$
 
    private final MessageTransformationApplicationControlsManager controlsManager;
    private Composite parent;
@@ -130,7 +130,7 @@ public class TransformationMappingDebugView extends ViewPart
 
       public Object[] getElements(Object parent)
       {
-         return new String[] { "One", "Two", "Three" };
+         return new String[] { "One", "Two", "Three" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
    }
 
@@ -185,7 +185,7 @@ public class TransformationMappingDebugView extends ViewPart
       if (null == modelElement)
       {
          Text text = FormBuilder.createText(baseComposite);
-         text.setText("Works only in message transformation debug context.");
+         text.setText("Works only in message transformation debug context."); //$NON-NLS-1$
       }
       else
       {
@@ -268,7 +268,7 @@ public class TransformationMappingDebugView extends ViewPart
    {
       // This counter should be incremented on each iter.next() call which succeeds.
       int usedFieldPathSegmentCounter = 0;
-      Iterator iter = StringUtils.split(fieldPath, "/");
+      Iterator iter = StringUtils.split(fieldPath, "/"); //$NON-NLS-1$
       // if no path at all -> return
       if ( !iter.hasNext())
       {
@@ -376,7 +376,7 @@ public class TransformationMappingDebugView extends ViewPart
 
    private void hookContextMenu()
    {
-      MenuManager menuMgr = new MenuManager("#PopupMenu");
+      MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
       menuMgr.setRemoveAllWhenShown(true);
       menuMgr.addMenuListener(new IMenuListener()
       {
@@ -424,11 +424,11 @@ public class TransformationMappingDebugView extends ViewPart
       {
          public void run()
          {
-            showMessage("Action 1 executed");
+            showMessage("Action 1 executed"); //$NON-NLS-1$
          }
       };
-      action1.setText("Action 1");
-      action1.setToolTipText("Action 1 tooltip");
+      action1.setText("Action 1"); //$NON-NLS-1$
+      action1.setToolTipText("Action 1 tooltip"); //$NON-NLS-1$
       action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
             .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 
@@ -436,11 +436,11 @@ public class TransformationMappingDebugView extends ViewPart
       {
          public void run()
          {
-            showMessage("Action 2 executed");
+            showMessage("Action 2 executed"); //$NON-NLS-1$
          }
       };
-      action2.setText("Action 2");
-      action2.setToolTipText("Action 2 tooltip");
+      action2.setText("Action 2"); //$NON-NLS-1$
+      action2.setToolTipText("Action 2 tooltip"); //$NON-NLS-1$
       action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
             .getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
       doubleClickAction = new Action()
@@ -449,7 +449,7 @@ public class TransformationMappingDebugView extends ViewPart
          {
             ISelection selection = viewer.getSelection();
             Object obj = ((IStructuredSelection) selection).getFirstElement();
-            showMessage("Double-click detected on " + obj.toString());
+            showMessage("Double-click detected on " + obj.toString()); //$NON-NLS-1$
          }
       };
    }
@@ -467,7 +467,7 @@ public class TransformationMappingDebugView extends ViewPart
 
    private void showMessage(String message)
    {
-      MessageDialog.openInformation(viewer.getControl().getShell(), "Sample View",
+      MessageDialog.openInformation(viewer.getControl().getShell(), "Sample View", //$NON-NLS-1$
             message);
    }
    

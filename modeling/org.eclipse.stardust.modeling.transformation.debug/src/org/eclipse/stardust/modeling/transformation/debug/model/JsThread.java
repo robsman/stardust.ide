@@ -130,16 +130,16 @@ public class JsThread extends JsDebugElement implements IThread
 
    public String getName() throws DebugException
    {
-      String message = "Thread";
+      String message = "Thread"; //$NON-NLS-1$
       
       if(CommonConstants.NO_THROWABLE != suspendedByThrowable)
       {
-         message += " (suspended by exception)";
+         message += " (suspended by exception)"; //$NON-NLS-1$
       }
       
       if(isStepping())
       {
-         message += " (Stepping)";
+         message += " (Stepping)"; //$NON-NLS-1$
       }
       
       return message; 

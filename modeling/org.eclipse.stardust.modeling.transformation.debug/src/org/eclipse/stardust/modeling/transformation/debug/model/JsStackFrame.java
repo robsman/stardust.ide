@@ -106,10 +106,10 @@ public class JsStackFrame extends JsDebugElement implements IStackFrame
       String name = debugFrame.getDebuggableScript().getFunctionName();
       if (StringUtils.isEmpty(name))
       {
-         name = "Script entry";
+         name = "Script entry"; //$NON-NLS-1$
       }
 
-      name = name + " [line: " + getLineNumber() + "]";
+      name = name + " [line: " + getLineNumber() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 
       return name;
    }
@@ -244,7 +244,7 @@ public class JsStackFrame extends JsDebugElement implements IStackFrame
    
       if (debugFrame.getThisObj() != null)
       {
-         vars.add(new JsVariable(this, null, "this", debugFrame.getThisObj()));
+         vars.add(new JsVariable(this, null, "this", debugFrame.getThisObj())); //$NON-NLS-1$
       }
    
       Scriptable scope = debugFrame.getScope();

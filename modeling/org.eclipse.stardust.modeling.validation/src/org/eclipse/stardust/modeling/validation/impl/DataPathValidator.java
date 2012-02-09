@@ -118,13 +118,13 @@ public class DataPathValidator implements IModelElementValidator
                   if (!PredefinedConstants.STRUCTURED_DATA.equals(dataTypeId))
                   {
                      result.add(Issue.error(dataPath,
-                           "Key descriptors must be either primitive or structured types.",
+                           Validation_Messages.MSG_KEY_DESCRIPTOR_PRIMITIVE_STRUCTURED,
                            ValidationService.PKG_CWM.getDataPathType_Key()));
                   }
                   else if (accessPath == null || accessPath.length() == 0)
                   {
                      result.add(Issue.error(dataPath,
-                           "Structured key descriptors must have primitive type.",
+                           Validation_Messages.MSG_KEY_DESCRIPTOR_PRIMITIVE,
                            ValidationService.PKG_CWM.getDataPathType_Key()));
                   }
                   else try
@@ -133,7 +133,7 @@ public class DataPathValidator implements IModelElementValidator
                      if (StructuredDataXPathUtils.returnSinglePrimitiveType(accessPath, xPathMap) == BigData.NULL)
                      {
                         result.add(Issue.error(dataPath,
-                              "Structured key descriptors must have primitive type.",
+                              Validation_Messages.MSG_KEY_DESCRIPTOR_PRIMITIVE,
                               ValidationService.PKG_CWM.getDataPathType_Key()));
                      }
                      else
@@ -142,7 +142,7 @@ public class DataPathValidator implements IModelElementValidator
                         if (!xPathAnnotations.isIndexed() || !xPathAnnotations.isPersistent())
                         {
                            result.add(Issue.error(dataPath,
-                                 "Structured key descriptors must be indexed and persistent.",
+                                 Validation_Messages.MSG_KEY_DESCRIPTOR_INDEXED_PERSISTENT,
                                  ValidationService.PKG_CWM.getDataPathType_Key()));
                         }
                      }
@@ -150,7 +150,7 @@ public class DataPathValidator implements IModelElementValidator
                   catch (Exception ex)
                   {
                      result.add(Issue.error(dataPath,
-                           "No schema found for structured key descriptor.",
+                           Validation_Messages.MSG_KEY_DESCRIPTOR_NO_SCHEMA,
                            ValidationService.PKG_CWM.getDataPathType_Key()));
                   }
                }
@@ -158,7 +158,7 @@ public class DataPathValidator implements IModelElementValidator
             else
             {
                result.add(Issue.warning(dataPath,
-                     "DataPath marked as key descriptor but it's not a descriptor.",
+                     Validation_Messages.MSG_KEY_DESCRIPTOR_NO_DESCRIPTOR,
                      ValidationService.PKG_CWM.getDataPathType_Key()));
             }
          }

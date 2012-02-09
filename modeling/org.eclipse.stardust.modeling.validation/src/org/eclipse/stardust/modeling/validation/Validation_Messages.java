@@ -427,17 +427,28 @@ public static String Validation_MSG_JNDIPathNotSpecified;
    
    public static String ERR_Invalid_TeamLeadConnection;
 
-public static String EXC_NOT_IMPLEMENTED;
+   public static String EXC_NOT_IMPLEMENTED;
 
-public static String WR_IS_A_RESERVED_IDENTIFIER;
+   public static String WR_IS_A_RESERVED_IDENTIFIER;
 
    public static String WR_MAPPING_INCONSISTENT_DATA_MAPPING_ID;
    
    public static String MSG_REMOVED_TRANSFORMATION;
 
-public static String WR_MAPPING_NO_IN_DATA_MAPPING_SPECIFIED;
+   public static String WR_MAPPING_NO_IN_DATA_MAPPING_SPECIFIED;
 
-public static String WR_MAPPING_NO_IN_DATA_MAPPING_WITH_ID_STELLE_NULL_FOUND;
+   public static String WR_MAPPING_NO_IN_DATA_MAPPING_WITH_ID_STELLE_NULL_FOUND;
 
-public static String WR_MD_HAS_AN_OLDER_VERSION;
+   public static String WR_MD_HAS_AN_OLDER_VERSION;
+   
+   public static String MSG_KEY_DESCRIPTOR_PRIMITIVE_STRUCTURED;
+   
+   public static String MSG_KEY_DESCRIPTOR_PRIMITIVE;
+   
+   public static String MSG_KEY_DESCRIPTOR_INDEXED_PERSISTENT;
+   
+   public static String MSG_KEY_DESCRIPTOR_NO_SCHEMA;
+   
+   public static String MSG_KEY_DESCRIPTOR_NO_DESCRIPTOR;
+   
 }

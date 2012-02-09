@@ -26,12 +26,12 @@ public class NullElementValue extends JsDebugElement implements IValue
 
    public String getReferenceTypeName() throws DebugException
    {
-      return "<null>";
+      return "<null>"; //$NON-NLS-1$
    }
 
    public String getValueString() throws DebugException
    {
-      return "<null>";
+      return "<null>"; //$NON-NLS-1$
    }
 
    public IVariable[] getVariables() throws DebugException

@@ -82,7 +82,7 @@ public class StructuredDataPrimitiveVariable extends AbstractVariable
       {
          // name may contain characters which are not allowed in JS identifiers, e.g -.
          // must be access "name indexed".
-         buffer.append("[\"").append(name).append("\"]");
+         buffer.append("[\"").append(name).append("\"]"); //$NON-NLS-1$ //$NON-NLS-2$
       }
       else
       {
@@ -93,13 +93,13 @@ public class StructuredDataPrimitiveVariable extends AbstractVariable
       {
          if ( !(parent instanceof StructuredDataMapVariable) && !(parent instanceof StructuredDataListVariable))
          {
-            buffer.insert(0, ".");
+            buffer.insert(0, "."); //$NON-NLS-1$
          }
          buffer.insert(0, parent.getQualifiedName());
          parent = parent.getParent();
       }
       
-      buffer.append(" = ").append(expression);
+      buffer.append(" = ").append(expression); //$NON-NLS-1$
       
       //buffer = new StringBuffer(expression);
 
