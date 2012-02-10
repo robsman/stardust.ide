@@ -15,21 +15,11 @@ import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import javax.xml.namespace.QName;
+
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -51,60 +41,13 @@ import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.xsd.XSDSchema;
 
@@ -171,9 +114,8 @@ public class ModelUtils
                return (ModelType) element;
             }
          }
-         for (Iterator i = element.eContents().iterator(); i.hasNext();)
+         for (EObject content : element.eContents())
          {
-            Object content = i.next();
             if (content instanceof ModelType)
             {
                return (ModelType) content;
@@ -331,9 +273,9 @@ public class ModelUtils
          maxOid = model.getOid();
       }
       
-      for (TreeIterator i = model.eAllContents(); i.hasNext();)
+      for (TreeIterator<EObject> i = model.eAllContents(); i.hasNext();)
       {
-         EObject obj = (EObject) i.next();
+         EObject obj = i.next();
          if (obj instanceof IModelElement && ((IModelElement) obj).isSetElementOid())
          {
             maxOid = Math.max(maxOid, ((IModelElement) obj).getElementOid());
@@ -346,10 +288,8 @@ public class ModelUtils
    {
       ActivityType result = null;
       
-      List activities = process.getActivity();
-      for (int i = 0; i < activities.size(); ++i)
+      for (ActivityType activity : process.getActivity())
       {
-         ActivityType activity = (ActivityType) activities.get(i);
          if (activity.getInTransitions().isEmpty())
          {
             if (null == result)
@@ -428,52 +368,29 @@ public class ModelUtils
    {
       String result = null;
       
-      Collection cdataParts = (Collection) featureMap.get(
+      Collection<?> parts = (Collection<?>) featureMap.get(
             XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), false);
-      if ((null != cdataParts) && !cdataParts.isEmpty())
+      if (parts == null || parts.isEmpty())
       {
-         switch (cdataParts.size())
-         {
-         case 0:
-            result = null;
-            break;
-         case 1:
-            result = cdataParts.iterator().next().toString();
-            break;
-         default:
-            StringBuffer sb = new StringBuffer();
-         for (Iterator i = cdataParts.iterator(); i.hasNext();)
-         {
-            sb.append(i.next().toString());
-         }
-         result = sb.toString();
-         }
-      }
-      else
-      {
-         Collection textParts = (Collection) featureMap.get(
+         parts = (Collection<?>) featureMap.get(
                XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), false);
-         if ((null != textParts) && !textParts.isEmpty())
+      }
+      if (parts != null && !parts.isEmpty())
+      {
+         if (parts.size() == 1)
          {
-            switch (textParts.size())
+            result = parts.iterator().next().toString();
+         }
+         else
+         {
+            StringBuffer sb = new StringBuffer();
+            for (Object o : parts)
             {
-            case 0:
-               result = null;
-               break;
-            case 1:
-               result = textParts.iterator().next().toString();
-               break;
-            default:
-               StringBuffer sb = new StringBuffer();
-               for (Iterator i = textParts.iterator(); i.hasNext();)
-               {
-                  sb.append(i.next().toString());
-               }
-               result = sb.toString();
+               sb.append(o.toString());
             }
+            result = sb.toString();
          }
       }
-      
       return result;
    }
 
@@ -581,48 +498,42 @@ public class ModelUtils
       return result;
    }
    
-   public static List findMetaTypeInstances(List domain, String metaTypeId)
+   public static List<ITypedElement> findMetaTypeInstances(List<? extends IModelElement> domain, String metaTypeId)
    {
-      List result = ((null != domain) && !domain.isEmpty())
-            ? new ArrayList(domain.size())
-            : Collections.EMPTY_LIST;
-            
-      for (Iterator i = domain.iterator(); i.hasNext();)
+      if (domain == null || domain.isEmpty())
       {
-         IModelElement element = (IModelElement) i.next();
+         return Collections.emptyList();
+      }
+      
+      List<ITypedElement> result = CollectionUtils.newList(domain.size());
+      for (IModelElement element : domain)
+      {
          if (element instanceof ITypedElement)
          {
             IMetaType metaType = ((ITypedElement) element).getMetaType();
-            if ((null != metaType) && CompareHelper.areEqual(metaTypeId, metaType.getId()))
+            if (metaType != null && CompareHelper.areEqual(metaTypeId, metaType.getId()))
             {
-               result.add(element);
+               result.add((ITypedElement) element);
             }
          }
       }
-      
       return result;
    }
 
-   public static void addSymbols(Set set, ISymbolContainer container, EReference ref,
+   public static void addSymbols(Set<INodeSymbol> set, ISymbolContainer container, EReference ref,
          EStructuralFeature feat, String refId)
    {
       if (container == null)
       {
          return;
       }
-      List subContainers =
-         container instanceof DiagramType ? ((DiagramType) container).getPoolSymbols() :
-         container instanceof PoolSymbol ? ((PoolSymbol) container).getLanes() :
-         container instanceof LaneSymbol ? ((LaneSymbol) container).getChildLanes() :
-         Collections.EMPTY_LIST;
-      for (Iterator i = subContainers.iterator(); i.hasNext();)
+      for (ISymbolContainer subContainer : getSubContainers(container))
       {
-         addSymbols(set, (ISymbolContainer) i.next(), ref, feat, refId);
+         addSymbols(set, subContainer, ref, feat, refId);
       }
-      List list = (List) container.eGet(ref);
-      for (Iterator i = /*container.getNodes().list(ref)*/list.iterator(); i.hasNext();)
+      List<INodeSymbol> list = (List<INodeSymbol>) container.eGet(ref);
+      for (INodeSymbol symbol : list)
       {
-         INodeSymbol symbol = (INodeSymbol) i.next();
          if (refId == null || refId.equals(getStringValue(symbol.eGet(feat))))
          {
             set.add(symbol);
@@ -635,22 +546,9 @@ public class ModelUtils
    {
       if (container != null)
       {
-         List<? extends ISymbolContainer> subContainers = Collections.emptyList();
-         if (container instanceof DiagramType)
+         for (ISymbolContainer subContainer : getSubContainers(container))
          {
-            subContainers = ((DiagramType) container).getPoolSymbols();
-         }
-         else if (container instanceof PoolSymbol)
-         {
-            subContainers = ((PoolSymbol) container).getLanes();
-         }
-         else if (container instanceof LaneSymbol)
-         {
-            subContainers = ((LaneSymbol) container).getChildLanes();
-         }
-         for (ISymbolContainer symbolContainer : subContainers)
-         {
-            addSymbols(set, symbolContainer, ref, feat, element);
+            addSymbols(set, subContainer, ref, feat, element);
          }
          
          List<INodeSymbol> list = (List<INodeSymbol>) container.eGet(ref);
@@ -662,6 +560,24 @@ public class ModelUtils
             }
          }
       }
+   }
+
+   public static List< ? extends ISymbolContainer> getSubContainers(ISymbolContainer container)
+   {
+      List<? extends ISymbolContainer> subContainers = Collections.emptyList();
+      if (container instanceof DiagramType)
+      {
+         subContainers = ((DiagramType) container).getPoolSymbols();
+      }
+      else if (container instanceof PoolSymbol)
+      {
+         subContainers = ((PoolSymbol) container).getLanes();
+      }
+      else if (container instanceof LaneSymbol)
+      {
+         subContainers = ((LaneSymbol) container).getChildLanes();
+      }
+      return subContainers;
    }
 
    private static String getStringValue(Object object)
@@ -983,6 +899,30 @@ public class ModelUtils
          String scopeList)
    {
       String id = attribute.getValue();
+      int ix = id.indexOf(':');
+      if (ix > 0)
+      {
+         QName qname = QName.valueOf(id.substring(ix + 1));
+         ExternalPackages packages = model.getExternalPackages();
+         if (packages != null)
+         {
+            ExternalPackage pkg = packages.getExternalPackage(qname.getNamespaceURI());
+            if (pkg != null)
+            {
+               ModelType otherModel = getExternalModel(pkg);
+               if (otherModel != null)
+               {
+                  model = otherModel;
+                  scopeList = id.substring(0, ix);
+                  if ("typeDeclaration".equals(scopeList))
+                  {
+                     scopeList = "struct";
+                  }
+                  id = qname.getLocalPart();
+               }
+            }
+         }
+      }
       StringTokenizer st = new StringTokenizer(scopeList, "+"); //$NON-NLS-1$
       while (st.hasMoreTokens())
       {
@@ -1004,8 +944,7 @@ public class ModelUtils
          else
          {
             EStructuralFeature feature = model.eClass().getEStructuralFeature(scope);
-            IIdentifiableElement element = ModelUtils.findIdentifiableElement(
-                  model, feature, id);
+            IIdentifiableElement element = ModelUtils.findIdentifiableElement(model, feature, id);
             if (element != null)
             {
                AttributeUtil.setReference(attribute, element);
@@ -1574,5 +1513,34 @@ public class ModelUtils
          return Model_Messages.JOIN_SPLIT_LOOP_UNKNOWN;
       }
       return literal;
+   }
+
+   public static List<TypeDeclarationType> getAllTypeDeclarations(ModelType modelType)
+   {
+      List<TypeDeclarationType> dataTypes = CollectionUtils.newList();
+      addTypeDeclarations(dataTypes, modelType);
+   
+      ExternalPackages packages = modelType.getExternalPackages();
+      if (packages != null)
+      {
+         for (ExternalPackage pkg : packages.getExternalPackage())
+         {
+            ModelType externalModel = getExternalModel(pkg);
+            if (externalModel != null)
+            {
+               addTypeDeclarations(dataTypes, externalModel);
+            }
+         }
+      }
+      return dataTypes;
+   }
+
+   private static void addTypeDeclarations(List<TypeDeclarationType> dataTypes, ModelType modelType)
+   {
+      TypeDeclarationsType typeDeclarations = modelType.getTypeDeclarations();
+      if (typeDeclarations != null)
+      {
+         dataTypes.addAll(typeDeclarations.getTypeDeclaration());
+      }
    }
 }

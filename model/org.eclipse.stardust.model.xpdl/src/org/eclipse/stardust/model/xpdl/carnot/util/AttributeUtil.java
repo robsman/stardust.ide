@@ -10,19 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.impl.AttributeCategory;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 
@@ -34,11 +29,11 @@ public class AttributeUtil
 {
    public static AttributeType getAttribute(IExtensibleElement element, String att)
    {
-      List attributes = element.getAttribute();
+      List<AttributeType> attributes = element.getAttribute();
       return getAttribute(attributes, att);
    }
 
-   private static AttributeType getAttribute(List attributes, String att)
+   private static AttributeType getAttribute(List<AttributeType> attributes, String att)
    {
       for (int i = 0; i < attributes.size(); i++)
       {
@@ -68,7 +63,7 @@ public class AttributeUtil
       return attribute == null ? null : attribute.getValue();
    }
 
-   public static String getAttributeValue(List attributes, String nameAtt)
+   public static String getAttributeValue(List<AttributeType> attributes, String nameAtt)
    {
       AttributeType attribute = getAttribute(attributes, nameAtt);
       return attribute == null ? null : attribute.getValue();
@@ -85,12 +80,12 @@ public class AttributeUtil
       return setAttribute(element.getAttribute(), name, type, value);
    }
 
-   public static AttributeType setAttribute(List list, String name, String value)
+   public static AttributeType setAttribute(List<AttributeType> list, String name, String value)
    {
       return setAttribute(list, name, null, value);
    }
 
-   public static AttributeType setAttribute(List list, String name, String type, String value)
+   public static AttributeType setAttribute(List<AttributeType> list, String name, String type, String value)
    {
       AttributeType attribute = null;
       for (int i = 0; i < list.size(); i++)
@@ -149,8 +144,7 @@ public class AttributeUtil
 
    public static void clearExcept(IExtensibleElement element, String[] ids)
    {
-      List attributes = element.getAttribute();
-      for (Iterator i = attributes.iterator(); i.hasNext();)
+      for (Iterator<AttributeType> i = element.getAttribute().iterator(); i.hasNext();)
       {
          AttributeType attribute = (AttributeType) i.next();
          boolean found = false;
@@ -169,14 +163,12 @@ public class AttributeUtil
       }
    }
 
-   public static List getAttributeCategories(IExtensibleElement element)
+   public static List<IAttributeCategory> getAttributeCategories(IExtensibleElement element)
    {
-      List categories = new ArrayList();
+      List<IAttributeCategory> categories = CollectionUtils.newList();
 
-      List attributes = element.getAttribute();
-      for (Iterator i = attributes.iterator(); i.hasNext();)
+      for (AttributeType attribute : element.getAttribute())
       {
-         AttributeType attribute = (AttributeType) i.next();
          String categoryID = getCategoryName(attribute.getName());
          IAttributeCategory category = getExistingCategory(categoryID, categories);
          if (category == null)
@@ -199,11 +191,10 @@ public class AttributeUtil
       return categoryIDs[0];
    }
 
-   private static IAttributeCategory getExistingCategory(String id, List categories)
+   private static IAttributeCategory getExistingCategory(String id, List<IAttributeCategory> categories)
    {
-      for (Iterator iter = categories.iterator(); iter.hasNext();)
+      for (IAttributeCategory category : categories)
       {
-         IAttributeCategory category = (IAttributeCategory) iter.next();
          if (id == null && category.getId() == null
                || id != null && id.equals(category.getId()))
          {
@@ -258,13 +249,9 @@ public class AttributeUtil
          {
             attribute = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
             attribute.setName(name);
+            element.getAttribute().add(attribute);
          }
          setReference(attribute, identifiable);
-         List list = element.getAttribute();
-         if (!list.contains(attribute))
-         {
-            list.add(attribute);
-         }
       }
    }
 

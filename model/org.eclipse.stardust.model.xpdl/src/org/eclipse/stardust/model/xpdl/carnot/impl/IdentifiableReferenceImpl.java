@@ -19,14 +19,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -288,15 +284,23 @@ public class IdentifiableReferenceImpl extends EObjectImpl
 
    private String getId(EObject identifiable)
    {
+      String id = null;
       if (identifiable instanceof IIdentifiableElement)
       {
-         return ((IIdentifiableElement) identifiable).getId();
+         id = ((IIdentifiableElement) identifiable).getId();
       }
-      if (identifiable instanceof TypeDeclarationType)
+      else if (identifiable instanceof TypeDeclarationType)
       {
-         return ((TypeDeclarationType) identifiable).getId();
+         id = ((TypeDeclarationType) identifiable).getId();
       }
-      return null;
+      ModelType thisModel = ModelUtils.findContainingModel(attribute);
+      ModelType otherModel = ModelUtils.findContainingModel(identifiable);
+      if (thisModel != otherModel)
+      {
+         String feature = identifiable.eContainingFeature().getName();
+         id = feature + ":{" + otherModel.getId() + "}" + id;
+      }
+      return id;
    }
 
    /**

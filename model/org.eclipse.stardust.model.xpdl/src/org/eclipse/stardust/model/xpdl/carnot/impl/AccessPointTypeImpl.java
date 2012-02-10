@@ -21,17 +21,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 
 
 /**
@@ -737,6 +727,14 @@ public class AccessPointTypeImpl extends EObjectImpl implements AccessPointType
       result.append(direction);
       result.append(')');
       return result.toString();
+   }
+   
+   /**
+    * @generated NOT
+    */
+   public void setFakeContainer(IAccessPointOwner newContainer)
+   {
+      eBasicSetContainer((InternalEObject) newContainer, CarnotWorkflowModelPackage.IACCESS_POINT_OWNER__ACCESS_POINT);
    }
 
 } //AccessPointTypeImpl

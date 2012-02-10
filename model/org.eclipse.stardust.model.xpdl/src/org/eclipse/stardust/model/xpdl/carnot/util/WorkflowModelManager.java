@@ -167,6 +167,7 @@ public class WorkflowModelManager
 
       documentRoot.setModel(cwmFactory.createModelType());
       model = documentRoot.getModel();
+      resolve(model);
 
       return model;
    }
@@ -382,10 +383,15 @@ public class WorkflowModelManager
          }
          if (model != null)
          {
-            // resolve string-id references in attributes
-            ModelUtils.resolve(model, model);
+            resolve(model);
          }
       }
       return model;
+   }
+
+   public void resolve(ModelType model)
+   {
+      // resolve string-id references in attributes
+      ModelUtils.resolve(model, model);
    }
 }
