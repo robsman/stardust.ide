@@ -12,7 +12,6 @@ package org.eclipse.stardust.modeling.repository.common;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.transform.TransformerFactory;
 
@@ -32,96 +31,15 @@ public class ExtendedModelManager extends WorkflowModelManager
       super();
    }
 
-   public ModelType createModel(URI uri)
+   @Override
+   public void resolve(ModelType model)
    {
-      try
+      if (model != null)
       {
-         return super.createModel(uri);
+         manager = new ConnectionManager(model);
+         manager.resolve();
       }
-      finally
-      {
-         ModelType model = getModel();
-         if (model != null)
-         {
-            manager = new ConnectionManager(model);
-         }
-      }
-   }
-
-   public void load(File file) throws IOException
-   {
-      try
-      {
-         super.load(file);
-      }
-      finally
-      {
-         ModelType model = getModel();
-         if (model != null)
-         {
-            manager = new ConnectionManager(model);
-            manager.resolve();
-         }
-      }
-   }
-
-   public void load(URI uri) throws IOException
-   {
-      try
-      {
-         super.load(uri);
-      }
-      catch (Throwable t)
-      {
-         t.printStackTrace();
-      }
-      finally
-      {
-         ModelType model = getModel();
-         if (model != null)
-         {
-            manager = new ConnectionManager(model);
-            manager.resolve();
-         }
-      }
-   }
-
-   public void load(URI uri, InputStream is) throws IOException
-   {
-      try
-      {
-         super.load(uri, is);
-      }
-      catch (Throwable t)
-      {
-         t.printStackTrace();
-      }
-      finally
-      {
-         ModelType model = getModel();
-         if (model != null)
-         {
-            manager = new ConnectionManager(model);
-            manager.resolve();
-         }
-      }
-   }
-
-   public void reload(URI uri) throws IOException
-   {
-      try
-      {
-         super.reload(uri);
-      }
-      finally
-      {
-         ModelType model = getModel();
-         if (model != null)
-         {
-            manager = new ConnectionManager(model);
-            manager.resolve();
-         }
-      }
+      super.resolve(model);
    }
 
    public void save(URI uri) throws IOException

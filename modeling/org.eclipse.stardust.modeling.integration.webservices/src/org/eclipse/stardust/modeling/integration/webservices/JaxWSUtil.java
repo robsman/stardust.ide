@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.integration.webservices;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.Message;
@@ -23,16 +22,10 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
 import org.eclipse.stardust.engine.extensions.jaxws.app.WSConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
@@ -114,8 +107,7 @@ public final class JaxWSUtil
 
    public static TypeDeclarationType findMatchingTypeDeclaration(ApplicationType application, Part part)
    {
-      // try to find corresponsing type for the part
-      TypeDeclarationsType allTypeDeclarations = ModelUtils.findContainingModel(application).getTypeDeclarations();
+      // try to find corresponding type for the part
       QName qname = part.getElementName();
       if (qname == null)
       {
@@ -125,6 +117,34 @@ public final class JaxWSUtil
             return null;
          }
       }
+      
+      ModelType model = ModelUtils.findContainingModel(application);
+      TypeDeclarationType type = findMatchingTypeDeclaration(qname, model);
+      if (type == null)
+      {
+         ExternalPackages packages = model.getExternalPackages();
+         if (packages != null)
+         {
+            for (ExternalPackage pkg : packages.getExternalPackage())
+            {
+               model = ModelUtils.getExternalModel(pkg);
+               if (model != null)
+               {
+                  type = findMatchingTypeDeclaration(qname, model);
+                  if (type != null)
+                  {
+                     break;
+                  }
+               }
+            }
+         }
+      }
+      return type;
+   }
+
+   public static TypeDeclarationType findMatchingTypeDeclaration(QName qname, ModelType model)
+   {
+      TypeDeclarationsType allTypeDeclarations = model.getTypeDeclarations();
       TypeDeclarationType typeDeclaration = allTypeDeclarations.getTypeDeclaration(qname.getLocalPart());
       if (typeDeclaration == null)
       {
@@ -132,8 +152,7 @@ public final class JaxWSUtil
       }
       
       TypedXPath rootXPath = StructuredTypeUtils.getXPathMap(typeDeclaration).getRootXPath();
-      if (!QNameUtil.toString(rootXPath.getXsdElementNs(), rootXPath.getXsdElementName())
-            .equals(qname.toString()))
+      if (!QNameUtil.toString(rootXPath.getXsdElementNs(), rootXPath.getXsdElementName()).equals(qname.toString()))
       {
          return null;
       }
@@ -173,9 +192,8 @@ public final class JaxWSUtil
          ap = AccessPointUtil.createAccessPoint(id, name, direction,
                dataType);
          ap.setElementOid(ModelUtils.getElementOid(ap, (ModelType) application.eContainer()));
+         application.getAccessPoint().add(ap);
          StructuredTypeUtils.setStructuredAccessPointAttributes(ap, typeDeclaration, transformationType);
-         List<AccessPointType> accessPoints = application.getAccessPoint();
-         accessPoints.add(ap);
       }
       else
       {

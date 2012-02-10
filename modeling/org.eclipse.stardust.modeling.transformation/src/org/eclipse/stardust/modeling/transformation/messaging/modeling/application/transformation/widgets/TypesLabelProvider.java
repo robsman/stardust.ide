@@ -12,9 +12,10 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.swt.graphics.Image;
-
 
 /**
  * LabelProvider for the main element table.
@@ -24,21 +25,31 @@ import org.eclipse.swt.graphics.Image;
  */
 public class TypesLabelProvider extends LabelProvider
 {
+   private ModelType model;
+
    public String getText(Object element)
    {
-      if (element instanceof DataType) {
+      if (element instanceof DataType)
+      {
          return((DataType) element).getId();
-     }
-     if (element instanceof TypeDeclarationType)
-     {
-        return ((TypeDeclarationType)element).getName();
-     }
-     return element.getClass().getName();
+      }
+      if (element instanceof TypeDeclarationType)
+      {
+         ModelType parent = ModelUtils.findContainingModel((TypeDeclarationType) element);
+         String name = ((TypeDeclarationType) element).getName();
+         return parent == model ? name : parent.getName() + " / " + name;
+      }
+      return element.getClass().getName();
    }
 
    public Image getColumnImage(Object element, int columnIndex)
    {
       // icons ?
       return null;
+   }
+
+   public void setModel(ModelType model)
+   {
+      this.model = model;
    }
 }

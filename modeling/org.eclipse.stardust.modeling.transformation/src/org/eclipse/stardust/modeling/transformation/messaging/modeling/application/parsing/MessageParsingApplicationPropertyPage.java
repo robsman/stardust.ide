@@ -115,9 +115,8 @@ public class MessageParsingApplicationPropertyPage extends
          StructAccessPointType apOutputMessage = mtaUtils.createStructAccessPoint(
                "OutputMessage", "OutputMessage ("+selectedTypeDeclaration.getId()+")", DirectionType.OUT_LITERAL, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                structuredDataType, xPathMap.getRootXPath(), xPathMap);
-         StructuredTypeUtils.setStructuredAccessPointAttributes(apOutputMessage,
-               selectedTypeDeclaration);
          application.getAccessPoint().add(apOutputMessage);
+         StructuredTypeUtils.setStructuredAccessPointAttributes(apOutputMessage, selectedTypeDeclaration);
       }      
       loadMessageFormat(element);
       loadTestConfiguration(element);

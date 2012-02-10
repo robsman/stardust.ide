@@ -45,6 +45,8 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
@@ -176,7 +178,19 @@ public class MessageTransformationController {
 		//All found types are implicitly added to the available message types.
 		availableMessageTypes.clear();
 		extractMessageTypesFromModelData(model, element);		        		
-        extractMessagesFromStructuredTypes(model, element);
+        extractMessagesFromStructuredTypes(model);
+        ExternalPackages packages = model.getExternalPackages();
+        if (packages != null)
+        {
+           for (ExternalPackage pkg : packages.getExternalPackage())
+           {
+              ModelType otherModel = ModelUtils.getExternalModel(pkg);
+              if (otherModel != null)
+              {
+                 extractMessagesFromStructuredTypes(otherModel);
+              }
+           }
+        }
               
         //Extract the already defined Input - and Outputmessages from the model element
     	sourceMessageTypes = new ArrayList<AccessPointType>();
@@ -189,57 +203,72 @@ public class MessageTransformationController {
 		}
 	}
 
-
-private void extractAccessPoints(IModelElement element)
+   private void extractAccessPoints(IModelElement element)
    {
       DataTypeType structuredDataType = ModelUtils.getDataType(element, StructuredDataConstants.STRUCTURED_DATA);
-      //trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString.getBytes());
-      // take access points from the model element 
+      // trafoProp = (TransformationProperty)
+      // MappingModelUtil.transformXML2Ecore(xmlString.getBytes());
+      // take access points from the model element
       // IN - for source messages
-      // OUT - for target messages		
+      // OUT - for target messages
       List<AccessPointType> toBeRemoved = new ArrayList<AccessPointType>();
       RuntimeException rte = null;
       boolean failed = false;
       invalidAccessPoints.clear();
       AccessPointType extractedAP = null;
-                
-      for (int i = 0; i < getAccessPoint(application).size(); i++) {
-      	AccessPointType accessPoint = getAccessPoint(application).get(i);				
-      	if (isPrimitive(accessPoint)) {
-      	   extractedAP = mtaUtils.extractPrimitiveAccessPoints(structuredDataType, accessPoint);				     
-      	} else {
-      	   if (isSerializable(accessPoint)) {
-              extractedAP = mtaUtils.extractSerializableAccessPoints(structuredDataType, accessPoint);
-      	   } else {
-              if (AttributeUtil.getAttribute(accessPoint, "carnot:engine:dataType") == null)  { //$NON-NLS-1$
-                 toBeRemoved.add(accessPoint);
-               }                
-               try {
-                  extractedAP = mtaUtils.extractStructAccessPoints(structuredDataType, accessPoint);                          
-               } catch (RuntimeException ex) {
+
+      for (int i = 0; i < getAccessPoint(application).size(); i++)
+      {
+         AccessPointType accessPoint = getAccessPoint(application).get(i);
+         if (isPrimitive(accessPoint))
+         {
+            extractedAP = mtaUtils.extractPrimitiveAccessPoints(structuredDataType, accessPoint);
+         }
+         else
+         {
+            if (isSerializable(accessPoint))
+            {
+               extractedAP = mtaUtils.extractSerializableAccessPoints(structuredDataType, accessPoint);
+            }
+            else
+            {
+               if (AttributeUtil.getAttribute(accessPoint, "carnot:engine:dataType") == null) //$NON-NLS-1$
+               {
+                  toBeRemoved.add(accessPoint);
+               }
+               try
+               {
+                  extractedAP = mtaUtils.extractStructAccessPoints(structuredDataType, accessPoint);
+               }
+               catch (RuntimeException ex)
+               {
                   invalidAccessPoints.add(accessPoint);
                   failed = true;
                   rte = ex;
-               }                         	      
-      	   }
-      	     
-      	}
-        if (extractedAP != null && extractedAP.getDirection().equals(DirectionType.IN_LITERAL)) {
-            sourceMessageTypes.add(extractedAP);   
-        } else {
-        	if (extractedAP != null) {
-        	   targetMessageTypes.add(extractedAP);		
-         	}         
-        }
+               }
+            }
+
+         }
+         if (extractedAP != null && extractedAP.getDirection().equals(DirectionType.IN_LITERAL))
+         {
+            sourceMessageTypes.add(extractedAP);
+         }
+         else
+         {
+            if (extractedAP != null)
+            {
+               targetMessageTypes.add(extractedAP);
+            }
+         }
       }
-      if (failed) {
+      if (failed)
+      {
          throw rte;
       }
-         removeAccessPoints(toBeRemoved);
+      removeAccessPoints(toBeRemoved);
    }
-   
 
-   private void extractMessagesFromStructuredTypes(ModelType model, IModelElement element)
+   private void extractMessagesFromStructuredTypes(ModelType model)
    {
       for (Iterator<TypeDeclarationType> j = model.getTypeDeclarations().getTypeDeclaration()
               .iterator(); j.hasNext();) {
@@ -407,8 +436,11 @@ private void extractAccessPoints(IModelElement element)
 
 	public String getStructuredTypeName(StructAccessPointType messageType) {
 		TypeDeclarationType declarationType = (TypeDeclarationType) AttributeUtil
-				.getIdentifiable(messageType,
-						StructuredDataConstants.TYPE_DECLARATION_ATT);
+				.getIdentifiable(messageType, StructuredDataConstants.TYPE_DECLARATION_ATT);
+		if (declarationType == null)
+		{
+		   System.out.println("here");
+		}
 		return declarationType.getId();
 	}
 	

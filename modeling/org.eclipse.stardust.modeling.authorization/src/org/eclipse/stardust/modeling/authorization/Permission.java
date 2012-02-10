@@ -260,8 +260,8 @@ public class Permission
    {
       AttributeType attribute = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
       attribute.setName(attrName);
-      AttributeUtil.setReference(attribute, participant);
       element.getAttribute().add(attribute);
+      AttributeUtil.setReference(attribute, participant);
    }
 
    public void restoreDefaults()
