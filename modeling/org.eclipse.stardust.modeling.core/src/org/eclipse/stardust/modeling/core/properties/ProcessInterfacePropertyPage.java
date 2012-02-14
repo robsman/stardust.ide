@@ -592,11 +592,9 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
                catch (IOException ex)
                {
                   ex.printStackTrace();
-               }
-               ClassLoader cclBackup = Thread.currentThread().getContextClassLoader();
+               }               
                try
-               {
-                  Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+               {                
                   ByteArrayOutputStream bos = new ByteArrayOutputStream();
                   StreamResult target = new StreamResult(bos);
                   TransformerFactory transformerFactory = XmlUtils.newTransformerFactory();
@@ -609,10 +607,6 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
                catch (Throwable em)
                {
                   em.printStackTrace();
-               }
-               finally
-               {
-                  Thread.currentThread().setContextClassLoader(cclBackup);
                }
             }            
             textArea.setText(result);
