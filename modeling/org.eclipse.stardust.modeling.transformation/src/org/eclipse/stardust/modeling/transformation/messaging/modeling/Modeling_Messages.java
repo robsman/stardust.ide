@@ -130,7 +130,6 @@ public class Modeling_Messages extends NLS {
 	public static String TXT_MAPPING_STRATEGY;
 	public static String TXT_MISSING_REF;
 	public static String TXT_MSG_NAME;
-	public static String TXT_MSG_NAMED;
 	public static String TXT_MSG_PRC_TEST_CFG;
 	public static String TXT_MSG_TRANSF_APP;
 	public static String TXT_NAME;
