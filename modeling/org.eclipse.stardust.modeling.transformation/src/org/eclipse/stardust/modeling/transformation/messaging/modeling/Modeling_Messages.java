@@ -135,6 +135,7 @@ public class Modeling_Messages extends NLS {
 	public static String TXT_MSG_TRANSF_APP;
 	public static String TXT_NAME;
 	public static String TXT_NOT_VALID_NAME;
+	public static String TXT_NO_CLASS_PROVIDED;
 	public static String TXT_OK;
 	public static String TXT_PLEASE_ENTER_VALID_NUMBER;
 	public static String TXT_PR;

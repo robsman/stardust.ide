@@ -73,8 +73,8 @@ public class ExternalClassAdditionDialog extends Dialog implements ModifyListene
    private Composite mainComposite;
 
    private boolean isError = false;
-
-   // private Combo dataTypeCombo;
+   
+   private boolean isError2 = false;
 
    private TypeSelectionComposite classBrowser;
 
@@ -87,6 +87,8 @@ public class ExternalClassAdditionDialog extends Dialog implements ModifyListene
    protected ViewerFilter selectedFilter;
 
    private DirectionType directionType;
+
+   private Label errorLabel2;
 
    public ExternalClassAdditionDialog(Shell parentShell,
          MessageTransformationController controller, List messageTypes, String preset,
@@ -163,24 +165,87 @@ public class ExternalClassAdditionDialog extends Dialog implements ModifyListene
          public void modifyText(ModifyEvent e)
          {
             serializableTypeModified(e);
+            buttonEnablement();
          }
 
       });
+      classBrowser.getText().setEditable(false);
+      
+      errorLabel2 = new Label(groupComposite, SWT.NONE);
+      errorLabel2.setImage(MessageTransformationModelingPlugin.getDefault()
+            .getImageDescriptor("icons/error.gif").createImage()); //$NON-NLS-1$
+      errorLabel2.setVisible(false);
 
       parent.getShell().setMinimumSize(300, 150);
       parent.getShell().setText(Modeling_Messages.TXT_ADD_EXTERNAL_CL);
+                  
+      handleErrors();
 
       return comp;
    }
 
-   protected void buttonEnablement()
+   private void handleErrors()
    {
       String text = messageNameText.getText();
-      this.errorLabel.setVisible(isError);
+      if (!controller.isSimpleMode())
+      {
+         if (getMessageTypeByName(text) != null)
+         {
+            isError = true;
+            errorLabel.setToolTipText(MessageFormat
+                  .format(Modeling_Messages.TXT_ALREADY_EXIST_WITHIN_CONTEXT,
+                        new Object[] {text}));
+         }
+         else
+         {
+            if (!StringUtils.isValidIdentifier(text) || StringUtils.isEmpty(text))
+            {
+               isError = true;
+               errorLabel.setToolTipText(MessageFormat.format(
+                     Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
+            }
+            else 
+            {
+               isError = false;
+               errorLabel.setToolTipText(null);
+            }
+         }
+      }
+      else
+      {
+         if (!StringUtils.isValidIdentifier(text))
+         {
+            isError = true;
+            errorLabel.setToolTipText(MessageFormat.format(
+                  Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
+         }
+         else
+         {
+            isError = false;
+            errorLabel.setToolTipText(null);
+         }
+      }
+      
+      if (this.messageType == null)
+      {
+         isError2 = true;
+         errorLabel2.setToolTipText(Modeling_Messages.TXT_NO_CLASS_PROVIDED);
+      }
+      else
+      {
+         isError2 = false;
+         errorLabel2.setToolTipText(null);
+      }
+      errorLabel.setVisible(isError);
+      errorLabel2.setVisible(isError2);
+   }
+
+   protected void buttonEnablement()
+   {
+      handleErrors();
       if (getButton(IDialogConstants.OK_ID) != null)
       {
-         getButton(IDialogConstants.OK_ID).setEnabled(
-               !isError && !text.equalsIgnoreCase("") && text.indexOf(" ") == -1); //$NON-NLS-1$ //$NON-NLS-2$
+         getButton(IDialogConstants.OK_ID).setEnabled(!isError && !isError2);
       }
    }
 
@@ -202,53 +267,15 @@ public class ExternalClassAdditionDialog extends Dialog implements ModifyListene
    }
 
    public void modifyText(ModifyEvent arg0)
-   {
-      String text = messageNameText.getText();
-      if (!controller.isSimpleMode())
-      {
-         if (getMessageTypeByName(text) != null)
-         {
-            isError = true;
-            errorLabel.setToolTipText(MessageFormat
-                  .format(Modeling_Messages.TXT_ALREADY_EXIST_WITHIN_CONTEXT,
-                        new Object[] {text}));
-         }
-         else
-         {
-            if (!StringUtils.isValidIdentifier(text))
-            {
-               isError = true;
-               errorLabel.setToolTipText(MessageFormat.format(
-                     Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
-            }
-            else
-            {
-               isError = false;
-               errorLabel.setToolTipText(null);
-            }
-         }
-      }
-      else
-      {
-         if (!StringUtils.isValidIdentifier(text))
-         {
-            isError = true;
-            errorLabel.setToolTipText(MessageFormat.format(
-                  Modeling_Messages.TXT_NOT_VALID_NAME, new Object[] {text}));
-         }
-         else
-         {
-            isError = false;
-            errorLabel.setToolTipText(null);
-         }
-      }
+   {      
       buttonEnablement();
    }
 
    private void serializableTypeModified(ModifyEvent e)
    {
+      this.messageType = null;
       if (classBrowser.getType() != null)
-      {
+      {         
          String messageName = classBrowser.getType().getType().getElementName();
          String text = messageName;
          int n = 1;
