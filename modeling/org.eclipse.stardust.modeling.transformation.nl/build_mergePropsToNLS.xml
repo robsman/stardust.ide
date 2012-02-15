@@ -6,7 +6,7 @@
 	<property name="cm.home" value="${env.CM_HOME}"/>
 	<property file="${cm.home}/etc/global.properties"/>
 
-	<property name="locale" value="ja" />
+	<property name="locale" value="en" />
 	<property name="rootdir" value="${basedir}/../" />
 	<property name="antdir" value="${rootdir}ag.carnot.scm.ant/bin"/>
 
