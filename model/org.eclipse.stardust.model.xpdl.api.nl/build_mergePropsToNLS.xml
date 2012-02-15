@@ -11,7 +11,7 @@
 	<property name="antdir" value="${rootdir}ag.carnot.scm.ant/bin"/>
 
 	<property name="package" value="org.eclipse.stardust.model.xpdl.api" />
-	<property name="srcpath" value="src/ag/carnot" />
+	<property name="srcpath" value="src/org/eclipse/stardust/model" />
 	<property name="tempfile" value="${srcpath}/tempfile.properties"/>
 
 	<property name="localize.jar" value="$localizeproperties.jar" />
