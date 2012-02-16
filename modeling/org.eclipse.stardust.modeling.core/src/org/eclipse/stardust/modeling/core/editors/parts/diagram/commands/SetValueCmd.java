@@ -14,6 +14,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 
 public class SetValueCmd extends ContainedElementCommand
 {
@@ -78,7 +80,14 @@ public class SetValueCmd extends ContainedElementCommand
          {
             wasSet = parent.eIsSet(feature);
             undoValue = parent.eGet(feature);
+            if (parent instanceof ModelType)
+            {
+               ModelType modelType = (ModelType) parent;
+               VariableContextHelper.getInstance().updateContextID(modelType,
+                     getValue().toString());
+            }
             parent.eSet(feature, getValue());
+            
          }
       }
    }
@@ -97,6 +106,12 @@ public class SetValueCmd extends ContainedElementCommand
          {
             if (wasSet)
             {
+               if (parent instanceof ModelType)
+               {
+                  ModelType modelType = (ModelType) parent;
+                  VariableContextHelper.getInstance().updateContextID(modelType,
+                        undoValue.toString());
+               }
                parent.eSet(feature, undoValue);
             }
             else

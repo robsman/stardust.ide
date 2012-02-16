@@ -63,7 +63,7 @@ public class VariableContextHelper
       ModelType modelType = ModelUtils.findContainingModel(element);
       if (modelType != null)
       {
-         VariableContext context = contextMap.get(modelType);
+         VariableContext context = contextMap.get(modelType.getId());
          // If this is a referenced model a corresponding context does not exist -->
          // create on the fly
          if (context == null)
@@ -73,6 +73,26 @@ public class VariableContextHelper
          return contextMap.get(modelType.getId());
       }
       return null;
+   }
+
+   public synchronized void updateContextID(ModelType modelType, String newID)
+   {
+      if (contextMap.get(modelType.getId()) != null)
+      {
+         VariableContext context = contextMap.remove(modelType.getId());
+         contextMap.put(newID, context);
+      }
+   }
+
+   public synchronized void storeVariables(ModelType workflowModel, boolean save)
+   {
+      createContext(workflowModel);
+      getContext(workflowModel).initializeVariables(workflowModel);
+      getContext(workflowModel).refreshVariables(workflowModel);
+      if (save)
+      {
+         getContext(workflowModel).saveVariables();
+      }
    }
 
 }
