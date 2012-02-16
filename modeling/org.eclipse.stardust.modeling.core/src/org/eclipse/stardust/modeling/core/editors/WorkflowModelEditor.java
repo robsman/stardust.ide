@@ -1031,6 +1031,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
 
    protected void validateModel()
    {
+      VariableContextHelper.getInstance().storeVariables(getWorkflowModel(), true);
       if (getWorkflowModel() == null)
       {
          // todo: (fh) should not happen, investigate
@@ -1107,9 +1108,8 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       }
       modelServer = new ModelServer(model);
       
-      variableContextHelper.createContext(model);
-      variableContextHelper.getContext(model).initializeVariables(model);      
-      variableContextHelper.getContext(model).refreshVariables(model);
+      variableContextHelper.storeVariables(model, false);
+
       return model;
    }
 
@@ -1214,12 +1214,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          // store configuration variables
          try
          {
-            variableContextHelper.createContext(getWorkflowModel());
-            variableContextHelper.getContext(getWorkflowModel()).initializeVariables(
-                  getWorkflowModel());
-            variableContextHelper.getContext(getWorkflowModel()).refreshVariables(
-                  getWorkflowModel());
-            variableContextHelper.getContext(getWorkflowModel()).saveVariables();
+            variableContextHelper.storeVariables(getWorkflowModel(), true);
          }
          catch (Throwable t)
          {
