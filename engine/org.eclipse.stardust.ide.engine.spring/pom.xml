@@ -28,7 +28,7 @@
     <dependency>
       <groupId>com.infinity.bpm</groupId>
       <artifactId>carnot-spring</artifactId>
-      <version>${ipp.version}</version>
+      <version>${ipp.version}</version>      <exclusions>         <exclusion>            <groupId>com.infinity.bpm</groupId>            <artifactId>engine-module</artifactId>         </exclusion>      </exclusions>
     </dependency>
   </dependencies>
 
