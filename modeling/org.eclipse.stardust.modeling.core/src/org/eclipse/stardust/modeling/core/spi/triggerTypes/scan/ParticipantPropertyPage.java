@@ -19,6 +19,8 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -30,16 +32,19 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ScopeUtils;
+import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
+import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.SpiPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.IdentifiableViewerSorter;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -84,6 +89,7 @@ public class ParticipantPropertyPage extends AbstractModelElementPropertyPage
                .getReferenceElement(attribute);
       }
       validate(originalPerformer);
+
    }
 
    public void loadElementFromFields(final IModelElementNodeSymbol symbol,
@@ -151,6 +157,7 @@ public class ParticipantPropertyPage extends AbstractModelElementPropertyPage
       boolean isValid = true;
       if (performer != null)
       {
+         setParticipantValidationState(IQuickValidationStatus.OK);
          ModelType model = ModelUtils.findContainingModel(performer);
          HashSet<IModelParticipant> scoped = ScopeUtils.findScopedParticipants(model);
          // is scoped participant?
@@ -159,12 +166,31 @@ public class ParticipantPropertyPage extends AbstractModelElementPropertyPage
             isValid = ScopeUtils.isValidScopedParticipantForManualTrigger(performer);
          }
       }
+      else
+      {
+         setParticipantValidationState(IQuickValidationStatus.ERRORS);
+      }
+   }
 
-      /*
-       * if(isValid) { spiPage.setMessage(null); } else { spiPage.setMessage(
-       * "Invalid scoped Participant (primitive scope data of type \"String\" with empty data path expected)."
-       * , WARNING); }
-       */
+   private void setParticipantValidationState(IQuickValidationStatus state)
+   {
+      CarnotPreferenceNode preferenceNode = (CarnotPreferenceNode) this
+            .getPreferenceManager()
+            .find("org~eclipse~stardust~modeling~core~spi~triggerTypes~scan~ParticipantPropertyPage");
+      preferenceNode.updatePageStatus(state);
+      TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
+            this.getContainer(), "treeViewer");
+      parentTreeViewer.refresh(true);
+      labeledWidget.getLabel().setValidationStatus(state);
+      if (state == IQuickValidationStatus.ERRORS)
+      {
+         labeledWidget.getLabel().setToolTipText(
+               Validation_Messages.MSG_Scantrigger_UnspecifiedParticipant);
+      }
+      else
+      {
+         labeledWidget.getLabel().setToolTipText(null);
+      }
    }
 
    /**

@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.core.spi.triggerTypes.scan;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,8 +20,11 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -33,6 +37,8 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ScopeUtils;
+import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
@@ -58,6 +64,8 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
 
    private LabeledText metaTypeText;
 
+   private CarnotPreferenceNode participantNode;
+
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       trigger = (TriggerType) element;
@@ -82,6 +90,16 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
             dataCombo.getViewer().setSelection(new StructuredSelection(dataType));
          }
       }
+      
+      TriggerType trigger = (TriggerType) getModelElement();
+      AttributeType attribute = AttributeUtil.getAttribute(trigger,
+            PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
+      if (attribute != null)
+      {
+         originalPerformer = (IModelParticipant) AttributeUtil
+               .getReferenceElement(attribute);
+      }
+      validate(originalPerformer);
 
    }
 
@@ -142,6 +160,8 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
             }
 
             metaTypeText.getText().setText(typeName);
+            
+            
          }
 
       });
@@ -157,9 +177,38 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
                   "Participant", //$NON-NLS-1$
                   iconName,
                   org.eclipse.stardust.modeling.core.spi.triggerTypes.scan.ParticipantPropertyPage.class);
-      CarnotPreferenceNode newNode = new CarnotPreferenceNode(element, getElement(), 0);
-      getPreferenceManager().addToRoot(newNode);
+      participantNode = new CarnotPreferenceNode(element, getElement(), 0);
+      
+      getPreferenceManager().addToRoot(participantNode);
+
       return composite;
+   }
+   
+   private void validate(IModelParticipant performer)
+   {
+      if (performer != null)
+      {
+         setParticipantValidationState(IQuickValidationStatus.OK);
+      }
+      else
+      {
+         setParticipantValidationState(IQuickValidationStatus.ERRORS);
+      }
+   }
+   
+   private void setParticipantValidationState(IQuickValidationStatus state)
+   {
+      this.participantNode.updatePageStatus(state);
+      TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
+            this.getContainer(), "treeViewer");
+      parentTreeViewer.refresh(true);
+      /*CarnotPreferenceNode preferenceNode = (CarnotPreferenceNode) this
+            .getPreferenceManager()
+            .find("org~eclipse~stardust~modeling~core~spi~triggerTypes~scan~ParticipantPropertyPage");
+      preferenceNode.updatePageStatus(IQuickValidationStatus.ERRORS);
+      TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
+            this.getContainer(), "treeViewer");
+      parentTreeViewer.refresh(true);*/
    }
 
    public boolean performCancel()
