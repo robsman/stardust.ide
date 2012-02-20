@@ -53,23 +53,27 @@ public class SessionBean20PropertyPage extends AbstractModelElementPropertyPage
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      TypeFinder finder = new TypeFinder(element);
-      remoteBrowser.setTypeFinder(finder);
-      remoteBrowser.setFilter(EJBObject.class);
-      homeBrowser.setTypeFinder(finder);
-      homeBrowser.setFilter(EJBHome.class);
-      completionBrowser.setTypeFinder(finder);
-      creationBrowser.setTypeFinder(finder);
+      if (remoteBrowser != null) 
+      {
+         TypeFinder finder = new TypeFinder(element);
+         remoteBrowser.setTypeFinder(finder);
+         remoteBrowser.setFilter(EJBObject.class);
+         homeBrowser.setTypeFinder(finder);
+         homeBrowser.setFilter(EJBHome.class);
+         completionBrowser.setTypeFinder(finder);
+         creationBrowser.setTypeFinder(finder);
 
-      WidgetBindingManager wBndMgr = getWidgetBindingManager();
-      wBndMgr.bind(remoteText, (IExtensibleElement) element, CarnotConstants.REMOTE_INTERFACE_ATT);
-      wBndMgr.bind(homeText, (IExtensibleElement) element, CarnotConstants.HOME_INTERFACE_ATT);
-      wBndMgr.bind(jndiText, (IExtensibleElement) element, CarnotConstants.JNDI_PATH_ATT);
-      wBndMgr.bind(localBinding, (IExtensibleElement) element, CarnotConstants.IS_LOCAL_ATT);
-      wBndMgr.bind(completionText, (IExtensibleElement) element, CarnotConstants.METHOD_NAME_ATT);
-      wBndMgr.bind(creationText, (IExtensibleElement) element, CarnotConstants.CREATE_METHOD_NAME_ATT);
+         WidgetBindingManager wBndMgr = getWidgetBindingManager();
+         wBndMgr.bind(remoteText, (IExtensibleElement) element, CarnotConstants.REMOTE_INTERFACE_ATT);
+         wBndMgr.bind(homeText, (IExtensibleElement) element, CarnotConstants.HOME_INTERFACE_ATT);
+         wBndMgr.bind(jndiText, (IExtensibleElement) element, CarnotConstants.JNDI_PATH_ATT);
+         wBndMgr.bind(localBinding, (IExtensibleElement) element, CarnotConstants.IS_LOCAL_ATT);
+         wBndMgr.bind(completionText, (IExtensibleElement) element, CarnotConstants.METHOD_NAME_ATT);
+         wBndMgr.bind(creationText, (IExtensibleElement) element, CarnotConstants.CREATE_METHOD_NAME_ATT);
 
-      updateMethodBrowserStyle();
+         updateMethodBrowserStyle();
+         
+      }
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
