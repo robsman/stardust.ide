@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
@@ -152,16 +153,24 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
    public void importElements(IconFactory iconFactory, ModelType targetModel, boolean asLink)
    {
       // compute all objects that are referenced by the source object      
-      CreateClosures createClosures = new CreateClosures();
-      List<EObject> closure = createClosures.computeClosure(eObject, targetModel);
-      
-      if (closure.size() > 1)
+      List<EObject> closure;
+      if (asLink)
       {
-         if (!ClosureDisplayDialog.acceptClosure(null, iconFactory, eObject, closure))
+         closure = CollectionUtils.newList();
+         closure.add(eObject);
+      }
+      else
+      {
+         CreateClosures createClosures = new CreateClosures();
+         closure = createClosures.computeClosure(eObject, targetModel);
+         if (closure.size() > 1)
          {
-            throw new ImportCancelledException();
+            if (!ClosureDisplayDialog.acceptClosure(null, iconFactory, eObject, closure))
+            {
+               throw new ImportCancelledException();
+            }
          }
-      }      
+      }
       
       Map<EObject, EObject> map = MergeUtils.createClosureMap(closure, targetModel);
       Map<EObject, MergeAction> reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory);
