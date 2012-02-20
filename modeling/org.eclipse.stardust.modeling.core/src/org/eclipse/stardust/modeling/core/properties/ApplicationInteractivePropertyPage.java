@@ -59,9 +59,14 @@ public class ApplicationInteractivePropertyPage extends AbstractModelElementProp
 
    private HashMap newContexts = new HashMap();
    private TableManager tableManager;
+   private IModelElementNodeSymbol savedSymbol;
+   private IModelElement savedElement;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement node)
    {
+      savedSymbol = symbol;
+      savedElement = node;
+      
       resetContent();
 
       ApplicationType application = (ApplicationType) node;
@@ -119,6 +124,13 @@ public class ApplicationInteractivePropertyPage extends AbstractModelElementProp
          types.put(type.getId(), type);
       }
       return types;
+   }
+
+   @Override
+   protected void performDefaults()
+   {
+      loadFieldsFromElement(savedSymbol, savedElement);
+      //super.performDefaults();
    }
 
    private void resetContent()
