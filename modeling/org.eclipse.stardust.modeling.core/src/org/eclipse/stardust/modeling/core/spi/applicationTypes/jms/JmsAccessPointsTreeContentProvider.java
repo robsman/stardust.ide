@@ -81,9 +81,12 @@ public class JmsAccessPointsTreeContentProvider extends ModelElementNotification
                {
                   public boolean select(Object toTest)
                   {
-                     AttributeType attribute = (AttributeType) toTest;
-                     return CarnotConstants.TYPE_ATT.equals(
-                           attribute.getName());
+                     if (toTest instanceof AttributeType)
+                     {
+                        AttributeType attribute = (AttributeType) toTest;
+                        return CarnotConstants.TYPE_ATT.equals(attribute.getName());
+                     }
+                     return false;
                   }
                }, true)
          {
