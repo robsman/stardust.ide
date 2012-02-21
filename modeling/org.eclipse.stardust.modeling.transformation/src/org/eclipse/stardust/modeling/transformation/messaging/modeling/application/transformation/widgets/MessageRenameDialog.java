@@ -260,7 +260,7 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
       }
       messageComboViewer.setSelection(new StructuredSelection(dataSelection));
       
-      messageNameText.setSelection(0, messageNameText.getText().length());
+      messageNameText.setSelection(0, messageNameText.getText().length());      
    }
 
    protected void buttonEnablement()
@@ -280,6 +280,21 @@ public class MessageRenameDialog extends Dialog implements ModifyListener
    {
       super.createButtonsForButtonBar(parent);
       initCombos();
+   }
+
+   protected Control createContents(Composite parent)
+   {
+      Control control = super.createContents(parent);
+      if(isSource)
+      {
+         messageType = controller.getSelectedSourceField();         
+      }
+      else
+      {
+         messageType = controller.getSelectedTargetField();                  
+      }             
+      messageNameText.setText(messageType.getId());
+      return control;
    }
 
    protected void buttonPressed(int buttonId) 
