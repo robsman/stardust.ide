@@ -16,6 +16,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
 import org.eclipse.swt.graphics.Image;
 
 
@@ -92,7 +93,16 @@ public class EObjectLabelProvider
 
    public Image getImage(Object element)
    {
-      String icon = editor.getIconFactory().getIconFor((EObject) element);
+      IconFactory iconFactory;
+      if (editor != null)
+      {
+         iconFactory = editor.getIconFactory();
+      }
+      else
+      {
+         iconFactory = new IconFactory(null);
+      }
+      String icon = iconFactory.getIconFor((EObject) element);
       return icon == null ? null : DiagramPlugin.getImage(icon);
    }
 }
