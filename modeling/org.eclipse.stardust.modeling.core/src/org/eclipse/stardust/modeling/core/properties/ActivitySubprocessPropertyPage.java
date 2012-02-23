@@ -234,12 +234,11 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
                   .getFirstElement();
             if (selection != null)
             {
-                boolean isCopyAllData = selection.equals(SubProcessModeType.ASYNC_SEPARATE_LITERAL) ? true
-                      : selection.equals(SubProcessModeType.SYNC_SHARED_LITERAL) ? false
+                boolean isCopyAllData = selection.equals(SubProcessModeType.SYNC_SHARED_LITERAL) ? false
                       : AttributeUtil.getBooleanValue(activity,CarnotConstants.ACTIVITY_SUBPROCESS_COPY_ALL_DATA_ATT);
 
                 checkCopyData.setSelection(isCopyAllData);
-                checkCopyData.setEnabled(selection.equals(SubProcessModeType.SYNC_SEPARATE_LITERAL));
+                checkCopyData.setEnabled(!selection.equals(SubProcessModeType.SYNC_SHARED_LITERAL));
                 updateModelData();
             }
          }
