@@ -4,6 +4,7 @@ Bundle-Name: Infinity Audit Trail - User Interface
 Bundle-SymbolicName: org.eclipse.stardust.modeling.audittrail.ui;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: SunGard CSA LLC
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.jface,
