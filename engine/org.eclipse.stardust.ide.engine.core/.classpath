@@ -5,6 +5,5 @@
 	<classpathentry exported="true" kind="lib" path="etc" sourcepath="etc"/>
 	<classpathentry exported="true" kind="lib" path="lib/carnot-emf-xsd-integration.jar" sourcepath="lib/carnot-emf-xsd-integration-src.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/carnot-engine.jar" sourcepath="lib/carnot-engine-src.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/ipp-engine-ws-metro.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
