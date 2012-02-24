@@ -46,19 +46,19 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 //      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan-2.6.0.jar"},
       
-      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-rt-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-extra-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-rt-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-extra-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 
       {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/ejb-2.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/jms-1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.engine.core", "lib/ipp-engine-ws-metro.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"com.infinity.bpm.modeling.integration.webservices", "lib/ipp-engine-ws-metro.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "etc"}, //$NON-NLS-1$ //$NON-NLS-2$
 
       {"org.eclipse.stardust.modeling.debug", ".eclipse/bin", "/"}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

@@ -10,34 +10,21 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.lang.reflect.Proxy;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.common.error.InternalException;
-import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
-import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
@@ -69,6 +56,7 @@ import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
+import org.eclipse.stardust.modeling.core.properties.IProcessInterfaceInvocationGenerator.IProcessDefinitionTypeProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.MouseAdapter;
@@ -85,16 +73,15 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
-import org.w3c.dom.Document;
-
-import com.infinity.bpm.rt.impl.api.ws.processinterface.WSDLGenerator;
-
 
 public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager
 {
    public static final String FORMAL_PARAMETERS_ID = "interface"; //$NON-NLS-1$
+   
+   public static final String SOAP_INVOCATION_TYPE = "SOAP"; //$NON-NLS-1$
+   public static final String REST_INVOCATION_TYPE = "REST"; //$NON-NLS-1$
+   public static final String BOTH_INVOCATION_TYPES = "BOTH"; //$NON-NLS-1$
 
    private static final int[] elementFeatureIds = {
          XpdlPackage.FORMAL_PARAMETER_TYPE__ID, XpdlPackage.FORMAL_PARAMETER_TYPE__NAME,
@@ -146,17 +133,40 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
 
    private Composite wsdlComposite;
 
-   private Text textArea;
-
-   private Button generateButton;
-
    private LabelWithStatus wsdlLabel;
 
    private Button wsdlButton;
 
    private Button restButton;
+   
+   private static final String INVOCATION_GENERATOR_ID = "org.eclipse.stardust.modeling.core.processInterfaceInvocationGenerator";
+   
+   private IProcessInterfaceInvocationGenerator piInvocationGenerators[];
 
-
+   public ProcessInterfacePropertyPage()
+   {
+      IConfigurationElement[] config = Platform.getExtensionRegistry()
+         .getConfigurationElementsFor(INVOCATION_GENERATOR_ID);
+      List <IProcessInterfaceInvocationGenerator> genList = CollectionUtils.newList(); 
+      try 
+      {
+         for (IConfigurationElement e : config) 
+         {
+             final Object o = e.createExecutableExtension("class"); //$NON-NLS-1$
+             if (o instanceof IProcessInterfaceInvocationGenerator) 
+             {
+                genList.add((IProcessInterfaceInvocationGenerator)o);
+             }
+         }
+         piInvocationGenerators = genList.toArray(new IProcessInterfaceInvocationGenerator[0]);
+      } 
+      catch (CoreException ex) 
+      {
+         System.out.println(ex.getMessage());
+         piInvocationGenerators = new IProcessInterfaceInvocationGenerator[0];
+      }
+   }
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       process = (ProcessDefinitionType) element;
@@ -297,6 +307,7 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
       {
          AttributeType externalInvocationType = AttributeUtil.getAttribute(process,
                "carnot:engine:externalInvocationType"); //$NON-NLS-1$
+         String externalInvocationTypeValue = null;
          if (externalInvocationType == null)
          {
             wsdlButton.setSelection(false);
@@ -304,30 +315,26 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
          }
          else
          {
-            if (externalInvocationType.getValue().equalsIgnoreCase("WSDL")) //$NON-NLS-1$
+            externalInvocationTypeValue = externalInvocationType.getValue();
+            if (externalInvocationTypeValue.equalsIgnoreCase(SOAP_INVOCATION_TYPE))
             {
                wsdlButton.setSelection(true);
                restButton.setSelection(false);
-               textArea.setVisible(true);
-               textArea.setVisible(true);
-               generateButton.setVisible(true);
+            } 
+            else if (externalInvocationTypeValue.equalsIgnoreCase(REST_INVOCATION_TYPE))
+            {
+               restButton.setSelection(true);
+               wsdlButton.setSelection(false);
             }
             else
             {
-               if (externalInvocationType.getValue().equalsIgnoreCase("REST")) //$NON-NLS-1$
-               {
-                  restButton.setSelection(true);
-                  wsdlButton.setSelection(false);
-               }
-               else
-               {
-                  restButton.setSelection(true);
-                  wsdlButton.setSelection(true);
-                  textArea.setVisible(true);
-                  textArea.setVisible(true);
-                  generateButton.setVisible(true);
-               }
+               restButton.setSelection(false);
+               wsdlButton.setSelection(false);
             }
+         }
+         for(IProcessInterfaceInvocationGenerator piInvocationGenerator : piInvocationGenerators)
+         {
+            piInvocationGenerator.setComponentVisibility(externalInvocationTypeValue);
          }
       }
    }
@@ -464,33 +471,24 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
    
    private void evaluateCheckBoxSelection()
    {
+      String externalInvocationTypeValue = null;
       if (wsdlButton.getSelection() && restButton.getSelection())
       {
-         AttributeUtil.setAttribute(process, "carnot:engine:externalInvocationType", //$NON-NLS-1$
-               "BOTH"); //$NON-NLS-1$
-         textArea.setVisible(true);
-         generateButton.setVisible(true);
+         externalInvocationTypeValue = BOTH_INVOCATION_TYPES;
       }
-      if (!wsdlButton.getSelection() && restButton.getSelection())
+      else if (!wsdlButton.getSelection() && restButton.getSelection())
       {
-         AttributeUtil.setAttribute(process, "carnot:engine:externalInvocationType", //$NON-NLS-1$
-               "REST"); //$NON-NLS-1$
-         textArea.setVisible(false);
-         generateButton.setVisible(false);
+         externalInvocationTypeValue = REST_INVOCATION_TYPE;
       }
-      if (wsdlButton.getSelection() && !restButton.getSelection())
+      else if (wsdlButton.getSelection() && !restButton.getSelection())
       {
-         AttributeUtil.setAttribute(process, "carnot:engine:externalInvocationType", //$NON-NLS-1$
-               "SOAP"); //$NON-NLS-1$
-         textArea.setVisible(true);
-         generateButton.setVisible(true);
+         externalInvocationTypeValue = SOAP_INVOCATION_TYPE;
       }
-      if (!wsdlButton.getSelection() && !restButton.getSelection())
+      AttributeUtil.setAttribute(process, "carnot:engine:externalInvocationType", //$NON-NLS-1$
+            externalInvocationTypeValue);
+      for(IProcessInterfaceInvocationGenerator piInvocationGenerator : piInvocationGenerators)
       {
-         AttributeUtil
-               .setAttribute(process, "carnot:engine:externalInvocationType", null); //$NON-NLS-1$
-         textArea.setVisible(false);
-         generateButton.setVisible(false);
+         piInvocationGenerator.setComponentVisibility(externalInvocationTypeValue);
       }
       validatePage();
    }
@@ -556,63 +554,19 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
          
       });
 
-    
-      textArea = FormBuilder.createTextArea(wsdlComposite, 3);
-      textArea.setVisible(false);
-      generateButton = new Button(wsdlComposite, SWT.None);
-      generateButton.setText(Diagram_Messages.BUT_TXT_GENERATE_WSDL);
-      generateButton.setVisible(false);
-      generateButton.addSelectionListener(new SelectionListener(){
-
-         public void widgetDefaultSelected(SelectionEvent e)
+      IProcessDefinitionTypeProvider processProvider = new IProcessDefinitionTypeProvider()
+      {
+         public ProcessDefinitionType getProcessDefinitionType()
          {
-            // TODO Auto-generated method stub
-            
+            return process;
          }
-
-         public void widgetSelected(SelectionEvent e)
-         {            
-            String result = ""; //$NON-NLS-1$
-            ModelType model = (ModelType) process.eContainer();
-            Map<String, Object> options = CollectionUtils.newMap();
-            options.put(XMLResource.OPTION_ENCODING, XMLConstants.ENCODING_ISO_8859_1);
-            Document domCwm = ((XMLResource) model.eResource()).save(null, options, null);
-            if (null != domCwm)
-            {
-               Source xsltSource = null;
-               try
-               {
-                  final URL xsltURL = XpdlUtils.getCarnot2XpdlStylesheet();
-                  if (xsltURL == null)
-                  {
-                     throw new InternalException(Diagram_Messages.EXC_UNABLE_TO_FIND_XPDL_EXPORT_STYLESHEET);
-                  }
-                  xsltSource = new StreamSource(xsltURL.openStream());
-               }
-               catch (IOException ex)
-               {
-                  ex.printStackTrace();
-               }               
-               try
-               {                
-                  ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                  StreamResult target = new StreamResult(bos);
-                  TransformerFactory transformerFactory = XmlUtils.newTransformerFactory();
-                  Transformer xpdlTrans = transformerFactory.newTransformer(xsltSource);
-                  XmlUtils.transform(new DOMSource(domCwm), xpdlTrans, target, null, 3,
-                        XpdlUtils.UTF8_ENCODING);
-                  WSDLGenerator wsdlgen = new WSDLGenerator(bos.toByteArray());
-                  result = new String(wsdlgen.generateFormatted());
-               }
-               catch (Throwable em)
-               {
-                  em.printStackTrace();
-               }
-            }            
-            textArea.setText(result);
-         }         
-      });
-
+      };
+      
+      for(IProcessInterfaceInvocationGenerator piInvocationGenerator : piInvocationGenerators)
+      {
+         piInvocationGenerator.createExposeComposite(wsdlComposite, processProvider);
+      }
+      
       Table table = new Table(exposeComposite, SWT.BORDER | SWT.FULL_SELECTION);
       table.setHeaderVisible(true);
       table.setLayoutData(FormBuilder.createDefaultLimitedMultiLineWidgetGridData(200));
@@ -1039,20 +993,25 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
             }
          }
       }
+      IQuickValidationStatus status = null;
       if (validationProblem != null && restButton != null && wsdlButton != null)
       {
-         wsdlLabel.setValidationStatus(IQuickValidationStatus.ERRORS);
+         status = IQuickValidationStatus.ERRORS;
+         wsdlLabel.setValidationStatus(status);
          wsdlLabel.setToolTipText(validationProblem);
-         generateButton.setEnabled(false);
       }
       else
       {
          if (restButton != null && wsdlButton != null)
          {
-            wsdlLabel.setValidationStatus(IQuickValidationStatus.OK);
+            status = IQuickValidationStatus.OK;
+            wsdlLabel.setValidationStatus(status);
             wsdlLabel.getLabel().setToolTipText(null);
-            generateButton.setEnabled(true);
          }
+      }
+      for(IProcessInterfaceInvocationGenerator piInvocationGenerator : piInvocationGenerators)
+      {
+         piInvocationGenerator.handleValidationStatusFromParent(status);
       }
    }   
 }

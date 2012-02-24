@@ -76,8 +76,6 @@
       <import plugin="org.eclipse.jdt"/>
       <import plugin="org.eclipse.stardust.ide.thirdparty.springframework"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
-      <import plugin="org.eclipse.stardust.ide.thirdparty.jaxws"/>
-      <import plugin="org.eclipse.stardust.ide.thirdparty.jaxws.metro"/>
       <import plugin="org.eclipse.emf.ecore"/>
    </requires>
 
@@ -261,12 +259,6 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
-   <plugin
-         id="org.eclipse.stardust.modeling.integration.webservices"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.stardust.modeling.templates"

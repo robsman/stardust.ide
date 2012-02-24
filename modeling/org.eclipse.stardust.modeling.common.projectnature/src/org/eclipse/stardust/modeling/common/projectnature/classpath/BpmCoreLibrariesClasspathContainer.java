@@ -46,7 +46,7 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.engine.core", //$NON-NLS-1$
             "lib/carnot-engine.jar"); //$NON-NLS-1$
-      addLibraryEntry(entries, "org.eclipse.stardust.ide.engine.core", //$NON-NLS-1$
+      addLibraryEntry(entries, "com.infinity.bpm.modeling.integration.webservices", //$NON-NLS-1$
             "lib/ipp-engine-ws-metro.jar"); //$NON-NLS-1$
 //      addLibraryEntry(entries, "ag.carnot.workflow.engine",//$NON-NLS-1$
 //            "etc"); //$NON-NLS-1$
@@ -72,9 +72,9 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.javax.mail", //$NON-NLS-1$
             "lib/mail-1.4.jar"); //$NON-NLS-1$
 
-      addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.jaxws", //$NON-NLS-1$
+      addLibraryEntry(entries, "com.infinity.bpm.ide.thirdparty.jaxws", //$NON-NLS-1$
             "lib/webservices-api-1.5.jar"); //$NON-NLS-1$
-      addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.jaxws", //$NON-NLS-1$
+      addLibraryEntry(entries, "com.infinity.bpm.ide.thirdparty.jaxws", //$NON-NLS-1$
             "lib/webservices-extra-api-1.5.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.javax.jcr", //$NON-NLS-1$

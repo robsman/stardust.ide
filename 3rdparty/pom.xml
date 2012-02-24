@@ -23,8 +23,6 @@
     <module>org.eclipse.stardust.ide.thirdparty.javax.activation</module>
     <module>org.eclipse.stardust.ide.thirdparty.javax.jcr</module>
     <module>org.eclipse.stardust.ide.thirdparty.javax.mail</module>
-    <module>org.eclipse.stardust.ide.thirdparty.jaxws</module>
-    <module>org.eclipse.stardust.ide.thirdparty.jaxws.metro</module>
     <module>org.eclipse.stardust.ide.thirdparty.jgoodies.forms</module>
     <module>org.eclipse.stardust.ide.thirdparty.log4j</module>
     <module>org.eclipse.stardust.ide.thirdparty.runtime.j2ee</module>

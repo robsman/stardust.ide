@@ -105,18 +105,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.stardust.ide.thirdparty.jaxws"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.eclipse.stardust.ide.thirdparty.jaxws.metro"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.stardust.ide.thirdparty.javax.jcr"
          download-size="0"
          install-size="0"

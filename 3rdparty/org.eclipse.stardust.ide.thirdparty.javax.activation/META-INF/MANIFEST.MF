@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.activation
 Bundle-Version: 1.1
 Bundle-Vendor: SunGard CSA LLC
 Bundle-ClassPath: lib/activation-1.1.jar
-Eclipse-RegisterBuddy: org.eclipse.stardust.ide.thirdparty.jaxws
+Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws
 Export-Package: com.sun.activation.registries,
  com.sun.activation.viewers,
  javax.activation

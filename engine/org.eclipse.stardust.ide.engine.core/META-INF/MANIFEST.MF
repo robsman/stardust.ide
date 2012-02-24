@@ -5,8 +5,7 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.engine.core;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Bundle-ClassPath: etc/,
  lib/carnot-engine.jar,
- lib/carnot-emf-xsd-integration.jar,
- lib/ipp-engine-ws-metro.jar
+ lib/carnot-emf-xsd-integration.jar
 Bundle-Localization: plugin
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.eclipse.stardust.ide.engine.base
@@ -15,17 +14,9 @@ Import-Package: javax.xml.stream;resolution:=optional,
 Export-Package: ag.carnot.workflow,
  ag.carnot.workflow.beans.images,
  ag.carnot.workflow.gui.images,
- com.infinity.bpm.rt.api,
- com.infinity.bpm.rt.impl.api.ws,
- com.infinity.bpm.rt.impl.api.ws.processinterface,
- com.infinity.bpm.rt.integration.webservices,
- com.infinity.bpm.rt.integration.webservices.addressing,
- com.infinity.bpm.rt.integration.webservices.addressing.carnot,
- com.infinity.bpm.rt.integration.webservices.addressing.wsdl,
- com.infinity.bpm.rt.integration.webservices.wssecurity,
- com.infinity.bpm.rt.integration.webservices.wssecurity.utility,
  com.infinity.bpm.thirdparty.emf.common.util,
  com.infinity.bpm.thirdparty.emf.ecore,
+ com.infinity.bpm.thirdparty.xsd,
  com.infinity.bpm.thirdparty.org.mozilla.classfile,
  com.infinity.bpm.thirdparty.org.mozilla.javascript,
  com.infinity.bpm.thirdparty.org.mozilla.javascript.debug,

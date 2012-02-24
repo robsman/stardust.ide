@@ -24,6 +24,7 @@
    <extension-point id="triggerMessageAcceptors" name="triggerMessageAcceptors" schema="schema/triggerMessageAcceptors.exsd"/>
    <extension-point id="contextMenuAction" name="Context Menu Action" schema="schema/contextMenuAction.exsd"/>
    <extension-point id="vcsConnector" name="VCS Connector" schema="schema/vcsConnector.exsd"/>
+   <extension-point id="processInterfaceInvocationGenerator" name="ProcessInterface Invocation Generator" schema="schema/processInterfaceInvocationGenerator.exsd"/>
 
    <extension
       point="org.eclipse.ui.editors">

@@ -33,7 +33,6 @@
     <module>org.eclipse.stardust.modeling.integration.ejb30</module>
     <module>org.eclipse.stardust.modeling.integration.mail</module>
     <module>org.eclipse.stardust.modeling.integration.spring</module>
-    <module>org.eclipse.stardust.modeling.integration.webservices</module>
     <module>org.eclipse.stardust.modeling.javascript</module>
     <module>org.eclipse.stardust.modeling.javascript.editor</module>
     <module>org.eclipse.stardust.modeling.model.i18n</module>
