@@ -101,6 +101,7 @@ public class AccessPathWizard extends Dialog
    private Button domRadio;
    private LabeledText indexText;   
    private boolean isLego;
+   private boolean isIndexed;   
    private boolean cutPressed;   
    private IXPathMap xPathMap;   
    private DirectionType direction;
@@ -400,6 +401,7 @@ public class AccessPathWizard extends Dialog
             path.setIndex(PathEntry.ALL);
             indexText.getText().setEnabled(false);
             indexText.getText().setText(""); //$NON-NLS-1$
+            isIndexed = false;
             updateViewers();
          }
       });
@@ -415,6 +417,7 @@ public class AccessPathWizard extends Dialog
             {
                path.setIndex(1);
             }
+            isIndexed = true;
             indexText.getText().setText(Long.toString(path.getIndex()));
             updateViewers();
          }
@@ -567,8 +570,8 @@ public class AccessPathWizard extends Dialog
       getButton(CUT_ID).setEnabled(!path.isLastItem());
       if(isLego)
       {
-         getButton(IDialogConstants.FINISH_ID).setEnabled(selectedPath != null || selectedPath_ != null || cutPressed);         
-   }
+         getButton(IDialogConstants.FINISH_ID).setEnabled(selectedPath != null || selectedPath_ != null || cutPressed || isIndexed);         
+      }
       else
       {
          getButton(IDialogConstants.FINISH_ID).setEnabled(path.matchesDirection());         
@@ -619,6 +622,7 @@ public class AccessPathWizard extends Dialog
          {
             allRadio.setSelection(false);
             indexedRadio.setSelection(true);
+            isIndexed = true;
             indexText.getText().setText(Long.toString(path.getIndex()));
             indexText.getText().setEnabled(true);
          }
