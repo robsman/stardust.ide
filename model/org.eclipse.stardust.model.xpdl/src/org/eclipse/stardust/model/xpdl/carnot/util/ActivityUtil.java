@@ -241,7 +241,7 @@ public class ActivityUtil
             accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
                   CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_ID,
                   CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_NAME,
-                  "ag.carnot.workflow.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
+                  "org.eclipse.stardust.engine.api.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
                   true, null, ModelUtils.getDataType(activity, CarnotConstants.SERIALIZABLE_DATA_ID)));
             if (isSubprocessActivity(activity))
             {
@@ -346,7 +346,7 @@ public class ActivityUtil
          accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
                CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_ID,
                CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_NAME,
-               "ag.carnot.workflow.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
+               "org.eclipse.stardust.engine.api.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
                true, null, ModelUtils.getDataType(activity,
                      CarnotConstants.SERIALIZABLE_DATA_ID)));
       }
