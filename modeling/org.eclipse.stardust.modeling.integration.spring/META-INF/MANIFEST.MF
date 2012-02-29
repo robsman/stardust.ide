@@ -21,4 +21,4 @@ Export-Package: org.eclipse.stardust.modeling.integration.spring,
  org.eclipse.stardust.modeling.integration.spring.application
 Bundle-Activator: org.eclipse.stardust.modeling.integration.spring.SpringModelingPlugin
 Eclipse-AutoStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

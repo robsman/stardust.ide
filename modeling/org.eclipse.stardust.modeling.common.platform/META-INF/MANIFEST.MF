@@ -12,4 +12,4 @@ Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.eclipse.stardust.ide.engine.base,
  org.eclipse.core.resources;resolution:=optional,
  org.eclipse.jdt.core;resolution:=optional
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

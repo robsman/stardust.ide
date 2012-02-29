@@ -30,4 +30,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.team.core
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.stardust.model.xpdl.carnot.CwmPlugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

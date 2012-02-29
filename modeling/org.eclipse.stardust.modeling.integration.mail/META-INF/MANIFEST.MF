@@ -17,4 +17,4 @@ Require-Bundle: org.eclipse.stardust.model.xpdl,
 Bundle-Activator: org.eclipse.stardust.modeling.integration.mail.MailModelingPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

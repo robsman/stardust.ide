@@ -27,4 +27,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.stardust.modeling.modelimport,
  org.eclipse.stardust.modeling.modelimport.convert
 Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

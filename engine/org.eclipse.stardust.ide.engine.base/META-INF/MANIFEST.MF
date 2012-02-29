@@ -30,4 +30,4 @@ Export-Package: org.eclipse.stardust.common,
  org.eclipse.stardust.common.utils.xml.editor,
  org.eclipse.stardust.common.utils.xml.jaxb,
  org.eclipse.stardust.common.utils.xml.stream
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

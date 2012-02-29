@@ -117,4 +117,4 @@ Export-Package: .,
  org.jdom.xpath,
  org.w3c.dom.html,
  org.w3c.dom.xpath
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

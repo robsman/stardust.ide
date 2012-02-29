@@ -18,4 +18,4 @@ Require-Bundle: org.eclipse.stardust.model.xpdl,
 Bundle-ClassPath: dms-modeling.jar,
  lib/carnot-dms.jar
 Export-Package: org.eclipse.stardust.modeling.integration.dms.data
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
