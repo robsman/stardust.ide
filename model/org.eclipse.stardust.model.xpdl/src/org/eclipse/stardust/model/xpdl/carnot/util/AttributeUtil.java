@@ -137,9 +137,9 @@ public class AttributeUtil
    }
 
    public static void setBooleanAttribute(IExtensibleElement element, String name,
-         boolean value)
+         Boolean value)
    {
-      setAttribute(element, name, "boolean", value ? "true" : "false"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      setAttribute(element, name, "boolean", value == null ? null : value ? "true" : "false"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
    public static void clearExcept(IExtensibleElement element, String[] ids)
