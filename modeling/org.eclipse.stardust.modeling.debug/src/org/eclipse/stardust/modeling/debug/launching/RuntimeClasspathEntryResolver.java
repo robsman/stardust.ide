@@ -54,7 +54,7 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 
       {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/ejb-2.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/jms-1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-jms_1.1_spec-1.1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"}, //$NON-NLS-1$ //$NON-NLS-2$

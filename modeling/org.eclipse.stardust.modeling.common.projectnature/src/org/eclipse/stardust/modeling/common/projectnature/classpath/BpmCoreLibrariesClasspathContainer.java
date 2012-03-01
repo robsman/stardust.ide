@@ -52,7 +52,7 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
 //            "etc"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.j2ee", //$NON-NLS-1$
-            "lib/jms-1.1.jar"); //$NON-NLS-1$
+            "lib/geronimo-jms_1.1_spec-1.1.1.jar"); //$NON-NLS-1$
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.j2ee", //$NON-NLS-1$
             "lib/ejb-2.1.jar"); //$NON-NLS-1$
 
