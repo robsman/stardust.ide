@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.runtime.j2ee
 Bundle-Version: 9.9.9.qualifier
-Bundle-ClassPath: lib/ejb-2.1.jar,
+Bundle-ClassPath: lib/geronimo-ejb_2.1_spec-1.1.jar,
  lib/geronimo-jms_1.1_spec-1.1.1.jar,
  lib/servlet-api-2.4.jar
 Bundle-Localization: plugin
