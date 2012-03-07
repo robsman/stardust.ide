@@ -26,17 +26,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.*;
 
 
 public class FormBuilder
@@ -182,9 +172,14 @@ public class FormBuilder
    
    public static Button createCheckBox(Composite composite, String label, int span)
    {
+      return createCheckBox(composite, label, createDefaultButtonGridData(span));
+   }
+   
+   public static Button createCheckBox(Composite composite, String label, GridData gd)
+   {
       Button checkBox = new Button(composite, SWT.CHECK);
       checkBox.setText(label);
-      checkBox.setLayoutData(createDefaultButtonGridData(span));
+      checkBox.setLayoutData(gd);
       return checkBox;
    }
 
@@ -372,6 +367,19 @@ public class FormBuilder
       TableColumn column = new TableColumn(table, SWT.CENTER);
       column.setText(title);
       return table;
+   }
+
+   public static Link createLink(Composite composite, String text)
+   {
+      return createLink(composite, text, 1);
+   }
+
+   public static Link createLink(Composite composite, String text, int span)
+   {
+      Link link = new Link(composite, SWT.NONE);
+      link.setText(text);
+      link.setLayoutData(createDefaultLabelGridData(span));
+      return link;
    }
 
    public static Label createLabel(Composite composite, String text)
