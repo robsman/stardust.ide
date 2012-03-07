@@ -105,6 +105,8 @@ public class FileConnectionHandler implements ConnectionHandler
       manager.load(file);
       ModelType model = manager.getModel();
       IconFactory iconFactory = IconFactory.getDefault();
+      iconFactory.keepSimpleIconState();
+      
       modelDescriptor = new EObjectDescriptor(uri, model, model.getId(), model.getName(),
             ModelUtils.getDescriptionText(model.getDescription()),
             CarnotConstants.DIAGRAM_PLUGIN_ID, iconFactory.getIconFor(model));
