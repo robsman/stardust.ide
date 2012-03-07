@@ -10,17 +10,24 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.modeling.repository.common.Connection;
+
+import com.infinity.bpm.thirdparty.emf.common.util.URI;
 
 public class DataFilter extends ViewerFilter
 {
@@ -80,14 +87,38 @@ public class DataFilter extends ViewerFilter
             ModelType model = ModelUtils.findContainingModel(dataType);
             if (!model.equals(referencedModel))
             {
-               if (dataType.getExternalReference() == null)
+               AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element, "carnot:connection:uri"); //$NON-NLS-1$               
+               if (dataType.getExternalReference() != null)
+               {
+                  if (this.referencedModel.getId().equals(
+                        dataType.getExternalReference().getLocation()))
+                  {
+                     return true;
+                  }
+               }
+               else if(attribute != null)
+               {
+                  String uri = attribute.getValue();
+                  URI aRealUri = URI.createURI(uri);
+                  String typeName_ = aRealUri.lastSegment();
+                  Connection connection = (Connection) model.getConnectionManager()
+                        .findConnection(uri);
+                  if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
+                        && !"false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
+                  {
+
+                     EObject o = model.getConnectionManager().find(
+                           aRealUri.scheme().toString() + "://" + aRealUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
+                     ModelType refModel = (ModelType) Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
+                     if (this.referencedModel.getId().equals(refModel.getId()))
+                     {
+                        return true;
+                     }
+                  }
+               }
+               else
                {
                   return false;
-               }
-               if (this.referencedModel.getId().equals(
-                     dataType.getExternalReference().getLocation()))
-               {
-                  return true;
                }
             }
          }
