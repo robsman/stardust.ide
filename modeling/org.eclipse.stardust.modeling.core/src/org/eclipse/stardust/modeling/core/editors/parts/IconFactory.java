@@ -72,7 +72,13 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
    
    private static IconFactory defaultFactory = new IconFactory(null);
    
-   private boolean simpleIcon;
+   private boolean simpleIcon = false;
+   private boolean keepSimpleIconState = false;
+   
+   public void keepSimpleIconState()
+   {
+      keepSimpleIconState = true;
+   }
 
    private WorkflowModelEditor editor;
 
@@ -87,9 +93,12 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
       {
          return getIconFor((EClass) model);
       }
-      
-      simpleIcon = editor == null ? true : DiagramPlugin.isBusinessView(editor);
 
+      if(!keepSimpleIconState)
+      {
+         simpleIcon = editor == null ? true : DiagramPlugin.isBusinessView(editor);
+      }
+      
       if (model instanceof IModelElementNodeSymbol)
       {
          EObject newModel = ((IModelElementNodeSymbol) model).getModelElement();
