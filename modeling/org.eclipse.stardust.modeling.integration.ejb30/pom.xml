@@ -1,1 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><!--    Copyright (c) 2011 SunGard CSA LLC and others.    All rights reserved. This program and the accompanying materials    are made available under the terms of the Eclipse Public License v1.0    which accompanies this distribution, and is available at    http://www.eclipse.org/legal/epl-v10.html       Contributors:       SunGard CSA LLC - initial API and implementation and/or initial documentation --><project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  <modelVersion>4.0.0</modelVersion>  <parent>    <groupId>org.eclipse.stardust.modeling.core</groupId>    <artifactId>modeling-core-parent</artifactId>    <version>9.9.9-SNAPSHOT</version>    <relativePath>../pom.xml</relativePath>  </parent>  <artifactId>org.eclipse.stardust.modeling.integration.ejb30</artifactId>  <packaging>eclipse-plugin</packaging>  <dependencies>    <dependency>      <groupId>javax.persistence</groupId>      <artifactId>persistence-api</artifactId>      <version>1.0</version>    </dependency>    <dependency>      <groupId>javax.ejb</groupId>      <artifactId>ejb-api</artifactId>      <version>3.0</version>    </dependency>  </dependencies>  <build>    <plugins>      <plugin>        <groupId>org.apache.maven.plugins</groupId>        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>            <phase>generate-sources</phase>            <goals>              <goal>copy-dependencies</goal>            </goals>            <configuration>              <includeArtifactIds>persistence-api,ejb-api</includeArtifactIds>              <outputDirectory>${basedir}/lib</outputDirectory>              <excludeTransitive>true</excludeTransitive>              <overWriteIfNewer>true</overWriteIfNewer>            </configuration>          </execution>        </executions>      </plugin>    </plugins>  </build>  <profiles>    <profile>      <id>force-overwrite</id>      <build>        <plugins>          <plugin>            <groupId>org.apache.maven.plugins</groupId>            <artifactId>maven-dependency-plugin</artifactId>            <configuration>              <overWriteReleases>true</overWriteReleases>              <overWriteSnapshots>true</overWriteSnapshots>            </configuration>          </plugin>        </plugins>      </build>    </profile>  </profiles></project>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.stardust.modeling.core</groupId>
+    <artifactId>modeling-core-parent</artifactId>
+    <version>9.9.9-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.stardust.modeling.integration.ejb30</artifactId>
+
+  <dependencies>
+    <dependency>      
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>    
+      <version>3.0</version>
+    </dependency>
+    <dependency>      
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>    
+      <version>1.0</version>      
+    </dependency>    
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <includeArtifactIds>ejb-api,persistence-api</includeArtifactIds>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <packaging>eclipse-plugin</packaging>
+
+</project>
