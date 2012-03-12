@@ -421,10 +421,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
          {
             return false;
          }
-         if (modelElement instanceof DataType)
-         {
-            return false;
-         }
          if (modelElement instanceof IExtensibleElement)
          {
             if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
@@ -501,6 +497,10 @@ public class ModelElementPropertyDialog extends PreferenceDialog
          return ed.getEObject();
       }
       if (model instanceof IConnection)
+      {
+         return (EObject) model;
+      }
+      if (model instanceof EObject)
       {
          return (EObject) model;
       }
