@@ -21,7 +21,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * @author fherinean
  * @version $Revision: 48953 $
@@ -126,6 +125,13 @@ public class IdFactory
       String searchId = baseId + "_"; //$NON-NLS-1$
       String searchName = baseName + " "; //$NON-NLS-1$
       int counter = 1;
+            
+      if(PlatformUI.getPreferenceStore().getBoolean(
+            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION))
+      {
+         searchId = ModelUtils.computeId(searchName);         
+      }      
+      
       for (EObject o : list)
       {
          if (eTypeTargetType.isInstance(o))
