@@ -12,6 +12,8 @@ package org.eclipse.stardust.modeling.repository.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,14 +31,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
-import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
-import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
-import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
-import org.eclipse.stardust.modeling.repository.common.IFilter;
-import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
+import org.eclipse.stardust.modeling.repository.common.*;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
@@ -157,7 +152,25 @@ public class FileConnectionHandler implements ConnectionHandler
          IObjectDescriptor descriptor = descriptors[i];
          if (descriptor instanceof ImportableDescriptor)
          {
-            ((ImportableDescriptor) descriptor).importElements(IconFactory.getDefault(), model, asLink);
+            try
+            {
+               ((ImportableDescriptor) descriptor).importElements(IconFactory.getDefault(), model, asLink);
+            }
+            catch (Exception f)
+            {
+               if (f instanceof UndeclaredThrowableException)
+               {
+                  Throwable undeclaredThrowable = ((UndeclaredThrowableException) f).getUndeclaredThrowable();
+                  if (undeclaredThrowable instanceof InvocationTargetException)
+                  {
+                     Throwable targetException = ((InvocationTargetException) undeclaredThrowable).getTargetException();
+                     if (targetException instanceof ImportCancelledException)
+                     {
+                        throw new ImportCancelledException();
+                     }
+                  }
+               }
+            }
          }
       }   
    }
