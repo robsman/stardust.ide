@@ -16,12 +16,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -40,6 +43,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class UsageDisplayDialog extends Dialog
 {
+   private boolean isReferenced = false;
    private EObject eObject;
    private MergeAction action = MergeAction.REPLACE;
    private IconFactory iconFactory;
@@ -60,6 +64,11 @@ public class UsageDisplayDialog extends Dialog
       super(shell);
       this.eObject = eObject;
       this.iconFactory = iconFactory;
+      if (AttributeUtil.getAttributeValue((IExtensibleElement) eObject,
+            IConnectionManager.URI_ATTRIBUTE_NAME) != null)
+      {
+         isReferenced = true;
+      }
    }
 
    protected Control createDialogArea(Composite parent)
@@ -89,11 +98,11 @@ public class UsageDisplayDialog extends Dialog
          {
             if(usageCheckBox.getSelection())
             {
-               usage = action;
+               setUsage(action);
             }
             else
             {
-               usage = null;
+               setUsage(null);
             }
          }         
       });      
@@ -113,7 +122,7 @@ public class UsageDisplayDialog extends Dialog
             action = MergeAction.REPLACE;
             if(usageCheckBox.getSelection())
             {
-               usage = action;
+               setUsage(action);
             }            
          }
       });
@@ -130,11 +139,17 @@ public class UsageDisplayDialog extends Dialog
             action = MergeAction.REUSE;
             if(usageCheckBox.getSelection())
             {
-               usage = action;
+               setUsage(action);
             }            
          }
       });
       replaceButton.setSelection(true);
+      
+      if(isReferenced)
+      {
+         reuseButton.setEnabled(false);
+      }
+      
       return composite;
    }
 
@@ -176,6 +191,7 @@ public class UsageDisplayDialog extends Dialog
       }
       
       UsageDisplayDialog dialog = new UsageDisplayDialog(shell, iconFactory, element);
+      
       int result = dialog.open();
       if (result == Window.OK)
       {
