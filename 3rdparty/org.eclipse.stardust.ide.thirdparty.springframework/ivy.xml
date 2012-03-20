@@ -26,26 +26,21 @@
    </publications>
 
    <dependencies>
-      <dependency org="org.springframework" name="spring" rev="2.5.6" transitive="false" conf="bom->default">
-         <!--
-         <exclude org="org.springframework" module="spring-beans"/>
-         <exclude org="org.springframework" module="spring-context"/>
-         <exclude org="org.springframework" module="spring-context-support"/>
-         <exclude org="org.springframework" module="spring-core"/>
-         <exclude org="org.springframework" module="spring-web"/>
-         <exclude org="commons-logging" module="commons-logging"/>
-         -->
-      </dependency>
-      <dependency org="org.springframework" name="spring-webmvc" rev="2.5.6" transitive="false" conf="bom->default">
-         <!--
-         <exclude org="aopalliance" module="aopalliance"/>
-         <exclude org="org.springframework" module="spring-beans"/>
-         <exclude org="org.springframework" module="spring-context"/>
-         <exclude org="org.springframework" module="spring-context-support"/>
-         <exclude org="org.springframework" module="spring-core"/>
-         <exclude org="org.springframework" module="spring-web"/>
-         <exclude org="commons-logging" module="commons-logging"/>
-         -->
-      </dependency>
+      <dependency org="aopalliance" name="aopalliance" rev="1.0" transitive="false" conf="bom->default" />
+      
+      <dependency org="org.springframework" name="spring-aop" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-asm" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-beans" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-context" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-context-support" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-core" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-expression" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-jdbc" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-jms" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-orm" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-tx" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-web" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      <dependency org="org.springframework" name="spring-webmvc" rev="3.0.5.RELEASE" transitive="false" conf="bom->default" />
+      
    </dependencies>
 </ivy-module>
