@@ -112,9 +112,9 @@ public class MessageSerializationApplicationPropertyPage extends
          StructAccessPointType apInputMessage = mtaUtils.createStructAccessPoint(
                "InputMessage", "InputMessage ("+selectedTypeDeclaration.getId()+")", DirectionType.IN_LITERAL, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                structuredDataType, xPathMap.getRootXPath(), xPathMap);
+         application.getAccessPoint().add(apInputMessage);         
          StructuredTypeUtils.setStructuredAccessPointAttributes(apInputMessage,
                selectedTypeDeclaration);
-         application.getAccessPoint().add(apInputMessage);
       }
 
       loadMessageFormat(element);
