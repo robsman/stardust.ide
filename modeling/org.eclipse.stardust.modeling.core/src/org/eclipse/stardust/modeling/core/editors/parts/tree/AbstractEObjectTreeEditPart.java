@@ -306,13 +306,13 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
       return image;
    }
 
-   @SuppressWarnings("unchecked")
+   @SuppressWarnings("rawtypes")
    public List getCurrentModelChildren()
    {
       return getModelChildren();
    }
 
-   @SuppressWarnings("unchecked")
+   @SuppressWarnings("rawtypes")
    protected List getModelChildren()
    {
       if (childrenFeatures != null)
@@ -326,16 +326,32 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
             {
                List<Object> items = CollectionUtils.newList((List< ? >) value);
                Collections.sort(items, ModelUtils.IDENTIFIABLE_COMPARATOR);
-               children.addAll(items);
+               for (Object o : items)
+               {
+                  addChild(children, o);
+               }
             }
             else
             {
-               children.add(value);
+               addChild(children, value);
             }
          }
          return children;
       }
       return super.getModelChildren();
+   }
+
+   private void addChild(List<Object> children, Object o)
+   {
+      if (accept(o))
+      {
+         children.add(o);
+      }
+   }
+
+   protected boolean accept(Object o)
+   {
+      return true;
    }
 
    public void handleNotification(Notification n)
@@ -391,8 +407,7 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
       }
    }
 
-   @SuppressWarnings("unchecked")
-   public Object getAdapter(Class key)
+   public Object getAdapter(@SuppressWarnings("rawtypes") Class key)
    {
       Object adapter;
 

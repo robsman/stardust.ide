@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.deploy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,9 @@ import org.eclipse.stardust.engine.core.compatibility.gui.ErrorDialog;
 import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
 import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
 import org.eclipse.stardust.engine.core.model.beans.IConfigurationVariablesProvider;
+import org.eclipse.stardust.engine.core.model.parser.info.ExternalPackageInfo;
+import org.eclipse.stardust.engine.core.model.parser.info.ModelInfo;
+import org.eclipse.stardust.engine.core.model.parser.info.ModelInfoRetriever;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.runtime.beans.BpmRuntimeEnvironment;
 import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
@@ -152,17 +154,16 @@ public class ModelDeploymentTool
       {
          // 1. Collect model references.
          Map<String, File> fileMap = CollectionUtils.newMap();
-         Map<String, QuickModelInfo> infoMap = CollectionUtils.newMap();
+         Map<String, ModelInfo> infoMap = CollectionUtils.newMap();
          for (File file : modelFiles)
          {
             try
             {
-               QuickModelInfo info = new QuickModelInfo(file);
-               String modelId = info.getModelId();
-               infoMap.put(modelId, info);
-               fileMap.put(modelId, file);
+               ModelInfo info = ModelInfoRetriever.get(file);
+               infoMap.put(info.id, info);
+               fileMap.put(info.id, file);
             }
-            catch (FileNotFoundException e)
+            catch (Exception e)
             {
                // TODO: (fh)
                e.printStackTrace();
@@ -212,31 +213,30 @@ public class ModelDeploymentTool
       System.exit(0);
    }
 
-   private List<String> orderModels(Map<String, QuickModelInfo> infos)
+   private List<String> orderModels(Map<String, ModelInfo> infos)
    {
       List<String> orderedModelIds = CollectionUtils.newList();
-      Set<QuickModelInfo> visited = CollectionUtils.newSet();
-      for (QuickModelInfo info : infos.values())
+      Set<ModelInfo> visited = CollectionUtils.newSet();
+      for (ModelInfo info : infos.values())
       {
          addModel(orderedModelIds, info, infos, visited);
       }
       return orderedModelIds;
    }
 
-   private void addModel(List<String> orderedModelIds, QuickModelInfo info, Map<String, QuickModelInfo> infos, Set<QuickModelInfo> visited)
+   private void addModel(List<String> orderedModelIds, ModelInfo info, Map<String, ModelInfo> infos, Set<ModelInfo> visited)
    {
       if (info != null && !visited.contains(info))
       {
          visited.add(info);
-         List<String> refs = info.getReferencedModelIds();
-         if (refs != null)
+         if (info.externalPackages != null)
          {
-            for (String ref : refs)
+            for (ExternalPackageInfo ref : info.externalPackages)
             {
-               addModel(orderedModelIds, infos.get(ref), infos, visited);
+               addModel(orderedModelIds, infos.get(ref.href), infos, visited);
             }
          }
-         orderedModelIds.add(info.getModelId());
+         orderedModelIds.add(info.id);
       }
    }
 
@@ -248,6 +248,7 @@ public class ModelDeploymentTool
       boolean deployed = false;
       for (IModel model : models)
       {
+         @SuppressWarnings("unchecked")
          List<Inconsistency> inconsistencies = model.checkConsistency();
          if (inconsistencies.size() > 0)
          {

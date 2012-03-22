@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.tree;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,48 +17,18 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.EditPartFactory;
-import org.eclipse.gef.EditPolicy;
-import org.eclipse.gef.Request;
-import org.eclipse.gef.RootEditPart;
-import org.eclipse.gef.TreeEditPart;
+import org.eclipse.gef.*;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.editpolicies.RootComponentEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
@@ -96,10 +65,12 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
             // special treatments for participants
             return new ChildCategoryNode(editor, (ChildCategoryNode.Spec) model)
             {
+               @SuppressWarnings("rawtypes")
                protected List getModelChildren()
                {
-                  List children = super.getModelChildren();
-                  List toRemove = new ArrayList();
+                  @SuppressWarnings("unchecked")
+                  List<Object> children = super.getModelChildren();
+                  List<Object> toRemove = CollectionUtils.newList();
                   // filter out elements that do have parents
                   for (int i = 0; i < children.size(); i++)
                   {
@@ -148,11 +119,10 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                }
             }
 
+            @SuppressWarnings("rawtypes")
             protected List getModelChildren()
             {
-               List result = new ArrayList();
-               result.add(((DocumentRoot) getModel()).getModel());
-               return result;
+               return Collections.singletonList(((DocumentRoot) getModel()).getModel());
             }
          };
       }
@@ -230,7 +200,7 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                      : Diagram_Messages.DiagramEditor_PAGENAME_UnnamedDiagram;
             }
 
-            public Object getAdapter(Class key)
+            public Object getAdapter(@SuppressWarnings("rawtypes") Class key)
             {
                if (IModelElement.class.equals(key))
                {
@@ -260,14 +230,15 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
          return new IdentifiableModelElementTreeEditPart(editor,
             (OrganizationType) model, editor.getIconFactory().getIconFor((OrganizationType) model))
          {
+            @SuppressWarnings("rawtypes")
             protected List getModelChildren()
             {
                OrganizationType organization = (OrganizationType) getModel();
-               List participants = organization.getParticipant();
-               ArrayList list = new ArrayList();
+               List<ParticipantType> participants = organization.getParticipant();
+               List<IModelParticipant> list = CollectionUtils.newList();
                for (int i = 0; i < participants.size(); i++)
                {
-                  ParticipantType ref = (ParticipantType) participants.get(i);
+                  ParticipantType ref = participants.get(i);
                   if (null != ref.getParticipant())
                   {
                      list.add(ref.getParticipant());
@@ -316,7 +287,19 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
       {
          return new IdentifiableModelElementTreeEditPart(editor,
             (ProcessDefinitionType) model, editor.getIconFactory().getIconFor((ProcessDefinitionType) model),
-            processChildren);
+            processChildren)
+         {
+            @Override
+            protected boolean accept(Object o)
+            {
+               if (o instanceof TransitionType &&
+                     PredefinedConstants.RELOCATION_TRANSITION_ID.equals(((TransitionType) o).getId()))
+               {
+                  return false;
+               }
+               return super.accept(o);
+            }
+         };
       }
       else if (model instanceof RoleType)
       {

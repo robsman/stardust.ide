@@ -305,7 +305,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          Map<String, String> prefixes = schema.getQNamePrefixToNamespaceMap();
          Map<String, String> copy = CollectionUtils.newMap();
          copy.putAll(prefixes);
-         // ??? what is that ???
+         // ensures namespace declarations at higher level (wsdl for example)
+         // are correctly propagated to the schema
          prefixes.putAll(copy);
       }
       return true;
