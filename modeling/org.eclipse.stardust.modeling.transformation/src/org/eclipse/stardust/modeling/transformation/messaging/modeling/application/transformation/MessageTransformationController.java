@@ -437,10 +437,6 @@ public class MessageTransformationController {
 	public String getStructuredTypeName(StructAccessPointType messageType) {
 		TypeDeclarationType declarationType = (TypeDeclarationType) AttributeUtil
 				.getIdentifiable(messageType, StructuredDataConstants.TYPE_DECLARATION_ATT);
-		if (declarationType == null)
-		{
-		   System.out.println("here");
-		}
 		return declarationType.getId();
 	}
 	
