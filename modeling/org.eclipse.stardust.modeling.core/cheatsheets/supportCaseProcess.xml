@@ -17,7 +17,7 @@
     	and opening its diagram.</description>
   </intro>
   <item dialog="true" skip="true" 
-  	href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-3.htm#assigning" 
+  	href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm#assigning" 
   		title="The new Process Definition">
   	<description>After creating the new model, a default process definition exists, which 
   	appears in the tree view below your ACME Workflow Model element. To change it's 
@@ -30,7 +30,7 @@
 	</description>
   </item>
   <item dialog="true" skip="true" title="Open the Process Diagram" 
-  	href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-3.htm#openDiagram">
+  	href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm#openDiagram">
      <description>
 		After creating the new process definition, it appears in the Outline view and 
 		its default diagram will be opened automatically. To open a process diagram 

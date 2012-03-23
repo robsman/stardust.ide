@@ -19,7 +19,7 @@
   <item
         skip="true"
         title="Starting the Process in the Portal" 
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#run">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#run">
      <description>
         <br/>
 	1. Start your server and deploy the model.<br/>
@@ -33,7 +33,7 @@
   <item
         skip="true"
         title="Running the Workflow in Test Mode"
-        href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#runTest">
+        href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#runTest">
      <description>
         <br/>
 	1. In the <b>Workflow Perspective</b>, start the available process.<br/>
@@ -45,7 +45,7 @@
   <item
         skip="true"
   		title="Switching to Production Mode"
-        href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#prod"> 	
+        href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#prod"> 	
      <description>
 		To run the model workflow in production mode, we change the value of our configuration variable to "PRODUCTION":<br/>
      1. Switch to the <b>Configuration Variables</b> view in the <b>Administration Perspective</b>. <br/>

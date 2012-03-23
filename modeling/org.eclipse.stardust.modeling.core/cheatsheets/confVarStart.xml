@@ -18,7 +18,7 @@
   <item
         skip="true"
         title="Creating the Model"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#createModel">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#createModel">
      <description>
         Create a model in a dynamic Web project:<br/>
 	1. Create a dynamic Web project as described in the Support Case Cheat Sheet.<br/>
@@ -28,7 +28,7 @@
   <item
         skip="true"
         title="Adding the Configuration Variable"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#add">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#add">
      <description>
         Add a configuration variable to your model:<br/>
 	1. Open the model properties page.<br/>
@@ -42,7 +42,7 @@
   <item
         skip="true"
   	title="Creating the Workflow"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
      <description>
 	Create the following workflow:<br/>
 	1. Create a manual trigger followed by a manual activity <b>Starting Activity</b>.<br/>
@@ -56,7 +56,7 @@
   <item
         skip="true"
   	title="Enter a Transition Condition"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/config-var/tut-config-var-prod.html#workflow">
      <description>
 	Enter a condition transition to the transition from the split joint to activity <b>Activity Production Only</b>:<br/>
 	1. Double-click the transition in the diagram.<br/>

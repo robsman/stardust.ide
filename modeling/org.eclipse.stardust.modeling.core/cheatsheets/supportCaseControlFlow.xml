@@ -17,7 +17,7 @@
     	between activities.
       </description>
    </intro>
-   <item title="Control Flow Settings" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+   <item title="Control Flow Settings" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
       <description>
          Before we can create a transition between the activities <b>Analyze To Solve</b>
       and <b>Notify Customer</b>, we have to redefine the properties of the activity 
@@ -29,7 +29,7 @@
 		5. <b>OK</b> the properties dialog.
       </description>
    </item>
-   <item title="Adding Transition to Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+   <item title="Adding Transition to Notify Customer" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
       <description>
          Now you can add the missing transition between <b>Analyze To Solve</b> and 
      the activity <b>Notify Customer</b>:<br/><br/>
@@ -38,7 +38,7 @@
 		3. Click activity <b>Notify Customer</b>.
       </description>
    </item>
-   <item title="Adding the Loop Transition" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
+   <item title="Adding the Loop Transition" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm">
       <description>
          An ACME Support Case needs to remain with the Analyze To Solve activity 
      until it is either Closed or Rejected. So, a loop is needed around Analyze To Solve.
@@ -48,7 +48,7 @@
 		3. Click the join symbol of activity <b>Analyze To Solve</b>.
       </description>
    </item>
-   <item title="Defining Transition Condition to Deliver Patch" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+   <item title="Defining Transition Condition to Deliver Patch" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
       <description>
          To define the transition condition between <b>Analyze To Solve</b> and 
      <b>Deliver Patch:</b><br/><br/>
@@ -58,7 +58,7 @@
 		 SupportCaseData.Product.State == &quot;C&quot; (meaning CLOSED)<br/>
       </description>
    </item>
-   <item title="Defining Transition Condition to Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+   <item title="Defining Transition Condition to Notify Customer" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
       <description>
          Likewise, define the transition condition between <b>Analyze To Solve</b> and 
      	<b>Notify Customer:</b><br/><br/>
@@ -70,7 +70,7 @@
 		when a support case solution will not be sought.
       </description>
    </item>
-   <item title="Defining Loop Transition Condition" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
+   <item title="Defining Loop Transition Condition" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-7.htm#cond">
       <description>
          Likewise, define the transition condition between <b>Analyze To Solve</b> and its 
      	successor <b>Analyze To Solve:</b><br/><br/>

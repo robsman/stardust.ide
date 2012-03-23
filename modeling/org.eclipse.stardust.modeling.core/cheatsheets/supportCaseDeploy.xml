@@ -16,7 +16,7 @@
     	This cheat sheet guides you through the process of deploying your 
         workflow model.</description>
   </intro>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#auditTrail" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#auditTrail" 
   	title="Audit Trail Configuration">
      <description>To set up the Audit Trail:<br/><br/>
 		1. Open the Servers view by choosing 
@@ -28,7 +28,7 @@
      	There will be a pause as Stardust creates the database!
 	 </description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#setTomcatProj" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#setTomcatProj" 
   	title="Set the Current Tomcat project">
      <description>To deploy a model proceed as follows:<br/><br/>
 		1. Right-click <b>Tomcat v6.0</b> in the Servers View.<br/> 
@@ -38,7 +38,7 @@
 		5. Select <b>Finish</b>.
 	 </description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#launchSetting" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#launchSetting" 
   	title="Set the Server Launch Configuration">
      <description>To avoid running out of PermGenSpace, increase the size of the permanent 
      generation memory in the launch configuration:<br/><br/>
@@ -50,7 +50,7 @@
 			-XX:MaxPermSize=128m<br/>
 	</description>
 	</item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#startTomcat" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#startTomcat" 
   	title="Start Tomcat">
      <description>Make sure, your browser is set to use the default Web browser. Otherwise 
      go to <b>Window &gt; Preferences &gt; General &gt; Web Browser</b> and
@@ -61,7 +61,7 @@
      The Tomcat Status should now be displayed as <b>Started</b>. 
 	 </description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-12.htm#deployProcess" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#deployProcess" 
   	title="Deploy the Stardust Model">
      <description>With Tomcat now running, the <b>ACMEWorkflowModel</b> process model can now
      be deployed:<br/><br/>

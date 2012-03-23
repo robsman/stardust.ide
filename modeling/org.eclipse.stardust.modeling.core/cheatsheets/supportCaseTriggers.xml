@@ -16,7 +16,7 @@
     	This cheat sheet will guide you through the process of creating and assigning
     	a manual trigger.</description>
   </intro>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
   title="Creating a trigger">
      <description>We will use a manual trigger assigned to the role <b>Callcenter Agent</b>. So a 
      performer having this can initiate the support case management process 
@@ -30,7 +30,7 @@
    	    6. Click <b>Apply</b>. 
      </description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-10.htm#createTrigger" 
   title="Connecting a trigger to an activity">
      <description>Connect the trigger with the <b>Init Data</b> activity:<br/><br/>
      1. In the diagram toolbar palette select <b>Connect</b>.<br/>

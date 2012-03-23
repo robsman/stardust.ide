@@ -18,7 +18,7 @@
   <item       
         skip="true"
         title="Creating the Workflow"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
      <description>
      To create the workflow in the diagram:<br/>
      1. Create a new model by choosing 
@@ -31,7 +31,7 @@
   <item
         skip="true"
         title="Creating the Department Data">
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
      <description>
         Now create the data, which will be used as data path for the department defined for the organizations:<br/>
 	1. Create a primitive data <b>Nation Department</b>.<br/>
@@ -42,7 +42,7 @@
   <item
         skip="true"
   	title="Binding the Department Data">
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
      <description>
 	Now bind the department data to the organization <b>NationDivision</b>:<br/>
      1. Open the properties page of the <b>NationDivision</b> organization.<br/>
@@ -55,7 +55,7 @@
   <item
         skip="true"
   	title="Creating the Organizational Structure"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
      <description>
         1. Create two organizations, <b>HeadOffice</b> and <b>NationalDivision</b>.<br/>
 		2. Assign the <b>NationalDivision</b> organization as suborganization of <b>HeadOffice</b>.<br/>
@@ -65,7 +65,7 @@
   <item
         skip="true"
   	title="Assigning the Performers"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-org-structure.htm">
      <description>
 	Set the following performers:<br/>
    1. Assign the Administrator role as participant to the manual trigger.<br/>

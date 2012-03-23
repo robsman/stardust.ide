@@ -16,7 +16,7 @@
     	This cheat sheet will guide you through the steps of preparing the 
     	the workbench to start with your support case tutorial.</description>
   </intro>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setlicense" 
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setlicense" 
   	title="Set the Stardust License">
      <description>
      To set the Stardust license:<br/>
@@ -25,7 +25,7 @@
      3. In the <b>License file</b> section browse to the location of your license file.
  	</description>
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setUpTomcat" 
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setUpTomcat" 
   	title="Set up Embedded Tomcat in Eclipse">
      <description>
 	To set up embedded Tomcat in your Eclipse workspace:<br/>
@@ -40,7 +40,7 @@
 	8. Select <b>Finish</b>.
  	</description>
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
   	title="Create an Eclipse Project with Stardust Facets">
      <description>
      1. In the main menu select <b>File &gt; New &gt; Project...</b><br/>
@@ -57,7 +57,7 @@
      Now you see your new dynamic web project in the Navigator or Package Explorer view. 
  	</description>
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
   	title="Setting the Repository Path">
      <description>
      A dialog opens to inform you to set a location for the repository path.<br/>
@@ -67,7 +67,7 @@
      you like to use.<br/>
  	</description>
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm#opening" 
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#opening" 
   	title="Create New Model">
      <description>
 		1. Right-click your project in the Package Explorer and select <b>New &gt; Other...</b>.<br/> 

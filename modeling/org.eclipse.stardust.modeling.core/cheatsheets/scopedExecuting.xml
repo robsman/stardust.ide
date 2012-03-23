@@ -18,7 +18,7 @@
   <item       
         skip="true"
         title="Triggering the Process"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
      <description>
      Create the departments:<br/>
      1. Switch to the <b>Workflow Perspective</b>.<br/>
@@ -29,7 +29,7 @@
   <item       
         skip="true"
         title="Entering Department Data"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
      <description>
      1. Log out and login as user <b>User1</b>.<br/>
      This user is assigned to the organization <b>HeadOffice</b> 
@@ -43,7 +43,7 @@
   <item       
         skip="true"
         title="Checking the Resulting Worklist"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/working-with-multi-scope-organization.htm">
      <description>
      1. Log out and login as user <b>User2</b>.<br/>
      2. The subsequent activity <b>Activity by Scoped NationalDirector</b>

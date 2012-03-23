@@ -16,7 +16,7 @@
     	This cheat sheet guides you through the process of executing your 
         workflow.</description>
   </intro>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#activityStart" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#activityStart" 
   	title="Processing the Create Case Activity">
        <description> ACME can now execute their support case management process. 
   		To perform the activity <b>Create Case</b>:<br/><br/>
@@ -30,7 +30,7 @@
 		The first activity of the process has been performed. 
 	</description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
   	title="Start the Analyze To Solve Activity">
        <description> A work item for this activity will be placed in the worklist of the user 
        assigned to the role <b>Engineer</b>.<br/><br/>
@@ -40,7 +40,7 @@
        3. In the worklist of pending activities appears, choose one.<br/><br/>
 	</description>
 	</item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#analyzeActivity" 
   	title="Complete the Process">
        <description>
        Now the work appears with the data from the previous activity in view.

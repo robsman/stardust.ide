@@ -18,7 +18,7 @@
   <item       
         skip="true"
         title="Starting the Process in the Portal"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
      <description>
     To start the process:<br/>
 	1. Start your server and deploy the model.<br/>
@@ -32,7 +32,7 @@
   <item       
         skip="true"
         title="Performing the Activities"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#executing">
      <description>
      Perform the activities:<br/>
 	 1. Enter the customer information and complete the activity.<br/>

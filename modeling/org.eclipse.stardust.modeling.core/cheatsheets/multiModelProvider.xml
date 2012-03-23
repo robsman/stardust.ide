@@ -17,7 +17,7 @@
   <item       
         skip="true"
         title="Creating the Workflow"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
      <description>
      <br/>
      Create a model <b>Provider</b> in a dynamic Web project with the following workflow:<br/>
@@ -37,7 +37,7 @@
   <item       
         skip="true"
         title="Defining a Process Interface"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-provider-model.html">
      <description>
      Now define the process interface:<br/>
      1. In the Outline View, double-click on process <b>Collect Customer Information</b> to open its property page.<br/>

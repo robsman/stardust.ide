@@ -16,7 +16,7 @@
     	This cheat sheet guides you through the process of creating individual 
         users and assign them to the created roles.</description>
   </intro>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
   title="Log into the Stardust Process Platform Portal">
        <description>
   		To create a user in this tutorial, you must first log on to the 
@@ -27,7 +27,7 @@
 		3. In the upper left corner of the portal,  select the <b>Administration</b> perspective.<br/>
 	</description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
   title="Create a User and Assign to Callcenter Agent Role">
        <description>
           To create a user, assign him 
@@ -41,7 +41,7 @@
 		the role Callcenter Agent and make him a member of ACME Headquarters:<br/><br/>
 	</description>
   </item>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
   title="Create a User and Assign to Engineer Role">
        <description>
        	Now the role of the Engineer has to be filled. To create this user, assign him 

@@ -17,7 +17,7 @@
     applications.
       </description>
    </intro>
-   <item title="Download Example Source Files" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/examples/tutorials/support-case/support-case.zip">
+   <item title="Download Example Source Files" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/examples/tutorials/support-case/support-case.zip">
       <description>
          To use this tutorial you need some classes provided in your Stardust installation, which
          are provided in a zipped file.<br/><br/>
@@ -26,7 +26,7 @@
 	2. Specify a location to unzip the example sources.
       </description>
    </item>
-   <item title="Adding Libraries to the Classpath" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm">
+   <item title="Adding Libraries to the Classpath" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-5.htm">
       <description>
         To make the classes available in the project you can add the source files to your project:<br/><br/>
 	1. Switch to the Package Explorer view.<br/>
@@ -40,7 +40,7 @@
 	7. <b>Finish</b> to accept the import.
       </description>
    </item>
-   <item title="Creating Application Support Case Factory" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#supportCaseAppl">
+   <item title="Creating Application Support Case Factory" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-5.htm#supportCaseAppl">
       <description>
          1. In the diagrams toolbar palette select <b>Applications &gt; Plain Java Application</b>.<br/> 
 	2. Place the application symbol on the diagram canvas near the <b>Init Data</b> activity.<br/>
@@ -54,7 +54,7 @@
 	9. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Adding Application Notification" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
+   <item title="Adding Application Notification" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
       <description>
     1. In the diagrams toolbar palette select <b>Applications &gt; Plain Java Application</b>.<br/> 
 	2. Place the symbol on the diagram canvas near the <b>Notify Customer</b> activity.<br/>
@@ -62,7 +62,7 @@
 	4. Set the name to <b>Notification</b>.
       </description>
    </item>
-   <item title="Adding Properties for Notification" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
+   <item title="Adding Properties for Notification" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-5.htm#notificationAppl">
       <description>
          Now set the properties for the application:<br/><br/>
 	1. On the left side of the panel select <b>Plain Java Application</b>.<br/>
@@ -74,7 +74,7 @@
 	5. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Assigning the Applications" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-5.htm#setupAppl">
+   <item title="Assigning the Applications" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-5.htm#setupAppl">
       <description>
          Now assign the applications to the respective activities:<br/><br/>
 		1. In the diagram toolbar palette select <b>Connect</b>.<br/>

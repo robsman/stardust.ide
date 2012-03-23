@@ -18,7 +18,7 @@
   <item       
         skip="true"
         title="Create the Users"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
      <description>
 	First create the users:<br/>
      1. Login with the default <b>motu/motu</b> password.<br/>
@@ -30,7 +30,7 @@
   <item       
         skip="true"
         title="Create the Departments"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
      <description>
      Now create the departments:<br/>
      1. In case of not already done, switch to the <b>Participant Management</b> view.<br/>
@@ -41,7 +41,7 @@
   <item       
         skip="true"
         title="Associate the Users with Departments"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multiscope-deptstructure-in-portal.htm">
      <description>
      To associate users with departments, drag and drop them from the <b>All Users</b>
      section to the according department in the <b>Participant Tree</b>.<br/>

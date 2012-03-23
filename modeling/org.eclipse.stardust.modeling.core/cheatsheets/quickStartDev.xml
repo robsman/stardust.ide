@@ -27,7 +27,7 @@
      		 pluginId="org.eclipse.stardust.modeling.core"
      		 param1="ag.carnot.workflow.modeler.workflowModelingPerspective"/>
 	</item>
-  <item skip="true" dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-2.htm" title="Create a New Process Model">
+  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm" title="Create a New Process Model">
      <description>1. Select <b>File &gt; New &gt; Stardust Process Model.</b><br/>
      2. In the following dialog, enter the id, the name and optionally the
      description of the model.<br/>
@@ -41,7 +41,7 @@
      		 param3="This model was created as part of the Stardust cheatsheets tutorial."/>
   -->
   </item>
-  <item skip="true" dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-3.htm" title="Create a Process Definition">
+  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm" title="Create a Process Definition">
      <description>. In the <b>Outline view</b> of the Process Workbench Modeler right-click your model. 
 		<br/>. From the pop-up menu, select <b>New Process Definition.</b><br/>
 		. Open the properties page of the new process with a double-click to set properties like id and name.<br/><br/>
@@ -52,7 +52,7 @@
      		 pluginId="org.eclipse.stardust.modeling.core"
      		 param1=" "/>-->
   </item>
-  <item skip="true" dialog="true" href="/ag.carnot.docs.dev/html/handbooks/modelling/mg-defdesk-4.htm" title="Add an Activity">
+  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-4.htm" title="Add an Activity">
      <description>1. In the diagrams toolbar palette select <b>Activities</b> (expand <b>Items</b>).<br/> 
 	2. Choose the activity type.<br/>
 	3. Place the activity box on the diagram canvas.<br/>
@@ -64,7 +64,7 @@
      		 param1=" "/>
   -->
   </item>
-  <item skip="true" dialog="true" href="/ag.carnot.docs.dev/html/handbooks/modelling/mg-defdesk-6.htm" title="Adding an Application">
+  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-6.htm" title="Adding an Application">
      <description>1. In the diagrams toolbar palette select <b>Applications</b> or <b>Int. Applications</b> respectively.<br/> 
 	2. Choose the application type.<br/>
 	3. Place the application box on the diagram canvas.<br/>
@@ -74,7 +74,7 @@
      		 pluginId="org.eclipse.stardust.modeling.core"
      		 param1=" "/>-->
   </item>
-  <item skip="true" dialog="true" href="/ag.carnot.docs.dev/html/handbooks/modelling/mg-defdesk-7.htm" title="Creating Data">
+  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-7.htm" title="Creating Data">
      <description>1. In the diagram toolbar palette select <b>Data.</b><br/>
 	 2. Choose the data type.<br/>
      3. Place the data symbol on the diagram canvas.<br/>
@@ -84,7 +84,7 @@
      		 pluginId="org.eclipse.stardust.modeling.core"
      		 param1=" "/>-->
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/modelling/mg-defdesk-8.htm" title="Specifying Data Mappings">
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-8.htm" title="Specifying Data Mappings">
      <description>Proceed with setting an In data mapping from the data element to the 
      activity:<br/>
     1. In the diagram toolbar palette select <b>Connect.</b><br/> 
@@ -95,7 +95,7 @@
      		 pluginId="org.eclipse.stardust.modeling.core"
      		 param1=" "/>-->
   </item>
-  <item skip="true" href="/ag.carnot.docs.dev/html/handbooks/modelling/mg-defdesk-5.htm" title="Creating a Transition between Activities">
+  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-5.htm" title="Creating a Transition between Activities">
      <description>
      1. Create a second activity to create the connection to.<br/>
      2. In the diagram toolbar palette, select <b>Connect</b>.<br/>

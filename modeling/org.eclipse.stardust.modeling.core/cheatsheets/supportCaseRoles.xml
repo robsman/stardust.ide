@@ -17,7 +17,7 @@
     	and assigning roles and organizations.
       </description>
    </intro>
-   <item title="Creating a Role" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createRole">
+   <item title="Creating a Role" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createRole">
       <description>
          Create the role for Callcenter Agent:<br/><br/>
     	1. In the diagram toolbar palette select <b>Participants &gt; Role</b>.<br/>
@@ -27,7 +27,7 @@
      	5. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Assigning a Role to an Activity" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignRole">
+   <item title="Assigning a Role to an Activity" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignRole">
       <description>
          To assign the role of the <b>Callcenter Agent</b> to the <b>Create Case</b>:<br/><br/>
 		1. In the diagram toolbar palette select <b>Connect</b>.<br/>
@@ -37,7 +37,7 @@
 		to the activity <b>Analyze To Solve</b>.
       </description>
    </item>
-   <item title="Creating an Organization" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createOrg">
+   <item title="Creating an Organization" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#createOrg">
       <description>
          Create a new organization:<br/><br/>
      	1. Double-click the <b>Default Diagram</b> of the &quot;ACME Workflow Model&quot; model.<br/>
@@ -57,7 +57,7 @@
 		5. Select <b>Works For</b> to make the engineer a member of the organization ACME Headquarters.
       </description>
    </item>
-   <item title="Assigning a Teamleader to an Organization" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
+   <item title="Assigning a Teamleader to an Organization" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
       <description>
          To assign the roles to the headquarters organization:<br/><br/>
 		1. Select the participant <b>Callcenter Agent</b> and place it to the Participant Diagram. 
@@ -67,7 +67,7 @@
 		5. Select <b>Manager Of</b> to make the Callcenter Agent the teamleader.
       </description>
    </item>
-   <item title="Assigning the Organization to an Activity" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
+   <item title="Assigning the Organization to an Activity" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignOrg">
       <description>
          Now switch to the Support Case Management Process default diagram and assign the 
 		remaining activity <b>Deliver Patch</b> to the newly created organization:<br/><br/>

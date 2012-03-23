@@ -17,7 +17,7 @@
     	data mappings to the support case process.
       </description>
    </intro>
-   <item title="Creating the Data Resource" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#createData">
+   <item title="Creating the Data Resource" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#createData">
       <description>
          To create the data resource:<br/><br/>
      1. In the diagram toolbar palette select <b>Data</b>.<br/>
@@ -30,7 +30,7 @@
 	 8. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Setting up Data as Output of non-interactive Activity Init Data" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping">
+   <item title="Setting up Data as Output of non-interactive Activity Init Data" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping">
       <description>
          We proceed with setting a data mapping between the data element and 
      the <b>Init Data</b> activity:<br/><br/>
@@ -44,7 +44,7 @@
 	6. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Setting up Data as Output of Activit Create Case" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+   <item title="Setting up Data as Output of Activit Create Case" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
       <description>
          1. Open the activity properties dialog of the <b>Create Case</b> activity by 
      double-clicking on its symbol in the diagram.<br/> 
@@ -67,7 +67,7 @@
       <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
       </subitem>
    </item>
-   <item title="Setting up Data as Input of Activit Create Case" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+   <item title="Setting up Data as Input of Activit Create Case" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
       <description>
          . In the same way create In data mappings for Create Case:<br/> 
         1. Select <b>In Data Mappings</b> on the left side of the dialog.<br/> 
@@ -88,7 +88,7 @@
       <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
       </subitem>
    </item>
-   <item title="Setting up Data as Input of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+   <item title="Setting up Data as Input of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
       <description>
          The second human activity of the ACME process, <b>Analyze To Solve</b>, needs both input 
   	and output data mappings:<br/><br/>
@@ -115,7 +115,7 @@
       <subitem label="ID Analysis with data path element Product/Analysis" skip="false">
       </subitem>
    </item>
-   <item title="Setting up Data as Output of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+   <item title="Setting up Data as Output of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
       <description>
          Now, create Out Data Mappings for Analyze To Solve, following a procedure similar
       to the one used for Create Case above:<br/>
@@ -125,7 +125,7 @@
       <subitem label="ID State to Product/State" skip="false">
       </subitem>
    </item>
-   <item title="Setting up Data as Input of Interactive Activity Deliver Patch" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
+   <item title="Setting up Data as Input of Interactive Activity Deliver Patch" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
       <description>
          Deliver Patch is also an interactive activity which needs an In data mapping for e-mail.
 	Add the following In data mapping to <b>Deliver Patch</b>:<br/>
@@ -140,7 +140,7 @@
 	8. Click <b>OK</b>.<br/>
       </description>
    </item>
-   <item title="Setting up Data as Input of an Non-interactive Activity Notify Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping4">
+   <item title="Setting up Data as Input of an Non-interactive Activity Notify Customer" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping4">
       <description>
          The last activity to be configured for data is Notify Customer.<br/><br/>
 	1. Open the activity properties dialog of the Notify Customer activity by 

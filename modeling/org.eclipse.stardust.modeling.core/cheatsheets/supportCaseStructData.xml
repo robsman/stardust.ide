@@ -16,7 +16,7 @@
          This cheat sheet will guide you through the steps of creating structured data to be used in a workflow model.
       </description>
    </intro>
-   <item title="Create new Structured Data Type for Model ACME" dialog="true" skip="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html">
+   <item title="Create new Structured Data Type for Model ACME" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-struct-data.html">
       <description>
         First we create new structured data types for the ACME Workflow Model:<br/><br/>
         1. In the Outline view right-click <b>Structured Types</b>.<br/>
@@ -24,7 +24,7 @@
       Now the newly created composite type is visible in the Structured Types tree.
       </description>
    </item>
-   <item title="Define the Structured Data Type Product" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html#product">
+   <item title="Define the Structured Data Type Product" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-struct-data.html#product">
       <description>
         Now we define the structured data type Product:<br/><br/>
         1. Open the properties dialog of the new composite type.<br/>
@@ -42,7 +42,7 @@
       <subitem label="Add an element with name &quot;Analysis&quot;, type &quot;string&quot; and cardinality &quot;Exactly one&quot;." skip="false">
       </subitem>
    </item>
-   <item title="Define the Structured Data Type Customer" dialog="true" skip="false" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-struct-data.html#customer">
+   <item title="Define the Structured Data Type Customer" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-struct-data.html#customer">
       <description>
         1. Again create a new composite type in the Outline view tree of the model.<br/>
         2. Name the structured data type &quot;Customer&quot;.<br/>

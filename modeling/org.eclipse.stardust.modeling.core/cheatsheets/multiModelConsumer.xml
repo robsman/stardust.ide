@@ -17,7 +17,7 @@
   <item       
         skip="true"
         title="Creating a File Connection"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#fileConnection">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#fileConnection">
      <description>
      First, we create a file connection to the provider model:<br/>
 	 1. Create a model named <b>Consumer.xpdl</b>.<br/>
@@ -29,7 +29,7 @@
   <item       
         skip="true"
         title="Creating the Activities"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
      <description>
      Now create the necessary activities for the workflow in the consumer model:<br/>
 	 1. Create a manual trigger.<br/>
@@ -43,7 +43,7 @@
   <item       
         skip="true"
         title="Creating the Data and Data Mappings"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
      <description>
      Now create the data and data mappings:<br/>
 	 1. Create a primitive data named <b>LoanAmount</b> of integer type and provide it in the In Data Mapping for the <b>Sanction Loan</b> and <b>Do not Sanction Loan</b> activities.<br/>
@@ -57,7 +57,7 @@
   <item       
         skip="true"
         title="Creating Transition Conditions"
-         href="/ag.carnot.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
+         href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/multi-model-env/create-consumer-model.html#referencing">
      <description>
      Create the transition conditions:<br/>
      1. Right-click the <b>Collect Customer</b> Information activity and select <b>Split Behavior &gt; XOR</b>.<br/>

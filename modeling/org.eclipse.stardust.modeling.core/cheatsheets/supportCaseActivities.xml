@@ -16,7 +16,7 @@
     	This cheat sheet will guide you through the steps of adding activities and transitions
         to your process definition.</description>
   </intro>
-  <item dialog="true" href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-4.htm" 
+  <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-4.htm" 
   title="Adding the Activities">
      <description>1. In the diagrams toolbar palette select <b>Activity</b> 
      (expand <b>Items</b>).<br/> 
@@ -31,7 +31,7 @@
    		<subitem label="Deliver Patch - Manual Activity" />
   		<subitem label="Notify Customer - Application Activity" />.
   </item>
-  <item href="/ag.carnot.docs.dev/html/handbooks/tutorial/tut-main-4.htm#transitions" 
+  <item href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-4.htm#transitions" 
   	title="Creating Transitions between Activities">
      <description>
      Having created the activities, define their sequence and transitions, so that 
