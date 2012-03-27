@@ -100,10 +100,10 @@ public class IdentifiableReferenceImpl extends EObjectImpl
                   ((EObject) notification.getNotifier()).eAdapters().remove(this);
                   if (attribute != null)
                   {
-                     IExtensibleElement extensible = (IExtensibleElement) attribute.eContainer();
-                     if (extensible != null)
+                     EObject extensible = attribute.eContainer();
+                     if (extensible != null && extensible instanceof IExtensibleElement)
                      {
-                        extensible.getAttribute().remove(attribute);
+                        ((IExtensibleElement) extensible).getAttribute().remove(attribute);
                      }
                   }
                }
