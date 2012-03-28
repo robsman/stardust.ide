@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.core.spi.triggerTypes.scan;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +36,6 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.ScopeUtils;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -174,7 +172,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       ConfigurationElement element = ConfigurationElement
             .createPageConfiguration(
                   "org.eclipse.stardust.modeling.core.spi.triggerTypes.scan.ParticipantPropertyPage", //$NON-NLS-1$
-                  "Participant", //$NON-NLS-1$
+                  Diagram_Messages.LB_Participants,                  
                   iconName,
                   org.eclipse.stardust.modeling.core.spi.triggerTypes.scan.ParticipantPropertyPage.class);
       participantNode = new CarnotPreferenceNode(element, getElement(), 0);
@@ -202,13 +200,6 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
             this.getContainer(), "treeViewer");
       parentTreeViewer.refresh(true);
-      /*CarnotPreferenceNode preferenceNode = (CarnotPreferenceNode) this
-            .getPreferenceManager()
-            .find("org~eclipse~stardust~modeling~core~spi~triggerTypes~scan~ParticipantPropertyPage");
-      preferenceNode.updatePageStatus(IQuickValidationStatus.ERRORS);
-      TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
-            this.getContainer(), "treeViewer");
-      parentTreeViewer.refresh(true);*/
    }
 
    public boolean performCancel()
