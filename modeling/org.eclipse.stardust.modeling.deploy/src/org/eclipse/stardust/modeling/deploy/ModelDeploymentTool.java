@@ -178,9 +178,10 @@ public class ModelDeploymentTool
          }
          Map<String, IModel> overrides = CollectionUtils.newMap();
          runtimeEnvironment.setModelOverrides(overrides);
-         final IConfigurationVariablesProvider confVarProvider = new DefaultConfigurationVariablesProvider();
+         IConfigurationVariablesProvider confVarProvider = new DefaultConfigurationVariablesProvider();
          for (String modelId : orderModels(infoMap))
          {
+            confVarProvider.resetModelId(modelId);
             File file = fileMap.get(modelId);
             IModel model = null;
             if (file.getName().endsWith(XpdlUtils.EXT_XPDL))
