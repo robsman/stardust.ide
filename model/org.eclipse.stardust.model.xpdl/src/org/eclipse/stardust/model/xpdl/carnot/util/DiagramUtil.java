@@ -130,10 +130,10 @@ public class DiagramUtil
       PoolSymbol defaultPool = null;
       if (diagram != null && diagram.eContainer() instanceof ProcessDefinitionType)
       {
-         List pools = diagram.getPoolSymbols();
+         List<PoolSymbol> pools = diagram.getPoolSymbols();
          if (!pools.isEmpty())
          {
-            for (Iterator i = pools.iterator(); i.hasNext();)
+            for (Iterator<PoolSymbol> i = pools.iterator(); i.hasNext();)
             {
                PoolSymbol pool = (PoolSymbol) i.next();
                if (isDefaultPool(pool))
