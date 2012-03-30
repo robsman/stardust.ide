@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.repository.common.descriptors;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -172,12 +173,21 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          }
       }
       
+      Map<EObject, MergeAction> reuseReplace = Collections.emptyMap();
       Map<EObject, EObject> map = MergeUtils.createClosureMap(closure, targetModel);
-      Map<EObject, MergeAction> reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory);
-      // CANCEL pressed
-      if (reuseReplace == null)
+      if (asLink && !map.isEmpty())
       {
-         throw new ImportCancelledException();
+         // TODO: ConflictDialog.showConflict(null, iconFactory, eObject, map.get(eObject))
+         // ConflictDialog should be similar with UsageDisplayDialog in layout.
+      }
+      else
+      {
+         reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory);
+         // CANCEL pressed
+         if (reuseReplace == null)
+         {
+            throw new ImportCancelledException();
+         }
       }
       
       LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), asLink, isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);
