@@ -20,6 +20,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -161,6 +162,10 @@ public class CreateSymbolRequest extends CreateRequest
                if (cmd != null)
                {
                   command.add(cmd);
+               }
+               else
+               {
+                  command.add(UnexecutableCommand.INSTANCE);
                }
             }
          }
