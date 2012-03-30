@@ -103,18 +103,32 @@ public class MessageTransformationUtils
             : StructuredTypeUtils.getStructuredAccessPointTypeDeclaration((StructAccessPointType) declaringType);
       IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(typeDeclaration);
       DataTypeType structDataType = ModelUtils.getDataType(modelElement, StructuredDataConstants.STRUCTURED_DATA);
+      
       AccessPointType accessPoint = createStructAccessPoint(messageName, messageName + " (" //$NON-NLS-1$
             + typeDeclaration.getId() + ")", //$NON-NLS-1$
             direction, structDataType, xPathMap.getRootXPath(), xPathMap);
 
+     
       // (fh) Workaround to ensure that the access point has a parent
       // before setting the reference to the type declaration.
       ((AccessPointTypeImpl) accessPoint).setFakeContainer((IAccessPointOwner) modelElement);
       StructuredTypeUtils.setStructuredAccessPointAttributes(accessPoint, typeDeclaration);
       ((AccessPointTypeImpl) accessPoint).setFakeContainer(null);
-
+      String path = AttributeUtil.getAttribute(accessPoint, "carnot:engine:dataType").getValue(); //$NON-NLS-1$
+      accessPoint.setName(parseName(path));
       return accessPoint;
    }   
+
+   private String parseName(String path)
+   {
+      if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$ 
+      { 
+         path = path.replaceAll("typeDeclaration:", ""); //$NON-NLS-1$ //$NON-NLS-2$
+         path = path.replace("{", "");//$NON-NLS-1$ //$NON-NLS-2$
+         path = path.replace("}", " / "); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+      return path;
+   }
 
    public Class<?> getClassForType(String type)
    {       
