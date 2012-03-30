@@ -173,7 +173,13 @@ public class MergeUtils
                   {
                      refs.put(ir, id);
                      // set ref in source model to null?
-                     ir.setIdentifiable(null);
+                     try
+                     {
+                        ir.setIdentifiable(null);
+                     }
+                     catch (NullPointerException e)
+                     {
+                     }
                   }
                }
             }
