@@ -170,6 +170,10 @@ public class FileConnectionHandler implements ConnectionHandler
                      }
                   }
                }
+               else if (f instanceof ImportCancelledException)
+               {
+                  throw new ImportCancelledException();
+               }
             }
          }
       }   
