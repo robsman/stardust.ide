@@ -80,6 +80,17 @@ public class ConnectionManager implements IConnectionManager
                   return false;
                }
             }
+            if (eObjectdescriptor.getEObject() instanceof DataType)
+            {
+               DataType dataType = eObjectdescriptor.getEObject();
+               AttributeType visibility = AttributeUtil.getAttribute(
+                     (IExtensibleElement) dataType,
+                     PredefinedConstants.MODELELEMENT_VISIBILITY);
+               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
+               {
+                  return false;
+               }
+            }
             if (eObjectdescriptor.getEObject() instanceof ProcessDefinitionType)
             {
                ProcessDefinitionType process = (ProcessDefinitionType) eObjectdescriptor
