@@ -39,4 +39,9 @@ public class DelegatingMessageTypeLabelProvider extends CellLabelProvider
             .getColumnImage(cell.getElement(), cell.getColumnIndex()));
       cell.setText(labelProvider.getColumnText(cell.getElement(), cell.getColumnIndex()));
    }
+   
+   public void setShowGroupInfo(boolean showGroupInfo)
+   {
+      labelProvider.setShowGroupInfo(showGroupInfo);
+   }
 }

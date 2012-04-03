@@ -42,7 +42,9 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.properties.ReferencedModelSorter;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor.RegionWithLineOffset;
@@ -86,6 +88,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -185,6 +188,12 @@ public class MessageTransformationApplicationControlsManager
    private Button sourceHighlightedFilter;
 
    private MessageTransformationController controller = new MessageTransformationController();
+   
+   private DelegatingMessageTypeLabelProvider sourceLabelProvider = new DelegatingMessageTypeLabelProvider(controller);
+   
+   private DelegatingMessageTypeLabelProvider targetLabelProvider = new DelegatingMessageTypeLabelProvider(controller);
+   
+   private ReferencedModelSorter refModelSorter = new ReferencedModelSorter();
 
    private SourceHighlightFilter sourceHighlightViewerFilter;
 
@@ -211,6 +220,8 @@ public class MessageTransformationApplicationControlsManager
    private SashForm sashForm;
 
    private Button btnAddExternalClass;
+
+   private Button groupingCheckbox;
 
    public Control create(final Composite parent, final IModelElement modelElement)
    {
@@ -781,6 +792,36 @@ public class MessageTransformationApplicationControlsManager
       });
       menuMgr.setRemoveAllWhenShown(true);
       tree.setMenu(menu);
+      
+      groupingCheckbox = FormBuilder.createCheckBox(ioComposite, Diagram_Messages.LB_GroupModelElements);
+      groupingCheckbox.addSelectionListener(new SelectionListener(){
+
+        public void widgetDefaultSelected(SelectionEvent e) {
+            
+        }
+
+         public void widgetSelected(SelectionEvent e)
+         {
+            sourceLabelProvider.setShowGroupInfo(groupingCheckbox.getSelection());
+            targetLabelProvider.setShowGroupInfo(groupingCheckbox.getSelection());
+            refModelSorter.setGrouped(groupingCheckbox.getSelection());
+            if (groupingCheckbox.getSelection())
+            {
+               targetMessageTreeViewer.setSorter(refModelSorter);
+               sourceMessageTreeViewer.setSorter(refModelSorter);
+            }
+            else
+            {
+               targetMessageTreeViewer.setSorter(null);
+               sourceMessageTreeViewer.setSorter(null);
+            }
+            sourceMessageTreeViewer.refresh();
+            targetMessageTreeViewer.refresh();
+            refreshDocument();
+         }
+                      
+      });
+
    }
 
    private void createEditorComposite(final IModelElement modelElement,
@@ -1160,17 +1201,16 @@ public class MessageTransformationApplicationControlsManager
       MultipleAccessPathBrowserContentProvider provider = new MultipleAccessPathBrowserContentProvider(
             DirectionType.INOUT_LITERAL, controller);
       sourceMessageTreeViewer.setContentProvider(provider);
-      sourceMessageTreeViewer.setLabelProvider(new DelegatingMessageTypeLabelProvider(
-            controller));
+      sourceMessageTreeViewer.setLabelProvider(sourceLabelProvider);            
       sourceMessageTreeViewer.setComparer(new MessageTypeComparer());
+      refModelSorter.setModel(this.model);
       sourceMessageTreeViewer.setInput(controller.getSourceMessageTypes());
       controller.setSourceAPB(provider);
 
       provider = new MultipleAccessPathBrowserContentProvider(
             DirectionType.INOUT_LITERAL, controller);
       targetMessageTreeViewer.setContentProvider(provider);
-      targetMessageTreeViewer.setLabelProvider(new DelegatingMessageTypeLabelProvider(
-            controller));
+      targetMessageTreeViewer.setLabelProvider(targetLabelProvider);      
       targetMessageTreeViewer.setComparer(new MessageTypeComparer());
       targetMessageTreeViewer.setInput(controller.getTargetMessageTypes());
       controller.setTargetAPB(provider);
