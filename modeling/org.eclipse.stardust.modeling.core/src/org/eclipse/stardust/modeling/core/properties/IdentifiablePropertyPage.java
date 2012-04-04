@@ -167,7 +167,7 @@ public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
    protected void contributeExtraControls(Composite composite)
    {
       publicCheckBox = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.CHECKBOX_Visibility);
+            Diagram_Messages.CHECKBOX_Visibility, 2);
       publicCheckBox.addSelectionListener(new SelectionAdapter()
       {
 

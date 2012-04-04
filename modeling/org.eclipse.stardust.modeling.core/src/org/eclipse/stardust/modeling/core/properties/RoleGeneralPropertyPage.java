@@ -69,10 +69,11 @@ public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
    }
 
    public void contributeExtraControls(Composite composite)
-   {
+   {            
+      super.contributeExtraControls(composite);
       FormBuilder.createLabel(composite, Diagram_Messages.LB_Cardinality);
       cardinalityText = FormBuilder.createText(composite);
-      cardinalityText.addVerifyListener(VerifierFactory.intVerifier);
+      cardinalityText.addVerifyListener(VerifierFactory.intVerifier);      
    }
 }
 
