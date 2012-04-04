@@ -13,36 +13,19 @@ package org.eclipse.stardust.modeling.core.properties;
 import java.util.Iterator;
 
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ElUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
-import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
 
 public class DataPropertyPage extends IdentifiablePropertyPage
 {
-   private Button publicCheckBox;
-
-   private boolean publicType;
-
-   private IModelElement modelElement;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol,
          final IModelElement element)
@@ -52,43 +35,14 @@ public class DataPropertyPage extends IdentifiablePropertyPage
       super.loadFieldsFromElement(symbol, element);
 
       ModelType model = ModelUtils.findContainingModel(element);
-      modelElement = element;
+
       final String dataId = ((DataType) element).getId();
 
       if (dataId != null)
       {
          bindTransitionConditions(model, dataId);
       }      
-      setupVisibility();
       refreshTree();
-   }
-
-
-   @Override
-   protected void contributeExtraControls(Composite composite)
-   {
-      super.contributeExtraControls(composite);
-      publicCheckBox = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.CHECKBOX_Visibility);
-      publicCheckBox.addSelectionListener(new SelectionAdapter()
-      {
-
-         public void widgetSelected(SelectionEvent e)
-         {
-
-            publicType = !publicType;
-            if (publicType)
-            {
-               AttributeUtil.setAttribute((IExtensibleElement) modelElement,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Public"); //$NON-NLS-1$
-            }
-            else
-            {
-               AttributeUtil.setAttribute((IExtensibleElement) modelElement,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY, "Private"); //$NON-NLS-1$
-            }
-         }
-      });
    }
 
    private void bindTransitionConditions(ModelType model, final String dataId)
@@ -164,34 +118,4 @@ public class DataPropertyPage extends IdentifiablePropertyPage
       }
    }
    
-   private void setupVisibility()
-   {
-      AttributeType visibility = AttributeUtil.getAttribute(
-            (IExtensibleElement) modelElement,
-            PredefinedConstants.MODELELEMENT_VISIBILITY);
-      if (visibility == null)
-      {
-         String visibilityDefault = PlatformUI.getPreferenceStore().getString(
-               BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
-         if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
-               || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
-         {
-            AttributeUtil.setAttribute((IExtensibleElement) modelElement,
-                  PredefinedConstants.MODELELEMENT_VISIBILITY, "Public"); //$NON-NLS-1$
-            publicType = true;
-         }
-      }
-      else
-      {
-         if (visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
-         {
-            publicType = true;
-         }
-         else
-         {
-            publicType = false;
-         }
-      }
-      publicCheckBox.setSelection(publicType);
-   }
 }
