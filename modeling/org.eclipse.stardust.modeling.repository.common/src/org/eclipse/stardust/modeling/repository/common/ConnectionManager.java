@@ -80,6 +80,17 @@ public class ConnectionManager implements IConnectionManager
                   return false;
                }
             }
+            if (eObjectdescriptor.getEObject() instanceof RoleType)
+            {
+               RoleType roleType = eObjectdescriptor.getEObject();
+               AttributeType visibility = AttributeUtil.getAttribute(
+                     (IExtensibleElement) roleType,
+                     PredefinedConstants.MODELELEMENT_VISIBILITY);
+               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
+               {
+                  return false;
+               }
+            }
             if (eObjectdescriptor.getEObject() instanceof DataType)
             {
                DataType dataType = eObjectdescriptor.getEObject();
