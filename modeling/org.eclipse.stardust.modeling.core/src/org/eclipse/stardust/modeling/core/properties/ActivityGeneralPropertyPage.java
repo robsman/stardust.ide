@@ -11,7 +11,12 @@
 package org.eclipse.stardust.modeling.core.properties;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -97,7 +102,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
                         .getName(), "core"); //$NON-NLS-1$
             addNodeTo(null, new CarnotPreferenceNode(qualityControlCodes, getElement(), 2), null);
             refreshTree();
-         }         
+         }          
       }      
    }
 
@@ -109,7 +114,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      super.loadElementFromFields(symbol, element);
+      super.loadElementFromFields(symbol, element);      
       ActivityType activity = (ActivityType) element;
       if (activity != null)
       {
@@ -134,6 +139,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
          updateRelocateTransition((ProcessDefinitionType) activity.eContainer());
       }
    }
+  
 
    private void updateRelocateTransition(ProcessDefinitionType process)
    {
@@ -173,6 +179,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
 
    public void contributeExtraControls(Composite composite)
    {
+      super.contributeExtraControls(composite);
       Composite panel = FormBuilder.createComposite(composite, 2, 2);
       GridLayout grid = (GridLayout) panel.getLayout();
       grid.makeColumnsEqualWidth = true;
@@ -187,4 +194,6 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
       relocateTargetCheck = FormBuilder.createCheckBox(panel, "Is relocation target",
             new GridData(SWT.LEAD, SWT.CENTER, true, false));
    }
+   
+
 }

@@ -22,6 +22,7 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
@@ -29,7 +30,7 @@ public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
    private Text cardinalityText;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
-   {
+   {      
       super.loadFieldsFromElement(symbol, element);
       RoleType role = (RoleType) element;
       String cardinality = NumberFormat.getIntegerInstance()
@@ -68,6 +69,13 @@ public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
       }
    }
 
+   @Override
+   public Control createBody(Composite parent)
+   {      
+      setProvidesVisibility(true);
+      return super.createBody(parent);      
+   }
+
    public void contributeExtraControls(Composite composite)
    {            
       super.contributeExtraControls(composite);
@@ -75,6 +83,7 @@ public class RoleGeneralPropertyPage extends IdentifiablePropertyPage
       cardinalityText = FormBuilder.createText(composite);
       cardinalityText.addVerifyListener(VerifierFactory.intVerifier);      
    }
+   
 }
 
 

@@ -23,13 +23,15 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ElUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 public class DataPropertyPage extends IdentifiablePropertyPage
 {
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol,
          final IModelElement element)
-   {
+   {      
       setEditableText(((DataType) element).isPredefined());
 
       super.loadFieldsFromElement(symbol, element);
@@ -42,7 +44,15 @@ public class DataPropertyPage extends IdentifiablePropertyPage
       {
          bindTransitionConditions(model, dataId);
       }      
+    
       refreshTree();
+   }
+
+   @Override
+   public Control createBody(Composite parent)
+   {
+      setProvidesVisibility(true);
+      return super.createBody(parent);
    }
 
    private void bindTransitionConditions(ModelType model, final String dataId)
@@ -116,6 +126,6 @@ public class DataPropertyPage extends IdentifiablePropertyPage
          autoIdButton.setEnabled(false);
          txtDescription.getText().setEditable(!isPredefined);
       }
-   }
+   }  
    
 }
