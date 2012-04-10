@@ -593,18 +593,12 @@ public class UpgradeModelAction extends SelectionAction
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.engine.core.extensions.actions.trigger.TriggerActionValidator"); //$NON-NLS-1$
-      createModifiedValidatorCmd(command, eventAction,
-            PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
-            "org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.TriggerActionValidator"); //$NON-NLS-1$
 
       eventAction = (EventActionTypeType) ModelUtils.findIdentifiableElement(model
             .getEventActionType(), PredefinedConstants.MAIL_ACTION);
       createModifiedValidatorCmd(command, eventAction,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.engine.extensions.mail.action.sendmail.MailActionValidator"); //$NON-NLS-1$
-      createModifiedValidatorCmd(command, eventAction,
-            PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
-            "org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.MailActionValidator"); //$NON-NLS-1$
 
       ApplicationContextTypeType appContext = (ApplicationContextTypeType) ModelUtils
             .findIdentifiableElement(model.getApplicationContextType(),
@@ -612,19 +606,12 @@ public class UpgradeModelAction extends SelectionAction
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.engine.core.extensions.interactive.contexts.jfc.JFCValidator"); //$NON-NLS-1$
-      createModifiedValidatorCmd(command, appContext,
-            PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
-            "org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"); //$NON-NLS-1$
 
       appContext = (ApplicationContextTypeType) ModelUtils.findIdentifiableElement(model
             .getApplicationContextType(), PredefinedConstants.JSP_CONTEXT);
       createModifiedValidatorCmd(command, appContext,
             PredefinedConstants.VALIDATOR_CLASS_ATT,
             "org.eclipse.stardust.engine.extensions.web.jsp.contexts.JSPValidator"); //$NON-NLS-1$
-      createModifiedValidatorCmd(command, appContext,
-            PredefinedConstants.RUNTIME_VALIDATOR_CLASS_ATT,
-            "org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"); //$NON-NLS-1$
-
    }
    
    private void createModifiedValidatorCmd(CompoundCommand command,

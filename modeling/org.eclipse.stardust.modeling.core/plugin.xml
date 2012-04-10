@@ -126,9 +126,6 @@
          <attribute
             name="carnot:engine:validator"
             value="ag.carnot.workflow.spi.providers.data.java.PrimitiveValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"/>
       </dataType>
       <dataType
          accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializableAccessPathEditor"
@@ -151,9 +148,6 @@
          <attribute
             name="carnot:engine:validator"
             value="ag.carnot.workflow.spi.providers.data.java.SerializableValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"/>
       </dataType>
       <dataType
          accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.entity.EntityBeanAccessPathEditor"
@@ -176,9 +170,6 @@
          <attribute
             name="carnot:engine:validator"
             value="ag.carnot.workflow.spi.providers.data.entitybean.EntityBeanValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"/>
       </dataType>
       <dataType
          accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML.PlainXMLAccessPathEditor"
@@ -200,9 +191,6 @@
          <attribute
             name="carnot:engine:validator"
             value="ag.carnot.workflow.spi.providers.data.plainxml.XMLValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"/>
       </dataType>
       <dataType
             accessPathEditorClass="org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPathEditor"
@@ -267,9 +255,6 @@
          <attribute
             name="carnot:exdesk:runtimePanel"
             value="ag.carnot.workflow.spi.providers.conditions.timer.TimerbasedRuntimeBindPanel"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.TimerValidator"/>
          <reference
                attributeName="carnot:engine:data"
                scope="data"/>
@@ -288,9 +273,6 @@
          <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionAccessPointProvider"/>
          <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionCondition"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.exception.ExceptionConditionValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ExceptionConditionValidator"/>
       </condition>
       <condition
             accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.statechange.StateChangeAccessPointProvider"
@@ -305,9 +287,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionPropertiesPanel"/>
          <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeCondition"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
       </condition>
       <condition
             activityCondition="false"
@@ -321,9 +300,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeConditionPropertiesPanel"/>
          <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.statechange.ProcessStatechangeCondition"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.conditions.statechange.StatechangeConditionValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.StatechangeConditionValidator"/>
       </condition>
       <condition
             accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.onAssignment.OnAssignmentAccessPointProvider"
@@ -338,23 +314,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentConditionPropertiesPanel"/>
          <attribute name="carnot:engine:condition" value="ag.carnot.workflow.spi.providers.conditions.assignment.AssignmentCondition"/>
       </condition>
-      <!--condition
-            activityCondition="true"
-            icon="icons/full/obj16/observer_condition_icon.gif"
-            id="observer"
-            implementation="push"
-            name="%conditionObserver"
-            processCondition="false"
-            propertyPageClass="org.eclipse.stardust.modeling.core.spi.conditionTypes.observer.ObserverPropertyPage">
-         <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/wfxml/spi/conditions/icon.gif"/>
-         <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationPropertiesPanel"/>
-         <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationAccessPointProvider"/>
-         <attribute name="carnot:engine:condition" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationCondition"/>
-         <attribute name="carnot:engine:validator" value="ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ObserverNotificationValidator"/>
-      </condition-->
    </extension>
    <extension
          point="org.eclipse.stardust.modeling.core.actionTypes">
@@ -372,7 +331,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerActionValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.TriggerActionValidator"/>
          <reference
                attributeName="carnot:engine:processDefinition"
                scope="processDefinition"/>
@@ -391,7 +349,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.mail.MailActionValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.MailActionValidator"/>
          <reference
                attributeName="carnot:engine:receiver"
                scope="role+organization+conditionalPerformer"/>
@@ -476,7 +433,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.ExcludeUserActionValidator"/>
          <reference
                attributeName="carnot:engine:excludedPerformerData"
                scope="data"/>
@@ -495,7 +451,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.SetDataActionValidator"/>
          <reference
                attributeName="carnot:engine:dataId"
                scope="data"/>
@@ -529,9 +484,6 @@
          <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanAccessPointProvider"/>
          <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanApplicationInstance"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.sessionbean.SessionBeanValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBeanValidator"/>
       </application>
       <application
             accessPointProvider="org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava.PlainJavaAccessPointProvider"
@@ -545,9 +497,6 @@
          <attribute name="carnot:engine:accessPointProvider" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaAccessPointProvider"/>
          <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaApplicationInstance"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.plainjava.PlainJavaValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.PlainJavaValidator"/>
       </application>
       <application
             icon="icons/full/obj16/jms_application_icon.gif"
@@ -558,9 +507,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationPanel"/>
          <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.jms.JMSApplicationInstance"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.jms.JMSValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.JMSValidator"/>
       </application>
       <application
             icon="icons/full/obj16/webservice_application_icon.gif"
@@ -571,28 +517,7 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.applications.ws.gui.WebserviceApplicationPanel"/>
          <attribute name="carnot:engine:applicationInstance" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationInstance"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.applications.ws.WebserviceApplicationValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.WebserviceApplicationValidator"/>
       </application>
-      <!--application
-            icon="icons/full/obj16/wfxml_application_icon.gif"
-            id="wfxml"
-            name="WfXML 2.0 Application"
-            synchronous="false">
-         <attribute
-               name="carnot:defdesk:icon"
-               value="/ag/carnot/workflow/spi/providers/applications/wfxml/gui/icon.gif"/>
-         <attribute
-               name="carnot:defdesk:panel"
-               value="ag.carnot.workflow.spi.providers.applications.wfxml.gui.WfXMLApplicationPanel"/>
-         <attribute
-               name="carnot:engine:applicationInstance"
-               value="ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationInstance"/>
-         <attribute
-               name="carnot:engine:validator"
-               value="ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationValidator"/>
-      </application-->
    </extension>
    <extension
          point="org.eclipse.stardust.modeling.core.contextTypes">
@@ -625,7 +550,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"/>
          <attribute name="carnot:exdesk:instance" value="ag.carnot.workflow.spi.providers.contexts.jfc.JFCApplicationInstance"/>
       </context>
       <context
@@ -640,7 +564,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.contexts.jsp.JSPValidator"/>
-         <attribute name="carnot:engine:runtimeValidator" value="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"/>
       </context>
       <context
             hasApplicationPath="true"
@@ -660,9 +583,6 @@
          <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/manual/icon.gif"/>
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerPanel"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.ManualTriggerValidator"/>
          <reference
                attributeName="carnot:engine:participant"
                scope="role+organization"/>
@@ -677,9 +597,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerPanel"/>
          <attribute name="carnot:engine:jmsAcceptor" value="ag.carnot.workflow.spi.providers.triggers.jms.DefaultTriggerMessageAcceptor"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.jms.JMSTriggerValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.JMSTriggerValidator"/>
       </trigger>
       <trigger
             icon="icons/full/obj16/mail_trigger_icon.gif"
@@ -691,9 +608,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerPanel"/>
          <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerEvaluator"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.mail.MailTriggerValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.MailTriggerValidator"/>
       </trigger>
       <trigger
             icon="icons/full/obj16/timer_trigger_icon.gif"
@@ -705,9 +619,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerPanel"/>
          <attribute name="carnot:engine:pullTriggerEvaluator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerEvaluator"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.timer.TimerTriggerValidator"/>
-         <attribute
-               name="carnot:engine:runtimeValidator"
-               value="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.TimerTriggerValidator"/>
       </trigger>
       <trigger
             icon="icons/full/obj16/scan_trigger_icon.gif"
