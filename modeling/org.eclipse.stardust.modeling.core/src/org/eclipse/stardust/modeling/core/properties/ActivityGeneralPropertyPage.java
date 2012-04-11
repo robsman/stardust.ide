@@ -11,12 +11,7 @@
 package org.eclipse.stardust.modeling.core.properties;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -48,14 +43,15 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
    {
       super.loadFieldsFromElement(symbol, element);
       ActivityType activity = (ActivityType) element;
-      if (ActivityUtil.isInteractive(activity))
+      switch (activity.getImplementation())
       {
+      case MANUAL_LITERAL:
+      case APPLICATION_LITERAL:
          setButtonState(abortCheck, true, activity.isAllowsAbortByPerformer());
          setButtonState(relocateSourceCheck, true,
                AttributeUtil.getBooleanValue(activity, PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT));
-      }
-      else
-      {
+         break;
+      default:
          setButtonState(abortCheck, false, false);
          setButtonState(relocateSourceCheck, false, false);
       }
@@ -116,28 +112,26 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
    {
       super.loadElementFromFields(symbol, element);      
       ActivityType activity = (ActivityType) element;
-      if (activity != null)
+      switch (activity.getImplementation())
       {
-         if (ActivityUtil.isInteractive(activity))
-         {
-            activity.setAllowsAbortByPerformer(abortCheck.getSelection());
-            AttributeUtil.setBooleanAttribute(activity,
-                  PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT,
-                  relocateSourceCheck.getSelection());
-         }
-         else
-         {
-            activity.unsetAllowsAbortByPerformer();
-            AttributeUtil.setBooleanAttribute(activity,
-                  PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT, null);
-         }
+      case MANUAL_LITERAL:
+      case APPLICATION_LITERAL:
+         activity.setAllowsAbortByPerformer(abortCheck.getSelection());
          AttributeUtil.setBooleanAttribute(activity,
-               PredefinedConstants.ACTIVITY_IS_RELOCATE_TARGET_ATT,
-               relocateTargetCheck.getSelection() ? Boolean.TRUE : null);
-         activity.setHibernateOnCreation(hibernateCheck.getSelection());
-         
-         updateRelocateTransition((ProcessDefinitionType) activity.eContainer());
+               PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT,
+               relocateSourceCheck.getSelection());
+         break;
+      default:
+         activity.unsetAllowsAbortByPerformer();
+         AttributeUtil.setBooleanAttribute(activity,
+               PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT, null);
       }
+      AttributeUtil.setBooleanAttribute(activity,
+            PredefinedConstants.ACTIVITY_IS_RELOCATE_TARGET_ATT,
+            relocateTargetCheck.getSelection() ? Boolean.TRUE : null);
+      activity.setHibernateOnCreation(hibernateCheck.getSelection());
+      
+      updateRelocateTransition((ProcessDefinitionType) activity.eContainer());
    }
   
 
