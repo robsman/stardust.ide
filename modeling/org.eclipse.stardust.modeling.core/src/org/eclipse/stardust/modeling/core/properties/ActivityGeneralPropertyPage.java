@@ -140,7 +140,8 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
       boolean supportsRelocation = false;
       for (ActivityType activity : process.getActivity())
       {
-         if (AttributeUtil.getBooleanValue(activity, PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT))
+         if (AttributeUtil.getBooleanValue(activity, PredefinedConstants.ACTIVITY_IS_RELOCATE_SOURCE_ATT)
+               || AttributeUtil.getBooleanValue(activity, PredefinedConstants.ACTIVITY_IS_RELOCATE_TARGET_ATT))
          {
             supportsRelocation = true;
             break;
