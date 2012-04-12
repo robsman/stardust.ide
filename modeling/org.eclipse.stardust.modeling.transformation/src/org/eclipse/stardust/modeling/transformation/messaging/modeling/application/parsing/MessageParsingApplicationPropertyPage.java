@@ -170,7 +170,7 @@ public class MessageParsingApplicationPropertyPage extends
 			public void widgetSelected(SelectionEvent e)
 			{
 				ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
-				ILaunchConfigurationType ct = lm.getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.messaging.modeling.application.launch.testType"); //$NON-NLS-1$
+				ILaunchConfigurationType ct = lm.getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.application.launch.testType"); //$NON-NLS-1$
 				
 				try
 				{
