@@ -228,4 +228,14 @@ public class ModelElementsOutlineSynchronizer
       provider.removeNode(provider.getParentNodeId() + "." + id); //$NON-NLS-1$
       provider.updateVisuals();
    }
+   
+   public boolean isInit()
+   {
+      return isInit;
+   }
+
+   public void setInit(boolean isInit)
+   {
+      this.isInit = isInit;
+   }
 }

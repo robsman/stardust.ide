@@ -193,6 +193,7 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
 
    private void updateOutline()
    {
+      outlineSynchronizer.setInit(false);
       if (isProviding)
       {
          outlineSynchronizer.init(formalParameters);
@@ -459,7 +460,7 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
                      parameterMappings.setMappedData(mappingType.getParameter(), null);
                   }
                   process.setFormalParameterMappings(parameterMappings);
-
+                  updateOutline();
                }
             }
          }
