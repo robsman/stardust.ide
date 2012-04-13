@@ -171,6 +171,8 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
          txtName.getText().setEnabled(false);
          autoIdButton.setEnabled(false);
       }
+      
+      validateInput();
    }   
 
    public void apply()
@@ -327,7 +329,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
      if (txtName.getText().getText().length() == 0
            || txtId.getText().getText().length() == 0)           
      {
-        setMessage("", ERROR); //$NON-NLS-1$
+        setMessage(Structured_Messages.TypeDeclarationPropertyPage_EmptyValuesMessage, ERROR);
         setValid(false);
         return;
      }
@@ -335,7 +337,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
      if(!ModelUtils.isValidId(txtId.getText().getText()))
      {
         setMessage(MessageFormat.format(
-              "", //$NON-NLS-1$
+              Structured_Messages.ComplexTypePropertyPage_InvalidFieldIdentifierErrorMessage,
               new Object [] {txtId.getText().getText()}), ERROR);
         setValid(false);
         return;                                   
@@ -352,7 +354,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
            if (td.getId().equals(txtId.getText().getText()))
            {
               setMessage(MessageFormat.format(
-                    "", //$NON-NLS-1$
+                    Structured_Messages.TypeDeclarationPropertyPage_DuplicateValueMessage,
                     new Object [] {txtId.getText().getText()}), ERROR);
               setValid(false);
               return;     
@@ -360,7 +362,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
            if (td.getName().equals(txtName.getText().getText()))
            {
               setMessage(MessageFormat.format(
-                    "", //$NON-NLS-1$
+                    Structured_Messages.TypeDeclarationPropertyPage_DuplicateValueMessage,
                     new Object [] {txtName.getText().getText()}), ERROR);
               setValid(false);
               return;

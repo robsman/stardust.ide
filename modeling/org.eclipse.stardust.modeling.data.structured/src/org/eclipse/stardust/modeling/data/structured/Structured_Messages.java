@@ -227,6 +227,12 @@ public class Structured_Messages extends NLS
    public static String ImportIdDialog_EmptyId;
    
    public static String LBL_Sequence;
+   
+   public static String TypeDeclarationPropertyPage_EmptyValuesMessage;
+
+   public static String TypeDeclarationPropertyPage_DuplicateValueMessage;
+   
+   public static String TypeDeclarationPropertyPage_InvalidIdentifierErrorMessage;
 
 
 public static String Question;   
