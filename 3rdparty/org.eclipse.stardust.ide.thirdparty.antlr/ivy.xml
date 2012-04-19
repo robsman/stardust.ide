@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="antlr" name="antlr" rev="2.7.7" transitive="false" conf="bom->default" />
+      <dependency org="antlr" name="antlr" rev="3.2" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

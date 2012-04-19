@@ -21,7 +21,7 @@
   </parent>
 
   <artifactId>org.eclipse.stardust.ide.thirdparty.antlr</artifactId>
-  <version>2.7.7</version>
+  <version>3.2</version>
 
   <packaging>eclipse-plugin</packaging>
 
@@ -29,7 +29,7 @@
     <dependency>
       <groupId>antlr</groupId>
       <artifactId>antlr</artifactId>
-      <version>${project.version}</version>
+      <version>${project.version}</version>      <exclusions>        <exclusion>          <groupId>org.antlr</groupId>          <artifactId>stringtemplate</artifactId>        </exclusion>      </exclusions>
     </dependency>
   </dependencies>
 
