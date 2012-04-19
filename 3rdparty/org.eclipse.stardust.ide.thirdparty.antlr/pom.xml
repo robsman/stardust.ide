@@ -27,8 +27,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>antlr</groupId>
-      <artifactId>antlr</artifactId>
+      <groupId>org.antlr</groupId>      <artifactId>antlr-runtime</artifactId>
       <version>${project.version}</version>      <exclusions>        <exclusion>          <groupId>org.antlr</groupId>          <artifactId>stringtemplate</artifactId>        </exclusion>      </exclusions>
     </dependency>
   </dependencies>
