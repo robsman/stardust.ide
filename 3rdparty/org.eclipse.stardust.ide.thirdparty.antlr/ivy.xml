@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="antlr" name="antlr-runtime" rev="3.2" transitive="false" conf="bom->default" />
+      <dependency org="org.antlr" name="antlr-runtime" rev="3.2" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>
