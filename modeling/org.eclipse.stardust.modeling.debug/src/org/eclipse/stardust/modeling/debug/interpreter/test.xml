@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE DATA_GROUP SYSTEM "Metadata.dtd">
+<!-- Revision 1.1 data/unknown, docs, xml4j2, -->
+<DATA_GROUP id="12" label="SA26">
+<DATA id="12" type="integer" label="DACS-ID" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="DACS-ID-lfd.-Nr." mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Satzart" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Satzkennung" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Unsicherheits-KZ" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Dienststelle" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Schalter" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Ausgabedatum" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Beleg-Nr." mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Verkaufsart" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Kz-Buchungsart" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Rechnungsmonat" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Hin/Rück-Kz." mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Gesamterlös" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Erlös je Karte" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Anzahl verk. Karten" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Erwachsene" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Kinder" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Klasse-DB" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Verkaufsanweisung" mandatory="true" readonly="false">
+</DATA>
+<DATA_GROUP id="12" label="Stammteil Kurs '90">
+<DATA_GROUP id="12">
+<DATA id="12" type="integer" label="Ausgabestelle" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Ausgabe-Schalter" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Akquirierende Dst." mandatory="true" readonly="true">
+</DATA>
+<TABLE_DATA id="12" readonly="true">
+<COLUMN id="12" type="int" label="Column 1" mandatory="true" readonly="true">
+</COLUMN>
+<COLUMN id="12" type="int" label="Column 2" mandatory="true" readonly="true">
+</COLUMN>
+<COLUMN id="12" type="int" label="Column 3" mandatory="true" readonly="true">
+</COLUMN>
+</TABLE_DATA>
+</DATA_GROUP>
+<DATA_GROUP id="12">
+<DATA id="12" type="integer" label="1. Geltungstag" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Letzter Geltungstag" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Ausgabezeit" mandatory="true" readonly="true">
+</DATA>
+</DATA_GROUP>
+<DATA_GROUP id="12">
+<DATA id="12" type="integer" label="Kostenzuschlag DB" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Kostenzuschlag 3te" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Sonstige Einnahmen" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Preisnachlass" mandatory="true" readonly="false">
+</DATA>
+<DATA id="12" type="integer" label="Fahrgeldanteil 3-te" mandatory="true" readonly="false">
+</DATA>
+</DATA_GROUP>
+</DATA_GROUP>
+<DATA_GROUP id="12" label="DB">
+<DATA_GROUP id="12" label="Subgroup1">
+<DATA id="12" type="integer" label="Label1" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label2" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label3" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label4" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label5" mandatory="true" readonly="true">
+</DATA>
+</DATA_GROUP>
+<DATA_GROUP id="12" label="Subgroup2">
+<DATA id="12" type="integer" label="Label1" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label2" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label3" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label4" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label5" mandatory="true" readonly="true">
+</DATA>
+</DATA_GROUP>
+<DATA_GROUP id="12" label="Subgroup2">
+<DATA id="12" type="integer" label="Label1" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label2" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label3" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label4" mandatory="true" readonly="true">
+</DATA>
+<DATA id="12" type="integer" label="Label5" mandatory="true" readonly="true">
+</DATA>
+</DATA_GROUP>
+</DATA_GROUP>
+<DATA_GROUP id="12" label="ICE">
+</DATA_GROUP>
+<DATA_GROUP id="12" label="TCV">
+</DATA_GROUP>
+<DATA_GROUP id="12" label="Sonstige">
+</DATA_GROUP>
+</DATA_GROUP>
