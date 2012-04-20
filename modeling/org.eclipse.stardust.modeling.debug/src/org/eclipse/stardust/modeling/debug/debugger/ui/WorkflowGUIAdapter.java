@@ -41,6 +41,7 @@ import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.runtime.gui.ApplicationEventListener;
 import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluator;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
+import org.eclipse.stardust.modeling.debug.interpreter.DefaultInterpreter;
 
 /**
  * Executes manual activities or applications (user defined)
@@ -58,7 +59,7 @@ public class WorkflowGUIAdapter extends JInternalFrame
 {
    private static final long serialVersionUID = 1L;
    
-//   private DefaultInterpreter manualInterpreter;
+   private DefaultInterpreter manualInterpreter;
    private Vector listeners;
    private InteractiveApplicationInstance applicationInstance;
    private ImplementationType implementationType;

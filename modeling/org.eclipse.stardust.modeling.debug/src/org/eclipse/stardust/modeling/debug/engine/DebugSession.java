@@ -566,12 +566,18 @@ public class DebugSession implements Session, Session.NotJoinEnabled
                   
                   Object value = currentTerm.getValueExpr();
 
-                  Assert.condition(Operator.IS_EQUAL == currentTerm.getOperator()
-                        || Operator.IN == currentTerm.getOperator()
-                        || Operator.NOT_IN == currentTerm.getOperator()
-                        || Operator.NOT_EQUAL == currentTerm.getOperator(),
-                        MessageFormat.format(Internal_Debugger_Messages.getString("EXP_UnsupportedPerdicateTerm_0_1_2"),  //$NON-NLS-1$
-                              new Object[] {attrName, currentTerm.getOperator(), value }));
+                  try
+                  {
+                     Assert.condition(Operator.IS_EQUAL == currentTerm.getOperator()
+                           || Operator.IN == currentTerm.getOperator()
+                           || Operator.NOT_IN == currentTerm.getOperator()
+                           || Operator.NOT_EQUAL == currentTerm.getOperator(),
+                           MessageFormat.format(Internal_Debugger_Messages.getString("EXP_UnsupportedPerdicateTerm_0_1_2"),  //$NON-NLS-1$
+                                 new Object[] {attrName, currentTerm.getOperator(), value }));
+                  }
+                  catch (Exception e)
+                  {
+                  }
 
                   predicates.add(new Match(attrName, value));
                }

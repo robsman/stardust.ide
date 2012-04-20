@@ -629,7 +629,7 @@ public class Debugger
          Class clsSpringUtils = null;
          try
          {
-            clsSpringUtils = Class.forName("ag.carnot.workflow.runtime.spring.SpringUtils"); //$NON-NLS-1$
+            clsSpringUtils = Class.forName("org.eclipse.stardust.engine.api.spring.SpringUtils"); //$NON-NLS-1$
             File file = new File(CARNOT_SPRING_DEBUGGING_CONTEXT_XML);
             if (file.exists())
             {

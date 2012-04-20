@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.config.ParametersFacade;
 import org.eclipse.stardust.engine.core.runtime.beans.ActionCarrier;
+import org.eclipse.stardust.engine.core.runtime.beans.ActivityThreadCarrier;
 import org.eclipse.stardust.engine.core.runtime.beans.ForkingService;
 import org.eclipse.stardust.engine.core.runtime.beans.ForkingServiceFactory;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
