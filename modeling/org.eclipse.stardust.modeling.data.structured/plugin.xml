@@ -37,7 +37,7 @@
 	</extension>
 
 	<extension point="org.eclipse.stardust.modeling.data.structured.applicationInfo">
-		<category name="Infinity Process Platform"
+		<category name="%infinityProcessPlatform"
 			defaultPrefix="carnot"
 			namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
 			<element name="storage"
@@ -59,7 +59,85 @@
 				</element>
 			</element>
 		</category>
-	</extension>
+        <category
+            defaultPrefix="carnot"
+            name="%infinityProperties"
+            namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
+            <element name="ui"
+                empty="true"
+                label="%uiCategory">
+                <element name="InputPreferences_showDescription"
+                    empty="false"
+                    label="%showStructureDescription"
+					type="boolean">
+					<enumeration name="%yes" value="true"/>
+					<enumeration name="%no" value="false"/>
+				</element>
+                <element name="InputPreferences_readonly"
+                    empty="false"
+                    label="%readonly"
+                    type="boolean">
+					<enumeration name="%yes" value="true"/>
+					<enumeration name="%no" value="false"/>
+				</element>
+		        <element name="InputPreferences_mandatory"
+                    empty="false"
+                    label="%mandatory"
+                    type="boolean">
+					<enumeration name="%yes" value="true"/>
+					<enumeration name="%no" value="false"/>
+				</element>
+                <element name="InputPreferences_style"
+                    empty="false"
+                    label="%cssStyle"
+                    type="string"/>                 
+                <element name="InputPreferences_styleClass"
+                    empty="false"
+                    label="%cssStyleClass"
+                    type="string"/>                 
+                <element name="InputPreferences_prefixKey"
+                    empty="false"
+                    label="%prefixI18NKey"
+                    type="string"/>
+                <element name="InputPreferences_prefix"
+                    empty="false"
+                    label="%prefix"
+                    type="string"/>
+                <element name="InputPreferences_suffixKey"
+                    empty="false"
+                    label="%suffixI18NKey"
+                    type="string"/>
+                <element name="InputPreferences_suffix"
+                    empty="false"
+                    label="%suffix"
+                    type="string"/>
+                <element name="StringInputPreferences_stringInputType"
+                    empty="false"
+                    label="%stringInputType"
+                    type="string">
+                    <enumeration name="%textInput" value="TEXTINPUT"/>
+                    <enumeration name="%textArea" value="TEXTAREA"/>
+                </element>
+                <element name="StringInputPreferences_textAreaRows"
+                    empty="false"
+                    label="%rows"
+                    type="long">
+                </element>
+                <element name="StringInputPreferences_textAreaColumns"
+                    empty="false"
+                    label="%columns"
+                    type="long">
+                </element>
+                <element name="BooleanInputPreferences_readonlyOutputType"
+                    empty="false"
+                    label="%booleanReadOnlyInputType"
+                    type="string">
+                    <enumeration name="%checkbox" value="CHECKBOX"/>
+                    <enumeration name="%textOutput" value="TEXTOUTPUT"/>
+                </element>
+            </element>
+        </category>
+    </extension>
 
 	<extension point="org.eclipse.ui.propertyPages">
 		<page id="_cwm_spi_data_"
