@@ -38,8 +38,6 @@ public class WebServicePropertyPage extends AbstractModelElementPropertyPage
    
    private Map delegates = new HashMap();
    private Map bodies = new HashMap();
-   private Button radioJaxws;
-   private Button radioCxf;
    private StackLayout stackLayout;
    private Composite bodyStack;
 
@@ -64,47 +62,6 @@ public class WebServicePropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       Composite bodyComposite = FormBuilder.createComposite(parent, 1);
-      if (isRuntimeSelectionActive())
-      {
-         Group versionGroup = FormBuilder.createGroup(bodyComposite, "Runtime: ", 2); //$NON-NLS-1$
-         versionGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData());
-         radioJaxws = FormBuilder.createRadioButton(versionGroup, Diagram_Messages.BUT_JAX);
-         radioJaxws.addSelectionListener(new SelectionListener() {
-               public void widgetDefaultSelected(SelectionEvent e)
-               {
-               }
-   
-               public void widgetSelected(SelectionEvent e)
-               {
-                  if (radioJaxws.getSelection())
-                  {
-                     setRuntime(WSConstants.JAXWS_RUNTIME);
-                  }
-               }
-         });
-         radioCxf = FormBuilder.createRadioButton(versionGroup, Diagram_Messages.BUT_JAXWS_CXF);
-         radioCxf.setVisible(false); // TODO enable CXF specific handling
-         radioCxf.addSelectionListener(new SelectionListener() {
-               public void widgetDefaultSelected(SelectionEvent e)
-               {
-               }
-      
-               public void widgetSelected(SelectionEvent e)
-               {
-                  if (radioCxf.getSelection())
-                  {
-                     // TODO enable CXF specific handling
-                     // setRuntime(WSConstants.JAXWS_CXF_RUNTIME);
-                  }
-               }
-         });
-      }
-      String runtime = getSetRuntimeAttribute();
-      if (isRuntimeSelectionActive())
-      {
-         radioJaxws.setSelection(WSConstants.JAXWS_RUNTIME.equals(runtime));
-         // radioCxf.setSelection(WSConstants.JAXWS_CXF_RUNTIME.equals(runtime));
-      }
       bodyStack = FormBuilder.createComposite(bodyComposite, 1);
       stackLayout = new StackLayout();
       bodyStack.setLayout(stackLayout);
@@ -112,11 +69,6 @@ public class WebServicePropertyPage extends AbstractModelElementPropertyPage
       return bodyComposite;
    }
    
-   private boolean isRuntimeSelectionActive()
-   {
-      return "true".equalsIgnoreCase(System.getProperty("moonglow.includeAxisSupport", "true")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-   }
-
    private void setCreateBody()
    {
       String style = getSetRuntimeAttribute();
@@ -206,9 +158,7 @@ public class WebServicePropertyPage extends AbstractModelElementPropertyPage
          style = AttributeUtil.getAttributeValue(app, WSConstants.RUNTIME_ATT);
          if (style == null)
          {
-            // old style app (not yet deleted for reference)
-            // String wsStyle = AttributeUtil.getAttributeValue(app, WSConstants.WS_BINDING_STYLE_ATT);
-            // style = wsStyle == null ? WSConstants.JAXWS_RUNTIME : WSConstants.AXIS_RUNTIME;
+            style = WSConstants.JAXWS_RUNTIME;
             AttributeUtil.setAttribute(app, WSConstants.RUNTIME_ATT, style);
          }
       }
