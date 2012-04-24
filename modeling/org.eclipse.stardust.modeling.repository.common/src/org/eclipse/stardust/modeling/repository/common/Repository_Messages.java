@@ -34,6 +34,7 @@ public class Repository_Messages extends NLS {
 	public static String MSG_FORMAT_CONNECTION_NULL_IS_CLOSED;
 	public static String MSG_FORMAT_NO_HANDLER_FOUND_FOR_CONNECTION_TYPE_NULL;
 	public static String TXT_CONFLICT;
+   public static String TXT_CONFLICT_Replace;	
 	public static String TXT_ERROR;
 	public static String TXT_INVALID_CONTAINING_FEATURE;
 	public static String EXC_IS_NOT_VALID_CLASSIFIER;
