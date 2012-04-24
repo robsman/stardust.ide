@@ -25,15 +25,5 @@
       <artifact name="org.eclipse.stardust.modeling.integration.dms" type="jar" conf="bom" />      
    </publications>
 
-   <dependencies>
-      <dependency org="com.infinity.bpm" name="infinity-process-engine-module" rev="${ipp.version.full}" transitive="false" conf="bom->carnot-dms-module-runtime">
-         <!--
-         <exclude org="commons-jxpath" module="commons-jxpath"/>
-         <exclude org="commons-collections" module="commons-collections"/>
-         <exclude org="org.apache.activemq" module="activemq-core"/>
-         <exclude org="org.apache.activemq" module="activemq-ra"/>
-         <exclude org="rhino" module="js"/>
-         -->
-      </dependency>
-   </dependencies>
+   <dependencies/>
 </ivy-module>
