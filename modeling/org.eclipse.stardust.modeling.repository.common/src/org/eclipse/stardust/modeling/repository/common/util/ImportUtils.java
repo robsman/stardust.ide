@@ -38,6 +38,7 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescri
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
+import org.eclipse.stardust.modeling.repository.common.ui.dialogs.ConflictDialog;
 import org.eclipse.swt.graphics.Image;
 
 public final class ImportUtils
@@ -46,7 +47,7 @@ public final class ImportUtils
 
    private ImportUtils() {}
 
-   public static Map<EObject, MergeAction> reuseReplaceMap(Map<EObject, EObject> map, IconFactory iconFactory)
+   public static Map<EObject, MergeAction> reuseReplaceMap(Map<EObject, EObject> map, IconFactory iconFactory, boolean asLink)
    {
       Map<EObject, MergeAction> reuseReplace = new HashMap<EObject, MergeAction>();
       for (Map.Entry<EObject, EObject> entry : map.entrySet())
@@ -55,13 +56,26 @@ public final class ImportUtils
          EObject original = entry.getValue();
          if (original != null)
          {
-            MergeAction action = UsageDisplayDialog.acceptClosure(null, iconFactory, element, original);
-            if (action == null)
+            if(asLink)
             {
-               UsageDisplayDialog.setUsage(null);
-               return null;
+               MergeAction action = ConflictDialog.acceptClosure(null, iconFactory, element, original);
+               if (action == null)
+               {
+                  UsageDisplayDialog.setUsage(null);
+                  return null;
+               }
+               reuseReplace.put(original, action);               
             }
-            reuseReplace.put(original, action);
+            else
+            {
+               MergeAction action = UsageDisplayDialog.acceptClosure(null, iconFactory, element, original);
+               if (action == null)
+               {
+                  UsageDisplayDialog.setUsage(null);
+                  return null;
+               }
+               reuseReplace.put(original, action);                              
+            }            
          }
       }      
       UsageDisplayDialog.setUsage(null);

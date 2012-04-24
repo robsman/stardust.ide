@@ -175,14 +175,9 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
       
       Map<EObject, MergeAction> reuseReplace = Collections.emptyMap();
       Map<EObject, EObject> map = MergeUtils.createClosureMap(closure, targetModel);
-      if (asLink && !map.isEmpty())
+      if (!map.isEmpty())
       {
-         // TODO: ConflictDialog.showConflict(null, iconFactory, eObject, map.get(eObject))
-         // ConflictDialog should be similar with UsageDisplayDialog in layout.
-      }
-      else
-      {
-         reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory);
+         reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory, asLink);
          // CANCEL pressed
          if (reuseReplace == null)
          {
