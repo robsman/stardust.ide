@@ -10,7 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+
 public class ConditionalPerformerPropertyPage extends IdentifiablePropertyPage
 {
-   // no longer extended functionality
+   @Override
+   public Control createBody(Composite parent)
+   {
+      setProvidesVisibility(true);
+      return super.createBody(parent);
+   }
 }
