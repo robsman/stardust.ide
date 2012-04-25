@@ -102,6 +102,17 @@ public class ConnectionManager implements IConnectionManager
                   return false;
                }
             }
+            if (eObjectdescriptor.getEObject() instanceof ConditionalPerformerType)
+            {
+               ConditionalPerformerType conPerfType = eObjectdescriptor.getEObject();
+               AttributeType visibility = AttributeUtil.getAttribute(
+                     (IExtensibleElement) conPerfType,
+                     PredefinedConstants.MODELELEMENT_VISIBILITY);
+               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
+               {
+                  return false;
+               }
+            }
             if (eObjectdescriptor.getEObject() instanceof DataType)
             {
                DataType dataType = eObjectdescriptor.getEObject();
