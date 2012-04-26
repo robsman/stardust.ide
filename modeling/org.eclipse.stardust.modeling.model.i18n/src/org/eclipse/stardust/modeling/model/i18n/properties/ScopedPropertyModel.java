@@ -14,19 +14,16 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ScopedPropertyModel extends AdapterImpl
 {
    private PropertyModel model = null;
-   private IModelElement element = null;
+   private EObject element = null;
    private Set<String> propertiesSet = CollectionUtils.newSet();
 
    /**
@@ -34,7 +31,7 @@ public class ScopedPropertyModel extends AdapterImpl
     */
    private String prefix = null;
 
-   public ScopedPropertyModel(IModelElement element)
+   public ScopedPropertyModel(EObject element)
    {
       this.element = element;
       
@@ -45,7 +42,9 @@ public class ScopedPropertyModel extends AdapterImpl
       
       propertiesSet.clear();
       propertiesSet.add(PropertyModel.NAME); //$NON-NLS-1$
-      if (element instanceof ModelType || element instanceof IIdentifiableModelElement)
+      if (element instanceof ModelType 
+            || element instanceof IIdentifiableModelElement 
+            || element instanceof Code)
       {
          propertiesSet.add(PropertyModel.DESCRIPTION); //$NON-NLS-1$
       }

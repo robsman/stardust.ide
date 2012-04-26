@@ -250,6 +250,11 @@ public class PropertyModel
       String prefix = computePrefix(null, model, null, true);
       if(model instanceof Code)
       {
+         String nameKey = prefix + NAME;
+         if (shouldAddKey(nameKey))
+         {
+            props.put(nameKey, getNameFrom(model));
+         }         
          String descriptionKey = prefix + DESCRIPTION;
          if (shouldAddKey(descriptionKey))
          {
@@ -326,6 +331,10 @@ public class PropertyModel
       {
          name = String.valueOf(((IModelElement) model).getElementOid());
       }
+      else if (model instanceof Code)
+      {
+         name = ((Code) model).getName();
+      }            
       return name == null ? "" : name; //$NON-NLS-1$
    }
 
@@ -505,14 +514,14 @@ public class PropertyModel
       {
          buffer.append(((IIdentifiableElement) element).getId());
       }
+      else if (element instanceof Code)
+      {
+         buffer.append(((Code) element).getCode());
+      }            
       else if (element instanceof IModelElement)
       {
          buffer.append(((IModelElement) element).getElementOid());
       }
-      else if (element instanceof Code)
-      {
-         buffer.append(((Code) element).getCode());
-      }      
       else
       {         
          buffer.append(element.toString());

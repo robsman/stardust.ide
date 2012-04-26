@@ -67,7 +67,15 @@ public class I18NBundlesPropertyPage extends AbstractModelElementPropertyPage
    {
       if (model == null)
       {
-         model = new ScopedPropertyModel(element);
+         try
+         {
+            model = new ScopedPropertyModel(element);
+         }
+         catch (Exception e)
+         {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
          model.register();
          propertiesList.setModel(model);
          valuesEditor.setModel(model);

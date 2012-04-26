@@ -34,6 +34,7 @@
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataMappingType"/>
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType"/>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.Code"/>               
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
             </or>
          </enabledWhen>
