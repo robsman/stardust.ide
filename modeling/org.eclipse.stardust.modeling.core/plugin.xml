@@ -838,6 +838,20 @@
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
       <page
             category="core"
+            class="org.eclipse.stardust.modeling.core.properties.QualityAssuranceCodesPropertyPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_quality_control_codes_"            
+            name="%propPageModelQualityControl"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>            
+      <page
+            category="core"
+            class="org.eclipse.stardust.modeling.core.properties.QualityAssuranceCodePropertyPage"
+            icon="icons/full/obj16/model.gif"
+            id="_cwm_quality_control_code_"
+            name="%propPageModelQualityControlCode"
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.Code"/>                        
+      <page
+            category="core"
             class="org.eclipse.stardust.modeling.core.properties.VariablesConfigurationPage"
             icon="icons/full/obj16/model.gif"
             id="_cwm_model_variables_"
@@ -850,13 +864,6 @@
             id="_cwm_model_variables_"
             name="%propPageActivityCriticality"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                      
-      <page
-            category="core"
-            class="org.eclipse.stardust.modeling.core.properties.QualityControlCodesPropertyPage"
-            icon="icons/full/obj16/model.gif"
-            id="_cwm_model_quality_control_"
-            name="%propPageModelQualityControl"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                                  
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.OrganizationPropertyPage"
