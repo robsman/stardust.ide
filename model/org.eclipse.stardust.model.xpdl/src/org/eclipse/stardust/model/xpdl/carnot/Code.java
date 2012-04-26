@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.Code#getCode <em>Code</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.Code#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.Code#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,7 +44,7 @@ public interface Code extends EObject
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * Quality Control Code.
+    * Quality Control Code. 
     * <!-- end-model-doc -->
     * @return the value of the '<em>Code</em>' attribute.
     * @see #setCode(String)
@@ -89,5 +90,31 @@ public interface Code extends EObject
     * @generated
     */
    void setValue(String value);
+
+   /**
+    * Returns the value of the '<em><b>Name</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * <!-- begin-model-doc -->
+    * Quality Control Code Name.
+    * <!-- end-model-doc -->
+    * @return the value of the '<em>Name</em>' attribute.
+    * @see #setName(String)
+    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getCode_Name()
+    * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+    *        extendedMetaData="kind='attribute' name='name'"
+    * @generated
+    */
+   String getName();
+
+   /**
+    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.Code#getName <em>Name</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @param value the new value of the '<em>Name</em>' attribute.
+    * @see #getName()
+    * @generated
+    */
+   void setName(String value);
 
 } // Code

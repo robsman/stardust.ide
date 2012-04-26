@@ -317,6 +317,7 @@
     <genClasses ecoreClass="carnot.ecore#//Code">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/code"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/name"/>
     </genClasses>
     <genClasses ecoreClass="carnot.ecore#//ConditionalPerformerSymbolType">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ConditionalPerformerSymbolType/participant"/>

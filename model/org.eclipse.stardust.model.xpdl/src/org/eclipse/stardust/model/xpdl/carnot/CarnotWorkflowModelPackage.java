@@ -3454,13 +3454,22 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int CODE__VALUE = 1;
 
    /**
+    * The feature id for the '<em><b>Name</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int CODE__NAME = 2;
+
+   /**
     * The number of structural features of the '<em>Code</em>' class.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int CODE_FEATURE_COUNT = 2;
+   int CODE_FEATURE_COUNT = 3;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -11948,6 +11957,17 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EAttribute getCode_Value();
 
    /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.carnot.Code#getName <em>Name</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Name</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.Code#getName()
+    * @see #getCode()
+    * @generated
+    */
+   EAttribute getCode_Name();
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerSymbolType <em>Conditional Performer Symbol Type</em>}'.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @return the meta object for class '<em>Conditional Performer Symbol Type</em>'.
@@ -17110,6 +17130,14 @@ public interface CarnotWorkflowModelPackage extends EPackage {
        * @generated
        */
       EAttribute CODE__VALUE = eINSTANCE.getCode_Value();
+
+      /**
+       * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute CODE__NAME = eINSTANCE.getCode_Name();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ConditionalPerformerSymbolTypeImpl <em>Conditional Performer Symbol Type</em>}' class.

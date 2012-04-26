@@ -27,6 +27,7 @@ import org.eclipse.stardust.model.xpdl.carnot.Code;
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.CodeImpl#getCode <em>Code</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.CodeImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.CodeImpl#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,6 +81,26 @@ public class CodeImpl extends EObjectImpl implements Code
     * @ordered
     */
    protected String value = VALUE_EDEFAULT;
+
+   /**
+    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getName()
+    * @generated
+    * @ordered
+    */
+   protected static final String NAME_EDEFAULT = null;
+
+   /**
+    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getName()
+    * @generated
+    * @ordered
+    */
+   protected String name = NAME_EDEFAULT;
 
    /**
     * <!-- begin-user-doc -->
@@ -153,6 +174,29 @@ public class CodeImpl extends EObjectImpl implements Code
     * <!-- end-user-doc -->
     * @generated
     */
+   public String getName()
+   {
+      return name;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public void setName(String newName)
+   {
+      String oldName = name;
+      name = newName;
+      if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.CODE__NAME, oldName, name));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    @Override
    public Object eGet(int featureID, boolean resolve, boolean coreType)
    {
@@ -162,6 +206,8 @@ public class CodeImpl extends EObjectImpl implements Code
             return getCode();
          case CarnotWorkflowModelPackage.CODE__VALUE:
             return getValue();
+         case CarnotWorkflowModelPackage.CODE__NAME:
+            return getName();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -181,6 +227,9 @@ public class CodeImpl extends EObjectImpl implements Code
             return;
          case CarnotWorkflowModelPackage.CODE__VALUE:
             setValue((String)newValue);
+            return;
+         case CarnotWorkflowModelPackage.CODE__NAME:
+            setName((String)newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -202,6 +251,9 @@ public class CodeImpl extends EObjectImpl implements Code
          case CarnotWorkflowModelPackage.CODE__VALUE:
             setValue(VALUE_EDEFAULT);
             return;
+         case CarnotWorkflowModelPackage.CODE__NAME:
+            setName(NAME_EDEFAULT);
+            return;
       }
       super.eUnset(featureID);
    }
@@ -220,6 +272,8 @@ public class CodeImpl extends EObjectImpl implements Code
             return CODE_EDEFAULT == null ? code != null : !CODE_EDEFAULT.equals(code);
          case CarnotWorkflowModelPackage.CODE__VALUE:
             return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
+         case CarnotWorkflowModelPackage.CODE__NAME:
+            return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       }
       return super.eIsSet(featureID);
    }
@@ -239,6 +293,8 @@ public class CodeImpl extends EObjectImpl implements Code
       result.append(code);
       result.append(", value: "); //$NON-NLS-1$
       result.append(value);
+      result.append(", name: "); //$NON-NLS-1$
+      result.append(name);
       result.append(')');
       return result.toString();
    }

@@ -1463,6 +1463,16 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
    /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EAttribute getCode_Name()
+   {
+        return (EAttribute)getCode().getEStructuralFeatures().get(2);
+   }
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -5079,7 +5089,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    protected void fixInstanceClass(EClassifier eClassifier) {
       if (eClassifier.getInstanceClassName() == null)
       {
-         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot." + eClassifier.getName()); //$NON-NLS-1$
+         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot." + eClassifier.getName());
          setGeneratedClassName(eClassifier);
       }
    }
