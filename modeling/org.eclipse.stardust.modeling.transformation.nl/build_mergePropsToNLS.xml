@@ -3,8 +3,6 @@
 <project name="mergeProps" default="localizeProperties">
 
 	<property environment="env"/>
-	<property name="cm.home" value="${env.CM_HOME}"/>
-	<property file="${cm.home}/etc/global.properties"/>
 
 	<property name="locale" value="en" />
 	<property name="rootdir" value="${basedir}/../" />
