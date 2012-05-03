@@ -51,6 +51,11 @@
             id="org.eclipse.stardust.modeling.validation.externalPackages"
             targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType">
       </modelValidator>
+      <modelValidator
+            class="org.eclipse.stardust.modeling.validation.impl.QualityAssuranceCodeValidator"
+            id="org.eclipse.stardust.modeling.validation.qualityassurancecode"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType">
+      </modelValidator>      
  </extension>
  
  
