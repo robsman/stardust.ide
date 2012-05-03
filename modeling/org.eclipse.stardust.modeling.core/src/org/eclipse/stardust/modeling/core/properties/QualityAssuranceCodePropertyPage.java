@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -38,7 +43,6 @@ public class QualityAssuranceCodePropertyPage extends AbstractModelElementProper
 
    private Button[] buttons;
    
-
    public void setVisible(boolean visible)
    {
       if (visible)
@@ -53,6 +57,23 @@ public class QualityAssuranceCodePropertyPage extends AbstractModelElementProper
       super.setVisible(visible);
    }   
    
+   protected EObject getModelElement()
+   {
+      EObject modelElement = super.getModelElement();
+      if (modelElement instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) modelElement;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            modelElement = (Code) value;
+         }
+      }
+      return modelElement;      
+   }
+
    public void contributeVerticalButtons(Composite parent)
    {
       IButtonManager manager = (IButtonManager) getElement().getAdapter(
@@ -99,16 +120,30 @@ public class QualityAssuranceCodePropertyPage extends AbstractModelElementProper
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
+      Code code = (Code) element;
+      
       txtName.getText().removeModifyListener(listener);
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
-      wBndMgr.bind(txtId, element, PKG_CWM.getCode_Code());
-      wBndMgr.bind(txtName, element, PKG_CWM.getCode_Name());
+      if (code instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) code;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            code = (Code) value;
+         }
+      }
       
-      wBndMgr.bind(txtDescription, element, 
+      wBndMgr.bind(txtId, code, PKG_CWM.getCode_Code());
+      wBndMgr.bind(txtName, code, PKG_CWM.getCode_Name());
+      
+      wBndMgr.bind(txtDescription, code, 
             PKG_CWM.getCode_Value(), CwmFeatureAdapter.INSTANCE);
       
-      wBndMgr.getModelBindingManager().updateWidgets(element);
+      wBndMgr.getModelBindingManager().updateWidgets(code);
       txtName.getText().addModifyListener(listener);
       
       txtName.getText().selectAll();
