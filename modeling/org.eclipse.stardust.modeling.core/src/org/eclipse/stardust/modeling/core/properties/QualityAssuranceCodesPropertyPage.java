@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -77,7 +81,7 @@ public class QualityAssuranceCodesPropertyPage extends AbstractModelElementPrope
    public void updateButtons(Object selection, Button[] buttons)
    {
       this.selection = selection;
-
+      
       for (int i = 0; i < buttons.length; i++)
       {
          if (buttons[i].isDisposed())
@@ -149,13 +153,26 @@ public class QualityAssuranceCodesPropertyPage extends AbstractModelElementPrope
 
    public Object getSelection()
    {
-      return selection == null ? getSelectedItem() : selection;
+      Object object = selection == null ? getSelectedItem() : selection;
+      return object;
    }
 
    private Object getSelectedItem()
    {
       IStructuredSelection sel = (IStructuredSelection) viewer.getSelection();
       Object selection = sel.getFirstElement();
+      if (selection instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) selection;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            selection = value;
+         }
+      }
+      
       return selection;
    }
 
