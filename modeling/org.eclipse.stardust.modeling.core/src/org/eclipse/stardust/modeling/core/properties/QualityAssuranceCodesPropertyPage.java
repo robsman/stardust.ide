@@ -23,6 +23,7 @@ import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.TableLabelProvider;
@@ -383,6 +384,11 @@ public class QualityAssuranceCodesPropertyPage extends AbstractModelElementPrope
                {
                   Code code = (Code) element;
                   return code.getName(); 
+               }
+               
+               public Image getImage(Object element)
+               {
+                  return DiagramPlugin.getImage("/icons/full/obj16/context.gif"); //$NON-NLS-1$
                }
             });
          }
