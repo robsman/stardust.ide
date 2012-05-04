@@ -38,7 +38,6 @@ import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-
 public class VerifyingChangeRecorder extends ChangeRecorder
 {
    private final ValidationJob validationTask;
@@ -134,7 +133,8 @@ public class VerifyingChangeRecorder extends ChangeRecorder
 
       protected IStatus run(IProgressMonitor monitor)
       {
-         Issue[] issues;
+         Issue[] issues = Issue.ISSUE_ARRAY;
+         Issue[] modelIssues = Issue.ISSUE_ARRAY;
 
          ValidationService vs = ValidationPlugin.getDefault().getValidationService(); 
 
@@ -142,6 +142,11 @@ public class VerifyingChangeRecorder extends ChangeRecorder
          {
             ValidatorRegistry.setFilters(filters);
             vs.setProgressMonitor(monitor);
+
+            if (null != model)
+            {
+               modelIssues = vs.validateModel(model);
+            }
             
             if (null != element)
             {
@@ -162,14 +167,16 @@ public class VerifyingChangeRecorder extends ChangeRecorder
                   }
                }
             }
-            else if (null != model)
+
+            if(modelIssues.length > 0 && element instanceof ModelType)
             {
-               issues = vs.validateModel(model);
-            }
-            else
-            {
-               issues = Issue.ISSUE_ARRAY;
-            }
+               Issue[] allIssues = new Issue[issues.length + modelIssues.length];
+               System.arraycopy(issues, 0, allIssues, 0, issues.length);
+               System.arraycopy(modelIssues, 0, allIssues, issues.length,
+                     modelIssues.length);
+
+               issues = allIssues;               
+            }          
    
             if (monitor.isCanceled())
             {
