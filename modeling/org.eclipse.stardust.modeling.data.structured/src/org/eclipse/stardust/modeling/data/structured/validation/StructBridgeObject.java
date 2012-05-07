@@ -14,17 +14,12 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
@@ -77,9 +72,34 @@ public class StructBridgeObject extends BridgeObject
          result[1] = QNameUtil.toString(xpath.getXsdElementNs(), xpath.getXsdElementName()) ;
       }
       else if (element instanceof DataType || element instanceof AccessPointType)
-      {         
-         TypeDeclarationType declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
+      {   
+         TypeDeclarationType declaration = null;
+         if(element instanceof DataType)
+         {
+            ExternalReferenceType ref = ((DataType) element).getExternalReference();
+            if (ref != null)
+            {
+               ModelType model = ModelUtils.findContainingModel((DataType) element);
+               ExternalPackages packages = model.getExternalPackages();
+               ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(ref.getLocation());
+               IConnectionManager manager = model.getConnectionManager();
+               ModelType externalModel = manager == null ? null : manager.find(pkg);
+               if (externalModel != null)
+               {
+                  TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
+                  if (declarations != null)
+                  {
+                     declaration = declarations.getTypeDeclaration(ref.getXref());
+                  }
+               }               
+            }            
+         }
+         
+         if(declaration == null)
+         {         
+            declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         }
          
          if (declaration != null)
          {
