@@ -133,8 +133,7 @@ public class CreateCompositeAction extends Action implements ISpiAction
             XMLResource.XML_SCHEMA_URI);
       xsdSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
       ModelType model = (ModelType) parent.eContainer();
-      xsdSchema.setTargetNamespace("http://www.infinity.com/bpm/model/" + model.getId() //$NON-NLS-1$
-            + "/" + declaration.getId()); //$NON-NLS-1$
+      xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(model, declaration.getId()));
       String prefix = TypeDeclarationUtils.computePrefix(declaration.getId(), xsdSchema.getQNamePrefixToNamespaceMap().keySet());
       xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, xsdSchema.getTargetNamespace());
       xsdSchema.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX

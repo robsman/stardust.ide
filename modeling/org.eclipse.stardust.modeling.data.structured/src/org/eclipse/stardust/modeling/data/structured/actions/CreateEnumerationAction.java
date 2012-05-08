@@ -110,7 +110,7 @@ public class CreateEnumerationAction extends Action implements ISpiAction
       xsdSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX, XMLResource.XML_SCHEMA_URI);
       xsdSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
       ModelType model = (ModelType) parent.eContainer();
-      xsdSchema.setTargetNamespace("http://www.infinity.com/bpm/model/" + model.getId() + "/" + declaration.getId()); //$NON-NLS-1$ //$NON-NLS-2$
+      xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(model, declaration.getId()));
       String prefix = TypeDeclarationUtils.computePrefix(declaration.getId(), xsdSchema.getQNamePrefixToNamespaceMap().keySet());
       xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, xsdSchema.getTargetNamespace());
       xsdSchema.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + declaration.getId());
