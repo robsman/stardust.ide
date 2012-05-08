@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.xpdl2.util;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -155,8 +156,24 @@ public class TypeDeclarationUtils
    
    public static String computeTargetNamespace(ModelType model, String id)
    {
-      return "http://www.infinity.com/bpm/model/" + model.getId() + "/" + id; //$NON-NLS-1$ //$NON-NLS-2$
+	      String modelId = model.getId();      
+	      
+	      return computeTargetNamespace(modelId, id);
    }   
+
+   public static String computeTargetNamespace(String modelId, String id)
+   {
+      try
+      {
+         modelId = new java.net.URI(modelId).toASCIIString();
+         id = new java.net.URI(id).toASCIIString();         
+      }
+      catch (URISyntaxException e)
+      {
+      }
+
+      return "http://www.infinity.com/bpm/model/" + modelId + "/" + id; //$NON-NLS-1$ //$NON-NLS-2$
+   }      
    
    public static List<TypeDeclarationType> filterTypeDeclarations(List<TypeDeclarationType> declarations, int type)
    {
@@ -620,7 +637,7 @@ public class TypeDeclarationUtils
 
    public static void removeNameSpace(XSDSchema schema, String oldDefName, String modelId)
    {
-      String targetNameSpace = "http://www.infinity.com/bpm/model/" + modelId + "/" + oldDefName; //$NON-NLS-1$ //$NON-NLS-2$
+	     String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
       
       String prefix = null;
       for (Iterator i = schema.getQNamePrefixToNamespaceMap().entrySet().iterator(); i.hasNext();)
