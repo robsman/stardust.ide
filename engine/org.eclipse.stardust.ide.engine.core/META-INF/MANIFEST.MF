@@ -11,10 +11,7 @@ Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.eclipse.stardust.ide.engine.base
 Import-Package: javax.xml.stream;resolution:=optional,
  javax.xml.stream.events;resolution:=optional
-Export-Package: ag.carnot.workflow,
- ag.carnot.workflow.beans.images,
- ag.carnot.workflow.gui.images,
- com.infinity.bpm.thirdparty.emf.common.util,
+Export-Package: com.infinity.bpm.thirdparty.emf.common.util,
  com.infinity.bpm.thirdparty.emf.ecore,
  com.infinity.bpm.thirdparty.xsd,
  com.infinity.bpm.thirdparty.org.mozilla.classfile,
