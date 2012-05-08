@@ -753,7 +753,7 @@ public class MergerUtil
                String prefix = TypeDeclarationUtils.computePrefix(newElementName, clone.getQNamePrefixToNamespaceMap().keySet());
                if(!addPrefixes.contains(prefix))
                {
-                  String nameSpace = "http://www.infinity.com/bpm/model/" + targetModel.getId() + "/" + newElementName; //$NON-NLS-1$ //$NON-NLS-2$                  
+            	  String nameSpace = TypeDeclarationUtils.computeTargetNamespace(targetModel, newElementName);                
                   addPrefixes.add(prefix);               
                   clone.getQNamePrefixToNamespaceMap().put(prefix, nameSpace);
                }

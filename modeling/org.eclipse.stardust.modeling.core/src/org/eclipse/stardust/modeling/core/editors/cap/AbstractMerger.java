@@ -1634,7 +1634,7 @@ public abstract class AbstractMerger
 	                    {
 	                        xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + newElementName);
 	                    }
-	                    String newValue = "http://www.infinity.com/bpm/model/" + targetModel.getId() + "/" + newElementName; //$NON-NLS-1$ //$NON-NLS-2$
+	                    String newValue = TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newElementName);
 	             		xsdImport.setNamespace(newValue);
 	             	}
                 }                
@@ -1663,7 +1663,7 @@ public abstract class AbstractMerger
                                 
                 // XSDSchema clone = declaration.getSchema();
                 String oldTargetNamespace = clone.getTargetNamespace();
-                clone.setTargetNamespace("http://www.infinity.com/bpm/model/" + targetModel.getId() + "/" + newDeclaration.getId()); //$NON-NLS-1$ //$NON-NLS-2$
+                clone.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newDeclaration.getId()));
                 String prefix = TypeDeclarationUtils.computePrefix(newDeclaration.getId(), clone
                       .getQNamePrefixToNamespaceMap().keySet());
                 clone.getQNamePrefixToNamespaceMap().put(prefix, clone.getTargetNamespace());

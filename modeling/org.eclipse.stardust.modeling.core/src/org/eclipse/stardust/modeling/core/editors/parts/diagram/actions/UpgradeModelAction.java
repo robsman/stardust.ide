@@ -271,8 +271,7 @@ public class UpgradeModelAction extends SelectionAction
       schema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
       command.add(new SetMapValueCmd(schema.getQNamePrefixToNamespaceMap(),
             TNS_PREFIX, null));
-      String targetNamespace = BASE_INFINITY_NAMESPACE
-            + model.getId() + PATH_SEPARATOR + declaration.getId();
+      String targetNamespace = TypeDeclarationUtils.computeTargetNamespace(model, declaration.getId());
       String prefix = TypeDeclarationUtils.computePrefix(declaration.getId(),
             schema.getQNamePrefixToNamespaceMap().keySet());
       command.add(new SetMapValueCmd(schema.getQNamePrefixToNamespaceMap(),
