@@ -326,6 +326,8 @@ public class MessageTransformationController {
 				FieldMapping fm = k.next();
 				if (fm != null && fieldPathExists(fm.getFieldPath())) {
 					fieldMappings.put(fm.getFieldPath(), fm);
+				} else {
+				   System.out.println();
 				}
 			}
 			refreshJavaScriptContext();
@@ -340,6 +342,8 @@ public class MessageTransformationController {
 	       if (messageType instanceof StructAccessPointType) {
 	          realfieldPath = realfieldPath.substring(realfieldPath.indexOf("/") + 1, realfieldPath.length());  //$NON-NLS-1$
 	          isContained = ((StructAccessPointType)messageType).getXPathMap().containsXPath(realfieldPath);
+	          String firstSegment = fieldPath.substring(0, fieldPath.indexOf("/"));
+	          isContained = isContained &&  (firstSegment.equalsIgnoreCase(messageType.getId()));
 	           //It may be possible that this is an Attribute type - check this
 	           if (!isContained) {	                   
 	              String lastSegment = realfieldPath.substring(realfieldPath.lastIndexOf("/") + 1); //$NON-NLS-1$
