@@ -24,14 +24,7 @@ import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -158,6 +151,14 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
       {
          return ((ActivityType) object).getExternalRef() != null;
       }
+      if (object instanceof IModelParticipant && ModelUtils.findContainingModel(object) != null)
+      {
+         if(!editor.getModel().equals(ModelUtils.findContainingModel(object)))
+         {
+            return true;
+         }
+      }
+      
       return false;
    }
 
