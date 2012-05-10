@@ -162,7 +162,7 @@ public class QualityAssuranceCodePropertyPage extends AbstractModelElementProper
       this.txtName = FormBuilder
             .createLabeledText(composite, Diagram_Messages.LB_Name);
       txtName.setTextLimit(80);
-      this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.QUALITY_CONTROL_CODE);
+      this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
       txtId.setTextLimit(80);      
       
       autoIdButton = FormBuilder.createCheckBox(composite,
