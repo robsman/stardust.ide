@@ -157,18 +157,37 @@ public abstract class AbstractMessageProcessingPropertyPage
    {
       ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
       ILaunchConfigurationType ct = lm
-      .getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.messaging.modeling.application.launch.testType"); //$NON-NLS-1$
-
+      .getLaunchConfigurationType("org.eclipse.stardust.modeling.transformation.application.launch.testType"); //$NON-NLS-1$
       try
       {
          ILaunchConfiguration[] cfgs = lm.getLaunchConfigurations(ct);
-         testConfigurationsComboViewer.setInput(cfgs);			
+         testConfigurationsComboViewer.setInput(cfgs);	
+         int selectionIndex = findConfigurationIndex(cfgs);
+         testConfigurationsComboViewer.getCombo().select(selectionIndex);
       }
       catch (CoreException e)
       {
          throw new RuntimeException(
                Modeling_Messages.EXC_CANNOT_RETRIEVE_LAUNCH_CFG, e);
       }
+   }
+
+   private int findConfigurationIndex(ILaunchConfiguration[] cfgs)
+   {
+      String configValue = AttributeUtil.getAttributeValue(
+            (IExtensibleElement) getModelElement(), Constants.TEST_CONFIGURATION);
+      if (configValue != null)
+      {
+         for (int i = 0; i < cfgs.length; i++)
+         {
+            ILaunchConfiguration cfg = cfgs[i];
+            if (cfg.getName().startsWith(configValue))
+            {
+               return i;
+            }
+         }
+      }
+      return -1;
    }
 
    protected void loadMessageFormat(IModelElement element)
