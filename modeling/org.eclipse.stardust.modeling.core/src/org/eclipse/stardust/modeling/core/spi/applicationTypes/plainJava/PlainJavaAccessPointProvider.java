@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.engine.core.pojo.app.PlainJavaConstants;
+import org.eclipse.stardust.common.constants.PlainJavaConstants;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaAccessPointType;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaApplicationTypeHelper;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;

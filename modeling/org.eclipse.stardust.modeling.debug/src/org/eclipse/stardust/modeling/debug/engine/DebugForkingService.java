@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.stardust.common.Action;
 import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.rt.IActionCarrier;
 import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
 import org.eclipse.stardust.engine.core.runtime.beans.ActionCarrier;
 import org.eclipse.stardust.engine.core.runtime.beans.ActionRunner;
@@ -51,7 +52,7 @@ public class DebugForkingService implements ForkingService
       return isolator.execute(action);
    }
 
-   public void fork(ActionCarrier action, boolean transacted)
+   public void fork(IActionCarrier action, boolean transacted)
    {
       if (transacted)
       {
