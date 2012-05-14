@@ -47,6 +47,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -366,6 +367,12 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 		item.setText(Mail_Messages.TXT_OUTPUT_VALUES);
 
 		composite = FormBuilder.createComposite(tabFolder, 1);
+		
+      GridData gridData = new GridData();
+      gridData.grabExcessHorizontalSpace = true;
+      gridData.grabExcessVerticalSpace = true;
+      gridData.horizontalAlignment = SWT.FILL;
+      gridData.verticalAlignment = SWT.FILL;
 
 		item.setControl(composite);
 
@@ -382,6 +389,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 					{ null, null });
 
 		outputValues.setObjects(CollectionUtils.newList());
+		outputValues.setLayoutData(gridData);
 
 		return mainComposite;
 	}
