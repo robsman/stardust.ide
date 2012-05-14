@@ -205,7 +205,7 @@ Export-Package: com.infinity.bpm.thirdparty.emf.common.util,
  org.eclipse.stardust.engine.extensions.web.jsp.contexts,
  org.eclipse.stardust.engine.extensions.xml.data
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.stardust.ide.engine.base;bundle-version="9.9.9";visibility:=reexport,
+ org.eclipse.stardust.ide.engine.base;visibility:=reexport,
  org.eclipse.stardust.ide.thirdparty.runtime.xml;resolution:=optional;visibility:=reexport,
  org.eclipse.stardust.ide.thirdparty.runtime.j2ee;visibility:=reexport,
  org.eclipse.stardust.ide.thirdparty.springframework;resolution:=optional,
