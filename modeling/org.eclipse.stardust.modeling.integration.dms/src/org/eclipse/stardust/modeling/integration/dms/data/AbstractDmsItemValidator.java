@@ -31,7 +31,6 @@ import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.modeling.data.structured.validation.StructBridgeObject;
-import org.eclipse.stardust.modeling.data.structured.validation.StructBridgeObjectProvider;
 import org.eclipse.stardust.modeling.integration.dms.DMS_Messages;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
@@ -138,7 +137,7 @@ public abstract class AbstractDmsItemValidator
          }
          else
          {
-            return new StructBridgeObjectProvider().getBridgeObject(accessPoint,
+            return new DocumentBridgeObjectProvider().getBridgeObject(accessPoint,
                   accessPath, direction);
          }
       }
