@@ -13,31 +13,11 @@ package org.eclipse.stardust.modeling.core.editors;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -58,25 +38,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.Version;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
-import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
-import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
+import org.eclipse.stardust.model.xpdl.carnot.util.*;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
+import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -86,57 +53,7 @@ import org.eclipse.stardust.modeling.core.decoration.IDecorationTarget;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdaptee;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.AddExternalReferenceAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CloseDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CommitChangesAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ConnectAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CopyAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateActivityAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateActivityGraphAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateApplicationAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateConditionalPerformerAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateDataAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateInteractiveApplicationAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateLinkTypeAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateOrganizationAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateOrganizationHierarchyAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateProcessDefinitionAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateRepositoryConnectionAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateRoleAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateSubprocessAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateTriggerAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeleteExternalReferenceAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeleteSymbolAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeployModelAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ElementSelectionAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ExportDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.FixInvalidIdsAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ForwardDeleteAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ImportConnectionObjectAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ImportModelElementsAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.LockAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.LockAllAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.OpenDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.OptimizeDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.PasteAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReferencesSearchAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.RefreshConnectionObjectAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ResetSubprocessAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.RevertChangesAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchConnectionAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SetDefaultParticipantAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShareModelAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowPropertiesAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UnLockAllAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UnshareModelAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpdateDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpdateModelAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeDataAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeModelAndDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ValidateModelAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.*;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
 import org.eclipse.stardust.modeling.core.jobs.ModelValidationJob;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
@@ -148,17 +65,7 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.IURIEditorInput;
-import org.eclipse.ui.IWindowListener;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.*;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
@@ -202,6 +109,8 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    }
 
    private boolean changed;
+
+   private boolean initialized;
 
    private ModelValidationJob validationJob;
 
@@ -456,20 +365,21 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
 
    protected void createPages()
    {
+      initializeExtensions();
       try
       {
-         if (null != getWorkflowModel())
+         if (initialized && null != getWorkflowModel())
          {
             if (checkUpgradeModel())
             {
                removeUpgradePage();
-               for (Iterator i = getWorkflowModel().getDiagram().iterator(); i.hasNext();)
+               for (Iterator<DiagramType> i = getWorkflowModel().getDiagram().iterator(); i.hasNext();)
                {
                   showDiagramPage((DiagramType) i.next());
                }
                if (!getWorkflowModel().getProcessDefinition().isEmpty())
                {
-                  EList processDiagrams = ((ProcessDefinitionType) getWorkflowModel()
+                  List<DiagramType> processDiagrams = ((ProcessDefinitionType) getWorkflowModel()
                         .getProcessDefinition().get(0)).getDiagram();
                   if (!processDiagrams.isEmpty())
                   {
@@ -947,7 +857,13 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    {
       if (getSite().getPage().equals(workbenchPage))
       {
-         if (diagrams.isEmpty())
+         initializeExtensions();
+         if (!initialized)
+         {
+            closePages();
+            getOutlinePage().setOutlineContents(null);
+         }
+         else if (diagrams.isEmpty())
          {
             createPages();
          }
@@ -963,7 +879,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                UpgradePage page = (UpgradePage) getEditor(i);
                page.redraw();
             }
-            else
+            else if (initialized)
             {
                DiagramEditorPage page = (DiagramEditorPage) getEditor(i);
                Map registry = page.getGraphicalViewer().getEditPartRegistry();
@@ -974,12 +890,21 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                WorkflowModelEditorPaletteFactory.updatePalette(page);
             }
          }
-         if (checkUpgradeModel())
+         if (initialized && checkUpgradeModel())
          {
             getOutlinePage().initializeOutlineViewer();
          }
          validateModel();
       }
+   }
+
+   private void initializeExtensions()
+   {
+      initialized = DiagramPlugin.isBusinessPerspective()
+            && BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS) == null
+            || !DiagramPlugin.isBusinessPerspective()
+            && (BpmUiActivator.getDefault().initializeExtensions(Modules.DEVELOPER) == null
+                  || BpmUiActivator.getDefault().initializeExtensions(Modules.MODELLING) == null);
    }
 
    private void forceRefresh()
@@ -999,6 +924,9 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    {
       try
       {
+         if (BpmUiActivator.getDefault().initializeExtensions(Modules.DEVELOPER) == null
+               || BpmUiActivator.getDefault().initializeExtensions(Modules.MODELLING) == null)
+         {
          // we expect IFileEditorInput here,
          // ClassCassException is catched to force PartInitException
          if (input instanceof IFileEditorInput)
@@ -1017,6 +945,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          {
             throw new PartInitException(Diagram_Messages.EX_SpecifiedInputNotValidModel);
          }
+      }
       }
       catch (CoreException e)
       {
@@ -1048,7 +977,8 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       {
          validationJob.cancel();
       }
-
+      if (initialized)
+      {
       validationJob = new ModelValidationJob(this, getWorkflowModel(),
             createPerspectiveFilter());
       if (null != validationJob.getModelFile())
@@ -1063,6 +993,23 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                .markerRule(ResourcesPlugin.getWorkspace().getRoot()));
       }
       validationJob.schedule();
+   }
+      else
+      {
+         IResource modelFile = ((IFileEditorInput) getEditorInput()).getFile();
+         try
+         {
+            modelFile.deleteMarkers(ValidationPlugin.VALIDATION_MARKER_ID, true,
+                  IResource.DEPTH_INFINITE);
+            ValidationPlugin.getDefault().getValidationService()
+                  .removeMappings(modelFile);
+         }
+         catch (CoreException e)
+         {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
    }
 
    private Map createPerspectiveFilter()
@@ -1618,6 +1565,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       {
          public void run()
          {
+            initializeExtensions();
             closePages();
             setInput(getEditorInput());
             try

@@ -45,16 +45,16 @@ public class BusinessModelingPerspective implements IPerspectiveFactory, BpmUiCo
       layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
       
       /* open cheatsheets for analyst perspective */
-    layout.addShowViewShortcut("org.eclipse.ui.cheatsheets.views.CheatSheetView");  //$NON-NLS-1$
+      layout.addShowViewShortcut("org.eclipse.ui.cheatsheets.views.CheatSheetView"); //$NON-NLS-1$
       /* catch Exception while not working when opening a new workspace */
-      
- //      #5319 temporarely removed cheat sheets since they contain the old style (JFC)
-       try {
-       new
-       OpenCheatSheetAction("org.eclipse.stardust.modeling.core.cheatsheetAnalystComp").run(); //$NON-NLS-1$
-       }
-       catch (RuntimeException e)
-            {
-            }
+
+      // #5319 temporarely removed cheat sheets since they contain the old style (JFC)
+      try
+      {
+         new OpenCheatSheetAction("org.eclipse.stardust.modeling.core.cheatsheetAnalystComp").run(); //$NON-NLS-1$
+      }
+      catch (RuntimeException e)
+      {
+      }
    }
 }

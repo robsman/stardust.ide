@@ -11,12 +11,13 @@
 package org.eclipse.stardust.modeling.common.ui.perspectives;
 
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.BpmUiConstants;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
-
 
 public class DebuggingPerspective implements IPerspectiveFactory, BpmUiConstants
 {
@@ -47,6 +48,10 @@ public class DebuggingPerspective implements IPerspectiveFactory, BpmUiConstants
          IPageLayout.ID_EDITOR_AREA);
       fldNav.addView(IPageLayout.ID_OUTLINE);
 
+      if (BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS) == null)
+      {
+         layout.addPerspectiveShortcut(CWB_PERSPECTIVE_ID);
+      }
       layout.addPerspectiveShortcut(CWM_PERSPECTIVE_ID);
 
       layout.addShowViewShortcut(BpmUiConstants.ID_REPOSITORY_VIEW);

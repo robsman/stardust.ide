@@ -16,6 +16,9 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.stardust.common.config.ParametersFacade;
 import org.osgi.framework.BundleContext;
 
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.engine.core.extensions.ExtensionService;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -67,6 +70,39 @@ public class BpmCommonActivator extends Plugin
       return plugin;
    }
 
+   /**
+    * Resets the extensions for this session.
+    * 
+    * @param path options for resetting.
+    */
+   public void resetExtensions(String options)
+   {
+      ExtensionService.resetModuleExtensions(options);
+   }
+
+   /**
+    * Safely initializes extensions for the given module.
+    * 
+    * @param module the name of the module to be initialized.
+    * @return <code>null</code> if the module is successfully initialized,
+    *         or the exception that occurred during initialization.
+    */
+   public Exception initializeExtensions(Modules module)
+   {
+      Exception exception = null;
+
+      try
+      {
+         ExtensionService.initializeModuleExtensions(module);
+      }
+      catch (Exception e)
+      {
+         exception = e;
+      }
+
+      return exception;
+   }
+   
    public static void pushToNewPropertyLayer(Map<String, ?> properties)
    {
       ParametersFacade.pushLayer(properties);

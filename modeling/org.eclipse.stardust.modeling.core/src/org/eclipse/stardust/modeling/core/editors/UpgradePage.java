@@ -344,25 +344,27 @@ public class UpgradePage extends EditorPart
 
    private void updateStrings()
    {
-      String moduleName = Modules.PROCESS_WORKBENCH_4_DEVELOPERS; 
+      Modules module = Modules.DEVELOPER; 
       if (DiagramPlugin.isBusinessPerspective())
       {
-         moduleName = Modules.PROCESS_WORKBENCH_4_ANALYSTS;
+         module = Modules.ANALYSTS;
       }
       else
       {
-         if (Parameters.instance().getString("License." + moduleName + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
+         if (Parameters.instance().getString("License." + module.getId() + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
          {
             // try old modeling license
             if (Parameters.instance().getString("License." + Modules.MODELLING + ".product") != null) //$NON-NLS-1$ //$NON-NLS-2$
             {
-               moduleName = Modules.MODELLING;
+               module = Modules.MODELLING;
             }
          }
       }
       moduleError = MessageFormat.format(Diagram_Messages.ERROR_UNSUPPORTED_MD_VERSION, new Object[]{cwmEditor.getWorkflowModel().getCarnotVersion()});
       
-      product = BpmUiActivator.getDefault().getString("License." + moduleName + ".product"); //$NON-NLS-1$ //$NON-NLS-2$
+      String moduleName = module.getId();
+      
+      product = BpmUiActivator.getDefault().getString("License." + moduleName  + ".product"); //$NON-NLS-1$ //$NON-NLS-2$
       release = BpmUiActivator.getDefault().getString("License." + moduleName + ".release"); //$NON-NLS-1$ //$NON-NLS-2$
       licensee = BpmUiActivator.getDefault().getString("License." + moduleName + ".licensee", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       expiration = BpmUiActivator.getDefault().getString("License." + moduleName + ".expiration", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

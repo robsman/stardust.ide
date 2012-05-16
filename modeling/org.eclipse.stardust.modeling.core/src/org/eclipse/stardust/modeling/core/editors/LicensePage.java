@@ -18,6 +18,7 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -382,9 +383,28 @@ public class LicensePage extends EditorPart
 
    private void updateStrings()
    {
-      String moduleName = Modules.PROCESS_WORKBENCH_4_DEVELOPERS; 
-
-      moduleError = BpmUiActivator.getDefault().getModuleError();
+      Modules moduleName = Modules.DEVELOPER; 
+      if (DiagramPlugin.isBusinessPerspective())
+      {
+         BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS);
+         moduleName = Modules.ANALYSTS;
+         moduleError = BpmUiActivator.getDefault().getModuleError();
+      }
+      else
+      {
+    	 BpmUiActivator.getDefault().initializeExtensions(Modules.DEVELOPER);
+         moduleError = BpmUiActivator.getDefault().getModuleError();
+         if (Parameters.instance().getString("License." + moduleName + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
+         {
+            // try old modeling license
+        	BpmUiActivator.getDefault().initializeExtensions(Modules.MODELLING);
+            if (Parameters.instance().getString("License." + Modules.MODELLING + ".product") != null) //$NON-NLS-1$ //$NON-NLS-2$
+            {
+               moduleName = Modules.MODELLING;
+               moduleError = BpmUiActivator.getDefault().getModuleError();
+            }
+         }
+      }
       
       product = BpmUiActivator.getDefault().getString("License." + moduleName + ".product"); //$NON-NLS-1$ //$NON-NLS-2$
       release = BpmUiActivator.getDefault().getString("License." + moduleName + ".release"); //$NON-NLS-1$ //$NON-NLS-2$

@@ -11,6 +11,8 @@
 package org.eclipse.stardust.modeling.common.ui.perspectives;
 
 import org.eclipse.debug.ui.IDebugUIConstants;
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.BpmUiConstants;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -35,6 +37,10 @@ public class ModelingPerspective implements IPerspectiveFactory, BpmUiConstants
       fldDetails.addView(IPageLayout.ID_PROP_SHEET);
       fldDetails.addView(IPageLayout.ID_PROBLEM_VIEW);
 
+      if (BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS) == null)
+      {
+         layout.addPerspectiveShortcut(CWB_PERSPECTIVE_ID);
+      }
       layout.addPerspectiveShortcut(CWD_PERSPECTIVE_ID);
 
       layout.addNewWizardShortcut(BpmUiConstants.ID_NEW_MODEL_WIZARD);
@@ -45,18 +51,16 @@ public class ModelingPerspective implements IPerspectiveFactory, BpmUiConstants
       layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
       
       /* open cheatsheets for developer perspective */
-      layout.addShowViewShortcut("org.eclipse.ui.cheatsheets.views.CheatSheetView");  //$NON-NLS-1$
+      layout.addShowViewShortcut("org.eclipse.ui.cheatsheets.views.CheatSheetView"); //$NON-NLS-1$
       /* catch Exception while not working when opening a new workspace */
-      
-      // #5319 temporarely removed cheat sheets since they contain the old style (JFC)
-       try
-       {
-       new OpenCheatSheetAction("org.eclipse.stardust.modeling.core.cheatsheetDevComp") //$NON-NLS-1$
-       .run();
-       }
-       catch (RuntimeException e)
-            {
-            }
 
+      // #5319 temporarely removed cheat sheets since they contain the old style (JFC)
+      try
+      {
+         new OpenCheatSheetAction("org.eclipse.stardust.modeling.core.cheatsheetDevComp").run(); //$NON-NLS-1$
+      }
+      catch (RuntimeException e)
+      {
+      }
    }
 }
