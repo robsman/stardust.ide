@@ -58,7 +58,7 @@ public class EObjectAdapter extends AdapterImpl implements IModelAdapter
       }
 
       this.manager = manager;
-      if ( !this.model.eAdapters().contains(this))
+      if (!this.model.eAdapters().contains(this))
       {
          this.model.eAdapters().add(this);
       }
@@ -115,7 +115,11 @@ public class EObjectAdapter extends AdapterImpl implements IModelAdapter
 
    public void updateVisuals(Object value)
    {
-      this.manager.updateWidget(this, value);
+      // manager may be null if the adapter was disposed during notification.
+      if (manager != null)
+      {
+         this.manager.updateWidget(this, value);
+      }
    }
 
    public void notifyChanged(Notification msg)

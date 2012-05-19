@@ -83,7 +83,7 @@
             class="org.eclipse.stardust.modeling.common.ui.testers.MetaTypeTester"
             namespace="com.infinity.properties"
             properties="metaType"
-            type="org.eclipse.stardust.model.xpdl.carnot.ITypedElement">
+            type="org.eclipse.emf.ecore.EObject">
       </propertyTester>
       <propertyTester
             class="org.eclipse.stardust.modeling.common.ui.testers.FeatureTester"

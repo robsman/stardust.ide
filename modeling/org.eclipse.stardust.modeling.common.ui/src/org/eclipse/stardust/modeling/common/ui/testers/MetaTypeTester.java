@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.common.ui.testers;
 
 import org.eclipse.core.expressions.PropertyTester;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
@@ -19,12 +20,19 @@ public class MetaTypeTester extends PropertyTester
 {
    public boolean test(Object receiver, String property, Object[] args, Object expectedValue)
    {
-      if ("metaType".equals(property) && receiver instanceof ITypedElement) //$NON-NLS-1$
+      if ("metaType".equals(property)) //$NON-NLS-1$
       {
-         IMetaType type = ((ITypedElement) receiver).getMetaType();
-         if (type != null)
+         while (receiver instanceof EObject && !(receiver instanceof ITypedElement))
          {
-            return CompareHelper.areEqual(type.getId(), expectedValue);
+            receiver = ((EObject) receiver).eContainer();
+         }
+         if (receiver instanceof ITypedElement)
+         {
+            IMetaType type = ((ITypedElement) receiver).getMetaType();
+            if (type != null)
+            {
+               return CompareHelper.areEqual(type.getId(), expectedValue);
+            }
          }
       }
       return false;
