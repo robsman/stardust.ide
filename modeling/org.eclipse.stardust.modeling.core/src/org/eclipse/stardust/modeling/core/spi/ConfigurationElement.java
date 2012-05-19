@@ -124,7 +124,7 @@ public class ConfigurationElement
    }
 
    public static ConfigurationElement createPageConfiguration(String id, String name,
-         String icon, Class propertyPageClass)
+         String icon, Class<?> propertyPageClass)
    {
       ConfigurationElement page = new ConfigurationElement(CFG_PAGE);
       page.setAttribute(SpiConstants.ID, id);

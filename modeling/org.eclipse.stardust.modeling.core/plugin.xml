@@ -1144,7 +1144,7 @@
             objectClass="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType"/>
       <page
             class="org.eclipse.stardust.modeling.core.spi.triggerTypes.ParameterMappingPage"
-            id="_cwm_parameter_mapping"
+            id="_cwm_parameter_mapping_"
             name="%parameterMappingPropertyPage"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType">
       </page>
@@ -1159,7 +1159,7 @@
       <page
             class="org.eclipse.stardust.modeling.core.properties.FormalParameterPropertyPage"
             icon="icons/full/obj16/primitive_data.gif"
-            id="_cwm_parameter_mapping"
+            id="_cwm_parameter_mapping_"
             name="%formalParameterPropertyPage"
             objectClass="org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType">
       </page>

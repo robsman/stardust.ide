@@ -126,20 +126,14 @@ public class ShowPropertiesAction extends PropertyDialogAction
          PreferenceManager pageManager = new PreferenceManager(
                ModelElementPropertyDialog.NODE_PATH_SEPARATOR);
          IAdaptable adaptable = (IAdaptable) getStructuredSelection().getFirstElement();
-         
-         Iterator pages = getPages(pageManager, adaptable);
-         if (!pages.hasNext())
-         {
-            return false;
-         }
-         return true;
+         return getPages(pageManager, adaptable).hasNext();
       }
       return false;
    }
 
-   private Iterator getPages(PreferenceManager pageManager, IAdaptable adaptable)
+   private Iterator<?> getPages(PreferenceManager pageManager, IAdaptable adaptable)
    {
-      if(adaptable instanceof GenericLinkConnectionEditPart)
+      if (adaptable instanceof GenericLinkConnectionEditPart)
       {
          GenericLinkConnectionType model = (GenericLinkConnectionType) ((GenericLinkConnectionEditPart) adaptable).getModel();
          LinkTypeType link = ((GenericLinkConnectionType) model).getLinkType();
@@ -150,11 +144,8 @@ public class ShowPropertiesAction extends PropertyDialogAction
          }
       }
             
-      CarnotPropertyPageContributor.instance().contributePropertyPages(pageManager,
-            adaptable);
-      
-      Iterator pages = pageManager.getElements(PreferenceManager.PRE_ORDER).iterator();
-      return pages;
+      CarnotPropertyPageContributor.instance().contributePropertyPages(pageManager, adaptable);
+      return pageManager.getElements(PreferenceManager.PRE_ORDER).iterator();
    }
 
    public PreferenceDialog createDialog()
@@ -170,13 +161,11 @@ public class ShowPropertiesAction extends PropertyDialogAction
       }
       IAdaptable element = (IAdaptable) getStructuredSelection().getFirstElement();
       
-      PreferenceManager pageManager = new PreferenceManager(
-            ModelElementPropertyDialog.NODE_PATH_SEPARATOR);
+      PreferenceManager pageManager = new PreferenceManager(ModelElementPropertyDialog.NODE_PATH_SEPARATOR);
       Shell shell = editor.getSite().getShell();
       String name = getName(element);
       
-      Iterator pages = getPages(pageManager, element);
-            
+      Iterator<?> pages = getPages(pageManager, element);
       if (!pages.hasNext())
       {
          // different messages for symbols having no property pages

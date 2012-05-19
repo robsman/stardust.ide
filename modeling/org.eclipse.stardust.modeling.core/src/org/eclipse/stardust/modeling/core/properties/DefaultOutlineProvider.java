@@ -10,12 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.viewers.IFilter;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -33,6 +36,7 @@ public class DefaultOutlineProvider implements OutlineProvider
    private EStructuralFeature nameFeature;
    private String parentNodeId;
    private String pageClassName;
+   private Class<?> pageClass;
    private IFilter filter;
 
    public DefaultOutlineProvider(AbstractModelElementPropertyPage page, 
@@ -41,6 +45,15 @@ public class DefaultOutlineProvider implements OutlineProvider
    {
       this(page, elementListFeature, idFeature, nameFeature, parentNodeId, 
             pageClassName, null);
+   }
+
+   public DefaultOutlineProvider(AbstractModelElementPropertyPage page, 
+         EStructuralFeature elementListFeature, EStructuralFeature idFeature, 
+         EStructuralFeature nameFeature, String parentNodeId, Class<?> pageClass)
+   {
+      this(page, elementListFeature, idFeature, nameFeature, parentNodeId, 
+            pageClass.getName(), null);
+      this.pageClass = pageClass;
    }
 
    public DefaultOutlineProvider(AbstractModelElementPropertyPage page, 
@@ -107,11 +120,22 @@ public class DefaultOutlineProvider implements OutlineProvider
 
    public ConfigurationElement createPageConfiguration(IModelElement element)
    {
-      return ConfigurationElement.createPageConfiguration(
-            getId(element),
-            getName(element),
-            getEditor().getIconFactory().getIconFor(element),
-            pageClassName);
+      if (pageClass == null)
+      {
+         return ConfigurationElement.createPageConfiguration(
+               getId(element),
+               getName(element),
+               getEditor().getIconFactory().getIconFor(element),
+               pageClassName);
+      }
+      else
+      {
+         return ConfigurationElement.createPageConfiguration(
+               getId(element),
+               getName(element),
+               getEditor().getIconFactory().getIconFor(element),
+               pageClass);
+      }
    }
 
    public String getName(IModelElement element)
@@ -134,34 +158,62 @@ public class DefaultOutlineProvider implements OutlineProvider
    public void addNodesFor(String parentNodeId, IModelElement element,
          ModelElementAdaptable adaptable, int index)
    {
-      List nodes = retrievePagesFor(adaptable);
+      List<CarnotPreferenceNode> nodes = retrievePagesFor(adaptable);
       if (nodes.isEmpty())
       {
          return;
       }
+      // (fh) Filter out nodes with duplicate ids. Keep first node that has a category matching the
+      // parentNodeId, or if none matches then keep first node that has a category at all, or if no
+      // node has a category, keep the first one.
+      if (nodes.size() > 1)
+      {
+         HashMap<String, CarnotPreferenceNode> map = new HashMap<String, CarnotPreferenceNode>();
+         List<CarnotPreferenceNode> toRemove = new ArrayList<CarnotPreferenceNode>();
+         for (CarnotPreferenceNode node : nodes)
+         {
+            CarnotPreferenceNode other = map.get(node.getId());
+            if (other == null)
+            {
+               map.put(node.getId(), node);
+            }
+            else
+            {
+               if (other.category == null && node.category != null || CompareHelper.areEqual(parentNodeId, node.category))
+               {
+                  toRemove.add(other);
+                  map.put(node.getId(), node);
+               }
+               else
+               {
+                  toRemove.add(node);
+               }
+            }
+         }
+         nodes.removeAll(toRemove);
+      }
       CarnotPreferenceNode general = null;
       if (nodes.size() == 1)
       {
-         general = (CarnotPreferenceNode) nodes.get(0);
+         general = nodes.get(0);
       }
       else
       {
-         for (int i = 0; i < nodes.size(); i++)
+         for (CarnotPreferenceNode node : nodes)
          {
-            CarnotPreferenceNode node = (CarnotPreferenceNode) nodes.get(i);
             if ("_cwm_general_".equals(node.getId())) //$NON-NLS-1$
             {
                general = node;
+               break;
             }
          }
          if (general == null)
          {
-            general = (CarnotPreferenceNode) nodes.get(0);
+            general = nodes.get(0);
          }
          nodes.remove(general);
-         for (int i = 0; i < nodes.size(); i++)
+         for (CarnotPreferenceNode node : nodes)
          {
-            CarnotPreferenceNode node = (CarnotPreferenceNode) nodes.get(i);
             general.add(node);
          }
       }
@@ -170,7 +222,7 @@ public class DefaultOutlineProvider implements OutlineProvider
       addNodeTo(parentNodeId, general);
    }
 
-   protected List retrievePagesFor(ModelElementAdaptable adaptable)
+   protected List<CarnotPreferenceNode> retrievePagesFor(ModelElementAdaptable adaptable)
    {
       return CarnotPropertyPageContributor.instance().contributePropertyPages(adaptable);
    }

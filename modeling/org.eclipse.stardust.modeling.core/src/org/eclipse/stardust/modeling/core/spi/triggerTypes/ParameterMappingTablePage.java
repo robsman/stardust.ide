@@ -171,7 +171,7 @@ public class ParameterMappingTablePage extends AbstractModelElementPropertyPage
             CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid(),
             null,
             PARAMETER_MAPPING_TABLE_ID,
-            ParameterMappingPage.class.getName())
+            getParameterMappingPageClass())
       {
          public String getName(IModelElement element)
          {
@@ -195,6 +195,11 @@ public class ParameterMappingTablePage extends AbstractModelElementPropertyPage
       addModelElementsOutlineSynchronizer(outlineSynchronizer);
       
       return composite;
+   }
+
+   protected Class<? extends ParameterMappingPage> getParameterMappingPageClass()
+   {
+      return ParameterMappingPage.class;
    }
 
    public void contributeVerticalButtons(Composite parent)

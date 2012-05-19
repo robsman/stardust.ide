@@ -20,7 +20,10 @@ public class ProcessDefinitionTriggersPropertyPage
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       super.loadFieldsFromElement(symbol, element);
-      addSpiNodes((TriggerType) element);
-      refreshTree();
+      if (getNode("_cwm_spi_trigger_") == null)
+      {
+         addSpiNodes((TriggerType) element);
+         refreshTree();
+      }
    }
 }
