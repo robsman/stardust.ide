@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.common.utils.xml.XmlUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;

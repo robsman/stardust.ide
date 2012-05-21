@@ -52,6 +52,7 @@ import org.eclipse.stardust.engine.core.model.gui.PerformsConnection;
 import org.eclipse.stardust.engine.core.model.gui.RoleSymbol;
 import org.eclipse.stardust.engine.core.model.gui.TransitionConnection;
 import org.eclipse.stardust.engine.core.model.utils.ModelElementList;
+import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
 import org.eclipse.stardust.modeling.modelimport.Import_Messages;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -402,7 +403,7 @@ public abstract class Converter
 
       try
       {
-         domBuilder = org.eclipse.stardust.common.utils.xml.XmlUtils.newDomBuilder();
+         domBuilder = XmlUtils.newDomBuilder();
          document = domBuilder.parse(new InputSource(inputStream));
       }
       catch (Exception e)
