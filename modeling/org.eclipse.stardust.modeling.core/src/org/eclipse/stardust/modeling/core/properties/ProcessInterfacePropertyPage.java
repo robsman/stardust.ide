@@ -329,8 +329,8 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
             }
             else
             {
-               restButton.setSelection(false);
-               wsdlButton.setSelection(false);
+               restButton.setSelection(true);
+               wsdlButton.setSelection(true);
             }
          }
          for(IProcessInterfaceInvocationGenerator piInvocationGenerator : piInvocationGenerators)
