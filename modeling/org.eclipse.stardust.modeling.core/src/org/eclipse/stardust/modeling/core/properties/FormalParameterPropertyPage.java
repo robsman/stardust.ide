@@ -219,19 +219,24 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       dataFilter.setReferencedModel(referencedModelType);
 
       categoryCombo.getViewer().setInput(typeFilters);
-
-      String selectedCategory = parameterType.getDataType().getCarnotType();
-      if (selectedCategory == null)
+      String selectedCategory = null;
+      DataTypeType selectedDataType = parameterType.getDataType();
+      if (selectedDataType != null) 
       {
-         if (parameterType.getDataType().getBasicType() != null)
-         {
-            selectedCategory = "primitive"; //$NON-NLS-1$
-         }
-         if (parameterType.getDataType().getDeclaredType() != null)
-         {
-            selectedCategory = "struct"; //$NON-NLS-1$
-         }
+          selectedCategory = parameterType.getDataType().getCarnotType();
+          if (selectedCategory == null)
+          {
+             if (parameterType.getDataType().getBasicType() != null)
+             {
+                selectedCategory = "primitive"; //$NON-NLS-1$
+             }
+             if (parameterType.getDataType().getDeclaredType() != null)
+             {
+                selectedCategory = "struct"; //$NON-NLS-1$
+             }
+          }    	  
       }
+      
       ViewerFilter selectedFilter = getSelectedFilter(selectedCategory);
 
       if (selectedFilter != null)
