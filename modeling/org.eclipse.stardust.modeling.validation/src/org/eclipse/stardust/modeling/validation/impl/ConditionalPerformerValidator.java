@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -73,6 +74,12 @@ public class ConditionalPerformerValidator implements IModelElementValidator
                {
                   result.add(Issue.error(conditionalPerformer,
                         Validation_Messages.MSG_COND_PERFORMER_UnsupportedType));
+               }
+               if (dataPath == null || StringUtils.isEmpty(dataPath))
+               {
+                  result.add(Issue.warning(conditionalPerformer,
+                        Validation_Messages.MSG_MissingDataPath,
+                        ValidationService.PKG_CWM.getConditionalPerformerType_DataPath()));
                }
             }
             catch (ValidationException e)
