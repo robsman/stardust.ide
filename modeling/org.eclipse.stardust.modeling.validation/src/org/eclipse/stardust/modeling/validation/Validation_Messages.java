@@ -174,6 +174,8 @@ public class Validation_Messages extends NLS
    public static String MSG_InvalidDataMapping;
 
    public static String MSG_InvalidDataPath;
+   
+   public static String MSG_MissingDataPath;
 
    public static String MSG_InvalidDataSpecified;
 
