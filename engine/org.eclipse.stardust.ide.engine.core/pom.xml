@@ -30,6 +30,12 @@
       <groupId>com.infinity.bpm</groupId>
       <artifactId>carnot-engine</artifactId>
       <version>${ipp.version}</version>
+      <exclusions>
+         <exclusion>
+            <groupId>com.infinity.bpm</groupId>
+            <artifactId>base-module</artifactId>
+         </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.infinity.bpm</groupId>
