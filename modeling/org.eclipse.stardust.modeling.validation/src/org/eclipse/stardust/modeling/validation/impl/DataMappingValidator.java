@@ -21,6 +21,7 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -157,9 +158,49 @@ public class DataMappingValidator implements IModelElementValidator
             }
             
             IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataMapping.getData());
-            if(!xPathMap.containsXPath(dataPath))
+            if (dataPath.indexOf("[") > -1)
             {
-               throw new ValidationException(Validation_Messages.MSG_DATAMAPPING_NoValidDataPath, dataPath);
+               checkNestedPath(dataPath, xPathMap);
+            }
+            else
+            {
+               if (!xPathMap.containsXPath(dataPath))
+               {
+                  throw new ValidationException(
+                        Validation_Messages.MSG_DATAMAPPING_NoValidDataPath, dataPath);
+               }
+            }
+         }
+      }
+   }
+
+   private void checkNestedPath(String dataPath, IXPathMap xPathMap)
+   {
+      String[] pathSegs = dataPath.split("/");
+      String path = "";
+      for (int i = 0; i < pathSegs.length; i++)
+      {
+         path = path + pathSegs[i];
+         path = path.replaceAll("\\[[^\\]]*\\]|\\..*/", "");
+         if (!xPathMap.containsXPath(path))
+         {
+            throw new ValidationException(
+                  Validation_Messages.MSG_DATAMAPPING_NoValidDataPath, dataPath);
+         }
+         else
+         {
+            if (pathSegs[i].indexOf("[") > -1)
+            {
+               TypedXPath xPath = xPathMap.getXPath(path);
+               if (!xPath.isList())
+               {
+                  throw new ValidationException(
+                        Validation_Messages.MSG_DATAMAPPING_NoValidDataPath, dataPath);
+               }
+            }
+            if (i < pathSegs.length)
+            {
+               path = path + "/";
             }
          }
       }
