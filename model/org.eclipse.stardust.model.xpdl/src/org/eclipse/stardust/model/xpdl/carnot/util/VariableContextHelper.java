@@ -45,16 +45,26 @@ public class VariableContextHelper
 
    public synchronized void createContext(ModelType modelType)
    {
-      contextMap.put(modelType.getId(), new VariableContext());
+      if (modelType != null)
+      {
+         contextMap.put(modelType.getId(), new VariableContext());
+      }
    }
 
    public synchronized void removeContext(ModelType modelType)
    {
-      contextMap.remove(modelType.getId());
+      if (modelType != null)
+      {
+         contextMap.remove(modelType.getId());
+      }
    }
 
    public synchronized VariableContext getContext(ModelType modelType)
    {
+      if (modelType == null)
+      {
+         return null;
+      }
       return contextMap.get(modelType.getId());
    }
 
@@ -77,7 +87,7 @@ public class VariableContextHelper
 
    public synchronized void updateContextID(ModelType modelType, String newID)
    {
-      if (contextMap.get(modelType.getId()) != null)
+      if (modelType != null && contextMap.get(modelType.getId()) != null)
       {
          VariableContext context = contextMap.remove(modelType.getId());
          contextMap.put(newID, context);
@@ -86,12 +96,15 @@ public class VariableContextHelper
 
    public synchronized void storeVariables(ModelType workflowModel, boolean save)
    {
-      createContext(workflowModel);
-      getContext(workflowModel).initializeVariables(workflowModel);
-      getContext(workflowModel).refreshVariables(workflowModel);
-      if (save)
+      if (workflowModel != null)
       {
-         getContext(workflowModel).saveVariables();
+         createContext(workflowModel);
+         getContext(workflowModel).initializeVariables(workflowModel);
+         getContext(workflowModel).refreshVariables(workflowModel);
+         if (save)
+         {
+            getContext(workflowModel).saveVariables();
+         }
       }
    }
 
