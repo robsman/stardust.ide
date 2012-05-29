@@ -29,7 +29,7 @@ import org.eclipse.stardust.modeling.validation.util.PathEntry;
 public class StructBridgeObject extends BridgeObject
 {
 //   private PathEntry entry;
-   protected String actualTypeName;
+   private String actualTypeName;
    private String label;
 
    public StructBridgeObject(IType accessPointType, DirectionType direction, PathEntry entry)
@@ -46,7 +46,7 @@ public class StructBridgeObject extends BridgeObject
       if (rhs instanceof StructBridgeObject)
       {
          StructBridgeObject other = (StructBridgeObject) rhs;
-         if (actualTypeName != null)
+         if (actualTypeName != null && other.actualTypeName != null)
          {
             return actualTypeName.equals(other.actualTypeName);
          }
