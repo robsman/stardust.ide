@@ -20,15 +20,14 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>org.eclipse.stardust.ide.thirdparty.antlr</artifactId>
-  <version>3.2</version>
+  <artifactId>org.eclipse.stardust.ide.thirdparty.antlr</artifactId>  <version>3.2.0</version>
 
   <packaging>eclipse-plugin</packaging>
 
   <dependencies>
     <dependency>
       <groupId>org.antlr</groupId>      <artifactId>antlr-runtime</artifactId>
-      <version>${project.version}</version>      <exclusions>        <exclusion>          <groupId>org.antlr</groupId>          <artifactId>stringtemplate</artifactId>        </exclusion>      </exclusions>
+      <version>3.2</version>      <exclusions>        <exclusion>          <groupId>org.antlr</groupId>          <artifactId>stringtemplate</artifactId>        </exclusion>      </exclusions>
     </dependency>
   </dependencies>
 
@@ -40,8 +39,7 @@
         <configuration>
           <includeArtifactIds>antlr</includeArtifactIds>
         </configuration>
-      </plugin>
-    </plugins>
+      </plugin>    </plugins>
   </build>
 
 </project>
