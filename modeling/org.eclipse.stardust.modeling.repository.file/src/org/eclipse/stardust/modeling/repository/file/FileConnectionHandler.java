@@ -68,9 +68,7 @@ public class FileConnectionHandler implements ConnectionHandler
    }
 
    public void open(Connection connection) throws CoreException
-   {    
-      
-      System.err.println("open");
+   {
       if (open)
       {
           throw new CoreException(new Status(IStatus.ERROR, ObjectRepositoryActivator.PLUGIN_ID,
