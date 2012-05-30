@@ -23,14 +23,19 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
 import org.eclipse.stardust.modeling.repository.common.*;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
@@ -63,7 +68,9 @@ public class FileConnectionHandler implements ConnectionHandler
    }
 
    public void open(Connection connection) throws CoreException
-   {            
+   {    
+      
+      System.err.println("open");
       if (open)
       {
           throw new CoreException(new Status(IStatus.ERROR, ObjectRepositoryActivator.PLUGIN_ID,
@@ -188,6 +195,21 @@ public class FileConnectionHandler implements ConnectionHandler
          if (node != null)
          {
             return ((ModelElementDescriptor) node).resolveElement(object);
+         }
+         else
+         {
+            if(object instanceof IIdentifiableModelElement)
+            {
+               CompoundCommand cmd = new CompoundCommand();               
+               EList<INodeSymbol> symbols = ((IIdentifiableModelElement) object).getSymbols();
+               for(INodeSymbol symbol : symbols)
+               {
+                  cmd.add(DeleteSymbolCommandFactory
+                        .createDeleteSymbolCommand(symbol));
+                  
+               }
+               cmd.execute();
+            }
          }
       }
       return object;
