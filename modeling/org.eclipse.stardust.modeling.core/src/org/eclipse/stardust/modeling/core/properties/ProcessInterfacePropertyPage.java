@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -683,6 +685,18 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
 
    private boolean canMoveUp(FormalParameterType selection)
    {
+      if (selection instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) selection;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            selection = (FormalParameterType) value;
+         }
+      }      
+      
       ProcessDefinitionType pd = (ProcessDefinitionType) selection.eContainer()
             .eContainer();
       if (pd == null || pd.getFormalParameters() == null
@@ -695,6 +709,18 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
 
    private boolean canMoveDown(FormalParameterType selection)
    {
+      if (selection instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) selection;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            selection = (FormalParameterType) value;
+         }
+      }      
+      
       ProcessDefinitionType pd = (ProcessDefinitionType) selection.eContainer()
             .eContainer();
       if (pd == null || pd.getFormalParameters() == null
@@ -758,6 +784,18 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
    private void performUp(Button[] buttons)
    {
       FormalParameterType fpt = (FormalParameterType) getSelection();
+      if (fpt instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) fpt;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            fpt = (FormalParameterType) value;
+         }
+      }      
+            
       EList<FormalParameterType> params = process.getFormalParameters()
             .getFormalParameter();
       int index = params.indexOf(fpt);
@@ -771,6 +809,18 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
    private void performDown(Button[] buttons)
    {
       FormalParameterType fpt = (FormalParameterType) getSelection();
+      if (fpt instanceof Proxy)
+      {
+         Proxy proxy = (Proxy) fpt;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         
+         Object value = Reflect.getFieldValue(ih, "val$element"); //$NON-NLS-1$
+         if (value != null)
+         {
+            fpt = (FormalParameterType) value;
+         }
+      }            
+      
       EList<FormalParameterType> params = process.getFormalParameters()
             .getFormalParameter();
       int index = params.indexOf(fpt);
