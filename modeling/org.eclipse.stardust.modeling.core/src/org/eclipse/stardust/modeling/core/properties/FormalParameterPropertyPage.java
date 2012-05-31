@@ -55,10 +55,8 @@ import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
-import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.IdentifiableModelElementTreeEditPart;
-import org.eclipse.stardust.modeling.core.editors.ui.AccessPathBrowserComposite;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
@@ -77,27 +75,13 @@ import org.eclipse.ui.PlatformUI;
 
 public class FormalParameterPropertyPage extends AbstractModelElementPropertyPage
 {
-
    private XpdlFactory xpdlFactory = XpdlFactory.eINSTANCE;
-
    private LabeledText idText;
-
    private LabeledText nameText;
 
    private LabeledViewer directionCombo;
-
-   private Button descriptorButton;
-
    private LabeledViewer dataCombo;
-
-   private LabelWithStatus dataLabel;
-
-   private LabelWithStatus dataPathLabel;
-
-   private AccessPathBrowserComposite dataPathBrowser;
-
    private Button[] buttons;
-
    private Button autoIdButton;
 
    private boolean isEditable = true;
@@ -119,9 +103,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
    private ProcessDefinitionType providingProcess;
 
    private boolean readOnly;
-
-   private LabelWithStatus dataTypeLabel;
-
    private LabeledViewer dataTypeCombo;
 
    private DataFilter dataFilter;
@@ -355,10 +336,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       directionCombo.getViewer().getControl().setEnabled(!readOnly && enablePage);
       dataTypeCombo.getViewer().getControl().setEnabled(!readOnly && enablePage);
       categoryCombo.getViewer().getControl().setEnabled(!readOnly && enablePage);
-      for (int i = 0; i < buttons.length; i++)
-      {
-         ((Control) buttons[i]).setEnabled(!readOnly && enablePage);
-      }
    }
 
    private ProcessDefinitionType getProcess()
@@ -411,16 +388,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       return isEditable;
    }
 
-   private void setEditable(boolean enabled_)
-   {
-
-   }
-
-   private void updateDescriptorState()
-   {
-
-   }
-
    public void setVisible(boolean visible)
    {
       if (visible)
@@ -430,11 +397,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
          if (manager != null)
          {
             manager.updateButtons(getModelElement(), buttons);
-            for (int i = 0; i < buttons.length; i++)
-            {
-               ((Control) buttons[i]).setEnabled(!readOnly);
-            }
-
          }
       }
       super.setVisible(visible);
@@ -448,10 +410,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       if (manager != null)
       {
          buttons = manager.createButtons(parent);
-         for (int i = 0; i < buttons.length; i++)
-         {
-            ((Control) buttons[i]).setEnabled(!readOnly);
-         }
       }
    }
 
@@ -766,14 +724,9 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
    {
       setValid(enabled);
       getApplyButton().setEnabled(enabled);
-      buttons[0].setEnabled(enabled);
-      buttons[2].setEnabled(enabled);
-      buttons[3].setEnabled(enabled);
-      getApplyButton().setEnabled(enabled);
    }
 
    // Typefilters
-
    public class TypeFilter extends ViewerFilter
    {
       private String name;
@@ -793,12 +746,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return false;
       }
-
    }
 
    public class StructuredTypesFilter extends TypeFilter
    {
-
       public StructuredTypesFilter(String name)
       {
          super(name);
@@ -818,12 +769,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return Diagram_Messages.TXT_STRUCTURED_TYPE;
       }
-
    }
 
    public class PrimitiveTypesFilter extends TypeFilter
    {
-
       public PrimitiveTypesFilter(String name)
       {
          super(name);
@@ -838,12 +787,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return Diagram_Messages.TXT_PRIMITIVE_DATA;
       }
-
    }
 
    public class DocumentTypesFilter extends TypeFilter
    {
-
       public DocumentTypesFilter(String name)
       {
          super(name);
@@ -858,12 +805,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return Diagram_Messages.TXT_DOCUMENT;
       }
-
    }
 
    public class DocumentListTypesFilter extends TypeFilter
    {
-
       public DocumentListTypesFilter(String name)
       {
          super(name);
@@ -883,7 +828,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
 
    public class EmptyFilter extends TypeFilter
    {
-
       public EmptyFilter(String name)
       {
          super(name);
@@ -893,7 +837,5 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return false;
       }
-
    }
-
 }
