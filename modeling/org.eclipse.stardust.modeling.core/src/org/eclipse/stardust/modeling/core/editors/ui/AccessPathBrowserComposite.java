@@ -12,16 +12,10 @@ package org.eclipse.stardust.modeling.core.editors.ui;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -42,6 +36,7 @@ public class AccessPathBrowserComposite
    private ITypedElement accessPoint;
    private Button browseButton;
    private boolean browsePrimitiveAllowed = true;
+   private boolean enabled = true;
 
    public AccessPathBrowserComposite(WorkflowModelEditor editor, Composite parent, String title)
    {
@@ -117,48 +112,53 @@ public class AccessPathBrowserComposite
 
    public void setAccessPoint(ITypedElement element, DirectionType direction)
    {
-      this.staticDirection = direction;
+      staticDirection = direction;
       accessPoint = element;
-      boolean enable = (accessPoint instanceof IExtensibleElement)
-         && ( !DirectionType.IN_LITERAL.equals(getDirection())
-         || AttributeUtil.getBooleanValue((IExtensibleElement) accessPoint,
-            CarnotConstants.BROWSABLE_ATT));
-      
-      if ((element instanceof DataType) && (null != ((DataType) element).getType()))
+      enableControls();
+   }
+
+   private void enableControls()
+   {
+      boolean enable = enabled && accessPoint != null;
+      if (enable)
       {
-         enable = true;
+         if (accessPoint instanceof DataType)
+         {
+            enable = dataTypeSupportsBrowsing(((DataType) accessPoint).getType());
+         }
+         else if (accessPoint instanceof IExtensibleElement)
+         {
+            enable = !DirectionType.IN_LITERAL.equals(getDirection());
+            if (!enable)
+            {
+               enable = AttributeUtil.getBooleanValue((IExtensibleElement) accessPoint, PredefinedConstants.BROWSABLE_ATT);
+            }
+         }
       }
 
-      methodText.setEnabled(enable && element != null && dataTypeSupportsBrowsing(element.getMetaType()));
-      browseButton.setEnabled(enable && element != null && dataTypeSupportsBrowsing(element.getMetaType()));
+      methodText.setEnabled(enable);
+      browseButton.setEnabled(enable);
       if (!enable)
       {
          methodText.setText(""); //$NON-NLS-1$
-      }
-      if (element != null && !dataTypeSupportsBrowsing(element.getMetaType())) {
-    	  methodText.setText(""); //$NON-NLS-1$
       }
    }
    
    private DirectionType getDirection()
    {
-      return (null != directionProvider)
-            ? directionProvider.getDirection()
-            : staticDirection;
+      return directionProvider == null ? staticDirection : directionProvider.getDirection();
    }
 
-   private boolean dataTypeSupportsBrowsing(IMetaType type) {
-		if (type instanceof DataTypeType) {
-			DataTypeType dataType = (DataTypeType) type;
-			if (PredefinedConstants.PRIMITIVE_DATA.equals(type.getId()) && !browsePrimitiveAllowed) {
-				return false;
-			}
-			IAccessPathEditor editor = AccessPointUtil
-					.getSPIAccessPathEditor(dataType);
-			return editor != null && editor.supportsBrowsing();
-		}
-		return false;
-	}
+   private boolean dataTypeSupportsBrowsing(DataTypeType type)
+   {
+      DataTypeType dataType = (DataTypeType) type;
+      if (PredefinedConstants.PRIMITIVE_DATA.equals(type.getId()) && !browsePrimitiveAllowed)
+      {
+         return false;
+      }
+      IAccessPathEditor editor = AccessPointUtil.getSPIAccessPathEditor(dataType);
+      return editor != null && editor.supportsBrowsing();
+   }
    
    public static interface IDirectionProvider
    {
@@ -167,7 +167,7 @@ public class AccessPathBrowserComposite
 
    public void setEnabled(boolean enabled)
    {
-      methodText.setEnabled(enabled);
-      browseButton.setEnabled(enabled);
+      this.enabled  = enabled;
+      enableControls();
    }
 }

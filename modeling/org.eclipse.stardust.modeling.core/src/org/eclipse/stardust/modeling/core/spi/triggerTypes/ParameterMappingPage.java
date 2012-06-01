@@ -49,11 +49,11 @@ public class ParameterMappingPage extends AbstractModelElementPropertyPage
    private static final CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private LabeledViewer dataViewer;
    private LabeledText dataPathEditor;
-   private AccessPathBrowserComposite dataPathBrowser;
+   protected AccessPathBrowserComposite dataPathBrowser;
 
    private LabeledViewer parameterViewer;
    private LabeledText parameterPathEditor;
-   private AccessPathBrowserComposite parameterPathBrowser;
+   protected AccessPathBrowserComposite parameterPathBrowser;
 
    private Button[] buttons;
 
