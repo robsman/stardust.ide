@@ -95,10 +95,25 @@ public class StructBridgeObject extends BridgeObject
             }            
          }
          
-         if(declaration == null)
+         if (declaration == null)
          {         
             declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         }
+         
+         if (declaration == null)
+         {
+            String typeDeclarationId = AttributeUtil.getAttributeValue(
+                  (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+            ModelType model = ModelUtils.findContainingModel(element);
+            if (model != null)
+            {
+               TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
+               if (typeDeclarations != null)
+               {
+                  declaration = typeDeclarations.getTypeDeclaration(typeDeclarationId);
+               }
+            }
          }
          
          if (declaration != null)
