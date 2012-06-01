@@ -95,17 +95,16 @@ public class TypeDeclarationsTypeImpl extends EObjectImpl implements TypeDeclara
 	public TypeDeclarationType getTypeDeclaration(String typeId) {
 	   if (typeId != null)
 	   {
-	       EList declarations = getTypeDeclaration();
-	       for (int i = 0; i < declarations.size(); i++)
-	       {
-	          TypeDeclarationType type = (TypeDeclarationType) declarations.get(i);
-	          if (typeId.equals(type.getId()))
-	          {
-	             return type;
-	          }
-	       }
+	      EList<TypeDeclarationType> declarations = getTypeDeclaration();
+	      for (TypeDeclarationType type : declarations)
+	      {
+	         if (typeId.equals(type.getId())) 
+	         {
+	            return type;
+	         }
+	      }
 	   }
-       return null;
+	   return null;
 	}
 
 	/**
