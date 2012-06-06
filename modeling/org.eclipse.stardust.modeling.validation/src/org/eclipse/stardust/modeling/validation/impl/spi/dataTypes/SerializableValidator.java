@@ -23,6 +23,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
@@ -52,9 +53,13 @@ public class SerializableValidator
       }
       else
       {
-         className = VariableContextHelper.getInstance().getContext(
-               (ModelType) element.eContainer()).replaceAllVariablesByDefaultValue(
-               className);
+         VariableContext context = VariableContextHelper.getInstance().getContext(
+               (ModelType) element.eContainer());
+         if(context != null)
+         {
+            className = context.replaceAllVariablesByDefaultValue(className);            
+         }
+         
          TypeInfo type = typeFinder.findType(className);
          if (null == type)
          {
