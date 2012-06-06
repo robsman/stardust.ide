@@ -77,7 +77,7 @@ public class ConditionalPerformerValidator implements IModelElementValidator
                }
                if (dataPath == null || StringUtils.isEmpty(dataPath))
                {
-                  result.add(Issue.warning(conditionalPerformer,
+                  result.add(Issue.error(conditionalPerformer,
                         Validation_Messages.MSG_MissingDataPath,
                         ValidationService.PKG_CWM.getConditionalPerformerType_DataPath()));
                }
