@@ -114,7 +114,7 @@ public class AccessPathBrowserComposite
    {
       staticDirection = direction;
       accessPoint = element;
-      setEnabled(true);
+      enableControls();
    }
 
    private void enableControls()

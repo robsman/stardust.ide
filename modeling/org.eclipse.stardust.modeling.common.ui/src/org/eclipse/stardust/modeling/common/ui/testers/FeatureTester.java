@@ -17,15 +17,21 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class FeatureTester extends PropertyTester
 {
-   public boolean test(Object receiver, String property, Object[] args,
-         Object expectedValue)
+   public boolean test(Object value, String property, Object[] args, Object expectedValue)
    {
-      if (receiver instanceof EObject && "feature".equals(property) && args.length > 0) //$NON-NLS-1$
+      if (value instanceof EObject && "feature".equals(property) && args.length > 0) //$NON-NLS-1$
       {
-         EObject eObject = (EObject) receiver;
-         EClass eClass = eObject.eClass();
-         EStructuralFeature feature = eClass.getEStructuralFeature((String) args[0]);
-         Object value = ((EObject) receiver).eGet(feature);
+         for (String featureId : args[0].toString().split("\\."))
+         {
+            if (value == null)
+            {
+               break;
+            }
+            EObject eObject = (EObject) value;
+            EClass eClass = eObject.eClass();
+            EStructuralFeature feature = eClass.getEStructuralFeature(featureId);
+            value = eObject.eGet(feature);
+         }
          if (expectedValue == null)
          {
             return value == null;

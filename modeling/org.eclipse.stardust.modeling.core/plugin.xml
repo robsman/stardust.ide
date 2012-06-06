@@ -1148,88 +1148,74 @@
             name="%parameterMappingPropertyPage"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType">
       </page>
-      <page
+      <page id="_cwm_display_"
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ProcessDisplayPropertyPage"
             icon="icons/full/obj16/activity.gif"
-            id="_cwm_display_"
-            name="%propPageProcessDisplay"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+            name="%propPageProcessDisplay">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType" />
+         </enabledWhen>
       </page>
-      <page
+      <page id="_cwm_parameter_mapping_"
             class="org.eclipse.stardust.modeling.core.properties.FormalParameterPropertyPage"
             icon="icons/full/obj16/primitive_data.gif"
-            id="_cwm_parameter_mapping_"
-            name="%formalParameterPropertyPage"
-            objectClass="org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType">
+            name="%formalParameterPropertyPage">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType" />
+         </enabledWhen>
       </page>
-      <page
+      <page id="interface"
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ProcessInterfacePropertyPage"
             icon="icons/full/obj16/activity.gif"
-            id="interface"
-            name="%processInterface"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
+            name="%processInterface">
+         <enabledWhen>
+            <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType" />
+         </enabledWhen>
       </page>
-      <page
+      <page id="_cwm_application_"
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ActivityApplicationPropertyPage"
             icon="icons/full/obj16/application.gif"
-            id="_cwm_application_"
             name="%propPageActivityApplication">
          <enabledWhen>
             <and>
-               <instanceof
-                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-               </instanceof>
-               <test
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType" />
+               <test property="com.infinity.properties.feature"
                      args="implementation"
-                     property="com.infinity.properties.feature"
-                     value="Application">
-               </test>
+                     value="Application" />
             </and>
          </enabledWhen>
       </page>
-      <page
+      <page id="_cwm_subprocess_"
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ActivitySubprocessPropertyPage"
             icon="icons/full/obj16/process.gif"
-            id="_cwm_subprocess_"
             name="%propPageActivitySubprocess">
          <enabledWhen>
             <and>
-               <instanceof
-                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-               </instanceof>
-               <test
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType" />
+               <test property="com.infinity.properties.feature"
                      args="implementation"
-                     property="com.infinity.properties.feature"
-                     value="Subprocess">
-               </test>
+                     value="Subprocess" />
             </and>
          </enabledWhen>
       </page>
-      <page
+      <page id="_cwm_subprocess_binding_"
             category="_cwm_subprocess_"
             class="org.eclipse.stardust.modeling.core.properties.SubprocessRuntimeBindingPropertyPage"
             icon="icons/full/obj16/process.gif"
-            id="_cwm_subprocess_binding_"
             name="%propPageActivitySubprocessBinding">
          <enabledWhen>
             <and>
-               <instanceof
-                     value="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-               </instanceof>
-               <test
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ActivityType" />
+               <test property="com.infinity.properties.feature"
                      args="implementation"
-                     property="com.infinity.properties.feature"
-                     value="Subprocess">
-               </test>
+                     value="Subprocess" />
                <not>
-                  <test
-                        args="externalRef"
-                        property="com.infinity.properties.feature">
-                  </test>
+	              <test property="com.infinity.properties.feature"
+	                    args="implementationProcess.formalParameters" />
                </not>
             </and>
          </enabledWhen>

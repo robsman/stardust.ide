@@ -184,9 +184,17 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
          ConnectionManager manager = new ConnectionManager(referencedModel);
          manager.resolve();
          referencedModel.setConnectionManager(manager);
+         /* 
+         // allow direct reference to self
+         if (!modelID.equals(referencedModel.getId()))
+         {
+            result =  ModelUtils.hasCircularDependency(modelID, referencedModel);
+         }
+         */
          result =  ModelUtils.hasCircularDependency(modelID, referencedModel);
          
-         if (result) {
+         if (result)
+         {
              MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
                    SWT.ICON_WARNING | SWT.CANCEL);
              messageBox.setText(File_Messages.TXT_CIRCULAR_DEPENDENCY_DETECTED);

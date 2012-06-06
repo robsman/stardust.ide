@@ -11,32 +11,18 @@
 package org.eclipse.stardust.modeling.validation.impl;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.validation.IModelElementValidator;
-import org.eclipse.stardust.modeling.validation.Issue;
-import org.eclipse.stardust.modeling.validation.ValidationException;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
-import org.eclipse.stardust.modeling.validation.ValidationService;
-import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
+import org.eclipse.stardust.modeling.validation.*;
 
 public class DefaultProcessDefinitionValidator implements IModelElementValidator
 {
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
 
       if (element instanceof ProcessDefinitionType)
       {
@@ -51,9 +37,8 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
          ActivityType startActivity = null;
          String otherStartActivities = null;
 
-         for (Iterator iter = proc.getActivity().iterator(); iter.hasNext();)
+         for (ActivityType activity : proc.getActivity())
          {
-            ActivityType activity = (ActivityType) iter.next();
             if (activity.getInTransitions().isEmpty())
             {
                if (startActivity == null)
@@ -92,24 +77,23 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
          
          if (null != startActivity)
          {
-            Set allActivities = new HashSet(proc.getActivity());
+            Set<ActivityType> allActivities = CollectionUtils.newSet();
+            allActivities.addAll(proc.getActivity());
             
-            List reachedActivities = new LinkedList();
-            Set visitedActivities = new HashSet();
+            List<ActivityType> reachedActivities = CollectionUtils.newLinkedList();
+            Set<ActivityType> visitedActivities = CollectionUtils.newSet();
             reachedActivities.add(startActivity);
             
             // span activity graph reachable from starting activity
-            while ( !reachedActivities.isEmpty())
+            while (!reachedActivities.isEmpty())
             {
                ActivityType activity = (ActivityType) reachedActivities.remove(0);
-               if ( !visitedActivities.contains(activity))
+               if (!visitedActivities.contains(activity))
                {
                   visitedActivities.add(activity);
-                  
-                  for (Iterator i = activity.getOutTransitions().iterator(); i.hasNext();)
+                  for (TransitionType transition : activity.getOutTransitions())
                   {
                      // add all reachable, unvisited activities
-                     TransitionType transition = (TransitionType) i.next();
                      if ( !visitedActivities.contains(transition.getTo()))
                      {
                         reachedActivities.add(transition.getTo());
@@ -154,12 +138,10 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
 
    private boolean findDuplicateId(ProcessDefinitionType proc)
    {
-      for (Iterator iter = ModelUtils.findContainingModel(proc).getProcessDefinition()
-            .iterator(); iter.hasNext();)
+      ModelType model = ModelUtils.findContainingModel(proc);
+      for (ProcessDefinitionType otherProc : model.getProcessDefinition())
       {
-         ProcessDefinitionType otherProc = (ProcessDefinitionType) iter.next();
-         if ((otherProc.getId().equals(proc.getId()))
-               && (!proc.equals(otherProc)))
+         if (otherProc.getId().equals(proc.getId()) && !proc.equals(otherProc))
          {
             return true;
          }

@@ -194,13 +194,8 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
       updateDescriptorState();
       
       dataText.getCombo().setEnabled(enabled);
-      if(StringUtils.isEmpty(dataText.getCombo().getText()))
+      if (!StringUtils.isEmpty(dataText.getCombo().getText()))
       {
-         dataPathBrowser.setEnabled(false);
-      }
-      else
-      {
-         dataPathBrowser.setEnabled(enabled);
          DataType data = ((DataPathType) getModelElement()).getData();
          IAccessPathEditor editor = AccessPointUtil
                .getSPIAccessPathEditor(data.getType());
