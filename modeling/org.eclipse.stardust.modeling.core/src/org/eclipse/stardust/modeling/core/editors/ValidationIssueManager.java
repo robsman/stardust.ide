@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +26,7 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.EObjectInvocationHandler;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.IssueDelta;
 
@@ -75,16 +78,31 @@ public class ValidationIssueManager
       for (int i = 0; i < issues.length; ++i )
       {
          Issue issue = issues[i];
+         EObject modelElement = issue.getModelElement();
          
-         if (null != issue.getModelElement())
+         if (modelElement != null)
          {
-            affectedElements.add(issue.getModelElement());
+            if (modelElement instanceof Proxy && modelElement instanceof ModelType)
+            {
+               Proxy proxy = (Proxy) modelElement;
+               InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+               if (ih instanceof EObjectInvocationHandler)
+               {
+                  EObject model = ((EObjectInvocationHandler) ih).getModel();
+                  if(model instanceof ModelType)
+                  {
+                     modelElement = model;
+                  }                     
+               }
+            }
             
-            ModelElementValidationStatus status = (ModelElementValidationStatus) statusRegistry.get(issue.getModelElement());
+            affectedElements.add(modelElement);
+            
+            ModelElementValidationStatus status = (ModelElementValidationStatus) statusRegistry.get(modelElement);
             if (null == status)
             {
                status = new ModelElementValidationStatus();
-               statusRegistry.put(issue.getModelElement(), status);
+               statusRegistry.put(modelElement, status);
             }
             status.addIssue(issue);
          }
