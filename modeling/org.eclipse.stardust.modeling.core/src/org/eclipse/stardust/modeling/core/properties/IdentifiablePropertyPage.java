@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -19,6 +23,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.EObjectInvocationHandler;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -37,7 +42,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
-
 
 public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
 {
@@ -96,28 +100,41 @@ public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
+      EObject bindElement = element;
+      if (bindElement instanceof Proxy && bindElement instanceof ModelType)
+      {
+         Proxy proxy = (Proxy) bindElement;
+         InvocationHandler ih = Proxy.getInvocationHandler(proxy);
+         if (ih instanceof EObjectInvocationHandler)
+         {
+            EObject model = ((EObjectInvocationHandler) ih).getModel();
+            if(model instanceof ModelType)
+            {
+               bindElement = model;
+            }                     
+         }
+      }
+      
       txtName.getText().removeModifyListener(listener);
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
-      wBndMgr.getModelBindingManager().bind(element,
+      wBndMgr.getModelBindingManager().bind(bindElement,
             PKG_CWM.getIModelElement_ElementOid(), stxtOid);
-      wBndMgr.bind(txtId, element, PKG_CWM.getIIdentifiableElement_Id());
-      wBndMgr.bind(txtName, element, PKG_CWM.getIIdentifiableElement_Name());
+      wBndMgr.bind(txtId, bindElement, PKG_CWM.getIIdentifiableElement_Id());
+      wBndMgr.bind(txtName, bindElement, PKG_CWM.getIIdentifiableElement_Name());
       
       if (element instanceof IIdentifiableModelElement)
       {
-         wBndMgr.bind(txtDescription, element, (element instanceof ModelType) ? PKG_CWM
+         wBndMgr.bind(txtDescription, bindElement, (element instanceof ModelType) ? PKG_CWM
             .getModelType_Description() : PKG_CWM
             .getIIdentifiableModelElement_Description(), CwmFeatureAdapter.INSTANCE);
       }
       
-      wBndMgr.getModelBindingManager().updateWidgets(element);
+      wBndMgr.getModelBindingManager().updateWidgets(bindElement);
       txtName.getText().addModifyListener(listener);
       
       txtName.getText().selectAll();
       txtName.getText().setFocus();
-      
-
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
@@ -158,8 +175,6 @@ public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
          
          modelElement = (IIdentifiableModelElement) getModelElement();
       }
-      
-      
       
       if (providesVisibility)
       {
@@ -247,5 +262,4 @@ public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
    {
       providesVisibility = flag;
    }
-
 }
