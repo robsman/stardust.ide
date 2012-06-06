@@ -403,17 +403,17 @@ public class ModelUtils
    
    public static EObject findElementById(EObject parent, EStructuralFeature feature, String id)
    {
-      EObject result = null;
-      
-      if (null != parent)
+      if (parent != null)
       {
-         Object domain = parent.eGet(feature);
-         if (domain instanceof List)
+         Object value = parent.eGet(feature);
+         if (value instanceof List)
          {
-            result = findElementById((List<EObject>) domain, id);
+            @SuppressWarnings("unchecked")
+            List<EObject> domain = (List<EObject>) value;
+            return findElementById(domain, id);
          }
       }
-      return result;
+      return null;
    }
 
    public static <T extends IIdentifiableElement> T findIdentifiableElement(List<? extends T> domain, String id)
@@ -531,6 +531,7 @@ public class ModelUtils
       {
          addSymbols(set, subContainer, ref, feat, refId);
       }
+      @SuppressWarnings("unchecked")
       List<INodeSymbol> list = (List<INodeSymbol>) container.eGet(ref);
       for (INodeSymbol symbol : list)
       {
@@ -551,6 +552,7 @@ public class ModelUtils
             addSymbols(set, subContainer, ref, feat, element);
          }
          
+         @SuppressWarnings("unchecked")
          List<INodeSymbol> list = (List<INodeSymbol>) container.eGet(ref);
          for (INodeSymbol symbol : list)
          {
@@ -1366,77 +1368,64 @@ public class ModelUtils
          return true;
       }
       ExternalPackages externalPackages = referencedModel.getExternalPackages();
-      if (externalPackages == null || externalPackages.getExternalPackage().isEmpty())
+      if (externalPackages != null)
       {
-         return false;
-      }
-      for (Iterator<ExternalPackage> i = externalPackages.getExternalPackage().iterator(); i
-            .hasNext();)
-      {
-         boolean circular = false;
-         ExternalPackage externalPackage = i.next();
-         if (externalPackage.getHref().equals(referencingModelID))
+         for (ExternalPackage externalPackage : externalPackages.getExternalPackage())
          {
-            return true;
-         }
-         else
-         {
-            ModelType m = referencedModel.getConnectionManager().find(externalPackage);
-            circular = hasCircularDependency(referencingModelID, m);
-            if (circular == true)
+            if (externalPackage.getHref().equals(referencingModelID))
             {
-               return circular;
+               return true;
+            }
+            else
+            {
+               ModelType m = referencedModel.getConnectionManager().find(externalPackage);
+               if (hasCircularDependency(referencingModelID, m))
+               {
+                  return true;
+               }
             }
          }
       }
       return false;
    }
    
-   public static boolean externalPackageExists(ModelType referingModel,
-         ModelType referencedModel)
+   public static boolean externalPackageExists(ModelType referingModel, ModelType referencedModel)
    {
       ExternalPackages externalPackages = referingModel.getExternalPackages();
-      if (externalPackages == null || externalPackages.getExternalPackage().isEmpty())
+      if (externalPackages != null)
       {
-         return false;
-      }
-      for (Iterator<ExternalPackage> i = externalPackages.getExternalPackage().iterator(); i
-            .hasNext();)
-      {
-         ExternalPackage externalPackage = i.next();
-         if (externalPackage.getHref().equals(referencedModel.getId()))
+         for (ExternalPackage externalPackage : externalPackages.getExternalPackage())
          {
-            return true;
+            if (externalPackage.getHref().equals(referencedModel.getId()))
+            {
+               return true;
+            }
          }
       }
       return false;
    }
    
-   public static List<IModelElement> findPackageReferingModelElements(
-         ModelType referingModel, ExternalPackage externalPackage)
+   public static List<IModelElement> findPackageReferingModelElements(ModelType referingModel, ExternalPackage externalPackage)
    {
-      List<IModelElement> result = new ArrayList<IModelElement>();
-      for (Iterator<ProcessDefinitionType> i = referingModel.getProcessDefinition()
-            .iterator(); i.hasNext();)
+      List<IModelElement> result = CollectionUtils.newList();
+      for (ProcessDefinitionType process : referingModel.getProcessDefinition())
       {
-         ProcessDefinitionType process = i.next();
          IdRef externalRef = process.getExternalRef();
          if (externalRef != null)
          {
-            if (externalRef.getPackageRef() != null
-                  && externalRef.getPackageRef().equals(externalPackage))
+            ExternalPackage packageRef = externalRef.getPackageRef();
+            if (packageRef != null && packageRef.equals(externalPackage))
             {
                result.add(process);
             }
          }
-         for (Iterator<ActivityType> j = process.getActivity().iterator(); j.hasNext();)
+         for (ActivityType activity : process.getActivity())
          {
-            ActivityType activity = j.next();
             externalRef = activity.getExternalRef();
             if (externalRef != null)
             {
-               if (externalRef.getPackageRef() != null
-                     && externalRef.getPackageRef().equals(externalPackage))
+               ExternalPackage packageRef = externalRef.getPackageRef();
+               if (packageRef != null && packageRef.equals(externalPackage))
                {
                   result.add(activity);
                }
