@@ -47,9 +47,18 @@ public class ManualTriggerValidator implements IModelElementValidator
          if (metaType != null)
          {
             typeId = metaType.getId();
+            if (typeId != null && typeId.equals("scan"))
+            {
+               if (((TriggerType) element).getAccessPoint().isEmpty())
+               {
+                  result.add(Issue.error(element, MessageFormat.format(
+                        Validation_Messages.MSG_Scantrigger_NoDocumentDataSpecified, typeId),
+                        PredefinedConstants.PARTICIPANT_ATT));
+               }
+            }
          }
       }
-
+      
       if (participantId == null)
       {
          result.add(Issue.error(element, MessageFormat.format(Validation_Messages.MSG_Trigger_UnspecifiedParticipant,

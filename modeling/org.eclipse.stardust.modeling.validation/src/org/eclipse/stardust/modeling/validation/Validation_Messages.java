@@ -216,6 +216,8 @@ public class Validation_Messages extends NLS
    public static String MSG_Trigger_UnspecifiedParticipant;
    
    public static String MSG_Scantrigger_UnspecifiedParticipant;
+   
+   public static String MSG_Scantrigger_NoDocumentDataSpecified;
 
    public static String MSG_Trigger_InvalidParticipant;
 
