@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,10 +26,8 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -43,8 +42,10 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.IValidationStatus;
 import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
+import org.eclipse.stardust.modeling.core.editors.ui.validation.PageValidationManager;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
@@ -69,7 +70,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    
    private CarnotPreferenceNode triggerNode;
    
-   private WidgetBindingManager wBndMgr = null;
+   private boolean pageValidationManagerSet = false;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
@@ -204,12 +205,12 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       if (!trigger.getAccessPoint().isEmpty())
       {
-         //setTriggerValidationState(IQuickValidationStatus.OK);
+         setTriggerValidationState(IQuickValidationStatus.OK);
          dataCombo.getLabel().setValidationStatus(IQuickValidationStatus.OK);
       }
       else
       {
-         //setTriggerValidationState(IQuickValidationStatus.ERRORS);
+         setTriggerValidationState(IQuickValidationStatus.ERRORS);
          dataCombo.getLabel().setValidationStatus(IQuickValidationStatus.ERRORS);
       }      
    }
@@ -235,6 +236,29 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       AttributeUtil.setReference(trigger,
             PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT, originalPerformer);
       return super.performCancel();
+   }
+   
+   public WidgetBindingManager getWidgetBindingManager()
+   {
+      if (pageValidationManagerSet == false)
+      {
+         pageValidationManagerSet = true;
+         WidgetBindingManager wBndMgr = super.getWidgetBindingManager();
+         PageValidationManager pm = new PageValidationManager(this)
+         {
+
+            @Override
+            public void onIssuesUpdated(EObject element,
+                  IValidationStatus validationStatus)
+            {
+
+            }
+
+         };
+         Reflect.setFieldValue(wBndMgr, "vBndMgr", pm);
+         return wBndMgr;
+      }
+      return super.getWidgetBindingManager();
    }
 
 }
