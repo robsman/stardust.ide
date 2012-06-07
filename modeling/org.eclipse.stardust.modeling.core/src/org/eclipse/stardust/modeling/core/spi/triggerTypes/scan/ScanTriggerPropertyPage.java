@@ -25,8 +25,10 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -45,6 +47,7 @@ import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
+import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -63,6 +66,10 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    private LabeledText metaTypeText;
 
    private CarnotPreferenceNode participantNode;
+   
+   private CarnotPreferenceNode triggerNode;
+   
+   private WidgetBindingManager wBndMgr = null;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
@@ -97,8 +104,8 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
          originalPerformer = (IModelParticipant) AttributeUtil
                .getReferenceElement(attribute);
       }
-      validate(originalPerformer);
-
+      validateParticipant(originalPerformer);         
+      validateTrigger();
    }
 
    public void loadElementFromFields(final IModelElementNodeSymbol symbol,
@@ -158,8 +165,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
             }
 
             metaTypeText.getText().setText(typeName);
-            
-            
+            validateTrigger();
          }
 
       });
@@ -176,13 +182,13 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
                   iconName,
                   org.eclipse.stardust.modeling.core.spi.triggerTypes.scan.ParticipantPropertyPage.class);
       participantNode = new CarnotPreferenceNode(element, getElement(), 0);
-      
       getPreferenceManager().addToRoot(participantNode);
-
+      triggerNode = (CarnotPreferenceNode) this
+            .getPreferenceManager().find("scan");
       return composite;
    }
    
-   private void validate(IModelParticipant performer)
+   private void validateParticipant(IModelParticipant performer)
    {
       if (performer != null)
       {
@@ -194,9 +200,31 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       }
    }
    
+   private void validateTrigger()
+   {
+      if (!trigger.getAccessPoint().isEmpty())
+      {
+         //setTriggerValidationState(IQuickValidationStatus.OK);
+         dataCombo.getLabel().setValidationStatus(IQuickValidationStatus.OK);
+      }
+      else
+      {
+         //setTriggerValidationState(IQuickValidationStatus.ERRORS);
+         dataCombo.getLabel().setValidationStatus(IQuickValidationStatus.ERRORS);
+      }      
+   }
+   
    private void setParticipantValidationState(IQuickValidationStatus state)
    {
       this.participantNode.updatePageStatus(state);
+      TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
+            this.getContainer(), "treeViewer");
+      parentTreeViewer.refresh(true);
+   }
+   
+   private void setTriggerValidationState(IQuickValidationStatus state)
+   {
+      this.triggerNode.updatePageStatus(state);
       TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
             this.getContainer(), "treeViewer");
       parentTreeViewer.refresh(true);
