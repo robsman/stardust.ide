@@ -17,7 +17,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -56,12 +60,11 @@ public class DataValidator implements IModelElementValidator
          if(attribute != null)
          {
             String uri = attribute.getValue();
-            URI aRealUri = URI.createURI(uri);
-            String typeName = aRealUri.lastSegment();
+            URI aRealUri = URI.createURI(uri);            
             Connection connection = (Connection) model.getConnectionManager()
                   .findConnection(uri);
             if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
-                  && !"false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
+                  && "false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
             {
 
                EObject o = model.getConnectionManager().find(
