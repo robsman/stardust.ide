@@ -64,7 +64,7 @@ public class DataValidator implements IModelElementValidator
             Connection connection = (Connection) model.getConnectionManager()
                   .findConnection(uri);
             if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
-                  && "false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
+                  && !"false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
             {
 
                EObject o = model.getConnectionManager().find(
@@ -72,6 +72,10 @@ public class DataValidator implements IModelElementValidator
                ModelType referencedModel = (ModelType) Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
                
                declarations = referencedModel.getTypeDeclarations();
+            }
+            else
+            {
+               declarations = model.getTypeDeclarations();
             }
          }
          else
