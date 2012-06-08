@@ -698,7 +698,9 @@ public class MessageTransformationController {
     private boolean checkStandardMappingAllowed(AccessPointType target,	AccessPointType source) {
     	if (isPrimitive(source)) {
 			if (isPrimitive(target)) {
-				return true;
+	            if (isEqualOrSimilar(source, target, true)) {
+	                return true;
+	            }
 			}
 			if (isRoot(target)) {
 				return false;
@@ -708,7 +710,7 @@ public class MessageTransformationController {
 			}
 			return true;
 		}
-		if (isPrimitive(target)) {
+		if (isPrimitive(target)) {		    
 			if (isPrimitive(source)) {
 				return true;
 			}
@@ -748,6 +750,9 @@ public class MessageTransformationController {
 
 	public boolean isPrimitive(AccessPointType apt) {
        if (apt != null && (!(apt instanceof StructAccessPointType)) && apt.getType() != null && apt.getType().getId() != null && apt.getType().getId().startsWith("prim")) { //$NON-NLS-1$
+          return true;
+       }
+       if (apt != null && ((apt instanceof StructAccessPointType)) && apt.getType() != null && apt.getType().getId() != null && apt.getType().getId().startsWith("prim")) { //$NON-NLS-1$
           return true;
        }
        return false;
@@ -834,20 +839,32 @@ public class MessageTransformationController {
        usedVar.clear();
        String mappingCode = ""; //$NON-NLS-1$
        FieldMapping fm = fieldMappings.get(getXPathFor(tm.getType()));
-       if (isList(tm.getType())) {
-    	  mappingCode =  sm.renderListMappingCode(sm, tm, "", 0, config);   	      	    	  //$NON-NLS-1$
-          fm.setAdvancedMapping(true);
-       } else {
-    	 String getterCode = sm.renderGetterCode(false, false, config);
-    	 mappingCode = tm.renderSetterCode(getterCode, false, false, config);
-    	 fm.setAdvancedMapping(tm instanceof SerializableMappingRenderer);
-    	 if (tm instanceof StructDataMappingRenderer) {
-    		 fm.setAdvancedMapping(arraySelectionDepthTarget > 0); 
-    	 }    	 
-       }
-       mappingCode = mappingCode.replaceAll("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
-       fm.setMappingExpression(mappingCode);
-       validateMapping(fm, true);
+       
+       if (!isList(sm.getType()) && isList(tm.getType())) {
+          mappingCode = sm.renderAdditionCode(sm, tm, config);
+          fm = fieldMappings.get(getXPathFor(tm.getType()));
+          fm.setMappingExpression(fm.getMappingExpression() + "\n" + mappingCode); //$NON-NLS-1$
+          fm.setAdvancedMapping(config != null && config.isOverwrite() || config.isAppend());
+          validateMapping(fm, true);
+      } else {
+         if (isList(tm.getType())) {
+            mappingCode =  sm.renderListMappingCode(sm, tm, "", 0, config);                         //$NON-NLS-1$
+            fm.setAdvancedMapping(true);
+         } else {
+           String getterCode = sm.renderGetterCode(false, false, config);
+           mappingCode = tm.renderSetterCode(getterCode, false, false, config);
+           fm.setAdvancedMapping(tm instanceof SerializableMappingRenderer);
+           if (tm instanceof StructDataMappingRenderer) {
+               fm.setAdvancedMapping(arraySelectionDepthTarget > 0); 
+           }       
+         }
+         mappingCode = mappingCode.replaceAll("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
+         fm.setMappingExpression(mappingCode);
+         validateMapping(fm, true);
+      }
+       
+       
+
   }
 
 	private void mapComplextToPrimitiveMessage(
@@ -928,7 +945,9 @@ public class MessageTransformationController {
  		if (advanced) {
 			//Refactor this. Find a suitable way to compare primtives with Serializables and Struct types
  			if (sr instanceof PrimitiveMappingRenderer || tr instanceof PrimitiveMappingRenderer) {
- 				return true;
+ 			    if (sr.getTypeString().equals(tr.getTypeString())) {
+ 			       return true;
+ 			    }
  			}
  			if (sr.getTypeString().equalsIgnoreCase(tr.getTypeString()) || isSpecialCase(sr, tr)) {
  				Object[] sourceChildren = sourceAPB.getChildren(sourceMessage, true);

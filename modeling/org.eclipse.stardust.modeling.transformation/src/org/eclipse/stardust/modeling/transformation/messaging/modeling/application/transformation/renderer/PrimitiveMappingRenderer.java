@@ -160,9 +160,30 @@ public class PrimitiveMappingRenderer implements IMappingRenderer {
 		return " "; //$NON-NLS-1$
 	}
 	
-	public String renderAdditionCode(IMappingRenderer sourceMapper,
-			IMappingRenderer targetMapper, MappingConfiguration config) {	
-		return null;
-	}
+    public String renderAdditionCode(IMappingRenderer sourceMapper, IMappingRenderer targetMapper, MappingConfiguration config) {   
+       String sourcePath = sourceMapper.renderGetterCode(false, false, config);
+       if (sourcePath.endsWith(".")) { //$NON-NLS-1$
+           sourcePath = sourcePath.replace(".", ""); //$NON-NLS-1$ //$NON-NLS-2$
+       }
+       String targetIndex = targetMapper.renderGetterCode(false, false, config);
+       if (targetIndex.endsWith(".")) { //$NON-NLS-1$
+           targetIndex = targetIndex.replace(".", ""); //$NON-NLS-1$ //$NON-NLS-2$
+       }
+       String result = targetIndex;
+       if (config.isAppend()) {
+           int idx1 = targetIndex.lastIndexOf("["); //$NON-NLS-1$
+           int idx2 = targetIndex.lastIndexOf("]"); //$NON-NLS-1$
+           int idx = idx2 - idx1 + 1;      
+           targetIndex = targetIndex.substring(0, targetIndex.length() - idx);                 
+           targetIndex = targetIndex + ".length + 1"; //$NON-NLS-1$
+           String xPath = controller.getXPathFor(targetMapper.getType());
+           config.getIndexMap().put(xPath, targetIndex);       
+           result = targetMapper.renderGetterCode(false, false, config);           
+       } 
+       if (result.endsWith(".")) { //$NON-NLS-1$
+           result = targetIndex.replace(".", ""); //$NON-NLS-1$ //$NON-NLS-2$
+       }       
+       return result + " = " + sourcePath + ";"; //$NON-NLS-1$ //$NON-NLS-2$
+   }
 
 }
