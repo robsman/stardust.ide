@@ -23,17 +23,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -76,6 +67,9 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       trigger = (TriggerType) element;
       model = ModelUtils.findContainingModel(element);
+      ProcessDefinitionType process = ModelUtils.findContainingProcess(element);      
+      boolean supportsProcessAttachment = processSupportsProcessAttachments(process);
+      
       datas.clear();
       for (Iterator<DataType> i = model.getData().iterator(); i.hasNext();)
       {
@@ -83,7 +77,17 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
          if (dataType.getType().getId().equals("dmsDocument") //$NON-NLS-1$
                || dataType.getType().getId().equals("dmsDocumentList")) //$NON-NLS-1$
          {
-            datas.add(dataType);
+            if(dataType.getId().equals(DmsConstants.DATA_ID_ATTACHMENTS))
+            {
+               if(supportsProcessAttachment)
+               {
+                  datas.add(dataType);                  
+               }               
+            }
+            else
+            {
+               datas.add(dataType);
+            }
          }
       }
       dataCombo.getViewer().setInput(datas);
@@ -143,32 +147,35 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
          {
             IStructuredSelection selection = (IStructuredSelection) event.getSelection();
             DataType dataType = (DataType) selection.getFirstElement();
-            AccessPointType apt = AccessPointUtil.createAccessPoint(dataType.getId(),
-                  dataType.getName(), DirectionType.OUT_LITERAL, dataType.getType());
             trigger.getAccessPoint().clear();
-            trigger.getAccessPoint().add(apt);
-
-            ParameterMappingType parameterMappingType = CarnotWorkflowModelFactory.eINSTANCE
-                  .createParameterMappingType();
-            parameterMappingType.setElementOid(ModelUtils.getElementOid(
-                  parameterMappingType, ModelUtils.findContainingModel(getModelElement())));
-            TriggerType trigger = (TriggerType) getModelElement();
-            trigger.getParameterMapping().clear();
-            trigger.getParameterMapping().add(parameterMappingType);
-            parameterMappingType.setData(dataType);
-            parameterMappingType.setParameter(dataType.getId());
-
-            String typeName = AttributeUtil.getAttributeValue(dataType.getAttribute(),
-                  "carnot:engine:dms:resourceMetadataSchema"); //$NON-NLS-1$
-            if (typeName == null)
+            
+            if(dataType != null)
             {
-               typeName = "Default"; //$NON-NLS-1$
-            }
+               AccessPointType apt = AccessPointUtil.createAccessPoint(dataType.getId(),
+                  dataType.getName(), DirectionType.OUT_LITERAL, dataType.getType());
+               trigger.getAccessPoint().add(apt);
 
-            metaTypeText.getText().setText(typeName);
+               ParameterMappingType parameterMappingType = CarnotWorkflowModelFactory.eINSTANCE
+                     .createParameterMappingType();
+               parameterMappingType.setElementOid(ModelUtils.getElementOid(
+                     parameterMappingType, ModelUtils.findContainingModel(getModelElement())));
+               TriggerType trigger = (TriggerType) getModelElement();
+               trigger.getParameterMapping().clear();
+               trigger.getParameterMapping().add(parameterMappingType);
+               parameterMappingType.setData(dataType);
+               parameterMappingType.setParameter(dataType.getId());
+   
+               String typeName = AttributeUtil.getAttributeValue(dataType.getAttribute(),
+                     "carnot:engine:dms:resourceMetadataSchema"); //$NON-NLS-1$
+               if (typeName == null)
+               {
+                  typeName = "Default"; //$NON-NLS-1$
+               }
+   
+               metaTypeText.getText().setText(typeName);
+            }
             validateTrigger();
          }
-
       });
 
       metaTypeText = FormBuilder.createLabeledText(composite,
@@ -261,4 +268,27 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       return super.getWidgetBindingManager();
    }
 
+   private boolean processSupportsProcessAttachments(ProcessDefinitionType process)
+   {
+      boolean inPath = false;
+      boolean outPath = false;
+      
+      for (DataPathType dataPath : process.getDataPath())
+      {
+         if (DmsConstants.PATH_ID_ATTACHMENTS.equals(dataPath.getId()))
+         {
+            if (DirectionType.IN_LITERAL.equals(dataPath.getDirection()))
+            {
+               inPath = true;
+            }
+            if (DirectionType.OUT_LITERAL.equals(dataPath.getDirection()))
+            {
+               outPath = true;
+            }
+            
+         }
+      }    
+      
+      return inPath && outPath;
+   }   
 }
