@@ -22,6 +22,7 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.error.ApplicationException;
+import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.IActivity;
@@ -408,7 +409,7 @@ public abstract class Converter
       }
       catch (Exception e)
       {
-         throw new ApplicationException(Import_Messages.MSG_CouldNotCreateFromInputStream,
+         throw new InternalException(Import_Messages.MSG_CouldNotCreateFromInputStream,
                e);
       }
 

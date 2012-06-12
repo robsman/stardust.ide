@@ -20,11 +20,6 @@ public class AuditTrailManagementException extends PublicException
 {
    private static final long serialVersionUID = 1L;
 
-   public AuditTrailManagementException(String message, boolean s)
-   {
-      super(message, s);
-   }
-
    public AuditTrailManagementException(String message, Throwable e)
    {
       super(message, e);
