@@ -25,6 +25,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -34,7 +36,15 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -612,6 +622,7 @@ public class ConnectionManager implements IConnectionManager
    public Command linkObject(ModelType model, IObjectDescriptor[] descriptors)
          throws CoreException
    {
+      ArrayList<Connection> connections = new ArrayList<Connection>();
       UsageDisplayDialog.setUsage(null);
       
       ChangeRecorder recorder = new ChangeRecorder(model);
@@ -641,8 +652,8 @@ public class ConnectionManager implements IConnectionManager
                   new Object[] {id});
             throw new CoreException(new Status(IStatus.ERROR,
                   ObjectRepositoryActivator.PLUGIN_ID, 0, message, null));
-         }
-
+         }         
+         connections.add(connection);
          ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
          if (handler != null)
          {
@@ -659,6 +670,8 @@ public class ConnectionManager implements IConnectionManager
          }
       }
       final ChangeDescription changes = recorder.endRecording();
+      //rp: Workaround for CRNT-23880
+      reloadConnections(connections);
       return new Command()
       {
          public void execute()
@@ -676,6 +689,27 @@ public class ConnectionManager implements IConnectionManager
             changes.applyAndReverse();
          }
       };
+   }
+   
+   private void reloadConnections(ArrayList<Connection> connections)
+   {
+      for (Iterator<Connection> i = connections.iterator(); i.hasNext();)
+      {
+         Connection connection = i.next();
+         ConnectionManager manager = ConnectionManager.getConnectionManager(connection);
+         if (manager != null)
+         {
+            try
+            {
+               manager.close(connection);
+            }
+            catch (CoreException e)
+            {
+
+            }
+            connection.eNotify(new NotificationImpl(Notification.REMOVE, null, null, 0));
+         }
+      }
    }
 
    private void sortDescriptors(IObjectDescriptor[] descriptors,
