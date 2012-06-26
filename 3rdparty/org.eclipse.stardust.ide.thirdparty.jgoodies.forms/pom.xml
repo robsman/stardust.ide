@@ -38,10 +38,8 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>forms</includeArtifactIds>
-        </configuration>
+        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>            <configuration>              <includeArtifactIds>forms</includeArtifactIds>            </configuration>          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

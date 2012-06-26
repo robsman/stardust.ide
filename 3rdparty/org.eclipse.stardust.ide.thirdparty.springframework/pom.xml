@@ -32,10 +32,8 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>aopalliance,spring-aop,spring-asm,spring-beans,spring-context,spring-context-support,spring-core,spring-expression,spring-jdbc,spring-jms,spring-orm,spring-tx,spring-web,spring-webmvc</includeArtifactIds>
-        </configuration>
+        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>            <configuration>              <includeArtifactIds>aopalliance,spring-aop,spring-asm,spring-beans,                spring-context,spring-context-support,spring-core,spring-expression,spring-jdbc,                spring-jms,spring-orm,spring-tx,spring-web,spring-webmvc              </includeArtifactIds>            </configuration>          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

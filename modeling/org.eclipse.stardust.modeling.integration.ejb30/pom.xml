@@ -41,9 +41,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>ejb-api,persistence-api</includeArtifactIds>
-        </configuration>
+        <executions>
+          <execution>
+            <id>embed-jars</id>
+            <configuration>
+              <includeArtifactIds>ejb-api,persistence-api</includeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

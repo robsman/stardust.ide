@@ -44,9 +44,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>commons-logging-api,commons-logging-adapters</includeArtifactIds>
-        </configuration>
+        <executions>          <execution>            <id>embed-jars</id>            <configuration>
+              <includeArtifactIds>commons-logging-api,commons-logging-adapters</includeArtifactIds>
+            </configuration>          </execution>        </executions>
       </plugin>
     </plugins>
   </build>

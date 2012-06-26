@@ -49,9 +49,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>carnot-engine,carnot-emf-xsd-integration</includeArtifactIds>
-        </configuration>
+        <executions>
+          <execution>
+            <id>embed-jars-no-version</id>
+            <configuration>
+              <includeArtifactIds>carnot-engine,carnot-emf-xsd-integration</includeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

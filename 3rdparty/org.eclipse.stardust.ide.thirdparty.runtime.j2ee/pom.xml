@@ -47,10 +47,8 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>geronimo-ejb_2.1_spec,geronimo-jms_1.1_spec,servlet-api</includeArtifactIds>
-        </configuration>
+        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>            <configuration>              <includeArtifactIds>geronimo-ejb_2.1_spec,geronimo-jms_1.1_spec,servlet-api</includeArtifactIds>            </configuration>          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

@@ -43,10 +43,10 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>derby,derbynet</includeArtifactIds>
-        </configuration>
+        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>
+            <configuration>
+              <includeArtifactIds>derby,derbynet</includeArtifactIds>
+            </configuration>          </execution>        </executions>
       </plugin>
     </plugins>
   </build>

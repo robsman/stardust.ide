@@ -36,10 +36,9 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <configuration>
-          <includeArtifactIds>carnot-base</includeArtifactIds>
-        </configuration>
+        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars-no-version</id>            <configuration>
+              <includeArtifactIds>carnot-base</includeArtifactIds>
+            </configuration>          </execution>        </executions>
       </plugin>
     </plugins>
   </build>
