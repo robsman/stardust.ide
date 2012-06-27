@@ -259,7 +259,7 @@ public class MergeUtils
          }
          
          // collision, set uuid
-         if (ShareUtils.isLockableElement(element))
+         if (reuseReplace != null && ShareUtils.isLockableElement(element))
          {
             if (!ShareUtils.isModelShared(targetModel))
             {
@@ -288,7 +288,7 @@ public class MergeUtils
             parent = targetModel;
          }
          // collision, set uuid
-         if (ShareUtils.isLockableElement(element))
+         if (reuseReplace != null && ShareUtils.isLockableElement(element))
          {
             if (!ShareUtils.isModelShared(targetModel))
             {
