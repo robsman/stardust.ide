@@ -44,6 +44,7 @@ import org.eclipse.swt.graphics.Image;
 
 public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor, IObjectReference, ImportableDescriptor
 {
+   protected boolean alwaysReplace = false;
    protected EObject eObject;
    private EClass classifier;
    private String iconBundleId;
@@ -177,12 +178,24 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
       Map<EObject, EObject> map = MergeUtils.createClosureMap(closure, targetModel);
       if (!map.isEmpty())
       {
-         reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory, asLink);
+         if(alwaysReplace)
+         {
+            reuseReplace = ImportUtils.reuseReplaceMap(map);            
+         }
+         else
+         {
+            reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory, asLink);
+         }
          // CANCEL pressed
          if (reuseReplace == null)
          {
             throw new ImportCancelledException();
          }
+         
+         if(alwaysReplace)
+         {
+            reuseReplace = null;
+         }         
       }
       
       LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), asLink, isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);

@@ -81,7 +81,22 @@ public final class ImportUtils
       UsageDisplayDialog.setUsage(null);
       return reuseReplace;
    }   
-      
+
+   public static Map<EObject, MergeAction> reuseReplaceMap(Map<EObject, EObject> map)
+   {
+      Map<EObject, MergeAction> reuseReplace = new HashMap<EObject, MergeAction>();
+      for (Map.Entry<EObject, EObject> entry : map.entrySet())
+      {
+         EObject original = entry.getValue();
+         if (original != null)
+         {
+            MergeAction action = MergeAction.REPLACE;
+            reuseReplace.put(original, action);               
+         }
+      }      
+      return reuseReplace;
+   }   
+   
    // image for tree edit part
    public static Image getImage(IconFactory iconFactory, EObject eObject)
    {
