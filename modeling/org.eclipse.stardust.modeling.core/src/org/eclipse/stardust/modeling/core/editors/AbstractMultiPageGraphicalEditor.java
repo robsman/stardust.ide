@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2012 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors;
 
-import java.util.ArrayList;
 import java.util.EventObject;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -21,49 +19,18 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditDomain;
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.KeyHandler;
-import org.eclipse.gef.KeyStroke;
-import org.eclipse.gef.RootEditPart;
+import org.eclipse.gef.*;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.ui.actions.ActionRegistry;
-import org.eclipse.gef.ui.actions.AlignmentAction;
-import org.eclipse.gef.ui.actions.DirectEditAction;
-import org.eclipse.gef.ui.actions.EditorPartAction;
-import org.eclipse.gef.ui.actions.GEFActionConstants;
-import org.eclipse.gef.ui.actions.RedoAction;
-import org.eclipse.gef.ui.actions.SaveAction;
-import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.gef.ui.actions.StackAction;
-import org.eclipse.gef.ui.actions.UndoAction;
-import org.eclipse.gef.ui.actions.UpdateAction;
-import org.eclipse.gef.ui.actions.ZoomInAction;
-import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.actions.*;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.AlignmentSnapToGridAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CleanupModelAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CopySymbolAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateSubprocessFromSelectionAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CutAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeleteAllAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DiagramPrintAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DistributeAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.GroupSymbolsAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.PasteSymbolAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SetDefaultSizeAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowInDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowInOutlineAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShrinkToFitAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SnapToGridAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UngroupSymbolsAction;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.*;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.UndoablePropSheetEntry;
 import org.eclipse.stardust.modeling.core.utils.FileEditorInputTracker;
 import org.eclipse.swt.SWT;
@@ -77,7 +44,6 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
-
 
 public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPart
       implements IAdaptable
@@ -102,11 +68,11 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
    protected KeyHandler sharedKeyHandler;
 
-   private List editorActionIDs = new ArrayList();
+   private List<String> editorActionIDs = CollectionUtils.newList();
 
-   private List editPartActionIDs = new ArrayList();
+   private List<String> editPartActionIDs = CollectionUtils.newList();
 
-   private List stackActionIDs = new ArrayList();
+   private List<String> stackActionIDs = CollectionUtils.newList();
 
    private FileEditorInputTracker editorInputTracker;
 
@@ -129,7 +95,7 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
    protected abstract WorkflowModelOutlinePage createOutlinePage();
 
-   public Object getAdapter(Class type)
+   public Object getAdapter(@SuppressWarnings("rawtypes") Class type)
    {
       if (type == IPropertySheetPage.class)
       {
@@ -370,14 +336,15 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
       stackActionIDs.add(action.getId());
    }
 
-   private void updateActions(List actionIds)
+   private void updateActions(List<String> actionIds)
    {
-      for (Iterator ids = actionIds.iterator(); ids.hasNext();)
+      for (String id : actionIds)
       {
-         IAction action = getActionRegistry().getAction(ids.next());
+         IAction action = getActionRegistry().getAction(id);
          if (null != action && action instanceof UpdateAction)
+         {
             ((UpdateAction) action).update();
-
+         }
       }
    }
 
@@ -415,9 +382,10 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
    protected void setInput(IEditorInput input)
    {
-      if (null != getEditorInput())
+      IEditorInput editorInput = getEditorInput();
+      if (editorInput instanceof FileEditorInput)
       {
-         IFile file = ((FileEditorInput) getEditorInput()).getFile();
+         IFile file = ((FileEditorInput) editorInput).getFile();
          if (null != editorInputTracker)
          {
             file.getWorkspace().removeResourceChangeListener(getEditorInputTracker());
@@ -426,11 +394,15 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
       super.setInput(input);
 
-      if (null != getEditorInput())
+      editorInput = getEditorInput();
+      if (editorInput != null)
       {
-         IFile file = ((FileEditorInput) getEditorInput()).getFile();
-         file.getWorkspace().addResourceChangeListener(getEditorInputTracker());
-         setPartName(file.getName());
+         if (editorInput instanceof FileEditorInput)
+         {
+            IFile file = ((FileEditorInput) editorInput).getFile();
+            file.getWorkspace().addResourceChangeListener(getEditorInputTracker());
+         }
+         setPartName(editorInput.getName());
       }
    }
 

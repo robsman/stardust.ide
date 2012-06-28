@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2012 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,13 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.core.resources.*;
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -20,11 +26,7 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.stardust.common.error.InternalException;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -108,14 +110,26 @@ public class OpenDiagramAction extends UpdateDiagramAction
             {               
                Path path = new Path(ModelUtils.getLocation(containingModel));
                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-               IFile file = path.isAbsolute() ? root.getFileForLocation(path) : root.getFile(path);
-               if(file != null)
-               {            
+               IAdaptable file = path.isAbsolute() ? root.getFileForLocation(path) : root.getFile(path);
+               if (file == null)
+               {
+                  // is file outside of the workspace ?
+                  try
+                  {
+                     file = EFS.getStore(path.toFile().toURI());
+                  }
+                  catch (CoreException e)
+                  {
+                     // TODO Auto-generated catch block
+                     e.printStackTrace();
+                  }
+               }
+               if (file != null)
+               {
                   WorkflowModelEditor editor = getEditor(file);            
                   editor.showDiagramPage(diagram);
                }
             }
-            
          }
          else
          {
@@ -148,19 +162,19 @@ public class OpenDiagramAction extends UpdateDiagramAction
       if (element instanceof ModelType && kind == DEFAULT_DIAGRAM)
       {
          ModelType model = (ModelType) element;
-         List diagrams = model.getDiagram();
+         List<DiagramType> diagrams = model.getDiagram();
          if (diagrams.size() > 0)
          {
-            return (DiagramType) diagrams.get(0);
+            return diagrams.get(0);
          }
       }
       if (element instanceof ProcessDefinitionType && kind == DEFAULT_DIAGRAM)
       {
          ProcessDefinitionType process = (ProcessDefinitionType) element;
-         List diagrams = process.getDiagram();
+         List<DiagramType> diagrams = process.getDiagram();
          if (diagrams.size() > 0)
          {
-            return (DiagramType) diagrams.get(0);
+            return diagrams.get(0);
          }
       }
       if (element instanceof ActivityType && kind == DEFAULT_SUBPROCESS_DIAGRAM)
@@ -173,10 +187,10 @@ public class OpenDiagramAction extends UpdateDiagramAction
                ProcessDefinitionType process = activity.getImplementationProcess();
                if (process != null)
                {
-                  List diagrams = process.getDiagram();
+                  List<DiagramType> diagrams = process.getDiagram();
                   if (diagrams.size() > 0)
                   {
-                     return (DiagramType) diagrams.get(0);
+                     return diagrams.get(0);
                   }
                }
             }
@@ -205,7 +219,7 @@ public class OpenDiagramAction extends UpdateDiagramAction
       }
    }
    
-   private WorkflowModelEditor getEditor(IFile file)
+   private WorkflowModelEditor getEditor(IAdaptable file)
    {
       final IWorkbench workbench = PlatformUI.getWorkbench();
       ModelLoader loader = new ModelLoader(workbench, file, true);
@@ -223,16 +237,15 @@ public class OpenDiagramAction extends UpdateDiagramAction
       
    }
    
-   
    private static final class ModelLoader implements Runnable
    {
       private final IWorkbench workbench;
-      private IFile file;
+      private IAdaptable file;
       private boolean activate;
       private PartInitException exception;
       private WorkflowModelEditor editor;
    
-      private ModelLoader(IWorkbench workbench, IFile file, boolean activate)
+      private ModelLoader(IWorkbench workbench, IAdaptable file, boolean activate)
       {
          this.workbench = workbench;
          this.file = file;
@@ -247,7 +260,16 @@ public class OpenDiagramAction extends UpdateDiagramAction
          IWorkbenchPage wbp = wbw.getActivePage();
          try
          {
-            IEditorPart part = IDE.openEditor(wbp, file, activate);
+            IEditorPart part = null;
+            if (file instanceof IFile)
+            {
+               part = IDE.openEditor(wbp, (IFile) file, activate);
+            }
+            else if (file instanceof IFileStore)
+            {
+               part = IDE.openEditorOnFileStore(wbp, (IFileStore) file);
+
+            }
             if (part instanceof WorkflowModelEditor)
             {
                editor = (WorkflowModelEditor) part;
