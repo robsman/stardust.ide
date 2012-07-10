@@ -28,4 +28,10 @@ public class ModelerConstants
    public static final String MANUAL_ACTIVITY = "Manual";
    public static final String APPLICATION_ACTIVITY = "Application";
    public static final String SUBPROCESS_ACTIVITY = "Subprocess";
+   public static final String ACTIVITY_TYPE = "activityType";
+   public static final String MODEL_ELEMENT_PROPERTY = "modelElement";
+   public static final String PARTICIPANT_FULL_ID = "participantFullId";
+   public static final String SUBPROCESS_ID = "subprocessFullId";
+   public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
+   public static final String NAME_PROPERTY = "name";
 }

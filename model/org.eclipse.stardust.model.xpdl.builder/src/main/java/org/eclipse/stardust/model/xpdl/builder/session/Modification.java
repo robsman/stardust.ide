@@ -60,7 +60,7 @@ public class Modification
 
    public Collection<EObject> addedObjects()
    {
-      return changeDescription.getObjectsToAttach();
+      return changeDescription.getObjectsToDetach();
    }
 
    public Collection<EObject> changedObjects()
@@ -70,7 +70,7 @@ public class Modification
 
    public Collection<EObject> removedObjects()
    {
-      return changeDescription.getObjectsToDetach();
+      return changeDescription.getObjectsToAttach();
    }
 
    public ChangeDescription getChangeDescription()
