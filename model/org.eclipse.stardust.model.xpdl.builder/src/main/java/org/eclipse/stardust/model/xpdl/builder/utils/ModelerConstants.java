@@ -34,4 +34,5 @@ public class ModelerConstants
    public static final String SUBPROCESS_ID = "subprocessFullId";
    public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
    public static final String NAME_PROPERTY = "name";
+   public static final String ID_PROPERTY = "id";
 }
