@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
@@ -37,6 +40,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
@@ -44,6 +48,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
@@ -257,8 +262,8 @@ public class MBFacade
          }
 
          ProcessDefinitionType subProcessDefinition = MBFacade.findProcessDefinition(
-               ModelManagementHelper.getInstance().getModelManagementStrategy().getModels().get(stripFullId),
-               MBFacade.stripFullId(subProcessID));
+               ModelManagementHelper.getInstance().getModelManagementStrategy()
+                     .getModels().get(stripFullId), MBFacade.stripFullId(subProcessID));
          ModelType subProcessModel = ModelUtils.findContainingModel(subProcessDefinition);
 
          BpmSubProcessActivityBuilder subProcessActivity = newSubProcessActivity(processDefinition);
@@ -267,9 +272,11 @@ public class MBFacade
          activity = subProcessActivity
                .withIdAndName(modelId, modelName)
                .invokingProcess(
-                     MBFacade.findProcessDefinition(ModelManagementHelper.getInstance().getModelManagementStrategy()
-                           .getModels().get(subProcessModel.getId()), MBFacade
-                           .stripFullId(subProcessID))).build();
+                     MBFacade.findProcessDefinition(
+                           ModelManagementHelper.getInstance()
+                                 .getModelManagementStrategy().getModels()
+                                 .get(subProcessModel.getId()),
+                           MBFacade.stripFullId(subProcessID))).build();
       }
       else
       {
@@ -278,6 +285,127 @@ public class MBFacade
       }
       activity.setElementOid(maxOid + 1);
       return activity;
+   }
+
+   public static ProcessDefinitionType createProcess(ModelType model, String name,
+         String id)
+   {
+      ProcessDefinitionType processDefinition = newProcessDefinition(model)
+            .withIdAndName(id, name).build();
+
+      // Create diagram bits too
+
+      DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
+      diagram.setMode(DiagramModeType.MODE_400_LITERAL);
+      diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
+      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
+      diagram.setElementOid(++maxOid);
+      diagram.setName("Diagram 1");
+
+      PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
+
+      diagram.getPoolSymbols().add(poolSymbol);
+
+      poolSymbol.setElementOid(++maxOid);
+      poolSymbol.setXPos(0);
+      poolSymbol.setYPos(0);
+      poolSymbol.setWidth(500);
+      poolSymbol.setHeight(600);
+      poolSymbol.setName("DEFAULT_POOL");
+      poolSymbol.setId("DEFAULT_POOL");
+      poolSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+
+      poolSymbol.getChildLanes().add(laneSymbol);
+      laneSymbol.setParentPool(poolSymbol);
+
+      laneSymbol.setElementOid(++maxOid);
+      laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
+      laneSymbol.setName(ModelerConstants.DEF_LANE_NAME);
+      laneSymbol.setXPos(10);
+      laneSymbol.setYPos(10);
+      laneSymbol.setWidth(480);
+      laneSymbol.setHeight(580);
+      laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      processDefinition.getDiagram().add(diagram);
+
+      newManualTrigger(processDefinition).accessibleTo(ADMINISTRATOR_ROLE).build();
+      return processDefinition;
+   }
+
+   public static LaneSymbol createLane(String modelId, ModelType model,
+         ProcessDefinitionType processDefinition, String laneId, String laneName,
+         int xPos, int yPos, int width, int height, String orientation,
+         String participantFullID)
+   {
+      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
+
+      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+
+      processDefinition.getDiagram().get(0).getPoolSymbols().get(0).getChildLanes()
+            .add(laneSymbol);
+
+      laneSymbol.setElementOid(++maxOid);
+
+      laneSymbol.setId(laneId);
+      laneSymbol.setName(laneName);
+      laneSymbol.setXPos(xPos);
+      laneSymbol.setYPos(yPos);
+      laneSymbol.setWidth(width);
+      laneSymbol.setHeight(height);
+
+      if (orientation.equals(ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL))
+      {
+         laneSymbol.setOrientation(OrientationType.HORIZONTAL_LITERAL);
+      }
+      else
+      {
+         laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+      }
+
+      // TODO Deal with full Ids
+
+      if (participantFullID != null)
+      {
+
+         String participantModelID = participantFullID;
+         if (StringUtils.isEmpty(participantModelID))
+         {
+            participantModelID = modelId;
+         }
+         ModelType participantModel = model;
+         if (!participantModelID.equals(modelId))
+         {
+            participantModel = ModelManagementHelper.getInstance()
+                  .getModelManagementStrategy().getModels().get(participantModelID);
+         }
+
+         IModelParticipant modelParticipant = MBFacade.findParticipant(
+               ModelManagementHelper.getInstance().getModelManagementStrategy()
+                     .getModels().get(participantModelID),
+               MBFacade.stripFullId(participantModelID));
+
+         if (!participantModelID.equals(modelId))
+         {
+            String fileConnectionId = JcrConnectionManager.createFileConnection(model,
+                  participantModel);
+
+            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
+                  uri, modelParticipant, bundleId, null, true);
+
+            PepperIconFactory iconFactory = new PepperIconFactory();
+
+            descriptor.importElements(iconFactory, model, true);
+         }
+
+         laneSymbol.setParticipant(modelParticipant);
+      }
+      return laneSymbol;
    }
 
    public static ModelType findModel(String modelId)
