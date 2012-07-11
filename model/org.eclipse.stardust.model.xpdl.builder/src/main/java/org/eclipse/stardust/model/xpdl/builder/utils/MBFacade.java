@@ -20,6 +20,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteAc
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 
+
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -57,10 +58,23 @@ import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 
 public class MBFacade
 {
+   public static void createTypeDeclaration(ModelType model, String typeId, String typeName)
+   {
+      TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
+            .createTypeDeclarationType();
+
+      structuredDataType.setId(typeId);
+      structuredDataType.setName(typeName);
+
+      model.getTypeDeclarations().getTypeDeclaration()
+            .add(structuredDataType);
+   }
+   
    public static void createStructuredData(ModelType model, String stripFullId_,
          String id, String name, String structuredDataFullId)
    {
