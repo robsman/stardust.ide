@@ -1,7 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2011 SunGard CSA LLC and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    SunGard CSA LLC - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+
 package org.eclipse.stardust.model.xpdl.builder.strategy;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.stardust.engine.api.runtime.DmsUtils;
 import org.eclipse.stardust.engine.api.runtime.Document;
@@ -26,28 +39,17 @@ public class SimpleManagementStrategy extends
 
 	private ServiceFactory serviceFactory;
 	private DocumentManagementService documentManagementService;
+	private List<ModelType> models = new ArrayList<ModelType>();
 
+	
+	public Map<String, ModelType> getModels()
+	{
+	    return getModels(true);
+	}
 	/**
 	 * 
 	 */
 	public List<ModelType> loadModels() {
-
-		List<ModelType> models = new ArrayList<ModelType>();
-		List<Document> candidateModelDocuments = getDocumentManagementService()
-				.getFolder(MODELS_DIR).getDocuments();
-		
-		XpdlModelIoUtils.clearModelsMap();
-
-		for (Document modelDocument : candidateModelDocuments) {
-			if (modelDocument.getName().endsWith(".xpdl")) {
-
-				ModelType model = XpdlModelIoUtils
-						.loadModel(readModelContext(modelDocument));
-
-				getModels().put(model.getId(), model);
-			}
-		}
-
 		return models;
 	}
 	
@@ -55,19 +57,12 @@ public class SimpleManagementStrategy extends
      * 
      */
     public ModelType loadModel(String id) {
-
-       Folder folder = documentManagementService.getFolder(MODELS_DIR);      
-       List<Document> candidateModelDocuments = folder.getDocuments();
-       for (Document modelDocument : candidateModelDocuments) {
-          if (modelDocument.getName().endsWith(".xpdl")) 
-          {
-             if(modelDocument.getName().equals(id))
-             {
-                return XpdlModelIoUtils
-                   .loadModel(readModelContext(modelDocument));
-             }
+       for (Iterator<ModelType> i = models.iterator(); i.hasNext();) {
+          ModelType model = i.next();
+          if (model.getId().equalsIgnoreCase(id)) {
+             return model;
           }
-       }      
+       }
        return null;
     }	
 	
@@ -77,12 +72,8 @@ public class SimpleManagementStrategy extends
 	 * 
 	 */
 	public ModelType attachModel(String id) {
-		ModelType model = XpdlModelIoUtils
-		.loadModel(readModelContext(getDocumentManagementService()
-				.getDocument(MODELS_DIR + id + ".xpdl")));
-		
-		getModels().put(id, model);
-		
+	    ModelType model = this.loadModel(id);
+	    models.add(model);
 		return model;
 	}
 	
