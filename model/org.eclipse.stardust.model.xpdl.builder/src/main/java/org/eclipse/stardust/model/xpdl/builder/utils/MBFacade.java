@@ -446,7 +446,18 @@ public class MBFacade
 
       throw new ObjectNotFoundException("Process Definition " + id + " does not exist.");
    }
-
+   
+   /**
+    * 
+    * @param modelId
+    * @param id
+    * @return
+    */
+   public static ProcessDefinitionType getProcessDefinition(String modelId, String id)
+   {
+      return findProcessDefinition(findModel(modelId), id);
+   }
+   
    /**
     * 
     * @param model
