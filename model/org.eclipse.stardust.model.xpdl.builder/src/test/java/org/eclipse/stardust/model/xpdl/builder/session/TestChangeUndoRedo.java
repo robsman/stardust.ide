@@ -22,7 +22,8 @@ public class TestChangeUndoRedo
    {
       ModelType model = newBpmModel().withIdAndName("test", "test").build();
 
-      EditingSession editSession = new EditingSession(model);
+      EditingSession editSession = new EditingSession();
+      editSession.trackModel(model);
 
       assertEquals(0, model.getProcessDefinition().size());
 

@@ -1,6 +1,8 @@
 package org.eclipse.stardust.model.xpdl.builder.session;
 
-import java.util.Collections;
+import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
+
+import java.util.Set;
 import java.util.Stack;
 
 import org.eclipse.emf.ecore.change.ChangeDescription;
@@ -13,7 +15,7 @@ public class EditingSession
 {
    private static final Logger trace = LogManager.getLogger(EditingSession.class);
 
-   private final ModelType model;
+   private final Set<ModelType> models = newHashSet();
 
    private final ChangeRecorder emfChangeRecorder = new ChangeRecorder();
 
@@ -21,9 +23,17 @@ public class EditingSession
 
    private final Stack<Modification> redoableModifications = new Stack<Modification>();
 
-   public EditingSession(ModelType model)
+   public boolean isTrackingModel(ModelType model)
    {
-      this.model = model;
+      return models.contains(model);
+   }
+
+   public void trackModel(ModelType model)
+   {
+      if ( !models.contains(model))
+      {
+         models.add(model);
+      }
    }
 
    public boolean isInEditMode()
@@ -33,9 +43,9 @@ public class EditingSession
 
    public boolean beginEdit()
    {
-	  if ( !isInEditMode())
+      if ( !isInEditMode())
       {
-         emfChangeRecorder.beginRecording(Collections.singleton(model));
+         emfChangeRecorder.beginRecording(models);
 
          return isInEditMode();
       }
