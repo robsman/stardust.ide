@@ -41,4 +41,5 @@ public class ModelerConstants
    public static final String ORIENTATION_PROPERTY = "orientation";
    public static final String DIAGRAM_FLOW_ORIENTATION_HORIZONTAL = "DIAGRAM_FLOW_ORIENTATION_HORIZONTAL";
    public static final String DIAGRAM_FLOW_ORIENTATION_VERTICAL = "DIAGRAM_FLOW_ORIENTATION_VERTICAL";
+   public static final String ATTRIBUTES_PROPERTY = "attributes";
 }
