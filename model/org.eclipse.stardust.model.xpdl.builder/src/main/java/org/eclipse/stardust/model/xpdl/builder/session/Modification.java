@@ -1,10 +1,14 @@
 package org.eclipse.stardust.model.xpdl.builder.session;
 
+import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 
@@ -13,6 +17,8 @@ public class Modification
    private static final Logger trace = LogManager.getLogger(Modification.class);
 
    private final String id;
+
+   private Map<String, String> metadata = newHashMap();
 
    private final ChangeDescription changeDescription;
 
@@ -28,6 +34,11 @@ public class Modification
    public String getId()
    {
       return id;
+   }
+
+   public Map<String, String> getMetadata()
+   {
+      return metadata;
    }
 
    public boolean canUndo()
