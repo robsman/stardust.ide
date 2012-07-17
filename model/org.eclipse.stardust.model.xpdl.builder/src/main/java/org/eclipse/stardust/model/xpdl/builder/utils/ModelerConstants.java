@@ -59,6 +59,7 @@ public class ModelerConstants
    public static final String GATEWAYS_PROPERTY = "gateways";
    public static final String EVENTS_PROPERTY = "events";
    public static final String ACTIVITY_KEY = "activity";
+   public static final String PROCESS_KEY = "process";
    public static final String ACTIVITY_SYMBOLS = "activitySymbols";
    public static final String GATEWAY_SYMBOLS = "gatewaySymbols";
    public static final String APPLICATION_TYPE_PROPERTY = "applicationType";
