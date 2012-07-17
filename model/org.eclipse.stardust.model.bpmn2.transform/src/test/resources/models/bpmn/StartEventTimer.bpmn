@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 09:37:13" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
+    <extensionElements>
+      <itp:systemDefinedAttributes>
+        <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+        <attribute name="ExternalId" type="String" />
+        <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+        <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+          <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+          <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+        </attribute>
+      </itp:systemDefinedAttributes>
+      <itp:localization>
+        <itp:label lang="unspecified" text="Hauptprozess" default="True" />
+      </itp:localization>
+    </extensionElements>
+    <startEvent id="TestModelStartEventId" name="TimerStartEvent">
+      <documentation>Documentation: Timer Start Event</documentation>
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="TimerStartEvent" default="True" />
+        </itp:localization>
+      </extensionElements>
+      <timerEventDefinition>
+        <timeCycle>CycleValue</timeCycle>
+      </timerEventDefinition>
+    </startEvent>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">
+      <bpmndi:BPMNShape id="_B962DEFE-088F-483D-8CDE-4B5A8CDDE82E" bpmnElement="TestModelStartEventId" itp:label="TimerStartEvent" itp:elementType="startEvent">
+        <dc:Bounds x="76.5354330708661" y="119.055118110236" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+          <dc:Bounds x="30" y="159.629653930664" width="21.1732330322266" height="3.74070143699646" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

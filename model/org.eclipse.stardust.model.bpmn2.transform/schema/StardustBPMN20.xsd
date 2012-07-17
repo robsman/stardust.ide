@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:carnot="http://www.carnot.ag/workflowmodel/3.1"
+	xmlns:sdbpmn="http://www.eclipse.org/stardust/bpmn20/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="http://www.eclipse.org/stardust/bpmn20/sdbpmn">
+	<import namespace="http://www.carnot.ag/workflowmodel/3.1" schemaLocation="CarnotWorkflowModelXML.xsd" />
+
+	<xsd:attribute name="author" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The name of the user editing this model last.
+               </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+	<xsd:attribute name="carnotVersion" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The software version used to create and edit this model. Opening this
+				model in another version of the software may require an explicit
+				conversion.
+               </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+	<xsd:attribute name="created" type="xsd:dateTime">
+		<xsd:annotation>
+			<xsd:documentation>The date this model was created.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+	<xsd:attribute name="modelOID" type="xsd:integer">
+		<xsd:annotation>
+			<xsd:documentation>
+				A 32-bit number assigned to the model during deployment to an audit
+				trail. This number may be changed if the model is deployed to different
+				audit trails or even to the same audit trail multiple times.
+               </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+	<xsd:attribute name="oid" type="xsd:long">
+		<xsd:annotation>
+			<xsd:documentation>
+				A 64-bit number uniquely identifying the model in the model repository.
+               </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+	<xsd:attribute name="vendor" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The vendor of the software used to create and edit this model. Usually
+				this will be "carnot".
+               </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+
+	<xsd:attributeGroup name="ModelAttributes" id="ModelAttributes">
+		<xsd:attribute ref="sdbpmn:oid"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:modelOID"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:author"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:created"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:carnotVersion"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:vendor"></xsd:attribute>
+	</xsd:attributeGroup>
+
+	<xsd:element name="StardustModel">
+		<xsd:complexType>
+			<xsd:attributeGroup ref="sdbpmn:ModelAttributes"></xsd:attributeGroup>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="StardustCommon" type="sdbpmn:tStardustCommon" />
+	<xsd:complexType name="tStardustCommon">
+		<xsd:attribute name="elementOid" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:element name="StardustAttributes">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="carnot:AttributeType" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="StardustTimerStartEvent">
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element name="ManualStartPerformer" type="carnot:AttributeType" maxOccurs="1"></xsd:element> -->
+				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+
+	</xsd:element>
+	<xsd:element name="StardustStartEvent">
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- <xsd:element name="ManualStartPerformer" type="carnot:AttributeType" maxOccurs="1"></xsd:element> -->
+				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+
+	</xsd:element>
+
+	<xsd:element name="StardustMessageStartEvent">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />			
+				<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="carnot:AccessPointType">
+					<xsd:annotation>
+						<xsd:documentation>The list of access points.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element maxOccurs="unbounded" minOccurs="0" name="parameterMapping" type="carnot:ParameterMappingType">
+					<xsd:annotation>
+						<xsd:documentation>The list of parameter mappings.</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of one of the previously defined triggerType elements.
+                  Actual implementation of a message start event: i.e. jms or e-mail
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>			
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="StardustSeqenceFlow">
+		<xsd:complexType>
+			<xsd:attribute default="false" name="forkOnTraversal" type="xsd:boolean" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="StardustActivity" type="sdbpmn:tStardustActivity" />
+	<xsd:complexType name="tStardustActivity">
+		<xsd:complexContent>
+			<xsd:extension base="sdbpmn:tStardustCommon">
+				<xsd:sequence>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="eventHandler" type="carnot:EventHandlerType">
+						<xsd:annotation>
+							<xsd:documentation>The list of event handlers defined for this model element.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="dataMapping" type="carnot:DataMappingType">
+						<xsd:annotation>
+							<xsd:documentation>The list of data mappings.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="hibernateOnCreation" type="xsd:boolean">
+					<xsd:annotation>
+						<xsd:documentation>
+							Determines whether an activity instance is hibernated immediately after beeing created.
+               			</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="StardustSubprocess">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="sdbpmn:tStardustActivity">
+					<xsd:attribute name="implementationProcess" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The model id of the subprocess implementing the activity when the
+								attribute "implementation" is set to "Subprocess".
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="StardustUserTask">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="sdbpmn:tStardustActivity">
+					<xsd:attribute name="allowsAbortByPerformer" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>Determines whether the activity is allowed to be aborted.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="StardustServiceTask">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="sdbpmn:tStardustActivity">
+					<xsd:attribute name="application" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>
+								The model id of the application to execute when the attribute
+								"implementation" is set to "Application".
+			               </xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+</schema>

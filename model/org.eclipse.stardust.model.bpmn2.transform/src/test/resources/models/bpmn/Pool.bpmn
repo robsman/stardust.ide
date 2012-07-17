@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 14:38:20" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <collaboration id="_ba2d7f88-eb78-443e-bd7f-ff5a37de8ef4">
+    <participant id="TestModelPool1" name="Pool1">
+      <documentation>Documentation Pool 1</documentation>
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="Pool1" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </participant>
+  </collaboration>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_ba2d7f88-eb78-443e-bd7f-ff5a37de8ef4">
+      <bpmndi:BPMNShape id="_F6A52A95-CAE2-4995-944A-6C40C574E213" bpmnElement="TestModelPool1" isHorizontal="true" itp:label="Pool1" itp:elementType="participant">
+        <dc:Bounds x="79.5968362204724" y="73.7007874015748" width="680.088160629921" height="212.59842519685" />
+        <bpmndi:BPMNLabel labelStyle="_4b9e53cf-adcd-4387-8329-e69bc65b30c5">
+          <dc:Bounds x="58.32" y="160.755590551181" width="14.4" height="38.16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_4b9e53cf-adcd-4387-8329-e69bc65b30c5">
+      <dc:Font name="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>
