@@ -34,10 +34,11 @@ public class CrossModelSupportModelBuilderTest
    @Before
    public void initCrossModeling()
    {      
-      ModelType providerModel = newBpmModel().withName("ProviderModel").build();
-      ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
       ModelManagementStrategy strategy = new InMemoryModelManagementStrategy();
       ModelManagementHelper.getInstance().setModelManagementStrategy(strategy);
+      
+      ModelType providerModel = newBpmModel().withName("ProviderModel").build();
+      ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
       strategy.loadModels().add(consumerModel);
       strategy.loadModels().add(providerModel);
       MBFacade.createRole(providerModel, "Adminitrator", "Administrator");
