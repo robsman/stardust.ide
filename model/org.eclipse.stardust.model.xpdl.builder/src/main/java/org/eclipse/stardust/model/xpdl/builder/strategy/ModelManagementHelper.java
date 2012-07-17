@@ -45,7 +45,7 @@ public class ModelManagementHelper
    public synchronized ModelManagementStrategy getModelManagementStrategy()   
    {
       if (strategy == null) {
-        //TODO: Move Modelmanagemant Strategy to this plugin
+        //Default Strategy?
       }
       return strategy;
    }
