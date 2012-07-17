@@ -16,6 +16,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualA
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
@@ -219,6 +220,11 @@ public class MBFacade
       processDefinition.getDiagram().get(0).getActivitySymbol().add(activitySymbol);
       parentLaneSymbol.getActivitySymbol().add(activitySymbol);
       return activitySymbol;
+   }
+   
+   public static void createRole(ModelType model, String roleID, String roleName)
+   {
+      RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
    }
 
    public static ActivityType createActivity(String modelId,
