@@ -226,11 +226,11 @@ public class MBFacade
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
    }
-
+      
    public static ActivityType createActivity(String modelId,
          ProcessDefinitionType processDefinition, String activityType,
-         String participantFullID, String modelID, String modelName,
-         String applicationFullID, String subProcessID, long maxOid)
+         String participantFullID, String activityID, String activityName,
+         String applicationFullID, String subProcessFullID, long maxOid)
    {
       ActivityType activity = null;
 
@@ -239,14 +239,14 @@ public class MBFacade
          if (participantFullID != null)
          {
             activity = newManualActivity(processDefinition)
-                  .withIdAndName(modelID, modelName)
+                  .withIdAndName(activityID, activityName)
                   .havingDefaultPerformer(MBFacade.stripFullId(participantFullID))
                   .build();
          }
          else
          {
-            activity = newManualActivity(processDefinition).withIdAndName(modelID,
-                  modelName).build();
+            activity = newManualActivity(processDefinition).withIdAndName(activityID,
+                  activityName).build();
          }
       }
       else if (ModelerConstants.APPLICATION_ACTIVITY.equals(activityType))
@@ -266,7 +266,7 @@ public class MBFacade
          applicationActivity.setApplicationModel(applicationModel);
 
          activity = applicationActivity
-               .withIdAndName(modelID, modelName)
+               .withIdAndName(activityID, activityName)
                .invokingApplication(
                      getApplication(applicationModel.getId(),
                            MBFacade.stripFullId(applicationFullID))).build();
@@ -275,7 +275,7 @@ public class MBFacade
       else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityType))
       {
 
-         String stripFullId = MBFacade.getModelId(subProcessID);
+         String stripFullId = MBFacade.getModelId(subProcessFullID);
          if (StringUtils.isEmpty(stripFullId))
          {
             stripFullId = modelId;
@@ -283,24 +283,24 @@ public class MBFacade
 
          ProcessDefinitionType subProcessDefinition = MBFacade.findProcessDefinition(
                ModelManagementHelper.getInstance().getModelManagementStrategy()
-                     .getModels().get(stripFullId), MBFacade.stripFullId(subProcessID));
+                     .getModels().get(stripFullId), MBFacade.stripFullId(subProcessFullID));
          ModelType subProcessModel = ModelUtils.findContainingModel(subProcessDefinition);
 
          BpmSubProcessActivityBuilder subProcessActivity = newSubProcessActivity(processDefinition);
          subProcessActivity.setSubProcessModel(subProcessModel);
 
          activity = subProcessActivity
-               .withIdAndName(modelId, modelName)
+               .withIdAndName(modelId, activityName)
                .invokingProcess(
                      MBFacade.findProcessDefinition(
                            ModelManagementHelper.getInstance()
                                  .getModelManagementStrategy().getModels()
                                  .get(subProcessModel.getId()),
-                           MBFacade.stripFullId(subProcessID))).build();
+                           MBFacade.stripFullId(subProcessFullID))).build();
       }
       else
       {
-         activity = newRouteActivity(processDefinition).withIdAndName(modelID, modelName)
+         activity = newRouteActivity(processDefinition).withIdAndName(activityID, activityName)
                .build();
       }
       activity.setElementOid(maxOid + 1);
