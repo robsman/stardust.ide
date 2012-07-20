@@ -316,7 +316,7 @@ public class MBFacade
       // Create diagram bits too
 
       DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
-      diagram.setMode(DiagramModeType.MODE_400_LITERAL);
+      diagram.setMode(DiagramModeType.MODE_450_LITERAL);
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
       long maxOid = XpdlModelUtils.getMaxUsedOid(model);
       diagram.setElementOid(++maxOid);
@@ -390,7 +390,7 @@ public class MBFacade
       if (participantFullID != null)
       {
 
-         String participantModelID = participantFullID;
+         String participantModelID = getModelId(participantFullID);
          if (StringUtils.isEmpty(participantModelID))
          {
             participantModelID = modelId;
@@ -405,7 +405,7 @@ public class MBFacade
          IModelParticipant modelParticipant = MBFacade.findParticipant(
                ModelManagementHelper.getInstance().getModelManagementStrategy()
                      .getModels().get(participantModelID),
-               MBFacade.stripFullId(participantModelID));
+               MBFacade.stripFullId(participantFullID));
 
          if (!participantModelID.equals(modelId))
          {
