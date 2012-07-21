@@ -125,6 +125,11 @@ public class ModelerConstants
    public static final String CONTEXTS_PROPERTY = "contexts";
    public static final String JSF_CONTEXT_TYPE_KEY = "jsf";
    public static final String EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY = "externalWebApp";
+   public static final String PARTICIPANT_TYPE_PROPERTY = "participantType";
+   public static final String ROLE_PARTICIPANT_TYPE_KEY = "roleParticipant";
+   public static final String ORGANIZATION_PARTICIPANT_TYPE_KEY = "organizationParticipant";
+   public static final String CONDITIONAL_PERFORMER_PARTICIPANT_TYPE_KEY = "conditionalPerformerParticipant";
+
    // @deprecated
    public static final int POOL_LANE_MARGIN = 5;
    // @deprecated
