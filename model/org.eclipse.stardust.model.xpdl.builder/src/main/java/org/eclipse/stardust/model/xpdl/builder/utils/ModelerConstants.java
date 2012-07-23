@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 public class ModelerConstants
 {
    public static final String DATA_ID_PROPERTY = "dataId";
@@ -78,6 +80,7 @@ public class ModelerConstants
    public static final String DIRECTION_PROPERTY = "direction";
    public static final String CONTROL_FLOW_LITERAL = "controlFlow";
    public static final String DATA_FLOW_LITERAL = "dataFlow";
+   public static final String ACTIVITY_ID_PROPERTY = "activityId";
    public static final String FROM_ANCHOR_POINT_ORIENTATION_PROPERTY = "fromAnchorPointOrientation";
    public static final String TO_ANCHOR_POINT_ORIENTATION_PROPERTY = "toAnchorPointOrientation";
    public static final int UNDEFINED_ORIENTATION_KEY = -1;
