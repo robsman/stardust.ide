@@ -1000,11 +1000,10 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
     */
    public void setImplementationProcess(ProcessDefinitionType newImplementationProcess)
    {
-      if (newImplementationProcess != implementationProcess)
+      if (newImplementationProcess != getImplementationProcess())
       {
          NotificationChain msgs = null;
          if (implementationProcess != null)
