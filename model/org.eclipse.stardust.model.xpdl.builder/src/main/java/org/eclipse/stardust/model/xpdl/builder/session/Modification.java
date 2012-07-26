@@ -138,7 +138,8 @@ public class Modification
    private boolean isModelOrModelElement(EObject changedObject)
    {
       return (changedObject instanceof ModelType)
-      || (changedObject instanceof IModelElement);
+      || (changedObject instanceof IModelElement)
+      || (changedObject instanceof org.eclipse.stardust.model.xpdl.xpdl2.Extensible);
    }
 
    private enum State
