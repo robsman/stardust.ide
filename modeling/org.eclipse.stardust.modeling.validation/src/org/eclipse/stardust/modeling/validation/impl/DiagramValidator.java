@@ -42,7 +42,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
@@ -80,7 +79,7 @@ public class DiagramValidator implements IModelElementValidator
 
       checkConnectionSymbols(result, diagram);
 
-      ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+      ValidationService vs = ValidationService.getInstance();
 
       result.addAll(Arrays.asList(vs.validateModelElements(diagram.getPoolSymbols())));
       // validate start event symbols

@@ -29,6 +29,8 @@ public class ValidationService
 {
    public static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
+   private static ValidationService validationService;
+
    private final Map<IResource, Map<Long, Issue>> markerMappingRegistry;
 
    private ThreadLocal<IProgressMonitor> monitor = new ThreadLocal<IProgressMonitor>();
@@ -253,5 +255,15 @@ public class ValidationService
          }
       }
       return null;
+   }
+
+   public static ValidationService getInstance()
+   {
+      if (null == validationService)
+      {
+         validationService = new ValidationService();
+      }
+      
+      return validationService;
    }
 }

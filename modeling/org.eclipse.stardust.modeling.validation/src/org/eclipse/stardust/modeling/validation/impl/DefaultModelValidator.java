@@ -30,7 +30,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.IModelValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
@@ -43,7 +42,7 @@ public class DefaultModelValidator implements IModelValidator
       IModelElement element = model instanceof IModelElement
          ? (IModelElement) model : ModelUtils.getIdentifiableModelProxy(model, ModelType.class);
       
-      ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+      ValidationService vs = ValidationService.getInstance();
 
       List<Issue> result = new ArrayList<Issue>();
 

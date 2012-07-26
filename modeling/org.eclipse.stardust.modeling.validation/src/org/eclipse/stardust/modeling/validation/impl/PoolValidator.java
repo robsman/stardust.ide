@@ -22,10 +22,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
 
 public class PoolValidator implements IModelElementValidator
 {
@@ -42,7 +40,7 @@ public class PoolValidator implements IModelElementValidator
                ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
       }
 
-      ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+      ValidationService vs = ValidationService.getInstance();
 
       result.addAll(Arrays.asList(vs.validateModelElements(pool.getLanes())));
 

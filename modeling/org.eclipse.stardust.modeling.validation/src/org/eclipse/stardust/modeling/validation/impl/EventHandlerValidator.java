@@ -68,7 +68,7 @@ public class EventHandlerValidator implements IModelElementValidator
          }
       }
 
-      ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+      ValidationService vs = ValidationService.getInstance();
       result.addAll(Arrays.asList(vs.validateModelElements(eventHandler.getBindAction())));
       result.addAll(Arrays.asList(vs.validateModelElements(eventHandler.getUnbindAction())));
       result.addAll(Arrays.asList(vs.validateModelElements(eventHandler.getEventAction())));

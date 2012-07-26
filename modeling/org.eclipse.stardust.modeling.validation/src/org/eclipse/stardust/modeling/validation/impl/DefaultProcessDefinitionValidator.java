@@ -111,7 +111,7 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
             }
          }
 
-         ValidationService vs = ValidationPlugin.getDefault().getValidationService();
+         ValidationService vs = ValidationService.getInstance();
 
          result.addAll(Arrays.asList(vs.validateModelElements(proc.getTrigger())));
 

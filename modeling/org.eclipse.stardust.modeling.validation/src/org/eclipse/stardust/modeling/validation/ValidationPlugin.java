@@ -14,7 +14,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-
 /**
  * The main plugin class to be used in the desktop.
  */
@@ -30,8 +29,6 @@ public class ValidationPlugin extends AbstractUIPlugin
    
    // The shared instance.
    private static ValidationPlugin plugin;
-   
-   private ValidationService validationService;
 
    /**
     * The constructor.
@@ -79,14 +76,5 @@ public class ValidationPlugin extends AbstractUIPlugin
    {
       return AbstractUIPlugin.imageDescriptorFromPlugin(
             "org.eclipse.stardust.modeling.validation", path); //$NON-NLS-1$
-   }
-   
-   public ValidationService getValidationService()
-   {
-      if (null == this.validationService)
-      {
-         this.validationService = new ValidationService();
-      }
-      return this.validationService;
    }
 }
