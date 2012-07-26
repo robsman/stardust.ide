@@ -32,7 +32,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ValidationIssueManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.validation.Issue;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.swt.widgets.Display;
@@ -136,7 +135,7 @@ public class VerifyingChangeRecorder extends ChangeRecorder
          Issue[] issues = Issue.ISSUE_ARRAY;
          Issue[] modelIssues = Issue.ISSUE_ARRAY;
 
-         ValidationService vs = ValidationPlugin.getDefault().getValidationService(); 
+         ValidationService vs = ValidationService.getInstance(); 
 
          try
          {
