@@ -1,21 +1,21 @@
 package org.eclipse.stardust.model.xpdl.builder.session;
 
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public class Modification
 {
-   private static final Logger trace = LogManager.getLogger(Modification.class);
-
    private final String id;
 
    private Map<String, String> metadata = newHashMap();
@@ -71,22 +71,64 @@ public class Modification
 
    public Collection<EObject> addedObjects()
    {
-      return changeDescription.getObjectsToDetach();
+      Set<EObject> result = newHashSet();
+      for (EObject candidate : changeDescription.getObjectsToDetach())
+      {
+         if (isModelOrModelElement(candidate))
+         {
+            result.add(candidate);
+         }
+      }
+
+      return result;
    }
 
    public Collection<EObject> changedObjects()
    {
-      return changeDescription.getObjectChanges().keySet();
+      Set<EObject> result = newHashSet();
+
+      collectChangedElements(changeDescription.getObjectChanges().keySet(), result);
+      collectChangedElements(changeDescription.getObjectsToDetach(), result);
+      collectChangedElements(changeDescription.getObjectsToAttach(), result);
+
+      return result;
    }
 
    public Collection<EObject> removedObjects()
    {
-      return changeDescription.getObjectsToAttach();
+      Set<EObject> result = newHashSet();
+      for (EObject candidate : changeDescription.getObjectsToAttach())
+      {
+         if (isModelOrModelElement(candidate))
+         {
+            result.add(candidate);
+         }
+      }
+
+      return result;
    }
 
    public ChangeDescription getChangeDescription()
    {
 	   return changeDescription;
+   }
+
+   private void collectChangedElements(Collection<EObject> candidates, Set<EObject> result)
+   {
+      for (EObject changedObject : candidates)
+      {
+         while ( !isModelOrModelElement(changedObject))
+         {
+            changedObject = changedObject.eContainer();
+         }
+         result.add(changedObject);
+      }
+   }
+
+   private boolean isModelOrModelElement(EObject changedObject)
+   {
+      return (changedObject instanceof ModelType)
+      || (changedObject instanceof IModelElement);
    }
 
    private enum State
