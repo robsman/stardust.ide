@@ -64,7 +64,6 @@ import org.eclipse.stardust.modeling.debug.engine.ManagedRunnerHelper;
 import org.eclipse.stardust.modeling.debug.highlighting.HighlightManager;
 import org.eclipse.stardust.modeling.debug.model.CWMDebugTarget;
 import org.eclipse.stardust.modeling.validation.Issue;
-import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.swt.widgets.Shell;
@@ -614,7 +613,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
       protected IStatus run(IProgressMonitor monitor)
       {
-         ValidationService vs = ValidationPlugin.getDefault().getValidationService(); 
+         ValidationService vs = ValidationService.getInstance(); 
 
          try
          {
