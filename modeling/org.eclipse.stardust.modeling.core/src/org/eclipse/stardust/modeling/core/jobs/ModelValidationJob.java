@@ -55,7 +55,6 @@ import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 
-
 public class ModelValidationJob extends WorkspaceJob
 {
    private static final String EMF_RES_PREFIX = "/resource/"; //$NON-NLS-1$
@@ -109,7 +108,7 @@ public class ModelValidationJob extends WorkspaceJob
             return Status.OK_STATUS;
          }
          
-         ValidationService vs = plugin.getValidationService();
+         ValidationService vs = ValidationService.getInstance();
 
          try
          {
@@ -131,7 +130,7 @@ public class ModelValidationJob extends WorkspaceJob
                   {
                      return Status.OK_STATUS;
                   }
-                  plugin.getValidationService().removeMappings(modelFile);
+                  vs.removeMappings(modelFile);
       
                   Map attr = new HashMap();
                   for (int i = 0; i < issues.length; i++)
@@ -176,7 +175,7 @@ public class ModelValidationJob extends WorkspaceJob
                            .createMarker(ValidationPlugin.VALIDATION_MARKER_ID);
                      marker.setAttributes(attr);
       
-                     ValidationPlugin.getDefault().getValidationService().createMapping(marker,
+                     vs.createMapping(marker,
                            issues[i]);
                   }
                }
