@@ -15,8 +15,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
@@ -26,10 +24,17 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 
 public class ValidatorRegistry
 {
-   private static IModelValidator[] MODEL_VALIDATORS = new IModelValidator[0];
-   private static IModelElementValidator[] MODEL_ELEMENT_VALIDATORS = new IModelElementValidator[0];
+   private static final IModelValidator[] EMPTY_MODEL_VALIDATORS = new IModelValidator[0];
+   private static final IModelElementValidator[] EMPTY_MODEL_ELEMENT_VALIDATORS = new IModelElementValidator[0];
+   private static IValidationExtensionRegistry validationExtensionRegistry = ValidationExtensionRegistry.getInstance();
    
    private static ThreadLocal<Map<String, String>> filterSet = new ThreadLocal<Map<String, String>>();
+   
+   public static void setValidationExtensionRegistry(
+         IValidationExtensionRegistry validationExtensionRegistry)
+   {
+      ValidatorRegistry.validationExtensionRegistry = validationExtensionRegistry;
+   }   
    
    public static void setFilters(Map<String, String> filters)
    {
@@ -41,43 +46,10 @@ public class ValidatorRegistry
       return filterSet.get();
    }
 
-   public static void setModelValidators(IModelValidator[] validators)
-   {
-      List<IModelValidator> result = CollectionUtils.newList();
-      if(validators != null)
-      {
-         for (int j = 0; j < validators.length; j++)
-         {
-            result.add(validators[j]);
-         }
-      }
-      
-      MODEL_VALIDATORS = result.toArray(new IModelValidator[0]);
-   }
-
-   public static void setModelElementValidators(IModelElementValidator[] validators)
-   {
-      List<IModelElementValidator> result = CollectionUtils.newList();
-      if(validators != null)
-      {      
-         for (int j = 0; j < validators.length; j++)
-         {
-            result.add(validators[j]);
-         }
-      }
-      
-      MODEL_ELEMENT_VALIDATORS = result.toArray(new IModelElementValidator[0]);
-   }   
-   
    public static IModelValidator[] getModelValidators()
    {      
-      if(MODEL_VALIDATORS.length != 0)
-      {
-         return MODEL_VALIDATORS;
-      }
-      
       List<IModelValidator> result = null;
-      IConfigurationElement[] extensions = Platform.getExtensionRegistry()
+      IConfigurationElement[] extensions = validationExtensionRegistry
             .getConfigurationElementsFor(ValidationConstants.MODEL_VALIDATOR_EXTENSION_POINT);
       for (int i = 0; i < extensions.length; i++)
       {
@@ -97,7 +69,7 @@ public class ValidatorRegistry
             // ex.printStackTrace();
          }
       }
-      return result == null ? MODEL_VALIDATORS : result.toArray(new IModelValidator[result.size()]);
+      return result == null ? EMPTY_MODEL_VALIDATORS : result.toArray(new IModelValidator[result.size()]);
    }
    
    public static IBridgeObjectProvider getBridgeObjectProvider(ITypedElement modelElement)
@@ -106,8 +78,7 @@ public class ValidatorRegistry
       if (type != null)
       {
          String id = type.getId();
-         IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
-         IConfigurationElement[] extensions = extensionRegistry.getConfigurationElementsFor(
+         IConfigurationElement[] extensions = validationExtensionRegistry.getConfigurationElementsFor(
                ValidationConstants.BRIDGE_PROVIDER_EXTENSION_POINT);
          for (int i = 0; i < extensions.length; i++ )
          {
@@ -136,14 +107,8 @@ public class ValidatorRegistry
 
    public static IModelElementValidator[] getModelElementValidators(IModelElement element)
    {
-      if(MODEL_ELEMENT_VALIDATORS.length != 0)
-      {
-         return MODEL_ELEMENT_VALIDATORS;
-      }
-      
       List<IModelElementValidator> result = null;
-      IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
-      IConfigurationElement[] extensions = extensionRegistry.getConfigurationElementsFor(
+      IConfigurationElement[] extensions = validationExtensionRegistry.getConfigurationElementsFor(
             ValidationConstants.ELEMENT_VALIDATOR_EXTENSION_POINT);
       for (int i = 0; i < extensions.length; i++)
       {
@@ -166,6 +131,6 @@ public class ValidatorRegistry
             }
          }
       }
-      return result == null ? MODEL_ELEMENT_VALIDATORS : result.toArray(new IModelElementValidator[result.size()]);
+      return result == null ? EMPTY_MODEL_ELEMENT_VALIDATORS : result.toArray(new IModelElementValidator[result.size()]);
    }
 }
