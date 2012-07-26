@@ -62,6 +62,7 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
+import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
@@ -1000,7 +1001,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          {
             modelFile.deleteMarkers(ValidationPlugin.VALIDATION_MARKER_ID, true,
                   IResource.DEPTH_INFINITE);
-            ValidationPlugin.getDefault().getValidationService()
+            ValidationService.getInstance()
                   .removeMappings(modelFile);
          }
          catch (CoreException e)
