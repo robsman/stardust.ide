@@ -64,7 +64,7 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelE
 
 public class MBFacade
 {
-   public static void createTypeDeclaration(ModelType model, String typeId, String typeName)
+   public static TypeDeclarationType createTypeDeclaration(ModelType model, String typeId, String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
             .createTypeDeclarationType();
@@ -74,6 +74,8 @@ public class MBFacade
 
       model.getTypeDeclarations().getTypeDeclaration()
             .add(structuredDataType);
+      
+      return structuredDataType;
    }
    
    public static void createStructuredData(ModelType model, String stripFullId_,
