@@ -14,6 +14,7 @@ import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
 
 import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
@@ -25,6 +26,8 @@ public class EditingSession
 {
    private static final Logger trace = LogManager.getLogger(EditingSession.class);
 
+   private final String id;
+
    private final Set<ModelType> models = newHashSet();
 
    private final ChangeRecorder emfChangeRecorder = new ChangeRecorder();
@@ -32,6 +35,21 @@ public class EditingSession
    private final Stack<Modification> undoableModifications = new Stack<Modification>();
 
    private final Stack<Modification> redoableModifications = new Stack<Modification>();
+
+   public EditingSession()
+   {
+      this(UUID.randomUUID().toString());
+   }
+
+   public EditingSession(String id)
+   {
+      this.id = id;
+   }
+
+   public String getId()
+   {
+      return id;
+   }
 
    public boolean isTrackingModel(ModelType model)
    {
@@ -74,7 +92,7 @@ public class EditingSession
          {
             redoableModifications.clear();
          }
-         undoableModifications.push(new Modification(changeDescription));
+         undoableModifications.push(new Modification(this, changeDescription));
 
          return !isInEditMode();
       }

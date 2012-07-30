@@ -28,15 +28,18 @@ public class Modification
 {
    private final String id;
 
+   private final EditingSession session;
+
    private Map<String, String> metadata = newHashMap();
 
    private final ChangeDescription changeDescription;
 
    private State state;
 
-   public Modification(ChangeDescription changeDescription)
+   public Modification(EditingSession session, ChangeDescription changeDescription)
    {
       this.id = UUID.randomUUID().toString();
+      this.session = session;
       this.changeDescription = changeDescription;
       this.state = State.UNDOABLE;
    }
@@ -44,6 +47,11 @@ public class Modification
    public String getId()
    {
       return id;
+   }
+
+   public EditingSession getSession()
+   {
+      return session;
    }
 
    public Map<String, String> getMetadata()
