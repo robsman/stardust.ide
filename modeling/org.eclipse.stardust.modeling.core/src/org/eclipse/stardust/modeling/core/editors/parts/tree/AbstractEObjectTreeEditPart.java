@@ -514,7 +514,7 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
             }
          }
       }
-      return label;
+      return label == null ? "" : label; //$NON-NLS-1$
    }
 
    public void refreshTextAndIcon()
