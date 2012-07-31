@@ -257,12 +257,13 @@ public class SpiExtensionRegistry
    public static boolean isMatchingClass(Object element, String classAttributeName, IConfigurationElement template) throws ClassNotFoundException
    {
       Contributor pageContributor = contributors.get(template);
-      if (pageContributor == null)
+      String pageContributorEnabled = template.getAttribute("pageContributor");
+      if (pageContributor == null && pageContributorEnabled == null)
       {
          pageContributor = new Contributor(template);
          contributors.put(template, pageContributor);
       }
-      if (!pageContributor.isApplicableTo(element, classAttributeName))
+      if (pageContributor != null && !pageContributor.isApplicableTo(element, classAttributeName))
       {
          return false;
       }
@@ -275,7 +276,11 @@ public class SpiExtensionRegistry
       
       // legacy support of the objectClass
       Class<?> targetClass = null;
-      String bundleId = template.getContributor().getName();
+      String bundleId = null;
+      if(template.getContributor() != null)
+      {         
+         bundleId = template.getContributor().getName();
+      }
       if (bundleId != null)
       {
          Bundle bundle = Platform.getBundle(bundleId);
