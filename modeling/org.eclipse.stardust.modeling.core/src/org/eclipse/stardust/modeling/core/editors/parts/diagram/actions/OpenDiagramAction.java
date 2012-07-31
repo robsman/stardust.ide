@@ -29,10 +29,13 @@ import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.*;
@@ -98,11 +101,18 @@ public class OpenDiagramAction extends UpdateDiagramAction
          if(!model.equals(containingModel))
          {
             Dialog dialog = new Dialog(Display.getDefault().getActiveShell())
-            {
+            {               
+               protected Control createDialogArea(Composite parent)
+               {
+                  Composite panel = (Composite) super.createDialogArea(parent);
+                  FormBuilder.createLabel(panel, Diagram_Messages.LB_OPEN_REFERENCED_MODEL);                  
+                  return panel;
+               }               
+               
                protected void configureShell(Shell shell)
                {
-                  super.configureShell(shell);
-                  shell.setText(Diagram_Messages.LB_OPEN_REFERENCED_MODEL);         
+                  super.configureShell(shell);                  
+                  shell.setText(Diagram_Messages.TXT_ShowSubprocessDiagram);         
                }                  
             };
             
