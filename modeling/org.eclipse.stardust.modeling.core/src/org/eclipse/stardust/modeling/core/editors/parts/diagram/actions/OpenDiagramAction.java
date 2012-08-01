@@ -34,10 +34,8 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.ide.IDE;
 
@@ -134,10 +132,14 @@ public class OpenDiagramAction extends UpdateDiagramAction
                      e.printStackTrace();
                   }
                }
+                              
                if (file != null)
                {
-                  WorkflowModelEditor editor = getEditor(file);            
-                  editor.showDiagramPage(diagram);
+                  WorkflowModelEditor editor = getEditor(file);     
+                  if(editor != null)
+                  {
+                     editor.showDiagramPage(diagram);
+                  }
                }
             }
          }
@@ -232,6 +234,21 @@ public class OpenDiagramAction extends UpdateDiagramAction
    private WorkflowModelEditor getEditor(IAdaptable file)
    {
       final IWorkbench workbench = PlatformUI.getWorkbench();
+      
+      if (file instanceof IFile)
+      {
+         if(!((IFile) file).exists())
+         {
+            MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
+                  SWT.ICON_WARNING | SWT.OK);
+            messageBox.setText(Diagram_Messages.TXT_ShowSubprocessDiagram);
+            messageBox.setMessage(Diagram_Messages.MSG_ProviderFileNotExists);
+            messageBox.open();                  
+            
+            return null;
+         }
+      }
+      
       ModelLoader loader = new ModelLoader(workbench, file, true);
       
       // syncExec() will block the current thread as long as Runnable.run()
