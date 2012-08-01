@@ -102,6 +102,7 @@ public class ModelerConstants
    public static final String STOP_EVENT = "stopEvent";
    public static final String DATA = "data";
    public static final String DATA_SYMBOLS = "dataSymbols";
+   public static final String DATA_SYMBOL = "dataSymbol";
    public static final String STRUCTURED_DATA_TYPE_FULL_ID = "structuredDataTypeFullId";
    public static final String TYPE_DECLARATION_PROPERTY = "typeDeclaration";
    public static final String CONNECTIONS_PROPERTY = "connections";
