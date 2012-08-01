@@ -2069,4 +2069,6 @@ public class Diagram_Messages extends NLS {
    public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_HIGH;
    
    public static String LB_OPEN_REFERENCED_MODEL;   
+   
+   public static String MSG_ProviderFileNotExists;
 }
