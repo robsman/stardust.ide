@@ -78,7 +78,7 @@ public class MBFacade
       return structuredDataType;
    }
    
-   public static void createStructuredData(ModelType model, String stripFullId_,
+   public static DataType createStructuredData(ModelType model, String stripFullId_,
          String id, String name, String structuredDataFullId)
    {
       DataType data;
@@ -89,6 +89,8 @@ public class MBFacade
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
       data = structVariable.withIdAndName(id, name).ofType(structuredDataFullId).build();
+      
+      return data;
    }
 
    public static DataType createPrimitiveData(ModelType model, String id, String name,
