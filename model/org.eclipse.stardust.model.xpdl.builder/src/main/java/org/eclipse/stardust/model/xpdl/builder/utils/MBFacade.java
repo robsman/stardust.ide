@@ -91,7 +91,7 @@ public class MBFacade
       data = structVariable.withIdAndName(id, name).ofType(structuredDataFullId).build();
    }
 
-   public static void createPrimitiveData(ModelType model, String id, String name,
+   public static DataType createPrimitiveData(ModelType model, String id, String name,
          String primitiveType)
    {
       DataType data;
@@ -119,6 +119,8 @@ public class MBFacade
       }
 
       data = newPrimitiveVariable(model).withIdAndName(id, name).ofType(type).build();
+      
+      return data;
    }
 
    public static DataSymbolType createDataSymbol(ProcessDefinitionType processDefinition,
