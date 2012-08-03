@@ -27,17 +27,8 @@ public class BpmDocumentVariableBuilder
    public BpmDocumentVariableBuilder()
    {
       super(F_CWM.createDataType());
-      
-      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
-      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document"); //$NON-NLS-1$      
-   }
 
-   @Override
-   protected void setModel(ModelType model)
-   {
-      super.setModel(model);
-
-      if ((null == element.getType()) && (null != this.model))
+      if ((null == element.getType()))
       {
          DataTypeType documentMetaType = XpdlModelUtils.findIdentifiableElement(
                this.model.getDataType(), PredefinedConstants.DOCUMENT_DATA);
@@ -46,6 +37,9 @@ public class BpmDocumentVariableBuilder
             element.setType(documentMetaType);
          }
       }
+      
+      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
+      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document"); //$NON-NLS-1$      
    }
 
    @Override
