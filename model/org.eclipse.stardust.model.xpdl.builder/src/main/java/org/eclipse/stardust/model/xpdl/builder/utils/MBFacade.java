@@ -17,6 +17,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualT
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
@@ -228,9 +229,16 @@ public class MBFacade
       return activitySymbol;
    }
    
-   public static void createRole(ModelType model, String roleID, String roleName)
+   public static RoleType createRole(ModelType model, String roleID, String roleName)
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
+      return role;
+   }
+   
+   public static OrganizationType createOrganization(ModelType model, String orgID, String orgName)
+   {
+      OrganizationType org = newOrganization(model).withIdAndName(orgID, orgName).build();
+      return org;
    }
       
    public static ActivityType createActivity(String modelId,

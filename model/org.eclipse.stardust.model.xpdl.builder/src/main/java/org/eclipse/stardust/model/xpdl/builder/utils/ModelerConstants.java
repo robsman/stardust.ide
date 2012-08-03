@@ -49,6 +49,7 @@ public class ModelerConstants
    public static final String ATTRIBUTES_PROPERTY = "attributes";
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";
+   public static final String MODEL_UUID_PROPERTY = "modelUUID";
    public static final String NEW_OBJECT_PROPERTY = "newObject";
    public static final String OLD_OBJECT_PROPERTY = "oldObject";
    public static final String X_PROPERTY = "x";
