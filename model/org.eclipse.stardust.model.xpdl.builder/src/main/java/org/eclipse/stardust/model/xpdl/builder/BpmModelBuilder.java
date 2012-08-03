@@ -36,6 +36,7 @@ import org.eclipse.stardust.model.xpdl.builder.transition.BpmActivitySequenceBui
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmConditionalTransitionBuilder;
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmOtherwiseTransitionBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
+import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmPrimitiveVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -88,6 +89,11 @@ public abstract class BpmModelBuilder
       return BpmStructVariableBuilder.newStructVariable(model);
    }
 
+   public static BpmDocumentVariableBuilder newDocumentVariable(ModelType model)
+   {
+      return BpmDocumentVariableBuilder.newDocumentVariable(model);
+   }
+   
    public static BpmRoleBuilder newRole(ModelType model)
    {
       return BpmRoleBuilder.newRole(model);

@@ -21,7 +21,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganiz
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
-
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 
 import java.util.List;
 
@@ -33,6 +33,7 @@ import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBu
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementHelper;
+import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -78,6 +79,18 @@ public class MBFacade
       
       return structuredDataType;
    }
+
+   public static void createDocumentData(ModelType model, 
+         String id, String name, String structuredDataFullId)
+   {
+      BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
+      if(!StringUtils.isEmpty(structuredDataFullId))
+      {
+         documentVariable.setTypeDeclaration(structuredDataFullId);
+      }
+            
+      documentVariable.withIdAndName(id, name).build();
+   }   
    
    public static DataType createStructuredData(ModelType model, String stripFullId_,
          String id, String name, String structuredDataFullId)
