@@ -80,17 +80,20 @@ public class MBFacade
       return structuredDataType;
    }
 
-   public static void createDocumentData(ModelType model, 
-         String id, String name, String structuredDataFullId)
+   public static DataType createDocumentData(ModelType model, String id, String name,
+         String structuredDataFullId)
    {
+      DataType data;
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
-      if(!StringUtils.isEmpty(structuredDataFullId))
+      if ( !StringUtils.isEmpty(structuredDataFullId))
       {
          documentVariable.setTypeDeclaration(structuredDataFullId);
       }
-            
-      documentVariable.withIdAndName(id, name).build();
-   }   
+
+      data = documentVariable.withIdAndName(id, name).build();
+
+      return data;
+   }
    
    public static DataType createStructuredData(ModelType model, String stripFullId_,
          String id, String name, String structuredDataFullId)
