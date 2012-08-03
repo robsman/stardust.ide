@@ -102,7 +102,6 @@ public class ModelerConstants
    public static final String STOP_EVENT = "stopEvent";
    public static final String DATA = "data";
    public static final String DATA_SYMBOLS = "dataSymbols";
-   public static final String DATA_SYMBOL = "dataSymbol";
    public static final String STRUCTURED_DATA_TYPE_FULL_ID = "structuredDataTypeFullId";
    public static final String TYPE_DECLARATION_PROPERTY = "typeDeclaration";
    public static final String CONNECTIONS_PROPERTY = "connections";
@@ -143,4 +142,11 @@ public class ModelerConstants
     * TODO - may need to be handled on the client side down the line. 
     * @deprecated */
    public static final int START_END_SYMBOL_LEFT_OFFSET = 12;
+   // Added to set symbol type at Marshaller same as client side  
+   public static final String SWIMLANE_SYMBOL = "swimlaneSymbol";
+   public static final String ACTIVITY_SYMBOL = "activitySymbol";
+   public static final String GATEWAY_SYMBOL = "gateSymbol";
+   public static final String EVENT_SYMBOL = "eventSymbol";
+   public static final String DATA_SYMBOL = "dataSymbol";
+
 }
