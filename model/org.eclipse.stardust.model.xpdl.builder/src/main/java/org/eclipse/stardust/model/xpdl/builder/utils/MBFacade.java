@@ -35,29 +35,7 @@ import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementHelper;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -66,6 +44,30 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelE
 
 public class MBFacade
 {
+   /**
+    * 
+    * @param organization
+    * @param role
+    * @return
+    */   
+   public void setTeamLeader(OrganizationType organization, RoleType role)
+   {
+      organization.setTeamLead(role);
+   }
+
+   /**
+    * 
+    * @param organization
+    * @param participant
+    * @return
+    */      
+   public void addOrganizationParticipant(OrganizationType organization, IModelParticipant participant)
+   {
+      ParticipantType participantType = AbstractElementBuilder.F_CWM.createParticipantType();
+      participantType.setParticipant(participant);
+      organization.getParticipant().add(participantType);               
+   }   
+   
    public static TypeDeclarationType createTypeDeclaration(ModelType model, String typeId, String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
