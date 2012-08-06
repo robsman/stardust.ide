@@ -11,14 +11,23 @@
 package org.eclipse.stardust.model.xpdl.builder.strategy;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public abstract class AbstractModelManagementStrategy implements ModelManagementStrategy {
 
 	private Map<String, ModelType> models = new HashMap<String, ModelType>();
+
+   @Resource
+   private EObjectUUIDMapper eObjectUUIDMapper;
 
 	/**
 	 * 
@@ -43,6 +52,25 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 		
 		return models;
 	}
+   
+   /**
+    * Maps the model and it's elements to a UUID which will remain constant through out the session.
+    * It can be used to identify elements uniquely on client and server side.
+    * 
+    * This method needs to be called whenever a model is loaded.
+    */
+   protected void loadEObjectUUIDMap(ModelType model)
+   {
+      // Load if not already loaded.
+      if (null == eObjectUUIDMapper.getUUID(model))
+      {
+         eObjectUUIDMapper.map(model);
+         for (Iterator<EObject> i = model.eAllContents(); i.hasNext();)
+         {
+            eObjectUUIDMapper.map(i.next());
+         }
+      }
+   }
 
 	/**
 	 * 
