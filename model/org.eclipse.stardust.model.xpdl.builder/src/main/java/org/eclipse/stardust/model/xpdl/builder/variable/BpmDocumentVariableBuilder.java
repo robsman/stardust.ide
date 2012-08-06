@@ -11,7 +11,11 @@
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension;
+import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEvaluator;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentValidator;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -46,7 +50,37 @@ public class BpmDocumentVariableBuilder
       if ((null == element.getType()))
       {
          DataTypeType documentMetaType = XpdlModelUtils.findIdentifiableElement(
-               this.model.getDataType(), PredefinedConstants.DOCUMENT_DATA);
+               this.model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT);
+         
+         if (null == documentMetaType)
+         {           
+            documentMetaType = F_CWM.createDataTypeType();
+            documentMetaType.setId(DmsConstants.DATA_TYPE_DMS_DOCUMENT);
+            documentMetaType.setName("Document");
+            documentMetaType.setIsPredefined(true);
+            
+            Class<VfsDocumentAccessPathEvaluator> clsEvaluator = VfsDocumentAccessPathEvaluator.class;
+            Class<VfsDocumentValidator> clsValidator = VfsDocumentValidator.class;
+            Class<StructuredDataFilterExtension> clsExtension = StructuredDataFilterExtension.class;
+            Class<StructuredDataLoader> dataLoader = StructuredDataLoader.class;
+            
+            AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.EVALUATOR_CLASS_ATT,
+                  clsEvaluator.getName());
+            AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.VALIDATOR_CLASS_ATT,
+                  clsValidator.getName());
+            
+            AttributeUtil.setAttribute(documentMetaType,
+                  PredefinedConstants.DATA_FILTER_EXTENSION_ATT,
+                  clsExtension.getName());
+            AttributeUtil.setAttribute(documentMetaType,
+                  PredefinedConstants.DATA_LOADER_ATT, dataLoader.getName());
+
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            documentMetaType.setElementOid(++maxElementOid);
+            
+            model.getDataType().add(documentMetaType);
+         }
+         
          if (null != documentMetaType)
          {
             element.setType(documentMetaType);
