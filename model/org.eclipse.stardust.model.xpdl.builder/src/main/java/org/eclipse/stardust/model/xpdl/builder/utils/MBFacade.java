@@ -23,8 +23,10 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructV
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -50,7 +52,7 @@ public class MBFacade
     * @param role
     * @return
     */   
-   public void setTeamLeader(OrganizationType organization, RoleType role)
+   public static void setTeamLeader(OrganizationType organization, RoleType role)
    {
       organization.setTeamLead(role);
    }
@@ -61,13 +63,37 @@ public class MBFacade
     * @param participant
     * @return
     */      
-   public void addOrganizationParticipant(OrganizationType organization, IModelParticipant participant)
+   public static void addOrganizationParticipant(OrganizationType organization, IModelParticipant participant)
    {
       ParticipantType participantType = AbstractElementBuilder.F_CWM.createParticipantType();
       participantType.setParticipant(participant);
       organization.getParticipant().add(participantType);               
-   }   
-   
+   }
+
+   /**
+    * @param model
+    * @param participant
+    * @return
+    */
+   public static List<OrganizationType> getParentOrganizations(ModelType model, IModelParticipant participant)
+   {
+      List<OrganizationType> belongsTo = new ArrayList<OrganizationType>();
+      EList<OrganizationType> orgs = model.getOrganization();
+      if (null != orgs)
+      {
+         for (OrganizationType org : orgs)
+         {
+            for (ParticipantType pt : org.getParticipant()) {
+               if (participant.equals(pt.getParticipant())) {
+                  belongsTo.add(org);
+               }
+            }
+         }
+      }
+      
+      return belongsTo;
+   }
+
    public static TypeDeclarationType createTypeDeclaration(ModelType model, String typeId, String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE

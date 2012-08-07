@@ -50,6 +50,7 @@ public class ModelerConstants
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";
    public static final String MODEL_UUID_PROPERTY = "modelUUID";
+   public static final String PARENT_UUID_PROPERTY = "parentUUID";
    public static final String NEW_OBJECT_PROPERTY = "newObject";
    public static final String OLD_OBJECT_PROPERTY = "oldObject";
    public static final String X_PROPERTY = "x";
@@ -132,6 +133,7 @@ public class ModelerConstants
    public static final String EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY = "externalWebApp";
    public static final String PARTICIPANT_TYPE_PROPERTY = "participantType";
    public static final String ROLE_PARTICIPANT_TYPE_KEY = "roleParticipant";
+   public static final String CHILD_PARTICIPANTS_KEY = "childParticipants";
    public static final String ORGANIZATION_PARTICIPANT_TYPE_KEY = "organizationParticipant";
    public static final String CONDITIONAL_PERFORMER_PARTICIPANT_TYPE_KEY = "conditionalPerformerParticipant";
 
