@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.stardust.common.log.LogManager;
@@ -30,7 +31,15 @@ public class EditingSession
 
    private final Set<ModelType> models = newHashSet();
 
-   private final ChangeRecorder emfChangeRecorder = new ChangeRecorder();
+   private final ChangeRecorder emfChangeRecorder = new ChangeRecorder()
+   {
+      @Override
+      protected boolean isOrphan(EObject eObject)
+      {
+         // the models being watched should never be considered orphans
+         return !models.contains(eObject) && super.isOrphan(eObject);
+      }
+   };
 
    private final Stack<Modification> undoableModifications = new Stack<Modification>();
 
