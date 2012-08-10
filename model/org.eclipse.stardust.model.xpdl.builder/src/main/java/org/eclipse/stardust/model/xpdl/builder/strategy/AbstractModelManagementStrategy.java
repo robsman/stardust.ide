@@ -26,11 +26,10 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 
 	private Map<String, ModelType> models = new HashMap<String, ModelType>();
 
-   @Resource
-   private EObjectUUIDMapper eObjectUUIDMapper;
+   private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
 
 	/**
-	 * 
+	 *
 	 */
 	public Map<String, ModelType> getModels()
 	{
@@ -38,7 +37,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public Map<String, ModelType> getModels(boolean reload)
 	{
@@ -49,14 +48,19 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 			models.put(model.getId(), model);
 			}
 		}
-		
+
 		return models;
 	}
-   
+
+	public EObjectUUIDMapper uuidMapper()
+	{
+	   return eObjectUUIDMapper;
+	}
+
    /**
     * Maps the model and it's elements to a UUID which will remain constant through out the session.
     * It can be used to identify elements uniquely on client and server side.
-    * 
+    *
     * This method needs to be called whenever a model is loaded.
     */
    protected void loadEObjectUUIDMap(ModelType model)
@@ -73,32 +77,32 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
    }
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract List<ModelType> loadModels();
-	
+
     /**
-     * 
+     *
      */
-    public abstract ModelType loadModel(String id);	
+    public abstract ModelType loadModel(String id);
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract ModelType attachModel(String id);
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract void saveModel(ModelType model);
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract void deleteModel(ModelType model);
 
 	/**
-	 * 
+	 *
 	 */
 	public abstract void versionizeModel(ModelType model);
 }

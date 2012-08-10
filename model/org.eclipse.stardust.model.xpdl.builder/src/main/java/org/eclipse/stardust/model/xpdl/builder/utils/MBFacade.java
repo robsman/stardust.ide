@@ -12,32 +12,56 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementHelper;
+import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
+import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
+import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -46,28 +70,40 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelE
 
 public class MBFacade
 {
+   private final ModelManagementStrategy modelManagementStrategy;
+
+   public MBFacade(ModelManagementStrategy modelManagementStrategy)
+   {
+      this.modelManagementStrategy = modelManagementStrategy;
+   }
+
+   public ModelManagementStrategy getModelManagementStrategy()
+   {
+      return modelManagementStrategy;
+   }
+
    /**
-    * 
+    *
     * @param organization
     * @param role
     * @return
-    */   
+    */
    public static void setTeamLeader(OrganizationType organization, RoleType role)
    {
       organization.setTeamLead(role);
    }
 
    /**
-    * 
+    *
     * @param organization
     * @param participant
     * @return
-    */      
+    */
    public static void addOrganizationParticipant(OrganizationType organization, IModelParticipant participant)
    {
       ParticipantType participantType = AbstractElementBuilder.F_CWM.createParticipantType();
       participantType.setParticipant(participant);
-      organization.getParticipant().add(participantType);               
+      organization.getParticipant().add(participantType);
    }
 
    /**
@@ -90,7 +126,7 @@ public class MBFacade
             }
          }
       }
-      
+
       return belongsTo;
    }
 
@@ -104,7 +140,7 @@ public class MBFacade
 
       model.getTypeDeclarations().getTypeDeclaration()
             .add(structuredDataType);
-      
+
       return structuredDataType;
    }
 
@@ -122,19 +158,18 @@ public class MBFacade
 
       return data;
    }
-   
-   public static DataType createStructuredData(ModelType model, String stripFullId_,
-         String id, String name, String structuredDataFullId)
+
+   public DataType createStructuredData(ModelType model, String stripFullId_, String id,
+         String name, String structuredDataFullId)
    {
       DataType data;
-      ModelType typeDeclarationModel = ModelManagementHelper.getInstance()
-            .getModelManagementStrategy().getModels().get(stripFullId_);
+      ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(stripFullId_);
 
       BpmStructVariableBuilder structVariable = newStructVariable(model);
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
       data = structVariable.withIdAndName(id, name).ofType(structuredDataFullId).build();
-      
+
       return data;
    }
 
@@ -166,7 +201,7 @@ public class MBFacade
       }
 
       data = newPrimitiveVariable(model).withIdAndName(id, name).ofType(type).build();
-      
+
       return data;
    }
 
@@ -210,7 +245,7 @@ public class MBFacade
       return data;
    }
 
-   public static DataType getDataFromExistingModel(String modelId, ModelType model,
+   public DataType getDataFromExistingModel(String modelId, ModelType model,
          String dataFullID)
    {
       DataType data;
@@ -225,8 +260,7 @@ public class MBFacade
       ModelType dataModel = model;
       if (!dataModelId.equals(modelId))
       {
-         dataModel = ModelManagementHelper.getInstance().getModelManagementStrategy()
-               .getModels().get(dataModelId);
+         dataModel = getModelManagementStrategy().getModels().get(dataModelId);
       }
 
       data = MBFacade.findData(dataModel, MBFacade.stripFullId(dataFullID));
@@ -272,20 +306,20 @@ public class MBFacade
       parentLaneSymbol.getActivitySymbol().add(activitySymbol);
       return activitySymbol;
    }
-   
+
    public static RoleType createRole(ModelType model, String roleID, String roleName)
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
       return role;
    }
-   
+
    public static OrganizationType createOrganization(ModelType model, String orgID, String orgName)
    {
       OrganizationType org = newOrganization(model).withIdAndName(orgID, orgName).build();
       return org;
    }
-      
-   public static ActivityType createActivity(String modelId,
+
+   public ActivityType createActivity(String modelId,
          ProcessDefinitionType processDefinition, String activityType,
          String participantFullID, String activityID, String activityName,
          String applicationFullID, String subProcessFullID, long maxOid)
@@ -339,8 +373,7 @@ public class MBFacade
             stripFullId = modelId;
          }
 
-         ProcessDefinitionType subProcessDefinition = MBFacade.findProcessDefinition(
-               ModelManagementHelper.getInstance().getModelManagementStrategy()
+         ProcessDefinitionType subProcessDefinition = MBFacade.findProcessDefinition(getModelManagementStrategy()
                      .getModels().get(stripFullId), MBFacade.stripFullId(subProcessFullID));
          ModelType subProcessModel = ModelUtils.findContainingModel(subProcessDefinition);
 
@@ -351,8 +384,7 @@ public class MBFacade
                .withIdAndName(modelId, activityName)
                .invokingProcess(
                      MBFacade.findProcessDefinition(
-                           ModelManagementHelper.getInstance()
-                                 .getModelManagementStrategy().getModels()
+                           getModelManagementStrategy().getModels()
                                  .get(subProcessModel.getId()),
                            MBFacade.stripFullId(subProcessFullID))).build();
       }
@@ -413,7 +445,7 @@ public class MBFacade
       return processDefinition;
    }
 
-   public static LaneSymbol createLane(String modelId, ModelType model,
+   public LaneSymbol createLane(String modelId, ModelType model,
          ProcessDefinitionType processDefinition, String laneId, String laneName,
          int xPos, int yPos, int width, int height, String orientation,
          String participantFullID)
@@ -456,13 +488,11 @@ public class MBFacade
          ModelType participantModel = model;
          if (!participantModelID.equals(modelId))
          {
-            participantModel = ModelManagementHelper.getInstance()
-                  .getModelManagementStrategy().getModels().get(participantModelID);
+            participantModel = getModelManagementStrategy().getModels().get(participantModelID);
          }
 
          IModelParticipant modelParticipant = MBFacade.findParticipant(
-               ModelManagementHelper.getInstance().getModelManagementStrategy()
-                     .getModels().get(participantModelID),
+               getModelManagementStrategy().getModels().get(participantModelID),
                MBFacade.stripFullId(participantFullID));
 
          if (!participantModelID.equals(modelId))
@@ -486,14 +516,13 @@ public class MBFacade
       return laneSymbol;
    }
 
-   public static ModelType findModel(String modelId)
+   public ModelType findModel(String modelId)
    {
-      return ModelManagementHelper.getInstance().getModelManagementStrategy().getModels()
-            .get(modelId);
+      return getModelManagementStrategy().getModels().get(modelId);
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -510,20 +539,20 @@ public class MBFacade
 
       throw new ObjectNotFoundException("Process Definition " + id + " does not exist.");
    }
-   
+
    /**
-    * 
+    *
     * @param modelId
     * @param id
     * @return
     */
-   public static ProcessDefinitionType getProcessDefinition(String modelId, String id)
+   public ProcessDefinitionType getProcessDefinition(String modelId, String id)
    {
       return findProcessDefinition(findModel(modelId), id);
    }
-   
+
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -542,7 +571,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -561,7 +590,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -583,7 +612,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -603,7 +632,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -622,7 +651,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -642,7 +671,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -661,7 +690,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -688,7 +717,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -720,7 +749,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -749,7 +778,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param id
     * @return
@@ -769,7 +798,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -787,7 +816,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -806,7 +835,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -856,7 +885,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -881,7 +910,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -899,7 +928,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -918,7 +947,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -944,7 +973,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -975,7 +1004,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -993,7 +1022,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -1012,7 +1041,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -1037,7 +1066,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param oid
     * @return
@@ -1068,7 +1097,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param id
     * @return
@@ -1094,7 +1123,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @return
@@ -1122,7 +1151,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param laneSymbol
     * @param id
     * @return
@@ -1150,7 +1179,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param oid
     * @return
@@ -1184,7 +1213,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param oid
     * @return
@@ -1205,7 +1234,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param oid
     * @return
@@ -1226,7 +1255,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param poolSymbol
     * @param oid
     * @return
@@ -1246,7 +1275,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param poolSymbol
     * @param oid
     * @return
@@ -1272,15 +1301,14 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param modelId
     * @param appId
     * @return
     */
-   public static ApplicationType getApplication(String modelId, String appId)
+   public ApplicationType getApplication(String modelId, String appId)
    {
-      ModelType model = ModelManagementHelper.getInstance().getModelManagementStrategy()
-            .getModels().get(modelId);
+      ModelType model = getModelManagementStrategy().getModels().get(modelId);
       List<ApplicationType> apps = model.getApplication();
       for (ApplicationType a : apps)
       {
@@ -1295,7 +1323,7 @@ public class MBFacade
 
    /**
     * TODO Replace by Eclipse modeler logic
-    * 
+    *
     * @param name
     * @return
     */
@@ -1305,7 +1333,7 @@ public class MBFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param modelElement
     * @return
@@ -1320,7 +1348,7 @@ public class MBFacade
 
    /**
     * TODO Auxiliary method while cross-model references are not supported
-    * 
+    *
     * @param fullId
     * @return
     */
@@ -1333,7 +1361,7 @@ public class MBFacade
 
    /**
     * Retrieves the model ID of a full ID (e.g. ModelA for ModelA:CreateCustomer).
-    * 
+    *
     * @param fullId
     * @return
     */

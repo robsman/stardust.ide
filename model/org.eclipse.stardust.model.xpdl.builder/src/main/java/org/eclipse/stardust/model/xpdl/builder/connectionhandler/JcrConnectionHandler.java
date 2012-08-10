@@ -27,10 +27,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.runtime.Document;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
-import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementHelper;
+import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -51,11 +52,11 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class JcrConnectionHandler implements ConnectionHandler
 {
-   DocumentManagementService documentManagementService;   
-   
+   DocumentManagementService documentManagementService;
+
    private static final String MODELS_DIR = "/process-models/";
-   
-   
+
+
    private boolean open;
    private URI uri;
    private IObjectDescriptor[] children = null;
@@ -64,27 +65,27 @@ public class JcrConnectionHandler implements ConnectionHandler
    private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
          "role", "organization", "conditionalPerformer"
    });
-   
-   
+
    private boolean init = false;
-   
-   
+
    private EObjectDescriptor modelDescriptor;
    private ModelType model;
-   
+
    synchronized ModelType loadModel(String id)
    {
-      return ModelManagementHelper.getInstance().loadModel(id);      
+      // TODO properly resolve current modelManagementStrategy
+      ModelManagementStrategy modelManagementStrategy = null;
+      return modelManagementStrategy.loadModel(id);
    }
-   
+
    private byte[] readModelContext(Document modelDocument) {
       return documentManagementService.retrieveDocumentContent(
             modelDocument.getId());
    }
-   
+
    public void importObject(ModelType model, IObjectDescriptor[] descriptors, boolean asLink)
-   {      
-      for (int i = 0; i < descriptors.length; i++) 
+   {
+      for (int i = 0; i < descriptors.length; i++)
       {
          IObjectDescriptor descriptor = descriptors[i];
          if (descriptor instanceof ImportableDescriptor)
@@ -113,7 +114,7 @@ public class JcrConnectionHandler implements ConnectionHandler
                }
             }
          }
-      }   
+      }
    }
 
    public EObject resolve(ModelType model, EObject object)
@@ -165,7 +166,7 @@ public class JcrConnectionHandler implements ConnectionHandler
       }
       return false;
    }
-   
+
    public void open(Connection connection) throws CoreException
    {
       if (open)
@@ -173,17 +174,17 @@ public class JcrConnectionHandler implements ConnectionHandler
           throw new CoreException(new Status(IStatus.ERROR, ObjectRepositoryActivator.PLUGIN_ID,
                   0, MessageFormat.format("EXC_ALREADY_OPEN", new Object[]{connection.getId()}),null));
       }
-      
+
       uri = JcrConnectionManager.makeURI(connection);
       String filename = connection.getAttribute("filename"); //$NON-NLS-1$
-      
+
       String xpdlId = null;
-      
+
       if(filename != null)
       {
          xpdlId = resolve(filename);
-      }      
-      
+      }
+
       this.connection = connection;
       try
       {
@@ -197,7 +198,7 @@ public class JcrConnectionHandler implements ConnectionHandler
          throw new CoreException(new Status(IStatus.WARNING,
                "org.eclipse.stardust.modeling.repository.file", "EXC_UNABLE_TO_LOAD_MD", ex)); //$NON-NLS-1$
       }
-      open = true;            
+      open = true;
    }
 
    // close file
@@ -242,7 +243,7 @@ public class JcrConnectionHandler implements ConnectionHandler
       {
          result.add(searchDescriptor);
       }
-      return Collections.unmodifiableList(result);      
+      return Collections.unmodifiableList(result);
    }
 
    // open the selected file from the file connection
@@ -250,7 +251,7 @@ public class JcrConnectionHandler implements ConnectionHandler
    private void updateCache(String id) throws IOException
    {
       model = loadModel(id);
-      
+
       IconFactory iconFactory = new PepperIconFactory();
 
       modelDescriptor = new EObjectDescriptor(uri, model, model.getId(), model.getName(),
@@ -262,7 +263,7 @@ public class JcrConnectionHandler implements ConnectionHandler
          children = descriptors.toArray(new IObjectDescriptor[0]);
       }
    }
-  
+
    private String resolve(String fileName)
    {
       String xpdlName = null;

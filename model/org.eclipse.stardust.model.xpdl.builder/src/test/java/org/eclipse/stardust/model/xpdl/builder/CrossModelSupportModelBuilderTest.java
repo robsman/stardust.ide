@@ -16,8 +16,10 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementHelper;
 import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
@@ -26,8 +28,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.junit.Before;
-import org.junit.Test;
 
 public class CrossModelSupportModelBuilderTest
 {
@@ -38,7 +38,6 @@ public class CrossModelSupportModelBuilderTest
    public void initCrossModeling()
    {
       strategy = new InMemoryModelManagementStrategy();
-      ModelManagementHelper.getInstance().setModelManagementStrategy(strategy);
 
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
@@ -54,10 +53,10 @@ public class CrossModelSupportModelBuilderTest
             "ProvidedProcess", "ProvidedProcess");
       ProcessDefinitionType consumerProcess = MBFacade.createProcess(consumerModel,
             "ConsumerProcess", "ConsumerProcess");
-      MBFacade.createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
+      new MBFacade(strategy).createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
             "ProvidedComposite1", "ProvidedComposite");
       long maxOid = XpdlModelUtils.getMaxUsedOid(consumerModel);
-      MBFacade.createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
+      new MBFacade(strategy).createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
             "ProvidedProcess1", "ProvidedProcess1", null,
             "ProviderModel:ProvidedProcess", maxOid);
       byte[] modelContent = XpdlModelIoUtils.saveModel(consumerModel);
@@ -68,17 +67,17 @@ public class CrossModelSupportModelBuilderTest
    public void verifyExternalPackagesForSingleConnection()
    {
       ModelType model = strategy.loadModel("ConsumerModel");
-      
+
       ExternalPackages externalPackages = model.getExternalPackages();
       assertThat(externalPackages, not(is(nullValue())));
       assertThat(externalPackages.getExternalPackage().size(), is(1));
-      
+
       ExternalPackage externalPackage = externalPackages.getExternalPackage().get(0);
       assertThat(externalPackage.getHref(), is("ProviderModel"));
       assertThat(externalPackage.getId(), is("ProviderModel"));
-      assertThat(externalPackage.getName(), is("ProviderModel"));      
+      assertThat(externalPackage.getName(), is("ProviderModel"));
    }
-   
-   
+
+
 
 }

@@ -14,59 +14,62 @@ package org.eclipse.stardust.model.xpdl.builder.strategy;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 /**
- * 
+ *
  * @author Marc.Gille
  *
  */
 public interface ModelManagementStrategy {
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public List<ModelType> loadModels();
-	
+
 	/**
-    * 
+    *
     * @return
     */
     public ModelType loadModel(String id);
-	
+
+    EObjectUUIDMapper uuidMapper();
+
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
 	public ModelType attachModel(String id);
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<String, ModelType>  getModels();
-	
+
 	/**
-	 * 
+	 *
 	 * @param reload
 	 * @return
 	 */
 	public Map<String, ModelType>  getModels(boolean reload);
-	
+
 	/*
-	 * 
+	 *
 	 */
 	public void saveModel(ModelType model);
-	
+
 	/**
-	 * 
+	 *
 	 * @param model
 	 */
 	public void deleteModel(ModelType model);
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public void versionizeModel(ModelType model);
 }
