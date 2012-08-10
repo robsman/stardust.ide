@@ -106,8 +106,24 @@ public class Modification
       Set<EObject> result = newHashSet();
 
       collectChangedElements(changeDescription.getObjectChanges().keySet(), result);
-      collectChangedElements(changeDescription.getObjectsToDetach(), result);
-      collectChangedElements(changeDescription.getObjectsToAttach(), result);
+      for (EObject candidate : changeDescription.getObjectsToDetach())
+      {
+         if ( !isModelOrModelElement(candidate))
+         {
+            // report any change to a non-element sub-object as modification of the
+            // containing parent element
+            result.add(determineChangedElement(candidate));
+         }
+      }
+      for (EObject candidate : changeDescription.getObjectsToAttach())
+      {
+         if ( !isModelOrModelElement(candidate))
+         {
+            // report any change to a non-element sub-object as modification of the
+            // containing parent element
+            result.add(determineChangedElement(candidate));
+         }
+      }
 
       return result;
    }
@@ -135,12 +151,17 @@ public class Modification
    {
       for (EObject changedObject : candidates)
       {
-         while ( !isModelOrModelElement(changedObject))
-         {
-            changedObject = changedObject.eContainer();
-         }
-         result.add(changedObject);
+         result.add(determineChangedElement(changedObject));
       }
+   }
+
+   public EObject determineChangedElement(EObject changedObject)
+   {
+      while ( !isModelOrModelElement(changedObject))
+      {
+         changedObject = changedObject.eContainer();
+      }
+      return changedObject;
    }
 
    private boolean isModelOrModelElement(EObject changedObject)
