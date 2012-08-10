@@ -10,13 +10,27 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Text;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -38,17 +52,6 @@ import org.eclipse.stardust.modeling.core.ui.Data2DataPathModelAdapter2;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathWidgetAdapter2;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Text;
 
 public class OrganizationRuntimeBindingPropertyPage
       extends AbstractModelElementPropertyPage
@@ -149,7 +152,18 @@ public class OrganizationRuntimeBindingPropertyPage
             dataGroup.setVisible(selection);
             AttributeUtil.setBooleanAttribute((IExtensibleElement) getModelElement(),
                   PredefinedConstants.BINDING_ATT, selection);
-            
+            if (selection)
+            {
+               ModelType modelType = (ModelType) getModelElement().eContainer();
+               AttributeUtil.setReference((IExtensibleElement) getModelElement(),
+                     PredefinedConstants.BINDING_DATA_ID_ATT,
+                     (EObject) modelType.getData().get(0));
+            }
+            else
+            {
+               AttributeUtil.setReference((IExtensibleElement) getModelElement(),
+                     PredefinedConstants.BINDING_DATA_ID_ATT, null);
+            }
             validate(null);
          }
       });
@@ -170,12 +184,23 @@ public class OrganizationRuntimeBindingPropertyPage
       {
          public void selectionChanged(SelectionChangedEvent event)
          {
-            if(event.getSelection() instanceof StructuredSelection)
+            if (event.getSelection() instanceof StructuredSelection)
             {
                Object element = ((StructuredSelection) event.getSelection()).getFirstElement();
-               validate(element);               
+               if (element != null)
+               {
+                  AttributeType attributeType = AttributeUtil.getAttribute(
+                        (IExtensibleElement) getModelElement(),
+                        PredefinedConstants.BINDING_DATA_ID_ATT);
+                  if ( !AttributeUtil.isReference(attributeType))
+                  {
+                     AttributeUtil.setReference((IExtensibleElement) getModelElement(),
+                           PredefinedConstants.BINDING_DATA_ID_ATT, (EObject) element);
+                  }
+               }
+               validate(element);
             }
-         }         
+         }
       });
       
       dataPathLabel = FormBuilder.createLabelWithRightAlignedStatus(dataGroup,
