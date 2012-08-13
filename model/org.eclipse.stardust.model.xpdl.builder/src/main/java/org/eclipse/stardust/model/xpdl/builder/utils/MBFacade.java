@@ -69,9 +69,14 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelE
 
 public class MBFacade
 {
-   private static MBFacade mbFacade;
+   private final static MBFacade mbFacade;
 
    private ModelManagementStrategy modelManagementStrategy;
+
+   static
+   {
+      mbFacade = new MBFacade();
+   }
 
    private MBFacade()
    {
@@ -80,20 +85,12 @@ public class MBFacade
 
    public static MBFacade getInstance()
    {
-      if (mbFacade == null)
-      {
-         mbFacade = new MBFacade();
-      }
       return mbFacade;
    }
 
    public static MBFacade getInstance(ModelManagementStrategy modelManagementStrategy)
    {
-      if (mbFacade == null)
-      {
-         mbFacade = new MBFacade();
-         mbFacade.modelManagementStrategy = modelManagementStrategy;
-      }
+      mbFacade.modelManagementStrategy = modelManagementStrategy;
       return mbFacade;
    }
 
