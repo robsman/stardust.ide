@@ -43,15 +43,15 @@ public class CrossModelSupportModelBuilderTest
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
       strategy.loadModels().add(consumerModel);
       strategy.loadModels().add(providerModel);
-      MBFacade.createRole(providerModel, "Adminitrator", "Administrator");
-      MBFacade.createRole(consumerModel, "Adminitrator", "Administrator");
-      MBFacade.createPrimitiveData(providerModel, "ProvidedPrimitive",
+      MBFacade.getInstance().createRole(providerModel, "Adminitrator", "Administrator");
+      MBFacade.getInstance().createRole(consumerModel, "Adminitrator", "Administrator");
+      MBFacade.getInstance().createPrimitiveData(providerModel, "ProvidedPrimitive",
             "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
-      MBFacade.createTypeDeclaration(providerModel, "ProvidedComposite",
+      MBFacade.getInstance().createTypeDeclaration(providerModel, "ProvidedComposite",
             "ProvidedComposite");
-      ProcessDefinitionType providedProcess = MBFacade.createProcess(providerModel,
+      ProcessDefinitionType providedProcess = MBFacade.getInstance().createProcess(providerModel,
             "ProvidedProcess", "ProvidedProcess");
-      ProcessDefinitionType consumerProcess = MBFacade.createProcess(consumerModel,
+      ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel,
             "ConsumerProcess", "ConsumerProcess");
       new MBFacade(strategy).createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
             "ProvidedComposite1", "ProvidedComposite");

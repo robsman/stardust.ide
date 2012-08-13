@@ -28,7 +28,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
@@ -70,7 +69,33 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelE
 
 public class MBFacade
 {
-   private final ModelManagementStrategy modelManagementStrategy;
+   private static MBFacade mbFacade;
+
+   private ModelManagementStrategy modelManagementStrategy;
+
+   private MBFacade()
+   {
+
+   }
+
+   public static MBFacade getInstance()
+   {
+      if (mbFacade == null)
+      {
+         mbFacade = new MBFacade();
+      }
+      return mbFacade;
+   }
+
+   public static MBFacade getInstance(ModelManagementStrategy modelManagementStrategy)
+   {
+      if (mbFacade == null)
+      {
+         mbFacade = new MBFacade();
+         mbFacade.modelManagementStrategy = modelManagementStrategy;
+      }
+      return mbFacade;
+   }
 
    public MBFacade(ModelManagementStrategy modelManagementStrategy)
    {
@@ -83,25 +108,27 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param organization
     * @param role
     * @return
     */
-   public static void setTeamLeader(OrganizationType organization, RoleType role)
+   public void setTeamLeader(OrganizationType organization, RoleType role)
    {
       organization.setTeamLead(role);
    }
 
    /**
-    *
+    * 
     * @param organization
     * @param participant
     * @return
     */
-   public static void addOrganizationParticipant(OrganizationType organization, IModelParticipant participant)
+   public void addOrganizationParticipant(OrganizationType organization,
+         IModelParticipant participant)
    {
-      ParticipantType participantType = AbstractElementBuilder.F_CWM.createParticipantType();
+      ParticipantType participantType = AbstractElementBuilder.F_CWM
+            .createParticipantType();
       participantType.setParticipant(participant);
       organization.getParticipant().add(participantType);
    }
@@ -111,7 +138,8 @@ public class MBFacade
     * @param participant
     * @return
     */
-   public static List<OrganizationType> getParentOrganizations(ModelType model, IModelParticipant participant)
+   public List<OrganizationType> getParentOrganizations(ModelType model,
+         IModelParticipant participant)
    {
       List<OrganizationType> belongsTo = new ArrayList<OrganizationType>();
       EList<OrganizationType> orgs = model.getOrganization();
@@ -119,8 +147,10 @@ public class MBFacade
       {
          for (OrganizationType org : orgs)
          {
-            for (ParticipantType pt : org.getParticipant()) {
-               if (participant.equals(pt.getParticipant())) {
+            for (ParticipantType pt : org.getParticipant())
+            {
+               if (participant.equals(pt.getParticipant()))
+               {
                   belongsTo.add(org);
                }
             }
@@ -130,7 +160,8 @@ public class MBFacade
       return belongsTo;
    }
 
-   public static TypeDeclarationType createTypeDeclaration(ModelType model, String typeId, String typeName)
+   public TypeDeclarationType createTypeDeclaration(ModelType model, String typeId,
+         String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
             .createTypeDeclarationType();
@@ -138,18 +169,17 @@ public class MBFacade
       structuredDataType.setId(typeId);
       structuredDataType.setName(typeName);
 
-      model.getTypeDeclarations().getTypeDeclaration()
-            .add(structuredDataType);
+      model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
 
       return structuredDataType;
    }
 
-   public static DataType createDocumentData(ModelType model, String id, String name,
+   public DataType createDocumentData(ModelType model, String id, String name,
          String structuredDataFullId)
    {
       DataType data;
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
-      if ( !StringUtils.isEmpty(structuredDataFullId))
+      if (!StringUtils.isEmpty(structuredDataFullId))
       {
          documentVariable.setTypeDeclaration(structuredDataFullId);
       }
@@ -163,7 +193,8 @@ public class MBFacade
          String name, String structuredDataFullId)
    {
       DataType data;
-      ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(stripFullId_);
+      ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
+            stripFullId_);
 
       BpmStructVariableBuilder structVariable = newStructVariable(model);
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
@@ -173,7 +204,7 @@ public class MBFacade
       return data;
    }
 
-   public static DataType createPrimitiveData(ModelType model, String id, String name,
+   public DataType createPrimitiveData(ModelType model, String id, String name,
          String primitiveType)
    {
       DataType data;
@@ -205,13 +236,12 @@ public class MBFacade
       return data;
    }
 
-   public static DataSymbolType createDataSymbol(ProcessDefinitionType processDefinition,
+   public DataSymbolType createDataSymbol(ProcessDefinitionType processDefinition,
          int xProperty, int yProperty, int widthProperty, int heightProperty,
          String parentSymbolID, long maxOid, DataType data)
    {
       DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
-      LaneSymbol parentLaneSymbol = MBFacade.findLaneInProcess(processDefinition,
-            parentSymbolID);
+      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentSymbolID);
 
       dataSymbol.setElementOid(++maxOid);
 
@@ -228,8 +258,7 @@ public class MBFacade
       return dataSymbol;
    }
 
-   public static DataType createNewPrimitive(ModelType model, String dataID,
-         String dataName)
+   public DataType createNewPrimitive(ModelType model, String dataID, String dataName)
    {
       DataType data;
       Type type = null;
@@ -240,8 +269,8 @@ public class MBFacade
       }
 
       data = newPrimitiveVariable(model)
-            .withIdAndName(MBFacade.stripFullId(dataID), MBFacade.stripFullId(dataName))
-            .ofType(type).build();
+            .withIdAndName(stripFullId(dataID), stripFullId(dataName)).ofType(type)
+            .build();
       return data;
    }
 
@@ -251,7 +280,7 @@ public class MBFacade
       DataType data;
       // TODO Cross-model references
 
-      String dataModelId = MBFacade.getModelId(dataFullID);
+      String dataModelId = getModelId(dataFullID);
       if (StringUtils.isEmpty(dataModelId))
       {
          dataModelId = modelId;
@@ -263,7 +292,7 @@ public class MBFacade
          dataModel = getModelManagementStrategy().getModels().get(dataModelId);
       }
 
-      data = MBFacade.findData(dataModel, MBFacade.stripFullId(dataFullID));
+      data = findData(dataModel, stripFullId(dataFullID));
 
       if (!dataModelId.equals(modelId))
       {
@@ -284,15 +313,14 @@ public class MBFacade
       return data;
    }
 
-   public static ActivitySymbolType createActivitySymbol(
+   public ActivitySymbolType createActivitySymbol(
          ProcessDefinitionType processDefinition, String parentSymbolID, int xProperty,
          int yProperty, int widthProperty, int heightProperty, long maxOid,
          ActivityType activity)
    {
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM
             .createActivitySymbolType();
-      LaneSymbol parentLaneSymbol = MBFacade.findLaneInProcess(processDefinition,
-            parentSymbolID);
+      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentSymbolID);
 
       activitySymbol.setElementOid(++maxOid);
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
@@ -307,13 +335,14 @@ public class MBFacade
       return activitySymbol;
    }
 
-   public static RoleType createRole(ModelType model, String roleID, String roleName)
+   public RoleType createRole(ModelType model, String roleID, String roleName)
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
       return role;
    }
 
-   public static OrganizationType createOrganization(ModelType model, String orgID, String orgName)
+   public OrganizationType createOrganization(ModelType model, String orgID,
+         String orgName)
    {
       OrganizationType org = newOrganization(model).withIdAndName(orgID, orgName).build();
       return org;
@@ -332,8 +361,7 @@ public class MBFacade
          {
             activity = newManualActivity(processDefinition)
                   .withIdAndName(activityID, activityName)
-                  .havingDefaultPerformer(MBFacade.stripFullId(participantFullID))
-                  .build();
+                  .havingDefaultPerformer(stripFullId(participantFullID)).build();
          }
          else
          {
@@ -345,14 +373,14 @@ public class MBFacade
 
       {
 
-         String stripFullId_ = MBFacade.getModelId(applicationFullID);
+         String stripFullId_ = getModelId(applicationFullID);
          if (StringUtils.isEmpty(stripFullId_))
          {
             stripFullId_ = modelId;
          }
 
          ApplicationType application = getApplication(stripFullId_,
-               MBFacade.stripFullId(applicationFullID));
+               stripFullId(applicationFullID));
          ModelType applicationModel = ModelUtils.findContainingModel(application);
          BpmApplicationActivityBuilder applicationActivity = newApplicationActivity(processDefinition);
          applicationActivity.setApplicationModel(applicationModel);
@@ -361,20 +389,21 @@ public class MBFacade
                .withIdAndName(activityID, activityName)
                .invokingApplication(
                      getApplication(applicationModel.getId(),
-                           MBFacade.stripFullId(applicationFullID))).build();
+                           stripFullId(applicationFullID))).build();
          // }
       }
       else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityType))
       {
 
-         String stripFullId = MBFacade.getModelId(subProcessFullID);
+         String stripFullId = getModelId(subProcessFullID);
          if (StringUtils.isEmpty(stripFullId))
          {
             stripFullId = modelId;
          }
 
-         ProcessDefinitionType subProcessDefinition = MBFacade.findProcessDefinition(getModelManagementStrategy()
-                     .getModels().get(stripFullId), MBFacade.stripFullId(subProcessFullID));
+         ProcessDefinitionType subProcessDefinition = findProcessDefinition(
+               getModelManagementStrategy().getModels().get(stripFullId),
+               stripFullId(subProcessFullID));
          ModelType subProcessModel = ModelUtils.findContainingModel(subProcessDefinition);
 
          BpmSubProcessActivityBuilder subProcessActivity = newSubProcessActivity(processDefinition);
@@ -383,22 +412,21 @@ public class MBFacade
          activity = subProcessActivity
                .withIdAndName(modelId, activityName)
                .invokingProcess(
-                     MBFacade.findProcessDefinition(
-                           getModelManagementStrategy().getModels()
-                                 .get(subProcessModel.getId()),
-                           MBFacade.stripFullId(subProcessFullID))).build();
+                     findProcessDefinition(
+                           getModelManagementStrategy().getModels().get(
+                                 subProcessModel.getId()), stripFullId(subProcessFullID)))
+               .build();
       }
       else
       {
-         activity = newRouteActivity(processDefinition).withIdAndName(activityID, activityName)
-               .build();
+         activity = newRouteActivity(processDefinition).withIdAndName(activityID,
+               activityName).build();
       }
       activity.setElementOid(maxOid + 1);
       return activity;
    }
 
-   public static ProcessDefinitionType createProcess(ModelType model, String name,
-         String id)
+   public ProcessDefinitionType createProcess(ModelType model, String name, String id)
    {
       ProcessDefinitionType processDefinition = newProcessDefinition(model)
             .withIdAndName(id, name).build();
@@ -488,12 +516,13 @@ public class MBFacade
          ModelType participantModel = model;
          if (!participantModelID.equals(modelId))
          {
-            participantModel = getModelManagementStrategy().getModels().get(participantModelID);
+            participantModel = getModelManagementStrategy().getModels().get(
+                  participantModelID);
          }
 
-         IModelParticipant modelParticipant = MBFacade.findParticipant(
+         IModelParticipant modelParticipant = findParticipant(
                getModelManagementStrategy().getModels().get(participantModelID),
-               MBFacade.stripFullId(participantFullID));
+               stripFullId(participantFullID));
 
          if (!participantModelID.equals(modelId))
          {
@@ -522,12 +551,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static ProcessDefinitionType findProcessDefinition(ModelType model, String id)
+   public ProcessDefinitionType findProcessDefinition(ModelType model, String id)
    {
       for (ProcessDefinitionType processDefinition : model.getProcessDefinition())
       {
@@ -541,7 +570,7 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param modelId
     * @param id
     * @return
@@ -552,12 +581,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static ApplicationType findApplication(ModelType model, String id)
+   public ApplicationType findApplication(ModelType model, String id)
    {
       for (ApplicationType application : model.getApplication())
       {
@@ -571,12 +600,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static ApplicationTypeType findApplicationTypeType(ModelType model, String id)
+   public ApplicationTypeType findApplicationTypeType(ModelType model, String id)
    {
       for (ApplicationTypeType applicationType : model.getApplicationType())
       {
@@ -590,13 +619,13 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static ApplicationContextTypeType findApplicationContextTypeType(
-         ModelType model, String id)
+   public ApplicationContextTypeType findApplicationContextTypeType(ModelType model,
+         String id)
    {
       for (ApplicationContextTypeType applicationContextType : model
             .getApplicationContextType())
@@ -612,12 +641,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static TypeDeclarationType findTypeDeclaration(ModelType model, String id)
+   public TypeDeclarationType findTypeDeclaration(ModelType model, String id)
    {
       for (TypeDeclarationType typeDeclaration : model.getTypeDeclarations()
             .getTypeDeclaration())
@@ -632,12 +661,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static DataTypeType findDataType(ModelType model, String id)
+   public DataTypeType findDataType(ModelType model, String id)
    {
       for (DataTypeType dataType : model.getDataType())
       {
@@ -651,12 +680,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static TypeDeclarationType findStructuredDataType(ModelType model, String id)
+   public TypeDeclarationType findStructuredDataType(ModelType model, String id)
    {
       for (TypeDeclarationType structType : model.getTypeDeclarations()
             .getTypeDeclaration())
@@ -671,12 +700,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static DataType findData(ModelType model, String id)
+   public DataType findData(ModelType model, String id)
    {
       for (DataType data : model.getData())
       {
@@ -690,12 +719,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static IModelParticipant findParticipant(ModelType model, String id)
+   public IModelParticipant findParticipant(ModelType model, String id)
    {
       for (RoleType role : model.getRole())
       {
@@ -717,12 +746,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static DataSymbolType findDataSymbol(DiagramType diagram, long oid)
+   public DataSymbolType findDataSymbol(DiagramType diagram, long oid)
    {
       for (DataSymbolType dataSymbol : diagram.getDataSymbol())
       {
@@ -749,12 +778,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static DataSymbolType findDataSymbolRecursively(LaneSymbol laneSymbol, long oid)
+   public DataSymbolType findDataSymbolRecursively(LaneSymbol laneSymbol, long oid)
    {
       for (DataSymbolType dataSymbol : laneSymbol.getDataSymbol())
       {
@@ -778,13 +807,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param id
     * @return
     */
-   public static ActivityType findActivity(ProcessDefinitionType processDefinition,
-         String id)
+   public ActivityType findActivity(ProcessDefinitionType processDefinition, String id)
    {
       for (ActivityType activity : processDefinition.getActivity())
       {
@@ -798,12 +826,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
+   public ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
    {
       LaneSymbol laneSymbol = findLaneContainingActivitySymbol(diagram, oid);
 
@@ -816,12 +844,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
+   public ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
       {
@@ -835,12 +863,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
+   public LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
    {
       for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
       {
@@ -859,8 +887,8 @@ public class MBFacade
       return null;
    }
 
-   public static LaneSymbol findLaneContainingActivitySymbolRecursively(
-         LaneSymbol laneSymbol, long oid)
+   public LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
+         long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
       {
@@ -885,13 +913,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static LaneSymbol findLaneInProcess(ProcessDefinitionType processDefinition,
-         String id)
+   public LaneSymbol findLaneInProcess(ProcessDefinitionType processDefinition, String id)
    {
       for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
       {
@@ -910,12 +937,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static StartEventSymbol findStartEventSymbol(DiagramType diagram, long oid)
+   public StartEventSymbol findStartEventSymbol(DiagramType diagram, long oid)
    {
       LaneSymbol laneSymbol = findLaneContainingStartEventSymbol(diagram, oid);
 
@@ -928,12 +955,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static StartEventSymbol findStartEventSymbol(LaneSymbol laneSymbol, long oid)
+   public StartEventSymbol findStartEventSymbol(LaneSymbol laneSymbol, long oid)
    {
       for (StartEventSymbol startEventSymbol : laneSymbol.getStartEventSymbols())
       {
@@ -947,13 +974,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneContainingStartEventSymbol(DiagramType diagram,
-         long oid)
+   public LaneSymbol findLaneContainingStartEventSymbol(DiagramType diagram, long oid)
    {
       for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
       {
@@ -973,13 +999,13 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneContainingStartEventSymbolRecursively(
-         LaneSymbol laneSymbol, long oid)
+   public LaneSymbol findLaneContainingStartEventSymbolRecursively(LaneSymbol laneSymbol,
+         long oid)
    {
       for (StartEventSymbol startEventSymbol : laneSymbol.getStartEventSymbols())
       {
@@ -1004,12 +1030,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static EndEventSymbol findEndEventSymbol(DiagramType diagram, long oid)
+   public EndEventSymbol findEndEventSymbol(DiagramType diagram, long oid)
    {
       LaneSymbol laneSymbol = findLaneContainingEndEventSymbol(diagram, oid);
 
@@ -1022,12 +1048,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static EndEventSymbol findEndEventSymbol(LaneSymbol laneSymbol, long oid)
+   public EndEventSymbol findEndEventSymbol(LaneSymbol laneSymbol, long oid)
    {
       for (EndEventSymbol endEventSymbol : laneSymbol.getEndEventSymbols())
       {
@@ -1041,12 +1067,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneContainingEndEventSymbol(DiagramType diagram, long oid)
+   public LaneSymbol findLaneContainingEndEventSymbol(DiagramType diagram, long oid)
    {
       for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
       {
@@ -1066,13 +1092,13 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneContainingEndEventSymbolRecursively(
-         LaneSymbol laneSymbol, long oid)
+   public LaneSymbol findLaneContainingEndEventSymbolRecursively(LaneSymbol laneSymbol,
+         long oid)
    {
       for (EndEventSymbol endEventSymbol : laneSymbol.getEndEventSymbols())
       {
@@ -1097,12 +1123,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param id
     * @return
     */
-   public static LaneSymbol findLaneRecursively(LaneSymbol laneSymbol, String id)
+   public LaneSymbol findLaneRecursively(LaneSymbol laneSymbol, String id)
    {
       if (laneSymbol.getId().equals(id))
       {
@@ -1123,12 +1149,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
     */
-   public static LaneSymbol findLaneContainingActivitySymbol(
+   public LaneSymbol findLaneContainingActivitySymbol(
          ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol)
    {
       for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
@@ -1151,13 +1177,13 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param id
     * @return
     */
-   public static LaneSymbol findLaneContainingActivitySymbolRecursively(
-         LaneSymbol laneSymbol, ActivitySymbolType activitySymbol)
+   public LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
+         ActivitySymbolType activitySymbol)
    {
       if (laneSymbol.getActivitySymbol().contains(activitySymbol))
       {
@@ -1179,12 +1205,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
     */
-   public static TransitionConnectionType findTransitionConnectionByModelOid(
+   public TransitionConnectionType findTransitionConnectionByModelOid(
          ProcessDefinitionType processDefinition, long oid)
    {
       for (TransitionConnectionType transitionConnection : processDefinition.getDiagram()
@@ -1213,12 +1239,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
     */
-   public static DataMappingConnectionType findDataMappingConnectionByModelOid(
+   public DataMappingConnectionType findDataMappingConnectionByModelOid(
          ProcessDefinitionType processDefinition, long oid)
    {
       for (DataMappingConnectionType dataMappingConnectionType : processDefinition
@@ -1234,13 +1260,13 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
     */
-   public static PoolSymbol findPoolSymbolByElementOid(
-         ProcessDefinitionType processDefinition, long oid)
+   public PoolSymbol findPoolSymbolByElementOid(ProcessDefinitionType processDefinition,
+         long oid)
    {
       for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
       {
@@ -1255,12 +1281,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param poolSymbol
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneSymbolByElementOid(PoolSymbol poolSymbol, long oid)
+   public LaneSymbol findLaneSymbolByElementOid(PoolSymbol poolSymbol, long oid)
    {
       for (LaneSymbol laneSymbol : poolSymbol.getLanes())
       {
@@ -1275,13 +1301,12 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param poolSymbol
     * @param oid
     * @return
     */
-   public static LaneSymbol findLaneSymbolById(ProcessDefinitionType processDefinition,
-         String id)
+   public LaneSymbol findLaneSymbolById(ProcessDefinitionType processDefinition, String id)
    {
       for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
       {
@@ -1301,7 +1326,7 @@ public class MBFacade
    }
 
    /**
-    *
+    * 
     * @param modelId
     * @param appId
     * @return
@@ -1323,23 +1348,22 @@ public class MBFacade
 
    /**
     * TODO Replace by Eclipse modeler logic
-    *
+    * 
     * @param name
     * @return
     */
-   public static String createIdFromName(String name)
+   public String createIdFromName(String name)
    {
       return name.replace(" ", "_");
    }
 
    /**
-    *
+    * 
     * @param model
     * @param modelElement
     * @return
     */
-   public static String createFullId(ModelType model,
-         IIdentifiableModelElement modelElement)
+   public String createFullId(ModelType model, IIdentifiableModelElement modelElement)
    {
       // TODO Change to {modelId}elementId
 
@@ -1348,11 +1372,11 @@ public class MBFacade
 
    /**
     * TODO Auxiliary method while cross-model references are not supported
-    *
+    * 
     * @param fullId
     * @return
     */
-   public static String stripFullId(String fullId)
+   public String stripFullId(String fullId)
    {
       String[] ids = fullId.split(":");
 
@@ -1361,11 +1385,11 @@ public class MBFacade
 
    /**
     * Retrieves the model ID of a full ID (e.g. ModelA for ModelA:CreateCustomer).
-    *
+    * 
     * @param fullId
     * @return
     */
-   public static String getModelId(String fullId)
+   public String getModelId(String fullId)
    {
       String[] ids = fullId.split(":");
 
