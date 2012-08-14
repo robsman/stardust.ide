@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -226,6 +227,10 @@ public class LiteralSelectionDialog extends Dialog implements ModifyListener
    
    public String getLiteral()
    {
+      if (StringUtils.isEmpty(literal))
+      {
+         return ""; //$NON-NLS-1$
+      }
       return literal;
    }
 

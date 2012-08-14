@@ -280,7 +280,9 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
                   visibilityString = visibility.getValue();
                }
             }
-            if (getEObjectModel() instanceof ApplicationType)
+            if (getEObjectModel() instanceof ApplicationType
+                  || getEObjectModel() instanceof DataType
+                  || getEObjectModel() instanceof IModelParticipant)
             {
                AttributeType visibility = AttributeUtil.getAttribute(
                      (IExtensibleElement) getEObjectModel(),

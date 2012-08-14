@@ -16,18 +16,15 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.createUtils.CreateModelElementUtil;
+import org.eclipse.ui.PlatformUI;
 
 
 /**
@@ -76,7 +73,29 @@ public class CreateModelElementCommand extends ContainedElementCommand
 
    protected IModelElement createModelElement()
    {
-      return CreateModelElementUtil.createModelElement(idFactory, eClass, getContainer(), getModel());
+      IModelElement newModelElement = CreateModelElementUtil.createModelElement(idFactory, eClass, getContainer(), getModel());
+      
+      if (newModelElement instanceof ApplicationType
+            || newModelElement instanceof DataType
+            || newModelElement instanceof IModelParticipant)
+      {
+      
+      String visibilityDefault = PlatformUI.getPreferenceStore().getString(
+            BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
+      if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
+            || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) newModelElement,
+               PredefinedConstants.MODELELEMENT_VISIBILITY, "Public"); //$NON-NLS-1$
+   }
+      else
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) newModelElement,
+               PredefinedConstants.MODELELEMENT_VISIBILITY, "Private"); //$NON-NLS-1$
+      }
+      }      
+      
+      return newModelElement;
    }
 
    public void redo()

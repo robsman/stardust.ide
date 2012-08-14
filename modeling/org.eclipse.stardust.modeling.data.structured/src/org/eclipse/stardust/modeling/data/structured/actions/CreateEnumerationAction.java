@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gef.TreeEditPart;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
@@ -26,7 +27,9 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.actions.ISpiAction;
@@ -34,6 +37,7 @@ import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
@@ -102,6 +106,21 @@ public class CreateEnumerationAction extends Action implements ISpiAction
       idFactory.computeNames(parent.getTypeDeclaration());
       declaration.setId(idFactory.getId());
       declaration.setName(idFactory.getName());
+      
+      String visibilityDefault = PlatformUI.getPreferenceStore().getString(
+            BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
+      if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
+            || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
+      {
+
+         ExtendedAttributeUtil.createAttribute(declaration,
+               PredefinedConstants.MODELELEMENT_VISIBILITY).setValue("Public"); //$NON-NLS-1$
+      }
+      else
+      {
+         ExtendedAttributeUtil.createAttribute(declaration,
+               PredefinedConstants.MODELELEMENT_VISIBILITY).setValue("Private"); //$NON-NLS-1$
+      }
       
       SchemaTypeType schema = XpdlFactory.eINSTANCE.createSchemaTypeType();      
       declaration.setSchemaType(schema);

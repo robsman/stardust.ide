@@ -10,17 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.data.structured.properties;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -32,12 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -54,12 +46,7 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
+import org.eclipse.swt.widgets.*;
 
 public class DataStructPropertyPage extends AbstractModelElementPropertyPage
    implements IDataPropertyPage
@@ -286,14 +273,27 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
                   }
                   if (externalModel instanceof ModelType)
                   {
-                     TypeDeclarationsType externalDeclarations = ((ModelType) externalModel).getTypeDeclarations();
+                     TypeDeclarationsType externalDeclarations = ((ModelType) externalModel)
+                           .getTypeDeclarations();
                      if (externalDeclarations != null)
                      {
-                        declarations.addAll(externalDeclarations.getTypeDeclaration());
+                        for (Iterator<TypeDeclarationType> i = externalDeclarations
+                              .getTypeDeclaration().iterator(); i.hasNext();)
+                        {
+                           TypeDeclarationType declaration = i.next();
+                           ExtendedAttributeType visibility = ExtendedAttributeUtil
+                                 .getAttribute(declaration.getExtendedAttributes(),
+                                       PredefinedConstants.MODELELEMENT_VISIBILITY);
+                           if (visibility == null
+                                 || visibility.getValue().equalsIgnoreCase("Public"))
+                           {
+                              declarations.add(declaration);
                      }
                   }
                }
             }
+         }
+      }
          }
       }
       return declarations;

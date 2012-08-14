@@ -43,7 +43,9 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
@@ -417,50 +419,52 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       EObject modelElement = getModelElement(adaptable);
       if (modelElement != null)
       {
+         if (modelElement.eIsProxy())
+         {
+            return true;
+         }
          if (modelElement instanceof ActivityType)
          {
             return false;
          }
+         if (modelElement instanceof DataType)
+         {
+            DataType dataType = (DataType) modelElement;
+            if (dataType.getType().getId().equals(PredefinedConstants.STRUCTURED_DATA))
+            {
+               if (dataType.getExternalReference() == null)
+               {
+                  if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
+                        IConnectionManager.URI_ATTRIBUTE_NAME) != null)
+                  {
+                     return true;
+                  }         
+               }
+               else
+               {
+               return false;
+            }
+         }
+         }
+         String uri = null;
          if (modelElement instanceof IExtensibleElement)
          {
-            if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
-                  IConnectionManager.URI_ATTRIBUTE_NAME) != null)
-            {
-               String uri = AttributeUtil.getAttributeValue(
-                     (IExtensibleElement) modelElement,
+            uri = AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
                      IConnectionManager.URI_ATTRIBUTE_NAME);
-               ModelType model = ModelUtils.findContainingModel(modelElement);
-               if (model == null)
-               {
-                  return false;
                }
-               Connection connection = (Connection) model.getConnectionManager()
-                     .findConnection(uri);
-               if (connection != null)
+         else if (modelElement instanceof Extensible)
                {
-                  String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
-                  if (importString != null && importString.equalsIgnoreCase("false")) //$NON-NLS-1$
-                  {
-                     return false;
+            uri = ExtendedAttributeUtil.getAttributeValue((Extensible) modelElement,
+                  IConnectionManager.URI_ATTRIBUTE_NAME);
                   }
-               }
-               return true;
-            }
-         }
-         if (modelElement instanceof Extensible)
+         if (uri != null)
          {
-            if (ExtendedAttributeUtil.getAttributeValue((Extensible) modelElement,
-                  IConnectionManager.URI_ATTRIBUTE_NAME) != null)
-            {
-               String uri = ExtendedAttributeUtil.getAttributeValue(
-                     (Extensible) modelElement, IConnectionManager.URI_ATTRIBUTE_NAME);
                ModelType model = ModelUtils.findContainingModel(modelElement);
                if (model == null)
                {
                   return false;
                }
-               Connection connection = (Connection) model.getConnectionManager()
-                     .findConnection(uri);
+            Connection connection = (Connection) model.getConnectionManager().findConnection(uri);
                if (connection != null)
                {
                   String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
@@ -472,7 +476,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                return true;
             }
          }
-      }
       return false;
    }
 

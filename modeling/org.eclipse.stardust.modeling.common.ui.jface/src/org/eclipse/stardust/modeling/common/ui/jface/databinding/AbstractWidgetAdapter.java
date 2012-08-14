@@ -41,7 +41,14 @@ public abstract class AbstractWidgetAdapter implements IWidgetAdapter
    {
       if (null != mediator)
       {
+         try
+         {
          mediator.updateModel(this, value);
+      }
+         catch (Throwable t)
+         {
+
+   }
       }
    }
    

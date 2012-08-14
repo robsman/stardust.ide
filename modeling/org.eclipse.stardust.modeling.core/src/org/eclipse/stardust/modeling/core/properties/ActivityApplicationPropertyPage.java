@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,12 +20,16 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
@@ -70,8 +75,7 @@ public class ActivityApplicationPropertyPage extends AbstractModelElementPropert
       applications = this.collectApplications(model);
       labelProvider.setModel(model);
       viewer.add(applications.toArray()); 
-      viewer.setSorter(refSorter);
-      
+      viewer.setSorter(refSorter);  
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
       wBndMgr.bind(labeledWidget, element, PKG_CWM.getActivityType_Application());
       wBndMgr.getModelBindingManager().updateWidgets(element);    	  
@@ -194,15 +198,28 @@ public class ActivityApplicationPropertyPage extends AbstractModelElementPropert
                   }
                   if (externalModel instanceof ModelType)
                   {
-               	     List<ApplicationType> externalDeclarations = ((ModelType) externalModel).getApplication();
-                     if (externalDeclarations != null)                    	 
+                     List<ApplicationType> externalDeclarations = ((ModelType) externalModel)
+                           .getApplication();
+                     if (externalDeclarations != null)
                      {
-                     	applicationsList.addAll(externalDeclarations);                    	
+                        for (Iterator<ApplicationType> i = externalDeclarations
+                              .iterator(); i.hasNext();)
+                        {
+                           ApplicationType application = i.next();
+                           AttributeType visibility = AttributeUtil.getAttribute(
+                                 (IExtensibleElement) application,
+                                 PredefinedConstants.MODELELEMENT_VISIBILITY);
+                           if (visibility == null
+                                 || visibility.getValue().equalsIgnoreCase("Public"))
+                           {
+                              applicationsList.add(application);
+                           } 
                      }
                   }
                }
             }
          }
+      }
       }
       return applicationsList;
    }

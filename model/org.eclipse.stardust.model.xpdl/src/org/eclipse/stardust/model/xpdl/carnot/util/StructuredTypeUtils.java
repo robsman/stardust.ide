@@ -102,17 +102,34 @@ public class StructuredTypeUtils
 
    public static TypeDeclarationType getTypeDeclaration(DataType data)
    {
+      TypeDeclarationType typeDeclaration = null;
+      ModelType model = ModelUtils.findContainingModel(data);
       ExternalReferenceType ref = data.getExternalReference();
       if (ref == null)
       {
-         return (TypeDeclarationType) AttributeUtil.getIdentifiable(
+         typeDeclaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
             data,  StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if (typeDeclaration != null)
+         {
+            ModelType declarationModel = ModelUtils.findContainingModel(typeDeclaration);
+            if (model != declarationModel)
+            {
+               typeDeclaration = getTypeDeclaration(model, declarationModel.getId(), typeDeclaration.getId());
+      }
+         }
       }
       else
       {
-         ModelType model = ModelUtils.findContainingModel(data);
+         typeDeclaration = getTypeDeclaration(model, ref.getLocation(), ref.getXref());
+      }
+      return typeDeclaration;
+   }
+
+   private static TypeDeclarationType getTypeDeclaration(ModelType model,
+         String packageId, String typeDeclarationId)
+   {
          ExternalPackages packages = model.getExternalPackages();
-         ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(ref.getLocation());
+      ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(packageId);
          IConnectionManager manager = model.getConnectionManager();
          ModelType externalModel = manager == null ? null : manager.find(pkg);
          if (externalModel != null)
@@ -120,10 +137,9 @@ public class StructuredTypeUtils
             TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
             if (declarations != null)
             {
-               return declarations.getTypeDeclaration(ref.getXref());
+            return declarations.getTypeDeclaration(typeDeclarationId);
             }
          }
-      }
       return null;
    }
    

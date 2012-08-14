@@ -26,8 +26,9 @@ public class CompositeUtils
       for (int i = 0; i < children.length; i++)
       {
          Object child = children[i];  
-         if (child instanceof Control) {
-            if(enableControl((Control) child))
+         if (child instanceof Control)
+            {
+            if (enableControl((Control) child))
             {
                ((Control) child).setEnabled(true);     
             }
@@ -60,7 +61,7 @@ public class CompositeUtils
       {
          //return false;
       }      
-      if(child.getClass().getName().equals("org.eclipse.swt.widgets.Composite") //$NON-NLS-1$
+      if (child.getClass().getName().equals("org.eclipse.swt.widgets.Composite") //$NON-NLS-1$
             || child instanceof Table
             || child instanceof Tree
             || child instanceof SashForm
