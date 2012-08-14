@@ -43,7 +43,7 @@ public class CrossModelSupportModelBuilderTest
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
       strategy.loadModels().add(consumerModel);
       strategy.loadModels().add(providerModel);
-      MBFacade.getInstance().createRole(providerModel, "Adminitrator", "Administrator");
+      MBFacade.getInstance(strategy).createRole(providerModel, "Adminitrator", "Administrator");
       MBFacade.getInstance().createRole(consumerModel, "Adminitrator", "Administrator");
       MBFacade.getInstance().createPrimitiveData(providerModel, "ProvidedPrimitive",
             "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
@@ -53,10 +53,10 @@ public class CrossModelSupportModelBuilderTest
             "ProvidedProcess", "ProvidedProcess");
       ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel,
             "ConsumerProcess", "ConsumerProcess");
-      new MBFacade(strategy).createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
+      MBFacade.getInstance().createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
             "ProvidedComposite1", "ProvidedComposite");
       long maxOid = XpdlModelUtils.getMaxUsedOid(consumerModel);
-      new MBFacade(strategy).createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
+      MBFacade.getInstance().createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
             "ProvidedProcess1", "ProvidedProcess1", null,
             "ProviderModel:ProvidedProcess", maxOid);
       byte[] modelContent = XpdlModelIoUtils.saveModel(consumerModel);

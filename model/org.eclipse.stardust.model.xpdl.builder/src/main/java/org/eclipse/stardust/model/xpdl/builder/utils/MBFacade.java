@@ -94,11 +94,6 @@ public class MBFacade
       return mbFacade;
    }
 
-   public MBFacade(ModelManagementStrategy modelManagementStrategy)
-   {
-      this.modelManagementStrategy = modelManagementStrategy;
-   }
-
    public ModelManagementStrategy getModelManagementStrategy()
    {
       return modelManagementStrategy;
@@ -271,29 +266,20 @@ public class MBFacade
       return data;
    }
 
-   public DataType getDataFromExistingModel(String modelId, ModelType model,
-         String dataFullID)
+   public DataType importData(ModelType targetModel, String dataFullID)
    {
       DataType data;
       // TODO Cross-model references
 
       String dataModelId = getModelId(dataFullID);
-      if (StringUtils.isEmpty(dataModelId))
-      {
-         dataModelId = modelId;
-      }
 
-      ModelType dataModel = model;
-      if (!dataModelId.equals(modelId))
-      {
-         dataModel = getModelManagementStrategy().getModels().get(dataModelId);
-      }
+      ModelType dataModel = getModelManagementStrategy().getModels().get(dataModelId);
 
       data = findData(dataModel, stripFullId(dataFullID));
 
-      if (!dataModelId.equals(modelId))
+      if (!dataModelId.equals(targetModel.getId()))
       {
-         String fileConnectionId = JcrConnectionManager.createFileConnection(model,
+         String fileConnectionId = JcrConnectionManager.createFileConnection(targetModel,
                dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
@@ -304,7 +290,7 @@ public class MBFacade
 
          PepperIconFactory iconFactory = new PepperIconFactory();
 
-         descriptor.importElements(iconFactory, model, true);
+         descriptor.importElements(iconFactory, targetModel, true);
 
       }
       return data;
