@@ -43,25 +43,40 @@ public class CrossModelSupportModelBuilderTest
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
       strategy.loadModels().add(consumerModel);
       strategy.loadModels().add(providerModel);
-      MBFacade.getInstance(strategy).createRole(providerModel, "Adminitrator", "Administrator");
-      MBFacade.getInstance().createRole(consumerModel, "Adminitrator", "Administrator");
-      MBFacade.getInstance().createPrimitiveData(providerModel, "ProvidedPrimitive",
-            "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
-      MBFacade.getInstance().createTypeDeclaration(providerModel, "ProvidedComposite",
-            "ProvidedComposite");
-      ProcessDefinitionType providedProcess = MBFacade.getInstance().createProcess(providerModel,
-            "ProvidedProcess", "ProvidedProcess");
-      ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel,
-            "ConsumerProcess", "ConsumerProcess");
-      MBFacade.getInstance().createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
-
-      MBFacade.getInstance().createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");
       
-      long maxOid = XpdlModelUtils.getMaxUsedOid(consumerModel);
-      MBFacade.getInstance().createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
-            "ProvidedProcess1", "ProvidedProcess1", null,
-            "ProviderModel:ProvidedProcess", maxOid);
+      //Participants
+      MBFacade.getInstance(strategy).createRole(providerModel, "Administrator", "Administrator");
+      MBFacade.getInstance().createRole(consumerModel, "Administrator", "Administrator");
+      
+      //Primitive Data
+      MBFacade.getInstance().createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+      
+      //Type Declaration      
+      MBFacade.getInstance().createTypeDeclaration(providerModel, "ProvidedComposite", "ProvidedComposite");
+      
+      //Processes
+      ProcessDefinitionType providedProcess = MBFacade.getInstance().createProcess(providerModel, "ProvidedProcess", "ProvidedProcess");
+      ProcessDefinitionType providedProcess2 = MBFacade.getInstance().createProcess(providerModel, "ProvidedProcess2", "ProvidedProcess2");      
+      ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel, "ConsumerProcess", "ConsumerProcess");
+      
+      
+      //Structured Data / Document Data
+      MBFacade.getInstance().createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
+      MBFacade.getInstance().createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");     
+      MBFacade.getInstance().createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
+      
+      //Applications     
+      MBFacade.getInstance().createApplication(providerModel, "WebService", "WebService", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
+      
+      //Activities      
+      MBFacade.getInstance().createActivity(providerModel, providedProcess2, "Manual", "ProviderModel:Administrator", "ManualActivity1", "ManualActivity1", null, null);            
+      MBFacade.getInstance().createActivity(providerModel, providedProcess2, "Application", null, "AppActivity1", "AppActivity1", "ProviderModel:WebService", null);      
+      MBFacade.getInstance().createActivity(consumerModel, consumerProcess, "Subprocess", null, "ProvidedProcess1", "ProvidedProcess1", null, "ProviderModel:ProvidedProcess");
+      
+      //Store
       byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);
+      
+      //Output
       System.out.println(new String(modelContent));
    }
 

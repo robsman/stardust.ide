@@ -213,13 +213,13 @@ public class MBFacade
    }
 
    public DataType createDocumentData(ModelType model, String id, String name,
-         String structuredDataFullId)
+         String structuredDataId)
    {
       DataType data;
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
-      if (!StringUtils.isEmpty(structuredDataFullId))
+      if (!StringUtils.isEmpty(structuredDataId))
       {
-         documentVariable.setTypeDeclaration(structuredDataFullId);
+         documentVariable.setTypeDeclaration(structuredDataId);
       }
 
       data = documentVariable.withIdAndName(id, name).build();
@@ -227,8 +227,8 @@ public class MBFacade
       return data;
    }
 
-
-   public DataType createStructuredData(ModelType model, String dataID, String dataName, String typeFullID)
+   public DataType createStructuredData(ModelType model, String dataID, String dataName,
+         String typeFullID)
    {
       DataType data;
       String sourceModelID = MBFacade.getInstance().getModelId(typeFullID);
@@ -238,7 +238,8 @@ public class MBFacade
       BpmStructVariableBuilder structVariable = newStructVariable(model);
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
-      data = structVariable.withIdAndName(dataID, dataName).ofType(this.stripFullId(typeFullID)).build();
+      data = structVariable.withIdAndName(dataID, dataName)
+            .ofType(this.stripFullId(typeFullID)).build();
 
       return data;
    }
@@ -378,11 +379,26 @@ public class MBFacade
       return org;
    }
 
-   public ActivityType createActivity(String modelId,
+   public ApplicationType createApplication(ModelType model, String applicationID,
+         String applicationName, String applicationTypeID)
+   {
+      ApplicationType application = AbstractElementBuilder.F_CWM
+            .createApplicationType();
+      application.setId(applicationID);
+      application.setName(applicationName);
+      model.getApplication().add(application);
+      application.setType(findApplicationTypeType(model,
+            applicationTypeID));
+      return application;
+   }
+
+   public ActivityType createActivity(ModelType model,
          ProcessDefinitionType processDefinition, String activityType,
          String participantFullID, String activityID, String activityName,
-         String applicationFullID, String subProcessFullID, long maxOid)
+         String applicationFullID, String subProcessFullID)
    {
+      long maxOid = XpdlModelUtils.getMaxUsedOid(model) + 1;
+
       ActivityType activity = null;
 
       if (ModelerConstants.MANUAL_ACTIVITY.equals(activityType))
@@ -406,7 +422,7 @@ public class MBFacade
          String stripFullId_ = getModelId(applicationFullID);
          if (StringUtils.isEmpty(stripFullId_))
          {
-            stripFullId_ = modelId;
+            stripFullId_ = model.getId();
          }
 
          ApplicationType application = getApplication(stripFullId_,
@@ -428,7 +444,7 @@ public class MBFacade
          String stripFullId = getModelId(subProcessFullID);
          if (StringUtils.isEmpty(stripFullId))
          {
-            stripFullId = modelId;
+            stripFullId = model.getId();
          }
 
          ProcessDefinitionType subProcessDefinition = findProcessDefinition(
@@ -440,7 +456,7 @@ public class MBFacade
          subProcessActivity.setSubProcessModel(subProcessModel);
 
          activity = subProcessActivity
-               .withIdAndName(modelId, activityName)
+               .withIdAndName(model.getId(), activityName)
                .invokingProcess(
                      findProcessDefinition(
                            getModelManagementStrategy().getModels().get(
