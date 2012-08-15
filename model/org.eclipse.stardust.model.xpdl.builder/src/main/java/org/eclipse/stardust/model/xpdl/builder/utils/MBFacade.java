@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
+import org.eclipse.stardust.engine.api.runtime.DeploymentException;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
@@ -164,13 +165,23 @@ public class MBFacade
       return belongsTo;
    }
 
-   public TypeDeclarationType createTypeDeclaration(ModelType model, String typeId,
+   
+   /**
+    * Created a type declaration.
+    *
+    * @param model      model to create the type declaration in
+    * @param typeID     id of the type
+    * @param typeName   name of the type
+    *
+    * @return type declaration created  
+    */
+   public TypeDeclarationType createTypeDeclaration(ModelType model, String typeID,
          String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
             .createTypeDeclarationType();
 
-      structuredDataType.setId(typeId);
+      structuredDataType.setId(typeID);
       structuredDataType.setName(typeName);
 
       SchemaTypeType schema = XpdlFactory.eINSTANCE.createSchemaTypeType();
@@ -212,21 +223,43 @@ public class MBFacade
       return structuredDataType;
    }
 
-   public DataType createDocumentData(ModelType model, String id, String name,
-         String structuredDataId)
+   /**
+    * Created a data of type <b>Document</b>.
+    *
+    * @param model              model to create the document data in
+    * @param dataID             id of the data
+    * @param dataName           name of the data
+    * @param typeDeclarationID  id of the type declaration assigned to the document
+    *
+    * @return document data created  
+    */   
+   public DataType createDocumentData(ModelType model, String dataID, String dataName,
+         String typeDeclarationID)
    {
       DataType data;
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
-      if (!StringUtils.isEmpty(structuredDataId))
+      if (!StringUtils.isEmpty(typeDeclarationID))
       {
-         documentVariable.setTypeDeclaration(structuredDataId);
+         documentVariable.setTypeDeclaration(typeDeclarationID);
       }
 
-      data = documentVariable.withIdAndName(id, name).build();
+      data = documentVariable.withIdAndName(dataID, dataName).build();
 
       return data;
    }
-
+   
+   /**
+    * Created a data of type <b>Structured Type</b>.
+    *
+    * <p>The <i>typeFullID</i> id provided as <b>ModelID:TypedeclarationID<b>.</p> 
+    *
+    * @param model       model to create the document data in
+    * @param dataID      id of the data
+    * @param dataName    name of the data
+    * @param typeFullID  full qualified id of the type declaration assigned to the document
+    *
+    * @return structured data created  
+    */  
    public DataType createStructuredData(ModelType model, String dataID, String dataName,
          String typeFullID)
    {
@@ -244,34 +277,53 @@ public class MBFacade
       return data;
    }
 
-   public DataType createPrimitiveData(ModelType model, String id, String name,
-         String primitiveType)
+   /**
+    * Created a primitive data.
+    *
+    * <p>As <b>primitiveTypeID</b> might be set:</p>
+    * <p></p>
+    * <li>ModelerConstants.STRING_PRIMITIVE_DATA_TYPE</li>
+    * <li>ModelerConstants.DATE_PRIMITIVE_DATA_TYPE</li>
+    * <li>ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE</li>  
+    * <li>ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE</li>
+    * <li>ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE</li>
+    * <ul></ul>
+    *  
+    * @param model              model to create the data in
+    * @param dataID             id of the data
+    * @param dataName           name of the data
+    * @param primitiveTypeID    id of the data
+    *     
+    * @return primitive data created  
+    */
+   public DataType createPrimitiveData(ModelType model, String dataID, String dataName,
+         String primitiveTypeID)
    {
       DataType data;
       Type type = null;
 
-      if (primitiveType.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
+      if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
       {
          type = Type.String;
       }
-      else if (primitiveType.equals(ModelerConstants.DATE_PRIMITIVE_DATA_TYPE))
+      else if (primitiveTypeID.equals(ModelerConstants.DATE_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Calendar;
       }
-      else if (primitiveType.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
+      else if (primitiveTypeID.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Integer;
       }
-      else if (primitiveType.equals(ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE))
+      else if (primitiveTypeID.equals(ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Double;
       }
-      else if (primitiveType.equals(ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE))
+      else if (primitiveTypeID.equals(ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE))
       {
          type = Type.Money;
       }
 
-      data = newPrimitiveVariable(model).withIdAndName(id, name).ofType(type).build();
+      data = newPrimitiveVariable(model).withIdAndName(dataID, dataName).ofType(type).build();
 
       return data;
    }
@@ -296,22 +348,6 @@ public class MBFacade
 
       parentLaneSymbol.getDataSymbol().add(dataSymbol);
       return dataSymbol;
-   }
-
-   public DataType createNewPrimitive(ModelType model, String dataID, String dataName)
-   {
-      DataType data;
-      Type type = null;
-
-      if (true)
-      {
-         type = Type.String;
-      }
-
-      data = newPrimitiveVariable(model)
-            .withIdAndName(stripFullId(dataID), stripFullId(dataName)).ofType(type)
-            .build();
-      return data;
    }
 
    public DataType importData(ModelType targetModel, String dataFullID)
