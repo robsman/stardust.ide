@@ -28,9 +28,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
@@ -63,9 +65,19 @@ import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDSchema;
 
 public class MBFacade
 {
@@ -161,6 +173,40 @@ public class MBFacade
       structuredDataType.setId(typeId);
       structuredDataType.setName(typeName);
 
+      SchemaTypeType schema = XpdlFactory.eINSTANCE.createSchemaTypeType();
+      structuredDataType.setSchemaType(schema);
+
+      XSDSchema xsdSchema = XSDFactory.eINSTANCE.createXSDSchema();
+      xsdSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX,
+            XMLResource.XML_SCHEMA_URI);
+      xsdSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
+
+      xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(model,
+            structuredDataType.getId()));
+      String prefix = TypeDeclarationUtils.computePrefix(structuredDataType.getId(),
+            xsdSchema.getQNamePrefixToNamespaceMap().keySet());
+      xsdSchema.getQNamePrefixToNamespaceMap()
+            .put(prefix, xsdSchema.getTargetNamespace());
+      xsdSchema.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX
+            + structuredDataType.getId());
+      schema.setSchema(xsdSchema);
+
+      XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE
+            .createXSDComplexTypeDefinition();
+      xsdComplexTypeDefinition.setName(structuredDataType.getId());
+      XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
+      XSDModelGroup modelGroup = XSDFactory.eINSTANCE.createXSDModelGroup();
+      particle.setContent(modelGroup);
+      modelGroup.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
+      xsdComplexTypeDefinition.setContent(particle);
+      xsdSchema.getContents().add(xsdComplexTypeDefinition);
+
+      XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE
+            .createXSDElementDeclaration();
+      xsdElementDeclaration.setName(structuredDataType.getId());
+      xsdElementDeclaration.setTypeDefinition(xsdComplexTypeDefinition);
+      xsdSchema.getContents().add(xsdElementDeclaration);
+
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
 
       return structuredDataType;
@@ -181,17 +227,18 @@ public class MBFacade
       return data;
    }
 
-   public DataType createStructuredData(ModelType model, String stripFullId_, String id,
-         String name, String structuredDataFullId)
+
+   public DataType createStructuredData(ModelType model, String dataID, String dataName, String typeFullID)
    {
       DataType data;
+      String sourceModelID = MBFacade.getInstance().getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
-            stripFullId_);
+            sourceModelID);
 
       BpmStructVariableBuilder structVariable = newStructVariable(model);
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
-      data = structVariable.withIdAndName(id, name).ofType(structuredDataFullId).build();
+      data = structVariable.withIdAndName(dataID, dataName).ofType(this.stripFullId(typeFullID)).build();
 
       return data;
    }

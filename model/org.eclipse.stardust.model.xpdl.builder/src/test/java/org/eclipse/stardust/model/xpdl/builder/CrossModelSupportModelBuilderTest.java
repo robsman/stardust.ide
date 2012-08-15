@@ -53,13 +53,15 @@ public class CrossModelSupportModelBuilderTest
             "ProvidedProcess", "ProvidedProcess");
       ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel,
             "ConsumerProcess", "ConsumerProcess");
-      MBFacade.getInstance().createStructuredData(consumerModel, "ProviderModel", "ProvidedComposite1",
-            "ProvidedComposite1", "ProvidedComposite");
+      MBFacade.getInstance().createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
+
+      MBFacade.getInstance().createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");
+      
       long maxOid = XpdlModelUtils.getMaxUsedOid(consumerModel);
       MBFacade.getInstance().createActivity("ConsumerModel", consumerProcess, "Subprocess", null,
             "ProvidedProcess1", "ProvidedProcess1", null,
             "ProviderModel:ProvidedProcess", maxOid);
-      byte[] modelContent = XpdlModelIoUtils.saveModel(consumerModel);
+      byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);
       System.out.println(new String(modelContent));
    }
 

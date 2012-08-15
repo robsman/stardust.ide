@@ -115,7 +115,7 @@ public class BpmStructVariableBuilder
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
          
-         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), typeDeclaration, 
+         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element, 
                typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
                bundleId, null);
          

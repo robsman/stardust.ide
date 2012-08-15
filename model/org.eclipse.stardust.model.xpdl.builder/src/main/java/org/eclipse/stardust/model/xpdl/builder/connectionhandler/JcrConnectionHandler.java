@@ -33,6 +33,7 @@ import org.eclipse.stardust.engine.api.runtime.Document;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
+import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
@@ -74,7 +75,7 @@ public class JcrConnectionHandler implements ConnectionHandler
    synchronized ModelType loadModel(String id)
    {
       // TODO properly resolve current modelManagementStrategy
-      ModelManagementStrategy modelManagementStrategy = null;
+      ModelManagementStrategy modelManagementStrategy = MBFacade.getInstance().getModelManagementStrategy();
       return modelManagementStrategy.loadModel(id);
    }
 
