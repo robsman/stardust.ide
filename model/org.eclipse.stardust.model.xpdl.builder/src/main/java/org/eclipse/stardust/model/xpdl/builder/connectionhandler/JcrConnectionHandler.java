@@ -27,13 +27,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.runtime.Document;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
@@ -51,8 +49,9 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescri
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
+
 public class JcrConnectionHandler implements ConnectionHandler
-{
+{  
    DocumentManagementService documentManagementService;
 
    private static final String MODELS_DIR = "/process-models/";
@@ -62,6 +61,7 @@ public class JcrConnectionHandler implements ConnectionHandler
    private URI uri;
    private IObjectDescriptor[] children = null;
    private Connection connection;
+   private ModelManagementStrategy strategy;
 
    private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
          "role", "organization", "conditionalPerformer"
@@ -72,11 +72,15 @@ public class JcrConnectionHandler implements ConnectionHandler
    private EObjectDescriptor modelDescriptor;
    private ModelType model;
 
+   public JcrConnectionHandler(ModelManagementStrategy strategy)
+   {
+      this.strategy = strategy;
+   }
+
    synchronized ModelType loadModel(String id)
    {
-      // TODO properly resolve current modelManagementStrategy
-      ModelManagementStrategy modelManagementStrategy = MBFacade.getInstance().getModelManagementStrategy();
-      return modelManagementStrategy.loadModel(id);
+           
+      return strategy.loadModel(id);
    }
 
    private byte[] readModelContext(Document modelDocument) {

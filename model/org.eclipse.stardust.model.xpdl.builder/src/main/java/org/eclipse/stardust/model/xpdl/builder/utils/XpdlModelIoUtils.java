@@ -34,6 +34,7 @@ import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.impl.DocumentRootImpl;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
@@ -63,7 +64,7 @@ public class XpdlModelIoUtils
       return modelMap.get(id);
    }
    
-   public static JcrConnectionManager getJcrConnectionManager(ModelType model)
+   public static JcrConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
    {
       if(modelMap.get(model.getId()) == null)
       {
@@ -73,21 +74,21 @@ public class XpdlModelIoUtils
       JcrConnectionManager manager = map.get(model.getId());
       if(manager == null)
       {
-         manager = new JcrConnectionManager(model);
+         manager = new JcrConnectionManager(model, strategy);
          map.put(model.getId(), manager);
       }
       
       return manager;
    }
    
-   public static ModelType loadModel(byte[] modelXml)
+   public static ModelType loadModel(byte[] modelXml, ModelManagementStrategy strategy)
    {
       try
       {
          ByteArrayInputStream modelXmlReader = new ByteArrayInputStream(modelXml);
          try
          {
-            return loadModel(modelXmlReader);
+            return loadModel(modelXmlReader, strategy);
          }
          finally
          {
@@ -102,14 +103,14 @@ public class XpdlModelIoUtils
       }
    }
 
-   public static ModelType loadModel(InputStream modelXml) throws IOException
+   public static ModelType loadModel(InputStream modelXml,  ModelManagementStrategy strategy) throws IOException
    {
       File tmpPackage = null;
       try
       {
          tmpPackage = copyToTmpXpdlFile(modelXml);
 
-         return loadModel(tmpPackage);
+         return loadModel(tmpPackage, strategy);
       }
       finally
       {
@@ -120,7 +121,7 @@ public class XpdlModelIoUtils
       }
    }
 
-   public static ModelType loadModel(File modelXml) throws IOException
+   public static ModelType loadModel(File modelXml,  ModelManagementStrategy strategy) throws IOException
    {
       // optionally override default TraxFactory to get rid of a Xalan related bug of loosing namespace alias declarations
       final String ippTraxFactory = Parameters.instance().getString(
@@ -134,7 +135,7 @@ public class XpdlModelIoUtils
             System.setProperty(TransformerFactory.class.getName(), ippTraxFactory);
          }
 
-         WorkflowModelManager modelMgr = new JcrModelManager();
+         WorkflowModelManager modelMgr = new JcrModelManager(strategy);
          
          try
          {

@@ -38,6 +38,8 @@ public class CrossModelSupportModelBuilderTest
    public void initCrossModeling()
    {
       strategy = new InMemoryModelManagementStrategy();
+      
+      MBFacade facade = new MBFacade(strategy);
 
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
@@ -45,33 +47,33 @@ public class CrossModelSupportModelBuilderTest
       strategy.loadModels().add(providerModel);
       
       //Participants
-      MBFacade.getInstance(strategy).createRole(providerModel, "Administrator", "Administrator");
-      MBFacade.getInstance().createRole(consumerModel, "Administrator", "Administrator");
+      facade.createRole(providerModel, "Administrator", "Administrator");
+      facade.createRole(consumerModel, "Administrator", "Administrator");
       
       //Primitive Data
-      MBFacade.getInstance().createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+      facade.createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
       
       //Type Declaration      
-      MBFacade.getInstance().createTypeDeclaration(providerModel, "ProvidedComposite", "ProvidedComposite");
+      facade.createTypeDeclaration(providerModel, "ProvidedComposite", "ProvidedComposite");
       
       //Processes
-      ProcessDefinitionType providedProcess = MBFacade.getInstance().createProcess(providerModel, "ProvidedProcess", "ProvidedProcess");
-      ProcessDefinitionType providedProcess2 = MBFacade.getInstance().createProcess(providerModel, "ProvidedProcess2", "ProvidedProcess2");      
-      ProcessDefinitionType consumerProcess = MBFacade.getInstance().createProcess(consumerModel, "ConsumerProcess", "ConsumerProcess");
+      ProcessDefinitionType providedProcess = facade.createProcess(providerModel, "ProvidedProcess", "ProvidedProcess");
+      ProcessDefinitionType providedProcess2 = facade.createProcess(providerModel, "ProvidedProcess2", "ProvidedProcess2");      
+      ProcessDefinitionType consumerProcess = facade.createProcess(consumerModel, "ConsumerProcess", "ConsumerProcess");
       
       
       //Structured Data / Document Data
-      MBFacade.getInstance().createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
-      MBFacade.getInstance().createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");     
-      MBFacade.getInstance().createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
+      facade.createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
+      facade.createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");     
+      facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
       
       //Applications     
-      MBFacade.getInstance().createApplication(providerModel, "WebService", "WebService", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
+      facade.createApplication(providerModel, "WebService", "WebService", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
       
       //Activities      
-      MBFacade.getInstance().createActivity(providerModel, providedProcess2, "Manual", "ProviderModel:Administrator", "ManualActivity1", "ManualActivity1", null, null);            
-      MBFacade.getInstance().createActivity(providerModel, providedProcess2, "Application", null, "AppActivity1", "AppActivity1", "ProviderModel:WebService", null);      
-      MBFacade.getInstance().createActivity(consumerModel, consumerProcess, "Subprocess", null, "ProvidedProcess1", "ProvidedProcess1", null, "ProviderModel:ProvidedProcess");
+      facade.createActivity(providerModel, providedProcess2, "Manual", "ProviderModel:Administrator", "ManualActivity1", "ManualActivity1", null, null);            
+      facade.createActivity(providerModel, providedProcess2, "Application", null, "AppActivity1", "AppActivity1", "ProviderModel:WebService", null);      
+      facade.createActivity(consumerModel, consumerProcess, "Subprocess", null, "ProvidedProcess1", "ProvidedProcess1", null, "ProviderModel:ProvidedProcess");
       
       //Store
       byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);

@@ -21,6 +21,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 
@@ -28,10 +29,16 @@ public class JcrModelManager extends WorkflowModelManager
 {
    private JcrConnectionManager manager;
    private ModelType saveModel;
+   private ModelManagementStrategy strategy;
 
    public JcrModelManager()
    {
       super();
+   }
+
+   public JcrModelManager(ModelManagementStrategy strategy)
+   {
+      this.strategy = strategy;
    }
 
    public void setModel(ModelType model)
@@ -44,7 +51,7 @@ public class JcrModelManager extends WorkflowModelManager
    {
       if (model != null && model.getId() != null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(model);
+         manager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
          manager.resolve();
       }
       super.resolve(model);
@@ -54,7 +61,7 @@ public class JcrModelManager extends WorkflowModelManager
    {
       if (manager == null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(saveModel);
+         manager = XpdlModelIoUtils.getJcrConnectionManager(saveModel, strategy);
          if(saveModel.getConnectionManager() == null)
          {
             saveModel.setConnectionManager(manager);

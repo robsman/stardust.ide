@@ -31,7 +31,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
-import org.eclipse.stardust.engine.api.runtime.DeploymentException;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
@@ -82,29 +81,18 @@ import org.eclipse.xsd.XSDSchema;
 
 public class MBFacade
 {
-   private final static MBFacade mbFacade;
+   
 
    private ModelManagementStrategy modelManagementStrategy;
 
-   static
+   public MBFacade(ModelManagementStrategy modelManagementStrategy)
    {
-      mbFacade = new MBFacade();
+      this.modelManagementStrategy = modelManagementStrategy;
    }
 
-   private MBFacade()
+   public MBFacade()
    {
-
-   }
-
-   public static MBFacade getInstance()
-   {
-      return mbFacade;
-   }
-
-   public static MBFacade getInstance(ModelManagementStrategy modelManagementStrategy)
-   {
-      mbFacade.modelManagementStrategy = modelManagementStrategy;
-      return mbFacade;
+      // TODO Auto-generated constructor stub
    }
 
    public ModelManagementStrategy getModelManagementStrategy()
@@ -147,7 +135,7 @@ public class MBFacade
     * @param participant
     * @return list of organizations
     */
-   public List<OrganizationType> getParentOrganizations(ModelType model,
+   public static List<OrganizationType> getParentOrganizations(ModelType model,
          IModelParticipant participant)
    {
       List<OrganizationType> belongsTo = new ArrayList<OrganizationType>();
@@ -268,7 +256,7 @@ public class MBFacade
          String typeFullID)
    {
       DataType data;
-      String sourceModelID = MBFacade.getInstance().getModelId(typeFullID);
+      String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
 

@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.JcrConnectionHandler;
+import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
@@ -67,6 +68,8 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescri
 
 public class JcrConnectionManager implements IConnectionManager
 {
+   private static ModelManagementStrategy strategy;
+   
    private static final IFilter BY_REF_FILTER = new IFilter()
    {
       public boolean accept(Object object)
@@ -160,6 +163,7 @@ public class JcrConnectionManager implements IConnectionManager
 
    private ModelType model;
 
+
    // attribute name
 
    public void setModel(ModelType model)
@@ -168,8 +172,9 @@ public class JcrConnectionManager implements IConnectionManager
       model.setConnectionManager(this);      
    }
 
-   public JcrConnectionManager(ModelType model)
+   public JcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
    {
+      this.strategy = strategy;
       this.model = model;
       this.model.setConnectionManager(this);
 
@@ -429,7 +434,7 @@ public class JcrConnectionManager implements IConnectionManager
    
    private ConnectionHandler createHandler(String type) throws CoreException
    {
-      return new JcrConnectionHandler();
+      return new JcrConnectionHandler(strategy);
    }
 
    public void close(Connection connection) throws CoreException
@@ -870,7 +875,7 @@ public class JcrConnectionManager implements IConnectionManager
    {
       String id = null;
       
-      JcrConnectionManager jcrConnectionManager = XpdlModelIoUtils.getJcrConnectionManager(model);
+      JcrConnectionManager jcrConnectionManager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
       IConnection findConnection = jcrConnectionManager.getConnectionForAttribute("project:/" + referencedModel.getName() + ".xpdl");
       
       if(findConnection == null)
