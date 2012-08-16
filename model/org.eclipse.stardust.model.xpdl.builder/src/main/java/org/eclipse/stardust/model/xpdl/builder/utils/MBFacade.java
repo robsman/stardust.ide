@@ -1337,6 +1337,17 @@ public class MBFacade
             return dataMappingConnectionType;
          }
       }
+      
+      // TODO Support multiple pools
+
+      for (DataMappingConnectionType dataMappingConnectionType : processDefinition.getDiagram()
+            .get(0).getPoolSymbols().get(0).getDataMappingConnection())
+      {
+         if (dataMappingConnectionType.getElementOid() == oid)
+         {
+            return dataMappingConnectionType;
+         }
+      }
 
       throw new ObjectNotFoundException("Could not find " + oid + ".");
    }
