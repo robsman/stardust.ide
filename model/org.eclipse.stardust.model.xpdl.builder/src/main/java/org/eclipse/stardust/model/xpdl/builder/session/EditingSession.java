@@ -19,6 +19,7 @@ import java.util.UUID;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -31,7 +32,7 @@ public class EditingSession
 
    private final Set<ModelType> models = newHashSet();
 
-   private final ChangeRecorder emfChangeRecorder = new ChangeRecorder()
+   private ChangeRecorder emfChangeRecorder = new ChangeRecorder()
    {
       @Override
       protected boolean isOrphan(EObject eObject)
@@ -75,14 +76,22 @@ public class EditingSession
 
    public boolean isInEditMode()
    {
-      return emfChangeRecorder.isRecording();
+      return (null != emfChangeRecorder) && emfChangeRecorder.isRecording();
    }
 
    public boolean beginEdit()
    {
       if ( !isInEditMode())
       {
-         emfChangeRecorder.beginRecording(models);
+         this.emfChangeRecorder = new ChangeRecorder(models)
+         {
+            @Override
+            protected boolean isOrphan(EObject eObject)
+            {
+               // the models being watched should never be considered orphans
+               return !models.contains(eObject) && super.isOrphan(eObject);
+            }
+         };
 
          return isInEditMode();
       }
@@ -97,6 +106,9 @@ public class EditingSession
 	  if (isInEditMode())
       {
          ChangeDescription changeDescription = emfChangeRecorder.endRecording();
+         emfChangeRecorder.dispose();
+         this.emfChangeRecorder = null;
+
          if ( !redoableModifications.isEmpty())
          {
             redoableModifications.clear();

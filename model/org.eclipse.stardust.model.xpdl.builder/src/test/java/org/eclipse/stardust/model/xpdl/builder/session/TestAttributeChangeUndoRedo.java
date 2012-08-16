@@ -47,6 +47,11 @@ public class TestAttributeChangeUndoRedo
             "Test Process 1").build();
       editSession.endEdit();
       assertFalse(editSession.isInEditMode());
+      assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
+      assertTrue(editSession.getPendingUndo().changedObjects().contains(model));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(1));
+      assertTrue(editSession.getPendingUndo().addedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       editSession.beginEdit();
       assertTrue(editSession.isInEditMode());
@@ -56,6 +61,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
 
@@ -67,6 +74,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
 
@@ -77,6 +86,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
 
@@ -87,6 +98,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
 
@@ -98,6 +111,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
 
@@ -108,6 +123,8 @@ public class TestAttributeChangeUndoRedo
       assertFalse(editSession.isInEditMode());
       assertThat(editSession.getPendingUndo().changedObjects().size(), is(1));
       assertTrue(editSession.getPendingUndo().changedObjects().contains(pd1));
+      assertThat(editSession.getPendingUndo().addedObjects().size(), is(0));
+      assertThat(editSession.getPendingUndo().removedObjects().size(), is(0));
 
       traceChanges(editSession);
    }

@@ -115,15 +115,7 @@ public class Modification
             result.add(determineChangedElement(candidate));
          }
       }
-      for (EObject candidate : changeDescription.getObjectsToAttach())
-      {
-         if ( !isModelOrModelElement(candidate))
-         {
-            // report any change to a non-element sub-object as modification of the
-            // containing parent element
-            result.add(determineChangedElement(candidate));
-         }
-      }
+      // removed objects will automatically be reported as modifications of their container
 
       return result;
    }
