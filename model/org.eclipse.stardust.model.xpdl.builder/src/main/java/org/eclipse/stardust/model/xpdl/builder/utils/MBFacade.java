@@ -113,8 +113,9 @@ public class MBFacade
    }
 
    /**
+    * Sets the team leader for an organization.
     * 
-    * @param organization
+    * @param organization 
     * @param role
     * @return
     */
@@ -124,6 +125,7 @@ public class MBFacade
    }
 
    /**
+    * Adds a participant to an organization.
     * 
     * @param organization
     * @param participant
@@ -139,9 +141,11 @@ public class MBFacade
    }
 
    /**
+    * Returns a list of organizations a participants belongs to.
+    * 
     * @param model
     * @param participant
-    * @return
+    * @return list of organizations
     */
    public List<OrganizationType> getParentOrganizations(ModelType model,
          IModelParticipant participant)
@@ -251,7 +255,7 @@ public class MBFacade
    /**
     * Created a data of type <b>Structured Type</b>.
     *
-    * <p>The <i>typeFullID</i> id provided as <b>ModelID:TypedeclarationID<b>.</p> 
+    * <p>The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.</p> 
     *
     * @param model       model to create the document data in
     * @param dataID      id of the data
@@ -327,7 +331,7 @@ public class MBFacade
 
       return data;
    }
-
+   
    public DataSymbolType createDataSymbol(ProcessDefinitionType processDefinition,
          int xProperty, int yProperty, int widthProperty, int heightProperty,
          String parentSymbolID, long maxOid, DataType data)
@@ -350,7 +354,20 @@ public class MBFacade
       return dataSymbol;
    }
 
-   public DataType importData(ModelType targetModel, String dataFullID)
+   /**
+    * Imports a data into an existing model. The model to import the data from is qualified by a
+    * full qualified id of the data. If the data exists in a model which differs from the model 
+    * to import the data in, then a file connection is established and a reference is created.
+    * If the data exists locally in the model this is not necessary.
+    * 
+    * <p>The <i>dataFullID</i> id provided as <b>ModelID:DataID</b>.</p>  
+    *
+    * @param model          model to import a data in
+    * @param dataFullID     full qualified id of the data to be imported
+    *
+    * @return local or referenced data  
+    */ 
+   public DataType importData(ModelType model, String dataFullID)
    {
       DataType data;
       // TODO Cross-model references
@@ -361,9 +378,9 @@ public class MBFacade
 
       data = findData(dataModel, stripFullId(dataFullID));
 
-      if (!dataModelId.equals(targetModel.getId()))
+      if (!dataModelId.equals(model.getId()))
       {
-         String fileConnectionId = JcrConnectionManager.createFileConnection(targetModel,
+         String fileConnectionId = JcrConnectionManager.createFileConnection(model,
                dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
@@ -374,7 +391,7 @@ public class MBFacade
 
          PepperIconFactory iconFactory = new PepperIconFactory();
 
-         descriptor.importElements(iconFactory, targetModel, true);
+         descriptor.importElements(iconFactory, model, true);
 
       }
       return data;
@@ -402,12 +419,28 @@ public class MBFacade
       return activitySymbol;
    }
 
+   /**
+    * Creates a role.
+    * 
+    * @param model      The model to create the role in. 
+    * @param roleID     id of the role
+    * @param roleName   name of the role
+    * @return role created
+    */
    public RoleType createRole(ModelType model, String roleID, String roleName)
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
       return role;
    }
 
+   /**
+    * Creates an organization.
+    * 
+    * @param model      The model to create the organization in. 
+    * @param orgID      id of the organization
+    * @param orgName   name of the organization
+    * @return organization created
+    */
    public OrganizationType createOrganization(ModelType model, String orgID,
          String orgName)
    {
@@ -415,6 +448,25 @@ public class MBFacade
       return org;
    }
 
+   /**
+    * Creates an application.
+    * 
+    * <p>As <b>applicationTypeID</b> might be set:</p>
+    * <p></p>
+    * <li>ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID</li>
+    * <li>ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID</li>
+    * <li>ModelerConstants.CAMEL_APPLICATION_TYPE</li>  
+    * <li>ModelerConstants.MAIL_APPLICATION_TYPE_ID</li>
+    * <li>ModelerConstants.INTERACTIVE_APPLICATION_TYPE_KEY</li>
+    * <li>ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY</li>
+    * <ul></ul>
+    * 
+    * @param model              model to create the application in. 
+    * @param applicationID      id of the application
+    * @param applicationName    name of the application
+    * @param applicationTypeID  id of the application type to be set
+    * @return application created
+    */
    public ApplicationType createApplication(ModelType model, String applicationID,
          String applicationName, String applicationTypeID)
    {
@@ -428,8 +480,36 @@ public class MBFacade
       return application;
    }
 
+   /**
+    * Creates an activity.
+    * 
+    * <p>As <b>activityTypeID</b> might be set:</p>
+    * <p></p>
+    * <li>ModelerConstants.MANUAL_ACTIVITY</li>
+    * <li>ModelerConstants.APPLICATION_ACTIVITY</li>
+    * <li>ModelerConstants.SUBPROCESS_ACTIVITY</li>
+    * <ul></ul>
+    * 
+    * <p>The <b>xxxFullID</b> are provided like that:</p>
+    * <p></p>
+    * <li>The <i>participantFullID</i> id provided as <b>ModelID:ParticipantID</b>.</p></li>
+    * <li>The <i>applicationFullID</i> id provided as <b>ModelID:ApplicationID</b>.</p></li>
+    * <li>The <i>subProcessFullID</i> id provided as <b>ModelID:ProcessID</b>.</p></li>
+    * <ul></ul>
+    * 
+    * @param model              model to create the activity in. 
+    * @param processDefinition  process definition to create the activity in.
+    * @param activityTypeID     id of the activity type
+    * @param participantFullID  full qualified id of the participant to be assigned <i>(MANUAL_ACTIVITY only)</i>
+    * @param activityID         id of the activity
+    * @param activityName       name of the activity
+    * @param applicationFullID  full qualified id of the application to be assigned <i>(APPLICATION_ACTIVITY only)</i>
+    * @param subProcessFullID   full qualified id of the process to be assigned <i>(SUBPROCESS_ACTIVITY only)</i>
+    * 
+    * @return activity created
+    */
    public ActivityType createActivity(ModelType model,
-         ProcessDefinitionType processDefinition, String activityType,
+         ProcessDefinitionType processDefinition, String activityTypeID,
          String participantFullID, String activityID, String activityName,
          String applicationFullID, String subProcessFullID)
    {
@@ -437,7 +517,7 @@ public class MBFacade
 
       ActivityType activity = null;
 
-      if (ModelerConstants.MANUAL_ACTIVITY.equals(activityType))
+      if (ModelerConstants.MANUAL_ACTIVITY.equals(activityTypeID))
       {
          if (participantFullID != null)
          {
@@ -451,7 +531,7 @@ public class MBFacade
                   activityName).build();
          }
       }
-      else if (ModelerConstants.APPLICATION_ACTIVITY.equals(activityType))
+      else if (ModelerConstants.APPLICATION_ACTIVITY.equals(activityTypeID))
 
       {
 
@@ -474,7 +554,7 @@ public class MBFacade
                            stripFullId(applicationFullID))).build();
          // }
       }
-      else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityType))
+      else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityTypeID))
       {
 
          String stripFullId = getModelId(subProcessFullID);
