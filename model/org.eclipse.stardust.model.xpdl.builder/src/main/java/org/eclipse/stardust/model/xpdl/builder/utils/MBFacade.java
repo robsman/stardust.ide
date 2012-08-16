@@ -588,10 +588,18 @@ public class MBFacade
       return activity;
    }
 
-   public ProcessDefinitionType createProcess(ModelType model, String name, String id)
+   /**
+    * Creates a process.
+    * 
+    * @param model          model to create the process in 
+    * @param processID      id of the process
+    * @param processName    name of the process
+    * @return process created
+    */
+   public ProcessDefinitionType createProcess(ModelType model, String processName, String processID)
    {
       ProcessDefinitionType processDefinition = newProcessDefinition(model)
-            .withIdAndName(id, name).build();
+            .withIdAndName(processID, processName).build();
 
       // Create diagram bits too
 
