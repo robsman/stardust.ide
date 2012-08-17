@@ -16,20 +16,19 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CrossModelSupportModelBuilderTest
 {
@@ -65,7 +64,7 @@ public class CrossModelSupportModelBuilderTest
       
       
       //Structured Data / Document Data
-      facade.createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
+      DataType localComposite = facade.createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
       facade.createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");     
       facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
       
@@ -74,14 +73,14 @@ public class CrossModelSupportModelBuilderTest
       facade.createApplication(providerModel, "Message Transformation", "Message Transformation", ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
       
       //Activities      
-      ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Manual", "ProviderModel:Administrator", "ManualActivity1", "ManualActivity1", null, null);            
-      facade.createActivity(providerModel, providedProcess2, "Application", null, "AppActivity1", "AppActivity1", "ProviderModel:WebService", null);      
-      facade.createActivity(consumerModel, consumerProcess, "Subprocess", null, "ProvidedProcess1", "ProvidedProcess1", null, "ProviderModel:ProvidedProcess");
+      ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Manual", "ManualActivity1", "ManualActivity1", "ProviderModel:Administrator", null, null);            
+      facade.createActivity(providerModel, providedProcess2, "Application", "AppActivity1", "AppActivity1", null, "ProviderModel:WebService", null);      
+      facade.createActivity(consumerModel, consumerProcess, "Subprocess", "ProvidedProcess1", "ProvidedProcess1", null, null, "ProviderModel:ProvidedProcess");
       
       //Symbols
       LaneSymbol laneSymbol = facade.findLaneSymbolById(providedProcess2, "DefaultLane");
-      facade.createActivitySymbol(providerModel, providedProcess2, laneSymbol.getId(), 40, 40, 180, 50, activity1);
-      
+      facade.createActivitySymbol(providerModel, activity1, providedProcess2, laneSymbol.getId(), 40, 40, 180, 50);
+      facade.createDataSymbol(providerModel, localComposite, providedProcess2, laneSymbol.getId(), 100, 100, 40, 80);
       
       //Store
       byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);

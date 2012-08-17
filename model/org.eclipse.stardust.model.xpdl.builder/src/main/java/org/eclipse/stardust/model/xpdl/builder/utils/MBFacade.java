@@ -292,6 +292,7 @@ public class MBFacade
          String primitiveTypeID)
    {
       DataType data;
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       Type type = null;
 
       if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
@@ -316,30 +317,9 @@ public class MBFacade
       }
 
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName).ofType(type).build();
+      data.setElementOid(++maxOID);
 
       return data;
-   }
-   
-   public DataSymbolType createDataSymbol(ProcessDefinitionType processDefinition,
-         int xProperty, int yProperty, int widthProperty, int heightProperty,
-         String parentSymbolID, long maxOid, DataType data)
-   {
-      DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
-      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentSymbolID);
-
-      dataSymbol.setElementOid(++maxOid);
-
-      dataSymbol.setData(data);
-
-      processDefinition.getDiagram().get(0).getDataSymbol().add(dataSymbol);
-      data.getDataSymbols().add(dataSymbol);
-      dataSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
-      dataSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
-      dataSymbol.setWidth(widthProperty);
-      dataSymbol.setHeight(heightProperty);
-
-      parentLaneSymbol.getDataSymbol().add(dataSymbol);
-      return dataSymbol;
    }
 
    /**
@@ -386,28 +366,121 @@ public class MBFacade
    }
 
    /**
+    * Creates lane in a diagram
+    * 
+    * <p>The <i>participantFullID</i> id is provided as <b>ModelID:ParticipantID</b>.</p>
+    * 
+    * <p>As <b>orientation</b> might be set:</p>
+    * <p></p>
+    * <li>ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL</li>
+    * <li>ModelerConstants.DIAGRAM_FLOW_ORIENTATION_VERTICAL</li>
+    * <ul></ul>
+    * 
+    * @param model model to create the lane in
+    * @param processDefinition process definition to create the lane in
+    * @param participantFullID  full qualified id of the participant assigned to the lane
+    * @param laneID id of the lane
+    * @param laneName name of the lane
+    * @param orientationID orientation of the lane
+    * @param xProperty x position
+    * @param yProperty y position
+    * @param widthProperty width
+    * @param heightProperty height
+    * @return lane created 
+    */ 
+   public LaneSymbol createLane(ModelType model,
+         ProcessDefinitionType processDefinition, String participantFullID, String laneID,
+         String laneName, String orientationID, int xProperty, int yProperty, int widthProperty,
+         int heightProperty)
+   {
+      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
+
+      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+
+      processDefinition.getDiagram().get(0).getPoolSymbols().get(0).getChildLanes()
+            .add(laneSymbol);
+
+      laneSymbol.setElementOid(++maxOid);
+
+      laneSymbol.setId(laneID);
+      laneSymbol.setName(laneName);
+      laneSymbol.setXPos(xProperty);
+      laneSymbol.setYPos(yProperty);
+      laneSymbol.setWidth(widthProperty);
+      laneSymbol.setHeight(heightProperty);
+
+      if (orientationID.equals(ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL))
+      {
+         laneSymbol.setOrientation(OrientationType.HORIZONTAL_LITERAL);
+      }
+      else
+      {
+         laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+      }
+
+      if (participantFullID != null)
+      {
+
+         String participantModelID = getModelId(participantFullID);
+         if (StringUtils.isEmpty(participantModelID))
+         {
+            participantModelID = model.getId();
+         }
+         ModelType participantModel = model;
+         if (!participantModelID.equals(model.getId()))
+         {
+            participantModel = getModelManagementStrategy().getModels().get(
+                  participantModelID);
+         }
+
+         IModelParticipant modelParticipant = findParticipant(
+               getModelManagementStrategy().getModels().get(participantModelID),
+               stripFullId(participantFullID));
+
+         if (!participantModelID.equals(model.getId()))
+         {
+            String fileConnectionId = JcrConnectionManager.createFileConnection(model,
+                  participantModel);
+
+            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
+                  uri, modelParticipant, bundleId, null, true);
+
+            PepperIconFactory iconFactory = new PepperIconFactory();
+
+            descriptor.importElements(iconFactory, model, true);
+         }
+
+         laneSymbol.setParticipant(modelParticipant);
+      }
+      return laneSymbol;
+   }
+   
+   /**
     * Create an activity diagram symbol
     * 
+    * @param model model to create the symbol in
+    * @param activity activity for which the symbol is created
     * @param processDefinition process definition to create the symbol in
-    * @param parentSymbolID
-    * @param xProperty
-    * @param yProperty
-    * @param widthProperty
-    * @param heightProperty
-    * @param activity
-    *
-    * @return local or referenced data  
+    * @param parentLaneID id of the lane to create the symbol in
+    * @param xProperty x position
+    * @param yProperty y position
+    * @param widthProperty width
+    * @param heightProperty height
+    * @return activity symbol  
     */ 
    public ActivitySymbolType createActivitySymbol(ModelType model,
-         ProcessDefinitionType processDefinition, String parentSymbolID, int xProperty,
-         int yProperty, int widthProperty, int heightProperty,
-         ActivityType activity)
+         ActivityType activity, ProcessDefinitionType processDefinition, String parentLaneID,
+         int xProperty, int yProperty, int widthProperty,
+         int heightProperty)
    {
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM
             .createActivitySymbolType();
-      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentSymbolID);
+      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
       activitySymbol.setElementOid(++maxOID);
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
@@ -420,6 +493,43 @@ public class MBFacade
       processDefinition.getDiagram().get(0).getActivitySymbol().add(activitySymbol);
       parentLaneSymbol.getActivitySymbol().add(activitySymbol);
       return activitySymbol;
+   }
+   
+   /**
+    * Create a data diagram symbol
+    * 
+    * @param model model to create the symbol in
+    * @param data data for which the symbol is created
+    * @param processDefinition process definition to create the symbol in
+    * @param parentLaneID id of the lane to create the symbol in
+    * @param xProperty x position
+    * @param yProperty y position
+    * @param widthProperty width
+    * @param heightProperty height
+    * @return data symbol  
+    */  
+   public DataSymbolType createDataSymbol(ModelType model, DataType data,
+         ProcessDefinitionType processDefinition, String parentLaneID, int xProperty, int yProperty,
+         int widthProperty, int heightProperty)
+   {
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
+      
+      DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
+      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
+
+      dataSymbol.setElementOid(++maxOID);
+
+      dataSymbol.setData(data);
+
+      processDefinition.getDiagram().get(0).getDataSymbol().add(dataSymbol);
+      data.getDataSymbols().add(dataSymbol);
+      dataSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
+      dataSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
+      dataSymbol.setWidth(widthProperty);
+      dataSymbol.setHeight(heightProperty);
+
+      parentLaneSymbol.getDataSymbol().add(dataSymbol);
+      return dataSymbol;
    }
 
    /**
@@ -521,17 +631,16 @@ public class MBFacade
     * @param model              model to create the activity in. 
     * @param processDefinition  process definition to create the activity in.
     * @param activityTypeID     id of the activity type
-    * @param participantFullID  full qualified id of the participant to be assigned <i>(MANUAL_ACTIVITY only)</i>
     * @param activityID         id of the activity
     * @param activityName       name of the activity
+    * @param participantFullID  full qualified id of the participant to be assigned <i>(MANUAL_ACTIVITY only)</i>
     * @param applicationFullID  full qualified id of the application to be assigned <i>(APPLICATION_ACTIVITY only)</i>
     * @param subProcessFullID   full qualified id of the process to be assigned <i>(SUBPROCESS_ACTIVITY only)</i>
-    * 
     * @return activity created
     */
    public ActivityType createActivity(ModelType model,
          ProcessDefinitionType processDefinition, String activityTypeID,
-         String participantFullID, String activityID, String activityName,
+         String activityID, String activityName, String participantFullID,
          String applicationFullID, String subProcessFullID)
    {
       long maxOid = XpdlModelUtils.getMaxUsedOid(model) + 1;
@@ -664,83 +773,12 @@ public class MBFacade
       return processDefinition;
    }
 
-   public LaneSymbol createLane(String modelId, ModelType model,
-         ProcessDefinitionType processDefinition, String laneId, String laneName,
-         int xPos, int yPos, int width, int height, String orientation,
-         String participantFullID)
-   {
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-
-      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
-
-      processDefinition.getDiagram().get(0).getPoolSymbols().get(0).getChildLanes()
-            .add(laneSymbol);
-
-      laneSymbol.setElementOid(++maxOid);
-
-      laneSymbol.setId(laneId);
-      laneSymbol.setName(laneName);
-      laneSymbol.setXPos(xPos);
-      laneSymbol.setYPos(yPos);
-      laneSymbol.setWidth(width);
-      laneSymbol.setHeight(height);
-
-      if (orientation.equals(ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL))
-      {
-         laneSymbol.setOrientation(OrientationType.HORIZONTAL_LITERAL);
-      }
-      else
-      {
-         laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
-      }
-
-      // TODO Deal with full Ids
-
-      if (participantFullID != null)
-      {
-
-         String participantModelID = getModelId(participantFullID);
-         if (StringUtils.isEmpty(participantModelID))
-         {
-            participantModelID = modelId;
-         }
-         ModelType participantModel = model;
-         if (!participantModelID.equals(modelId))
-         {
-            participantModel = getModelManagementStrategy().getModels().get(
-                  participantModelID);
-         }
-
-         IModelParticipant modelParticipant = findParticipant(
-               getModelManagementStrategy().getModels().get(participantModelID),
-               stripFullId(participantFullID));
-
-         if (!participantModelID.equals(modelId))
-         {
-            String fileConnectionId = JcrConnectionManager.createFileConnection(model,
-                  participantModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-                  uri, modelParticipant, bundleId, null, true);
-
-            PepperIconFactory iconFactory = new PepperIconFactory();
-
-            descriptor.importElements(iconFactory, model, true);
-         }
-
-         laneSymbol.setParticipant(modelParticipant);
-      }
-      return laneSymbol;
-   }
-
+   
    public ModelType findModel(String modelId)
    {
       return getModelManagementStrategy().getModels().get(modelId);
-   }
-
+   } 
+   
    /**
     * 
     * @param model
