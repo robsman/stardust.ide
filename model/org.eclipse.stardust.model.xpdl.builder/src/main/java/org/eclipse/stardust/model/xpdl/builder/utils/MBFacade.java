@@ -1535,8 +1535,11 @@ public class MBFacade
    public String createFullId(ModelType model, IIdentifiableModelElement modelElement)
    {
       // TODO Change to {modelId}elementId
-
-      return model.getId() + ":" + modelElement.getId();
+      if (null != model && null != modelElement)
+      {
+         return model.getId() + ":" + modelElement.getId();
+      }
+      return null;
    }
 
    /**
