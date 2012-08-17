@@ -385,16 +385,31 @@ public class MBFacade
       return data;
    }
 
-   public ActivitySymbolType createActivitySymbol(
+   /**
+    * Create an activity diagram symbol
+    * 
+    * @param processDefinition process definition to create the symbol in
+    * @param parentSymbolID
+    * @param xProperty
+    * @param yProperty
+    * @param widthProperty
+    * @param heightProperty
+    * @param activity
+    *
+    * @return local or referenced data  
+    */ 
+   public ActivitySymbolType createActivitySymbol(ModelType model,
          ProcessDefinitionType processDefinition, String parentSymbolID, int xProperty,
-         int yProperty, int widthProperty, int heightProperty, long maxOid,
+         int yProperty, int widthProperty, int heightProperty,
          ActivityType activity)
    {
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
+      
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM
             .createActivitySymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentSymbolID);
 
-      activitySymbol.setElementOid(++maxOid);
+      activitySymbol.setElementOid(++maxOID);
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       activitySymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       activitySymbol.setWidth(widthProperty);
@@ -458,13 +473,31 @@ public class MBFacade
    public ApplicationType createApplication(ModelType model, String applicationID,
          String applicationName, String applicationTypeID)
    {
-      ApplicationType application = AbstractElementBuilder.F_CWM
-            .createApplicationType();
+      ApplicationType application = AbstractElementBuilder.F_CWM.createApplicationType();
       application.setId(applicationID);
       application.setName(applicationName);
+      ApplicationTypeType applicationTypeType = null;
+      try
+      {
+         applicationTypeType = findApplicationTypeType(model, applicationTypeID);
+      }
+      catch (Throwable t)
+      {
+         if (applicationTypeID
+               .equalsIgnoreCase(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID))
+         {
+            applicationTypeType = AbstractElementBuilder.F_CWM
+                  .createApplicationTypeType();
+            applicationTypeType.setId(applicationTypeID);
+            applicationTypeType.setName("Message Transformation Application");
+            applicationTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            applicationTypeType.setElementOid(++maxElementOid);
+            model.getApplicationType().add(applicationTypeType);
+         }
+      }
+      application.setType(applicationTypeType);
       model.getApplication().add(application);
-      application.setType(findApplicationTypeType(model,
-            applicationTypeID));
       return application;
    }
 
