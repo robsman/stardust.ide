@@ -154,6 +154,7 @@ public class ModelerConstants
    public static final String DATA_SYMBOL = "dataSymbol";
    public static final String DESCRIPTOR_PROPERTY = "descriptor";
    public static final String KEY_DESCRIPTOR_PROPERTY = "keyDescriptor";
+   public static final String DATA_TYPE_PROPERTY = "dataType";
    public static String DATA_PATHES_PROPERTY = "dataPathes";
 
 }
