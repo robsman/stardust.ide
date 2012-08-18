@@ -156,6 +156,7 @@ public class ModelerConstants
    public static final String KEY_DESCRIPTOR_PROPERTY = "keyDescriptor";
    public static final String DATA_TYPE_PROPERTY = "dataType";
    public static final String PRIMITIVE_DATA_TYPE_PROPERTY = "primitiveDataType";
+   public static final String DEFAULT_PRIORITY_PROPERTY = "defaultPriority";
    public static String DATA_PATHES_PROPERTY = "dataPathes";
 
 }
