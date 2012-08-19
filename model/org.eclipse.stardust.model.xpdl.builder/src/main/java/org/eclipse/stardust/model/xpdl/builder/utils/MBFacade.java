@@ -45,6 +45,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -81,8 +82,6 @@ import org.eclipse.xsd.XSDSchema;
 
 public class MBFacade
 {
-   
-
    private ModelManagementStrategy modelManagementStrategy;
 
    public MBFacade(ModelManagementStrategy modelManagementStrategy)
@@ -157,7 +156,6 @@ public class MBFacade
       return belongsTo;
    }
 
-   
    /**
     * Created a type declaration.
     *
@@ -773,7 +771,20 @@ public class MBFacade
       return processDefinition;
    }
 
+   /**
+    * 
+    * @return
+    */
+   public DataPathType createDataPath()
+   {
+      return AbstractElementBuilder.F_CWM.createDataPathType();      
+   }
    
+   /**
+    * 
+    * @param modelId
+    * @return
+    */
    public ModelType findModel(String modelId)
    {
       return getModelManagementStrategy().getModels().get(modelId);
