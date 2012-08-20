@@ -26,7 +26,7 @@
 	5. Enter the name <b>Init Data</b>.<br/>
 	6. Repeat these steps to create the following activities:<br/>
 	</description>
-	 	<subitem label="Create Case - Manual Activity" />
+	 	<subitem label="Enter Data - Manual Activity" />
 	 	<subitem label="Analyze To Solve - Manual Activity" />
    		<subitem label="Deliver Patch - Manual Activity" />
   		<subitem label="Notify Customer - Application Activity" />.
@@ -41,8 +41,8 @@
      3. Click the subsequent activity after.<br/>
      4. In that way create the following transitions:<br/>
      </description>
-	 	<subitem label="Init Data to Create Case" />
-	 	<subitem label="Create Case to Analyze to Solve" />
+	 	<subitem label="Init Data to Enter Data" />
+	 	<subitem label="Enter Data to Analyze to Solve" />
    		<subitem label="Analyze to Solve to Deliver Patch" />
   </item>
 </cheatsheet>

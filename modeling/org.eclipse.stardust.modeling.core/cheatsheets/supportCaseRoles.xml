@@ -29,10 +29,10 @@
    </item>
    <item title="Assigning a Role to an Activity" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-8.htm#assignRole">
       <description>
-         To assign the role of the <b>Callcenter Agent</b> to the <b>Create Case</b>:<br/><br/>
+         To assign the role of the <b>Callcenter Agent</b> to the <b>Enter Data</b>:<br/><br/>
 		1. In the diagram toolbar palette select <b>Connect</b>.<br/>
 		2. Click the symbol representing the role.<br/> 
-		3. Click the symbol representing the activity <b>Create Case</b>.<br/><br/> 
+		3. Click the symbol representing the activity <b>Enter Data</b>.<br/><br/> 
 		In the same way create another role with name &quot;Engineer&quot; and assign it 
 		to the activity <b>Analyze To Solve</b>.
       </description>

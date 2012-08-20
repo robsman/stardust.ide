@@ -44,9 +44,9 @@
 	6. <b>OK</b> the dialog.
       </description>
    </item>
-   <item title="Setting up Data as Output of Activit Create Case" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+   <item title="Setting up Data as Output of Activity Enter Data" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
       <description>
-         1. Open the activity properties dialog of the <b>Create Case</b> activity by 
+         1. Open the activity properties dialog of the <b>Enter Data</b> activity by 
      double-clicking on its symbol in the diagram.<br/> 
 	2. Select <b>Out Data Mappings</b> on the left side of the dialog.<br/> 
 	3. Choose the default context and click the <b>Add</b> button.<br/>  
@@ -56,7 +56,7 @@
 	later be used as a user prompt in the final user interface. <br/>
 	7. Press the Browse button on the <b>Data Path</b> prompt of the dialog.<br/> 
 	8. Select the data path &quot;Id&quot;.<br/> 
-    9. Continue to use the <b>Add</b> button to create Out Data Mappings for the Create Case activity as follows:<br/>
+    9. Continue to use the <b>Add</b> button to create Out Data Mappings for the Enter Data activity as follows:<br/>
       </description>
       <subitem label="ID Customer Name with data path element Name" skip="false">
       </subitem>
@@ -67,9 +67,9 @@
       <subitem label="ID Synopsis with data path element Product/Synopsis" skip="false">
       </subitem>
    </item>
-   <item title="Setting up Data as Input of Activit Create Case" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
+   <item title="Setting up Data as Input of Activity Enter Data" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping2">
       <description>
-         . In the same way create In data mappings for Create Case:<br/> 
+         . In the same way create In data mappings for Enter Data:<br/> 
         1. Select <b>In Data Mappings</b> on the left side of the dialog.<br/> 
         2. Choose the default context and click the <b>Add</b> button.<br/>  
         3. The dialog content changes to provide mapping details.<br/>  
@@ -118,7 +118,7 @@
    <item title="Setting up Data as Output of Interactive Activity Analyze To Solve" dialog="true" skip="false" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-6.htm#dataMapping3">
       <description>
          Now, create Out Data Mappings for Analyze To Solve, following a procedure similar
-      to the one used for Create Case above:<br/>
+      to the one used for Enter Data above:<br/>
       </description>
       <subitem label="ID Analysis to Product/Analysis" skip="false">
       </subitem>

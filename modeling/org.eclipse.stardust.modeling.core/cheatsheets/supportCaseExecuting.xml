@@ -17,14 +17,14 @@
         workflow.</description>
   </intro>
   <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#activityStart" 
-  	title="Processing the Create Case Activity">
+  	title="Processing the Enter Data Activity">
        <description> ACME can now execute their support case management process. 
-  		To perform the activity <b>Create Case</b>:<br/><br/>
+  		To perform the activity <b>Enter Data</b>:<br/><br/>
 		1. Again go to the start URL of the Process Portal (&quot;http://hostname:port/Support-Case&quot;).<br/>
 		2. Enter the ID and password of the newly created user and confirm with <b>Login</b>.<br/>
 		3. Click <b>Support Case Management</b> under <b>My Startable Processes</b> to start the 
 		  process.<br/>
-		4. The GUI panel assigned to the <b>Create Case</b> activity opens in the view area to the right.<br/>
+		4. The GUI panel assigned to the <b>Enter Data</b> activity opens in the view area to the right.<br/>
 		5. Fill in the empty fields with appropriate information.<br/>
 		6. Click the <b>Complete</b>button to complete the activity.<br/><br/> 
 		The first activity of the process has been performed. 
