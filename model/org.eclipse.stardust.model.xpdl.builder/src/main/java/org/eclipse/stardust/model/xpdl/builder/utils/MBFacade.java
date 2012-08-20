@@ -808,6 +808,27 @@ public class MBFacade
 
       throw new ObjectNotFoundException("Process Definition " + id + " does not exist.");
    }
+   
+   /**
+    * 
+    * @param processFullID
+    * @return processDefinition
+    */
+   public ProcessDefinitionType findProcessDefinition(String processFullID)
+   {
+      String modelID = this.getModelId(processFullID);
+      String processID = stripFullId(processFullID);
+      ModelType model = findModel(modelID);
+      for (ProcessDefinitionType processDefinition : model.getProcessDefinition())
+      {
+         if (processDefinition.getId().equals(processID))
+         {
+            return processDefinition;
+         }
+      }
+
+      throw new ObjectNotFoundException("Process Definition " + processFullID + " does not exist.");
+   }
 
    /**
     * 
@@ -824,7 +845,7 @@ public class MBFacade
     * 
     * @param model
     * @param id
-    * @return
+    * @return application
     */
    public ApplicationType findApplication(ModelType model, String id)
    {
@@ -837,6 +858,28 @@ public class MBFacade
       }
 
       throw new ObjectNotFoundException("Application " + id + " does not exist.");
+   }
+   
+   /**
+    * 
+    * @param model
+    * @param fullApplicationID
+    * @return application
+    */
+   public ApplicationType findApplication(String fullApplicationID)
+   {
+      String modelID = this.getModelId(fullApplicationID);
+      String applicationID = stripFullId(fullApplicationID);
+      ModelType model = findModel(modelID);
+      for (ApplicationType application : model.getApplication())
+      {
+         if (application.getId().equals(applicationID))
+         {
+            return application;
+         }
+      }
+
+      throw new ObjectNotFoundException("Application " + fullApplicationID + " does not exist.");
    }
 
    /**
@@ -899,7 +942,29 @@ public class MBFacade
 
       throw new ObjectNotFoundException("Type declaration " + id + " does not exist.");
    }
+   
+   /**
+    *  
+    * @param fullTypeID
+    * @return typeDeclaration
+    */
+   public TypeDeclarationType findTypeDeclaration(String fullTypeID)
+   {
+      String modelID = this.getModelId(fullTypeID);
+      String typeID = stripFullId(fullTypeID);
+      ModelType model = findModel(modelID);
+      for (TypeDeclarationType typeDeclaration : model.getTypeDeclarations()
+            .getTypeDeclaration())
+      {
+         if (typeDeclaration.getId().equals(typeID))
+         {
+            return typeDeclaration;
+         }
+      }
 
+      throw new ObjectNotFoundException("Type declaration " + fullTypeID + " does not exist.");
+   }
+   
    /**
     * 
     * @param model
@@ -957,6 +1022,28 @@ public class MBFacade
 
       throw new ObjectNotFoundException("Data " + id + " does not exist.");
    }
+   
+   /**
+    * 
+    * @param model
+    * @param dataFullID
+    * @return data
+    */
+   public DataType findData(String dataFullID)
+   {
+      String modelID = this.getModelId(dataFullID);
+      String dataID = stripFullId(dataFullID);
+      ModelType model = findModel(modelID);
+      for (DataType data : model.getData())
+      {
+         if (data.getId().equals(dataID))
+         {
+            return data;
+         }
+      }
+
+      throw new ObjectNotFoundException("Data " + dataFullID + " does not exist.");
+   }
 
    /**
     * 
@@ -983,6 +1070,36 @@ public class MBFacade
       }
 
       throw new ObjectNotFoundException("Participant " + id + " does not exist.");
+   }
+   
+   /**
+    * 
+    * @param model
+    * @param fullParticipantID
+    * @return participant 
+    */
+   public IModelParticipant findParticipant(String fullParticipantID)
+   {
+      String modelID = this.getModelId(fullParticipantID);
+      String participantID = stripFullId(fullParticipantID);
+      ModelType model = findModel(modelID);
+      for (RoleType role : model.getRole())
+      {
+         if (role.getId().equals(participantID))
+         {
+            return role;
+         }
+      }
+
+      for (OrganizationType organization : model.getOrganization())
+      {
+         if (organization.getId().equals(participantID))
+         {
+            return organization;
+         }
+      }
+
+      throw new ObjectNotFoundException("Participant " + fullParticipantID + " does not exist.");
    }
 
    /**

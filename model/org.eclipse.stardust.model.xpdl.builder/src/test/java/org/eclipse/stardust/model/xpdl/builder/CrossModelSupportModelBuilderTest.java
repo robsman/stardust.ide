@@ -21,12 +21,16 @@ import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,6 +38,13 @@ public class CrossModelSupportModelBuilderTest
 {
 
    private InMemoryModelManagementStrategy strategy;
+   private DataType searchedDataType1;
+   private DataType searchedDataType2;
+   
+   private ApplicationType searchedApplicationType;
+   private ProcessDefinitionType searchedProcess;
+   private TypeDeclarationType searchedType;
+   private IModelParticipant searchedRole;
 
    @Before
    public void initCrossModeling()
@@ -82,6 +93,15 @@ public class CrossModelSupportModelBuilderTest
       facade.createActivitySymbol(providerModel, activity1, providedProcess2, laneSymbol.getId(), 40, 40, 180, 50);
       facade.createDataSymbol(providerModel, localComposite, providedProcess2, laneSymbol.getId(), 100, 100, 40, 80);
       
+      //Search & Find
+      searchedDataType1 = facade.findData("ProviderModel:ProvidedPrimitive");
+      searchedDataType2 = facade.findData(providerModel, "ProvidedPrimitive");     
+      searchedApplicationType = facade.findApplication("ProviderModel:WebService");    
+      searchedProcess = facade.findProcessDefinition("ProviderModel:ProvidedProcess2");
+      searchedType = facade.findTypeDeclaration("ProviderModel:ProvidedComposite");
+      searchedRole = facade.findParticipant("ProviderModel:Administrator");
+      
+      
       //Store
       byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);
       
@@ -102,6 +122,29 @@ public class CrossModelSupportModelBuilderTest
       assertThat(externalPackage.getHref(), is("ProviderModel"));
       assertThat(externalPackage.getId(), is("ProviderModel"));
       assertThat(externalPackage.getName(), is("ProviderModel"));
+   }
+   
+   @Test
+   public void verifySearchAndFind()
+   {
+      assertThat(searchedDataType1, not(is(nullValue())));
+      assertThat(searchedDataType1.getId(),is("ProvidedPrimitive"));
+      
+      assertThat(searchedDataType2, not(is(nullValue())));
+      assertThat(searchedDataType2.getId(),is("ProvidedPrimitive"));
+      
+      assertThat(searchedApplicationType, not(is(nullValue())));
+      assertThat(searchedApplicationType.getId(),is("WebService"));
+      
+      assertThat(searchedProcess, not(is(nullValue())));
+      assertThat(searchedProcess.getId(),is("ProvidedProcess2"));
+      
+      assertThat(searchedType, not(is(nullValue())));
+      assertThat(searchedType.getId(),is("ProvidedComposite"));
+      
+      assertThat(searchedRole, not(is(nullValue())));
+      assertThat(searchedRole.getId(),is("Administrator"));
+
    }
 
 
