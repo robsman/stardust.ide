@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -1731,12 +1732,19 @@ public class MBFacade
     * @param modelElement
     * @return
     */
-   public String createFullId(ModelType model, IIdentifiableModelElement modelElement)
+   public String createFullId(ModelType model, EObject modelElement)
    {
       // TODO Change to {modelId}elementId
       if (null != model && null != modelElement)
       {
-         return model.getId() + ":" + modelElement.getId();
+         if(modelElement instanceof IIdentifiableModelElement)
+         {         
+            return model.getId() + ":" + ((IIdentifiableModelElement) modelElement).getId();
+         }
+         if(modelElement instanceof TypeDeclarationType)
+         {         
+            return model.getId() + ":" + ((TypeDeclarationType) modelElement).getId();
+         }         
       }
       return null;
    }
