@@ -991,26 +991,6 @@ public class MBFacade
     * @param id
     * @return
     */
-   public TypeDeclarationType findStructuredDataType(ModelType model, String id)
-   {
-      for (TypeDeclarationType structType : model.getTypeDeclarations()
-            .getTypeDeclaration())
-      {
-         if (structType.getId().equals(id))
-         {
-            return structType;
-         }
-      }
-
-      throw new ObjectNotFoundException("Data type " + id + " does not exist.");
-   }
-
-   /**
-    * 
-    * @param model
-    * @param id
-    * @return
-    */
    public DataType findData(ModelType model, String id)
    {
       for (DataType data : model.getData())
