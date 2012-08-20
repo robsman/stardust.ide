@@ -26,7 +26,7 @@ public class ModelerConstants
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
    public static final String DECIMAL_PRIMITIVE_DATA_TYPE = "decimal";
    public static final String STRUCTURED_DATA_TYPE_KEY = "struct";
-   public static final String DOCUMENT_DATA_TYPE_KEY = "document";
+   public static final String DOCUMENT_DATA_TYPE_KEY = "dmsDocument";
    public static final String MANUAL_ACTIVITY = "Manual";
    public static final String APPLICATION_ACTIVITY = "Application";
    public static final String SUBPROCESS_ACTIVITY = "Subprocess";
