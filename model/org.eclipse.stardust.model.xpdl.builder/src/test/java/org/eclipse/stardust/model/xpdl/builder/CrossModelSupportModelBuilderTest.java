@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.utils.MBFacade;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -50,7 +50,7 @@ public class CrossModelSupportModelBuilderTest
    {
       strategy = new InMemoryModelManagementStrategy();
       
-      MBFacade facade = new MBFacade(strategy);
+      ModelBuilderFacade facade = new ModelBuilderFacade(strategy);
 
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
