@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -110,7 +110,7 @@ public class BpmStructVariableBuilder
       {
          TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel, declId);
 
-         String fileConnectionId = JcrConnectionManager.createFileConnection(model, typeDeclarationModel);
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
          
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");

@@ -11,7 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.activity;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
@@ -59,7 +59,7 @@ public class BpmApplicationActivityBuilder
       }
       else
       {
-         String fileConnectionId = JcrConnectionManager.createFileConnection(model, applicationModel);
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, applicationModel);
          
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");

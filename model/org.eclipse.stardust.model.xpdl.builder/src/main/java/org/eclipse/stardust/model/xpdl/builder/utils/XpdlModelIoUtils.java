@@ -56,7 +56,7 @@ public class XpdlModelIoUtils
    public static final byte[] EMPTY_BUFFER = new byte[0];
 
    private static final int COPY_BUFFER_LENGHT = 16 * 1024;
-   private static Map<String, JcrConnectionManager> map = new HashMap<String, JcrConnectionManager>();   
+   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();   
    private static Map<String, ModelType> modelMap = new HashMap<String, ModelType>();
 
    public static ModelType getModelById(String id)
@@ -64,17 +64,17 @@ public class XpdlModelIoUtils
       return modelMap.get(id);
    }
    
-   public static JcrConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
+   public static WebModelerConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
    {
       if(modelMap.get(model.getId()) == null)
       {
          modelMap.put(model.getId(), model);
       }
       
-      JcrConnectionManager manager = map.get(model.getId());
+      WebModelerConnectionManager manager = map.get(model.getId());
       if(manager == null)
       {
-         manager = new JcrConnectionManager(model, strategy);
+         manager = new WebModelerConnectionManager(model, strategy);
          map.put(model.getId(), manager);
       }
       
@@ -135,7 +135,7 @@ public class XpdlModelIoUtils
             System.setProperty(TransformerFactory.class.getName(), ippTraxFactory);
          }
 
-         WorkflowModelManager modelMgr = new JcrModelManager(strategy);
+         WorkflowModelManager modelMgr = new WebModelerModelManager(strategy);
          
          try
          {
@@ -166,7 +166,7 @@ public class XpdlModelIoUtils
       File tmpModel = null;
       try
       {
-         JcrModelManager modelMgr = new JcrModelManager();
+         WebModelerModelManager modelMgr = new WebModelerModelManager();
 
          tmpModel = File.createTempFile("tmp-xpdl-model-", "." + XpdlUtils.EXT_XPDL);
          tmpModel.deleteOnExit();

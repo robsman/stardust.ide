@@ -12,7 +12,7 @@ package org.eclipse.stardust.model.xpdl.builder.activity;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.stardust.model.xpdl.builder.utils.JcrConnectionManager;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -70,7 +70,7 @@ public class BpmSubProcessActivityBuilder
       }
       else
       {
-         String fileConnectionId = JcrConnectionManager.createFileConnection(model, processModel);
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, processModel);
          
          
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         

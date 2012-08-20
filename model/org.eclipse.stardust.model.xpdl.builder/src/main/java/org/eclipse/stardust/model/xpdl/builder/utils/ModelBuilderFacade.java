@@ -347,7 +347,7 @@ public class ModelBuilderFacade
 
       if (!dataModelId.equals(model.getId()))
       {
-         String fileConnectionId = JcrConnectionManager.createFileConnection(model,
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
                dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
@@ -438,7 +438,7 @@ public class ModelBuilderFacade
 
          if (!participantModelID.equals(model.getId()))
          {
-            String fileConnectionId = JcrConnectionManager.createFileConnection(model,
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
                   participantModel);
 
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
