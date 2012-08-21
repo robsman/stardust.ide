@@ -11,7 +11,8 @@ Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.eclipse.stardust.ide.engine.base
 Import-Package: javax.xml.stream;resolution:=optional,
  javax.xml.stream.events;resolution:=optional
-Export-Package: com.infinity.bpm.thirdparty.emf.common.util,
+Export-Package: com.infinity.bpm.thirdparty.emf.common,
+ com.infinity.bpm.thirdparty.emf.common.util,
  com.infinity.bpm.thirdparty.emf.ecore,
  com.infinity.bpm.thirdparty.org.mozilla.classfile,
  com.infinity.bpm.thirdparty.org.mozilla.javascript,
@@ -184,6 +185,7 @@ Export-Package: com.infinity.bpm.thirdparty.emf.common.util,
  org.eclipse.stardust.engine.extensions.ejb.ejb3.app,
  org.eclipse.stardust.engine.extensions.ejb.ejb3.data,
  org.eclipse.stardust.engine.extensions.ejb.utils,
+ org.eclipse.stardust.engine.extensions.jaxws.addressing,
  org.eclipse.stardust.engine.extensions.jaxws.app,
  org.eclipse.stardust.engine.extensions.jms.app,
  org.eclipse.stardust.engine.extensions.jms.trigger,
