@@ -46,6 +46,8 @@ public class ModelerConstants
    public static final String DIRECTORY_MODE = "DIRECTORY_MODE";
    public static final String SINGLE_FILE_MODE = "SINGLE_FILE_MODE";
    public static final String TYPE_PROPERTY = "type";
+   public static final String FILE_NAME = "fileName";
+   public static final String FILE_PATH = "filePath";
    public static final String ATTRIBUTES_PROPERTY = "attributes";
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";

@@ -72,4 +72,16 @@ public interface ModelManagementStrategy {
 	 *
 	 */
 	public void versionizeModel(ModelType model);
+
+	/**
+	 * @param model
+	 * @return
+	 */
+	public String getModelFileName(ModelType model);
+
+   /**
+    * @param model
+    * @return
+    */
+   public String getModelFilePath(ModelType model);
 }

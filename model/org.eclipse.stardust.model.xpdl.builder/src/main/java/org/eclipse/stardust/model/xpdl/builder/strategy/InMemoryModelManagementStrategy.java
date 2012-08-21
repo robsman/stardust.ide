@@ -28,7 +28,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 /**
- * 
+ *
  * @author Marc.Gille
  *
  */
@@ -41,20 +41,20 @@ public class InMemoryModelManagementStrategy extends
 	private DocumentManagementService documentManagementService;
 	private List<ModelType> models = new ArrayList<ModelType>();
 
-	
+
 	public Map<String, ModelType> getModels()
 	{
 	    return getModels(true);
 	}
 	/**
-	 * 
+	 *
 	 */
 	public List<ModelType> loadModels() {
 		return models;
 	}
-	
+
     /**
-     * 
+     *
      */
     public ModelType loadModel(String id) {
        for (Iterator<ModelType> i = models.iterator(); i.hasNext();) {
@@ -64,21 +64,19 @@ public class InMemoryModelManagementStrategy extends
           }
        }
        return null;
-    }	
-	
-	
+    }
 
 	/**
-	 * 
+	 *
 	 */
 	public ModelType attachModel(String id) {
 	    ModelType model = this.loadModel(id);
 	    models.add(model);
 		return model;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public void saveModel(ModelType model) {
 			String modelContent = new String(XpdlModelIoUtils.saveModel(model));
@@ -109,7 +107,7 @@ public class InMemoryModelManagementStrategy extends
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 */
 	public void deleteModel(ModelType model) {
@@ -125,13 +123,13 @@ public class InMemoryModelManagementStrategy extends
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void versionizeModel(ModelType model) {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	private DocumentManagementService getDocumentManagementService() {
@@ -154,7 +152,7 @@ public class InMemoryModelManagementStrategy extends
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelDocument
 	 * @return
 	 */
@@ -162,4 +160,16 @@ public class InMemoryModelManagementStrategy extends
 		return getDocumentManagementService().retrieveDocumentContent(
 				modelDocument.getId());
 	}
+   @Override
+   public String getModelFileName(ModelType model)
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+   @Override
+   public String getModelFilePath(ModelType model)
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }
