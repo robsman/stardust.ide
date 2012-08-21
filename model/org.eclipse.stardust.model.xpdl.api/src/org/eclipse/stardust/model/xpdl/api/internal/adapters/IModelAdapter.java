@@ -49,7 +49,6 @@ import org.eclipse.stardust.engine.api.model.Scripting;
 import org.eclipse.stardust.engine.core.model.utils.Differences;
 import org.eclipse.stardust.engine.core.model.utils.ModelElement;
 import org.eclipse.stardust.engine.core.model.utils.ModelElementList;
-import org.eclipse.stardust.engine.core.model.utils.ModelListener;
 import org.eclipse.stardust.engine.core.model.utils.RootElement;
 import org.eclipse.stardust.engine.core.preferences.configurationvariables.IConfigurationVariableDefinition;
 import org.eclipse.stardust.model.API_Messages;
@@ -806,37 +805,7 @@ public class IModelAdapter extends AbstractModelAdapter implements IModel
 
    }
 
-   public void fireModelElementsLinked(ModelElement first, ModelElement second)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void fireModelElementsUnlinked(ModelElement first, ModelElement second)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void fireModelElementCreated(ModelElement element, ModelElement parent)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void fireModelElementDeleted(ModelElement element, ModelElement parent)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
    public void deregister(ModelElement element)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void fireModelElementChanged(ModelElement element)
    {
       // TODO Auto-generated method stub
 
@@ -854,24 +823,6 @@ public class IModelAdapter extends AbstractModelAdapter implements IModel
 
    }
 
-   public void addToModelListeners(ModelListener listener)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void removeFromModelListeners(ModelListener listener)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public Iterator getAllModelListeners()
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
    public void setModelOID(int oid)
    {
       // TODO Auto-generated method stub
@@ -885,12 +836,6 @@ public class IModelAdapter extends AbstractModelAdapter implements IModel
    }
 
    public void mergeDifferences(Differences diff)
-   {
-      // TODO Auto-generated method stub
-
-   }
-
-   public void setLoading(boolean loading)
    {
       // TODO Auto-generated method stub
 
