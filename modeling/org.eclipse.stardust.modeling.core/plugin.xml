@@ -1063,14 +1063,19 @@
       </page>
       <page
             category="spi"
-            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice.WebServicePropertyPage"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice.JaxWSPropertyPage"
             icon="icons/full/obj16/webservice_application_icon.gif"
             id="_cwm_spi_application_"
-            name="%propPageWebserviceApplication"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
-         <filter
-               name="metaType"
-               value="webservice"/>
+            name="%propPageWebserviceApplication">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+               <test property="com.infinity.properties.metaType" value="webservice"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
       </page>
       <page
             category="spi"
