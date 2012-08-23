@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache CXF Plug-in
+Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.cxf
+Bundle-Version: 2.6.1
+Bundle-Vendor: SunGard CSA LLC
+Bundle-BuddyPolicy: registered
+Bundle-ClassPath: lib/cxf-2.6.1.jar,
+ lib/velocity-1.7.jar,
+ lib/commons-collections-3.2.1.jar,
+ lib/commons-lang-2.6.jar,
+ lib/xmlschema-core-2.0.2.jar,
+ lib/jaxb-xjc-2.2.5.jar,
+ lib/jaxb-impl-2.2.5.jar,
+ lib/neethi-3.0.2.jar
+Require-Bundle: javax.wsdl
