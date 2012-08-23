@@ -25,7 +25,7 @@ public class ClassGenerator implements IClassGenerator
             "-d", //$NON-NLS-1$
             location.toString(),
             "-keep", //$NON-NLS-1$
-            "-verbose", //$NON-NLS-1$
+            //"-verbose", //$NON-NLS-1$
             wsdlLocation
          });
       }
