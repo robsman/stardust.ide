@@ -25,6 +25,7 @@
    <extension-point id="contextMenuAction" name="Context Menu Action" schema="schema/contextMenuAction.exsd"/>
    <extension-point id="vcsConnector" name="VCS Connector" schema="schema/vcsConnector.exsd"/>
    <extension-point id="processInterfaceInvocationGenerator" name="ProcessInterface Invocation Generator" schema="schema/processInterfaceInvocationGenerator.exsd"/>
+   <extension-point id="jaxwsClassGenerator" name="JAX-WS Java Class Generator" schema="schema/jaxwsClassGenerator.exsd"/>
 
    <extension
       point="org.eclipse.ui.editors">
@@ -1449,4 +1450,11 @@
              tooltip="%deployModel"/>
    		</actionSet> 
 	</extension>   
+   <extension
+         id="ClassGenerator"
+         point="org.eclipse.stardust.modeling.core.jaxwsClassGenerator">
+      <generator
+            id="org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice.cxf.ClassGenerator"
+            class="org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice.cxf.ClassGenerator"/>
+   </extension>
 </plugin>

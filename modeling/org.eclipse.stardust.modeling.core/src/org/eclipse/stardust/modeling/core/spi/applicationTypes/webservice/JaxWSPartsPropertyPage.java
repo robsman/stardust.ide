@@ -12,6 +12,8 @@ import javax.xml.namespace.QName;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.*;
@@ -23,6 +25,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ui.CarnotBooleanEditor;
@@ -39,8 +42,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 
-import com.sun.tools.internal.ws.WsImport;
-
 /**
  * @author fherinean
  * @version $Revision: 57229 $
@@ -48,6 +49,7 @@ import com.sun.tools.internal.ws.WsImport;
 public class JaxWSPartsPropertyPage extends
    AbstractModelElementPropertyPage
 {
+   private static final String JAXWS_CLASS_GENERATOR = "jaxwsClassGenerator";
    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
    private static final String[][] LABELS = {
       {new String("_input_"), Diagram_Messages.ELEMENT_Input}, //$NON-NLS-1$
@@ -171,6 +173,7 @@ public class JaxWSPartsPropertyPage extends
       Button button = new Button(parent, SWT.PUSH);
       button.setText(Webservices_Messages.WebServicePropertyPage_Generate_Classes);
       setButtonLayoutData(button);
+      button.setEnabled(!SpiExtensionRegistry.instance().getExtensions(JAXWS_CLASS_GENERATOR).isEmpty());
       button.addSelectionListener(new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e)
@@ -349,20 +352,16 @@ public class JaxWSPartsPropertyPage extends
    private IPackageFragmentRoot generateClasses(IJavaProject project) throws Throwable
    {
       IPackageFragmentRoot root = getSourceLocation(project);
-      String location = root.getCorrespondingResource().getLocation().toString();
+      IPath location = root.getCorrespondingResource().getLocation();
       String wsdlLocation = getSynchronizer().getWsdlLocation();
-
-      String[] args = new String[] {
-         "-d", location, //$NON-NLS-1$
-         "-keep", //$NON-NLS-1$
-         "-Xnocompile", //$NON-NLS-1$
-         "-extension", //$NON-NLS-1$
-         wsdlLocation
-      };
-
-      WsImport.doMain(args);
-      project.getResource().refreshLocal(IResource.DEPTH_INFINITE, null);
-      
+      Map<String, IConfigurationElement> extensions = SpiExtensionRegistry.instance().getExtensions(JAXWS_CLASS_GENERATOR);
+      if (!extensions.isEmpty())
+      {
+         IConfigurationElement config = extensions.values().iterator().next();
+         IClassGenerator generator = (IClassGenerator) config.createExecutableExtension("class");
+         generator.generateClasses(location, wsdlLocation);
+         project.getResource().refreshLocal(IResource.DEPTH_INFINITE, null);
+      }
       return root;
    }
 
