@@ -101,7 +101,7 @@ public class BpmStructVariableBuilder
 
    public BpmStructVariableBuilder ofType(String declId)
    {
-      if(getTypeDeclarationModel().equals(model))
+      if(getTypeDeclarationModel().getId().equals(model.getId()))
       {      
          AttributeUtil.setAttribute(element, StructuredDataConstants.TYPE_DECLARATION_ATT,
                declId);
