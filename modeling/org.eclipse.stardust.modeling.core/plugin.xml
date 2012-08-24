@@ -1230,184 +1230,20 @@
 
    <extension 
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
-     <category 
+      <category 
             id="carnot"
-            name="Stardust"/>
- <!--     <cheatsheet 
-            contentFile="cheatsheets/quickStartAnalyst.xml"
-            id="org.eclipse.stardust.modeling.core.quickStartAnalyst"
-            name="Creating a simple Stardust Model in the Analyst Perspective">
-         <description>
-            This tutorial will show you how to use the Stardust Process Workbench to create 
-            a simple workflow model in the Analyst Perspective.
-         </description>
-      </cheatsheet>
-      <cheatsheet 
-            contentFile="cheatsheets/quickStartDev.xml"
-            id="org.eclipse.stardust.modeling.core.quickStartDev"
-            name="Creating a simple Stardust Model in the Developer Perspective">
-         <description>
-            This tutorial will show you how to use the Stardust Process Workbench to create 
-            a simple workflow model in the Development Perspective.
-         </description>
-      </cheatsheet>
-      <cheatsheet
-            contentFile="cheatsheets/supportCaseStart.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseStart"
-            name="Starting the Tutorial">
-         <description>
-            This tutorial will show you how to start with the Support Case Tutorial.
-         </description>
-      </cheatsheet>
-      <cheatsheet
-            contentFile="cheatsheets/supportCaseProcess.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseProcess"
-            name="Adding Process Definitions">
-         <description>
-            This tutorial will show you how to add process definitions in your
-            workflow model.
-         </description>
-      </cheatsheet>
-      <cheatsheet
-            contentFile="cheatsheets/supportCaseStructData.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseStructData"
-            name="Creating Structured Data Types">
-         <description>
-            This tutorial will show you how to create structured 
-         data to be used in a workflow model.
-         </description>
-      </cheatsheet>
-      <cheatsheet
-            contentFile="cheatsheets/supportCaseActivities.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseActivities"
-            name="Adding Activities">
-         <description>
-            This tutorial will show you how to use the Stardust Process Workbench 
-            to add activities and transitions to your process definition.
-         </description>
-      </cheatsheet>
-      <cheatsheet
-            contentFile="cheatsheets/supportCaseIntAppl.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseIntAppl"
-            name="Adding Applications">
-         <description>
-            This tutorial will show you how to use the Stardust Process Workbench 
-            to integrate applications.
-         </description>
-      </cheatsheet>
-	<cheatsheet
-            contentFile="cheatsheets/supportCaseHandlingData.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseHandlingData"
-            name="Handling Data">
-         <description>
-            This tutorial will guide you through the process of adding data and
-        data mappings to the support case process.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseControlFlow.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseControlFlow"
-            name="Control Flow">
-         <description>
-            This tutorial guides you through the process of setting up
-            control flow between activities.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseRoles.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseRoles"
-            name="Control Flow">
-         <description>
-           This cheat sheet will guide you through the steps of defining 
-    		and assigning roles and organizations.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseTriggers.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseTriggers"
-            name="Triggers">
-         <description>
-			This cheat sheet guides you through the process of creating and assigning a 
-              manual trigger.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseDeploy.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseDeploy"
-            name="Deploy your Workflow Model">
-         <description>
-			This cheat sheet guides you through the process of deploying your 
-        	workflow model.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseUserManagement.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseUserManagement"
-            name="Managing Users">
-         <description>
-			This cheat sheet guides you through the process of creating individual 
-              users and assign them to the created roles.
-         </description>
-      </cheatsheet>      
-	  <cheatsheet
-            contentFile="cheatsheets/supportCaseExecuting.xml"
-            composite="false"
-            id="org.eclipse.stardust.modeling.core.supportCaseExecuting"
-            name="Executing Workflow">
-         <description>
-			This cheat sheet guides you through the process of executing your 
-        	workflow.
-         </description>
-      </cheatsheet>      -->
-	<cheatsheet
-            category="carnot"
-            contentFile="cheatsheets/cheatsheetAnalystComp.xml"
-            composite="true"
-            id="org.eclipse.stardust.modeling.core.cheatsheetAnalystComp"
-            name="The Stardust Analyst Cheat Sheet">
-         <description>
-            This tutorial will show you how to use the Stardust Process Workbench to create 
-            a simple workflow model in the Analyst Perspective.
-         </description>
-      </cheatsheet>
-	<cheatsheet
+            name="%cheatSheetCategory"/>
+         <cheatsheet
             category="carnot"
             contentFile="cheatsheets/cheatsheetDevComp.xml"
             composite="true"
             id="org.eclipse.stardust.modeling.core.cheatsheetDevComp"
-            name="The Stardust Developer Cheat Sheet">
+            name= "%mainCheatSheetName" >
          <description>
-            This tutorial will show you how to use the Stardust Process Workbench to create 
-            a simple workflow model in the Development Perspective.
+            This tutorial will show you how to use the Process Workbench to create 
+            a simple workflow model in the Eclipse modeler.
          </description>
       </cheatsheet>
-<!--       <cheatsheet 
-            contentFile="cheatsheets/switchToAnalyst.xml"
-            id="org.eclipse.stardust.modeling.core.switchToAnalyst"
-            name="Switch to Analyst Cheat Sheet">
-         <description>
-            This cheat sheet provides you with an action to switch to the Analyst Cheat Sheet.
-         </description>
-      </cheatsheet>
-      <cheatsheet 
-            contentFile="cheatsheets/switchToDev.xml"
-            id="org.eclipse.stardust.modeling.core.switchToDev"
-            name="Switch to Developer Cheat Sheet">
-         <description>
-            This cheat sheet provides you with an action to switch to the Developer Cheat Sheet.
-         </description>
-      </cheatsheet> -->
       
    </extension>
    
