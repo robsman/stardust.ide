@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
-    Copyright (c) 2011 SunGard CSA LLC and others.
+    Copyright (c) 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -9,11 +9,11 @@
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
-<cheatsheet title="Creating the Users and Departments in the Stardust Portal">
+<cheatsheet title="Creating the Users and Departments in the @productnameonly@ Portal">
   <intro>
     <description>
     	This cheat sheet will guide you through the steps of creating departments
-    	in the Stardust Process Platform Portal.</description>
+    	in the @productnameonly@ Portal.</description>
   </intro>
   <item       
         skip="true"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2011 SunGard CSA LLC and others.
+    Copyright (c) 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -17,11 +17,11 @@
     	the workbench to start with your support case tutorial.</description>
   </intro>
   <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#setlicense" 
-  	title="Set the Stardust License">
+  	title="Set the @productnameonly@  License">
      <description>
-     To set the Stardust license:<br/>
+     To set the @productnameonly@  license:<br/>
      1. Select <b>Window &gt; Preferences </b> to open the preferences dialog.<br/>
-     2. Select <b>Stardust</b>.<br/>
+     2. Select <b>@productnameonly@ </b>.<br/>
      3. In the <b>License file</b> section browse to the location of your license file.
  	</description>
   </item>
@@ -41,13 +41,13 @@
  	</description>
   </item>
   <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm#createProj" 
-  	title="Create an Eclipse Project with Stardust Facets">
+  	title="Create an Eclipse Project with @productnameonly@  Facets">
      <description>
      1. In the main menu select <b>File &gt; New &gt; Project...</b><br/>
      2. In the <b>New Project</b> wizard choose <b>Web &gt; Dynamic Web Project</b>.<br/>
      3. Click <b>Next</b>.<br/>
      4. Name your project "Support-Case".<br/>
-     5. In the <b>Configurations</b> entry, select <b>Stardust Portal</b> in the drop down list.<br/>
+     5. In the <b>Configurations</b> entry, select <b>@productnameonly@  Portal</b> in the drop down list.<br/>
      6. Click <b>Next</b>.<br/>
      7. Leave the default values for source and build path and select <b>Next</b>.<br/>
      8. Leave the default values in the <b>Web Module</b> dialog and click <b>Next</b>.<br/>
@@ -71,7 +71,7 @@
   	title="Create New Model">
      <description>
 		1. Right-click your project in the Package Explorer and select <b>New &gt; Other...</b>.<br/> 
-		2. Choose <b>Stardust Wizards > Stardust Process Model</b>.<br/> 
+		2. Choose <b>@productnameonly@  Wizards > @productnameonly@  Process Model</b>.<br/> 
 		3. Click <b>Next</b>.<br/> 
 		4. In the upcoming dialog fill in the model name <b>ACME Workflow Model</b>.<br/>
 		5. Select <b>Finish</b>.<br/>

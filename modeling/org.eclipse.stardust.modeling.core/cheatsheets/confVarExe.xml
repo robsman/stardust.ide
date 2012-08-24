@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
-    Copyright (c) 2011 SunGard CSA LLC and others.
+    Copyright (c) 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -23,7 +23,7 @@
      <description>
         <br/>
 	1. Start your server and deploy the model.<br/>
-	2. Start the Stardust Portal.<br/>
+	2. Start the Process Portal.<br/>
 	3. Login as administrator with motu/motu.<br/>
 	4. Switch to the <b>Participant Management</b> View of the <b>Administration Perspective</b>.<br/>
 	5. Create a user and assign him to the role we added to the model.<br/>

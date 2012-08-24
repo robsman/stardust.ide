@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright (c) 2011 SunGard CSA LLC and others.
+    Copyright (c) 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -10,24 +10,24 @@
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
-<compositeCheatsheet name="Stardust Cheat Sheet">
-    <taskGroup name="Stardust Developer Cheat Sheet">
+<compositeCheatsheet name="@productnameonly@">
+    <taskGroup name="@productnameonly@">
   	<intro>
-    	Welcome to the Stardust Developer Cheat Sheet.
+    	Welcome to the @productname@ Cheat Sheets.
   	</intro>
-    <task kind="cheatsheet" name="Stardust Developer Quick Start Tutorial" skip="true">
+    <task kind="cheatsheet" name="@productnameonly@ Modeling Quick Start Tutorial" skip="true">
 		<param name="path" value="quickStartDev.xml" />
 		<intro>
-    		Welcome to the Developer Quick Start Tutorial. This cheat sheet guides you 
+    		Welcome to the @productnameonly@ Modeling Quick Start Tutorial. This cheat sheet guides you 
     		through the basic steps of building a workflow model with a process definition
-    		and its elements in the <b>Stardust Developer Modeling Perspective</b>.
+    		and its elements in the <b>Modeling Perspective</b>.
 		</intro>
     </task>  
-	<taskGroup name="Stardust Support Case Tutorial" kind="sequence">
+	<taskGroup name="Support Case Tutorial" kind="sequence">
 	<intro>     	
     	Welcome to the Developer Support Case Tutorial. This cheat sheet guides you 
     	through the steps of building a sample business process, automate and deploy it
-    	in the <b>Stardust Developer Modeling Perspective</b>.
+    	in the <b>@productnameonly@ Developer Modeling Perspective</b>.
 	</intro>
     <onCompletion></onCompletion>
     	<task kind="cheatsheet" name="Getting Started" skip="true">
@@ -102,7 +102,7 @@
               </intro>
          </task>  
 	</taskGroup>          
-	<taskGroup name="Stardust Scoped Participant Tutorial" kind="sequence">
+	<taskGroup name="Working with Scoped Participants Tutorial" kind="sequence">
 	<intro>     	
     	Welcome to a small tutorial using scoped participants. This cheat sheet guides you 
     	through the steps of creating and binding department structures.
@@ -114,10 +114,10 @@
               with a scoped environment.
               </intro>
          </task>  
-         <task kind="cheatsheet" name="Creating the Users and Departments in the Stardust Portal" skip="true">
+         <task kind="cheatsheet" name="Creating the Users and Departments in the Portal" skip="true">
               <param name="path" value="scopedPortal.xml" />
               <intro>This cheat sheet will guide you through the steps of 
-              creating departments in the Stardust Process Platform Portal.
+              creating departments in the Process Platform Portal.
               </intro>
          </task>  
          <task kind="cheatsheet" name="Using Different Departments in the Portal" skip="true">
@@ -127,7 +127,7 @@
               </intro>
          </task>  
 	</taskGroup>     
-	<taskGroup name="Configuration Variables Cheat Sheet" kind="sequence">
+	<taskGroup name="Configuration Variables Tutorial" kind="sequence">
 	<intro> 
 		This cheatsheet demonstrates how a workflow can be adjusted during 
 		runtime with the help of a configuration variable value. 
@@ -146,7 +146,7 @@
               </intro>
          </task>  
     </taskGroup>
-	<taskGroup name="Multiple Models Cheat Sheet" kind="sequence">
+	<taskGroup name="Working with multiple Models Tutorial" kind="sequence">
 	<intro> 
 		This cheatsheet demonstrates how to create a provider model and a consumer
 		model using some of its elements. 
@@ -169,9 +169,5 @@
               </intro>
          </task>  
     </taskGroup>
-    <task kind="cheatsheet" name="Switch to Stardust Analyst Cheat Sheet" skip="true">
-      	<param name="path" value="switchToAnalyst.xml" />
-		<param name="showIntro" value="false" />
-    </task>  
   </taskGroup>
 </compositeCheatsheet>
