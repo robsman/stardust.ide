@@ -15,3 +15,4 @@ Bundle-ClassPath: lib/cxf-2.6.1.jar,
  lib/jaxb-impl-2.2.5.jar,
  lib/neethi-3.0.2.jar
 Require-Bundle: javax.wsdl
+Export-Package: org.apache.cxf.tools.wsdlto
