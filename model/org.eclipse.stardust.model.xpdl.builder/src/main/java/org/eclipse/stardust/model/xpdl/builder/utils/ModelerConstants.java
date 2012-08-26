@@ -160,6 +160,13 @@ public class ModelerConstants
    public static final String PRIMITIVE_DATA_TYPE_PROPERTY = "primitiveDataType";
    public static final String DEFAULT_PRIORITY_PROPERTY = "defaultPriority";
    public static final String FORK_ON_TRAVERSAL_PROPERTY = "forkOnTraversal";
-   public static String DATA_PATHES_PROPERTY = "dataPathes";
-
+   public static final String DATA_PATHES_PROPERTY = "dataPathes";
+   public static final String BINDING_DATA_PATH_PROPERTY = "dataPath";
+   public static final String BINDING_DATA_FULL_ID_PROPERTY = "dataFullId";
+   public static final String CONTEXT_PROPERTY = "context";
+   public static final String PROCESS_INTERFACE_TYPE_PROPERTY = "processInterfaceType";
+   public static final String NO_PROCESS_INTERFACE_KEY = "noInterface";
+   public static final String PROVIDES_PROCESS_INTERFACE_KEY = "providesProcessInterface";
+   public static final String IMPLEMENTS_PROCESS_INTERFACE_KEY = "implementsProcessInterface";
+   public static final String FORMAL_PARAMETERS_PROPERTY = "formalParameters";
 }
