@@ -24,6 +24,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructV
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
@@ -45,6 +46,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
@@ -56,6 +58,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
@@ -66,11 +69,22 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
@@ -213,6 +227,134 @@ public class ModelBuilderFacade
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
 
       return structuredDataType;
+   }
+
+   public void createPrimitiveParameter(ProcessDefinitionType processInterface,
+         DataType dataType, String id, String name, ModeType mode)
+   {
+      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
+      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
+      parameterType.setId(id);
+      parameterType.setName(name);
+      parameterType.setMode(mode);
+
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE
+            .createDataTypeType();
+      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
+      basicType.setType(TypeType.STRING_LITERAL);
+      dataTypeType.setBasicType(basicType);
+      parameterType.setDataType(dataTypeType);
+      String typeId = dataType.getType().getId();
+      dataTypeType.setCarnotType(typeId);
+
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+      }
+
+      parametersType.addFormalParameter(parameterType);
+      processInterface.setFormalParameters(parametersType);
+
+      FormalParameterMappingsType parameterMappingsType = processInterface
+            .getFormalParameterMappings();
+
+      if (parameterMappingsType == null)
+      {
+         parameterMappingsType = ExtensionsFactory.eINSTANCE
+               .createFormalParameterMappingsType();
+      }
+
+      parameterMappingsType.setMappedData(parameterType, dataType);
+      processInterface.setFormalParameterMappings(parameterMappingsType);
+   }
+
+   public void createStructuredParameter(ProcessDefinitionType processInterface,
+         DataType dataType, String id, String name, ModeType mode)
+   {
+      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
+      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
+
+      parameterType.setId(id);
+      parameterType.setName(name);
+      parameterType.setMode(mode);
+
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
+            .createDataTypeType();
+      String typeId = dataType.getType().getId();
+
+      parameterType.setDataType(dataTypeType);
+      dataTypeType.setCarnotType(typeId);
+
+      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+      declaredType.setId(AttributeUtil.getAttributeValue(dataType,
+            StructuredDataConstants.TYPE_DECLARATION_ATT));
+
+      dataTypeType.setDeclaredType(declaredType);
+
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+      }
+      parametersType.addFormalParameter(parameterType);
+      processInterface.setFormalParameters(parametersType);
+
+      FormalParameterMappingsType parameterMappingsType = processInterface
+            .getFormalParameterMappings();
+
+      if (parameterMappingsType == null)
+      {
+         parameterMappingsType = ExtensionsFactory.eINSTANCE
+               .createFormalParameterMappingsType();
+      }
+
+      parameterMappingsType.setMappedData(parameterType, dataType);
+      processInterface.setFormalParameterMappings(parameterMappingsType);
+   }
+
+   public void setProcessImplementation(ProcessDefinitionType processInterface,
+         ProcessDefinitionType processImplementation)
+   {
+      ModelType interfaceModel = ModelUtils.findContainingModel(processInterface);
+      ModelType implementationModel = ModelUtils
+            .findContainingModel(processImplementation);
+      ExternalPackage packageRef = implementationModel.getExternalPackages()
+            .getExternalPackage(interfaceModel.getId());
+
+      IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
+      idRef.setRef(processInterface.getId());
+      idRef.setPackageRef(packageRef);
+      processImplementation.setExternalRef(idRef);
+
+      FormalParameterMappingsType parameterMappings = ExtensionsFactory.eINSTANCE
+            .createFormalParameterMappingsType();
+      FormalParametersType referencedParametersType = processInterface
+            .getFormalParameters();
+      FormalParametersType formalParameters = XpdlFactory.eINSTANCE
+            .createFormalParametersType();
+      for (Iterator<FormalParameterType> i = referencedParametersType
+            .getFormalParameter().iterator(); i.hasNext();)
+      {
+         FormalParameterType referencedParameterType = i.next();
+         FormalParameterType parameterType = ModelUtils.cloneFormalParameterType(
+               referencedParameterType, null);
+         formalParameters.addFormalParameter(parameterType);
+         parameterMappings.setMappedData(parameterType, null);
+      }
+      processImplementation.setFormalParameters(formalParameters);
+      processImplementation.setFormalParameterMappings(parameterMappings);
+   }
+
+   public void setFormalParameter(ProcessDefinitionType implementingProcess,
+         String parameterID, DataType dataType)
+   {
+      FormalParameterType formalParameterType = implementingProcess.getFormalParameters()
+            .getFormalParameter(parameterID);
+      implementingProcess.getFormalParameterMappings().setMappedData(formalParameterType,
+            dataType);
    }
 
    /**
