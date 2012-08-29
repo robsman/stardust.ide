@@ -19,6 +19,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganiz
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
@@ -686,6 +687,21 @@ public class ModelBuilderFacade
    {
       RoleType role = newRole(model).withIdAndName(roleID, roleName).build();
       return role;
+   }
+
+   /**
+    * @param model
+    * @param conditionalPerformerID
+    * @param conditionalPerformerName
+    * @return
+    */
+   public ConditionalPerformerType createConditionalPerformer(ModelType model,
+         String conditionalPerformerID, String conditionalPerformerName)
+   {
+      ConditionalPerformerType conditionalPerformer = newConditionalPerformer(model).withIdAndName(
+            conditionalPerformerID, conditionalPerformerName)
+            .build();
+      return conditionalPerformer;
    }
 
    /**
