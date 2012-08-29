@@ -12,22 +12,23 @@ package org.eclipse.stardust.model.xpdl.xpdl2.util;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.StructuredTypeRtUtils;
+import org.eclipse.stardust.engine.core.struct.emfxsd.ClasspathUriConverter;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -51,10 +52,18 @@ import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.impl.XSDImportImpl;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
 public class TypeDeclarationUtils
 {
+   private static final Logger trace = LogManager.getLogger(TypeDeclarationUtils.class);
+
+   private static final String EXTERNAL_SCHEMA_MAP = "com.infinity.bpm.rt.data.structured.ExternalSchemaMap";
+
+   private static final XSDResourceFactoryImpl XSD_RESOURCE_FACTORY = new XSDResourceFactoryImpl();
+   private static final ClasspathUriConverter CLASSPATH_URI_CONVERTER = new ClasspathUriConverter();
+
    public static final int XPDL_TYPE = 0;
    public static final int SIMPLE_TYPE = 1;
    public static final int COMPLEX_TYPE = 2;   
@@ -278,6 +287,114 @@ public class TypeDeclarationUtils
       return null;
    }
 
+   /**
+    * Duplicate of StructuredTypeRtUtils.getSchema(String, String).
+    * <p>
+    * Should be removed after repackaging of XSDSchema for runtime is dropped.
+    */
+   public static XSDSchema loadSchema(String location, String namespaceURI) throws IOException
+   {
+      Parameters parameters = Parameters.instance();
+      Map loadedSchemas = null;
+      synchronized (StructuredTypeRtUtils.class)
+      {
+          loadedSchemas = (Map) parameters.get(EXTERNAL_SCHEMA_MAP);
+          if (loadedSchemas == null)
+          {
+             // (fh) using Hashtable to avoid concurrency problems.
+             loadedSchemas = new Hashtable();
+             parameters.set(EXTERNAL_SCHEMA_MAP, loadedSchemas);
+          }
+      }
+      String key = '{' + namespaceURI + '}' + location;
+      Object o = loadedSchemas.get(key);
+      if (o != null)
+      {
+          return o instanceof XSDSchema ? (XSDSchema) o : null;
+      }
+      
+      ResourceSetImpl resourceSet = new ResourceSetImpl();
+      URI uri = URI.createURI(location);
+      if (uri.scheme() == null)
+      {
+         resourceSet.setURIConverter(CLASSPATH_URI_CONVERTER);
+         if(location.startsWith("/"))
+         {
+            location = location.substring(1);
+         }
+         uri = URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME + ":/" + location);
+      }
+      // (fh) register the resource factory directly with the resource set and do not tamper with the global registry.
+      resourceSet.getResourceFactoryRegistry().getProtocolToFactoryMap().put(uri.scheme(), XSD_RESOURCE_FACTORY);
+      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xsd", XSD_RESOURCE_FACTORY);
+      Resource resource = resourceSet.createResource(uri);
+      Map options = new HashMap();
+      options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
+      resource.load(options);
+      
+      boolean hasSchema = false;
+      List l = resource.getContents();
+      for (int i = 0; i < l.size(); i++)
+      {
+         EObject eObject = (EObject) l.get(i);
+         if (eObject instanceof XSDSchema)
+         {
+            hasSchema = true;
+            XSDSchema schema = (XSDSchema) eObject;
+            if (namespaceURI == null || CompareHelper.areEqual(namespaceURI, schema.getTargetNamespace()))
+            {
+               resolveImports(schema);
+               if (trace.isDebugEnabled())
+               {
+                  trace.debug("Found schema for namespace: " + namespaceURI + " at location: " + uri.toString());
+               }
+               loadedSchemas.put(key, schema);
+               return schema;
+            }
+         }
+      }
+      
+      // no schema matching the namespaceURI found, so try a second round by searching through imports.
+      // this is indirect resolving, so it will return the first schema that has an import for the namespaceURI
+      if (hasSchema)
+      {
+         for (int i = 0; i < l.size(); i++)
+         {
+            EObject eObject = (EObject) l.get(i);
+            if (eObject instanceof XSDSchema)
+            {
+               XSDSchema schema = (XSDSchema) eObject;
+               List contents = schema.getContents();
+               for (int j = 0; j < contents.size(); j++)
+               {
+                  Object item = contents.get(j);
+                  if (item instanceof XSDImportImpl)
+                  {
+                     XSDImportImpl directive = (XSDImportImpl) item;
+                     XSDSchema ref = directive.importSchema();
+                     if (ref != null && CompareHelper.areEqual(namespaceURI, ref.getTargetNamespace()))
+                     {
+                        resolveImports(schema);
+                        if (trace.isDebugEnabled())
+                        {
+                           trace.debug("Found schema for namespace: " + namespaceURI + " at location: " + uri.toString());
+                        }
+                        loadedSchemas.put(key, schema);
+                        return schema;
+                     }
+                  }
+               }
+            }
+         }
+      }
+      if (trace.isDebugEnabled())
+      {
+         trace.debug("No schema found for namespace: " + namespaceURI + " at location: " + uri.toString());
+      }
+      loadedSchemas.put(key, "NULL");
+      return null;
+   }
+   
    public static XSDSchema getSchema(String location, String namespaceURI) throws IOException
    {
       HashMap options = new HashMap();
@@ -292,10 +409,9 @@ public class TypeDeclarationUtils
       resource.load(options);
       
       boolean hasSchema = false;
-      List l = resource.getContents();
-      for (int i = 0; i < l.size(); i++)
+      EList<EObject> contents = resource.getContents();
+      for (EObject eObject : contents)
       {
-         EObject eObject = (EObject) l.get(i);
          if (eObject instanceof XSDSchema)
          {
             hasSchema = true;
@@ -311,16 +427,13 @@ public class TypeDeclarationUtils
       // this is indirect resolving, so it will return the first schema that has an import for the namespaceURI
       if (hasSchema)
       {
-         for (int i = 0; i < l.size(); i++)
+         for (EObject eObject : contents)
          {
-            EObject eObject = (EObject) l.get(i);
             if (eObject instanceof XSDSchema)
             {
                XSDSchema schema = (XSDSchema) eObject;
-               List contents = schema.getContents();
-               for (int j = 0; j < contents.size(); j++)
+               for (XSDSchemaContent item : schema.getContents())
                {
-                  Object item = contents.get(j);
                   if (item instanceof XSDImportImpl)
                   {
                      XSDImportImpl directive = (XSDImportImpl) item;
