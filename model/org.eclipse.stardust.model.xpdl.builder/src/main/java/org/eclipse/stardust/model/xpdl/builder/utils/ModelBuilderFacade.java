@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
@@ -19,7 +20,6 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganiz
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
@@ -504,6 +504,8 @@ public class ModelBuilderFacade
 
          descriptor.importElements(iconFactory, model, true);
 
+         //Workaround for CRNT-25991 - should be removed when this ticket is resolved
+         modelManagementStrategy.attachModel(dataModel.getId());
       }
       return data;
    }
