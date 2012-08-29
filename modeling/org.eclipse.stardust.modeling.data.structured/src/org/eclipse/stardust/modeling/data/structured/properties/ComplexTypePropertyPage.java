@@ -14,32 +14,14 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ComboBoxCellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -47,12 +29,9 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.XSDMapping;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XsdTextProvider;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.ComboBoxCellEditorViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.TableEditorTraverseManager;
@@ -61,11 +40,7 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.data.structured.StructContentProvider;
 import org.eclipse.stardust.modeling.data.structured.StructLabelProvider;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
-import org.eclipse.stardust.modeling.data.structured.annotations.AnnotationViewer;
-import org.eclipse.stardust.modeling.data.structured.annotations.CategoryAnnotation;
-import org.eclipse.stardust.modeling.data.structured.annotations.DefaultAnnotationModifier;
-import org.eclipse.stardust.modeling.data.structured.annotations.IAnnotation;
-import org.eclipse.stardust.modeling.data.structured.annotations.IAnnotationChangedListener;
+import org.eclipse.stardust.modeling.data.structured.annotations.*;
 import org.eclipse.stardust.modeling.data.structured.validation.ElementValidator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -73,32 +48,8 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDAttributeUseCategory;
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.xsd.*;
 
 public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    implements IDataPropertyPage, IAnnotationChangedListener
@@ -137,6 +88,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    private DateFormat dateFormat = new SimpleDateFormat(Diagram_Messages.SIMPLE_DATE_FORMAT, Locale.GERMANY);
    private SashForm form;
    private Map<XSDElementDeclaration, Map<IAnnotation, Object>> defaultAnnotationMap = new HashMap<XSDElementDeclaration, Map<IAnnotation,Object>>();
+   //private Link baseTypeLink;
    
    public void performDefaults()
    {	  	   
@@ -258,9 +210,18 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
    public Control createBody(Composite parent)
    {
-	  
 	  DefaultAnnotationModifier.INSTANCE.addAnnotationChangedListener(this);
+	  
 	  Composite composite = FormBuilder.createComposite(parent, 1);
+      /*baseTypeLink = FormBuilder.createLink(composite, "Extension of sfi:<a>Pix</a>");
+      baseTypeLink.addSelectionListener(new SelectionAdapter()
+      {
+         @Override
+         public void widgetSelected(SelectionEvent e)
+         {
+            baseTypeLink.setText("You have clicked '" + e.text + "'.");
+         }
+      });*/
 
       form = new SashForm(composite, SWT.VERTICAL);
       form.setLayoutData(FormBuilder.createDefaultLimitedMultiLineWidgetGridData(400));
@@ -812,14 +773,14 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       {
          updateAvailableCardinality(term);
          return (term instanceof XSDTerm || term instanceof XSDAttributeDeclaration) ?
-               new Integer(StructLabelProvider.getCardinalityIndex((XSDConcreteComponent) term)) : null;
+               new Integer(XsdTextProvider.getCardinalityIndex((XSDConcreteComponent) term)) : null;
       }
       
       private void updateAvailableCardinality(EObject term)
       {
          if (term instanceof XSDElementDeclaration)
          {
-            attributeComboViewer.setInput(StructLabelProvider.CARDINALITY_LABELS);
+            attributeComboViewer.setInput(StructLabelProvider.DEFAULT_CARDINALITY_LABELS);
          }
          else if (term instanceof XSDAttributeDeclaration)
          {

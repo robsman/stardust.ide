@@ -18,6 +18,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlSwitch;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XsdIconProvider;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XsdTextProvider;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.parts.IconFactory;
 import org.eclipse.stardust.modeling.data.structured.annotations.DefaultAnnotationModifier;
@@ -26,27 +28,7 @@ import org.eclipse.stardust.modeling.data.structured.properties.DefaultValueModi
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
-import org.eclipse.xsd.XSDAttributeDeclaration;
-import org.eclipse.xsd.XSDAttributeUse;
-import org.eclipse.xsd.XSDAttributeUseCategory;
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDConstrainingFacet;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDPatternFacet;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.XSDWildcard;
-import org.eclipse.xsd.util.XSDSwitch;
-
+import org.eclipse.xsd.*;
 
 public class StructLabelProvider extends LabelProvider
    implements ITableLabelProvider
@@ -64,7 +46,7 @@ public class StructLabelProvider extends LabelProvider
       Structured_Messages.ValuesColumnLabel
    };
    
-   public static final String[] CARDINALITY_LABELS =
+   public static final String[] DEFAULT_CARDINALITY_LABELS =
    {
       Structured_Messages.CardinalityRequiredLabel,
       Structured_Messages.CardinalityOptionalLabel,
@@ -87,6 +69,7 @@ public class StructLabelProvider extends LabelProvider
       xsdIconProvider = new XsdIconProvider();
       xpdlIconProvider = new XpdlIconProvider();
       xsdTextProvider = new XsdTextProvider();
+      xsdTextProvider.CARDINALITY_LABELS = DEFAULT_CARDINALITY_LABELS;
       xpdlTextProvider = new XpdlTextProvider();
    }
 
@@ -132,6 +115,7 @@ public class StructLabelProvider extends LabelProvider
    public String getColumnText(Object element, int columnIndex)
    {
       column = columnIndex;
+      xsdTextProvider.setColumn(columnIndex); 
       
       if (tree != null && element instanceof XSDElementDeclaration)
       {
@@ -144,11 +128,7 @@ public class StructLabelProvider extends LabelProvider
          }
       }
       
-      if (columnIndex == 3 && element instanceof XSDComponent)
-      {
-         return DefaultValueModifier.getStringForElement((XSDComponent) element);
-      }      
-      if (columnIndex == 1 && element instanceof XSDEnumerationFacet)
+      if (columnIndex == 1 && element instanceof XSDEnumerationFacet || columnIndex == 3 && element instanceof XSDComponent)
       {
          return DefaultValueModifier.getStringForElement((XSDComponent) element);
       }  
@@ -195,52 +175,6 @@ public class StructLabelProvider extends LabelProvider
       }
       return ""; //$NON-NLS-1$
    }
-   
-   public static int getCardinalityIndex(XSDConcreteComponent term)
-   {
-      if (term instanceof XSDTerm && term.eContainer() instanceof XSDParticle)
-      {
-         XSDParticle particle = (XSDParticle) term.eContainer();
-         int minOccurs = particle.getMinOccurs();
-         int maxOccurs = particle.getMaxOccurs();
-         if (maxOccurs == XSDParticle.UNBOUNDED || maxOccurs > 1)
-         {
-            if (minOccurs == 0)
-            {
-               return 2;
-            }
-            else
-            {
-               return 3;
-            }
-         }
-         else
-         {
-            if (minOccurs == 0)
-            {
-               return 1;
-            }
-            else
-            {
-               return 0;
-            }
-         }
-      }
-      else if (term instanceof XSDAttributeDeclaration)
-      {
-         XSDAttributeUse xsdAttributeUse = (XSDAttributeUse) term.eContainer();
-         // can be null for unresolved references
-         if (xsdAttributeUse != null)
-         {
-            XSDAttributeUseCategory category = xsdAttributeUse.getUse();
-            if (category != null)
-            {
-               return category.getValue();
-            }
-         }
-      }
-      return -1;
-   }
 
    private class XpdlIconProvider extends XpdlSwitch<String>
    {
@@ -251,67 +185,7 @@ public class StructLabelProvider extends LabelProvider
 
       public String defaultCase(EObject object)
       {
-         return xsdIconProvider.doSwitch(object);
-      }
-   }
-
-   private class XsdIconProvider extends XSDSwitch<String>
-   {
-      public String caseXSDSchema(XSDSchema schema)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDSchema.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDElementDeclaration(XSDElementDeclaration element)
-      {
-         return element.isElementDeclarationReference()
-               ? "{org.eclipse.xsd.edit}icons/full/obj16/XSDElementUse.gif" //$NON-NLS-1$
-               : "{org.eclipse.xsd.edit}icons/full/obj16/XSDElementDeclaration.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDComplexTypeDefinition(XSDComplexTypeDefinition complexType)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDComplexTypeDefinition.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition simpleType)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDSimpleTypeDefinition.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDModelGroup(XSDModelGroup modelGroup)
-      {
-         switch (modelGroup.getCompositor().getValue())
-         {
-         case XSDCompositor.ALL: return "{org.eclipse.xsd.edit}icons/full/obj16/XSDModelGroupAll.gif"; //$NON-NLS-1$
-         case XSDCompositor.CHOICE: return "{org.eclipse.xsd.edit}icons/full/obj16/XSDModelGroupChoice.gif"; //$NON-NLS-1$
-         case XSDCompositor.SEQUENCE: return "{org.eclipse.xsd.edit}icons/full/obj16/XSDModelGroupSequence.gif"; //$NON-NLS-1$
-         }
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDModelGroupUnresolved.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDEnumerationFacet(XSDEnumerationFacet enumeration)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDEnumerationFacet.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDPatternFacet(XSDPatternFacet pattern)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDPatternFacet.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDAttributeDeclaration(XSDAttributeDeclaration attribute)
-      {
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDAttributeDeclaration.gif"; //$NON-NLS-1$
-      }
-
-      public String caseXSDWildcard(XSDWildcard wildcard)
-      {
-         if (wildcard.eContainer() instanceof XSDComplexTypeDefinition)
-         {
-            return "{org.eclipse.xsd.edit}icons/full/obj16/XSDWildcardAttribute.gif"; //$NON-NLS-1$
-         }
-         return "{org.eclipse.xsd.edit}icons/full/obj16/XSDWildcardElement.gif"; //$NON-NLS-1$
+         return xsdIconProvider.doSwitch(object).getQualifiedName();
       }
    }
 
@@ -361,152 +235,6 @@ public class StructLabelProvider extends LabelProvider
       public String defaultCase(EObject object)
       {
          return xsdTextProvider.doSwitch(object);
-      }
-   }
-
-   private class XsdTextProvider extends XSDSwitch<String>
-   {
-      public String caseXSDSchema(XSDSchema schema)
-      {
-         switch (column)
-         {
-         case 0: return "schema"; //$NON-NLS-1$
-         case 1: return schema.getTargetNamespace();
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDElementDeclaration(XSDElementDeclaration element)
-      {
-         XSDElementDeclaration ref = null;
-         if (element.isElementDeclarationReference())
-         {
-            ref = element.getResolvedElementDeclaration();
-         }
-         switch (column)
-         {
-         case 0: return ref == null ? element.getName() : ref.getName();
-         case 1:
-            if (ref != null)
-            {
-               // TODO: (fh) is that correct ?
-               return ref.getQName(element);
-            }
-            XSDTypeDefinition type = element.getTypeDefinition();
-            if (type != null)
-            {
-               return type.getQName(element);
-            }
-            break;
-         case 2:
-            int cardinalityIndex = getCardinalityIndex(element);
-            if (cardinalityIndex >= 0)
-            {
-               return CARDINALITY_LABELS[cardinalityIndex];
-            }
-            else if (element.eContainer() instanceof XSDParticle)
-            {
-               XSDParticle particle = (XSDParticle) element.eContainer();
-               int minOccurs = particle.getMinOccurs();
-               int maxOccurs = particle.getMaxOccurs();
-               if (maxOccurs == XSDParticle.UNBOUNDED)
-               {
-                  return Integer.toString(minOccurs) + "..*";  //$NON-NLS-1$
-               }
-               else
-               {
-                  return Integer.toString(minOccurs) + ".." + Integer.toString(maxOccurs);  //$NON-NLS-1$
-               }
-            }
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition simpleType)
-      {
-         switch (column)
-         {
-         case 0: return simpleType.getName();
-         case 1: return simpleType.getBaseTypeDefinition().getName();
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDComplexTypeDefinition(XSDComplexTypeDefinition complexType)
-      {
-         switch (column)
-         {
-         case 0: return complexType.getName();
-         case 1:
-            XSDComplexTypeContent content = complexType.getContent();
-            if (content instanceof XSDParticle)
-            {
-               // TODO:
-               return ""; //$NON-NLS-1$
-            }
-            return complexType.getBaseTypeDefinition().getName();
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDConstrainingFacet(XSDConstrainingFacet facet)
-      {
-         switch (column)
-         {
-//         case 0: return '<' + facet.getFacetName() + '>';
-//         case 1: return facet.getLexicalValue();
-         case 0: return facet.getLexicalValue();
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDModelGroup(XSDModelGroup model)
-      {
-         switch (column)
-         {
-         case 0: return '<' + model.getCompositor().getName() + '>';
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDAttributeDeclaration(XSDAttributeDeclaration attribute)
-      {
-         switch (column)
-         {
-         case 0: return attribute.getName();
-         case 1:
-            if (attribute.getTypeDefinition() == null)
-            {
-               return("<unresolved>"); //$NON-NLS-1$
-            }
-            return attribute.getTypeDefinition().getName();
-         case 2:
-            int cardinalityIndex = getCardinalityIndex(attribute);
-            if (cardinalityIndex >= 0)
-            {
-               return XSDAttributeUseCategory.get(cardinalityIndex).getLiteral();
-            }
-         }
-         return ""; //$NON-NLS-1$
-      }
-
-      public String caseXSDWildcard(XSDWildcard wildcard)
-      {
-         switch (column)
-         {
-         case 0:
-            String label = "any"; //$NON-NLS-1$
-            if (((XSDWildcard) wildcard).eContainer() instanceof XSDComplexTypeDefinition)
-            {
-               label += "Attribute"; //$NON-NLS-1$
-            }
-            return '<' + label + '>';
-         }
-         return ""; //$NON-NLS-1$
-      }
-      public String defaultCase(EObject object)
-      {
-         return getDefaultLabel(object);
       }
    }
 }

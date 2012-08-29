@@ -37,9 +37,11 @@
 	</extension>
 
 	<extension point="org.eclipse.stardust.modeling.data.structured.applicationInfo">
-		<category name="%infinityProcessPlatform"
-			defaultPrefix="carnot"
-			namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
+        <category
+              defaultPrefix="carnot"
+              id="org.eclipse.stardust.modeling.data.structured"
+              name="%infinityProperties"
+              namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
 			<element name="storage"
 				empty="true"
 				label="%storage">
@@ -58,11 +60,6 @@
 					<enumeration name="%transient" value="false"/>
 				</element>
 			</element>
-		</category>
-        <category
-            defaultPrefix="carnot"
-            name="%infinityProperties"
-            namespace="http://www.carnot.ag/workflowmodel/3.1/struct">
             <element name="ui"
                 empty="true"
                 label="%uiCategory">

@@ -26,10 +26,10 @@ import org.eclipse.xsd.XSDNamedComponent;
 
 public class AnnotationContentProvider implements ITreeContentProvider
 {
-   private static final String APPLICATION_INFO_EXTENSION_ID = "org.eclipse.stardust.modeling.data.structured.applicationInfo"; //$NON-NLS-1$
-   private static final String CATEGORY_ELEMENT = "category"; //$NON-NLS-1$
-   private static final String NAME_ATTRIBUTE = "name"; //$NON-NLS-1$
-   private static final String IPP_CATEGORY_NAME = "Infinity Process Platform"; //$NON-NLS-1$
+   private static final String APPLICATION_INFO_EXTENSION_ID = 
+         "org.eclipse.stardust.modeling.data.structured.applicationInfo"; //$NON-NLS-1$
+   private static final String IPP_CATEGORY_ID = APPLICATION_INFO_EXTENSION_ID.substring(0, 
+         APPLICATION_INFO_EXTENSION_ID.lastIndexOf('.')); //$NON-NLS-1$
    
    private TypeDeclarationType declaration;
    private boolean isInternalSchema;
@@ -69,7 +69,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < elements.size(); i++)
       {
          CategoryAnnotation category = elements.get(i);
-         if (!filter || !IPP_CATEGORY_NAME.equals(category.getName()))
+         if (!filter || !IPP_CATEGORY_ID.equals(category.getId()))
          {
             result.add(category);
          }
@@ -96,7 +96,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
          for (int i = 0; i < configs.length; i++)
          {
             String name = configs[i].getName();
-            if (CATEGORY_ELEMENT.equals(name))
+            if ("category".equals(name))
             {
                elements.add(new CategoryAnnotation(this, decl, configs[i]));
             }
@@ -127,7 +127,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < children.size(); i++)
       {
          ElementAnnotation annotation = (ElementAnnotation) children.get(i);
-         if ("storage".equals(annotation.getConfigurationAttribute(NAME_ATTRIBUTE))) //$NON-NLS-1$
+         if ("storage".equals(annotation.getConfigurationAttribute("name"))) //$NON-NLS-1$
          {
             return annotation;
          }
@@ -142,9 +142,9 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < configs.length; i++)
       {
          String name = configs[i].getName();
-         if (CATEGORY_ELEMENT.equals(name))
+         if ("category".equals(name))
          {
-            if (IPP_CATEGORY_NAME.equals(configs[i].getAttribute(NAME_ATTRIBUTE)))
+            if (IPP_CATEGORY_ID.equals(configs[i].getAttribute("id")))
             {
                return new CategoryAnnotation(this, decl, configs[i]);
             }

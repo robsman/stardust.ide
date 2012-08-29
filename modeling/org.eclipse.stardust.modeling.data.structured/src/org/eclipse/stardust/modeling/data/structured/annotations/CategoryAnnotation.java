@@ -53,6 +53,11 @@ public class CategoryAnnotation implements IAnnotation
       return config;
    }
 
+   public String getId()
+   {
+      return config.getAttribute("id"); //$NON-NLS-1$
+   }
+
    public String getName()
    {
       return config.getAttribute("name"); //$NON-NLS-1$
