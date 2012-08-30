@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<ivy-module version="2.0"
+   xmlns:m="http://ant.apache.org/ivy/maven"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+   <info organisation="com.infinity.bpm" module="ipp-bpm-model-validation" revision="${ipp.version.full}" />
+
+   <configurations>
+      <conf name="ipp-bpm-model-validation-runtime" description="Dependencies which should be written to POM - Runtime Scope" />
+      <conf name="pom" description="POM Artifact" />
+   </configurations>
+
+   <publications>
+      <artifact name="ipp-bpm-model-validation" type="jar" conf="ipp-bpm-model-validation-runtime" ext="jar" />
+      <artifact name="ipp-bpm-model-validation" type="pom" conf="pom" ext="pom" />
+   </publications>
+
+   <dependencies>
+      <!-- ipp-bpm-model-validation-runtime -->
+      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-validation-runtime->ipp-bpm-model-runtime"/>
+   </dependencies>
+</ivy-module>

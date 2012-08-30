@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<ivy-module version="2.0"
+   xmlns:m="http://ant.apache.org/ivy/maven"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+   <info organisation="com.infinity.bpm" module="ipp-bpm-model" revision="${ipp.version.full}" />
+
+   <configurations>
+      <conf name="ipp-bpm-model-runtime" description="Dependencies which should be written to POM - Runtime Scope" />
+      <conf name="pom" description="POM Artifact" />
+   </configurations>
+
+   <publications>
+      <artifact name="ipp-bpm-model" type="jar" conf="ipp-bpm-model-runtime" ext="jar" />
+      <artifact name="ipp-bpm-model" type="pom" conf="pom" ext="pom" />
+   </publications>
+
+   <dependencies>
+      <!-- pom-runtime -->
+      <dependency org="org.eclipse.emf" name="emf-ecore" rev="2.4.2" conf="ipp-bpm-model-runtime->default"/>
+      <dependency org="org.eclipse.emf" name="emf-ecore-xmi" rev="2.4.2" conf="ipp-bpm-model-runtime->default"/>
+      <dependency org="org.eclipse.xsd" name="xsd" rev="2.4.2" conf="ipp-bpm-model-runtime->default"/>
+   </dependencies>
+</ivy-module>
