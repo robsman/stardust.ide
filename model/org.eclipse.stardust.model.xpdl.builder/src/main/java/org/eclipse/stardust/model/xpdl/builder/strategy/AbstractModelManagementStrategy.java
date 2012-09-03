@@ -43,6 +43,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	{
 		if (reload)
 		{
+		   models.clear();
 			for (ModelType model: loadModels())
 			{
 			models.put(model.getId(), model);
