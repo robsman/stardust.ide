@@ -12,6 +12,11 @@ package org.eclipse.stardust.modeling.core.editors.parts;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -53,12 +58,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 /**
  * @author fherinean
@@ -69,12 +69,12 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
    private static final String ORG_ECLIPSE_XSD_EDIT = "org.eclipse.xsd.edit"; //$NON-NLS-1$
 
    private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
-   
+
    private static IconFactory defaultFactory = new IconFactory(null);
-   
+
    private boolean simpleIcon = false;
    private boolean keepSimpleIconState = false;
-   
+
    public void keepSimpleIconState()
    {
       keepSimpleIconState = true;
@@ -96,9 +96,9 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
 
       if(!keepSimpleIconState)
       {
-         simpleIcon = editor == null ? true : DiagramPlugin.isBusinessView(editor);
+         simpleIcon = editor == null ? true : false;
       }
-      
+
       if (model instanceof IModelElementNodeSymbol)
       {
          EObject newModel = ((IModelElementNodeSymbol) model).getModelElement();
@@ -373,7 +373,7 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
       else if (PKG_CWM.getApplicationContextTypeType().equals(model)
             || PKG_CWM.getContextType().equals(model))
       {
-         return "icons/full/obj16/context.gif"; //$NON-NLS-1$ 
+         return "icons/full/obj16/context.gif"; //$NON-NLS-1$
       }
       else if (PKG_CWM.getActivityType().equals(model))
       {

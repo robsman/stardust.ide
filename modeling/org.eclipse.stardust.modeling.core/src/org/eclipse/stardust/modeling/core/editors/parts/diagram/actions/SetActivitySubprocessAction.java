@@ -12,7 +12,7 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.action.Action;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -42,14 +42,8 @@ public class SetActivitySubprocessAction extends Action
    {
       CompoundCommand cmd = new CompoundCommand();
 
-      if (DiagramPlugin.isBusinessView(editor)
-            && !ActivityImplementationType.SUBPROCESS_LITERAL.equals(activity.getImplementation()))
-      {
-         cmd.add(ActivityCommandFactory.getSetImplementationCommand(
-               ActivityImplementationType.SUBPROCESS_LITERAL, activity));
-      }
       cmd.add(ActivityCommandFactory.getSetSubprocessCommand(activity, process));
-      
+
       editor.getEditDomain().getCommandStack().execute(cmd.unwrap());
    }
 }

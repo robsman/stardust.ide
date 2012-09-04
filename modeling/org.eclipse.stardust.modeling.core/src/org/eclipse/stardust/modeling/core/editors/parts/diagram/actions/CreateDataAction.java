@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -65,9 +66,8 @@ public class CreateDataAction extends SelectionAction
 
    protected boolean calculateEnabled()
    {
-      return (config == null ^ !DiagramPlugin.isBusinessView(
-         (WorkflowModelEditor) getWorkbenchPart()))
-         && getSelectedObjects().size() == 1 && (getModel() != null || isDataCategoryNode());
+      return (config != null
+         && getSelectedObjects().size() == 1 && (getModel() != null || isDataCategoryNode()));
    }
 
    private boolean isDataCategoryNode()

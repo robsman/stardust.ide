@@ -25,6 +25,7 @@ import org.eclipse.gef.palette.PanningSelectionToolEntry;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
@@ -72,7 +73,7 @@ public class WorkflowModelEditorPaletteFactory
    public static final int MODEL_DIAGRAM = 1;
 
    public static final int PROCESS_DEFINITION_DIAGRAM = 2;
-   
+
    public static DiagramModeType diagramModeType = null;
 
 //   private static final String LINK_TOOL_DESCRIPTION = Editor_Messages.LINK_TOOL_DESCRIPTION;
@@ -86,11 +87,11 @@ public class WorkflowModelEditorPaletteFactory
    {
       WorkflowModelEditorPaletteFactory.diagramModeType = mode;
    }
-   
+
    public static PaletteRoot createPaletteForDiagram(DiagramEditorPage editor)
    {
       boolean isModelDiagram = MODEL_DIAGRAM == getDiagramType(editor.getDiagram());
-      
+
       PaletteRoot palette = new PaletteRoot();
 
       PaletteContainer controlGroup = createControlGroup(editor, isModelDiagram);
@@ -113,8 +114,7 @@ public class WorkflowModelEditorPaletteFactory
 
    public static void updatePalette(DiagramEditorPage editor)
    {
-      boolean isBusinessPerspective = DiagramPlugin.isBusinessView(editor
-            .getWorkflowModelEditor());
+      boolean isBusinessPerspective = false;
       PaletteRoot palette = editor.getPaletteRoot();
       PaletteContainer rootNodes = (PaletteContainer) palette.getChildren().get(2);
       List children = rootNodes.getChildren();
@@ -139,19 +139,19 @@ public class WorkflowModelEditorPaletteFactory
       }
       if (getDiagramType(editor.getDiagram()) == PROCESS_DEFINITION_DIAGRAM
             && WorkflowModelEditorPaletteFactory.diagramModeType != null)
-      {         
+      {
          rootNodes = (PaletteContainer) palette.getChildren().get(0);
          children = rootNodes.getChildren();
          CarnotCreationToolEntry entry = (CarnotCreationToolEntry) children.get(2);
          if(diagramModeType.equals(DiagramModeType.MODE_450_LITERAL))
          {
-            entry.setVisible(true);            
+            entry.setVisible(true);
          }
          else
          {
-            entry.setVisible(false);            
+            entry.setVisible(false);
          }
-      }      
+      }
    }
 
    private static int getDiagramType(DiagramType diagram)
@@ -175,10 +175,10 @@ public class WorkflowModelEditorPaletteFactory
    {
       PaletteGroup controls = new PaletteGroup(Diagram_Messages.LB_PALETTEGROUP_Controls);
 
-      ToolEntry selectionEntry = new PanningSelectionToolEntry();      
+      ToolEntry selectionEntry = new PanningSelectionToolEntry();
       selectionEntry.setToolClass(CarnotSelectionTool.class);
       selectionEntry.setLabel(Diagram_Messages.LBL_SELECT);
-      
+
       controls.add(selectionEntry);
 //      controls.add(new MarqueeToolEntry());
 
@@ -198,11 +198,11 @@ public class WorkflowModelEditorPaletteFactory
 /*      PaletteDrawer drawer = new PaletteDrawer(
             Editor_Messages.LB_PALETTEDRAWER_Connections, DiagramPlugin
                   .getImageDescriptor("icons/blank16.gif")); //$NON-NLS-1$*/
-      
+
       PaletteGroup drawer = new PaletteGroup(Diagram_Messages.LB_PALETTEDRAWER_Connections);
       PaletteEntry connectionTool = new CarnotConnectionCreationToolEntry(
             Diagram_Messages.WorkflowModelEditorPaletteFactory_ConnectToolLabel, // label
-            Diagram_Messages.WorkflowModelEditorPaletteFactory_ConnectToolDescription, // description 
+            Diagram_Messages.WorkflowModelEditorPaletteFactory_ConnectToolDescription, // description
             new DynamicConnectionFactory(editor.getWorkflowModelEditor()), // CreationFactory
             DiagramPlugin.getImageDescriptor("icons/full/obj16/connection.gif"), // small icon //$NON-NLS-1$
             DiagramPlugin.getImageDescriptor("icons/full/obj16/connection.gif")); // large icon //$NON-NLS-1$
@@ -330,27 +330,27 @@ public class WorkflowModelEditorPaletteFactory
                   .getImageDescriptor("icons/full/obj16/pool.gif"), //$NON-NLS-1$
             DiagramPlugin.getImageDescriptor("icons/pool24.gif")); //$NON-NLS-1$
          toolEntry.setVisible(false);
-         
-         return toolEntry;         
+
+         return toolEntry;
       }
       else
       {
-         CarnotCreationToolEntry toolEntry = 
+         CarnotCreationToolEntry toolEntry =
             new CarnotCreationToolEntry(Diagram_Messages.LB_TOOLENTRY_Lane,
             Diagram_Messages.DESC_TOOLENTRY_CreatesNewLane, NodeCreationFactory
                   .getLaneFactory(), DiagramPlugin
                   .getImageDescriptor("icons/full/obj16/lane.gif"), //$NON-NLS-1$
             DiagramPlugin.getImageDescriptor("icons/lane24.gif")); //$NON-NLS-1$
-                  
+
          if(editor.getDiagram().getMode().equals(DiagramModeType.MODE_450_LITERAL))
          {
             toolEntry.setVisible(true);
          }
          else
          {
-            toolEntry.setVisible(false);            
+            toolEntry.setVisible(false);
          }
-         
+
          return toolEntry;
       }
    }
@@ -448,7 +448,7 @@ public class WorkflowModelEditorPaletteFactory
                   .getImageDescriptor("icons/full/obj16/end_event.gif"), //$NON-NLS-1$
             DiagramPlugin.getImageDescriptor("icons/connection24.gif")); //$NON-NLS-1$
       startingTools.add(startTool);
-      startingTools.add(endTool);      
+      startingTools.add(endTool);
       // add an entry for each trigger type
       SpiExtensionRegistry registry = SpiExtensionRegistry.instance();
       Map extensions = registry

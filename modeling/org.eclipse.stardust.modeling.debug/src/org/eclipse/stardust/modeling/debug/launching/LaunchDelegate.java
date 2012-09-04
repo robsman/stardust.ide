@@ -44,6 +44,10 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.JavaLaunchDelegate;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.progress.UIJob;
+
 import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -66,9 +70,6 @@ import org.eclipse.stardust.modeling.debug.model.CWMDebugTarget;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.progress.UIJob;
 
 /**
  * @author sborn
@@ -81,7 +82,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
       throw new CoreException(new Status(IStatus.ERROR, Constants.ID_CWM_DEBUG_MODEL, 0,
             message, e));
    }
-   
+
    private static void validate(ILaunchConfiguration configuration) throws CoreException
    {
       // project
@@ -92,7 +93,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
          abort(MessageFormat.format(Debug_Messages.MSG_ProjectDoesNotExist,
                new Object[] { projectName }), null);
       }
-      
+
       // model file name
       String modelFile = LaunchConfigUtils.getModelFileName(configuration);
       IFile file = project.getFile(new Path(modelFile));
@@ -158,7 +159,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
       return processDefinition;
    }
-   
+
    public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch,
          IProgressMonitor monitor) throws CoreException
    {
@@ -172,8 +173,8 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
          ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
 
-         boolean analystMode = DiagramPlugin.isBusinessView(editor);
-         
+         boolean analystMode = false;
+
          if (null != editor)
          {
             boolean hasIssues = hasIssues(editor,
@@ -187,7 +188,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
                      Debug_Messages.LaunchDelegate_WARNING,
                      Debug_Messages.LaunchDelegate_ModelInconsistencies,
                      Debug_Messages.LaunchDelegate_MSG_SuggestAnalystSession, true);
-               
+
                if (0 == choice)
                {
                   analystMode = true;
@@ -245,10 +246,10 @@ public class LaunchDelegate extends JavaLaunchDelegate
                }
             }
          }
-         
+
          DebugPlugin.getDefault().addDebugEventListener(
                new CommunicationBreakpointInitializer());
-         
+
          final boolean finalAnalystMode = analystMode;
          final ILaunchConfiguration finalConfiguration = configuration;
          ILaunchConfiguration cfg = (ILaunchConfiguration) Proxy.newProxyInstance(
@@ -287,7 +288,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
                return result;
             }
          });
-         
+
          super.launch(cfg, mode, launch, monitor);
 
          IDebugTarget javaTarget = launch.getDebugTarget();
@@ -322,7 +323,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
    private String getModeName(boolean analystMode)
    {
-      return analystMode ? Debug_Messages.LaunchDelegate_MODE_Analyst : Debug_Messages.LaunchDelegate_MODE_Developer;  
+      return analystMode ? Debug_Messages.LaunchDelegate_MODE_Analyst : Debug_Messages.LaunchDelegate_MODE_Developer;
    }
 
    private boolean hasIssues(WorkflowModelEditor editor, String perspective)
@@ -371,7 +372,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
       }
       return result[0];
    }
-   
+
    private int showYesNoCancel(final Shell shell, String name,
          final String title, final String message, final boolean confirm)
    {
@@ -406,7 +407,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
       }
       return result[0];
    }
-   
+
    private int showYesCancel(final Shell shell, String name,
          final String title, final String message, final boolean confirm)
    {
@@ -440,11 +441,11 @@ public class LaunchDelegate extends JavaLaunchDelegate
       }
       return result[0];
    }
-   
+
    /**
     * This debug event listener is responsible for communication breakpoint installation.
     * It removes itself after its work is done.
-    *  
+    *
     * @author sborn
     * @version $Revision$
     */
@@ -454,12 +455,12 @@ public class LaunchDelegate extends JavaLaunchDelegate
             IResource resource, Class type, String methodName, String signature)
             throws CoreException
       {
-         // TODO: do not create a new one if this breakpoint already exists 
+         // TODO: do not create a new one if this breakpoint already exists
          IJavaMethodBreakpoint bp = JDIDebugModel.createMethodBreakpoint(
-               resource, 
-               type.getName(), 
-               methodName, 
-               signature, 
+               resource,
+               type.getName(),
+               methodName,
+               signature,
                true, false,   // entry?, exit?
                false,         // native methods only
                -1, -1, -1,    // Marker position and character range
@@ -467,18 +468,18 @@ public class LaunchDelegate extends JavaLaunchDelegate
                false,         // register with breakpoint manager
                null           // map with attributes or null
          );
-         
+
          bp.setPersisted(false);
          target.breakpointAdded(bp);
-         
+
          return bp;
       }
-      
+
       private String jniVoidSignature()
       {
          return "V"; //$NON-NLS-1$
       }
-      
+
       private String jniSignature(Class type)
       {
          if (null == type)
@@ -489,41 +490,41 @@ public class LaunchDelegate extends JavaLaunchDelegate
          StringBuffer signature = new StringBuffer();
          if (type.isArray())
          {
-            signature.append('['); 
+            signature.append('[');
          }
 
          // TODO: primitive type arrays (i.e. boolean[]) do not work with this implementation
          if (boolean.class.equals(type))
          {
-            signature.append('Z'); 
+            signature.append('Z');
          }
          else if (byte.class.equals(type))
          {
-            signature.append('B'); 
+            signature.append('B');
          }
          else if (char.class.equals(type))
          {
-            signature.append('C'); 
+            signature.append('C');
          }
          else if (double.class.equals(type))
          {
-            signature.append('D'); 
+            signature.append('D');
          }
          else if (float.class.equals(type))
          {
-            signature.append('F'); 
+            signature.append('F');
          }
          else if (int.class.equals(type))
          {
-            signature.append('I'); 
+            signature.append('I');
          }
          else if (long.class.equals(type))
          {
-            signature.append('J'); 
+            signature.append('J');
          }
          else if (short.class.equals(type))
          {
-            signature.append('S'); 
+            signature.append('S');
          }
          else
          {
@@ -535,7 +536,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
          return signature.toString();
       }
-      
+
       public void handleDebugEvents(DebugEvent[] events)
       {
          for (int i = 0; i < events.length; i++)
@@ -565,16 +566,16 @@ public class LaunchDelegate extends JavaLaunchDelegate
                               jniSignature(TransitionTokenDigest.class),
                               jniVoidSignature());
                         createBreakpoint(javaTarget, modelResource,
-                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.performedTransitionMethodName, signature); 
+                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.performedTransitionMethodName, signature);
 
                         signature = MessageFormat.format("({0}){1}", //$NON-NLS-1$
                               jniSignature(ActivityInstanceDigest.class),
                               jniVoidSignature());
                         createBreakpoint(javaTarget, modelResource,
-                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.startedActivityInstanceMethodName, 
+                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.startedActivityInstanceMethodName,
                               signature);
                         createBreakpoint(javaTarget, modelResource,
-                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.completedActivityInstanceMethodName, 
+                              Debugger.WorkflowEventListenerImpl.class, Debugger.WorkflowEventListenerImpl.completedActivityInstanceMethodName,
                               signature);
 
                         signature = MessageFormat.format("(){0}", //$NON-NLS-1$
@@ -582,7 +583,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
                         createBreakpoint(javaTarget, modelResource,
                               ManagedRunnerHelper.class, ManagedRunnerHelper.suspendThreadMethodName,
                               signature);
-                        
+
                         DebugPlugin.getDefault().removeDebugEventListener(this);
                      }
                      catch (CoreException e)
@@ -594,7 +595,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
          }
       }
    }
-   
+
    private static class ValidationJob extends Job
    {
       private Map filters = new HashMap();
@@ -604,7 +605,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
       public ValidationJob(String perspectiveId, ModelType model)
       {
          super(Diagram_Messages.TXT_WorkflowModelValidation);
-         this.model = model; 
+         this.model = model;
          if (perspectiveId != null)
          {
             filters.put("perspectiveType", perspectiveId); //$NON-NLS-1$
@@ -613,15 +614,15 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
       protected IStatus run(IProgressMonitor monitor)
       {
-         ValidationService vs = ValidationService.getInstance(); 
+         ValidationService vs = ValidationService.getInstance();
 
          try
          {
             ValidatorRegistry.setFilters(filters);
             vs.setProgressMonitor(monitor);
-            
+
             issues = vs.validateModel(model);
-   
+
             if (monitor.isCanceled())
             {
                return Status.CANCEL_STATUS;
@@ -639,7 +640,7 @@ public class LaunchDelegate extends JavaLaunchDelegate
 
          return Status.OK_STATUS;
       }
-      
+
       public boolean hasIssues()
       {
          return issues != null && issues.length > 0;

@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -57,9 +58,8 @@ public class CreateActivityAction extends SelectionAction
 
    protected boolean calculateEnabled()
    {
-      return (implementation == null ^ !DiagramPlugin.isBusinessView(
-         (WorkflowModelEditor) getWorkbenchPart()))
-         && getSelectedObjects().size() == 1 && getProcess() != null;
+      return (implementation != null
+         && getSelectedObjects().size() == 1 && getProcess() != null);
    }
 
    private ProcessDefinitionType getProcess()
@@ -83,11 +83,11 @@ public class CreateActivityAction extends SelectionAction
       if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
       {
          execute(createCommand(process));
-         CreationUtils.showInOutlineAndEdit(activity);   
+         CreationUtils.showInOutlineAndEdit(activity);
       }
       else
       {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
+         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
       }
    }
 

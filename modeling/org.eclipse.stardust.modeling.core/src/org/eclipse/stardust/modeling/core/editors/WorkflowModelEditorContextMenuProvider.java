@@ -42,6 +42,9 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -96,8 +99,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
 
 public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider {
 	private final ActionRegistry registry;
@@ -294,7 +295,7 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
             GEFActionConstants.GROUP_PRINT);
       addActionToMenu(manager,
             ObjectRepositoryActivator.ADD_EXTERNAL_REFERENCES_ACTION,
-            GEFActionConstants.GROUP_PRINT);      
+            GEFActionConstants.GROUP_PRINT);
 		// Search
 		// addActionToMenu(manager, DiagramActionConstants.SEARCH_CONNECTION,
 		// GEFActionConstants.GROUP_PRINT);
@@ -649,8 +650,7 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 
 	private void addApplicationMenuEntries(ApplicationType application,
 			IMenuManager manager) {
-		if (!DiagramPlugin.isBusinessView(editor)
-				&& !application.isInteractive()) {
+		if (!application.isInteractive()) {
 			if (!editor.getModelServer().requireLock(application)) {
 				ModelType model = (ModelType) application.eContainer();
 				List modelApplicationTypes = model.getApplicationType();
@@ -696,7 +696,7 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 	}
 
 	private void addDataMenuEntries(DataType data, IMenuManager manager) {
-		if (!DiagramPlugin.isBusinessView(editor) && !data.isPredefined()) {
+		if (!data.isPredefined()) {
 			if (!editor.getModelServer().requireLock(data)) {
 				ModelType model = (ModelType) data.eContainer();
 				EList<DataTypeType> dataTypes = model.getDataType();
@@ -773,36 +773,31 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 			}
 			manager.appendToGroup(GEFActionConstants.GROUP_EDIT, split);
 
-			if (!DiagramPlugin.isBusinessView(editor)) {
-				MenuManager implementation = new MenuManager(
-						Diagram_Messages.TXT_MENU_MANAGER_Implementation);
-				SetActivityImplementationAction[] actions = new SetActivityImplementationAction[] {
-						new SetActivityImplementationAction(
-								ActivityImplementationType.ROUTE_LITERAL,
-								activity, domain),
-						new SetActivityImplementationAction(
-								ActivityImplementationType.MANUAL_LITERAL,
-								activity, domain),
-						new SetActivityImplementationAction(
-								ActivityImplementationType.APPLICATION_LITERAL,
-								activity, domain),
-						new SetActivityImplementationAction(
-								ActivityImplementationType.SUBPROCESS_LITERAL,
-								activity, domain) };
-				for (int i = 0; i < actions.length; i++) {
-					SetActivityImplementationAction action = actions[i];
-					if (action.getImplType().equals(
-							activity.getImplementation())) {
-						action.setChecked(true);
-					}
-					implementation.add(action);
-				}
-				manager.appendToGroup(GEFActionConstants.GROUP_EDIT,
-						implementation);
-			}
 
-			if (DiagramPlugin.isBusinessView(editor)
-					|| ActivityImplementationType.SUBPROCESS_LITERAL
+         MenuManager implementation = new MenuManager(
+               Diagram_Messages.TXT_MENU_MANAGER_Implementation);
+         SetActivityImplementationAction[] actions = new SetActivityImplementationAction[] {
+               new SetActivityImplementationAction(
+                     ActivityImplementationType.ROUTE_LITERAL, activity, domain),
+               new SetActivityImplementationAction(
+                     ActivityImplementationType.MANUAL_LITERAL, activity, domain),
+               new SetActivityImplementationAction(
+                     ActivityImplementationType.APPLICATION_LITERAL, activity, domain),
+               new SetActivityImplementationAction(
+                     ActivityImplementationType.SUBPROCESS_LITERAL, activity, domain)};
+         for (int i = 0; i < actions.length; i++ )
+         {
+            SetActivityImplementationAction action = actions[i];
+            if (action.getImplType().equals(activity.getImplementation()))
+            {
+               action.setChecked(true);
+            }
+            implementation.add(action);
+         }
+         manager.appendToGroup(GEFActionConstants.GROUP_EDIT, implementation);
+
+
+			if (ActivityImplementationType.SUBPROCESS_LITERAL
 							.equals(activity.getImplementation())) {
 				MenuManager subprocess = new MenuManager(
 						Diagram_Messages.WorkflowModelEditorContextMenuProvider_TXT_MENU_MANAGER_Subprocess);

@@ -58,9 +58,7 @@ public class CreateInteractiveApplicationAction extends SelectionAction
 
    protected boolean calculateEnabled()
    {
-      return !DiagramPlugin.isBusinessView(
-         (WorkflowModelEditor) getWorkbenchPart())
-         && getSelectedObjects().size() == 1
+      return getSelectedObjects().size() == 1
          && (getModel() != null || isApplicationCategoryNode());
    }
 

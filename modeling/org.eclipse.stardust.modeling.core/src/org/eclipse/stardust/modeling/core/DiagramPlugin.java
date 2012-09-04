@@ -265,41 +265,6 @@ public class DiagramPlugin extends AbstractUIPlugin
       return null;
    }
 
-   public static boolean isBusinessView(WorkflowModelEditor editor)
-   {
-      if (editor != null && BpmUiConstants.CWD_PERSPECTIVE_ID.equals(
-            getCurrentPerspectiveId()))
-      {
-         ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
-         IDebugTarget[] targets = lm.getDebugTargets();
-         for (int i = 0; i < targets.length; i++)
-         {
-            if (targets[i] instanceof ICWMDebugTarget)
-            {
-               ICWMDebugTarget cwmTarget = (ICWMDebugTarget) targets[i];
-               if (!cwmTarget.isTerminated() && cwmTarget.getEditor().equals(editor))
-               {
-                  PlatformUI.getPreferenceStore().setValue(
-                     "org.eclipse.stardust.modeling.core.analystView", cwmTarget.isAnalystMode()); //$NON-NLS-1$
-                  break;
-               }
-            }
-         }
-      }
-
-      // TODO: Consider to refactor the logic of this method to an explicit interface.
-      // Quick fix: This prevents exceptions when diagrams are exported by project tate.
-      try
-      {
-         return PlatformUI.getPreferenceStore().getBoolean(
-               "org.eclipse.stardust.modeling.core.analystView"); //$NON-NLS-1$
-      }
-      catch (RuntimeException e)
-      {
-         return false;
-      }
-   }
-
    public static String getViewAsPerspectiveId(WorkflowModelEditor editor)
    {
       return DiagramPlugin.getCurrentPerspectiveId();

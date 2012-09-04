@@ -16,6 +16,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -33,12 +36,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 
 public class SetSymbolContainerCommand extends Command
 {
@@ -174,10 +173,7 @@ public class SetSymbolContainerCommand extends Command
          IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
                .getActivePage().getActiveEditor();
          if (activity != null
-               && (ActivityUtil.isInteractive(activity)
-                     || ( !ActivityUtil.isSubprocessActivity(activity)
-                           && activeEditor instanceof WorkflowModelEditor
-                           && DiagramPlugin.isBusinessView((WorkflowModelEditor) activeEditor))))
+               && (ActivityUtil.isInteractive(activity)))
          {
             // if not leaving a swimlane, keep the newPerformer
             IModelParticipant originalPerformer = activity.getPerformer();
@@ -198,7 +194,7 @@ public class SetSymbolContainerCommand extends Command
                newPerformer = swimlane.getParticipant();
 
                LaneParticipantCommandFactory.addSetPerformerCommands(command, activity,
-                     newPerformer, originalPerformer, false, targetEditPart);               
+                     newPerformer, originalPerformer, false, targetEditPart);
             }
          }
       }
@@ -232,7 +228,7 @@ public class SetSymbolContainerCommand extends Command
                if(reference != null)
                {
                   originalPerformer = (IModelParticipant) reference.getIdentifiable();
-               }               
+               }
             }
             EObject originalContainer = startEventSymbol.eContainer();
             IModelParticipant newPerformer = originalContainer instanceof ISwimlaneSymbol
@@ -248,7 +244,7 @@ public class SetSymbolContainerCommand extends Command
                }
                newPerformer = swimlane.getParticipant() != null ? swimlane
                      .getParticipant() : newPerformer;
-                     
+
                LaneParticipantCommandFactory.addSetPerformerCommands(command, trigger,
                      newPerformer, originalPerformer, performerAtt, false, targetEditPart);
             }

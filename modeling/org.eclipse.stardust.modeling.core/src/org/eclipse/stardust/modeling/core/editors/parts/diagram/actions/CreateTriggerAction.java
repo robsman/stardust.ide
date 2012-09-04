@@ -48,8 +48,7 @@ public class CreateTriggerAction extends SelectionAction
 
    protected boolean calculateEnabled()
    {
-      return !DiagramPlugin.isBusinessView((WorkflowModelEditor) getWorkbenchPart())
-         && getSelectedObjects().size() == 1 && getProcess() != null;
+      return getSelectedObjects().size() == 1 && getProcess() != null;
    }
 
    public void run()
@@ -57,13 +56,13 @@ public class CreateTriggerAction extends SelectionAction
       ProcessDefinitionType process = getProcess();
       Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
       if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-      {      
+      {
          execute(createCommand());
          CreationUtils.showInOutlineAndEdit(trigger);
       }
       else
       {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
+         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
       }
    }
 

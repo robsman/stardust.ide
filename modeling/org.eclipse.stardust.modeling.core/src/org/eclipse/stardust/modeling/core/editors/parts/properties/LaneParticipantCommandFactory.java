@@ -19,6 +19,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertySource;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -35,14 +38,9 @@ import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetAttributeReferenceCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.views.properties.IPropertyDescriptor;
-import org.eclipse.ui.views.properties.IPropertySource;
 
 public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
 {
@@ -85,10 +83,7 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
          ActivitySymbolType activitySymbol = (ActivitySymbolType) activitySymbols.get(i);
          ActivityType activity = (ActivityType) activitySymbol.getModelElement();
 
-         if (ActivityUtil.isInteractive(activity)
-               || DiagramPlugin.isBusinessView((WorkflowModelEditor) PlatformUI
-                     .getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                     .getActiveEditor()))
+         if (ActivityUtil.isInteractive(activity))
          {
             addSetPerformerCommands(command, activity, participant, activity
                   .getPerformer(), false, null);
@@ -112,9 +107,9 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
                if(reference != null)
                {
                   element = (IModelParticipant) reference.getIdentifiable();
-               }               
+               }
             }
-            addSetPerformerCommands(command, trigger, participant, element, attribute, false, null);               
+            addSetPerformerCommands(command, trigger, participant, element, attribute, false, null);
          }
       }
    }
@@ -130,7 +125,7 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
                || originalPerformer == null
                || MessageDialog.openQuestion(target.getViewer().getControl().getShell(),
                      Diagram_Messages.MSG_DIA_SET_PERFORMANCER,
-                     getMessage(newPerformer == null ? null : newPerformer.getName(), 
+                     getMessage(newPerformer == null ? null : newPerformer.getName(),
                            originalPerformer.getName(), trigger)))
          {
             setPerformer = true;
@@ -149,8 +144,8 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
             if(addAttribute)
             {
                command.add(new SetValueCmd(trigger, CWM_PKG.getIExtensibleElement_Attribute(),
-                     attribute));               
-            }            
+                     attribute));
+            }
             command.add(new SetAttributeReferenceCmd(attribute, newPerformer));
          }
       }
@@ -160,7 +155,7 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
                CWM_PKG.getStartEventSymbol_TriggersConnections(),
                getSymbolFeature(newPerformer), CWM_PKG
                      .getTriggersConnectionType_ParticipantSymbol());
-      }      
+      }
    }
 
    public static void addSetPerformerCommands(CompoundCommand command,

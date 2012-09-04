@@ -12,7 +12,9 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -34,8 +36,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateM
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 
 
 public class CreateSubprocessAction extends SelectionAction
@@ -76,14 +76,6 @@ public class CreateSubprocessAction extends SelectionAction
    private CompoundCommand createCommand(final DiagramType[] newDiagram)
    {
       final CompoundCommand compoundCommand = new CompoundCommand();
-
-      if (DiagramPlugin.isBusinessView((WorkflowModelEditor) getWorkbenchPart())
-            && !ActivityImplementationType.SUBPROCESS_LITERAL.equals(activity
-                  .getImplementation()))
-      {
-         compoundCommand.add(ActivityCommandFactory.getSetImplementationCommand(
-               ActivityImplementationType.SUBPROCESS_LITERAL, activity));
-      }
 
       IdFactory id = new IdFactory(Diagram_Messages.ID_ProcessDefinition,
             Diagram_Messages.BASENAME_ProcessDefinition);

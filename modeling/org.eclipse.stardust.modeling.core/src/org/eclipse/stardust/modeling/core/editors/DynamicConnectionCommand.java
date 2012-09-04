@@ -31,6 +31,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -104,29 +108,26 @@ import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
 
 public class DynamicConnectionCommand extends Command
 {
    /*
     * List of all possible conections (as of version 4.3):
-    * 
+    *
     * i) Connections with underlying model element
     * - TransitionConnectionType
     * - DataMappingConnectionType
-    * 
+    *
     * ii) Connections with references
     * - ExecutedByConnectionType
     * - PerformsConnectionType
     * - PartOfConnectionType
     * - WorksForConnectionType
     * - SubProcessOfConnectionType
-    * 
+    *
     * iii) Annotation connections
     * - RefersToConnectionType
-    * 
+    *
     * iv) User defined connections
     * - GenericLinkConnectionType
     */
@@ -268,12 +269,12 @@ public class DynamicConnectionCommand extends Command
          AttributeType attribute = AttributeUtil.getAttribute(trigger, PredefinedConstants.PARTICIPANT_ATT);
          if (attribute == null)
          {
-            attribute = AttributeUtil.createAttribute(PredefinedConstants.PARTICIPANT_ATT);            
-            command.add(new SetValueCmd(trigger, PKG.getIExtensibleElement_Attribute(), attribute));               
+            attribute = AttributeUtil.createAttribute(PredefinedConstants.PARTICIPANT_ATT);
+            command.add(new SetValueCmd(trigger, PKG.getIExtensibleElement_Attribute(), attribute));
          }
          command.add(new SetAttributeReferenceCmd(attribute, participant));
-      }      
-      
+      }
+
       if (feature == PKG.getTransitionConnectionType())
       {
          addIfNotNull(command, getCreateTransitionCommand(reference));
@@ -283,10 +284,9 @@ public class DynamicConnectionCommand extends Command
       {
          ActivityType activity = (ActivityType) extractModelElement(targetSymbol);
          IModelParticipant originalPerformer = activity.getPerformer();
-         IModelParticipant newPerformer = (IModelParticipant) extractModelElement(sourceSymbol);         
-         
-         if (!DiagramPlugin.isBusinessView(editor)
-               && !ActivityUtil.isInteractive(activity))
+         IModelParticipant newPerformer = (IModelParticipant) extractModelElement(sourceSymbol);
+
+         if (!ActivityUtil.isInteractive(activity))
          {
             if (!canChangeImplementation())
             {
@@ -305,13 +305,13 @@ public class DynamicConnectionCommand extends Command
          command.add(getSetValueCommand(PKG.getActivityType_Performer()));
          // view a message - user can confirm or cancel to change the performer
          if(originalPerformer != null && !originalPerformer.equals(newPerformer))
-         {        	 
-        	 String message = MessageFormat.format(Diagram_Messages.MSG_Replace_performer_with_performer_for_activity, 
+         {
+        	 String message = MessageFormat.format(Diagram_Messages.MSG_Replace_performer_with_performer_for_activity,
         			     new Object[]{LaneParticipantCommandFactory.getPerformerName(originalPerformer),
         			     LaneParticipantCommandFactory.getPerformerName(newPerformer),activity.getName()});
             if(!MessageDialog.openQuestion(editor.getSite().getShell(),Diagram_Messages.MSG_DIA_SET_PERFORMER, message)) {
                 cancelCommand();
-               
+
             }
          }
       }
@@ -325,7 +325,7 @@ public class DynamicConnectionCommand extends Command
 
       if (feature == PKG.getExecutedByConnectionType())
       {
-         command.add(getSetValueCommand(PKG.getActivityType_Application()));         
+         command.add(getSetValueCommand(PKG.getActivityType_Application()));
          // target is activity
          final ActivityType activity = (ActivityType) extractModelElement(targetSymbol);
          IIdentifiableModelElement modelElement = extractModelElement(sourceSymbol);
@@ -333,14 +333,14 @@ public class DynamicConnectionCommand extends Command
          if (modelElement instanceof ApplicationType)
          {
             // source is applications symbol, depends on context
-            final ApplicationType application = (ApplicationType) modelElement;  
-                        
+            final ApplicationType application = (ApplicationType) modelElement;
+
             IModelParticipant lanePerformer = GenericUtils.getLanePerformerForActivity(activity);
             if (lanePerformer != null && application.isInteractive())
             {
-               command.add(new SetValueCmd(activity, PKG.getActivityType_Performer(), lanePerformer));               
-            }            
-            
+               command.add(new SetValueCmd(activity, PKG.getActivityType_Performer(), lanePerformer));
+            }
+
             List<DataMappingType> dataMappings = activity.getDataMapping();
             for (final DataMappingType dm : dataMappings)
             {
@@ -348,19 +348,19 @@ public class DynamicConnectionCommand extends Command
                // move all IN data mappings to the application context
                if(direction.equals(DirectionType.IN_LITERAL))
                {
-                  final DataType data = dm.getData();      
+                  final DataType data = dm.getData();
                   final String context = PredefinedConstants.APPLICATION_CONTEXT;
                   // must be a command
                   command.add(new SetValueCmd(dm, PKG.getDataMappingType_Context(), context));
                   Command myCmd = new DelegatingCommand()
                   {
                      public Command createDelegate()
-                     {                        
+                     {
                         String accessPointId = getAccessPoint(activity, application, data, direction, context);
                         if(accessPointId != null)
                         {
                            return new SetValueCmd(dm, PKG.getDataMappingType_ApplicationAccessPoint(), accessPointId);
-                        }                                    
+                        }
                         return null;
                      }
                   };
@@ -368,7 +368,7 @@ public class DynamicConnectionCommand extends Command
                }
                else if(direction.equals(DirectionType.OUT_LITERAL))
                {
-                  final DataType data = dm.getData();      
+                  final DataType data = dm.getData();
                   final String context = PredefinedConstants.APPLICATION_CONTEXT;
                   // if empty, switch context
                   if(org.eclipse.stardust.common.StringUtils.isEmpty(dm.getApplicationAccessPoint()))
@@ -377,16 +377,16 @@ public class DynamicConnectionCommand extends Command
                      Command myCmd = new DelegatingCommand()
                      {
                         public Command createDelegate()
-                        {                        
+                        {
                            String accessPointId = getAccessPoint(activity, application, data, direction, context);
                            if(accessPointId != null)
                            {
                               return new SetValueCmd(dm, PKG.getDataMappingType_ApplicationAccessPoint(), accessPointId);
-                           }                                    
+                           }
                            return null;
                         }
                      };
-                     command.add(myCmd);                     
+                     command.add(myCmd);
                   }
                }
             }
@@ -405,7 +405,7 @@ public class DynamicConnectionCommand extends Command
             {
                command.add(UnexecutableCommand.INSTANCE);
             }
-            
+
             command.add(getSetValueCommand(PKG.getOrganizationType_TeamLead(), role));
          }
          else
@@ -434,10 +434,10 @@ public class DynamicConnectionCommand extends Command
          }
          else
          {
-            cmd.setParent(pool == null ? (ISymbolContainer) diagram : pool);            
+            cmd.setParent(pool == null ? (ISymbolContainer) diagram : pool);
          }
          */
-         cmd.setParent(pool == null ? (ISymbolContainer) diagram : pool);            
+         cmd.setParent(pool == null ? (ISymbolContainer) diagram : pool);
          cmd.setSourceSymbol(sourceSymbol);
          cmd.setTargetSymbol(targetSymbol);
          cmd.setSourceAnchorType(sourceAnchor);
@@ -490,8 +490,8 @@ public class DynamicConnectionCommand extends Command
    private Command getSetActivityControlFlowCmd(ActivityType activity,
          FlowControlType flow)
    {
-	   JoinSplitType type = JoinSplitType.XOR_LITERAL;	
-	   
+	   JoinSplitType type = JoinSplitType.XOR_LITERAL;
+
 	   if(flow.equals(FlowControlType.SPLIT_LITERAL))
 	   {
 		   if(PlatformUI.getPreferenceStore().getBoolean(
@@ -502,11 +502,11 @@ public class DynamicConnectionCommand extends Command
 			   {
 					if(SplitJoinDialog.isAnd())
 					{
-						type = JoinSplitType.AND_LITERAL;						
+						type = JoinSplitType.AND_LITERAL;
 					}
 					else
 					{
-						type = JoinSplitType.XOR_LITERAL;										
+						type = JoinSplitType.XOR_LITERAL;
 					}
 			   }
 		   }
@@ -517,7 +517,7 @@ public class DynamicConnectionCommand extends Command
 		   }
 		   else
 		   {
-			   type = JoinSplitType.XOR_LITERAL;				
+			   type = JoinSplitType.XOR_LITERAL;
 		   }
 		}
 		else
@@ -530,11 +530,11 @@ public class DynamicConnectionCommand extends Command
 				{
 					if(SplitJoinDialog.isAnd())
 					{
-						type = JoinSplitType.AND_LITERAL;						
+						type = JoinSplitType.AND_LITERAL;
 					}
 					else
 					{
-						type = JoinSplitType.XOR_LITERAL;										
+						type = JoinSplitType.XOR_LITERAL;
 					}
 				}
 			}
@@ -545,10 +545,10 @@ public class DynamicConnectionCommand extends Command
 			}
 			else
 			{
-				type = JoinSplitType.XOR_LITERAL;				
-			}			
+				type = JoinSplitType.XOR_LITERAL;
+			}
 		}
-	   
+
       Command cmd = new SetActivityControlFlowCmd(editor, activity, flow, type)
       {
          public void execute()
@@ -589,7 +589,7 @@ public class DynamicConnectionCommand extends Command
 
       final ActivityType activity = activitySymbol.getActivity();
       final ApplicationType application = activity.getApplication();
-      
+
       final DataType data = dataSymbol.getData();
 
       final DirectionType direction = sourceSymbol == dataSymbol
@@ -636,7 +636,7 @@ public class DynamicConnectionCommand extends Command
             dm.setData(data);
             dm.setDirection(direction);
             dm.setContext(context);
-            
+
             if(application != null)
             {
                String accessPointId = DynamicConnectionCommand.this.getAccessPoint(activity, application, data, direction, context);
@@ -647,7 +647,7 @@ public class DynamicConnectionCommand extends Command
             }
             return dm;
          }
-         
+
          public void redo()
          {
             super.redo();
@@ -693,11 +693,11 @@ public class DynamicConnectionCommand extends Command
          {
             if(GenericUtils.dataHasClassAssigned(data))
             {
-               dataClass = referenceClassName;                        
+               dataClass = referenceClassName;
             }
          }
       }
-      
+
       // get all access points for activity
       List accessPoints = ActivityUtil.getAccessPoints(activity,
             DirectionType.IN_LITERAL.equals(direction), context);
@@ -706,8 +706,8 @@ public class DynamicConnectionCommand extends Command
       if (data.getType().getId().equals(PredefinedConstants.PRIMITIVE_DATA))
       {
          accessPointId = getAccessPoint(activity, accessPoints, data);
-      }               
-      
+      }
+
       // 1st iteration check for types
       if(accessPointId == null)
       {
@@ -719,51 +719,51 @@ public class DynamicConnectionCommand extends Command
       }
       return accessPointId;
    }
-   
+
    //
-   
-   private String getAccessPoint(final ActivityType activity, 
+
+   private String getAccessPoint(final ActivityType activity,
          Object dataClass, List accessPoints, boolean checkType, DataType data)
    {
       TypeFinder typeFinder = new TypeFinder((EObject) activity);
-      
+
       for (Iterator i = accessPoints.iterator(); i.hasNext();)
       {
-         AccessPointType accessPoint = (AccessPointType) i.next();  
+         AccessPointType accessPoint = (AccessPointType) i.next();
          DirectionType accessPointDirection = accessPoint.getDirection();
          String attrValue = AccessPointUtil.getTypeAttributeValue(accessPoint);
-         
-         // DMS               
+
+         // DMS
          if(GenericUtils.isDMSDataType(data))
          {
             DataTypeType type = accessPoint.getType();
             if(type != null && type.getId().equals(data.getType().getId()))
             {
-               return accessPoint.getId();           
+               return accessPoint.getId();
             }
-         } 
+         }
          // Knitware
          else if(GenericUtils.isStructuredDataType(data))
          {
             String structuredTypeData = GenericUtils.getReferenceClassName(data);
             String structuredType = AttributeUtil.getAttributeValue(accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
-            if(!StringUtils.isEmpty(structuredTypeData) 
-                  && !StringUtils.isEmpty(structuredType)                         
+            if(!StringUtils.isEmpty(structuredTypeData)
+                  && !StringUtils.isEmpty(structuredType)
                   && structuredTypeData.equals(structuredType))
             {
-               return accessPoint.getId();           
+               return accessPoint.getId();
             }
-         }               
-         
+         }
+
          // compare types
          // should not be connected already!
-         if(!GenericUtils.isConnected(activity, accessPoint.getId()) 
+         if(!GenericUtils.isConnected(activity, accessPoint.getId())
                && dataClass != null)
          {
             if(attrValue != null)
             {
                if(dataClass instanceof Class)
-               {                        
+               {
                   Class applicationClass;
                   try
                   {
@@ -774,15 +774,15 @@ public class DynamicConnectionCommand extends Command
                         {
                            if(applicationClass.isAssignableFrom((Class) dataClass))
                            {
-                              return accessPoint.getId();           
-                           }                                                            
+                              return accessPoint.getId();
+                           }
                         }
                         else
                         {
                            if(((Class) dataClass).isAssignableFrom(applicationClass))
                            {
-                              return accessPoint.getId();           
-                           }                                                                                          
+                              return accessPoint.getId();
+                           }
                         }
                      }
                      else
@@ -792,8 +792,8 @@ public class DynamicConnectionCommand extends Command
                         {
                            if(applicationClass.equals(dataClass))
                            {
-                              return accessPoint.getId();           
-                           }                                                            
+                              return accessPoint.getId();
+                           }
                         }
                         else
                         {
@@ -801,15 +801,15 @@ public class DynamicConnectionCommand extends Command
                            {
                               if(applicationClass.isAssignableFrom((Class) dataClass))
                               {
-                                 return accessPoint.getId();           
-                              }                                                            
+                                 return accessPoint.getId();
+                              }
                            }
                            else
                            {
                               if(((Class) dataClass).isAssignableFrom(applicationClass))
                               {
-                                 return accessPoint.getId();           
-                              }                                                                                             
+                                 return accessPoint.getId();
+                              }
                            }
                         }
                      }
@@ -819,26 +819,26 @@ public class DynamicConnectionCommand extends Command
                      TypeInfo typeInfo = typeFinder.findType(attrValue);
                      if(typeInfo != null && typeInfo.isSameType(((Class) dataClass).getName()))
                      {
-                        return accessPoint.getId();           
+                        return accessPoint.getId();
                      }
                   }
-               }  
+               }
                else
                {
                   TypeInfo typeInfo = typeFinder.findType(attrValue);
                   if(typeInfo != null && typeInfo.isSameType((String) dataClass))
                   {
-                     return accessPoint.getId();           
-                  }                        
+                     return accessPoint.getId();
+                  }
                }
             }
-         }           
+         }
       }
       return null;
    }
 
    // special case for primitive data
-   private String getAccessPoint(final ActivityType activity, 
+   private String getAccessPoint(final ActivityType activity,
          List accessPoints, DataType data)
    {
       String dataType = AttributeUtil.getAttributeValue(data, PredefinedConstants.TYPE_ATT);
@@ -846,19 +846,19 @@ public class DynamicConnectionCommand extends Command
       // 1st iteration, check for parameter
       for (Iterator i = accessPoints.iterator(); i.hasNext();)
       {
-         AccessPointType accessPoint = (AccessPointType) i.next();  
+         AccessPointType accessPoint = (AccessPointType) i.next();
          String attrValue = AccessPointUtil.getTypeAttributeValue(accessPoint);
          String accessPointId = accessPoint.getId();
-         
+
          // should not be connected already!
-         if(!GenericUtils.isConnected(activity, accessPoint.getId())) 
+         if(!GenericUtils.isConnected(activity, accessPoint.getId()))
          {
             if(attrValue != null)
-            {                     
+            {
                // is parameter, not method (prefer)
                if(accessPointId.indexOf("(") == -1) //$NON-NLS-1$
                {
-                  // attrValue could be something like 'long', parameter 
+                  // attrValue could be something like 'long', parameter
                   if(attrValue.equals(dataType))
                   {
                      return accessPointId;
@@ -869,9 +869,9 @@ public class DynamicConnectionCommand extends Command
       }
       return null;
    }
-      
+
    //
-   
+
    private String getDataMappingContext(ActivityType activity)
    {
       if (ActivityImplementationType.ROUTE_LITERAL == activity.getImplementation())
@@ -980,7 +980,7 @@ public class DynamicConnectionCommand extends Command
                ((TransitionType) reference[0]).setCondition("CONDITION"); //$NON-NLS-1$
                XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
                ((TransitionType) reference[0]).setExpression(expression);
-               ModelUtils.setCDataString(expression.getMixed(), "true", true); //$NON-NLS-1$                              
+               ModelUtils.setCDataString(expression.getMixed(), "true", true); //$NON-NLS-1$
                return (IModelElement) reference[0];
             }
 
@@ -1076,7 +1076,7 @@ public class DynamicConnectionCommand extends Command
             {
                if (element instanceof EClass)
                {
-                  String eClassName = ((EClass) element).getName(); 
+                  String eClassName = ((EClass) element).getName();
                   return getExternalLabel(eClassName);
                }
                else if (element instanceof LinkTypeType)
@@ -1302,11 +1302,11 @@ public class DynamicConnectionCommand extends Command
          StartEventSymbol triggerSymbol = null;
          if(targetSymbol != null && targetSymbol instanceof StartEventSymbol)
          {
-            triggerSymbol = (StartEventSymbol) targetSymbol;            
+            triggerSymbol = (StartEventSymbol) targetSymbol;
          }
          else if(sourceSymbol != null && sourceSymbol instanceof StartEventSymbol)
          {
-            triggerSymbol = (StartEventSymbol) sourceSymbol;                        
+            triggerSymbol = (StartEventSymbol) sourceSymbol;
          }
          TriggerType trigger = triggerSymbol.getTrigger();
          if(trigger == null)
@@ -1326,7 +1326,7 @@ public class DynamicConnectionCommand extends Command
             }
          }
       }
-      
+
       if (PKG.getDataMappingConnectionType() == type)
       {
          // special constraint: data mappings must have source & target of different types
@@ -1337,7 +1337,7 @@ public class DynamicConnectionCommand extends Command
                return false;
             }
          }
-         
+
          // Drawing of in data mappings on sub process with copy all data should be blocked.
          ActivitySymbolType activitySymbol = null;
          if(targetSymbol != null && targetSymbol instanceof ActivitySymbolType)
@@ -1351,7 +1351,7 @@ public class DynamicConnectionCommand extends Command
                {
                   return false;
                }
-            }                  
+            }
          }
       }
       else
@@ -1394,12 +1394,12 @@ public class DynamicConnectionCommand extends Command
          {
             if(!isValidOrganizationMemberConnection(sourceSymbol, targetSymbol))
             {
-               return false;               
+               return false;
             }
             IModelParticipant child = (IModelParticipant) extractModelElement(sourceSymbol);
             if(child != null && child.getId().equals(PredefinedConstants.ADMINISTRATOR_ROLE))
             {
-               return false;               
+               return false;
             }
          }
          else if (PKG.getTeamLeadConnectionType().equals(type))
@@ -1413,12 +1413,12 @@ public class DynamicConnectionCommand extends Command
             if (parent.getTeamLead() == child)
             {
                return false;
-            }  
+            }
             if(child.getId().equals(PredefinedConstants.ADMINISTRATOR_ROLE))
             {
-               return false;               
+               return false;
             }
-            
+
             return (null == parent.getTeamLead());
          }
 
@@ -1464,14 +1464,14 @@ public class DynamicConnectionCommand extends Command
 /*      // special check if Container is a LaneSymbol
       if (activity != null && activity.getPerformer() != null &&
     		  targetSymbol.eContainer() instanceof LaneSymbol)
-      {         
+      {
          // and has a participant
-         // and this participant is the same as the one from the container 
+         // and this participant is the same as the one from the container
          if(((LaneSymbol) targetSymbol.eContainer()).getParticipant() == null
          || ((LaneSymbol) targetSymbol.eContainer()).getParticipant().equals(activity.getPerformer()))
          {
             return true;
-         }         
+         }
          return false;
       }*/
       return activity != null;
@@ -1481,7 +1481,7 @@ public class DynamicConnectionCommand extends Command
    {
       ActivityType activity = (ActivityType) extractModelElement(targetSymbol);
       return activity != null
-            && (DiagramPlugin.isBusinessView(editor) || ActivityImplementationType.APPLICATION_LITERAL == activity
+            && (ActivityImplementationType.APPLICATION_LITERAL == activity
                   .getImplementation()) && activity.getApplication() == null;
    }
 
@@ -1507,7 +1507,7 @@ public class DynamicConnectionCommand extends Command
 
       return isContained;
    }
-   
+
    private boolean isValidPartOfConnection(INodeSymbol sourceSymbol,
          INodeSymbol targetSymbol)
    {

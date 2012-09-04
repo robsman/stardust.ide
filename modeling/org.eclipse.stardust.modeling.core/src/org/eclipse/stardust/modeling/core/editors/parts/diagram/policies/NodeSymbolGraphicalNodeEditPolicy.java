@@ -28,6 +28,8 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.ui.PlatformUI;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -66,7 +68,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DynamicConnectionFactory;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -85,13 +86,12 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValu
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.properties.LinkTypeGeneralPropertyPage;
-import org.eclipse.ui.PlatformUI;
 
 
 public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
 {
    private WorkflowModelEditor editor;
-   
+
    public NodeSymbolGraphicalNodeEditPolicy(WorkflowModelEditor editor)
    {
       this.editor = editor;
@@ -387,7 +387,7 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
          {
             ActivityType activity = ((ActivitySymbolType) targetSymbol).getActivity();
             canEnd = (null != activity)
-                  && (DiagramPlugin.isBusinessView(getFlowObjectEditPart().getEditor()) || ActivityUtil
+                  && (ActivityUtil
                         .isApplicationActivity(activity))
                   && (null == activity.getApplication());
          }
@@ -399,7 +399,7 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
          {
             ActivityType activity = ((ActivitySymbolType) targetSymbol).getActivity();
             canEnd = (null != activity)
-                  && (DiagramPlugin.isBusinessView(getFlowObjectEditPart().getEditor()) || ActivityUtil
+                  && (ActivityUtil
                         .isInteractive(activity)) && (null == activity.getPerformer());
             if (!canEnd
                   && (!ActivityUtil.isInteractive(activity) || (ActivityImplementationType.APPLICATION_LITERAL
@@ -679,7 +679,7 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
             .getConnectionEditPart();
       // old point
       EditPart currentSource = connectionPart.getSource();
-      EditPart currentTarget = connectionPart.getTarget();      
+      EditPart currentTarget = connectionPart.getTarget();
       // the other unchanged point of the connection
       EditPart otherPoint = connectionPart.getTarget();
 
@@ -920,13 +920,13 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
       idFactory.computeNames(process.getTransition());
       transitionModelElement.setId(idFactory.getId());
       transitionModelElement.setName(idFactory.getName());
-      
+
       // add default condition
       transitionModelElement.setCondition("CONDITION"); //$NON-NLS-1$
       XmlTextNode expression = factory.createXmlTextNode();
       transitionModelElement.setExpression(expression);
-      ModelUtils.setCDataString(expression.getMixed(), "true", true); //$NON-NLS-1$                              
-      
+      ModelUtils.setCDataString(expression.getMixed(), "true", true); //$NON-NLS-1$
+
       cmds.add(new SetValueCmd(process, CarnotWorkflowModelPackage.eINSTANCE
             .getProcessDefinitionType_Transition(), transitionModelElement));
       // change direction
@@ -1017,11 +1017,11 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
             ModelServer server = editor.getModelServer();
             if (server != null && server.requireLock((EObject) model))
             {
-               return UnexecutableCommand.INSTANCE;                  
+               return UnexecutableCommand.INSTANCE;
             }
-         }         
+         }
       }
-      
+
       if (ReloadConnectionsAction.REQ_RELOAD_CONNECTIONS.equals(request.getType()))
       {
          return getReloadConnectionsCommand();

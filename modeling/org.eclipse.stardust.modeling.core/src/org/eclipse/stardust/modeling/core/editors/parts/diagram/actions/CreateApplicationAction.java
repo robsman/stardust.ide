@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -69,10 +70,9 @@ public class CreateApplicationAction extends SelectionAction
 
    protected boolean calculateEnabled()
    {
-      return (config == null ^ !DiagramPlugin.isBusinessView(
-         (WorkflowModelEditor) getWorkbenchPart()))
+      return (config != null
          && getSelectedObjects().size() == 1
-         && (getModel() != null || isApplicationCategoryNode());
+         && (getModel() != null || isApplicationCategoryNode()));
    }
 
    private boolean isApplicationCategoryNode()

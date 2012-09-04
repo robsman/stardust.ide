@@ -10,23 +10,26 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
-import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
+
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.ui.CarnotPreferenceNode;
+import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 
 public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
 {
@@ -59,10 +62,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
             AttributeUtil.getBooleanValue(activity, PredefinedConstants.ACTIVITY_IS_RELOCATE_TARGET_ATT));
       hibernateCheck.setSelection(activity.isHibernateOnCreation());
 
-      if (ActivityUtil.isInteractive(activity)
-            || DiagramPlugin.isBusinessView((WorkflowModelEditor) PlatformUI
-                  .getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                  .getActiveEditor()))
+      if (ActivityUtil.isInteractive(activity))
       {
          if (performer == null)
          {
@@ -75,8 +75,8 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
             refreshTree();
          }
       }
-      
-      
+
+
       if (ActivityUtil.isInteractive(activity))
       {
          if (qualityControl == null)
@@ -98,8 +98,8 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
                         .getName(), "core"); //$NON-NLS-1$
             addNodeTo(null, new CarnotPreferenceNode(qualityControlCodes, getElement(), 2), null);
             refreshTree();
-         }          
-      }      
+         }
+      }
    }
 
    private void setButtonState(Button button, boolean enabled, boolean selected)
@@ -110,7 +110,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      super.loadElementFromFields(symbol, element);      
+      super.loadElementFromFields(symbol, element);
       ActivityType activity = (ActivityType) element;
       switch (activity.getImplementation())
       {
@@ -130,10 +130,10 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
             PredefinedConstants.ACTIVITY_IS_RELOCATE_TARGET_ATT,
             relocateTargetCheck.getSelection() ? Boolean.TRUE : null);
       activity.setHibernateOnCreation(hibernateCheck.getSelection());
-      
+
       updateRelocateTransition((ProcessDefinitionType) activity.eContainer());
    }
-  
+
 
    private void updateRelocateTransition(ProcessDefinitionType process)
    {
@@ -189,6 +189,6 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
       relocateTargetCheck = FormBuilder.createCheckBox(panel, "Is relocation target",
             new GridData(SWT.LEAD, SWT.CENTER, true, false));
    }
-   
+
 
 }
