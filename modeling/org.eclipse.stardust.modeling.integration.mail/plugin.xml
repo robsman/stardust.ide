@@ -6,7 +6,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -52,9 +52,6 @@
             <and>
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
                <test property="com.infinity.properties.metaType" value="mailBean"/>
-               <not>
-                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
-               </not>
             </and>
          </enabledWhen>
       </page>

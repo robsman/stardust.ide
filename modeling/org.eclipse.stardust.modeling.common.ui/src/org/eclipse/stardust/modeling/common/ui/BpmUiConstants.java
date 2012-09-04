@@ -16,8 +16,6 @@ public interface BpmUiConstants
       "ag.carnot.workflow.modeler.debuggingPerspective"; //$NON-NLS-1$
    public static final String CWM_PERSPECTIVE_ID =
       "ag.carnot.workflow.modeler.workflowModelingPerspective"; //$NON-NLS-1$
-   public static final String CWB_PERSPECTIVE_ID =
-      "ag.carnot.workflow.modeler.businessModelingPerspective"; //$NON-NLS-1$
    public static final String ID_NEW_MODEL_WIZARD =
 	  "org.eclipse.stardust.modeling.core.wizards.NewWorkflowDiagramWizard"; //$NON-NLS-1$
    public static final String ID_REPOSITORY_VIEW =

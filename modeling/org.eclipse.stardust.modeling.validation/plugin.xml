@@ -6,7 +6,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -55,10 +55,10 @@
             class="org.eclipse.stardust.modeling.validation.impl.QualityAssuranceCodeValidator"
             id="org.eclipse.stardust.modeling.validation.qualityassurancecode"
             targetType="org.eclipse.stardust.model.xpdl.carnot.ModelType">
-      </modelValidator>      
+      </modelValidator>
  </extension>
- 
- 
+
+
    <extension
          point="org.eclipse.stardust.modeling.validation.modelElementValidator">
 
@@ -80,9 +80,6 @@
          <filter
                name="metaType"
                value="jms"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.MailTriggerValidator"
@@ -92,9 +89,6 @@
          <filter
                name="metaType"
                value="mail"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.ManualTriggerValidator"
@@ -104,9 +98,6 @@
          <filter
                name="metaType"
                value="manual"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.ManualTriggerValidator"
@@ -116,9 +107,6 @@
          <filter
                name="metaType"
                value="scan"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.TimerTriggerValidator"
@@ -128,9 +116,6 @@
          <filter
                name="metaType"
                value="timer"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
 
       <modelElementValidator
@@ -146,9 +131,6 @@
          <filter
                name="metaType"
                value="jms"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.PlainJavaValidator"
@@ -158,9 +140,6 @@
          <filter
                name="metaType"
                value="plainJava"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBeanValidator"
@@ -170,9 +149,6 @@
          <filter
                name="metaType"
                value="sessionBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBean20Validator"
@@ -182,9 +158,6 @@
          <filter
                name="metaType"
                value="sessionBean20"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.WebserviceApplicationValidator"
@@ -194,9 +167,6 @@
          <filter
                name="metaType"
                value="webservice"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
 
       <modelElementValidator
@@ -204,21 +174,7 @@
             id="org.eclipse.stardust.modeling.validation.dataDefault"
             targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
 
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
-
-      <modelElementValidator
-            class="org.eclipse.stardust.modeling.validation.impl.SimplifiedDataValidator"
-            id="org.eclipse.stardust.modeling.validation.dataSimplified"
-            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
-
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
-      </modelElementValidator>
-
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"
             id="org.eclipse.stardust.modeling.validation.entityBeanData"
@@ -227,9 +183,6 @@
          <filter
                name="metaType"
                value="entity"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBean20Validator"
@@ -239,9 +192,6 @@
          <filter
                name="metaType"
                value="entity20"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"
@@ -251,9 +201,6 @@
          <filter
                name="metaType"
                value="primitive"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"
@@ -263,9 +210,6 @@
          <filter
                name="metaType"
                value="serializable"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"
@@ -275,9 +219,6 @@
          <filter
                name="metaType"
                value="plainXML"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
 
       <modelElementValidator
@@ -288,9 +229,6 @@
          <filter
                name="metaType"
                value="jfc"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"
@@ -300,37 +238,19 @@
          <filter
                name="metaType"
                value="jsp"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
 
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.DefaultActivityValidator"
             id="org.eclipse.stardust.modeling.validation.activityDefault"
             targetType="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
-      <modelElementValidator
-            class="org.eclipse.stardust.modeling.validation.impl.SimplifiedActivityValidator"
-            id="org.eclipse.stardust.modeling.validation.activitySimplified"
-            targetType="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
-      </modelElementValidator>
-
       <modelElementValidator
             class="org.eclipse.stardust.modeling.validation.impl.DataMappingValidator"
             id="org.eclipse.stardust.modeling.validation.dataMapping"
             targetType="org.eclipse.stardust.model.xpdl.carnot.DataMappingType">
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
-      
+
 	  <modelElementValidator
 			class="org.eclipse.stardust.modeling.validation.impl.DataPathValidator"
 			id="org.eclipse.stardust.modeling.validation.dataPath"
@@ -345,7 +265,7 @@
             class="org.eclipse.stardust.modeling.validation.impl.DefaultProcessDefinitionValidator"
             id="org.eclipse.stardust.modeling.validation.processDefinition"
             targetType="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
-                                                                             
+
 	  <modelElementValidator
 			class="org.eclipse.stardust.modeling.validation.impl.EventHandlerValidator"
 			id="org.eclipse.stardust.modeling.validation.eventHandler"

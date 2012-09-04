@@ -6,7 +6,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -102,7 +102,7 @@
             icon="icons/full/obj16/history_view.gif"
             id="org.eclipse.stardust.modeling.core.modelserver.ui.VcsFeedView"
             name="%vcsFeedView"/>
-            
+
    </extension>
    <extension
       point="org.eclipse.stardust.modeling.core.dataTypes">
@@ -217,7 +217,7 @@
          <reference
                attributeName="carnot:engine:dataType"
                scope="struct">
-         </reference>            
+         </reference>
       </dataType>
    </extension>
    <extension
@@ -662,7 +662,7 @@
             icon="icons/full/obj16/activity.gif"
             id="_cwm_display_"
             name="%propPageActivityDisplay"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>            
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ActivityControlFlowPropertyPage"
@@ -678,9 +678,6 @@
             id="_cwm_eventhandling_"
             name="%propPageActivityEventhandling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -703,9 +700,6 @@
             id="_cwm_controlling_"
             name="%propPageActivityControlling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ActivityType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -713,7 +707,7 @@
             icon="icons/full/obj16/process.gif"
             id="_cwm_general_"
             name="%propPageProcessGeneral"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>      
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ProcessDefinitionDataPathsPropertyPage"
@@ -721,12 +715,9 @@
             id="_cwm_data_paths_"
             name="%propPageProcessDatapaths"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
-      
-      
+
+
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.EventHandlingPropertyPage"
@@ -734,9 +725,6 @@
             id="_cwm_eventhandling_"
             name="%propPageProcessEventhandling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -745,9 +733,6 @@
             id="_cwm_controlling_"
             name="%propPageProcessControlling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -763,9 +748,6 @@
             id="_cwm_controlling_"
             name="%propPageApplicationControlling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -801,7 +783,7 @@
             icon="icons/full/obj16/datapath.gif"
             id="_cwm_general_"
             name="%propPageDatapathGeneral"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>          
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.DiagramPropertyPage"
@@ -841,30 +823,30 @@
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.QualityAssuranceCodesPropertyPage"
             icon="icons/full/obj16/model.gif"
-            id="_cwm_quality_control_codes_"            
+            id="_cwm_quality_control_codes_"
             name="%propPageModelQualityControl"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>            
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.QualityAssuranceCodePropertyPage"
             icon="icons/full/obj16/model.gif"
             id="_cwm_quality_control_code_"
             name="%propPageModelQualityControlCode"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.Code"/>                        
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.Code"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.VariablesConfigurationPage"
             icon="icons/full/obj16/model.gif"
             id="_cwm_model_variables_"
             name="%propPageModelVariables"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>  
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.ActivityCriticalityPropertyPage"
             icon="icons/full/obj16/model.gif"
             id="_cwm_model_variables_"
             name="%propPageActivityCriticality"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>                      
+            objectClass="org.eclipse.stardust.model.xpdl.carnot.ModelType"/>
       <page
             category="core"
             class="org.eclipse.stardust.modeling.core.properties.OrganizationPropertyPage"
@@ -886,9 +868,6 @@
             id="_cwm_controlling_"
             name="%propPageOrganizationControlling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.OrganizationType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -904,9 +883,6 @@
             id="_cwm_controlling_"
             name="%propPageRoleControlling"
             objectClass="org.eclipse.stardust.model.xpdl.carnot.RoleType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -946,9 +922,6 @@
          <filter
                name="metaType"
                value="primitive"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -960,9 +933,6 @@
          <filter
                name="metaType"
                value="serializable"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -974,9 +944,6 @@
          <filter
                name="metaType"
                value="entity"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -988,9 +955,6 @@
          <filter
                name="metaType"
                value="entity20"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1002,9 +966,6 @@
          <filter
                name="metaType"
                value="plainXML"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1016,9 +977,6 @@
          <filter
                name="metaType"
                value="sessionBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1030,9 +988,6 @@
          <filter
                name="metaType"
                value="sessionBean20"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1044,9 +999,6 @@
          <filter
                name="metaType"
                value="plainJava"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1058,9 +1010,6 @@
          <filter
                name="metaType"
                value="jms"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1072,9 +1021,6 @@
             <and>
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
                <test property="com.infinity.properties.metaType" value="webservice"/>
-               <not>
-                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
-               </not>
             </and>
          </enabledWhen>
       </page>
@@ -1088,9 +1034,6 @@
          <filter
                name="feature:interactive"
                value="true"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="spi"
@@ -1102,17 +1045,6 @@
          <filter
                name="feature:type.synchronous"
                value="true"/>
-      </page>
-      <page
-            category="spi"
-            class="org.eclipse.stardust.modeling.core.properties.DataTypeHintPage"
-            icon="icons/full/obj16/primitive_data.gif"
-            id="_cwm_hint_data_"
-            name="%dataTypeHintPageName"
-            objectClass="org.eclipse.stardust.model.xpdl.carnot.DataType">
-         <filter
-               name="perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
       <page
             category="core"
@@ -1228,9 +1160,9 @@
       </page>
    </extension>
 
-   <extension 
+   <extension
          point="org.eclipse.ui.cheatsheets.cheatSheetContent">
-      <category 
+      <category
             id="carnot"
             name="%cheatSheetCategory"/>
          <cheatsheet
@@ -1240,13 +1172,13 @@
             id="org.eclipse.stardust.modeling.core.cheatsheetDevComp"
             name= "%mainCheatSheetName" >
          <description>
-            This tutorial will show you how to use the Process Workbench to create 
+            This tutorial will show you how to use the Process Workbench to create
             a simple workflow model in the Eclipse modeler.
          </description>
       </cheatsheet>
-      
+
    </extension>
-   
+
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
       <propertyTester
@@ -1269,7 +1201,7 @@
       <viewPage
             class="org.eclipse.stardust.modeling.core.search.ReferencesResultPage"
             id="org.eclipse.stardust.modeling.core.referencesResultPage"
-            searchResultClass="org.eclipse.stardust.modeling.core.search.ReferencesSearchResult"/>            
+            searchResultClass="org.eclipse.stardust.modeling.core.search.ReferencesSearchResult"/>
 	</extension>
 	<extension point="org.eclipse.ui.actionSets">
    		<actionSet
@@ -1284,8 +1216,8 @@
              style="push"
              toolbarPath="Normal/additions"
              tooltip="%deployModel"/>
-   		</actionSet> 
-	</extension>   
+   		</actionSet>
+	</extension>
    <extension
          id="ClassGenerator"
          point="org.eclipse.stardust.modeling.core.jaxwsClassGenerator">

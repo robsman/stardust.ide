@@ -35,10 +35,6 @@
             class="org.eclipse.stardust.modeling.common.ui.perspectives.DebuggingPerspective"
             icon="icons/full/obj16/model_debug.gif"
             name="%debugPerspective"/>
-      <perspective id="ag.carnot.workflow.modeler.businessModelingPerspective"
-            class="org.eclipse.stardust.modeling.common.ui.perspectives.BusinessModelingPerspective"
-            icon="icons/full/obj16/model.gif"
-            name="%businessPerspectiveName"/>
    </extension>
    <extension point="org.eclipse.jdt.ui.classpathContainerPage">
       <classpathContainerPage id="org.eclipse.stardust.modeling.common.projectnature.carnotHomeLocation"

@@ -6,7 +6,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -87,7 +87,7 @@
          id="contexts"
          name="%extensionName"
          point="org.eclipse.stardust.modeling.core.contextTypes">
-      <context            
+      <context
             accessPointProvider="org.eclipse.stardust.modeling.transformation.modeling.externalwebapp.spi.context.ExternalWebappAccessPointProvider"
             icon="icons/full/obj16/externalWebApp_context_icon.gif"
             hasApplicationPath="true"
@@ -136,9 +136,6 @@
          <filter
                name="metaType"
                value="externalWebApp"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </modelElementValidator>
    </extension>
    <extension
@@ -152,9 +149,6 @@
          <filter
                name="metaType"
                value="messageTransformationBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
    </extension>
    <extension
@@ -168,9 +162,6 @@
          <filter
                name="metaType"
                value="xslMessageTransformationBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
    </extension>
    <extension
@@ -184,9 +175,6 @@
          <filter
                name="metaType"
                value="messageParsingBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
    </extension>
    <extension
@@ -200,11 +188,8 @@
          <filter
                name="metaType"
                value="messageSerializationBean"/>
-         <filter
-               name="!perspectiveType"
-               value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
       </page>
-   </extension>   
+   </extension>
    <extension point="org.eclipse.ui.ide.resourceFilters">
    	  <filter selected="true" pattern="knitt*.js"></filter>
    </extension>

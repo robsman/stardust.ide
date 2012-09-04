@@ -17,13 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.common.config.Parameters;
-import org.eclipse.stardust.engine.api.model.Modules;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -52,6 +45,14 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.part.EditorPart;
+
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.DiagramPlugin;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 
 public class LicensePage extends EditorPart
 {
@@ -91,11 +92,11 @@ public class LicensePage extends EditorPart
       {
          partControl.removeControlListener(controlListener);
          this.controlListener = null;
-         
+
          partControl.removePaintListener(paintListener);
          this.paintListener = null;
       }
-      
+
       super.dispose();
    }
 
@@ -138,17 +139,17 @@ public class LicensePage extends EditorPart
    public final void createPartControl(Composite parent)
    {
       this.partControl = new Composite(parent, SWT.NONE);
-      
+
       GridLayout pageLayout = new GridLayout(1, false);
       pageLayout.marginHeight = 0;
       pageLayout.marginWidth = 0;
       pageLayout.verticalSpacing = 0;
       pageLayout.horizontalSpacing = 0;
       partControl.setLayout(pageLayout);
-      
+
       Composite topPanel = new Composite(partControl, SWT.NONE);
       topPanel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-      
+
       GridLayout layout = new GridLayout(3, false);
       layout.marginHeight = 10;
       layout.marginWidth = 10;
@@ -161,7 +162,7 @@ public class LicensePage extends EditorPart
             SWT.COLOR_LIST_FOREGROUND));
 
       // label on top
-      
+
       Label label = FormBuilder.createLabel(topPanel, getTitle(), 3);
       label.setFont(JFaceResources.getFontRegistry().get(JFaceResources.HEADER_FONT));
       label.setBackground(topPanel.getBackground());
@@ -185,7 +186,7 @@ public class LicensePage extends EditorPart
             }
          }
       });
-      FormBuilder.createButton(topPanel, Diagram_Messages.BTN_Browse, new SelectionListener() 
+      FormBuilder.createButton(topPanel, Diagram_Messages.BTN_Browse, new SelectionListener()
       {
          public void widgetSelected(SelectionEvent e)
          {
@@ -206,8 +207,8 @@ public class LicensePage extends EditorPart
          public void widgetDefaultSelected(SelectionEvent e)
          {}
       });
-      
-      
+
+
       Link openPreferencesLink = new Link(topPanel, SWT.NULL);
       openPreferencesLink.setLayoutData(FormBuilder.createDefaultLabelGridData(3));
       openPreferencesLink.setText(Diagram_Messages.LicensePage_ReferToCarnotPreferencePage);
@@ -221,7 +222,7 @@ public class LicensePage extends EditorPart
             dialog.open();
          }
       });
-      
+
       // now the main editor page
       Composite logoPanel = new Composite(partControl, SWT.NONE);
       logoPanel.setLayout(new GridLayout());
@@ -260,9 +261,9 @@ public class LicensePage extends EditorPart
             int left = (pageSize.x - size.width) / 2;
 
             Color foreground = e.gc.getForeground();
-            int width = size.width; 
+            int width = size.width;
             int start = 5;
-            
+
             if (product != null)
             {
                start = drawString(e.gc, MessageFormat.format(
@@ -289,7 +290,7 @@ public class LicensePage extends EditorPart
                      ColorConstants.darkBlue, ColorConstants.white, 1, width);
             }
             e.gc.setForeground(foreground);
-            
+
             int top = Math.max((pageSize.y - size.height) / 2, start);
             e.gc.drawImage(image, left, top);
          }
@@ -308,7 +309,7 @@ public class LicensePage extends EditorPart
          for (int i = 0; i < splits.size(); i++)
          {
             String text = (String) splits.get(i);
-//          disable shadow as per change from CARNOT to Infinity/SunGard brand.            
+//          disable shadow as per change from CARNOT to Infinity/SunGard brand.
 //          gc.setForeground(shadow);
 //          gc.drawString(text, left + delta, start + delta, true);
             gc.setForeground(base);
@@ -383,29 +384,21 @@ public class LicensePage extends EditorPart
 
    private void updateStrings()
    {
-      Modules moduleName = Modules.DEVELOPER; 
-      if (DiagramPlugin.isBusinessPerspective())
+      Modules moduleName = Modules.DEVELOPER;
+
+      BpmUiActivator.getDefault().initializeExtensions(Modules.DEVELOPER);
+      moduleError = BpmUiActivator.getDefault().getModuleError();
+      if (Parameters.instance().getString("License." + moduleName + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
       {
-         BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS);
-         moduleName = Modules.ANALYSTS;
-         moduleError = BpmUiActivator.getDefault().getModuleError();
-      }
-      else
-      {
-    	 BpmUiActivator.getDefault().initializeExtensions(Modules.DEVELOPER);
-         moduleError = BpmUiActivator.getDefault().getModuleError();
-         if (Parameters.instance().getString("License." + moduleName + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
+         // try old modeling license
+         BpmUiActivator.getDefault().initializeExtensions(Modules.MODELLING);
+         if (Parameters.instance().getString("License." + Modules.MODELLING + ".product") != null) //$NON-NLS-1$ //$NON-NLS-2$
          {
-            // try old modeling license
-        	BpmUiActivator.getDefault().initializeExtensions(Modules.MODELLING);
-            if (Parameters.instance().getString("License." + Modules.MODELLING + ".product") != null) //$NON-NLS-1$ //$NON-NLS-2$
-            {
-               moduleName = Modules.MODELLING;
-               moduleError = BpmUiActivator.getDefault().getModuleError();
-            }
+            moduleName = Modules.MODELLING;
+            moduleError = BpmUiActivator.getDefault().getModuleError();
          }
       }
-      
+
       product = BpmUiActivator.getDefault().getString("License." + moduleName + ".product"); //$NON-NLS-1$ //$NON-NLS-2$
       release = BpmUiActivator.getDefault().getString("License." + moduleName + ".release"); //$NON-NLS-1$ //$NON-NLS-2$
       licensee = BpmUiActivator.getDefault().getString("License." + moduleName + ".licensee", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

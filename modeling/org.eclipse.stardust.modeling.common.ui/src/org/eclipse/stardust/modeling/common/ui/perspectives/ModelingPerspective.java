@@ -11,13 +11,12 @@
 package org.eclipse.stardust.modeling.common.ui.perspectives;
 
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.stardust.engine.api.model.Modules;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
-import org.eclipse.stardust.modeling.common.ui.BpmUiConstants;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
+
+import org.eclipse.stardust.modeling.common.ui.BpmUiConstants;
 
 
 public class ModelingPerspective implements IPerspectiveFactory, BpmUiConstants
@@ -37,19 +36,15 @@ public class ModelingPerspective implements IPerspectiveFactory, BpmUiConstants
       fldDetails.addView(IPageLayout.ID_PROP_SHEET);
       fldDetails.addView(IPageLayout.ID_PROBLEM_VIEW);
 
-      if (BpmUiActivator.getDefault().initializeExtensions(Modules.ANALYSTS) == null)
-      {
-         layout.addPerspectiveShortcut(CWB_PERSPECTIVE_ID);
-      }
       layout.addPerspectiveShortcut(CWD_PERSPECTIVE_ID);
 
       layout.addNewWizardShortcut(BpmUiConstants.ID_NEW_MODEL_WIZARD);
-      
+
       layout.addShowViewShortcut(BpmUiConstants.ID_REPOSITORY_VIEW);
       layout.addShowViewShortcut(BpmUiConstants.ID_BOOKMARK_VIEW);
 
       layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
-      
+
       /* open cheatsheets for developer perspective */
       layout.addShowViewShortcut("org.eclipse.ui.cheatsheets.views.CheatSheetView"); //$NON-NLS-1$
       /* catch Exception while not working when opening a new workspace */

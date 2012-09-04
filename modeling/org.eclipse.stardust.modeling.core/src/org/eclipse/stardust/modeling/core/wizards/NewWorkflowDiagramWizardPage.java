@@ -21,10 +21,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -37,6 +33,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
+
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well as the file
@@ -57,11 +57,11 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
    // enable finish button
    private boolean completePage = true;
    // is there an open project
-   private boolean currentProject = true; 
+   private boolean currentProject = true;
 
    /**
     * Constructor for SampleNewWizardPage.
-    * 
+    *
     * @param selection
     */
    public NewWorkflowDiagramWizardPage(ISelection selection)
@@ -70,26 +70,26 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       setTitle(Diagram_Messages.TITLE_NewCarnotWorkflowModel);
       setDescription(Diagram_Messages.DESC_CarnotWizard);
       this.selection = selection;
-      
+
       // no current projekt
       if (ResourcesPlugin.getWorkspace().getRoot().getProjects().length == 0)
       {
-         currentProject = false; 
-      }   
+         currentProject = false;
+      }
    }
 
    /**
     * @see IDialogPage#createControl(Composite)
     */
    public void createControl(Composite parent)
-   {      
+   {
       Composite container = new Composite(parent, SWT.NULL);
       GridLayout layout = new GridLayout();
       container.setLayout(layout);
       layout.numColumns = 3;
       layout.verticalSpacing = 9;
 
-/*      
+/*
       final Label lblModelId = new Label(container, SWT.NULL);
       lblModelId.setText(Diagram_Messages.LB_ModelAndId);
 
@@ -106,14 +106,14 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       txtModelId.setText("New_Workflow_Model"); //$NON-NLS-1$
       // ending line with blind label
       new Label(container, SWT.NULL);
-*/      
+*/
 
       final Label lblModelName = new Label(container, SWT.NULL);
       lblModelName.setText(Diagram_Messages.LB_ModelAndName);
 
       final Text txtModelName = new Text(container, SWT.BORDER | SWT.SINGLE);
       txtModelName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-/*      
+/*
       txtModelName.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -124,7 +124,7 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
          }
       });
       txtModelName.setText(Diagram_Messages.LB_NewWorkflowModel);
-*/      
+*/
       // ending line with blind label
       new Label(container, SWT.NULL);
 
@@ -149,7 +149,7 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       final Text txtFolder = new Text(container, SWT.BORDER | SWT.SINGLE);
       GridData gd = new GridData(GridData.FILL_HORIZONTAL);
       txtFolder.setLayoutData(gd);
-/*      
+/*
       txtFolder.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -158,7 +158,7 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
             dialogChanged();
          }
       });
-*/      
+*/
 
       Button btnBrowsFolder = new Button(container, SWT.PUSH);
       btnBrowsFolder.setText(Diagram_Messages.TXT_Browse);
@@ -175,7 +175,7 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       {
          btnBrowsFolder.setEnabled(false);
       }
-      
+
       final Button btnAdvanced = new Button(container, SWT.PUSH);
       btnAdvanced.setText(Diagram_Messages.TXT_AdvancedRight);
       // ending line with blind label
@@ -190,8 +190,8 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       layoutPnlAdvanced.numColumns = 2;
       layoutPnlAdvanced.verticalSpacing = 9;
 
-//      
-      
+//
+
       final Label lblModelId = new Label(pnlAdvanced, SWT.NULL);
       lblModelId.setText(Diagram_Messages.LB_ModelAndId);
 
@@ -215,7 +215,7 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
             dialogChanged();
          }
       });
-      
+
       txtModelName.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -229,17 +229,17 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
 
       // no current project
       if (currentProject == false)
-      {         
+      {
          txtFolder.setEnabled(false);
       }
       else
       {
          initializeSelection(txtFolder);
       }
-      
-      
+
+
 //
-      
+
       final Label lblAuthor = new Label(pnlAdvanced, SWT.NULL);
       lblAuthor.setText(Diagram_Messages.TXT_Author);
 
@@ -294,8 +294,8 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       });
 
       if(!completePage)
-      {   
-         setPageComplete(false);         
+      {
+         setPageComplete(false);
       }
       setControl(container);
    }
@@ -377,24 +377,20 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
             new Path(getContainerName()));
       String message = null;
       // root is selected
-      
-      boolean isRoot = container == null || container.getProject() == null;      
-      
+
+      boolean isRoot = container == null || container.getProject() == null;
+
       // there is a current project open but no container name typed in
       if(containerName.length() == 0 && currentProject)
       {
-         // only in developer mode
-         if(!DiagramPlugin.isBusinessPerspective())
-         {  
-            message = Diagram_Messages.NewWorkflowDiagramWizardPage_MSG_FolderMustNotBeEmpty;            
-         }
+         message = Diagram_Messages.NewWorkflowDiagramWizardPage_MSG_FolderMustNotBeEmpty;
       }
       // there is a current project open but no valid container selected
-      else if (currentProject && (container == null || !(container instanceof IContainer) 
+      else if (currentProject && (container == null || !(container instanceof IContainer)
             || isRoot))
       {
-         message = Diagram_Messages.MSG_FolderMustExist;         
-      }      
+         message = Diagram_Messages.MSG_FolderMustExist;
+      }
       // if (containerName.length() == 0)
       // {
       // message = Diagram_Messages.MSG_FolderForNewModelMustBeSpecified;
@@ -440,11 +436,11 @@ public class NewWorkflowDiagramWizardPage extends WizardPage
       setErrorMessage(message);
       if(completePage == true)
       {
-         setPageComplete(message == null);         
+         setPageComplete(message == null);
       }
       else
       {
-         setPageComplete(false);         
+         setPageComplete(false);
       }
    }
 

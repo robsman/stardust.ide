@@ -97,7 +97,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
 {
    private ISelection selection;
    private IPreferenceStore pStore;
-   
+
    /**
     * Constructor for NewWorkflowDiagramWizard.
     */
@@ -148,14 +148,6 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
                manager.save(fileURI);
                monitor.worked(1);
                openEditor(monitor, file);
-               // temporarily disabled because the cheetsheet is not in the distribution,
-               // either because it was not commited or it was not copied in the relevant place.
-/*               if ("ag.carnot.workflow.modeler.businessModelingPerspective".equals(DiagramPlugin //$NON-NLS-1$
-                           .getCurrentPerspectiveId()))
-               {
-                  new OpenCheatSheetAction("org.eclipse.stardust.modeling.core.newModel") //$NON-NLS-1$
-                        .run();
-               }*/
                result[0] = true;
             }
             catch (CoreException e)
@@ -194,7 +186,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       setModelAttributes(model, props.getModelId(), props.getModelName(), props
             .getModelDescription(), props.getModelAuthor());
       pStore = PlatformUI.getPreferenceStore();
-      
+
       createDefaultDiagrams(model);
       createDefaultTypes(model);
       createDefaultData(model);
@@ -204,7 +196,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    }
 
    private void createDefaultProcess(ModelType model)
-   {      
+   {
       CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
       ProcessDefinitionType process = factory.createProcessDefinitionType();
       IdFactory idFactory = new IdFactory(
@@ -217,31 +209,31 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       DiagramType diagram = factory.createDiagramType();
       diagram.setName(Diagram_Messages.DIAGRAM_NAME_Default);
       diagram.setElementOid(ModelUtils.getElementOid(diagram, model));
-      
+
       String modelingDirection;
       // in case the PreferenceStore is not initialized
       if(pStore.contains(BpmProjectNature.PREFERENCE_MODELING_DIRECTION))
       {
-         modelingDirection = pStore.getString(BpmProjectNature.PREFERENCE_MODELING_DIRECTION);         
+         modelingDirection = pStore.getString(BpmProjectNature.PREFERENCE_MODELING_DIRECTION);
       }
       else
       {
-         modelingDirection = BpmProjectNature.DEFAULT_PREFERENCE_MODELING_DIRECTION;         
-      }      
+         modelingDirection = BpmProjectNature.DEFAULT_PREFERENCE_MODELING_DIRECTION;
+      }
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL.toString().equals(modelingDirection)
             ? OrientationType.VERTICAL_LITERAL
-            : OrientationType.HORIZONTAL_LITERAL);      
-      
+            : OrientationType.HORIZONTAL_LITERAL);
+
       DiagramModeType defaultMode;
       boolean classicMode;
       if(pStore.contains(BpmProjectNature.PREFERENCE_CLASSIC_MODE))
       {
-         classicMode = pStore.getBoolean(BpmProjectNature.PREFERENCE_CLASSIC_MODE);         
+         classicMode = pStore.getBoolean(BpmProjectNature.PREFERENCE_CLASSIC_MODE);
       }
       else
       {
-         classicMode = BpmProjectNature.DEFAULT_PREFERENCE_CLASSIC_MODE;         
-      }      
+         classicMode = BpmProjectNature.DEFAULT_PREFERENCE_CLASSIC_MODE;
+      }
       if (classicMode)
       {
          defaultMode = DiagramModeType.MODE_400_LITERAL;
@@ -251,7 +243,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          defaultMode = DiagramModeType.MODE_450_LITERAL;
       }
       diagram.setMode(defaultMode);
-      
+
       process.getDiagram().add(diagram);
       DiagramUtil.createDefaultPool(diagram);
    }
@@ -299,91 +291,91 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
             defaultDataTypes[2]);
 
       DataType lastActivityPerformer = createData(model, dataType2,
-            "LAST_ACTIVITY_PERFORMER", Diagram_Messages.NAME_LastActivityPerformer, //$NON-NLS-1$ 
+            "LAST_ACTIVITY_PERFORMER", Diagram_Messages.NAME_LastActivityPerformer, //$NON-NLS-1$
             Diagram_Messages.DESC_LastActivityPerformer);
       createAttribute(lastActivityPerformer, PredefinedConstants.BROWSABLE_ATT,
-            "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(lastActivityPerformer, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$
       createAttribute(lastActivityPerformer, PredefinedConstants.IS_LOCAL_ATT,
-            "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(lastActivityPerformer, PredefinedConstants.JNDI_PATH_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$
       createAttribute(lastActivityPerformer, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$
       createAttribute(lastActivityPerformer, PredefinedConstants.REMOTE_INTERFACE_ATT,
-            null, "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
+            null, "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
       DataType startingUser = createData(model, dataType2,
-            "STARTING_USER", Diagram_Messages.NAME_StartingUser, //$NON-NLS-1$ 
+            "STARTING_USER", Diagram_Messages.NAME_StartingUser, //$NON-NLS-1$
             Diagram_Messages.DESC_StartingUser);
-      createAttribute(startingUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(startingUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(startingUser, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$
       createAttribute(startingUser, PredefinedConstants.IS_LOCAL_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(startingUser, PredefinedConstants.JNDI_PATH_ATT, null,
-            "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$ 
+            "ag.carnot.workflow.runtime.User"); //$NON-NLS-1$
       createAttribute(startingUser, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$
       createAttribute(startingUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
-            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
       DataType currentUser = createData(model, dataType2,
             PredefinedConstants.CURRENT_USER, Diagram_Messages.NAME_CurrentUser,
             Diagram_Messages.DESC_CurrentUser);
-      createAttribute(currentUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(currentUser, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentUser, PredefinedConstants.HOME_INTERFACE_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$ 
-      createAttribute(currentUser, PredefinedConstants.IS_LOCAL_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "org.eclipse.stardust.engine.api.runtime.UserHome"); //$NON-NLS-1$
+      createAttribute(currentUser, PredefinedConstants.IS_LOCAL_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentUser, PredefinedConstants.JNDI_PATH_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.User"); //$NON-NLS-1$
       createAttribute(currentUser, PredefinedConstants.PRIMARY_KEY_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.UserPK"); //$NON-NLS-1$
       createAttribute(currentUser, PredefinedConstants.REMOTE_INTERFACE_ATT, null,
-            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.core.runtime.beans.IUser"); //$NON-NLS-1$
 
       DataType processId = createData(model, dataType0, PredefinedConstants.PROCESS_ID,
             Diagram_Messages.NAME_ProcessOID, Diagram_Messages.DESC_ProcessOID);
-      createAttribute(processId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(processId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(processId, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType processPriority = createData(model, dataType0,
             PredefinedConstants.PROCESS_PRIORITY, Diagram_Messages.NAME_ProcessPriority,
             Diagram_Messages.DESC_ProcessPriority);
- 
+
       createAttribute(processPriority, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "ag.carnot.workflow.spi.providers.data.java.Type", "int"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType rootProcessId = createData(model, dataType0,
             PredefinedConstants.ROOT_PROCESS_ID, Diagram_Messages.NAME_RootProcessOID,
             Diagram_Messages.DESC_RootProcessOID);
-      createAttribute(rootProcessId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(rootProcessId, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(rootProcessId, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "ag.carnot.workflow.spi.providers.data.java.Type", "long"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType currentDate = createData(model, dataType0,
             PredefinedConstants.CURRENT_DATE, Diagram_Messages.NAME_CurrentDate,
             Diagram_Messages.DESC_CurrentDate);
-      createAttribute(currentDate, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(currentDate, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentDate, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "Calendar"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "ag.carnot.workflow.spi.providers.data.java.Type", "Calendar"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType currentLocale = createData(model, dataType0,
             PredefinedConstants.CURRENT_LOCALE, Diagram_Messages.NAME_CurrentLocale,
             Diagram_Messages.DESC_CurrentLocale);
-      createAttribute(currentLocale, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(currentLocale, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentLocale, PredefinedConstants.TYPE_ATT,
-            "ag.carnot.workflow.spi.providers.data.java.Type", "String"); //$NON-NLS-1$ //$NON-NLS-2$ 
+            "ag.carnot.workflow.spi.providers.data.java.Type", "String"); //$NON-NLS-1$ //$NON-NLS-2$
 
       DataType currentModel = createData(model, dataType1,
             PredefinedConstants.CURRENT_MODEL, Diagram_Messages.NAME_CurrentModel,
             Diagram_Messages.DESC_CurrentModel);
-      createAttribute(currentModel, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$ 
+      createAttribute(currentModel, PredefinedConstants.BROWSABLE_ATT, "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       createAttribute(currentModel, PredefinedConstants.CLASS_NAME_ATT, null,
-            "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"); //$NON-NLS-1$ 
+            "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"); //$NON-NLS-1$
    }
-   
+
    private void createDefaultCriticalityAttributes(ModelType model)
    {
       VariableContextHelper.getInstance().createContext(model);
@@ -424,9 +416,9 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       modelVariable = new ModelVariable("${MHigh}", "10", //$NON-NLS-1$ //$NON-NLS-2$
             Diagram_Messages.CRITICALITY_MULTIPLE_TARGET_EXECUTION_HIGH);
       context.createAttributeSet(modelVariable, 6);
-      
+
       //Default criticality formula
-      String formula = 
+      String formula =
          "if(activityInstance.getActivity().getTargetExecutionTime() == 0)\n" +  //$NON-NLS-1$
          "{\n" + //$NON-NLS-1$
          "  T = ${TDefault};\n" +  //$NON-NLS-1$
@@ -524,7 +516,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private void createDefaultTypes(ModelType model)
    {
       model.setTypeDeclarations(XpdlFactory.eINSTANCE.createTypeDeclarationsType());
-      
+
       addMetaTypes(model, defaultDataTypes,
             CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID,
             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
@@ -588,32 +580,32 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    {
       CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
       DiagramType diagram = factory.createDiagramType();
-      
+
       diagram.setName(Diagram_Messages.NAME_DefaultDiagram);
       String modelingDirection;
       // in case the PreferenceStore is not initialized
       if(pStore.contains(BpmProjectNature.PREFERENCE_MODELING_DIRECTION))
       {
-         modelingDirection = pStore.getString(BpmProjectNature.PREFERENCE_MODELING_DIRECTION);         
+         modelingDirection = pStore.getString(BpmProjectNature.PREFERENCE_MODELING_DIRECTION);
       }
       else
       {
-         modelingDirection = BpmProjectNature.DEFAULT_PREFERENCE_MODELING_DIRECTION;         
-      }      
+         modelingDirection = BpmProjectNature.DEFAULT_PREFERENCE_MODELING_DIRECTION;
+      }
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL.toString().equals(modelingDirection)
             ? OrientationType.VERTICAL_LITERAL
-            : OrientationType.HORIZONTAL_LITERAL);      
+            : OrientationType.HORIZONTAL_LITERAL);
 
       DiagramModeType defaultMode;
       boolean classicMode;
       if(pStore.contains(BpmProjectNature.PREFERENCE_CLASSIC_MODE))
       {
-         classicMode = pStore.getBoolean(BpmProjectNature.PREFERENCE_CLASSIC_MODE);         
+         classicMode = pStore.getBoolean(BpmProjectNature.PREFERENCE_CLASSIC_MODE);
       }
       else
       {
-         classicMode = BpmProjectNature.DEFAULT_PREFERENCE_CLASSIC_MODE;         
-      }      
+         classicMode = BpmProjectNature.DEFAULT_PREFERENCE_CLASSIC_MODE;
+      }
       if (classicMode)
       {
          defaultMode = DiagramModeType.MODE_400_LITERAL;
@@ -623,7 +615,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          defaultMode = DiagramModeType.MODE_450_LITERAL;
       }
       diagram.setMode(defaultMode);
-      
+
       // emulate old DefDesk behavior, starting default element OIDs at 10001
       diagram.setElementOid(Math.max(ModelUtils.getElementOid(diagram, model), 10001));
 
@@ -648,7 +640,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       model.setVendor(Diagram_Messages.LBL_CARNOT_AG);
 
       model.setModelOID(0);
-      
+
       ScriptType script = XpdlFactory.eINSTANCE.createScriptType();
       script.setType("text/ecmascript"); //$NON-NLS-1$
       model.setScript(script);
@@ -711,8 +703,8 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          IProject project = createNewProject(root);
          resource = root.findMember(new Path(project.getName()));
       }
-// this check is already done in NewWorkflowDiagramWizardPage      
-/*      
+// this check is already done in NewWorkflowDiagramWizardPage
+/*
       if (!resource.exists() || !(resource instanceof IContainer))
       {
          IStatus status = new Status(IStatus.ERROR, CarnotConstants.DIAGRAM_PLUGIN_ID,
@@ -720,8 +712,8 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
                      + Diagram_Messages.STATUS_P2_doesNotExist, null);
          throw new CoreException(status);
       }
-      else 
-*/      
+      else
+*/
       if (!resource.isAccessible())
       {
          IStatus status = new Status(IStatus.ERROR, CarnotConstants.DIAGRAM_PLUGIN_ID,
@@ -758,7 +750,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
 
    /**
     * We will accept the selection in the workbench to see if we can initialize from it.
-    * 
+    *
     * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
     */
    public void init(IWorkbench workbench, IStructuredSelection selection)

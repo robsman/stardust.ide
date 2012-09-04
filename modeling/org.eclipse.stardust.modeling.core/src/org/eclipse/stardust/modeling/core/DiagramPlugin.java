@@ -21,6 +21,13 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
@@ -34,12 +41,6 @@ import org.eclipse.stardust.modeling.common.ui.ICWMDebugTarget;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.common.ui.jface.ImageManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -52,7 +53,7 @@ public class DiagramPlugin extends AbstractUIPlugin
    private IImageManager imageManager;
 
    private Map externalImageManagers = new HashMap();
-   
+
    public static final String CARNOT_WORKFLOW_MODEL_EDITOR_ID = "org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor"; //$NON-NLS-1$
 
    public static final String CONTEXT_MENU_ACTION_EXTENSION_POINT = "org.eclipse.stardust.modeling.core.contextMenuAction"; //$NON-NLS-1$
@@ -104,21 +105,21 @@ public class DiagramPlugin extends AbstractUIPlugin
    {
       return plugin;
    }
-   
+
    public IImageManager getImageManager()
    {
       if (null == imageManager)
       {
          imageManager = new SpiAwareImageManager();
       }
-      
+
       return imageManager;
    }
-   
+
    public IImageManager getImageManager(String bundleId)
    {
       IImageManager result = null;
-      
+
       if (getBundle().getSymbolicName().equals(bundleId))
       {
          result = getImageManager();
@@ -132,10 +133,10 @@ public class DiagramPlugin extends AbstractUIPlugin
             externalImageManagers.put(bundleId, result);
          }
       }
-      
+
       return result;
    }
-   
+
    public void setImageManager(IImageManager imageManager)
    {
       this.imageManager = imageManager;
@@ -175,7 +176,7 @@ public class DiagramPlugin extends AbstractUIPlugin
          Iterator qualifiedPath = StringUtils.split(path, "}"); //$NON-NLS-1$
          String bundleId = null;
          String imagePath = null;
-         
+
          if (qualifiedPath.hasNext())
          {
             bundleId = ((String) qualifiedPath.next()).substring(1);
@@ -189,7 +190,7 @@ public class DiagramPlugin extends AbstractUIPlugin
             image = getDefault().getImageManager(bundleId).getImage(imagePath);
          }
       }
-      
+
       return (null != image) ? image : getDefault().getImageManager().getImage(path);
    }
 
@@ -202,7 +203,7 @@ public class DiagramPlugin extends AbstractUIPlugin
          Iterator<String> qualifiedPath = StringUtils.split(path, "}"); //$NON-NLS-1$
          String bundleId = null;
          String imagePath = null;
-         
+
          if (qualifiedPath.hasNext())
          {
             bundleId = qualifiedPath.next().substring(1);
@@ -216,7 +217,7 @@ public class DiagramPlugin extends AbstractUIPlugin
             image = getDefault().getImageManager(bundleId).getIcon(imagePath, style);
          }
       }
-      
+
       return image != null ? image : getDefault().getImageManager().getImage(path);
    }
 
@@ -234,9 +235,9 @@ public class DiagramPlugin extends AbstractUIPlugin
    {
       OrientationType direction = diagram.getOrientation();
       return direction == null || OrientationType.VERTICAL_LITERAL.equals(direction);
-            
+
    }
-   
+
    public static boolean isVerticalModelling(IGraphicalObject symbol)
    {
       DiagramType diagram = ModelUtils.findContainingDiagram(symbol);
@@ -285,8 +286,8 @@ public class DiagramPlugin extends AbstractUIPlugin
             }
          }
       }
-      
-      // TODO: Consider to refactor the logic of this method to an explicit interface.  
+
+      // TODO: Consider to refactor the logic of this method to an explicit interface.
       // Quick fix: This prevents exceptions when diagrams are exported by project tate.
       try
       {
@@ -294,22 +295,16 @@ public class DiagramPlugin extends AbstractUIPlugin
                "org.eclipse.stardust.modeling.core.analystView"); //$NON-NLS-1$
       }
       catch (RuntimeException e)
-      {  
+      {
          return false;
       }
    }
 
    public static String getViewAsPerspectiveId(WorkflowModelEditor editor)
    {
-      return DiagramPlugin.isBusinessView(editor) ? BpmUiConstants.CWB_PERSPECTIVE_ID
-            : DiagramPlugin.getCurrentPerspectiveId();
+      return DiagramPlugin.getCurrentPerspectiveId();
    }
 
-   public static boolean isBusinessPerspective()
-   {
-      return BpmUiConstants.CWB_PERSPECTIVE_ID.equals(getCurrentPerspectiveId());
-   }
-   
    private class SpiAwareImageManager extends ImageManager
    {
       public SpiAwareImageManager()
@@ -326,7 +321,7 @@ public class DiagramPlugin extends AbstractUIPlugin
             Iterator qualifiedPath = StringUtils.split(path, "}"); //$NON-NLS-1$
             String bundleId = null;
             String imagePath = null;
-            
+
             if (qualifiedPath.hasNext())
             {
                bundleId = ((String) qualifiedPath.next()).substring(1);
@@ -345,7 +340,7 @@ public class DiagramPlugin extends AbstractUIPlugin
          {
             result = super.getImageDescriptor(path);
          }
-         
+
          return result;
       }
 

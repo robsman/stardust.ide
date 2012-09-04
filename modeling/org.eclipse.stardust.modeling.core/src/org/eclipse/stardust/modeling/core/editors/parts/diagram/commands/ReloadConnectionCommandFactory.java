@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -62,7 +63,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
-import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.figures.anchors.TransitionConnectionAnchor;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
@@ -106,9 +106,8 @@ public class ReloadConnectionCommandFactory
                   .getISymbolContainer_DataMappingConnection(),
                   Diagram_Messages.CONN_NAME_DataMapping, PKG
                         .getDataMappingConnectionType());
-                        
-            if ((ActivityUtil.isApplicationActivity(activity) || 
-                  DiagramPlugin.isBusinessPerspective())
+
+            if (ActivityUtil.isApplicationActivity(activity)
                   && activity.getApplication() != null)
             {
                reloadConnections(command, activitySymbol, false, Collections
@@ -119,8 +118,7 @@ public class ReloadConnectionCommandFactory
                      Diagram_Messages.CONN_NAME_ExecutedBy, PKG
                            .getExecutedByConnectionType());
             }
-            if ((ActivityUtil.isInteractive(activity) || 
-                  DiagramPlugin.isBusinessPerspective())
+            if (ActivityUtil.isInteractive(activity)
                   && activity.getPerformer() != null)
             {
                reloadConnections(command, activitySymbol, false, Collections
@@ -441,7 +439,7 @@ public class ReloadConnectionCommandFactory
             else
             {
                symbolContainer = diagram;
-            }            
+            }
          }
       }
 
@@ -518,8 +516,7 @@ public class ReloadConnectionCommandFactory
       Set<ActivityType> activitySet = CollectionUtils.newSet();
       for (ActivityType activity : process.getActivity())
       {
-         if ((ActivityUtil.isInteractive(activity)
-               || DiagramPlugin.isBusinessPerspective())
+         if (ActivityUtil.isInteractive(activity)
                && participant.equals(activity.getPerformer()))
          {
             activitySet.add(activity);
@@ -534,8 +531,7 @@ public class ReloadConnectionCommandFactory
       Set<ActivityType> activitySet = CollectionUtils.newSet();
       for (ActivityType activity : process.getActivity())
       {
-         if ((ActivityUtil.isApplicationActivity(activity) ||
-               DiagramPlugin.isBusinessPerspective())
+         if (ActivityUtil.isApplicationActivity(activity)
                && application.equals(activity.getApplication()))
          {
             activitySet.add(activity);
