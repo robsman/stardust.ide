@@ -43,6 +43,7 @@
 
    <target name="init" depends="initOnDevelopment, initOnProduction, initBuildDir, initIvy">
       <property name="build.dir" value="${build.home}" />
+      <property name="publish.src.artifacts.dir" value="./distrib/jars"/>
    </target>
 
    <target name="clean" depends="init" description="removes all build results">
@@ -169,13 +170,18 @@
    </target>
 
    <target name="publishPrerequisites" depends="preparePrerequisites, init"  xmlns:ivy="antlib:org.apache.ivy.ant">
-      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-model.xml" conf="prereq-ipp-bpm-model" resolver="buildenv" merge="false"
+      <property name="prerequisite.artifactspattern" value="${publish.src.artifacts.dir}/[artifact]-[revision](-[classifier]).[ext]" />
+
+      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-model.xml" artifactspattern="${prerequisite.artifactspattern}"
+         conf="prereq-ipp-bpm-model" resolver="buildenv" merge="false"
          organisation="com.infinity.bpm" module="ipp-bpm-model" revision="${ipp.version.full}"
          overwrite="true" haltonmissing="true"/>
-      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-repository.xml" conf="prereq-ipp-bpm-repository" resolver="buildenv" merge="false"
+      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-repository.xml" artifactspattern="${prerequisite.artifactspattern}"
+         conf="prereq-ipp-bpm-repository" resolver="buildenv" merge="false"
          organisation="com.infinity.bpm" module="ipp-bpm-repository" revision="${ipp.version.full}"
          overwrite="true" haltonmissing="true"/>
-      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-model-validation.xml" conf="prereq-ipp-bpm-model-validation" resolver="buildenv" merge="false"
+      <ivy:publish srcivypattern="${project.dir}/prereq-ipp-bpm-model-validation.xml" artifactspattern="${prerequisite.artifactspattern}"
+         conf="prereq-ipp-bpm-model-validation" resolver="buildenv" merge="false"
          organisation="com.infinity.bpm" module="ipp-bpm-model-validation" revision="${ipp.version.full}"
          overwrite="true" haltonmissing="true"/>
    </target>
