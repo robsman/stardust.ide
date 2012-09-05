@@ -418,12 +418,30 @@ public class ModelBuilderFacade
       return data;
    }
 
+   /**
+    * Update the type of a primitive data.
+    *
+    * @param data               the primitive data to update
+    * @param primitiveTypeID    the id of the primitive type to assign
+    *
+    * @return
+    */
    public void updatePrimitiveData(DataType data, String primitiveTypeID)
    {
       AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
             Type.class.getName(), primitiveTypeID);
    }
 
+   /**
+    * Update the type declaration a structured data refers to.
+    *
+    * <p>The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.</p>
+    *
+    * @param data        the structured data to update
+    * @param typeFullID  full qualified id of the type declaration to assign to the data
+    *
+    * @return
+    */
    public void updateStructuredDataType(DataType data, String typeFullID)
    {
       ModelType model = ModelUtils.findContainingModel(data);
