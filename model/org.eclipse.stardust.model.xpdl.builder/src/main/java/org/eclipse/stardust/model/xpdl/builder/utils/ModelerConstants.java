@@ -169,4 +169,5 @@ public class ModelerConstants
    public static final String PROVIDES_PROCESS_INTERFACE_KEY = "providesProcessInterface";
    public static final String IMPLEMENTS_PROCESS_INTERFACE_KEY = "implementsProcessInterface";
    public static final String FORMAL_PARAMETERS_PROPERTY = "formalParameters";
+   public static final String TEAM_LEAD_FULL_ID_PROPERTY = "teamLeadFullId";
 }
