@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
@@ -72,12 +73,15 @@ import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
+import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
@@ -87,7 +91,9 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
+import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDCompositor;
 import org.eclipse.xsd.XSDElementDeclaration;
@@ -410,6 +416,42 @@ public class ModelBuilderFacade
             .ofType(this.stripFullId(typeFullID)).build();
 
       return data;
+   }
+
+   public void updatePrimitiveData(DataType data, String primitiveTypeID)
+   {
+      AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
+            Type.class.getName(), primitiveTypeID);
+   }
+
+   public void updateStructuredDataType(DataType data, String typeFullID)
+   {
+      ModelType model = ModelUtils.findContainingModel(data);
+      String sourceModelID = getModelId(typeFullID);
+      ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
+            sourceModelID);
+      String declarationID = stripFullId(typeFullID);
+      TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
+
+      String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
+
+      String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+      URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+      ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
+            typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
+            bundleId, null);
+
+      AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+      AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+      AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+      ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+      if (typeDeclarationModel != null)
+      {
+         reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
+      }
+      reference.setXref(declarationID);
+      data.setExternalReference(reference);
    }
 
    /**

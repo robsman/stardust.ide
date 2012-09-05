@@ -79,6 +79,8 @@ public class CrossModelSupportModelBuilderTest
    private DataType localPrimitive;
    private DataType localComposite;
    private DataType implementingComposite;
+   private DataType localConsumerComposite;
+   private DataType localConsumerPrimitive;
 
    private static final int[] elementFeatureIds = {
       XpdlPackage.FORMAL_PARAMETER_TYPE__ID, XpdlPackage.FORMAL_PARAMETER_TYPE__NAME,
@@ -102,11 +104,13 @@ public class CrossModelSupportModelBuilderTest
 
       //Primitive Data
       localPrimitive = facade.createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+      localConsumerPrimitive = facade.createPrimitiveData(consumerModel, "ConsumerPrimitive", "ConsumerPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+      facade.updatePrimitiveData(localConsumerPrimitive, Type.Integer.getId());
       DataType implementingPrimitive = facade.createPrimitiveData(consumerModel, "ImplementingPrimitive", "ImplementingPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
-
 
       //Type Declaration
       facade.createTypeDeclaration(providerModel, "ProvidedComposite", "ProvidedComposite");
+      facade.createTypeDeclaration(consumerModel, "ConsumerComposite", "ConsumerComposite");
 
       //Processes
       ProcessDefinitionType providedProcess = facade.createProcess(providerModel, "ProvidedProcess", "ProvidedProcess");
@@ -118,6 +122,8 @@ public class CrossModelSupportModelBuilderTest
       //Structured Data / Document Data
       localComposite = facade.createStructuredData(providerModel, "LocalComposite1", "LocalComposite1", "ProviderModel:ProvidedComposite");
       implementingComposite = facade.createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");
+      localConsumerComposite = facade.createStructuredData(consumerModel, "ConsumerComposite1", "ConsumerComposite1", "ConsumerModel:ConsumerComposite");
+      facade.updateStructuredDataType(localConsumerComposite, "ProviderModel:ProvidedComposite");
       facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
 
       //Process Interface (Creation)
