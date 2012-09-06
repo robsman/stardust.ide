@@ -40,6 +40,10 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
+import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
+import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
+import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataInitializer;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
@@ -74,6 +78,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
+import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -418,6 +423,20 @@ public class ModelBuilderFacade
       return data;
    }
 
+
+   public void convertDataType(DataType data, String targetTypeID)
+   {
+      if (data.getType().getId().equals(targetTypeID))
+      {
+         return;
+      }
+      ModelType model = ModelUtils.findContainingModel(data);
+      IDataInitializer init = getInitializer(targetTypeID);
+      init.initialize(data, data.getAttribute());
+      data.setType(ModelUtils.findIdentifiableElement(model.getDataType(), targetTypeID));
+   }
+
+
    /**
     * Update the type of a primitive data.
     *
@@ -448,34 +467,37 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
-      String declarationID = stripFullId(typeFullID);
-      TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
+      if (typeDeclarationModel != null) {
+         String declarationID = stripFullId(typeFullID);
+         TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
-      if(sourceModelID.equals(model.getId()))
-      {
-         AttributeUtil.setAttribute(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
-               declarationID);
-      } else {
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
-               typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
-               bundleId, null);
-
-         AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-         AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-         AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
-         ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-         if (typeDeclarationModel != null)
+         if(sourceModelID.equals(model.getId()))
          {
-            reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
+            AttributeUtil.setAttribute(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
+                  declarationID);
+         } else {
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
+
+            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
+                  typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
+                  bundleId, null);
+
+            AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+            AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+            ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+            if (typeDeclarationModel != null)
+            {
+               reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
+            }
+            reference.setXref(declarationID);
+            data.setExternalReference(reference);
          }
-         reference.setXref(declarationID);
-         data.setExternalReference(reference);
       }
+
 
    }
 
@@ -1988,5 +2010,26 @@ public class ModelBuilderFacade
       String[] ids = fullId.split(":");
 
       return ids[0];
+   }
+
+   private IDataInitializer getInitializer(String dataTypeTypeID)
+   {
+      if (dataTypeTypeID.equals(PredefinedConstants.PRIMITIVE_DATA))
+      {
+         return new PrimitiveDataInitializer();
+      }
+      if (dataTypeTypeID.equals(PredefinedConstants.STRUCTURED_DATA))
+      {
+         return new DataStructInitializer();
+      }
+      if (dataTypeTypeID.equals(PredefinedConstants.SERIALIZABLE_DATA))
+      {
+         return new SerializableDataInitializer();
+      }
+      if (dataTypeTypeID.equals("dmsDocument"))
+      {
+         return new DmsDocumentInitializer();
+      }
+      return null;
    }
 }
