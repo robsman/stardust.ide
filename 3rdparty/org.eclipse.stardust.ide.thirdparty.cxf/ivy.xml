@@ -26,13 +26,21 @@
    </publications>
 
    <dependencies>
-      <dependency org="apache-cxf" name="commons-collections" rev="3.2.1" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="commons-lang" rev="2.6" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="cxf" rev="2.6.1" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="jaxb-impl" rev="2.2.5" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="jaxb-xjc" rev="2.2.5" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="neethi" rev="3.0.2" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="velocity" rev="1.7" transitive="false" conf="bom->default" />
-      <dependency org="apache-cxf" name="xmlschema-core" rev="2.0.2" transitive="false" conf="bom->default" />
+      <dependency org="commons-collections" name="commons-collections" rev="3.2" transitive="false" conf="bom->default" />
+      <dependency org="commons-lang" name="commons-lang" rev="2.4" transitive="false" conf="bom->default" />
+      
+      <dependency org="org.apache.cxf" name="cxf-api" rev="2.6.1-stardust01" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-bindings-soap" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-core" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-tools-common" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-tools-validator" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-tools-wsdlto-core" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-tools-wsdlto-databinding-jaxb" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-tools-wsdlto-frontend-jaxws" rev="2.6.1" transitive="false" conf="bom->default" />
+      
+      <dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.12" transitive="false" conf="bom->default" />
+      <dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.1.12" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.velocity" name="velocity" rev="1.7" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.ws.xmlschema" name="xmlschema-core" rev="2.0.2" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

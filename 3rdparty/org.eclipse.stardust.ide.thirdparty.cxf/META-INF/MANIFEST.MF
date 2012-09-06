@@ -6,13 +6,19 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.cxf
 Bundle-Version: 2.6.1
 Bundle-Vendor: SunGard CSA LLC
 Bundle-BuddyPolicy: registered
-Bundle-ClassPath: lib/cxf-2.6.1.jar,
- lib/velocity-1.7.jar,
- lib/commons-collections-3.2.1.jar,
- lib/commons-lang-2.6.jar,
- lib/xmlschema-core-2.0.2.jar,
- lib/jaxb-xjc-2.2.5.jar,
- lib/jaxb-impl-2.2.5.jar,
- lib/neethi-3.0.2.jar
 Require-Bundle: javax.wsdl
 Export-Package: org.apache.cxf.tools.wsdlto
+Bundle-ClassPath: lib/commons-collections-3.2.jar,
+ lib/commons-lang-2.4.jar,
+ lib/cxf-api-2.6.1-stardust01.jar,
+ lib/cxf-rt-core-2.6.1.jar,
+ lib/cxf-rt-bindings-soap-2.6.1.jar,
+ lib/cxf-tools-common-2.6.1.jar,
+ lib/cxf-tools-validator-2.6.1.jar,
+ lib/cxf-tools-wsdlto-core-2.6.1.jar,
+ lib/cxf-tools-wsdlto-databinding-jaxb-2.6.1.jar,
+ lib/cxf-tools-wsdlto-frontend-jaxws-2.6.1.jar,
+ lib/jaxb-impl-2.1.12.jar,
+ lib/jaxb-xjc-2.1.12.jar,
+ lib/velocity-1.7.jar,
+ lib/xmlschema-core-2.0.2.jar

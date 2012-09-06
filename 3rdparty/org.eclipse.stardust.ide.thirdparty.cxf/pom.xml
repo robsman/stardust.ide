@@ -28,15 +28,15 @@
   <!-- see https://github.com/sonatype/sonatype-tycho/blob/master/tycho-demo/itp02/build01/pomfirst-thirdparty/pom.xml -->
   <dependencies>
     <dependency>
-      <groupId>apache-cxf</groupId>
+      <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
+      <version>3.2</version>
     </dependency>
     <dependency>
-      <groupId>apache-cxf</groupId>
+      <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>2.6</version>    </dependency>
-    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>cxf</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>jaxb-impl</artifactId>      <version>2.2.5</version>    </dependency>    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>jaxb-xjc</artifactId>      <version>2.2.5</version>    </dependency>    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>neethi</artifactId>      <version>3.0.2</version>    </dependency>    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>velocity</artifactId>      <version>1.7</version>    </dependency>    <dependency>      <groupId>apache-cxf</groupId>      <artifactId>xmlschema-core</artifactId>      <version>2.0.2</version>    </dependency>  </dependencies>
+      <version>2.4</version>    </dependency>    
+    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-api</artifactId>      <version>2.6.1-stardust01</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-rt-bindings-soap</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-rt-core</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-tools-common</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-tools-validator</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-tools-wsdlto-core</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-tools-wsdlto-databinding-jaxb</artifactId>      <version>2.6.1</version>    </dependency>    <dependency>      <groupId>org.apache.cxf</groupId>      <artifactId>cxf-tools-wsdlto-frontend-jaxws</artifactId>      <version>2.6.1</version>    </dependency>        <dependency>      <groupId>com.sun.xml.bind</groupId>      <artifactId>jaxb-impl</artifactId>      <version>2.1.12</version>    </dependency>    <dependency>      <groupId>com.sun.xml.bind</groupId>      <artifactId>jaxb-xjc</artifactId>      <version>2.1.12</version>    </dependency>    <dependency>      <groupId>org.apache.velocity</groupId>      <artifactId>velocity</artifactId>      <version>1.7</version>    </dependency>    <dependency>      <groupId>org.apache.ws.xmlschema</groupId>      <artifactId>xmlschema-core</artifactId>      <version>2.0.2</version>    </dependency>  </dependencies>
 
   <build>
     <plugins>
@@ -44,7 +44,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>          <execution>            <id>embed-jars</id>            <configuration>
-              <includeArtifactIds>commons-collections,commons-lang,cxf,jaxb-impl,jaxb-xjc,neethi,velocity,xmlschema-core</includeArtifactIds>
+              <includeArtifactIds>commons-collections,commons-lang,cxf-api,cxf-rt-bindings-soap,cxf-rt-core,cxf-tools-common,cxf-tools-validator,cxf-tools-wsdlto-core,cxf-tools-wsdlto-databinding-jaxb,cxf-tools-wsdlto-frontend-jaxws,jaxb-impl,jaxb-xjc,velocity,xmlschema-core</includeArtifactIds>
             </configuration>          </execution>        </executions>
       </plugin>
     </plugins>

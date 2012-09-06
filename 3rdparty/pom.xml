@@ -17,6 +17,7 @@
   <modules>
     <module>org.eclipse.stardust.ide.thirdparty.antlr</module>
     <module>org.eclipse.stardust.ide.thirdparty.commons.logging</module>
+    <module>org.eclipse.stardust.ide.thirdparty.cxf</module>
     <module>org.eclipse.stardust.ide.thirdparty.db.derby</module>
     <module>org.eclipse.stardust.ide.thirdparty.db.derby.client</module>
     <module>org.eclipse.stardust.ide.thirdparty.gface</module>
