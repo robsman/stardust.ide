@@ -14,9 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -125,14 +123,39 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		final String modelFile = BPMN_MODEL_DIR + "StartEventTimer.bpmn";
 		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testStartEventTimer.xpdl";		
 		
+		Calendar cal = Calendar.getInstance();
+		cal.set(2012, 8, 18, 0, 0, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		long stopTime = cal.getTime().getTime();
+		cal.set(2012, 8, 1, 11, 0, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		long startTime = cal.getTime().getTime(); //2012-09-01T11:00:00
+		String period = "000001:000002:000001:000020:000030:000000";
+		
 		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
 		ProcessDefinitionType process = result.getProcessDefinition().get(0);
-		
 		assertNotNull(process);
 		assertNotNull(result);		
-		TriggerType trigger = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
-		assertNotNull(trigger);
-		assertEquals(PredefinedConstants.TIMER_TRIGGER, trigger.getType().getId());
+		TriggerType triggerCycle = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT_TIMER_CYCLE_STOP);
+		TriggerType triggerDate = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT_TIMER_DATE);
+		
+		assertNotNull(triggerDate);
+		assertNotNull(triggerCycle);
+		
+		assertEquals(PredefinedConstants.TIMER_TRIGGER, triggerDate.getType().getId());
+		assertEquals(PredefinedConstants.TIMER_TRIGGER, triggerCycle.getType().getId());
+		
+		String dateStart = AttributeUtil.getAttributeValue(triggerDate, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT);		
+		String cycleStart = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT);
+		String cyclePeriod = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_PERIODICITY_ATT);
+		String cycleStop = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_STOP_TIMESTAMP_ATT);
+		
+		assertEquals(startTime, Long.parseLong(dateStart));
+		assertEquals(startTime, Long.parseLong(cycleStart));
+		assertEquals(period, cyclePeriod);
+		assertEquals(stopTime, Long.parseLong(cycleStop));
+
+		
 	}
 	
 	public void testUserTask() {
