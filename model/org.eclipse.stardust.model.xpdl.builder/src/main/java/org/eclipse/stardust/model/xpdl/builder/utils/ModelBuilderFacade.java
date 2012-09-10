@@ -54,6 +54,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
@@ -885,11 +886,32 @@ public class ModelBuilderFacade
             applicationTypeType = AbstractElementBuilder.F_CWM
                   .createApplicationTypeType();
             applicationTypeType.setId(applicationTypeID);
-            applicationTypeType.setName("Message Transformation Application");
+            applicationTypeType.setName(applicationName);
             applicationTypeType.setIsPredefined(true);
             long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
             applicationTypeType.setElementOid(++maxElementOid);
             model.getApplicationType().add(applicationTypeType);
+         }
+         if (applicationTypeID.equalsIgnoreCase(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY)) {
+            applicationTypeType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
+            applicationTypeType.setId(applicationTypeID);
+            applicationTypeType.setName(applicationName);
+            applicationTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            applicationTypeType.setElementOid(++maxElementOid);
+            model.getApplicationType().add(applicationTypeType);
+            application.setInteractive(true);
+            CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
+            ContextType context = factory.createContextType();
+            ApplicationContextTypeType contextTypeType = AbstractElementBuilder.F_CWM.createApplicationContextTypeType();
+            contextTypeType.setName("External Web Application");
+            contextTypeType.setId("externalWebApp");
+            contextTypeType.setIsPredefined(true);
+            XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+            context.setType(contextTypeType); //TODO Add this context type to the model
+            application.getContext().add(context);
          }
       }
       application.setType(applicationTypeType);
