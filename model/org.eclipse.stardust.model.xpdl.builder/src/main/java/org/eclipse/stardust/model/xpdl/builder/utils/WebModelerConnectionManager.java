@@ -888,7 +888,7 @@ public class WebModelerConnectionManager implements IConnectionManager
             
             Attribute attribute = factory.createAttribute();
             attribute.setName("filename");
-            attribute.setValue("project:/" + referencedModel.getName() + ".xpdl"); //$NON-NLS-1$               
+            attribute.setValue("project:/" + referencedModel.getId() + ".xpdl"); //$NON-NLS-1$               
             connection.getAttributes().add(attribute);               
          }
          catch (CoreException e)
