@@ -13,10 +13,12 @@ package org.eclipse.stardust.model.xpdl.builder.initializer;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 
 
@@ -27,7 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 public abstract class AbstractDmsItemInitializer implements IDataInitializer
 {
    protected abstract Class<?> getInterfaceType();
-   
+
    public List<AttributeType> initialize(DataType data, List<AttributeType> attributes)
    {
       AttributeType attrClassName = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
@@ -38,6 +40,15 @@ public abstract class AbstractDmsItemInitializer implements IDataInitializer
       attrBidirectional.setName(CarnotConstants.ENGINE_SCOPE + "data:bidirectional"); //$NON-NLS-1$
       attrBidirectional.setValue(Boolean.TRUE.toString());
       attrBidirectional.setType(Boolean.TYPE.getName());
+
+      //If attributes originally from StructuredType
+      String typeDecl = AttributeUtil.getAttributeValue(attributes, StructuredDataConstants.TYPE_DECLARATION_ATT);
+      if (typeDecl != null) {
+         AttributeType attrTypeName = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
+         attrTypeName.setName("carnot:engine:dms:resourceMetadataSchema");
+         attrTypeName.setValue(typeDecl);
+         data.getAttribute().add(attrTypeName);
+      }
 
       return Arrays.asList(new AttributeType[] {attrClassName, attrBidirectional});
    }
