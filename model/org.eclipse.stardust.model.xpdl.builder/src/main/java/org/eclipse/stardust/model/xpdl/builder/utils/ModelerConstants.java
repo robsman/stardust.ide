@@ -170,4 +170,8 @@ public class ModelerConstants
    public static final String IMPLEMENTS_PROCESS_INTERFACE_KEY = "implementsProcessInterface";
    public static final String FORMAL_PARAMETERS_PROPERTY = "formalParameters";
    public static final String TEAM_LEAD_FULL_ID_PROPERTY = "teamLeadFullId";
+   public static final String SUBPROCESS_MODE_PROPERTY = "subprocessMode";
+   public static final String SYNC_SEPARATE_KEY = "synchSeparate";
+   public static final String ASYNC_SEPARATE_KEY = "asynchSeparate";
+   public static final String SYNC_SHARED_KEY = "synchShared";
 }
