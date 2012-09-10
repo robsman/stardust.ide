@@ -867,58 +867,6 @@ public class ModelBuilderFacade
     * @param applicationTypeID  id of the application type to be set
     * @return application created
     */
-//   /*public ApplicationType createApplication(ModelType model, String applicationID,
-//         String applicationName, String applicationTypeID)
-//   {
-//      ApplicationType application = AbstractElementBuilder.F_CWM.createApplicationType();
-//      application.setId(applicationID);
-//      application.setName(applicationName);
-//      ApplicationTypeType applicationTypeType = null;
-//      try
-//      {
-//         applicationTypeType = findApplicationTypeType(model, applicationTypeID);
-//      }
-//      catch (Throwable t)
-//      {
-//         if (applicationTypeID
-//               .equalsIgnoreCase(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID))
-//         {
-//            applicationTypeType = AbstractElementBuilder.F_CWM
-//                  .createApplicationTypeType();
-//            applicationTypeType.setId(applicationTypeID);
-//            applicationTypeType.setName(applicationName);
-//            applicationTypeType.setIsPredefined(true);
-//            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-//            applicationTypeType.setElementOid(++maxElementOid);
-//            model.getApplicationType().add(applicationTypeType);
-//         }
-//         if (applicationTypeID.equalsIgnoreCase(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY)) {
-//            applicationTypeType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
-//            applicationTypeType.setId(applicationTypeID);
-//            applicationTypeType.setName(applicationName);
-//            //applicationTypeType.setIsPredefined(true);
-//            /*long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-//            applicationTypeType.setElementOid(++maxElementOid);
-//            model.getApplicationType().add(applicationTypeType);
-//            //application.setInteractive(true);
-//            CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
-//            ContextType context = factory.createContextType();
-//            ApplicationContextTypeType contextTypeType = AbstractElementBuilder.F_CWM.createApplicationContextTypeType();
-//            contextTypeType.setName("External Web Application");
-//            contextTypeType.setId("externalWebApp");
-//            contextTypeType.setIsPredefined(true);
-//            XpdlModelUtils.getMaxUsedOid(model);
-//            contextTypeType.setElementOid(++maxElementOid);
-//            model.getApplicationContextType().add(contextTypeType);
-//            context.setType(contextTypeType); //TODO Add this context type to the model
-//            application.getContext().add(context);*/
-//         }
-//      }
-//      application.setType(applicationTypeType);
-//      model.getApplication().add(application);
-//      return application;
-//   }
-
    public ApplicationType createApplication(ModelType model, String applicationID,
          String applicationName, String applicationTypeID)
    {
