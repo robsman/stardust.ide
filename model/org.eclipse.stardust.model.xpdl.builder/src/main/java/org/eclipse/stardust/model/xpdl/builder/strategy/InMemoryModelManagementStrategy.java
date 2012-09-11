@@ -11,6 +11,8 @@
 
 package org.eclipse.stardust.model.xpdl.builder.strategy;
 
+import static org.eclipse.stardust.common.CollectionUtils.newArrayList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,10 +22,8 @@ import org.eclipse.stardust.engine.api.runtime.DmsUtils;
 import org.eclipse.stardust.engine.api.runtime.Document;
 import org.eclipse.stardust.engine.api.runtime.DocumentInfo;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
-import org.eclipse.stardust.engine.api.runtime.Folder;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactory;
 import org.eclipse.stardust.engine.api.runtime.ServiceFactoryLocator;
-import org.eclipse.stardust.model.xpdl.builder.strategy.AbstractModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
@@ -41,6 +41,10 @@ public class InMemoryModelManagementStrategy extends
 	private DocumentManagementService documentManagementService;
 	private List<ModelType> models = new ArrayList<ModelType>();
 
+   public void registerModel(ModelType model)
+   {
+      models.add(model);
+   }
 
 	public Map<String, ModelType> getModels()
 	{
@@ -49,8 +53,14 @@ public class InMemoryModelManagementStrategy extends
 	/**
 	 *
 	 */
-	public List<ModelType> loadModels() {
-		return models;
+	public List<ModelDescriptor> loadModels()
+	{
+	   List<ModelDescriptor> result = newArrayList();
+	   for (ModelType model : models)
+	   {
+	      result.add(new ModelDescriptor(model.getId(), null, model, model));
+	   }
+		return result;
 	}
 
     /**

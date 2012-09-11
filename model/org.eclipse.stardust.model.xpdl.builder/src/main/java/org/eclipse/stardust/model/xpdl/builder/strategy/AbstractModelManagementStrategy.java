@@ -10,12 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.strategy;
 
-import java.util.HashMap;
+import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -24,7 +23,9 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public abstract class AbstractModelManagementStrategy implements ModelManagementStrategy {
 
-	private Map<String, ModelType> models = new HashMap<String, ModelType>();
+	private Map<String, ModelType> xpdlModels = newHashMap();
+
+   private Map<String, EObject> models = newHashMap();
 
    private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
 
@@ -36,22 +37,29 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 		return getModels(false);
 	}
 
-	/**
+	public EObject getOriginalModel(String modelId)
+	{
+	   return models.get(modelId);
+	}
+
+   /**
 	 *
 	 */
-	public Map<String, ModelType> getModels(boolean reload)
-	{
-		if (reload)
-		{
-		   models.clear();
-			for (ModelType model: loadModels())
-			{
-			models.put(model.getId(), model);
-			}
-		}
+   public Map<String, ModelType> getModels(boolean reload)
+   {
+      if (reload)
+      {
+         xpdlModels.clear();
+         for (ModelDescriptor modelDescriptor : loadModels())
+         {
+            xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
+            // register original representation (in order to smoothly transition to BPMN2)
+            models.put(modelDescriptor.id, modelDescriptor.model);
+         }
+      }
 
-		return models;
-	}
+      return xpdlModels;
+   }
 
 	public EObjectUUIDMapper uuidMapper()
 	{
@@ -80,7 +88,9 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	/**
 	 *
 	 */
-	public abstract List<ModelType> loadModels();
+   // TODO refactor to a proper API, this probably requires moving model management
+   // strategy out of builder
+	protected abstract List<ModelDescriptor> loadModels();
 
     /**
      *
@@ -106,4 +116,21 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	 *
 	 */
 	public abstract void versionizeModel(ModelType model);
+
+	protected static class ModelDescriptor
+	{
+      public final String id;
+	   public final String fileName;
+	   public final EObject model;
+	   public final ModelType xpdlModel;
+
+      public ModelDescriptor(String id, String fileName, EObject model,
+            ModelType xpdlModel)
+      {
+         this.id = id;
+         this.fileName = fileName;
+         this.model = model;
+         this.xpdlModel = xpdlModel;
+      }
+	}
 }

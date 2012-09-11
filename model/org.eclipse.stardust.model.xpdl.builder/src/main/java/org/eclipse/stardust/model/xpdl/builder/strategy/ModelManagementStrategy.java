@@ -23,17 +23,12 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
  *
  */
 public interface ModelManagementStrategy {
-	/**
-	 *
-	 * @return
-	 */
-	public List<ModelType> loadModels();
 
 	/**
     *
     * @return
     */
-    public ModelType loadModel(String id);
+    ModelType loadModel(String id);
 
     EObjectUUIDMapper uuidMapper();
 
@@ -42,46 +37,46 @@ public interface ModelManagementStrategy {
 	 * @param id
 	 * @return
 	 */
-	public ModelType attachModel(String id);
+	ModelType attachModel(String id);
 
 	/**
 	 *
 	 * @return
 	 */
-	public Map<String, ModelType>  getModels();
+	Map<String, ModelType>  getModels();
 
 	/**
 	 *
 	 * @param reload
 	 * @return
 	 */
-	public Map<String, ModelType>  getModels(boolean reload);
+	Map<String, ModelType>  getModels(boolean reload);
 
 	/*
 	 *
 	 */
-	public void saveModel(ModelType model);
+	void saveModel(ModelType model);
 
 	/**
 	 *
 	 * @param model
 	 */
-	public void deleteModel(ModelType model);
+	void deleteModel(ModelType model);
 
 	/**
 	 *
 	 */
-	public void versionizeModel(ModelType model);
+	void versionizeModel(ModelType model);
 
 	/**
 	 * @param model
 	 * @return
 	 */
-	public String getModelFileName(ModelType model);
+	String getModelFileName(ModelType model);
 
    /**
     * @param model
     * @return
     */
-   public String getModelFilePath(ModelType model);
+   String getModelFilePath(ModelType model);
 }

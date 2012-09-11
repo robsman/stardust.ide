@@ -95,8 +95,8 @@ public class CrossModelSupportModelBuilderTest
 
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
-      strategy.loadModels().add(consumerModel);
-      strategy.loadModels().add(providerModel);
+      strategy.registerModel(consumerModel);
+      strategy.registerModel(providerModel);
 
       //Participants
       facade.createRole(providerModel, "Administrator", "Administrator");
