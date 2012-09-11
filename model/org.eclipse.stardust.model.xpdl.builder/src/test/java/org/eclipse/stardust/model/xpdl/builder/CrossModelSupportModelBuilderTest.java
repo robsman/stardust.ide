@@ -103,7 +103,7 @@ public class CrossModelSupportModelBuilderTest
       facade.createRole(consumerModel, "Administrator", "Administrator");
 
       //Primitive Data
-      localPrimitive = facade.createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+      localPrimitive = facade.createPrimitiveData(providerModel, "ProvidedPrimitive", "ProvidedPrimitive", ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE);
       localConsumerPrimitive = facade.createPrimitiveData(consumerModel, "ConsumerPrimitive", "ConsumerPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
       facade.updatePrimitiveData(localConsumerPrimitive, Type.Integer.getId());
       DataType implementingPrimitive = facade.createPrimitiveData(consumerModel, "ImplementingPrimitive", "ImplementingPrimitive", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
@@ -125,10 +125,12 @@ public class CrossModelSupportModelBuilderTest
       localConsumerComposite = facade.createStructuredData(consumerModel, "ConsumerComposite1", "ConsumerComposite1", "ConsumerModel:ConsumerComposite");
       facade.updateStructuredDataType(localConsumerComposite, "ProviderModel:ProvidedComposite");
       facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
+      DataType test = facade.createDocumentData(consumerModel, "ConsumerDocument", "ConsumerDocument", "ConsumerComposite");
+      facade.updateDocumentDataType(test, "ProviderModel:ProvidedComposite");
 
       //Process Interface (Creation)
-      facade.createPrimitiveParameter(processInterface, localPrimitive, "FormalParameter1", "FormalParameter1", ModeType.IN);
-      facade.createStructuredParameter(processInterface, localComposite, "FormalParameter2", "FormalParameter2", ModeType.IN);
+      facade.createPrimitiveParameter(processInterface, localPrimitive, "FormalParameter1", "FormalParameter1", ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      facade.createStructuredParameter(processInterface, localComposite, "FormalParameter2", "FormalParameter2", "ProviderModel:ProvidedComposite", ModeType.IN);
 
       //Process Interface (Usage)
       facade.setProcessImplementation(processInterface, implementingProcess);
@@ -138,6 +140,7 @@ public class CrossModelSupportModelBuilderTest
       //Applications
       facade.createApplication(providerModel, "WebService", "WebService", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
       facade.createApplication(providerModel, "Message Transformation", "Message Transformation", ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
+      facade.createApplication(providerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
 
       //Activities
       ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Manual", "ManualActivity1", "ManualActivity1", "ProviderModel:Administrator", null, null);
@@ -158,64 +161,20 @@ public class CrossModelSupportModelBuilderTest
       searchedRole = facade.findParticipant("ProviderModel:Administrator");
 
 
-      //Store
-      byte[] modelContent = XpdlModelIoUtils.saveModel(consumerModel);
 
+      try
+      {
+         //Thread.sleep(5000);
+         byte[] modelContent = XpdlModelIoUtils.saveModel(providerModel);
+         //Thread.sleep(5000);
+         System.out.println(new String(modelContent));
+      }
+      catch (Throwable t)
+      {
+         t.printStackTrace();
+      }
       //Output
-      System.out.println(new String(modelContent));
-   }
 
-   private void createPrimitiveParameter(ProcessDefinitionType processInterface)
-   {
-      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
-      parameterType.setId("FormalParameter1");
-      parameterType.setName("Formal Parameter 1");
-      parameterType.setMode(ModeType.IN);
-
-      DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
-      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      basicType.setType(TypeType.STRING_LITERAL);
-      dataTypeType.setBasicType(basicType);
-      parameterType.setDataType(dataTypeType);
-      String typeId = localPrimitive.getType().getId();
-      dataTypeType.setCarnotType(typeId);
-
-      FormalParametersType parametersType = xpdlFactory.createFormalParametersType();
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
-
-      FormalParameterMappingsType parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
-      parameterMappingsType.setMappedData(parameterType, localPrimitive);
-      processInterface.setFormalParameterMappings(parameterMappingsType);
-   }
-
-   private void createStructuredParameter(ProcessDefinitionType processInterface)
-   {
-      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
-      parameterType.setId("FormalParameter2");
-      parameterType.setName("Formal Parameter 2");
-      parameterType.setMode(ModeType.IN);
-
-      DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
-      String typeId = localComposite.getType().getId();
-
-      parameterType.setDataType(dataTypeType);
-      dataTypeType.setCarnotType(typeId);
-
-      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      declaredType.setId(AttributeUtil.getAttributeValue(localComposite, StructuredDataConstants.TYPE_DECLARATION_ATT));
-
-      dataTypeType.setDeclaredType(declaredType);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
-
-      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
-      parameterMappingsType.setMappedData(parameterType, localComposite);
-      processInterface.setFormalParameterMappings(parameterMappingsType);
    }
 
    @Test

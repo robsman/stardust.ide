@@ -23,6 +23,7 @@ public class ModelerConstants
    public static final String STRING_PRIMITIVE_DATA_TYPE = "string";
    public static final String DATE_PRIMITIVE_DATA_TYPE = "date";
    public static final String INTEGER_PRIMITIVE_DATA_TYPE = "integer";
+   public static final String BOOLEAN_PRIMITIVE_DATA_TYPE = "boolean";
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
    public static final String DECIMAL_PRIMITIVE_DATA_TYPE = "decimal";
    public static final String STRUCTURED_DATA_TYPE_KEY = "struct";
@@ -41,7 +42,7 @@ public class ModelerConstants
    public static final String DEF_LANE_NAME = "Default Lane";
    public static final String ORIENTATION_PROPERTY = "orientation";
    public static final String DIAGRAM_FLOW_ORIENTATION_HORIZONTAL = "DIAGRAM_FLOW_ORIENTATION_HORIZONTAL";
-   public static final String DIAGRAM_FLOW_ORIENTATION_VERTICAL = "DIAGRAM_FLOW_ORIENTATION_VERTICAL";   
+   public static final String DIAGRAM_FLOW_ORIENTATION_VERTICAL = "DIAGRAM_FLOW_ORIENTATION_VERTICAL";
    public static final String NULL_VALUE = "null";
    public static final String DIRECTORY_MODE = "DIRECTORY_MODE";
    public static final String SINGLE_FILE_MODE = "SINGLE_FILE_MODE";
@@ -145,10 +146,10 @@ public class ModelerConstants
    // @deprecated
    public static final int POOL_SWIMLANE_TOP_BOX_HEIGHT = 20;
    /* Half the size of the review why this adjustment is needed start event symbol used in Pepper
-    * TODO - may need to be handled on the client side down the line. 
+    * TODO - may need to be handled on the client side down the line.
     * @deprecated */
    public static final int START_END_SYMBOL_LEFT_OFFSET = 12;
-   // Added to set symbol type at Marshaller same as client side  
+   // Added to set symbol type at Marshaller same as client side
    public static final String SWIMLANE_SYMBOL = "swimlaneSymbol";
    public static final String ACTIVITY_SYMBOL = "activitySymbol";
    public static final String GATEWAY_SYMBOL = "gateSymbol";

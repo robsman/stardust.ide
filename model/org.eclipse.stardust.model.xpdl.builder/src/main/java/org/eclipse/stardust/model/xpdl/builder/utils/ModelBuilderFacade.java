@@ -243,7 +243,7 @@ public class ModelBuilderFacade
    }
 
    public void createPrimitiveParameter(ProcessDefinitionType processInterface,
-         DataType dataType, String id, String name, ModeType mode)
+         DataType data, String id, String name, String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
@@ -254,10 +254,10 @@ public class ModelBuilderFacade
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE
             .createDataTypeType();
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      basicType.setType(TypeType.STRING_LITERAL);
+      basicType.setType(getPrimitiveType(primitiveTypeID));
       dataTypeType.setBasicType(basicType);
       parameterType.setDataType(dataTypeType);
-      String typeId = dataType.getType().getId();
+      String typeId = data.getType().getId();
       dataTypeType.setCarnotType(typeId);
 
       FormalParametersType parametersType = processInterface.getFormalParameters();
@@ -279,12 +279,12 @@ public class ModelBuilderFacade
                .createFormalParameterMappingsType();
       }
 
-      parameterMappingsType.setMappedData(parameterType, dataType);
+      parameterMappingsType.setMappedData(parameterType, data);
       processInterface.setFormalParameterMappings(parameterMappingsType);
    }
 
    public void createStructuredParameter(ProcessDefinitionType processInterface,
-         DataType dataType, String id, String name, ModeType mode)
+         DataType data, String id, String name, String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
@@ -295,14 +295,16 @@ public class ModelBuilderFacade
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
             .createDataTypeType();
-      String typeId = dataType.getType().getId();
+      String typeId = data.getType().getId();
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
 
       DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      declaredType.setId(AttributeUtil.getAttributeValue(dataType,
-            StructuredDataConstants.TYPE_DECLARATION_ATT));
+      //declaredType.setId(AttributeUtil.getAttributeValue(data,
+      //      StructuredDataConstants.TYPE_DECLARATION_ATT));
+
+      declaredType.setId(stripFullId(structTypeFullID));
 
       dataTypeType.setDeclaredType(declaredType);
 
@@ -324,7 +326,7 @@ public class ModelBuilderFacade
                .createFormalParameterMappingsType();
       }
 
-      parameterMappingsType.setMappedData(parameterType, dataType);
+      parameterMappingsType.setMappedData(parameterType, data);
       processInterface.setFormalParameterMappings(parameterMappingsType);
    }
 
@@ -2096,6 +2098,36 @@ public class ModelBuilderFacade
          return new DmsDocumentInitializer();
       }
       return null;
+   }
+
+   private TypeType getPrimitiveType(String primitiveTypeID)
+   {
+      TypeType type = null;
+      if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.STRING_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.DATE_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.DATETIME_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.INTEGER_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.FLOAT_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.FLOAT_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.BOOLEAN_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.BOOLEAN_LITERAL;
+      }
+      return type;
    }
 
 
