@@ -56,8 +56,10 @@ public class XpdlModelIoUtils
    public static final byte[] EMPTY_BUFFER = new byte[0];
 
    private static final int COPY_BUFFER_LENGHT = 16 * 1024;
-   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();      
-   
+
+   // TODO how is this supposed to be thread/multi-user save?
+   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();
+
    public static WebModelerConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
    {
       WebModelerConnectionManager manager = map.get(model.getId());
