@@ -56,21 +56,10 @@ public class XpdlModelIoUtils
    public static final byte[] EMPTY_BUFFER = new byte[0];
 
    private static final int COPY_BUFFER_LENGHT = 16 * 1024;
-   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();   
-   private static Map<String, ModelType> modelMap = new HashMap<String, ModelType>();
-
-   public static ModelType getModelById(String id)
-   {
-      return modelMap.get(id);
-   }
+   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();      
    
    public static WebModelerConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
    {
-      if(modelMap.get(model.getId()) == null)
-      {
-         modelMap.put(model.getId(), model);
-      }
-      
       WebModelerConnectionManager manager = map.get(model.getId());
       if(manager == null)
       {
@@ -300,10 +289,11 @@ public class XpdlModelIoUtils
       }
 
       return tmpModel;
-   }
+   }   
+   
    
    public static void clearModelsMap()
    {
       map.clear();
-   }
+   }   
 }
