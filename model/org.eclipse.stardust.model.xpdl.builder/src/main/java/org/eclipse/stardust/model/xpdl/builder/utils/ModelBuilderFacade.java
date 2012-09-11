@@ -624,17 +624,21 @@ public class ModelBuilderFacade
                dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");         
+         
+         ModelType loadModel = getModelManagementStrategy().loadModel(dataModelId + ".xpdl");
+         DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
+         if(dataCopy == null)
+         {
+            ElementCopier copier = new ElementCopier(loadModel, null);
+            dataCopy = (DataType) copier.copy(data);
+         }
+         
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-               uri, data, bundleId, null, true);
-
+               uri, dataCopy, bundleId, null, true);
          PepperIconFactory iconFactory = new PepperIconFactory();
-
          descriptor.importElements(iconFactory, model, true);
-
-         //Workaround for CRNT-25991 - should be removed when this ticket is resolved
-         modelManagementStrategy.attachModel(dataModel.getId());
+         data = findData(model, stripFullId(dataFullID));
       }
       return data;
    }
@@ -719,12 +723,19 @@ public class ModelBuilderFacade
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
+            ModelType loadModel = getModelManagementStrategy().loadModel(participantModelID + ".xpdl");
+            IModelParticipant participantCopy = findParticipant(loadModel, stripFullId(participantFullID));
+            if(participantCopy == null)
+            {
+               ElementCopier copier = new ElementCopier(loadModel, null);
+               participantCopy = (IModelParticipant) copier.copy(modelParticipant);               
+            }
+            
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-                  uri, modelParticipant, bundleId, null, true);
-
+                  uri, participantCopy, bundleId, null, true);
             PepperIconFactory iconFactory = new PepperIconFactory();
-
-            descriptor.importElements(iconFactory, model, true);
+            descriptor.importElements(iconFactory, model, true);            
+            modelParticipant = findParticipant(model, stripFullId(participantFullID));            
          }
 
          laneSymbol.setParticipant(modelParticipant);

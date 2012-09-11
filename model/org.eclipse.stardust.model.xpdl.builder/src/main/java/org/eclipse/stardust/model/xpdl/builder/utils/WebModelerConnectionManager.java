@@ -876,7 +876,7 @@ public class WebModelerConnectionManager implements IConnectionManager
       String id = null;
       
       WebModelerConnectionManager jcrConnectionManager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
-      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute("project:/" + referencedModel.getName() + ".xpdl");
+      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute("project:/" + referencedModel.getId() + ".xpdl");
       
       if(findConnection == null)
       {
