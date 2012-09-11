@@ -5,11 +5,13 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.runtime.j2ee
 Bundle-Version: 9.9.9.qualifier
 Bundle-ClassPath: lib/geronimo-ejb_2.1_spec-1.1.jar,
  lib/geronimo-jms_1.1_spec-1.1.1.jar,
- lib/servlet-api-2.4.jar
+ lib/servlet-api-2.4.jar,
+ lib/geronimo-j2ee-connector_1.5_spec-2.0.0.jar
 Bundle-Localization: plugin
 Export-Package: javax.ejb,
  javax.ejb.spi,
  javax.jms,
+ javax.resource,
  javax.servlet,
  javax.servlet.http,
  javax.xml.rpc.handler
