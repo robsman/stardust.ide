@@ -31,9 +31,11 @@
       <delete dir="${build.dir}" />
    </target>
 
-	<target name="initIvy">
+	<target name="initIvy" xmlns:ivy="antlib:org.apache.ivy.ant">
       <echo message="Using Ivy for dependency management." />
       <init-ivy />
+
+      <ivy:resolve file="${project.dir}/ivy.xml"/>
    </target>
 
 	<target name="init" depends="initIvy">
