@@ -28,8 +28,13 @@
 
    <dependencies>
       <!-- pom-runtime -->
-      <dependency org="org.eclipse.emf" name="emf-ecore" rev="2.4.2" conf="ipp-bpm-repository-runtime->default"/>
-      <dependency org="org.eclipse.emf" name="emf-ecore-xmi" rev="2.4.2" conf="ipp-bpm-repository-runtime->default"/>
-      <dependency org="org.eclipse.xsd" name="xsd" rev="2.4.2" conf="ipp-bpm-repository-runtime->default"/>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="ipp-bpm-repository-runtime->default"/>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="2.6.1.v20100914-1218" conf="ipp-bpm-repository-runtime->default">
+         <exclude org="org.eclipse.emf" module="org.eclipse.emf.common"/>
+      </dependency>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="2.5.0.v20100521-1846" conf="ipp-bpm-repository-runtime->default">
+         <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore"/>
+      </dependency>
+      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="ipp-bpm-repository-runtime->default"/>
    </dependencies>
 </ivy-module>
