@@ -26,7 +26,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.Duration;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
@@ -38,6 +42,7 @@ import org.eclipse.bpmn2.Documentation;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.ExclusiveGateway;
+import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
@@ -59,6 +64,7 @@ import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.bpmn2.UserTask;
+import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
@@ -68,6 +74,7 @@ import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.Gateway2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.Sequence2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
@@ -82,6 +89,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 /**
  * @author Simon Nikles
  *
@@ -341,19 +349,70 @@ public class Bpmn2StardustXPDL implements Transformator {
 		}
 	}
 	
-	private void addTimerTrigger(StartEvent event, EventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
+	private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
 		logger.debug("addTimerTrigger " + event);
+
 		TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
 		if (triggerType != null) {
 			TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
 	        trigger.setType(triggerType);			
 			trigger.setId(event.getId());
 			trigger.setName(event.getName());
-			Bpmn2StardustXPDLExtension.addTimerStartEventExtensions(event, trigger);
+			setTimerTriggerDefinition(event, def, trigger);
+	        Bpmn2StardustXPDLExtension.addTimerStartEventExtensions(event, trigger);
 	        processDef.getTrigger().add(trigger);
 		} else {
 			failures.add(FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
 		}
+	}
+	
+	private void setTimerTriggerDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {
+		// According to OMG-BPMN, only one (date, cycle or duration) for executable processes; 
+		// duration is not considered here (rather useful for waiting-timers)
+		if (eventDef.getTimeCycle()!= null) {
+			setTimerCycleDefinition(eventDef, trigger);
+		} else if (eventDef.getTimeDate() != null) {
+			setTimerTimeDefinition(event, eventDef, trigger);
+		}
+	}
+
+	private void setTimerCycleDefinition(TimerEventDefinition eventDef, TriggerType trigger) {
+		Expression cycleExpression =  eventDef.getTimeCycle();
+		if (cycleExpression instanceof FormalExpression) {
+			FormalExpression formalCycle = (FormalExpression)cycleExpression;
+			String body = formalCycle.getBody();
+			BpmnTimerCycle cycle = BpmnTimerCycle.getCycle(body);
+			Duration dur = cycle.getCycleDuration();
+			Period p = new Period((short)dur.getYears(), (short)dur.getMonths(), (short)dur.getDays(), (short)dur.getHours(), (short)dur.getMinutes(), (short)dur.getSeconds());
+			AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT, "long", String.valueOf(cycle.getStartDate().getTime()));
+			AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_PERIODICITY_ATT, "Period", String.valueOf(p.toString()));
+		} else {
+			String expression = DocumentationTool.getInformalExpressionValue(cycleExpression);
+			DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
+			String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
+			XpdlModelUtils.setCDataString(descriptor.getMixed(), expression.concat(descr), true);
+		}		
+	}
+	
+	private void setTimerTimeDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {
+		Expression timeExpression =  eventDef.getTimeDate();
+		if (timeExpression instanceof FormalExpression) {
+			FormalExpression formalCycle = (FormalExpression)timeExpression;
+			String body = formalCycle.getBody();
+			try {
+				Date d = DatatypeFactory.newInstance().newXMLGregorianCalendar(body).toGregorianCalendar().getTime();
+				AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT, "long", String.valueOf(d.getTime()));
+			} catch (Exception e) {
+				logger.info("Date cannot be parsed: " + body + " (Start Event " + event.getId() + " )");
+			}
+		} else {
+			String expression = DocumentationTool.getInformalExpressionValue(timeExpression);
+			DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
+			String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
+			if (null!=descr) expression = expression.concat(descr); 
+			XpdlModelUtils.setCDataString(descriptor.getMixed(), expression, true);
+			trigger.setDescription(descriptor);				
+		}			
 	}
 	
 	public void addParticipant(Participant participant, Process process) {
