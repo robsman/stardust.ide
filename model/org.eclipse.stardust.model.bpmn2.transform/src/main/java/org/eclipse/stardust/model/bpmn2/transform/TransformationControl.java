@@ -254,6 +254,8 @@ public class TransformationControl {
 				processManualTask((ManualTask)activity, container);
 			} else if (activity instanceof BusinessRuleTask) {
 				processBusinessRuleTask((BusinessRuleTask)activity, container);
+			} else {
+				processAbstractTask((Task)activity, container);
 			}
 		} else if (activity instanceof SubProcess) {
 			processSubProcess((SubProcess)activity, container);
@@ -334,8 +336,12 @@ public class TransformationControl {
 	}
 
 	private void processParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
-		processingInfo +=   "ParallelGateway" + NOT_SUPPORTED;
-		//transf.addParallelGateway(gateway, container);
+		//processingInfo +=   "ParallelGateway" + NOT_SUPPORTED;
+		transf.addParallelGateway(gateway, container);
+	}
+
+	private void processAbstractTask(Task task, FlowElementsContainer container) {
+		transf.addAbstractTask(task, container);
 	}
 
 	private void processUserTask(UserTask activity, FlowElementsContainer container) {
@@ -344,7 +350,7 @@ public class TransformationControl {
 
 	private void processServiceTask(ServiceTask activity, FlowElementsContainer container) {
 		processingInfo +=   "ServiceTask" + NOT_SUPPORTED;
-		
+		transf.addServiceTask(activity, container);
 	}
 
 	private void processSubProcessDefault(SubProcess activity, FlowElementsContainer container) {

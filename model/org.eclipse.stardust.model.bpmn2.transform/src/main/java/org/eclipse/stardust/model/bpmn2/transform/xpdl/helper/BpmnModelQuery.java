@@ -8,25 +8,30 @@
  * Contributors:
  *    ITpearls - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.stardust.model.bpmn2.transform.carnot;
+package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
-import org.eclipse.stardust.model.bpmn2.transform.Dialect;
-import org.eclipse.stardust.model.bpmn2.transform.Transformator;
+import org.eclipse.bpmn2.CatchEvent;
+import org.eclipse.bpmn2.EventDefinition;
 
 /**
  * @author Simon Nikles
  *
  */
-public class DialectCarnotXPDL implements Dialect {
+public class BpmnModelQuery {
 
-	public static final String DIALECT_CARNOT = "carnot_xpdl";
-		
-	public Transformator getTransformator() {
-		return new Bpmn2CarnotXPDL();
+	public BpmnModelQuery() {
+	
 	}
 
-	public String getDialectName() {
-		return DIALECT_CARNOT;
-	};
+	public int countEventDefinitions(CatchEvent event) {
+		if (event.getEventDefinitions() != null) return event.getEventDefinitions().size();
+		return 0;
+	}
 
+	public EventDefinition getFirstEventDefinition(CatchEvent event) {
+		if (countEventDefinitions(event) > 0) {
+			return event.getEventDefinitions().get(0);
+		}
+		return null;
+	}
 }

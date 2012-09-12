@@ -27,8 +27,10 @@ import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.SequenceFlow;
+import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
+import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.UserTask;
 
 /**
@@ -42,6 +44,8 @@ public interface Transformator {
 	public Object getTargetModel();
 	
 	public void addProcess(Process process);
+
+	public void addAbstractTask(Task task, FlowElementsContainer container);
 
 	public void addUserTask(UserTask task, FlowElementsContainer container);
 	
@@ -74,6 +78,8 @@ public interface Transformator {
 	public void addParallelGateway(ParallelGateway gateway, FlowElementsContainer container);
 
 	public void addPartnerEntity(PartnerEntity entity);
+
+	public void addServiceTask(ServiceTask activity, FlowElementsContainer container);
 
 
 }

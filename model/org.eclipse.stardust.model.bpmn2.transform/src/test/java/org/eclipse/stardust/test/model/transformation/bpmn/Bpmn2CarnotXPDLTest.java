@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -25,7 +28,8 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter;
 import org.eclipse.stardust.model.bpmn2.transform.TransformationControl;
-import org.eclipse.stardust.model.bpmn2.transform.carnot.DialectCarnotXPDL;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.DialectStardustXPDL;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -36,17 +40,21 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class Bpmn2CarnotXPDLTest extends TestCase {
 
 	private static final String BPMN_MODEL_DIR = "models/bpmn/"; 
 	private static final String OUTPUT_DIR = "models/output/";
 	private static final String TEST_ID_START_EVENT = "TestModelStartEventId";
-	private static final String TEST_ID_POOL_P1 = "TestModelPool1";
-	private static final String TEST_ID_POOL_P2 = "TestModelPool2";
-	private static final String TEST_ID_LANE_L1 = "TestModelLane1";
-	private static final String TEST_ID_LANE_L2 = "TestModelLane2";	
+	private static final String TEST_ID_START_EVENT_TIMER_DATE = "TestModelTimerStartEventTime";
+	private static final String TEST_ID_START_EVENT_TIMER_CYCLE_STOP = "TestModelStartEventCycleStop";	
+	
 	private static final String TEST_ID_TASK_A = "TestModelTaskA";
 	private static final String TEST_ID_TASK_B = "TestModelTaskB";
 	private static final String TEST_ID_TASK_C = "TestModelTaskC";
@@ -55,8 +63,13 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 	private static final String TEST_ID_SEQUENCE_A_TO_B = "TestModelSequenceAtoB";
 	private static final String TEST_ID_CONDITIONAL_SEQUENCE = "TestModelConditionalSequenceFlow1";
 	private static final String TEST_ID_DEFAULT_SEQUENCE = "TestModelDefaultSequenceFlow";
-	private static final String TEST_ID_XOR_SPLIT_GATEWAY = "TestModelXORSplitGateway";
-	private static final String TEST_ID_XOR_JOIN_GATEWAY = "TestModelXORJoinGateway";
+		
+	private static final String TEST_ID_XOR_MIXED_GATEWAY = "TestModelXORMixedGateway";
+	private static final String TEST_ID_SEQUENCE_B2GATE = "SeqB2Gate";
+	private static final String TEST_ID_SEQUENCE_C2GATE = "SeqC2Gate";
+	private static final String TEST_ID_SEQUENCE_GATE2D = "SeqGate2D";
+	private static final String TEST_ID_SEQUENCE_GATE2E = "SeqGate2E";	
+	
 	private static final String TEST_ID_SUBPROCESS = "TestModelSubProcess";
 	private static final String TEST_ID_MAIN_PROCESS = "TestModelMainProcess";
 	private static final String TEST_ID_PARTNER_ENTITY_ORG_A = "TestOrganisationA";
@@ -68,7 +81,15 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		return suite;
 	}
 	
+	public void testSimpleSequence() throws FileNotFoundException, IOException {
+		final String modelFile = "c:/temp/simple-sequence.bpmn";
+		final String fileOutput = "c:/temp/simple-sequence.xpdl";
+		Bpmn2Resource bpmnModel = BPMNModelImporter.importModel(modelFile);
+		Definitions definitions = BPMNModelImporter.getDefinitions(bpmnModel);
 
+		ModelType result = transformModel(definitions, fileOutput);
+	}
+	
 	public void testStartEventNone() {
 		final String modelFile = BPMN_MODEL_DIR + "StartEventNone.bpmn";
 		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testStartEventNone.xpdl";		
@@ -78,26 +99,26 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		
 		assertNotNull(process);
 		assertNotNull(result);		
-		TriggerType trigger = findTrigger(process, TEST_ID_START_EVENT);
+		TriggerType trigger = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
 		assertNotNull(trigger);
 		assertEquals(PredefinedConstants.MANUAL_TRIGGER, trigger.getType().getId());
 	}
 
 	public void testStartEventMessage() {
 		// TODO JMS_TRIGGER type is not available
-		/*
-		final String modelFile = BPMN_MODEL_DIR + "StartEventMessage.bpmn";
-		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testStartEventMessage.xpdl";		
-		
-		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
-		ProcessDefinitionType process = result.getProcessDefinition().get(0);
-		
-		assertNotNull(process);
-		assertNotNull(result);		
-		TriggerType trigger = findTrigger(process, TEST_ID_START_EVENT);
-		assertNotNull(trigger);
-		assertEquals(PredefinedConstants.JMS_TRIGGER, trigger.getType().getId());
-		*/		
+
+//		final String modelFile = BPMN_MODEL_DIR + "StartEventMessage.bpmn";
+//		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testStartEventMessage.xpdl";		
+//		
+//		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+//		ProcessDefinitionType process = result.getProcessDefinition().get(0);
+//		
+//		assertNotNull(process);
+//		assertNotNull(result);		
+//		TriggerType trigger =  CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
+//		assertNotNull(trigger);
+//		assertEquals(PredefinedConstants.JMS_TRIGGER, trigger.getType().getId());
+
 	}
 	
 	public void testStartEventTimer() {
@@ -109,7 +130,7 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		
 		assertNotNull(process);
 		assertNotNull(result);		
-		TriggerType trigger = findTrigger(process, TEST_ID_START_EVENT);
+		TriggerType trigger = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
 		assertNotNull(trigger);
 		assertEquals(PredefinedConstants.TIMER_TRIGGER, trigger.getType().getId());
 	}
@@ -123,7 +144,7 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		
 		assertNotNull(process);
 		assertNotNull(result);		
-		ActivityType activity = findActivity(process, TEST_ID_TASK_A);
+		ActivityType activity = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
 		assertNotNull(activity);
 		assertEquals(ActivityImplementationType.MANUAL_LITERAL, activity.getImplementation());		
 	}
@@ -137,9 +158,9 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		assertNotNull(process);
 		assertNotNull(result);		
 
-		IModelParticipant orgParticipant = findParticipant(result, TEST_ID_PARTNER_ENTITY_ORG_A);
-		IModelParticipant resourceRole = findParticipant(result, TEST_ID_RESOURCE_ROLE_A);
-		ActivityType taskA = findActivity(process, TEST_ID_TASK_A);
+		IModelParticipant orgParticipant = CarnotModelQuery.findParticipant(result, TEST_ID_PARTNER_ENTITY_ORG_A);
+		IModelParticipant resourceRole = CarnotModelQuery.findParticipant(result, TEST_ID_RESOURCE_ROLE_A);
+		ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
 		assertNotNull(orgParticipant);
 		assertNotNull(resourceRole);		
 		assertNotNull(taskA);
@@ -170,7 +191,7 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 	}
 
 	public void testSequenceActivityToActivity(ActivityType taskA, ActivityType taskB, ProcessDefinitionType processDef) {
-		TransitionType sequenceFlow = findTransition(processDef, TEST_ID_SEQUENCE_A_TO_B);
+		TransitionType sequenceFlow = CarnotModelQuery.findTransition(processDef, TEST_ID_SEQUENCE_A_TO_B);
 		assertNotNull(sequenceFlow);
 		assertNotNull(sequenceFlow.getFrom());
 		assertNotNull(sequenceFlow.getTo());
@@ -187,14 +208,14 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		
 		// A -> B, C or D -> E
 		// A has condition, D is default path
-		ActivityType taskA = findActivity(process, TEST_ID_TASK_A);
-		ActivityType taskB = findActivity(process, TEST_ID_TASK_B);
-		ActivityType taskC = findActivity(process, TEST_ID_TASK_C);
-		ActivityType taskD = findActivity(process, TEST_ID_TASK_D);
-		ActivityType taskE = findActivity(process, TEST_ID_TASK_E);		
+		ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+		ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+		ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+		ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
+		ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);		
 		
-		TransitionType transitionAB = findTransition(process, TEST_ID_CONDITIONAL_SEQUENCE);
-		TransitionType defaultTransitionAD = findTransition(process, TEST_ID_DEFAULT_SEQUENCE);
+		TransitionType transitionAB = CarnotModelQuery.findTransition(process, TEST_ID_CONDITIONAL_SEQUENCE);
+		TransitionType defaultTransitionAD = CarnotModelQuery.findTransition(process, TEST_ID_DEFAULT_SEQUENCE);
 
 		assertNotNull(taskA);
 		assertNotNull(taskB);
@@ -213,21 +234,209 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		System.out.println("sequence condition AB " + transitionAB.getCondition());
 		System.out.println("sequence condition AD " + defaultTransitionAD.getCondition());
 		
-		assertEquals(testCondition, transitionAB.getCondition());
+		//assertEquals(testCondition, transitionAB.getCondition());
+		assertEquals(XMLConstants.CONDITION_VALUE, transitionAB.getCondition());
+		assertEquals(testCondition, transitionAB.getExpression().getMixed().getValue(0));
 		assertEquals(XMLConstants.CONDITION_OTHERWISE_VALUE, defaultTransitionAD.getCondition());
 		
 	}
 	
+	public void testParallelGatewayOneSplitOneMerge() {
+		final String modelFile = BPMN_MODEL_DIR + "ParallelGatewaysSingle.bpmn";
+		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testParallelGatewaysSingle.xpdl";		
+
+		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+		ProcessDefinitionType process = result.getProcessDefinition().get(0);		
+		
+		// A -> B, C and D -> E
+		ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+		ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+		ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+		ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
+		ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);		
+		
+		assertNotNull(taskA);
+		assertNotNull(taskB);
+		assertNotNull(taskC);
+		assertNotNull(taskD);
+		assertNotNull(taskE);
+		
+		assertTrue(taskA.getOutTransitions().size()==3);
+		assertTrue(taskE.getInTransitions().size()==3);
+		
+		assertEquals(JoinSplitType.AND_LITERAL, taskA.getSplit());
+		assertEquals(JoinSplitType.AND_LITERAL, taskE.getJoin());
+
+		for (TransitionType trans : taskA.getOutTransitions()) {
+			assertEquals("CONDITION", trans.getCondition());
+			assertEquals("true", trans.getExpression().getMixed().getValue(0));
+		}
+	}
+	
+	public void testMixedGateway() {
+		// Gateway with two incoming and two outgoing sequence-flows
+		// expected in stardust: 
+		// - two 'gateways'
+		// - one Route Activity (representing the Gateway)
+		// -- having XOR Join and XOR Split 
+		// - four transitions
+		// -- b->Route, c->Route, Route->d (with condition), Route->e (with condition)
+		
+		final String modelFile = BPMN_MODEL_DIR + "MixedGateway.bpmn";
+		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testMixedGateway.xpdl";		
+
+		final String expr4D = "expr4D";
+		final String expr4E = "expr4E";
+
+		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+		ProcessDefinitionType process = result.getProcessDefinition().get(0);		
+
+		ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+		ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+		ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+		ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
+		ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);		
+		ActivityType route = CarnotModelQuery.findActivity(process, TEST_ID_XOR_MIXED_GATEWAY);
+
+		assertNotNull(taskA);
+		assertNotNull(taskB);
+		assertNotNull(taskC);
+		assertNotNull(taskD);
+		assertNotNull(taskE);
+		assertNotNull(route);
+
+		assertEquals(JoinSplitType.NONE_LITERAL, taskB.getSplit());
+		assertEquals(JoinSplitType.NONE_LITERAL, taskC.getSplit());
+		assertEquals(JoinSplitType.NONE_LITERAL, taskD.getJoin());
+		assertEquals(JoinSplitType.NONE_LITERAL, taskE.getJoin());
+		
+		assertEquals(JoinSplitType.XOR_LITERAL, route.getJoin());
+		assertEquals(JoinSplitType.XOR_LITERAL, route.getSplit());
+		
+		TransitionType transitionB2G = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_B2GATE);
+		TransitionType transitionC2G = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_C2GATE);
+		TransitionType transitionG2D = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATE2D);
+		TransitionType transitionG2E = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATE2E);
+
+		assertNotNull(transitionB2G);
+		assertNotNull(transitionC2G);
+		assertNotNull(transitionG2D);
+		assertNotNull(transitionG2E);
+				
+		assertEquals(taskB, transitionB2G.getFrom());
+		assertEquals(taskC, transitionC2G.getFrom());
+		assertEquals(route, transitionB2G.getTo());
+		assertEquals(route, transitionC2G.getTo());		
+		assertEquals(route, transitionG2D.getFrom());
+		assertEquals(route, transitionG2E.getFrom());
+		assertEquals(taskD, transitionG2D.getTo());
+		assertEquals(taskE, transitionG2E.getTo());
+		
+		assertEquals(expr4D, transitionG2D.getExpression().getMixed().getValue(0));
+		assertEquals(expr4E, transitionG2E.getExpression().getMixed().getValue(0));
+				
+	}
+	
+	public void testSequentialWithMixedGateway() {
+		// Sequence of Gateways (two diverging and one mixed)
+		// expected in stardust:
+		// - first gate as split on task a
+		// - second gate as route with split
+		// - third gate as route with join and split
+
+		final String modelFile = BPMN_MODEL_DIR + "SequentialMixedGateway.bpmn";
+		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testSequentialMixedGateway.xpdl";		
+		// ids
+		final String TEST_ID_GATE_B = "TestModelGateB";
+		final String TEST_ID_SEQUENCE_GA2GB = "TestModelSequenceGA2GB";		
+		final String TEST_ID_SEQUENCE_GA2MIXED = "TestModelSequenceGA2MixedGate";
+		final String TEST_ID_SEQUENCE_GB2B = "TestModelSequenceGB2B";				
+		final String TEST_ID_SEQUENCE_GB2MIXED = "TestModelSequenceGB2MixedGate";		
+		final String TEST_ID_SEQUENCE_MIXED2C = "TestModelSequenceMixedGate2C";		
+		final String TEST_ID_SEQUENCE_MIXED2D = "TestModelSequenceMixedGate2D";
+		
+		final String x1 = "test='X=1'";
+		final String x2 = "test='X=2'";
+		final String y1 = "test='Y=1'";
+		final String y2 = "test='Y=2'";
+		final String z1 = "test='Z=1'";
+		final String z2 = "test='Z=2'";
+
+		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+		ProcessDefinitionType process = result.getProcessDefinition().get(0);		
+
+		ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+		ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+		ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+		ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
+		
+		ActivityType routeA = CarnotModelQuery.findActivity(process, TEST_ID_GATE_B);
+		ActivityType routeB = CarnotModelQuery.findActivity(process, TEST_ID_XOR_MIXED_GATEWAY);
+		
+		TransitionType transitionA2RouteA = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GA2GB); //x1
+		TransitionType transitionA2RouteB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GA2MIXED); //x2
+		TransitionType transitionRouteA2B = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GB2B); //y1
+		TransitionType transitionRouteA2RouteB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GB2MIXED); //y2
+		TransitionType transitionRouteB2C = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_MIXED2C); //z1
+		TransitionType transitionRouteB2D = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_MIXED2D); //z2
+
+		// Elements found?
+		assertNotNull(taskA);
+		assertNotNull(taskB);
+		assertNotNull(taskC);
+		assertNotNull(taskD);
+		assertNotNull(routeA);
+		assertNotNull(routeB);
+		assertNotNull(transitionA2RouteA);
+		assertNotNull(transitionA2RouteB);
+		assertNotNull(transitionRouteA2B);
+		assertNotNull(transitionRouteA2RouteB);
+		assertNotNull(transitionRouteB2C);
+		assertNotNull(transitionRouteB2D);
+		
+		// Join- and Split config
+		assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+		assertEquals(JoinSplitType.NONE_LITERAL, taskA.getJoin());
+		assertEquals(JoinSplitType.XOR_LITERAL, routeA.getSplit());
+		assertEquals(JoinSplitType.NONE_LITERAL, routeA.getJoin());
+		assertEquals(JoinSplitType.XOR_LITERAL, routeB.getSplit());
+		assertEquals(JoinSplitType.XOR_LITERAL, routeB.getJoin());		
+		
+		// Transition source/target
+		assertEquals(taskA, transitionA2RouteA.getFrom());
+		assertEquals(taskA, transitionA2RouteB.getFrom());
+		assertEquals(routeA, transitionRouteA2B.getFrom());
+		assertEquals(routeA, transitionRouteA2RouteB.getFrom());
+		assertEquals(routeB, transitionRouteB2C.getFrom());
+		assertEquals(routeB, transitionRouteB2D.getFrom());
+
+		assertEquals(routeA, transitionA2RouteA.getTo());
+		assertEquals(routeB, transitionA2RouteB.getTo());
+		assertEquals(taskB, transitionRouteA2B.getTo());
+		assertEquals(routeB, transitionRouteA2RouteB.getTo());
+		assertEquals(taskC, transitionRouteB2C.getTo());
+		assertEquals(taskD, transitionRouteB2D.getTo());
+		
+		// Transition conditions
+		assertEquals(x1, transitionA2RouteA.getExpression().getMixed().getValue(0));
+		assertEquals(x2, transitionA2RouteB.getExpression().getMixed().getValue(0));
+		assertEquals(y1, transitionRouteA2B.getExpression().getMixed().getValue(0));
+		assertEquals(y2, transitionRouteA2RouteB.getExpression().getMixed().getValue(0));
+		assertEquals(z1, transitionRouteB2C.getExpression().getMixed().getValue(0));
+		assertEquals(z2, transitionRouteB2D.getExpression().getMixed().getValue(0));
+						
+	}
+
 	public void testCollapsedSubprocess() {
 		final String modelFile = BPMN_MODEL_DIR + "CollapsedSubprocess.bpmn";
 		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testCollapsedSubprocess.xpdl";		
 
 		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
-		ProcessDefinitionType mainprocess = findProcessDefinition(result, TEST_ID_MAIN_PROCESS);
-		ProcessDefinitionType subprocess = findProcessDefinition(result, TEST_ID_SUBPROCESS);		
+		ProcessDefinitionType mainprocess = CarnotModelQuery.findProcessDefinition(result, TEST_ID_MAIN_PROCESS);
+		ProcessDefinitionType subprocess = CarnotModelQuery.findProcessDefinition(result, TEST_ID_SUBPROCESS);		
 
-		ActivityType taskA = findActivity(subprocess, TEST_ID_TASK_A);
-		ActivityType subprocessActivity = findActivity(mainprocess, TEST_ID_SUBPROCESS);
+		ActivityType taskA = CarnotModelQuery.findActivity(subprocess, TEST_ID_TASK_A);
+		ActivityType subprocessActivity = CarnotModelQuery.findActivity(mainprocess, TEST_ID_SUBPROCESS);
 		
 		assertNotNull(mainprocess);
 		assertNotNull(subprocessActivity);		
@@ -240,7 +449,7 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 	}
 	
 	private ModelType transformModel(Definitions definitions, String fileOutput) {
-		TransformationControl transf = TransformationControl.getInstance(new DialectCarnotXPDL());
+		TransformationControl transf = TransformationControl.getInstance(new DialectStardustXPDL());
 		transf.transformToTarget(definitions, fileOutput);
 		return (ModelType)transf.getTargetModel();
 	}
@@ -271,50 +480,63 @@ public class Bpmn2CarnotXPDLTest extends TestCase {
 		File f = new File(path);
 		if (!f.exists()) f.mkdir();
 	}
-	
-	private static ProcessDefinitionType findProcessInModel(ModelType model, String processId) {
-		for (ProcessDefinitionType processDef : model.getProcessDefinition()) {
-			if (processDef.getId().equals(processId)) return processDef;
-		}
-		return null;
-	}
 
-	private ProcessDefinitionType findProcessDefinition(ModelType model, String id) {
-		for (ProcessDefinitionType processDef : model.getProcessDefinition()) {
-			if (processDef.getId().equals(id)) return processDef;
-		}
-		return null;
-	}
-
-	private ActivityType findActivity(ProcessDefinitionType processDef, String id) {
-		for (ActivityType activity : processDef.getActivity()) {
-			if (activity.getId().equals(id)) return activity; 
-		}
-		return null;
-	}
-
-	private TransitionType findTransition(ProcessDefinitionType processDef, String id) {
-		for (TransitionType transition : processDef.getTransition()) {
-			if (transition.getId().equals(id)) return transition; 
-		}
-		return null;
-	}
-
-	private TriggerType findTrigger(ProcessDefinitionType processDef, String id) {
-		for (TriggerType trigger : processDef.getTrigger()) {
-			if (trigger.getId().equals(id)) return trigger;
-		}
-		return null;
-	}
-
-	private IModelParticipant findParticipant(ModelType model, String id) {
-		for (RoleType role : model.getRole()) {
-			if (role.getId().equals(id)) return role;
-		}
-		for (OrganizationType org : model.getOrganization()) {
-			if (org.getId().equals(id)) return org;
-		}
-		return null;
-	}
-
+//	public void testMixedGateway() {
+//		// Gateway with two incoming and two outgoing sequence-flows
+//		// Version without additional Route (=>multiplied conditions, difficult to read) 
+//		
+//		final String modelFile = BPMN_MODEL_DIR + "MixedGateway.bpmn";
+//		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testMixedGateway.xpdl";		
+//
+//		final String exprBD = "expr4D";
+//		final String exprBE = "expr4E";
+//		final String exprCD = "expr4D";
+//		final String exprCE = "expr4E";
+//
+//		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+//		ProcessDefinitionType process = result.getProcessDefinition().get(0);		
+//
+//		ActivityType taskA = findActivity(process, TEST_ID_TASK_A);
+//		ActivityType taskB = findActivity(process, TEST_ID_TASK_B);
+//		ActivityType taskC = findActivity(process, TEST_ID_TASK_C);
+//		ActivityType taskD = findActivity(process, TEST_ID_TASK_D);
+//		ActivityType taskE = findActivity(process, TEST_ID_TASK_E);		
+//
+//		assertNotNull(taskA);
+//		assertNotNull(taskB);
+//		assertNotNull(taskC);
+//		assertNotNull(taskD);
+//		assertNotNull(taskE);
+//		
+//		assertEquals(JoinSplitType.XOR, taskB.getSplit());
+//		assertEquals(JoinSplitType.XOR, taskC.getSplit());
+//		
+//		assertEquals(JoinSplitType.XOR, taskD.getJoin());
+//		assertEquals(JoinSplitType.XOR, taskE.getJoin());
+//		
+//		EList<TransitionType> bOut = taskB.getOutTransitions();
+//		EList<TransitionType> cOut = taskC.getOutTransitions();
+//		
+//		for (TransitionType trans : bOut) {
+//			ActivityType target = trans.getTo();
+//			if (target.equals(taskD)) {
+//				assertEquals(exprBD, trans.getExpression().getMixed().getValue(0));
+//			} else if (target.equals(taskE)) {
+//				assertEquals(exprBE, trans.getExpression().getMixed().getValue(0));
+//			} else {
+//				fail("Invalid or unexpected Transition Target " + target);
+//			}
+//		}
+//
+//		for (TransitionType trans : cOut) {
+//			ActivityType target = trans.getTo();
+//			if (target.equals(taskD)) {
+//				assertEquals(exprCD, trans.getExpression().getMixed().getValue(0));
+//			} else if (target.equals(taskE)) {
+//				assertEquals(exprCE, trans.getExpression().getMixed().getValue(0));
+//			} else {
+//				fail("Invalid or unexpected Transition Target " + target);
+//			}
+//		}
+//	}
 }
