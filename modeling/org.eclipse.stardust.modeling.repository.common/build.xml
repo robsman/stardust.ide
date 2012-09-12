@@ -1,0 +1,82 @@
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+<!--
+  To execute this build script, you have to configure your environment as follows:
+  - Java property java.home must point to an existent JAVA_HOME (either via parameter
+    (e.g. antit.bat -Djava.home=C:/Programme/Java15) or create a private.properties file
+    in the etc folder of the project and put the property in there)
+  - you need an Infinity installation or you have to execute at least the latakia build file
+-->
+
+<project name="ipp-bpm-repository" default="publish.ivy" basedir="." xmlns:ipp="com.infinity.bpm.ant.macros">
+
+   <property name="project.dir" value="." />
+   <property name="project.etc" value="${project.dir}/etc" />
+   <property file="${project.etc}/private.properties" />
+
+   <property name="organizationId" value="com.infinity.bpm" />
+   <property name="artifactId" value="ipp-bpm-repository" />
+
+   <import file="${project.dir}/../../../build.tools/commons-build.xml" />
+
+   <target name="clean" depends="init" description="removes all build results">
+      <delete dir="${build.dir}" />
+   </target>
+
+	<target name="initIvy">
+      <echo message="Using Ivy for dependency management." />
+      <init-ivy />
+   </target>
+
+	<target name="init" depends="initIvy">
+      <property name="build.dir" value="${build.home}" />
+   </target>
+
+   <target name="initBuildDir" unless="build.home">
+      <property name="build.home" value="${project.dir}/build" />
+   </target>
+
+   <target name="initBuild" depends="init, initBuildDir">
+      <property name="build.dir" value="${build.home}" />
+      <property name="build.lib" value="${build.dir}/lib" />
+
+      <property name="ipp-bpm-repository.jarfile" value="${artifactId}.jar" />
+      <property name="ipp-bpm-repository.pomfile" value="${artifactId}.pom" />
+      <property name="ipp-bpm-repository.jar" value="${build.lib}/${ipp-bpm-repository.jarfile}" />
+      <property name="ipp-bpm-repository.pom" value="${build.lib}/${ipp-bpm-repository.pomfile}" />
+      <property name="ipp-bpm-repository.src-jarfile" value="${artifactId}-sources.jar" />
+      <property name="ipp-bpm-repository.src-jar" value="${build.lib.src}/${ipp-bpm-repository.src-jarfile}" />
+   </target>
+
+   <target name="initBuildDirectories" depends="initBuild">
+      <mkdir dir="${build.lib}" />
+   </target>
+	
+	<target name="unpack.p2" depends="initBuildDirectories">
+      <unzip src="${processWorkbenchFeatures.dir}/processWorkbenchFeatures33-${carnot.version}.zip"
+         dest="${build.lib}">
+         <patternset id="pepperProcessWorkbenchFeatures33PluginDependencies">
+            <include name="**/org.eclipse.stardust.modeling.repository.common_${carnot.version}.jar" />
+         </patternset>
+         <flattenmapper/>
+      </unzip>
+	</target>
+	
+	<target name="make-pom" depends="initIvy">
+		<ivy-make-artifact-pom ivyFile="${project.dir}/ivy.xml" 
+			pomFilePath="${build.lib}" moduleName="${artifactId}" />
+	</target>
+	
+	<target name="publish.ivy" depends="unpack.p2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
+		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />		   
+	</target>
+      
+</project>
