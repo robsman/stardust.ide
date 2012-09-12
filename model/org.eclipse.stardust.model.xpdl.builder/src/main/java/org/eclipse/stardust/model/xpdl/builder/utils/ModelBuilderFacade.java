@@ -25,6 +25,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructV
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +37,13 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
+import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
+import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
+import org.eclipse.stardust.model.xpdl.builder.accesspoints.StructAccessPointType;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
@@ -47,6 +54,7 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataIniti
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
@@ -62,8 +70,11 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
@@ -78,11 +89,14 @@ import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
+import org.eclipse.stardust.model.xpdl.carnot.impl.AccessPointTypeImpl;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
+import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
@@ -624,8 +638,8 @@ public class ModelBuilderFacade
                dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");         
-         
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
          ModelType loadModel = getModelManagementStrategy().loadModel(dataModelId + ".xpdl");
          DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
          if(dataCopy == null)
@@ -633,7 +647,7 @@ public class ModelBuilderFacade
             ElementCopier copier = new ElementCopier(loadModel, null);
             dataCopy = (DataType) copier.copy(data);
          }
-         
+
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                uri, dataCopy, bundleId, null, true);
          PepperIconFactory iconFactory = new PepperIconFactory();
@@ -728,14 +742,14 @@ public class ModelBuilderFacade
             if(participantCopy == null)
             {
                ElementCopier copier = new ElementCopier(loadModel, null);
-               participantCopy = (IModelParticipant) copier.copy(modelParticipant);               
+               participantCopy = (IModelParticipant) copier.copy(modelParticipant);
             }
-            
+
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
             PepperIconFactory iconFactory = new PepperIconFactory();
-            descriptor.importElements(iconFactory, model, true);            
-            modelParticipant = findParticipant(model, stripFullId(participantFullID));            
+            descriptor.importElements(iconFactory, model, true);
+            modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
 
          laneSymbol.setParticipant(modelParticipant);
@@ -2140,6 +2154,159 @@ public class ModelBuilderFacade
       }
       return type;
    }
+
+
+
+   public AccessPointType createPrimitiveAccessPoint(ApplicationType application, String id,
+         String name, String primaryDataTypeID, String direction)
+   {
+      ModelType model = ModelUtils.findContainingModel(application);
+      AccessPointType accessPoint = null;
+      DataTypeType dataTypeType = findDataType(model, PredefinedConstants.PRIMITIVE_DATA);
+      DirectionType directionType;
+      if (direction.equals(DirectionType.IN_LITERAL.getName())) {
+         directionType = DirectionType.IN_LITERAL;
+      } else {
+         directionType = DirectionType.OUT_LITERAL;
+      }
+      if (application.isInteractive()) {
+         accessPoint = AccessPointUtil.createAccessPoint(id, name, directionType, dataTypeType);
+         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+         accessPoint.setElementOid(++maxElementOid);
+         ContextType contextType = getApplicationContext(application, ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+         contextType.getAccessPoint().add(accessPoint);
+         AttributeUtil.setAttribute(accessPoint, PredefinedConstants.TYPE_ATT, "ag.carnot.workflow.spi.providers.data.java.Type", primaryDataTypeID); //$NON-NLS-1$
+         AttributeUtil.setAttribute(accessPoint, "RootElement", id);
+         TransformationProperty property = MappingFactory.eINSTANCE.createTransformationProperty();
+         String xmlString = MappingModelUtil.transformEcore2XML(property);
+         AttributeUtil.setAttribute(contextType, "messageTransformation:TransformationProperty", xmlString);
+      }
+
+      return accessPoint;
+
+   }
+
+   private ContextType getApplicationContext(ApplicationType application,
+         String contextTypeKey)
+   {
+      for (Iterator<ContextType> i = application.getContext().iterator(); i.hasNext();)
+      {
+         ContextType contextType = i.next();
+         if (contextType.getType().getId().equals(contextTypeKey))
+         {
+            return contextType;
+         }
+      }
+      return null;
+   }
+
+   /*public StructAccessPointType createStructAccessPoint(String id, String name,
+         DirectionType direction, DataTypeType type, TypedXPath typedXPath, IXPathMap xPathMap)
+   {
+      StructAccessPointType result = new StructAccessPointType(typedXPath, xPathMap);
+      result.setId(id);
+      result.setName(name);
+      result.setType(type);
+      result.setDirection(direction);
+      return result;
+   }
+
+   public AccessPointType createPrimitiveAccessPoint(IModelElement modelElement, IIdentifiableModelElement declaringType,
+         String messageName, DirectionType direction)
+   {
+      Class<?> clazz = null;
+      String type = AttributeUtil.getAttributeValue(declaringType, PredefinedConstants.TYPE_ATT);
+      if (declaringType instanceof DataTypeType)
+      {
+         type = messageName;
+      }
+      clazz = getClassForType(type);
+      AccessPointType accessPoint = createPrimitiveAccessPointType(messageName, clazz, direction, modelElement);
+      AttributeUtil.setAttribute(accessPoint, PredefinedConstants.TYPE_ATT, "ag.carnot.workflow.spi.providers.data.java.Type", type); //$NON-NLS-1$
+      return accessPoint;
+   }
+
+   public static AccessPointType createPrimitiveAccessPointType(String id, Class<?> clazz, DirectionType direction, IModelElement element)
+   {
+      DataTypeType serializable = ModelUtils.getDataType(element, CarnotConstants.PRIMITIVE_DATA_ID);
+      AccessPointType ap = AccessPointUtil.createAccessPoint(id, id, direction,
+            serializable);
+      AttributeUtil.setAttribute(ap, PredefinedConstants.TYPE_ATT, clazz.getName());
+      return ap;
+   }*/
+
+   public Class<?> getClassForType(String type)
+   {
+      if (type.equalsIgnoreCase("long")) { //$NON-NLS-1$
+         return Long.class;
+      }
+      if (type.equalsIgnoreCase("long")) { //$NON-NLS-1$
+         return Short.class;
+      }
+      if (type.equalsIgnoreCase("float")) { //$NON-NLS-1$
+         return Float.class;
+      }
+      if (type.equalsIgnoreCase("double")) { //$NON-NLS-1$
+         return Double.class;
+      }
+      if (type.equalsIgnoreCase("byte")) { //$NON-NLS-1$
+         return Byte.class;
+      }
+      if (type.equalsIgnoreCase("Calendar")) { //$NON-NLS-1$
+         return Calendar.class;
+      }
+      if (type.equalsIgnoreCase("Timestamp")) { //$NON-NLS-1$
+         return Calendar.class;
+      }
+      if (type.equalsIgnoreCase("int")) { //$NON-NLS-1$
+         return Integer.class;
+      }
+      if (type.equalsIgnoreCase("java.lang.Integer")) { //$NON-NLS-1$
+         return Integer.class;
+      }
+      if (type.equals("String")) { //$NON-NLS-1$
+         return String.class;
+      }
+      return String.class;
+   }
+
+   /*public AccessPointType createStructAccessPoint(IModelElement modelElement, EObject declaringType,
+         String messageName, DirectionType direction)
+   {
+      TypeDeclarationType typeDeclaration = declaringType instanceof TypeDeclarationType
+            ? (TypeDeclarationType) declaringType
+            : StructuredTypeUtils.getStructuredAccessPointTypeDeclaration((StructAccessPointType) declaringType);
+      IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(typeDeclaration);
+      DataTypeType structDataType = ModelUtils.getDataType(modelElement, StructuredDataConstants.STRUCTURED_DATA);
+
+      AccessPointType accessPoint = createStructAccessPoint(messageName, messageName + " (" //$NON-NLS-1$
+            + typeDeclaration.getId() + ")", //$NON-NLS-1$
+            direction, structDataType, xPathMap.getRootXPath(), xPathMap);
+
+
+      // (fh) Workaround to ensure that the access point has a parent
+      // before setting the reference to the type declaration.
+      ((AccessPointTypeImpl) accessPoint).setFakeContainer((IAccessPointOwner) modelElement);
+      StructuredTypeUtils.setStructuredAccessPointAttributes(accessPoint, typeDeclaration);
+      ((AccessPointTypeImpl) accessPoint).setFakeContainer(null);
+      String path = AttributeUtil.getAttribute(accessPoint, "carnot:engine:dataType").getValue(); //$NON-NLS-1$
+      accessPoint.setName(parseName(path));
+      return accessPoint;
+   }
+
+   private String parseName(String path)
+   {
+      if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$
+      {
+         path = path.replaceAll("typeDeclaration:", ""); //$NON-NLS-1$ //$NON-NLS-2$
+         path = path.replace("{", "");//$NON-NLS-1$ //$NON-NLS-2$
+         path = path.replace("}", " / "); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+      return path;
+   }*/
+
+
+
 
 
 }
