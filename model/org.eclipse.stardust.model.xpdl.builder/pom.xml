@@ -18,20 +18,13 @@
 
    <packaging>jar</packaging>
 
-<!--
-   <parent>
-      <groupId>com.infinity.bpm.pepper</groupId>
-      <artifactId>pepper-common</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <relativePath>../pepper-common/pom.xml</relativePath>
-   </parent>
- -->
-
    <properties>
       <ipp.version>7.1.0-NIGHTLY-SNAPSHOT</ipp.version>
    </properties>
 
    <dependencies>
+      <!-- IMPORTANT: these dependencies must be in sync with those of ivy.xml -->
+      
       <dependency>
          <groupId>com.infinity.bpm</groupId>
          <artifactId>carnot-engine</artifactId>
@@ -45,24 +38,98 @@
       </dependency>
 
       <dependency>
-         <groupId>org.eclipse.emf</groupId>
-         <artifactId>emf-ecore</artifactId>
-         <version>2.4.2</version>
+         <groupId>com.infinity.bpm</groupId>
+         <artifactId>ipp-bpm-repository</artifactId>
+         <version>${ipp.version}</version>
       </dependency>
+      
+      <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
       <dependency>
          <groupId>org.eclipse.emf</groupId>
-         <artifactId>emf-ecore-xmi</artifactId>
-         <version>2.4.2</version>
+         <artifactId>org.eclipse.emf.common</artifactId>
+         <version>2.6.0.v20100914-1218</version>
       </dependency>
+      
       <dependency>
          <groupId>org.eclipse.emf</groupId>
-         <artifactId>emf-ecore-change</artifactId>
-         <version>2.4.2</version>
+         <artifactId>org.eclipse.emf.ecore</artifactId>
+         <version>2.6.1.v20100914-1218</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.emf</groupId>
+               <artifactId>org.eclipse.emf.common</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.emf</groupId>
+         <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+         <version>2.5.0.v20100521-1846</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.emf</groupId>
+               <artifactId>org.eclipse.emf.ecore</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.emf</groupId>
+         <artifactId>org.eclipse.emf.ecore.change</artifactId>
+         <version>2.5.1.v20100907-1643</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.emf</groupId>
+               <artifactId>org.eclipse.emf.ecore</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
       <dependency>
          <groupId>org.eclipse.xsd</groupId>
-         <artifactId>xsd</artifactId>
-         <version>2.4.2</version>
+         <artifactId>org.eclipse.xsd</artifactId>
+         <version>2.6.0.v20100914-1218</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.eclipse.osgi</groupId>
+         <artifactId>org.eclipse.osgi</artifactId>
+         <version>3.6.0.v20100517</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.core</groupId>
+         <artifactId>org.eclipse.core.runtime</artifactId>
+         <version>3.6.0.v20100505</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>org.eclipse.core.contenttype</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>org.eclipse.equinox.app</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.equinox</groupId>
+         <artifactId>org.eclipse.equinox.common</artifactId>
+         <version>3.6.0.v20100503</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.equinox</groupId>
+         <artifactId>org.eclipse.equinox.registry</artifactId>
+         <version>3.5.0.v20100503</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>org.eclipse.core.jobs</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
 
       <dependency>
@@ -71,32 +138,7 @@
          <version>4.10</version>
          <scope>test</scope>
       </dependency>
-      <dependency>
-         <groupId>org.eclipse</groupId>
-         <artifactId>org-eclipse-osgi</artifactId>
-         <version>3.4.3</version>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.core</groupId>
-         <artifactId>org-eclipse-core-runtime</artifactId>
-         <version>3.4.0</version>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.equinox</groupId>
-         <artifactId>org-eclipse-equinox-common</artifactId>
-         <version>3.4.0</version>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.equinox</groupId>
-         <artifactId>org-eclipse-equinox-registry</artifactId>
-         <version>3.4.0</version>
-      </dependency>
 
-      <dependency>
-      	<groupId>com.infinity.bpm</groupId>
-      	<artifactId>ipp-bpm-repository</artifactId>
-      	<version>${ipp.version}</version>
-      </dependency>
    </dependencies>
 
    <build>

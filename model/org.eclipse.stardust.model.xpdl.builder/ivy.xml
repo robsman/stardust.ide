@@ -37,20 +37,31 @@
    <dependencies>      
       <!-- compile -->
       <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->carnot-engine-compile" />
-      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->prereq-ipp-bpm-model"/>
-      <dependency org="com.infinity.bpm" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->prereq-ipp-bpm-repository"/>
+      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->ipp-bpm-model-runtime"/>
+      <dependency org="com.infinity.bpm" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->ipp-bpm-repository-runtime"/>
       
-      <!-- TODO: use current versions! -->
-      <dependency org="org.eclipse.emf" name="emf-ecore" rev="2.4.2" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.emf" name="emf-ecore-xmi" rev="2.4.2" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.emf" name="emf-ecore-change" rev="2.4.2" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.xsd" name="xsd" rev="2.4.2" conf="stardust-xpdl-builder-compile->default"/>
+      <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="stardust-xpdl-builder-compile->default"/>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="2.6.1.v20100914-1218" conf="stardust-xpdl-builder-compile->default">
+         <exclude org="org.eclipse.emf" module="org.eclipse.emf.common" />
+      </dependency>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="2.5.0.v20100521-1846" conf="stardust-xpdl-builder-compile->default">
+         <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
+      </dependency>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.change" rev="2.5.1.v20100907-1643" conf="stardust-xpdl-builder-compile->default">
+         <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
+      </dependency>
+      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="stardust-xpdl-builder-compile->default"/>
 
-      <!-- TODO: use current versions! -->
-      <dependency org="org.eclipse" name="org-eclipse-osgi" rev="3.4.3" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.core" name="org-eclipse-core-runtime" rev="3.4.0" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.equinox" name="org-eclipse-equinox-common" rev="3.4.0" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.equinox" name="org-eclipse-equinox-registry" rev="3.4.0" conf="stardust-xpdl-builder-compile->default"/>
+      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="stardust-xpdl-builder-compile->default"/>
+      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="stardust-xpdl-builder-compile->default">
+         <exclude org="org.eclipse.core" module="org.eclipse.core.contenttype" />
+         <exclude org="org.eclipse.equinox" module="org.eclipse.equinox.app" />
+      </dependency>
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.common" rev="3.6.0.v20100503" conf="stardust-xpdl-builder-compile->default"/>
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.registry" rev="3.5.0.v20100503" conf="stardust-xpdl-builder-compile->default">
+         <exclude org="org.eclipse.core" module="org.eclipse.core.jobs" />
+      </dependency>
       
       <dependency org="junit" name="junit" rev="4.10" conf="test->default"/>
 
