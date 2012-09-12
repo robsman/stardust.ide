@@ -25,7 +25,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 
 	private Map<String, ModelType> xpdlModels = newHashMap();
 
-   private Map<String, EObject> models = newHashMap();
+   private Map<ModelType, EObject> nativeModels = newHashMap();
 
    private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
 
@@ -37,9 +37,21 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 		return getModels(false);
 	}
 
-	public EObject getOriginalModel(String modelId)
+   /**
+    * Retrieves the native model representation. If the model was imported from a non-XPDL
+    * format, this non-XPDL format will get returned, otherwise the XPDL representation
+    * will be returned as provided by {@link #getModels()}.
+    *
+    * @param modelId
+    *           the ID of the model to be retrieved
+    * @return the native model representation
+    */
+	public EObject getNativeModel(String modelId)
 	{
-	   return models.get(modelId);
+	   ModelType xpdlModel = getModels().get(modelId);
+	   EObject originalModel = nativeModels.get(xpdlModel);
+
+	   return (null != originalModel) ? originalModel : xpdlModel;
 	}
 
    /**
@@ -53,8 +65,11 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
          for (ModelDescriptor modelDescriptor : loadModels())
          {
             xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
-            // register original representation (in order to smoothly transition to BPMN2)
-            models.put(modelDescriptor.id, modelDescriptor.model);
+            if (modelDescriptor.xpdlModel != modelDescriptor.nativeModel)
+            {
+               // register native representation (in order to smoothly transition to BPMN2)
+               nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
+            }
          }
       }
 
@@ -121,15 +136,15 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	{
       public final String id;
 	   public final String fileName;
-	   public final EObject model;
+	   public final EObject nativeModel;
 	   public final ModelType xpdlModel;
 
-      public ModelDescriptor(String id, String fileName, EObject model,
+      public ModelDescriptor(String id, String fileName, EObject nativeModel,
             ModelType xpdlModel)
       {
          this.id = id;
          this.fileName = fileName;
-         this.model = model;
+         this.nativeModel = nativeModel;
          this.xpdlModel = xpdlModel;
       }
 	}
