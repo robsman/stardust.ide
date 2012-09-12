@@ -60,7 +60,7 @@
       <mkdir dir="${build.lib}" />
    </target>
 	
-	<target name="unpack.p2" depends="initBuildDirectories">
+	<target name="unpack.p2" depends="initBuildDirectories" if="processWorkbenchFeatures.dir">
       <unzip src="${processWorkbenchFeatures.dir}/processWorkbenchFeatures33-${carnot.version}.zip"
          dest="${build.lib}">
          <patternset id="pepperProcessWorkbenchFeatures33PluginDependencies">
@@ -68,6 +68,12 @@
          </patternset>
          <flattenmapper/>
       </unzip>
+		<move file="${build.lib}/org.eclipse.stardust.modeling.validation_${carnot.version}.jar" 
+		   tofile="${build.lib}/${artifactId}.jar"/>
+	</target>
+	
+	<target name="jar.m2" if="maven.created.jar">
+	   <copy file="${maven.created.jar}" tofile="${build.lib}/${artifactId}.jar"/>
 	</target>
 	
 	<target name="make-pom" depends="initIvy">
@@ -75,7 +81,7 @@
 			pomFilePath="${build.lib}" moduleName="${artifactId}" />
 	</target>
 	
-	<target name="publish.ivy" depends="unpack.p2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<target name="publish.ivy" depends="unpack.p2, jar.m2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
 		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />		   
 	</target>
       
