@@ -400,9 +400,22 @@ public class ModelBuilderFacade
          String typeDeclarationID)
    {
       DataType data;
+      ModelType typeDeclarationModel = null;
+      String sourceModelID = null;
+      
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
       if (!StringUtils.isEmpty(typeDeclarationID))
       {
+         sourceModelID = getModelId(typeDeclarationID);
+         if(sourceModelID != null)
+         {
+            typeDeclarationModel = getModelManagementStrategy().getModels().get(
+               sourceModelID);
+         }         
+         
+         
+         typeDeclarationID = stripFullId(typeDeclarationID);
+         documentVariable.setTypeDeclarationModel(typeDeclarationModel);         
          documentVariable.setTypeDeclaration(typeDeclarationID);
       }
 
