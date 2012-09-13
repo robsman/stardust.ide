@@ -21,6 +21,7 @@
 
    <configurations>
       <conf name="stardust-xpdl-builder-compile" description="XPDL Builder - Compile Scope" />
+      <conf name="stardust-xpdl-builder-runtime" description="XPDL Builder - Runtime Scope" />
       
       <conf name="compile" extends="stardust-xpdl-builder-compile" visibility="private" description="Compile Time Dependencies" />
       
@@ -53,8 +54,8 @@
       </dependency>
       <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="stardust-xpdl-builder-compile->default"/>
 
-      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="stardust-xpdl-builder-compile->default">
+      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="stardust-xpdl-builder-runtime->default"/>
+      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="stardust-xpdl-builder-runtime->default">
          <exclude org="org.eclipse.core" module="org.eclipse.core.contenttype" />
          <exclude org="org.eclipse.equinox" module="org.eclipse.equinox.app" />
       </dependency>
