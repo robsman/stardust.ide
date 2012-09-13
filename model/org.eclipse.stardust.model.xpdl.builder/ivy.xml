@@ -14,16 +14,13 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="org.eclipse.stardust.modeling.model" 
-      module="org.eclipse.stardust.model.xpdl.builder"
-      revision="${ipp.version.full}">
-   </info>
+   <info organisation="com.infinity.bpm" module="ipp-bpm-model-builder" revision="${ipp.version.full}" />
 
    <configurations>
-      <conf name="stardust-xpdl-builder-compile" description="XPDL Builder - Compile Scope" />
-      <conf name="stardust-xpdl-builder-runtime" description="XPDL Builder - Runtime Scope" />
+      <conf name="ipp-bpm-model-builder-compile" description="XPDL Builder - Compile Scope" />
+      <conf name="ipp-bpm-model-builder-runtime" description="XPDL Builder - Runtime Scope" />
       
-      <conf name="compile" extends="stardust-xpdl-builder-compile" visibility="private" description="Compile Time Dependencies" />
+      <conf name="compile" extends="ipp-bpm-model-builder-compile" visibility="private" description="Compile Time Dependencies" />
       
       <conf name="test" visibility="private" description="Test dependencies" />
 
@@ -31,36 +28,36 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.model.xpdl.builder" type="jar" conf="stardust-xpdl-builder-compile,stardust-xpdl-builder-runtime" ext="jar" />
-      <!-- artifact name="org.eclipse.stardust.model.xpdl.builder" type="pom" conf="pom" ext="pom" / -->
+      <artifact name="ipp-bpm-model-builder" type="jar" conf="ipp-bpm-model-builder-compile,ipp-bpm-model-builder-runtime" ext="jar" />
+      <artifact name="ipp-bpm-model-builder" type="pom" conf="pom" ext="pom" />
    </publications>
 
    <dependencies>      
       <!-- compile -->
-      <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->carnot-engine-compile" />
-      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->ipp-bpm-model-runtime"/>
-      <dependency org="com.infinity.bpm" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="stardust-xpdl-builder-compile->ipp-bpm-repository-runtime"/>
+      <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->carnot-engine-compile" />
+      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-model-runtime"/>
+      <dependency org="com.infinity.bpm" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-repository-runtime"/>
       
       <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="2.6.1.v20100914-1218" conf="stardust-xpdl-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="ipp-bpm-model-builder-compile->default"/>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="2.6.1.v20100914-1218" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.common" />
       </dependency>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="2.5.0.v20100521-1846" conf="stardust-xpdl-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="2.5.0.v20100521-1846" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
       </dependency>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.change" rev="2.5.1.v20100907-1643" conf="stardust-xpdl-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.change" rev="2.5.1.v20100907-1643" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
       </dependency>
-      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="stardust-xpdl-builder-compile->default"/>
+      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="ipp-bpm-model-builder-compile->default"/>
 
-      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="stardust-xpdl-builder-runtime->default"/>
-      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="stardust-xpdl-builder-runtime->default">
+      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="ipp-bpm-model-builder-runtime->default"/>
+      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="ipp-bpm-model-builder-runtime->default">
          <exclude org="org.eclipse.core" module="org.eclipse.core.contenttype" />
          <exclude org="org.eclipse.equinox" module="org.eclipse.equinox.app" />
       </dependency>
-      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.common" rev="3.6.0.v20100503" conf="stardust-xpdl-builder-compile->default"/>
-      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.registry" rev="3.5.0.v20100503" conf="stardust-xpdl-builder-compile->default">
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.common" rev="3.6.0.v20100503" conf="ipp-bpm-model-builder-compile->default"/>
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.registry" rev="3.5.0.v20100503" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.core" module="org.eclipse.core.jobs" />
       </dependency>
       

@@ -23,8 +23,8 @@
    <property name="project.etc" value="${project.dir}/etc" />
    <property file="${project.etc}/private.properties" />
 
-   <property name="organizationId" value="org.eclipse.stardust.modeling.model" />
-   <property name="artifactId" value="org.eclipse.stardust.model.xpdl.builder" />
+   <property name="organizationId" value="com.infinity.bpm" />
+   <property name="artifactId" value="ipp-bpm-model-builder" />
 
    <import file="${project.dir}/../../../build.tools/commons-build.xml" />
 
@@ -61,9 +61,9 @@
       <property name="build.src" value="${build.dir}/src" />
       <property name="build.src.none" location="${build.dir}/src-none" />
 
-      <property name="xpdl.builder.jarfile" value="org.eclipse.stardust.model.xpdl.builder.jar" />
+      <property name="xpdl.builder.jarfile" value="${artifactId}.jar" />
       <property name="xpdl.builder.jar" value="${build.lib}/${xpdl.builder.jarfile}" />
-      <property name="xpdl.builder.src-jarfile" value="org.eclipse.stardust.model.xpdl.builder-sources.jar" />
+      <property name="xpdl.builder.src-jarfile" value="${artifactId}-sources.jar" />
       <property name="xpdl.builder.src-jar" value="${build.lib.src}/${xpdl.builder.src-jarfile}" />
    </target>
 
@@ -150,8 +150,7 @@
    <target name="build" depends="jar, jar.src" xmlns:ivy="antlib:org.apache.ivy.ant">
       <ivy:resolve file="${project.dir}/ivy.xml" />
       <ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" srcArtifactDir="${build.lib.src}" 
-         conf="stardust-xpdl-builder-compile,stardust-xpdl-builder-runtime" 
-         publishIvy="true" />
+         conf="*" publishIvy="true" publishPom="true"/>
    </target>
 
    <target name="dist" depends="build, jar.src">
