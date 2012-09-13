@@ -9,7 +9,6 @@
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
-
 <feature
       id="org.eclipse.stardust.ide.3rdparty-feature"
       label="%featureName"
@@ -112,6 +111,12 @@
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.runtime.xml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.stardust.ide.thirdparty.cxf"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
