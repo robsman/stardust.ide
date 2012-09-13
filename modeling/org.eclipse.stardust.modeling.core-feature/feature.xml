@@ -77,6 +77,9 @@
       <import plugin="org.eclipse.stardust.ide.thirdparty.springframework"/>
       <import plugin="org.eclipse.ui.workbench.texteditor"/>
       <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="javax.wsdl"/>
+      <import plugin="org.apache.axis"/>
+      <import plugin="org.eclipse.stardust.ide.thirdparty.cxf"/>
    </requires>
 
    <plugin
