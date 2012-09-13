@@ -31,7 +31,7 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.model.xpdl.builder" type="jar" conf="stardust-xpdl-builder-compile" ext="jar" />
+      <artifact name="org.eclipse.stardust.model.xpdl.builder" type="jar" conf="stardust-xpdl-builder-compile,stardust-xpdl-builder-runtime" ext="jar" />
       <!-- artifact name="org.eclipse.stardust.model.xpdl.builder" type="pom" conf="pom" ext="pom" / -->
    </publications>
 
