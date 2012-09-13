@@ -138,13 +138,22 @@ public class CrossModelSupportModelBuilderTest
       facade.setFormalParameter(implementingProcess, "FormalParameter2", implementingComposite);
 
       //Applications
-      facade.createApplication(providerModel, "WebService", "WebService", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
-      facade.createApplication(providerModel, "Message Transformation", "Message Transformation", ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
-      facade.createApplication(providerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+      ApplicationType mta = facade.createApplication(providerModel, "MyMTA", "MyMTA", ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
+      facade.createPrimitiveAccessPoint(mta, "InputString1", "InputString", Type.String.getId(), "IN");
+      facade.createPrimitiveAccessPoint(mta, "OuputString1", "OutputString", Type.String.getId(), "OUT");
+      facade.createStructuredAccessPoint(mta, "InputStruct1", "InputStruct", "ProviderModel:ProvidedComposite", "IN");
+      facade.createStructuredAccessPoint(mta, "OutputStruct1", "OutputStruct", "ProviderModel:ProvidedComposite", "OUT");
+
+
+      ApplicationType externalWebApp = facade.createApplication(providerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+      facade.createPrimitiveAccessPoint(externalWebApp, "NewPrimitive", "NewPrimitive", Type.String.getId() , "IN");
+      facade.createStructuredAccessPoint(externalWebApp, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");
+
+      ApplicationType consumedExtWebApp = facade.createApplication(consumerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+      facade.createStructuredAccessPoint(consumedExtWebApp, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");
 
       //Activities
       ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Manual", "ManualActivity1", "ManualActivity1", "ProviderModel:Administrator", null, null);
-      facade.createActivity(providerModel, providedProcess2, "Application", "AppActivity1", "AppActivity1", null, "ProviderModel:WebService", null);
       facade.createActivity(consumerModel, consumerProcess, "Subprocess", "ProvidedProcess1", "ProvidedProcess1", null, null, "ProviderModel:ProvidedProcess");
 
       //Symbols
@@ -155,7 +164,6 @@ public class CrossModelSupportModelBuilderTest
       //Search & Find
       searchedDataType1 = facade.findData("ProviderModel:ProvidedPrimitive");
       searchedDataType2 = facade.findData(providerModel, "ProvidedPrimitive");
-      searchedApplicationType = facade.findApplication("ProviderModel:WebService");
       searchedProcess = facade.findProcessDefinition("ProviderModel:ProvidedProcess2");
       searchedType = facade.findTypeDeclaration("ProviderModel:ProvidedComposite");
       searchedRole = facade.findParticipant("ProviderModel:Administrator");
@@ -200,9 +208,6 @@ public class CrossModelSupportModelBuilderTest
 
       assertThat(searchedDataType2, not(is(nullValue())));
       assertThat(searchedDataType2.getId(),is("ProvidedPrimitive"));
-
-      assertThat(searchedApplicationType, not(is(nullValue())));
-      assertThat(searchedApplicationType.getId(),is("WebService"));
 
       assertThat(searchedProcess, not(is(nullValue())));
       assertThat(searchedProcess.getId(),is("ProvidedProcess2"));

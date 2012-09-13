@@ -39,8 +39,13 @@ import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmPrimitiveVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.ExternalWebApplicationApplicationBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.MessageTransformationApplicationBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.PrimitiveAccessPointBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.StructAccessPointBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -74,6 +79,27 @@ public abstract class BpmModelBuilder
       return BpmPackageBuilder.newModel();
    }
 
+
+   public static PrimitiveAccessPointBuilder newPrimitiveAccessPoint(IAccessPointOwner anOwner)
+   {
+      return PrimitiveAccessPointBuilder.newAccessPoint(anOwner);
+   }
+
+   public static StructAccessPointBuilder newStructuredAccessPoint(IAccessPointOwner anOwner)
+   {
+      return StructAccessPointBuilder.newAccessPoint(anOwner);
+   }
+
+   public static MessageTransformationApplicationBuilder newMessageTransformationApplication(ModelType model)
+   {
+      return MessageTransformationApplicationBuilder.newMessageTransformationApplication(model);
+   }
+
+   public static ExternalWebApplicationApplicationBuilder newExternalWebApplication(ModelType model)
+   {
+      return ExternalWebApplicationApplicationBuilder.newExternalWebApplication(model);
+   }
+
    public static BpmPrimitiveVariableBuilder<Object> newPrimitiveVariable()
    {
       return BpmPrimitiveVariableBuilder.newPrimitiveVariable();
@@ -93,7 +119,7 @@ public abstract class BpmModelBuilder
    {
       return BpmDocumentVariableBuilder.newDocumentVariable(model);
    }
-   
+
    public static BpmRoleBuilder newRole(ModelType model)
    {
       return BpmRoleBuilder.newRole(model);
