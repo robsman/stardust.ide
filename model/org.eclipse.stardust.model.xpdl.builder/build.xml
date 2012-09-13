@@ -150,7 +150,7 @@
    <target name="build" depends="jar, jar.src" xmlns:ivy="antlib:org.apache.ivy.ant">
       <ivy:resolve file="${project.dir}/ivy.xml" />
       <ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" srcArtifactDir="${build.lib.src}" 
-         conf="stardust-xpdl-builder-compile" 
+         conf="stardust-xpdl-builder-compile,stardust-xpdl-builder-runtime" 
          publishIvy="true" />
    </target>
 
