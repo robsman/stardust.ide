@@ -124,13 +124,14 @@ public class CrossModelSupportModelBuilderTest
       implementingComposite = facade.createStructuredData(consumerModel, "ProvidedComposite1", "ProvidedComposite1", "ProviderModel:ProvidedComposite");
       localConsumerComposite = facade.createStructuredData(consumerModel, "ConsumerComposite1", "ConsumerComposite1", "ConsumerModel:ConsumerComposite");
       facade.updateStructuredDataType(localConsumerComposite, "ProviderModel:ProvidedComposite");
-      facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
+      DataType localDocument = facade.createDocumentData(providerModel, "LocalDocument", "LocalDocument", "ProvidedComposite");
       DataType test = facade.createDocumentData(consumerModel, "ConsumerDocument", "ConsumerDocument", "ConsumerComposite");
       facade.updateDocumentDataType(test, "ProviderModel:ProvidedComposite");
 
       //Process Interface (Creation)
       facade.createPrimitiveParameter(processInterface, localPrimitive, "FormalParameter1", "FormalParameter1", ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE, ModeType.IN);
       facade.createStructuredParameter(processInterface, localComposite, "FormalParameter2", "FormalParameter2", "ProviderModel:ProvidedComposite", ModeType.IN);
+      facade.createDocumentParameter(processInterface, localDocument, "FormalParameter3", "FormalParameter3", "ProviderModel:ProvidedComposite", ModeType.IN);
 
       //Process Interface (Usage)
       facade.setProcessImplementation(processInterface, implementingProcess);
@@ -138,6 +139,9 @@ public class CrossModelSupportModelBuilderTest
       facade.setFormalParameter(implementingProcess, "FormalParameter2", implementingComposite);
 
       //Applications
+      facade.createApplication(providerModel, "WebServiceApp", "WebServiceApp", ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
+      facade.createApplication(providerModel, "CamelApp", "CamelApp", ModelerConstants.CAMEL_APPLICATION_TYPE_ID);
+
       ApplicationType mta = facade.createApplication(providerModel, "MyMTA", "MyMTA", ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
       facade.createPrimitiveAccessPoint(mta, "InputString1", "InputString", Type.String.getId(), "IN");
       facade.createPrimitiveAccessPoint(mta, "OuputString1", "OutputString", Type.String.getId(), "OUT");
