@@ -28,6 +28,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructV
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -988,7 +989,12 @@ public class ModelBuilderFacade
          return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
-
+      if (applicationTypeID
+            .equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
+      {
+         return newCamelApplication(model).withIdAndName(applicationID,
+               applicationName).build();
+      }
       return null;
    }
 

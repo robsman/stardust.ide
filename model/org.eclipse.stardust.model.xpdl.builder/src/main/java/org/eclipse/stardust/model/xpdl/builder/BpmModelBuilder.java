@@ -39,10 +39,12 @@ import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmPrimitiveVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.CamelApplicationBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.ExternalWebApplicationApplicationBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.MessageTransformationApplicationBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.PrimitiveAccessPointBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.StructAccessPointBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.WebserviceApplicationBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
@@ -88,6 +90,16 @@ public abstract class BpmModelBuilder
    public static StructAccessPointBuilder newStructuredAccessPoint(IAccessPointOwner anOwner)
    {
       return StructAccessPointBuilder.newAccessPoint(anOwner);
+   }
+
+   public static CamelApplicationBuilder newCamelApplication(ModelType model)
+   {
+      return CamelApplicationBuilder.newCamelApplication(model);
+   }
+
+   public static WebserviceApplicationBuilder newWebserviceApplication(ModelType model)
+   {
+      return WebserviceApplicationBuilder.newWebserviceApplication(model);
    }
 
    public static MessageTransformationApplicationBuilder newMessageTransformationApplication(ModelType model)
