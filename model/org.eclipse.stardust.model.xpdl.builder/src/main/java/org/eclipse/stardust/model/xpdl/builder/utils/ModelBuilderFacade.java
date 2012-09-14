@@ -27,6 +27,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteAc
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -292,6 +293,55 @@ public class ModelBuilderFacade
    }
 
    public FormalParameterType createStructuredParameter(ProcessDefinitionType processInterface,
+         DataType data, String id, String name, String structTypeFullID, ModeType mode)
+   {
+      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
+      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
+
+      parameterType.setId(id);
+      parameterType.setName(name);
+      parameterType.setMode(mode);
+
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
+            .createDataTypeType();
+      String typeId = data.getType().getId();
+
+      parameterType.setDataType(dataTypeType);
+      dataTypeType.setCarnotType(typeId);
+
+      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+      //declaredType.setId(AttributeUtil.getAttributeValue(data,
+      //      StructuredDataConstants.TYPE_DECLARATION_ATT));
+
+      declaredType.setId(stripFullId(structTypeFullID));
+
+      dataTypeType.setDeclaredType(declaredType);
+
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+      }
+      parametersType.addFormalParameter(parameterType);
+      processInterface.setFormalParameters(parametersType);
+
+      FormalParameterMappingsType parameterMappingsType = processInterface
+            .getFormalParameterMappings();
+
+      if (parameterMappingsType == null)
+      {
+         parameterMappingsType = ExtensionsFactory.eINSTANCE
+               .createFormalParameterMappingsType();
+      }
+
+      parameterMappingsType.setMappedData(parameterType, data);
+      processInterface.setFormalParameterMappings(parameterMappingsType);
+
+      return parameterType;
+   }
+
+   public FormalParameterType createDocumentParameter(ProcessDefinitionType processInterface,
          DataType data, String id, String name, String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
@@ -929,6 +979,13 @@ public class ModelBuilderFacade
             .equalsIgnoreCase(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY))
       {
          return newExternalWebApplication(model).withIdAndName(applicationID,
+               applicationName).build();
+      }
+
+      if (applicationTypeID
+            .equalsIgnoreCase(ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID))
+      {
+         return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
 

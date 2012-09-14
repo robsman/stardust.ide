@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
-import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
-import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
-import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
@@ -22,35 +19,30 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
-public class MessageTransformationApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, MessageTransformationApplicationBuilder>
+public class WebserviceApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, WebserviceApplicationBuilder>
 {
 
-   public MessageTransformationApplicationBuilder(ModelType model)
+   public WebserviceApplicationBuilder(ModelType model)
    {
       super(F_CWM.createApplicationType());
 
       forModel(model);
 
       ApplicationTypeType applicationMetaType = XpdlModelUtils.findIdentifiableElement(
-            model.getApplicationType(), ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
+            model.getApplicationType(), ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
       if (null == applicationMetaType)
       {
-
          applicationMetaType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
-         applicationMetaType.setId(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
-         applicationMetaType.setName("Message Transformation Bean");
+         applicationMetaType.setId(ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
+         applicationMetaType.setName("Web Service Application");
          applicationMetaType.setIsPredefined(true);
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageTransformationApplicationInstance");
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageProcessingValidator");
-
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationInstance");
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationValidator");
          long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
          applicationMetaType.setElementOid(++maxElementOid);
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);
-      TransformationProperty property = MappingFactory.eINSTANCE.createTransformationProperty();
-      String xmlString = MappingModelUtil.transformEcore2XML(property);
-      AttributeUtil.setAttribute(element, "messageTransformation:TransformationProperty", xmlString);
    }
 
    @Override
@@ -59,9 +51,9 @@ public class MessageTransformationApplicationBuilder extends AbstractModelElemen
       return "Application";
    }
 
-   public static MessageTransformationApplicationBuilder newMessageTransformationApplication(ModelType model)
+   public static WebserviceApplicationBuilder newWebserviceApplication(ModelType model)
    {
-      return new MessageTransformationApplicationBuilder(model);
+      return new WebserviceApplicationBuilder(model);
    }
 
    @Override
