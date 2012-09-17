@@ -10,16 +10,20 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.session;
 
+import static java.util.Collections.unmodifiableCollection;
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
-import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.FeatureChange;
 
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -36,12 +40,20 @@ public class Modification
 
    private State state;
 
+   private final Set<EObject> modifiedElements = new CopyOnWriteArraySet<EObject>();
+
+   private final Set<EObject> addedElements = new CopyOnWriteArraySet<EObject>();
+
+   private final Set<EObject> removedElements = new CopyOnWriteArraySet<EObject>();
+
    public Modification(EditingSession session, ChangeDescription changeDescription)
    {
       this.id = UUID.randomUUID().toString();
       this.session = session;
       this.changeDescription = changeDescription;
       this.state = State.UNDOABLE;
+
+      normalizeChangeSet();
    }
 
    public String getId()
@@ -75,6 +87,8 @@ public class Modification
       {
          changeDescription.applyAndReverse();
          this.state = State.REDOABLE;
+
+         normalizeChangeSet();
       }
    }
 
@@ -84,59 +98,72 @@ public class Modification
       {
          changeDescription.applyAndReverse();
          this.state = State.UNDOABLE;
+
+         normalizeChangeSet();
       }
    }
 
-   public Collection<EObject> addedObjects()
+   public Collection<EObject> getAddedElements()
    {
-      Set<EObject> result = newHashSet();
-      for (EObject candidate : changeDescription.getObjectsToDetach())
-      {
-         if (isModelOrModelElement(candidate))
-         {
-            result.add(candidate);
-         }
-      }
-
-      return result;
+      return unmodifiableCollection(addedElements);
    }
 
-   public Collection<EObject> changedObjects()
+   public Collection<EObject> getModifiedElements()
    {
-      Set<EObject> result = newHashSet();
+      return unmodifiableCollection(modifiedElements);
+   }
 
-      collectChangedElements(changeDescription.getObjectChanges().keySet(), result);
+   public Collection<EObject> getRemovedElements()
+   {
+      return unmodifiableCollection(removedElements);
+   }
+
+   public ChangeDescription getChangeDescription()
+   {
+      return changeDescription;
+   }
+
+   private void normalizeChangeSet()
+   {
+      modifiedElements.clear();
+      addedElements.clear();
+      removedElements.clear();
+
+      // modified
+      collectChangedElements(changeDescription.getObjectChanges().keySet(),
+            modifiedElements);
       for (EObject candidate : changeDescription.getObjectsToDetach())
       {
          if ( !isModelOrModelElement(candidate))
          {
             // report any change to a non-element sub-object as modification of the
             // containing parent element
-            result.add(determineChangedElement(candidate));
+            modifiedElements.add(determineChangedElement(candidate));
          }
       }
-      // removed objects will automatically be reported as modifications of their container
+      // removed objects will automatically be reported as modifications of their
+      // container
 
-      return result;
-   }
+      // added
+      for (EObject candidate : changeDescription.getObjectsToDetach())
+      {
+         if (isModelOrModelElement(candidate))
+         {
+            addedElements.add(candidate);
+         }
+      }
 
-   public Collection<EObject> removedObjects()
-   {
-      Set<EObject> result = newHashSet();
+      // removed
       for (EObject candidate : changeDescription.getObjectsToAttach())
       {
          if (isModelOrModelElement(candidate))
          {
-            result.add(candidate);
+            removedElements.add(candidate);
          }
       }
 
-      return result;
-   }
-
-   public ChangeDescription getChangeDescription()
-   {
-	   return changeDescription;
+      modifiedElements.removeAll(addedElements);
+      modifiedElements.removeAll(removedElements);
    }
 
    private void collectChangedElements(Collection<EObject> candidates, Set<EObject> result)
@@ -159,12 +186,64 @@ public class Modification
    private boolean isModelOrModelElement(EObject changedObject)
    {
       return (changedObject instanceof ModelType)
-      || (changedObject instanceof IModelElement)
-      || (changedObject instanceof org.eclipse.stardust.model.xpdl.xpdl2.Extensible);
+            || (changedObject instanceof IModelElement)
+            || (changedObject instanceof org.eclipse.stardust.model.xpdl.xpdl2.Extensible);
    }
 
    private enum State
    {
       UNDOABLE, REDOABLE,
    }
+
+   // TODO refactor to a more restricted interface
+   public boolean wasModified(EObject eObject, EStructuralFeature eFeature)
+   {
+      EList<FeatureChange> changes = Modification.this.getChangeDescription()
+            .getObjectChanges()
+            .get(eObject);
+      for (FeatureChange change : changes)
+      {
+         if (eFeature == change.getFeature())
+         {
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public void markUnmodified(EObject element)
+   {
+      // this is safe as sets are copy-on-write
+      modifiedElements.remove(element);
+      addedElements.remove(element);
+      removedElements.remove(element);
+   }
+
+   public void markAlsoModified(EObject element)
+   {
+      // this is safe as sets are copy-on-write
+      modifiedElements.add(element);
+
+      addedElements.remove(element);
+      removedElements.remove(element);
+   }
+
+   public void markAlsoAdded(EObject element)
+   {
+      // this is safe as sets are copy-on-write
+      addedElements.add(element);
+
+      modifiedElements.remove(element);
+      removedElements.remove(element);
+   }
+
+   public void markAlsoRemoved(EObject element)
+   {
+      // this is safe as sets are copy-on-write
+      removedElements.add(element);
+
+      modifiedElements.remove(element);
+      addedElements.remove(element);
+   }
+
 }
