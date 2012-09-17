@@ -322,7 +322,7 @@ public class ModelBuilderFacade
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
             .createDataTypeType();
-      String typeId = data.getType().getId();
+      String typeId = PredefinedConstants.STRUCTURED_DATA;
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
@@ -353,7 +353,11 @@ public class ModelBuilderFacade
                .createFormalParameterMappingsType();
       }
 
-      parameterMappingsType.setMappedData(parameterType, data);
+      if (data != null)
+      {
+         parameterMappingsType.setMappedData(parameterType, data);
+      }
+
       processInterface.setFormalParameterMappings(parameterMappingsType);
 
       return parameterType;
