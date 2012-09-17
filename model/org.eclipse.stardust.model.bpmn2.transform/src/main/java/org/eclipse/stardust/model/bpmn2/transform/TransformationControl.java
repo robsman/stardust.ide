@@ -11,7 +11,9 @@
 package org.eclipse.stardust.model.bpmn2.transform;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
@@ -45,7 +47,9 @@ import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.GlobalTask;
 import org.eclipse.bpmn2.ImplicitThrowEvent;
+import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InclusiveGateway;
+import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
@@ -81,443 +85,472 @@ import org.eclipse.emf.ecore.InternalEObject;
  */
 public class TransformationControl {
 
-	private static final String NOT_SUPPORTED = ": element transformation not supported\n";
-	private final Dialect dialect;
-	private Transformator transf;
-	private String processingInfo = "";
-	private Logger log;
-	
-	public static TransformationControl getInstance(Dialect dialect) {
-		return new TransformationControl(dialect);
-	}
-	
-	private TransformationControl(Dialect dialect) {
-		this.dialect = dialect;		
-		log = Logger.getLogger(this.getClass());
-	}
-	
-	public String transformToTarget(Definitions definitions, String outputFile) {
-		processingInfo = "";
-		transf = dialect.getTransformator();		
-		processBpmn(definitions, transf);		
-		transf.serializeTargetModel(outputFile);
+    private static final String NOT_SUPPORTED = ": element transformation not supported\n";
+    private final Dialect dialect;
+    private Transformator transf;
+    private String processingInfo = "";
+    private Logger log;
+    private Map<FlowElementsContainer, List<Activity>> tasksWithDataflow;
 
-		for (String msg : transf.getTransformationMessages()) {
-			log.info(msg);
-		}
-		log.info(processingInfo);
-		return processingInfo;
-	}
+    public static TransformationControl getInstance(Dialect dialect) {
+        return new TransformationControl(dialect);
+    }
 
-	public Object getTargetModel() {
-		return transf.getTargetModel();
-	}
-	
-	private  void processBpmn(Definitions definitions, Transformator transf) {
-		
-		transf.createTargetModel(definitions);
-				
-		List<RootElement> roots = definitions.getRootElements();
-		List<Collaboration> collabs = new ArrayList<Collaboration>();
-		
-		for (RootElement root : roots) {
-			if (root instanceof CallableElement) {
-				if (root instanceof Process) {
-					processProcess((Process)root);
-				} else if (root instanceof GlobalTask) {
-					processGlobalTask((GlobalTask)root);
-				}
-			} else if (root instanceof Category) {
-				processCategory((Category)root);
-			} else if (root instanceof CorrelationProperty) {
-				processCorrelationProperty((CorrelationProperty)root);
-			} else if (root instanceof DataStore) {
-				processDataStore((DataStore)root);
-			} else if (root instanceof EndPoint) {
-				processEndPoint((EndPoint)root);
-			} else if (root instanceof Error) {
-				processError((Error)root);
-			} else if (root instanceof Escalation) {
-				processEscalation((Escalation)root);
-			} else if (root instanceof EventDefinition) {
-				processEventDefinition((EventDefinition)root);
-			} else if (root instanceof Interface) {
-				processInterface((Interface)root);
-			} else if (root instanceof ItemDefinition) {
-				processItemDefinition((ItemDefinition)root);
-			} else if (root instanceof Message) {
-				processMessage((Message)root);
-			} else if (root instanceof PartnerEntity) {
-				processPartnerEntity((PartnerEntity)root);
-			} else if (root instanceof PartnerRole) {
-				processPartnerRole((PartnerRole)root);
-			} else if (root instanceof Resource) {
-				processResource((Resource)root);
-			} else if (root instanceof Signal) {
-				processSignal((Signal)root);
-			} else if (root instanceof Collaboration) { 
-				collabs.add((Collaboration)root);
-			} 			
-		}
-		// process finally, as a transformator may want to set responsibilites (e.g. performing organisation).
-		for (Collaboration collab : collabs) {
-			processCollaboration(collab);
-		}
-	}
+    private TransformationControl(Dialect dialect) {
+        this.dialect = dialect;
+        log = Logger.getLogger(this.getClass());
+    }
 
-	private  void processProcess(Process process) {
-		transf.addProcess(process);
-		transf.addIOBinding(process.getIoBinding(), process);
-		for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
-			processingInfo +=   "Artifact" + NOT_SUPPORTED;
-		}		
-		processFlowElementsContainer(process);		
-	}
-	
-	private  void processFlowElementsContainer(FlowElementsContainer process) {
-		List<SequenceFlow> sequenceFlows = new ArrayList<SequenceFlow>(); 
-		List<Gateway> gateways = new ArrayList<Gateway>();
-		
-		for (LaneSet laneset : process.getLaneSets()) {
-			processLaneset(laneset, process);
-		}
-		for (FlowElement flowElement : process.getFlowElements()) {
-			if (flowElement instanceof SequenceFlow) {
-				sequenceFlows.add((SequenceFlow)flowElement);
-			} else {
-				if (flowElement instanceof Gateway) {
-					//processGateway((Gateway)flowElement, container);
-					gateways.add((Gateway)flowElement);
-				} else { 				
-				processFlowElement(flowElement, process);
-				}
-			}
-		}		
-		for (Gateway gate : gateways) {
-			processFlowElement(gate, process);
-		}		
-		for (SequenceFlow flow : sequenceFlows) {
-			processSequenceFlow((SequenceFlow)flow, process);
-		}
+    public String transformToTarget(Definitions definitions, String outputFile) {
+        tasksWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
+        processingInfo = "";
+        transf = dialect.getTransformator();
+        processBpmn(definitions, transf);
+        transf.serializeTargetModel(outputFile);
 
-		// process finally, because a transformer may want to set responsibilities (e.g. performing role) of contained elements
-		for (LaneSet laneset : process.getLaneSets()) {
-			for (Lane lane : laneset.getLanes()) {
-				processLane(lane, laneset, null, process);
-			}
-		}
-	}
-	
-	private void processLane(Lane lane, LaneSet laneset, Lane parentLane, FlowElementsContainer container) {
-		transf.addLane(lane, laneset, parentLane, container);
-		if (lane.getChildLaneSet() == null) return;
-		for (Lane childLane : lane.getChildLaneSet().getLanes()) {
-			processLane(childLane, lane.getChildLaneSet(), lane, container);
-		}
-	}
+        for (String msg : transf.getTransformationMessages()) {
+            log.info(msg);
+        }
+        log.info(processingInfo);
+        return processingInfo;
+    }
 
-	private void processFlowElement(FlowElement flowElement, FlowElementsContainer container) {
-		
-		if (flowElement instanceof DataObject) {
-			transf.addDataObject((DataObject)flowElement, container);
-		} else if (flowElement instanceof DataObjectReference) {
-			transf.addDataObjectReference((DataObjectReference)flowElement, container);
-		}  else if (flowElement instanceof DataStoreReference) {
-			transf.addDataStoreReference((DataStoreReference)flowElement, container);
-		} else if (flowElement instanceof FlowNode) {
-			if (flowElement instanceof Activity) {
-				processActivity((Activity)flowElement, container);
-			} else if (flowElement instanceof Event) {
-				processEvent((Event)flowElement, container);
-			} else if (flowElement instanceof Gateway) {
-				processGateway((Gateway)flowElement, container);
-			} 
-			else if (flowElement instanceof ChoreographyActivity) {
-				processChoreographyActivity((ChoreographyActivity)flowElement, container);
-			} 
-		}
-	}
+    public Object getTargetModel() {
+        return transf.getTargetModel();
+    }
 
-	private void processActivity(Activity activity, FlowElementsContainer container) {
-		if (activity instanceof Task) {
-			if (activity instanceof UserTask) {
-				processUserTask((UserTask)activity, container);
-			} else if (activity instanceof ServiceTask) {
-				processServiceTask((ServiceTask)activity, container);
-			} else if (activity instanceof SendTask) {
-				processSendTask((SendTask)activity, container);
-			} else if (activity instanceof ScriptTask) {
-				processScriptTask((ScriptTask)activity, container);
-			} else if (activity instanceof ReceiveTask) {
-				processReceiveTask((ReceiveTask)activity, container);
-			} else if (activity instanceof ManualTask) {
-				processManualTask((ManualTask)activity, container);
-			} else if (activity instanceof BusinessRuleTask) {
-				processBusinessRuleTask((BusinessRuleTask)activity, container);
-			} else {
-				processAbstractTask((Task)activity, container);
-			}
-		} else if (activity instanceof SubProcess) {
-			processSubProcess((SubProcess)activity, container);
+    private  void processBpmn(Definitions definitions, Transformator transf) {
 
-		} else if (activity instanceof CallActivity) {
-			processCallActivity((CallActivity)activity, container);
-		}
-	}
-	
-	private void processSubProcess(SubProcess activity, FlowElementsContainer container) {
-		if (activity instanceof Transaction) {
-			processTransaction((Transaction)activity, container);
-		} else if (activity instanceof AdHocSubProcess) {
-			processAdHocSubProcess((AdHocSubProcess)activity, container);
-		} else {
-			processSubProcessDefault(activity, container);
-		}
-	}
+        transf.createTargetModel(definitions);
 
-	private void processGateway(Gateway gateway, FlowElementsContainer container) {
-		log.debug("ModelTransformator.processGateway() "  + gateway);
-		if (gateway instanceof ExclusiveGateway) {
-			processExclusiveGateway((ExclusiveGateway)gateway, container);
-		} else if (gateway instanceof ParallelGateway) {
-			processParallelGateway((ParallelGateway)gateway, container);
-		} else if (gateway instanceof InclusiveGateway) {
-			processInclusiveGateway((InclusiveGateway)gateway, container);
-		} else if (gateway instanceof ComplexGateway) {
-			processComplexGateway((ComplexGateway)gateway, container);
-		} else if (gateway instanceof EventBasedGateway) {
-			processEventBasedGateway((EventBasedGateway)gateway, container);
-		}
-	}
-	
-	private void processEvent(Event event, FlowElementsContainer container) {
-		if (event instanceof StartEvent) {
-			processStartEvent((StartEvent)event, container);
-		} else if (event instanceof EndEvent) {
-			processEndEvent((EndEvent)event, container);
-		} else if (event instanceof BoundaryEvent) {
-			processBoundaryEvent((BoundaryEvent)event, container);
-		} else if (event instanceof IntermediateCatchEvent) {
-			processIntermediateCatchEvent((IntermediateCatchEvent)event, container);
-		} else if (event instanceof IntermediateThrowEvent) {
-			processIntermediateThrowEvent((IntermediateThrowEvent)event, container);
-		} else if (event instanceof ImplicitThrowEvent) {
-			processImplicitThrowEvent((ImplicitThrowEvent)event, container);
-		} 
-	}
-	
-	private  void processResource(Resource resource) {
-		processingInfo +=   "Resource" + NOT_SUPPORTED;		
-	}
+        List<RootElement> roots = definitions.getRootElements();
+        List<Collaboration> collabs = new ArrayList<Collaboration>();
+        List<Import> bpmnImports =  definitions.getImports();
 
-	private  void processCollaboration(Collaboration collab) {
-		for (Participant participant : collab.getParticipants()) {
-			Process proc = participant.getProcessRef();					
-			if (proc != null && proc.eIsProxy()) {						
-				URI proxyURI = ((InternalEObject) participant.getProcessRef()).eProxyURI();
-				proc = (Process)participant.eResource().getEObject(proxyURI.fragment());
-			}			
-			transf.addParticipant(participant, proc);
-		}
-	}
-	
-	private void processStartEvent(StartEvent event, FlowElementsContainer container) {
-		transf.addStartEvent(event, container);
-	}
+        for (RootElement root : definitions.getRootElements()) {
+            if (root instanceof ItemDefinition) {
+                processItemDefinition((ItemDefinition)root, bpmnImports);
+            }
+        }
+        for (RootElement root : roots) {
+            if (root instanceof CallableElement) {
+                if (root instanceof Process) {
+                    processProcess((Process)root);
+                } else if (root instanceof GlobalTask) {
+                    processGlobalTask((GlobalTask)root);
+                }
+            } else if (root instanceof Category) {
+                processCategory((Category)root);
+            } else if (root instanceof CorrelationProperty) {
+                processCorrelationProperty((CorrelationProperty)root);
+            } else if (root instanceof DataStore) {
+                processDataStore((DataStore)root);
+            } else if (root instanceof EndPoint) {
+                processEndPoint((EndPoint)root);
+            } else if (root instanceof Error) {
+                processError((Error)root);
+            } else if (root instanceof Escalation) {
+                processEscalation((Escalation)root);
+            } else if (root instanceof EventDefinition) {
+                processEventDefinition((EventDefinition)root);
+            } else if (root instanceof Interface) {
+                processInterface((Interface)root);
+            } else if (root instanceof Message) {
+                processMessage((Message)root);
+            } else if (root instanceof PartnerEntity) {
+                processPartnerEntity((PartnerEntity)root);
+            } else if (root instanceof PartnerRole) {
+                processPartnerRole((PartnerRole)root);
+            } else if (root instanceof Resource) {
+                processResource((Resource)root);
+            } else if (root instanceof Signal) {
+                processSignal((Signal)root);
+            } else if (root instanceof Collaboration) {
+                collabs.add((Collaboration)root);
+            }
+        }
+        // process finally, as a transformator may want to set responsibilites (e.g. performing organisation).
+        for (Collaboration collab : collabs) {
+            processCollaboration(collab);
+        }
 
-	private void processEndEvent(EndEvent event, FlowElementsContainer container) {
-		transf.addEndEvent(event, container);
-	}
+        for (FlowElementsContainer container : tasksWithDataflow.keySet()) {
+            for (Activity activity : tasksWithDataflow.get(container)) {
+                processTaskDataFlow(activity, container);
+            }
+        }
+    }
 
+    private  void processProcess(Process process) {
+        transf.addProcess(process);
+        transf.addIOBinding(process.getIoBinding(), process);
+        for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
+            processingInfo +=   "Artifact" + NOT_SUPPORTED;
+        }
+        processFlowElementsContainer(process);
+    }
 
-	private void processExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
-		//processingInfo +=   "ExclusiveGateway" + NOT_SUPPORTED;
-		transf.addExclusiveGateway(gateway, container);
-	}
+    private  void processFlowElementsContainer(FlowElementsContainer process) {
+        List<SequenceFlow> sequenceFlows = new ArrayList<SequenceFlow>();
+        List<Gateway> gateways = new ArrayList<Gateway>();
 
-	private void processParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
-		//processingInfo +=   "ParallelGateway" + NOT_SUPPORTED;
-		transf.addParallelGateway(gateway, container);
-	}
+        for (LaneSet laneset : process.getLaneSets()) {
+            processLaneset(laneset, process);
+        }
+        for (FlowElement flowElement : process.getFlowElements()) {
+            if (flowElement instanceof SequenceFlow) {
+                sequenceFlows.add((SequenceFlow)flowElement);
+            } else {
+                if (flowElement instanceof Gateway) {
+                    gateways.add((Gateway)flowElement);
+                } else {
+                    processFlowElement(flowElement, process);
+                }
+            }
+        }
+        for (Gateway gate : gateways) {
+            processFlowElement(gate, process);
+        }
+        for (SequenceFlow flow : sequenceFlows) {
+            processSequenceFlow((SequenceFlow)flow, process);
+        }
 
-	private void processAbstractTask(Task task, FlowElementsContainer container) {
-		transf.addAbstractTask(task, container);
-	}
+        // process finally, because a transformer may want to set responsibilities (e.g. performing role) of contained elements
+        for (LaneSet laneset : process.getLaneSets()) {
+            for (Lane lane : laneset.getLanes()) {
+                processLane(lane, laneset, null, process);
+            }
+        }
+    }
 
-	private void processUserTask(UserTask activity, FlowElementsContainer container) {
-		transf.addUserTask(activity, container);
-	}
+    private void processLane(Lane lane, LaneSet laneset, Lane parentLane, FlowElementsContainer container) {
+        transf.addLane(lane, laneset, parentLane, container);
+        if (lane.getChildLaneSet() == null) return;
+        for (Lane childLane : lane.getChildLaneSet().getLanes()) {
+            processLane(childLane, lane.getChildLaneSet(), lane, container);
+        }
+    }
 
-	private void processServiceTask(ServiceTask activity, FlowElementsContainer container) {
-		processingInfo +=   "ServiceTask" + NOT_SUPPORTED;
-		transf.addServiceTask(activity, container);
-	}
+    private void processFlowElement(FlowElement flowElement, FlowElementsContainer container) {
 
-	private void processSubProcessDefault(SubProcess activity, FlowElementsContainer container) {
-		processingInfo +=   "SubProcess" + NOT_SUPPORTED;
-		transf.addSubProcess(activity, container);
-		processFlowElementsContainer(activity);
-	}
+        if (flowElement instanceof DataObject) {
+            transf.addDataObject((DataObject)flowElement, container);
+        } else if (flowElement instanceof DataObjectReference) {
+            transf.addDataObjectReference((DataObjectReference)flowElement, container);
+        }  else if (flowElement instanceof DataStoreReference) {
+            transf.addDataStoreReference((DataStoreReference)flowElement, container);
+        } else if (flowElement instanceof FlowNode) {
+            if (flowElement instanceof Activity) {
+                processActivity((Activity)flowElement, container);
+            } else if (flowElement instanceof Event) {
+                processEvent((Event)flowElement, container);
+            } else if (flowElement instanceof Gateway) {
+                processGateway((Gateway)flowElement, container);
+            }
+            else if (flowElement instanceof ChoreographyActivity) {
+                processChoreographyActivity((ChoreographyActivity)flowElement, container);
+            }
+        }
+    }
 
+    private void processActivity(Activity activity, FlowElementsContainer container) {
+        if (activity instanceof Task) {
 
-	private void processSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
-		transf.addSequenceFlow(seq, container);		
-	}
+            addToTasksWithDataFlow(activity, container);
 
-	private  void processPartnerEntity(PartnerEntity entity) {
-		transf.addPartnerEntity(entity);		
-	}
-	
+            if (activity instanceof UserTask) {
+                processUserTask((UserTask)activity, container);
+            } else if (activity instanceof ServiceTask) {
+                processServiceTask((ServiceTask)activity, container);
+            } else if (activity instanceof SendTask) {
+                processSendTask((SendTask)activity, container);
+            } else if (activity instanceof ScriptTask) {
+                processScriptTask((ScriptTask)activity, container);
+            } else if (activity instanceof ReceiveTask) {
+                processReceiveTask((ReceiveTask)activity, container);
+            } else if (activity instanceof ManualTask) {
+                processManualTask((ManualTask)activity, container);
+            } else if (activity instanceof BusinessRuleTask) {
+                processBusinessRuleTask((BusinessRuleTask)activity, container);
+            } else {
+                processAbstractTask((Task)activity, container);
+            }
+        } else if (activity instanceof SubProcess) {
+            processSubProcess((SubProcess)activity, container);
 
-	private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
-		processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
-		
-	}
+        } else if (activity instanceof CallActivity) {
+            processCallActivity((CallActivity)activity, container);
+        }
+    }
 
-	private void processComplexGateway(ComplexGateway gateway, FlowElementsContainer container) {
-		processingInfo +=   "ComplexGateway" + NOT_SUPPORTED;
-		
-	}
+    private void addToTasksWithDataFlow(Activity activity, FlowElementsContainer container) {
+        InputOutputSpecification ioSpec = activity.getIoSpecification();
+        if (ioSpec != null) {
+            if ((ioSpec.getDataInputs() != null && ioSpec.getDataInputs().size() > 0)
+             || (ioSpec.getDataOutputs() != null && ioSpec.getDataOutputs().size() > 0)
+             || (ioSpec.getInputSets() != null && ioSpec.getInputSets().size() > 0)
+             || (ioSpec.getOutputSets() != null && ioSpec.getOutputSets().size() > 0)) {
+                if (!this.tasksWithDataflow.containsKey(container)) {
+                    this.tasksWithDataflow.put(container, new ArrayList<Activity>());
+                }
+                this.tasksWithDataflow.get(container).add(activity);
+            }
+        }
+    }
 
-	private void processEventBasedGateway(EventBasedGateway gateway, FlowElementsContainer container) {
-		processingInfo +=   "EventBasedGateway" + NOT_SUPPORTED;
-		
-	}
+    private void processSubProcess(SubProcess activity, FlowElementsContainer container) {
+        if (activity instanceof Transaction) {
+            processTransaction((Transaction)activity, container);
+        } else if (activity instanceof AdHocSubProcess) {
+            processAdHocSubProcess((AdHocSubProcess)activity, container);
+        } else {
+            processSubProcessDefault(activity, container);
+        }
+    }
 
-	private void processBoundaryEvent(BoundaryEvent event, FlowElementsContainer container) {
-		processingInfo +=   "BoundaryEvent" + NOT_SUPPORTED;
-		
-	}
+    private void processGateway(Gateway gateway, FlowElementsContainer container) {
+        log.debug("ModelTransformator.processGateway() "  + gateway);
+        if (gateway instanceof ExclusiveGateway) {
+            processExclusiveGateway((ExclusiveGateway)gateway, container);
+        } else if (gateway instanceof ParallelGateway) {
+            processParallelGateway((ParallelGateway)gateway, container);
+        } else if (gateway instanceof InclusiveGateway) {
+            processInclusiveGateway((InclusiveGateway)gateway, container);
+        } else if (gateway instanceof ComplexGateway) {
+            processComplexGateway((ComplexGateway)gateway, container);
+        } else if (gateway instanceof EventBasedGateway) {
+            processEventBasedGateway((EventBasedGateway)gateway, container);
+        }
+    }
 
-	private void processIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
-		processingInfo +=   "IntermediateCatchEvent" + NOT_SUPPORTED;
-		
-	}
+    private void processEvent(Event event, FlowElementsContainer container) {
+        if (event instanceof StartEvent) {
+            processStartEvent((StartEvent)event, container);
+        } else if (event instanceof EndEvent) {
+            processEndEvent((EndEvent)event, container);
+        } else if (event instanceof BoundaryEvent) {
+            processBoundaryEvent((BoundaryEvent)event, container);
+        } else if (event instanceof IntermediateCatchEvent) {
+            processIntermediateCatchEvent((IntermediateCatchEvent)event, container);
+        } else if (event instanceof IntermediateThrowEvent) {
+            processIntermediateThrowEvent((IntermediateThrowEvent)event, container);
+        } else if (event instanceof ImplicitThrowEvent) {
+            processImplicitThrowEvent((ImplicitThrowEvent)event, container);
+        }
+    }
 
-	private void processIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
-		processingInfo +=   "IntermediateThrowEvent" + NOT_SUPPORTED;
-		
-	}
+    private  void processResource(Resource resource) {
+        processingInfo +=   "Resource" + NOT_SUPPORTED;
+    }
 
-	private void processImplicitThrowEvent(ImplicitThrowEvent event, FlowElementsContainer container) {
-		processingInfo +=   "ImplicitThrowEvent" + NOT_SUPPORTED;
-		
-	}
+    private  void processCollaboration(Collaboration collab) {
+        for (Participant participant : collab.getParticipants()) {
+            Process proc = participant.getProcessRef();
+            if (proc != null && proc.eIsProxy()) {
+                URI proxyURI = ((InternalEObject) participant.getProcessRef()).eProxyURI();
+                proc = (Process)participant.eResource().getEObject(proxyURI.fragment());
+            }
+            transf.addParticipant(participant, proc);
+        }
+    }
 
-	private void processLaneset(LaneSet laneset, FlowElementsContainer container) {
-		processingInfo +=   "laneset" + NOT_SUPPORTED;
-	}
+    private void processStartEvent(StartEvent event, FlowElementsContainer container) {
+        transf.addStartEvent(event, container);
+    }
 
-	private void processSendTask(SendTask activity, FlowElementsContainer container) {
-		processingInfo +=   "SendTask" + NOT_SUPPORTED;
-		
-	}
+    private void processEndEvent(EndEvent event, FlowElementsContainer container) {
+        transf.addEndEvent(event, container);
+    }
 
-	private void processScriptTask(ScriptTask activity, FlowElementsContainer container) {
-		processingInfo +=   "ScriptTask" + NOT_SUPPORTED;
-		
-	}
+    private void processExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
+        transf.addExclusiveGateway(gateway, container);
+    }
 
-	private void processReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
-		processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
-		
-	}
+    private void processParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
+        transf.addParallelGateway(gateway, container);
+    }
 
-	private void processManualTask(ManualTask activity, FlowElementsContainer container) {
-		processingInfo +=   "ManualTask" + NOT_SUPPORTED;
-		
-	}
+    private void processAbstractTask(Task task, FlowElementsContainer container) {
+        transf.addAbstractTask(task, container);
+    }
 
-	private void processBusinessRuleTask(BusinessRuleTask activity, FlowElementsContainer container) {
-		processingInfo +=   "BusinessRuleTask" + NOT_SUPPORTED;
-		
-	}
+    private void processUserTask(UserTask activity, FlowElementsContainer container) {
+        transf.addUserTask(activity, container);
+    }
+
+    private void processServiceTask(ServiceTask activity, FlowElementsContainer container) {
+        processingInfo +=   "ServiceTask" + NOT_SUPPORTED;
+        transf.addServiceTask(activity, container);
+    }
+
+    private void processSubProcessDefault(SubProcess activity, FlowElementsContainer container) {
+        processingInfo +=   "SubProcess" + NOT_SUPPORTED;
+        transf.addSubProcess(activity, container);
+        processFlowElementsContainer(activity);
+    }
+
+    private void processTaskDataFlow(Activity activity, FlowElementsContainer container) {
+        transf.addTaskDataFlows(activity, container);
+    }
+
+    private void processSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
+        transf.addSequenceFlow(seq, container);
+    }
+
+    private  void processPartnerEntity(PartnerEntity entity) {
+        transf.addPartnerEntity(entity);
+    }
 
 
-	private void processTransaction(Transaction activity, FlowElementsContainer container) {
-		processingInfo +=   "Transaction" + NOT_SUPPORTED;
-		
-	}
+    private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+        processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
 
-	private void processAdHocSubProcess(AdHocSubProcess activity, FlowElementsContainer container) {
-		processingInfo +=   "AdHocSubProcess" + NOT_SUPPORTED;
-		
-	}
+    }
 
-	private void processCallActivity(CallActivity activity, FlowElementsContainer container) {
-		processingInfo +=   "CallActivity" + NOT_SUPPORTED;
-		
-	}
+    private void processComplexGateway(ComplexGateway gateway, FlowElementsContainer container) {
+        processingInfo +=   "ComplexGateway" + NOT_SUPPORTED;
+
+    }
+
+    private void processEventBasedGateway(EventBasedGateway gateway, FlowElementsContainer container) {
+        processingInfo +=   "EventBasedGateway" + NOT_SUPPORTED;
+
+    }
+
+    private void processBoundaryEvent(BoundaryEvent event, FlowElementsContainer container) {
+        processingInfo +=   "BoundaryEvent" + NOT_SUPPORTED;
+
+    }
+
+    private void processIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
+        processingInfo +=   "IntermediateCatchEvent" + NOT_SUPPORTED;
+
+    }
+
+    private void processIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
+        processingInfo +=   "IntermediateThrowEvent" + NOT_SUPPORTED;
+
+    }
+
+    private void processImplicitThrowEvent(ImplicitThrowEvent event, FlowElementsContainer container) {
+        processingInfo +=   "ImplicitThrowEvent" + NOT_SUPPORTED;
+
+    }
+
+    private void processLaneset(LaneSet laneset, FlowElementsContainer container) {
+        processingInfo +=   "laneset" + NOT_SUPPORTED;
+    }
+
+    private void processSendTask(SendTask activity, FlowElementsContainer container) {
+        processingInfo +=   "SendTask" + NOT_SUPPORTED;
+
+    }
+
+    private void processScriptTask(ScriptTask activity, FlowElementsContainer container) {
+        processingInfo +=   "ScriptTask" + NOT_SUPPORTED;
+
+    }
+
+    private void processReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
+        processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
+
+    }
+
+    private void processManualTask(ManualTask activity, FlowElementsContainer container) {
+        processingInfo +=   "ManualTask" + NOT_SUPPORTED;
+
+    }
+
+    private void processBusinessRuleTask(BusinessRuleTask activity, FlowElementsContainer container) {
+        processingInfo +=   "BusinessRuleTask" + NOT_SUPPORTED;
+
+    }
 
 
-	private void processChoreographyActivity(ChoreographyActivity choreo, FlowElementsContainer container) {
-		processingInfo +=   "ChoreographyActivity" + NOT_SUPPORTED;
-		
-	}
+    private void processTransaction(Transaction activity, FlowElementsContainer container) {
+        processingInfo +=   "Transaction" + NOT_SUPPORTED;
 
-	private  void processGlobalTask(GlobalTask global) {
-		processingInfo +=   "GlobalTask" + NOT_SUPPORTED;		
-	}
+    }
 
-	private  void processDataStore(DataStore data) {
-		processingInfo +=   "DataStore" + NOT_SUPPORTED;
+    private void processAdHocSubProcess(AdHocSubProcess activity, FlowElementsContainer container) {
+        processingInfo +=   "AdHocSubProcess" + NOT_SUPPORTED;
 
-	}
+    }
 
-	private  void processPartnerRole(PartnerRole role) {
-		processingInfo +=   "PartnerRole" + NOT_SUPPORTED;
-	}
-	
+    private void processCallActivity(CallActivity activity, FlowElementsContainer container) {
+        processingInfo +=   "CallActivity" + NOT_SUPPORTED;
 
-	private  void processEndPoint(EndPoint endpoint) {
-		processingInfo +=   "EndPoint" + NOT_SUPPORTED;
-		
-	}
-
-	private  void processError(Error error) {
-
-		processingInfo +=   "Error" + NOT_SUPPORTED;
-	}
-
-	private  void processEscalation(Escalation escal) {
-		processingInfo +=   "Escalation" + NOT_SUPPORTED;
-		
-	}
-
-	private  void processEventDefinition(EventDefinition eventdef) {
-		processingInfo +=   "EventDefinition" + NOT_SUPPORTED;
-		
-	}
-
-	private  void processInterface(Interface iface) {
-		processingInfo +=   "Interface" + NOT_SUPPORTED;
-		
-	}
-
-	private  void processItemDefinition(ItemDefinition itemdef) {
-		processingInfo +=   "ItemDefinition" + NOT_SUPPORTED;
-		
-	}
+    }
 
 
-	private  void processSignal(Signal signal) {
-		processingInfo +=   "Signal" + NOT_SUPPORTED;
-		
-	}
-	
-	private void processMessage(Message root) {
-		processingInfo +=   "Message" + NOT_SUPPORTED;
-	}
+    private void processChoreographyActivity(ChoreographyActivity choreo, FlowElementsContainer container) {
+        processingInfo +=   "ChoreographyActivity" + NOT_SUPPORTED;
 
-	private void processCorrelationProperty(CorrelationProperty root) {
-		processingInfo +=   "CorrelationProperty" + NOT_SUPPORTED;
-		
-	}
+    }
 
-	private void processCategory(Category root) {
-		processingInfo +=   "Category" + NOT_SUPPORTED;
-		
-	}
+    private  void processGlobalTask(GlobalTask global) {
+        processingInfo +=   "GlobalTask" + NOT_SUPPORTED;
+    }
 
+    private  void processDataStore(DataStore data) {
+        processingInfo +=   "DataStore" + NOT_SUPPORTED;
+
+    }
+
+    private  void processPartnerRole(PartnerRole role) {
+        processingInfo +=   "PartnerRole" + NOT_SUPPORTED;
+    }
+
+
+    private  void processEndPoint(EndPoint endpoint) {
+        processingInfo +=   "EndPoint" + NOT_SUPPORTED;
+
+    }
+
+    private  void processError(Error error) {
+
+        processingInfo +=   "Error" + NOT_SUPPORTED;
+    }
+
+    private  void processEscalation(Escalation escal) {
+        processingInfo +=   "Escalation" + NOT_SUPPORTED;
+
+    }
+
+    private  void processEventDefinition(EventDefinition eventdef) {
+        processingInfo +=   "EventDefinition" + NOT_SUPPORTED;
+
+    }
+
+    private  void processInterface(Interface iface) {
+        processingInfo +=   "Interface" + NOT_SUPPORTED;
+
+    }
+
+    private  void processItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports) {
+        //processingInfo +=   "ItemDefinition" + NOT_SUPPORTED;
+        transf.addItemDefinition(itemdef, bpmnImports);
+
+    }
+
+
+    private  void processSignal(Signal signal) {
+        processingInfo +=   "Signal" + NOT_SUPPORTED;
+
+    }
+
+    private void processMessage(Message root) {
+        processingInfo +=   "Message" + NOT_SUPPORTED;
+    }
+
+    private void processCorrelationProperty(CorrelationProperty root) {
+        processingInfo +=   "CorrelationProperty" + NOT_SUPPORTED;
+
+    }
+
+    private void processCategory(Category root) {
+        processingInfo +=   "Category" + NOT_SUPPORTED;
+
+    }
 
 }

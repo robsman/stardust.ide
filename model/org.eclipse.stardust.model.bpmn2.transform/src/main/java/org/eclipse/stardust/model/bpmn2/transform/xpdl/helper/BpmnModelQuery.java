@@ -19,19 +19,19 @@ import org.eclipse.bpmn2.EventDefinition;
  */
 public class BpmnModelQuery {
 
-	public BpmnModelQuery() {
-	
-	}
+    public BpmnModelQuery() {
 
-	public int countEventDefinitions(CatchEvent event) {
-		if (event.getEventDefinitions() != null) return event.getEventDefinitions().size();
-		return 0;
-	}
+    }
 
-	public EventDefinition getFirstEventDefinition(CatchEvent event) {
-		if (countEventDefinitions(event) > 0) {
-			return event.getEventDefinitions().get(0);
-		}
-		return null;
-	}
+    public int countEventDefinitions(CatchEvent event) {
+        if (event.getEventDefinitions() != null) return event.getEventDefinitions().size();
+        return 0;
+    }
+
+    public EventDefinition getFirstEventDefinition(CatchEvent event) {
+        if (countEventDefinitions(event) > 0) {
+            return event.getEventDefinitions().get(0);
+        }
+        return null;
+    }
 }

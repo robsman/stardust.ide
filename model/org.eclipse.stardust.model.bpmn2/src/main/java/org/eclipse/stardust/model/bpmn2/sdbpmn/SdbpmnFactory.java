@@ -1,7 +1,13 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2012 ITpearls AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  *
+ * Contributors:
+ *    ITpearls - initial API and implementation and/or initial documentation
+ *******************************************************************************
  * $Id$
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
@@ -17,129 +23,129 @@ import org.eclipse.emf.ecore.EFactory;
  * @generated
  */
 public interface SdbpmnFactory extends EFactory {
-	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	SdbpmnFactory eINSTANCE = org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnFactoryImpl.init();
+    /**
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    SdbpmnFactory eINSTANCE = org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnFactoryImpl.init();
 
-	/**
-	 * Returns a new object of class '<em>Document Root</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Document Root</em>'.
-	 * @generated
-	 */
-	DocumentRoot createDocumentRoot();
+    /**
+     * Returns a new object of class '<em>Document Root</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Document Root</em>'.
+     * @generated
+     */
+    DocumentRoot createDocumentRoot();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Attributes Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Attributes Type</em>'.
-	 * @generated
-	 */
-	StardustAttributesType createStardustAttributesType();
+    /**
+     * Returns a new object of class '<em>Stardust Attributes Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Attributes Type</em>'.
+     * @generated
+     */
+    StardustAttributesType createStardustAttributesType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Message Start Event Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Message Start Event Type</em>'.
-	 * @generated
-	 */
-	StardustMessageStartEventType createStardustMessageStartEventType();
+    /**
+     * Returns a new object of class '<em>Stardust Message Start Event Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Message Start Event Type</em>'.
+     * @generated
+     */
+    StardustMessageStartEventType createStardustMessageStartEventType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Model Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Model Type</em>'.
-	 * @generated
-	 */
-	StardustModelType createStardustModelType();
+    /**
+     * Returns a new object of class '<em>Stardust Model Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Model Type</em>'.
+     * @generated
+     */
+    StardustModelType createStardustModelType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Seqence Flow Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Seqence Flow Type</em>'.
-	 * @generated
-	 */
-	StardustSeqenceFlowType createStardustSeqenceFlowType();
+    /**
+     * Returns a new object of class '<em>Stardust Seqence Flow Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Seqence Flow Type</em>'.
+     * @generated
+     */
+    StardustSeqenceFlowType createStardustSeqenceFlowType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Service Task Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Service Task Type</em>'.
-	 * @generated
-	 */
-	StardustServiceTaskType createStardustServiceTaskType();
+    /**
+     * Returns a new object of class '<em>Stardust Service Task Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Service Task Type</em>'.
+     * @generated
+     */
+    StardustServiceTaskType createStardustServiceTaskType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Start Event Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Start Event Type</em>'.
-	 * @generated
-	 */
-	StardustStartEventType createStardustStartEventType();
+    /**
+     * Returns a new object of class '<em>Stardust Start Event Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Start Event Type</em>'.
+     * @generated
+     */
+    StardustStartEventType createStardustStartEventType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Subprocess Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Subprocess Type</em>'.
-	 * @generated
-	 */
-	StardustSubprocessType createStardustSubprocessType();
+    /**
+     * Returns a new object of class '<em>Stardust Subprocess Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Subprocess Type</em>'.
+     * @generated
+     */
+    StardustSubprocessType createStardustSubprocessType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust Timer Start Event Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust Timer Start Event Type</em>'.
-	 * @generated
-	 */
-	StardustTimerStartEventType createStardustTimerStartEventType();
+    /**
+     * Returns a new object of class '<em>Stardust Timer Start Event Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Timer Start Event Type</em>'.
+     * @generated
+     */
+    StardustTimerStartEventType createStardustTimerStartEventType();
 
-	/**
-	 * Returns a new object of class '<em>Stardust User Task Type</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Stardust User Task Type</em>'.
-	 * @generated
-	 */
-	StardustUserTaskType createStardustUserTaskType();
+    /**
+     * Returns a new object of class '<em>Stardust User Task Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust User Task Type</em>'.
+     * @generated
+     */
+    StardustUserTaskType createStardustUserTaskType();
 
-	/**
-	 * Returns a new object of class '<em>TStardust Activity</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>TStardust Activity</em>'.
-	 * @generated
-	 */
-	TStardustActivity createTStardustActivity();
+    /**
+     * Returns a new object of class '<em>TStardust Activity</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>TStardust Activity</em>'.
+     * @generated
+     */
+    TStardustActivity createTStardustActivity();
 
-	/**
-	 * Returns a new object of class '<em>TStardust Common</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>TStardust Common</em>'.
-	 * @generated
-	 */
-	TStardustCommon createTStardustCommon();
+    /**
+     * Returns a new object of class '<em>TStardust Common</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>TStardust Common</em>'.
+     * @generated
+     */
+    TStardustCommon createTStardustCommon();
 
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	SdbpmnPackage getSdbpmnPackage();
+    /**
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the package supported by this factory.
+     * @generated
+     */
+    SdbpmnPackage getSdbpmnPackage();
 
 } //SdbpmnFactory

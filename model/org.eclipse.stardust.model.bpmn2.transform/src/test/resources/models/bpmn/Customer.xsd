@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://stardust.eclipse.org/Customer"
+  xmlns:tns="http://stardust.eclipse.org/Customer" elementFormDefault="qualified">
+  <complexType name="Customer">
+    <sequence>
+      <element name="Name" type="string"></element>
+      <element name="Nr" type="string"></element>
+    </sequence>
+  </complexType>
+</schema>

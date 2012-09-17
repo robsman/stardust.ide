@@ -33,73 +33,73 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
  */
 public class BPMNModelImporter {
 
-	private static Logger log = Logger.getLogger(BPMNModelImporter.class); 
-	
-	public BPMNModelImporter() {
-	
-	}
-	
-	public static Bpmn2Resource importModel(String filePath) throws FileNotFoundException, IOException {
-		log.info("importModel " + filePath);
-		Bpmn2ResourceFactoryImpl factory = new Bpmn2ResourceFactoryImpl();
+    private static Logger log = Logger.getLogger(BPMNModelImporter.class);
 
-		Bpmn2Resource loadedResource = (Bpmn2Resource) factory.createResource(URI.createFileURI(filePath));
-		
-		Map<Object, Object> options = new HashMap<Object, Object>();
-		options.put(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS, Boolean.TRUE);		
-		options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
-		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
-		loadedResource.load(options);
-		
-		//debugPrint(loadedResource);
-		
-		return loadedResource; 
-	}
-	
+    public BPMNModelImporter() {
 
-	public static Definitions getDefinitions(Bpmn2Resource loadedResource) {
-		
-		EList<EObject> list = loadedResource.getContents();
-		for (EObject l : list) {
-			if (l instanceof DocumentRoot) {
-				return ((DocumentRoot) l).getDefinitions();				
-			}
-		}		
-		return null;
-	}
+    }
 
-	@SuppressWarnings("unused")
-	private static void debugPrint(Bpmn2Resource r) {
-		
-		log.debug("BPMNModelGenerator.debugPrint()");
+    public static Bpmn2Resource importModel(String filePath) throws FileNotFoundException, IOException {
+        log.info("importModel " + filePath);
+        Bpmn2ResourceFactoryImpl factory = new Bpmn2ResourceFactoryImpl();
 
-		EList<EObject> list = r.getContents();
-		log.debug("Elist contents: ");
-		for (EObject l : list) {
-			debugPrintChildren(l, 1);
-		}		
-	}
-	
-	private static void debugPrintChildren(EObject parent, int level) {
-		TreeIterator<EObject> it = parent.eAllContents(); 
-		while(it.hasNext()) {
-			EObject obj = it.next();
-			String lvl = String.format("%"+level+"s", "").replace(' ', '-');
+        Bpmn2Resource loadedResource = (Bpmn2Resource) factory.createResource(URI.createFileURI(filePath));
 
-			if (!(obj instanceof AnyType)) {
-				log.debug(lvl + obj.eClass().getName() + " (" + obj.toString() + ")");			
-				
-				if ("SequenceFlow".equals(obj.eClass().getName())) {
-					log.debug("SourceRef: " + ((SequenceFlow)obj).getSourceRef());
-					log.debug("TargetRef: " + ((SequenceFlow)obj).getTargetRef());
-				}				
-			} else {
-				for ( Object attr : ((AnyType) obj).getAnyAttribute()) {
-					log.debug(" any attr " + attr.toString());
-				}
-			}
-			debugPrintChildren(obj, level+1);
-		}
-		
-	}
+        Map<Object, Object> options = new HashMap<Object, Object>();
+        options.put(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS, Boolean.TRUE);
+        options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+        options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+        loadedResource.load(options);
+
+        //debugPrint(loadedResource);
+
+        return loadedResource;
+    }
+
+
+    public static Definitions getDefinitions(Bpmn2Resource loadedResource) {
+
+        EList<EObject> list = loadedResource.getContents();
+        for (EObject l : list) {
+            if (l instanceof DocumentRoot) {
+                return ((DocumentRoot) l).getDefinitions();
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unused")
+    private static void debugPrint(Bpmn2Resource r) {
+
+        log.debug("BPMNModelGenerator.debugPrint()");
+
+        EList<EObject> list = r.getContents();
+        log.debug("Elist contents: ");
+        for (EObject l : list) {
+            debugPrintChildren(l, 1);
+        }
+    }
+
+    private static void debugPrintChildren(EObject parent, int level) {
+        TreeIterator<EObject> it = parent.eAllContents();
+        while(it.hasNext()) {
+            EObject obj = it.next();
+            String lvl = String.format("%"+level+"s", "").replace(' ', '-');
+
+            if (!(obj instanceof AnyType)) {
+                log.debug(lvl + obj.eClass().getName() + " (" + obj.toString() + ")");
+
+                if ("SequenceFlow".equals(obj.eClass().getName())) {
+                    log.debug("SourceRef: " + ((SequenceFlow)obj).getSourceRef());
+                    log.debug("TargetRef: " + ((SequenceFlow)obj).getTargetRef());
+                }
+            } else {
+                for ( Object attr : ((AnyType) obj).getAnyAttribute()) {
+                    log.debug(" any attr " + attr.toString());
+                }
+            }
+            debugPrintChildren(obj, level+1);
+        }
+
+    }
 }

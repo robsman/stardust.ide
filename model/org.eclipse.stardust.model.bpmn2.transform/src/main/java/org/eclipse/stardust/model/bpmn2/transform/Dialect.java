@@ -17,8 +17,8 @@ package org.eclipse.stardust.model.bpmn2.transform;
  *
  */
 public interface Dialect {
-	
-	public Transformator getTransformator();	
-	public String getDialectName();
-	
+
+    public Transformator getTransformator();
+    public String getDialectName();
+
 }

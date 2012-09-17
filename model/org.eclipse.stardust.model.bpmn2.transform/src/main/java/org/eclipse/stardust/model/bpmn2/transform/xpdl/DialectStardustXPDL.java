@@ -19,14 +19,14 @@ import org.eclipse.stardust.model.bpmn2.transform.Transformator;
  */
 public class DialectStardustXPDL implements Dialect {
 
-	public static final String DIALECT_STARDUSTXPDL = "stardust_xpdl";
-		
-	public Transformator getTransformator() {
-		return new Bpmn2StardustXPDL();
-	}
+    public static final String DIALECT_STARDUSTXPDL = "stardust_xpdl";
 
-	public String getDialectName() {
-		return DIALECT_STARDUSTXPDL;
-	};
+    public Transformator getTransformator() {
+        return new Bpmn2StardustXPDL();
+    }
+
+    public String getDialectName() {
+        return DIALECT_STARDUSTXPDL;
+    };
 
 }

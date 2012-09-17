@@ -22,22 +22,32 @@ import org.eclipse.emf.ecore.InternalEObject;
  */
 public class Bpmn2ProxyResolver {
 
-	public static Resource resolveResourceProxy(Resource resource, FlowElementsContainer container) {
-		URI proxyURI = ((InternalEObject) resource).eProxyURI();
-		if (container.eResource() != null) {
-			org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
-			resource = (Resource)eRes.getEObject(proxyURI.fragment());
-		}
-		return resource;			
-	}
+    public static Resource resolveResourceProxy(Resource resource, FlowElementsContainer container) {
+        URI proxyURI = ((InternalEObject) resource).eProxyURI();
+        if (container.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+            resource = (Resource)eRes.getEObject(proxyURI.fragment());
+        }
+        return resource;
+    }
 
-	public static ResourceRole resolveRoleProxy(ResourceRole role, FlowElementsContainer container) {
-		URI proxyURI = ((InternalEObject) role).eProxyURI();
-		if (container.eResource() != null) {
-			org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
-			role = (ResourceRole)eRes.getEObject(proxyURI.fragment());
-		}
-		return role;			
-	}
-	
+    public static ResourceRole resolveRoleProxy(ResourceRole role, FlowElementsContainer container) {
+        URI proxyURI = ((InternalEObject) role).eProxyURI();
+        if (container.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+            role = (ResourceRole)eRes.getEObject(proxyURI.fragment());
+        }
+        return role;
+    }
+
+//	public static AnyType resolveAnyTypeProxy(AnyType type, RootElement container) {
+//		URI proxyURI = ((InternalEObject) type).eProxyURI();
+//		if (container.eResource() != null) {
+//			org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+//			type = (AnyType)eRes.getEObject(proxyURI.fragment());
+//		}
+//		return type;
+//	}
+
+
 }

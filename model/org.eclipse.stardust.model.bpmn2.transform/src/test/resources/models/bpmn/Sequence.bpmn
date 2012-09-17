@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="07.09.2012 13:27:34" itp:modificationDate="07.09.2012 13:28:49" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_b443e641-e772-4b7f-8c89-a1d9ed60d6b6" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="_7814fd1f-b29b-4118-9715-b26fcafc2419" name="Hauptprozess" processType="None">
+    <extensionElements>
+      <itp:systemDefinedAttributes>
+        <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+        <attribute name="ExternalId" type="String" />
+        <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+        <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+          <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+          <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+        </attribute>
+      </itp:systemDefinedAttributes>
+      <itp:localization>
+        <itp:label lang="unspecified" text="Hauptprozess" default="True" />
+      </itp:localization>
+    </extensionElements>
+    <startEvent id="TestModelStartEvent">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </startEvent>
+    <task id="TestModelTaskA" name="a">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="a" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </task>
+    <task id="TestModelTaskB" name="b">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="b" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </task>
+    <task id="TestModelTaskC" name="c">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="c" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </task>
+    <endEvent id="TestModelEndEvent">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </endEvent>
+    <sequenceFlow id="TestModelSequenceStartToA" sourceRef="TestModelStartEvent" targetRef="TestModelTaskA">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceAtoB" sourceRef="TestModelTaskA" targetRef="TestModelTaskB">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="_a961f81d-1c93-4105-b59e-192df39de876" sourceRef="TestModelTaskB" targetRef="TestModelTaskC">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="_f687e3e9-67f2-4ad1-8e5c-a2f24ce3fd54" sourceRef="TestModelTaskC" targetRef="TestModelEndEvent">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_7814fd1f-b29b-4118-9715-b26fcafc2419">
+      <bpmndi:BPMNShape id="_941D4574-59B6-45BC-902B-57E77E091A2E" bpmnElement="TestModelStartEvent" itp:label="(unbenannt)" itp:elementType="startEvent">
+        <dc:Bounds x="85.0393700787402" y="140.314960629921" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="93.6" y="158.595590551181" width="0" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_E4F5600F-9592-4E91-A001-8F4411B0DF38" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="150.236220472441" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_f79addb4-d910-4a4b-9b44-7d1ebf200b18">
+          <dc:Bounds x="186.84" y="142.035590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_19F12EC6-77AA-400D-8594-8E110C8487D9" bpmnElement="TestModelTaskB" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="283.464566929134" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_f79addb4-d910-4a4b-9b44-7d1ebf200b18">
+          <dc:Bounds x="320.04" y="142.035590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_7F7722F9-F83B-480F-B397-9F5F61E89717" bpmnElement="TestModelTaskC" itp:label="c" itp:elementType="task">
+        <dc:Bounds x="425.196850393701" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_f79addb4-d910-4a4b-9b44-7d1ebf200b18">
+          <dc:Bounds x="462.24" y="142.035590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_8EFBCED7-3406-4651-B20A-5109A5A61C24" bpmnElement="TestModelEndEvent" itp:label="(unbenannt)" itp:elementType="endEvent">
+        <dc:Bounds x="578.267716535433" y="140.314960629921" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="586.8" y="158.595590551181" width="0" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_B0F58111-9C74-46C1-AE67-F3E2DD82941A" bpmnElement="TestModelSequenceStartToA" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="102.047244094488" y="148.818897637795" />
+        <di:waypoint x="150.236220472441" y="148.818897637795" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="122.76" y="133.035590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_216B8BE9-E018-4A22-B3B0-3F25D066E119" bpmnElement="TestModelSequenceAtoB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="235.275590551181" y="148.818897637795" />
+        <di:waypoint x="283.464566929134" y="148.818897637795" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="255.96" y="133.035590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_F55DFFD0-CA27-4732-8E50-75C7D76823A3" bpmnElement="_a961f81d-1c93-4105-b59e-192df39de876" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="368.503937007874" y="148.818897637795" />
+        <di:waypoint x="425.196850393701" y="148.818897637795" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="394.2" y="133.035590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_117BA3FD-7D57-4878-91CA-5069D965B874" bpmnElement="_f687e3e9-67f2-4ad1-8e5c-a2f24ce3fd54" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="510.236220472441" y="148.818897637795" />
+        <di:waypoint x="578.267716535433" y="148.818897637795" />
+        <bpmndi:BPMNLabel labelStyle="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+          <dc:Bounds x="541.8" y="133.035590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_7fcf87a0-9f83-4744-a959-d5a7aba5b734">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_f79addb4-d910-4a4b-9b44-7d1ebf200b18">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

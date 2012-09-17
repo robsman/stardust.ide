@@ -21,24 +21,25 @@ import org.eclipse.bpmn2.Expression;
  */
 public class DocumentationTool {
 
-	public static String getDescriptionFromDocumentation(List<Documentation> documentation) {
-		String description = "";
-		for (Documentation doc : documentation) {
-			description = description.concat(doc.getText());
-		}
-		return description;
-	}
+    public static String getDescriptionFromDocumentation(List<Documentation> documentation) {
+        String description = "";
+        for (Documentation doc : documentation) {
+            description = description.concat(doc.getText());
+        }
+        return description;
+    }
 
-	public static String getInformalExpressionValue(Expression expression) {
-		String description = "";
-		if (expression != null) {
-			List<Documentation> documentation = expression.getDocumentation();			
-			if (documentation != null) {
-				for (Documentation doc : documentation) {
-					description = description.concat(doc.getText());
-				}
-			}
-		}
-		return description;
-	}
+    public static String getInformalExpressionValue(Expression expression) {
+        String description = "";
+        if (expression != null) {
+            List<Documentation> documentation = expression.getDocumentation();
+            if (documentation != null) {
+                for (Documentation doc : documentation) {
+                    description = description.concat(doc.getText());
+                }
+            }
+        }
+
+        return description;
+    }
 }
