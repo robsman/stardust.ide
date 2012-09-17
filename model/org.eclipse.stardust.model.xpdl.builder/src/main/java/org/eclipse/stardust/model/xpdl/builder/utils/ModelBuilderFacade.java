@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
@@ -28,7 +29,6 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructV
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -251,23 +251,15 @@ public class ModelBuilderFacade
       return structuredDataType;
    }
 
-   public FormalParameterType createPrimitiveParameter(ProcessDefinitionType processInterface,
-         DataType data, String id, String name, String primitiveTypeID, ModeType mode)
+   public FormalParameterType createPrimitiveParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
       parameterType.setId(id);
       parameterType.setName(name);
       parameterType.setMode(mode);
-
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE
-            .createDataTypeType();
-      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      basicType.setType(getPrimitiveType(primitiveTypeID));
-      dataTypeType.setBasicType(basicType);
-      parameterType.setDataType(dataTypeType);
-      String typeId = data.getType().getId();
-      dataTypeType.setCarnotType(typeId);
 
       FormalParametersType parametersType = processInterface.getFormalParameters();
 
@@ -288,9 +280,34 @@ public class ModelBuilderFacade
                .createFormalParameterMappingsType();
       }
 
-      parameterMappingsType.setMappedData(parameterType, data);
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE
+            .createDataTypeType();
+      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
+      basicType.setType(getPrimitiveType(primitiveTypeID));
+      dataTypeType.setBasicType(basicType);
+      parameterType.setDataType(dataTypeType);
+      String typeId = PredefinedConstants.PRIMITIVE_DATA;
+      dataTypeType.setCarnotType(typeId);
+
+      if (data != null)
+      {
+         parameterMappingsType.setMappedData(parameterType, data);
+      }
+
+
       processInterface.setFormalParameterMappings(parameterMappingsType);
       return parameterType;
+   }
+
+   public void setDataForFormalParameter(ProcessDefinitionType processInterface,
+         String parameterID, DataType data)
+   {
+      FormalParameterType parameterType = processInterface.getFormalParameters()
+            .getFormalParameter(parameterID);
+      if (parameterType != null)
+      {
+         processInterface.getFormalParameterMappings().setMappedData(parameterType, data);
+      }
    }
 
    public FormalParameterType createStructuredParameter(ProcessDefinitionType processInterface,
@@ -1576,6 +1593,7 @@ public class ModelBuilderFacade
       return null;
    }
 
+
    /**
     *
     * @param laneSymbol
@@ -2261,9 +2279,6 @@ public class ModelBuilderFacade
       }
       return path;
    }
-
-
-
 
 
 }
