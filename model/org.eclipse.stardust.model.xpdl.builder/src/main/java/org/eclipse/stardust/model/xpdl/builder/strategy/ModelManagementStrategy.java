@@ -24,6 +24,11 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
  */
 public interface ModelManagementStrategy {
 
+   enum ModelUploadStatus
+   {
+      NEW_MODEL_CREATED, MODEL_ALREADY_EXISTS, NEW_MODEL_VERSION_CREATED
+   };
+
 	/**
     *
     * @return
@@ -79,4 +84,14 @@ public interface ModelManagementStrategy {
     * @return
     */
    String getModelFilePath(ModelType model);
+
+
+   /**
+    * @param fileName
+    * @param fileContent
+    * @param createNewVersion
+    * @return
+    */
+   ModelUploadStatus uploadModelFile(String fileName, byte[] fileContent,
+         boolean createNewVersion);
 }
