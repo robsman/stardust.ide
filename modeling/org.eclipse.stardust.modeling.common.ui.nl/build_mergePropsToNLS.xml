@@ -4,7 +4,7 @@
 
 	<property environment="env"/>
 
-	<property name="locale" value="ja" />
+	<property name="locale" value="en" />
 	<property name="rootdir" value="${basedir}/../" />
 	<property name="antdir" value="${rootdir}ag.carnot.scm.ant/bin"/>
 
@@ -14,13 +14,13 @@
 
 	<property name="localize.jar" value="$localizeproperties.jar" />
 
-	<taskdef name="foreach" classname="ag.carnot.scm.ant.ForEachTask" 
-		classpath="${antdir}"/> 
-	
-	<taskdef name="localizeProps" classname="ag.carnot.scm.ant.LocalizeProperties" 
-		description="adds new entries in internationalized property-files" 
-		classpath="${antdir}"/> 
-				
+	<taskdef name="foreach" classname="ag.carnot.scm.ant.ForEachTask"
+		classpath="${antdir}"/>
+
+	<taskdef name="localizeProps" classname="ag.carnot.scm.ant.LocalizeProperties"
+		description="adds new entries in internationalized property-files"
+		classpath="${antdir}"/>
+
 	<target name="localizeProperties">
 		<localizeProps sourcepath="${srcpath}" locale="${locale}">
 			<fileset dir="${rootdir}${package}/${srcpath}" casesensitive="yes">
@@ -43,7 +43,7 @@
 			</param>
 		</foreach>
 	</target>
-	
+
 	<target name="toUnicode">
 	   <exec executable="cmd">
 		  <arg value="/c ${env.JAVA_HOME}\bin\native2ascii.exe ${f} ${tempfile}"/>
