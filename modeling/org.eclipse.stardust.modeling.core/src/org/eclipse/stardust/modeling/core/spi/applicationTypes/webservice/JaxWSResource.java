@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2012 SunGard CSA 
+ * Copyright (c) 2011 - 2012 SunGard CSA
  *******************************************************************************/
 
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice;
@@ -10,7 +10,13 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.wsdl.*;
+import javax.wsdl.Binding;
+import javax.wsdl.BindingInput;
+import javax.wsdl.BindingOperation;
+import javax.wsdl.BindingOutput;
+import javax.wsdl.Definition;
+import javax.wsdl.Part;
+import javax.wsdl.WSDLException;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.soap.SOAPBinding;
 import javax.wsdl.extensions.soap.SOAPBody;
@@ -27,11 +33,13 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPConstants;
 
-import org.eclipse.stardust.common.error.PublicException;
-import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import org.eclipse.stardust.common.error.PublicException;
+import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 
 /**
  * @author fherinean
@@ -39,7 +47,7 @@ import org.xml.sax.SAXException;
  */
 public class JaxWSResource
 {
-   private static final String CANNOT_PARSE_WSDL_FILE = Webservices_Messages.WebServiceResource_ErrorMessage;
+   private static final String CANNOT_PARSE_WSDL_FILE = Diagram_Messages.WebServiceResource_ErrorMessage;
 
    // JAXB 2.1 final release, December 11, 2006
    private static HashMap<String, String> jaxbDefaultMappings = new HashMap<String, String>();

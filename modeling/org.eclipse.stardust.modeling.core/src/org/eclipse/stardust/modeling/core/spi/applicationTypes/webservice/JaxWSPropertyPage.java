@@ -1,15 +1,32 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2012 SunGard CSA 
+ * Copyright (c) 2011 - 2012 SunGard CSA
  *******************************************************************************/
 
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice;
 
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import javax.wsdl.*;
+import javax.wsdl.Binding;
+import javax.wsdl.BindingInput;
+import javax.wsdl.BindingOperation;
+import javax.wsdl.BindingOutput;
+import javax.wsdl.Definition;
+import javax.wsdl.Fault;
+import javax.wsdl.Input;
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Output;
+import javax.wsdl.Part;
+import javax.wsdl.Port;
+import javax.wsdl.Service;
 import javax.xml.namespace.QName;
 
 import org.eclipse.core.resources.IProject;
@@ -20,7 +37,28 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.xml.sax.InputSource;
+
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
@@ -28,24 +66,32 @@ import org.eclipse.stardust.engine.extensions.jaxws.addressing.EndpointReference
 import org.eclipse.stardust.engine.extensions.jaxws.addressing.WSAddressing;
 import org.eclipse.stardust.engine.extensions.jaxws.app.IBasicAuthenticationParameters;
 import org.eclipse.stardust.engine.extensions.jaxws.app.WSConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.util.*;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.ResourceHandler;
 import org.eclipse.stardust.modeling.validation.util.ProjectClassLoader;
-import org.eclipse.swt.events.*;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.*;
-import org.xml.sax.InputSource;
 
 public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -59,29 +105,29 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
    private static final String OUTPUT_CATEGORY = "output"; //$NON-NLS-1$
    private static final String FAULT_CATEGORY = "fault"; //$NON-NLS-1$
 
-   private static final String ENDPOINT_REFERENCE_LABEL = Webservices_Messages.WebServicePropertyPage_WsAddressingEndpointReferenceAccessPointName;
-   private static final String ENDPOINT_ADDRESS_LABEL = Webservices_Messages.WebServicePropertyPage_EndpointAddressAccessPointName;
-   private static final String AUTHENTICATION_LABEL = Webservices_Messages.WebServicePropertyPage_AuthenticationAccessPointName;
+   private static final String ENDPOINT_REFERENCE_LABEL = Diagram_Messages.WebServicePropertyPage_WsAddressingEndpointReferenceAccessPointName;
+   private static final String ENDPOINT_ADDRESS_LABEL = Diagram_Messages.WebServicePropertyPage_EndpointAddressAccessPointName;
+   private static final String AUTHENTICATION_LABEL = Diagram_Messages.WebServicePropertyPage_AuthenticationAccessPointName;
 
-   private static final String WSDL_URL_LABEL = Webservices_Messages.WebServicePropertyPage_WsdlUrlLabel;
-   private static final String LOAD_BUTTON_LABEL = Webservices_Messages.WebServicePropertyPage_LoadButtonLabel;
+   private static final String WSDL_URL_LABEL = Diagram_Messages.WebServicePropertyPage_WsdlUrlLabel;
+   private static final String LOAD_BUTTON_LABEL = Diagram_Messages.WebServicePropertyPage_LoadButtonLabel;
 
    private static final String[][] implementationLabels = {
-      {WSConstants.WS_GENERIC_EPR, Webservices_Messages.WebServicePropertyPage_GenericResourceLabel}, 
-      {WSConstants.WS_CARNOT_EPR, Webservices_Messages.WebServicePropertyPage_InfinitySpecificLabel} 
+      {WSConstants.WS_GENERIC_EPR, Diagram_Messages.WebServicePropertyPage_GenericResourceLabel},
+      {WSConstants.WS_CARNOT_EPR, Diagram_Messages.WebServicePropertyPage_InfinitySpecificLabel}
    };
 
    private static final String[][] mechanismLabels = {
-      {WSConstants.WS_BASIC_AUTHENTICATION, Webservices_Messages.WebServicePropertyPage_HttpBasicAuthorizationLabel}, 
-      {WSConstants.WS_SECURITY_AUTHENTICATION, Webservices_Messages.WebServicePropertyPage_WsSecurityLabel}
+      {WSConstants.WS_BASIC_AUTHENTICATION, Diagram_Messages.WebServicePropertyPage_HttpBasicAuthorizationLabel},
+      {WSConstants.WS_SECURITY_AUTHENTICATION, Diagram_Messages.WebServicePropertyPage_WsSecurityLabel}
    };
 
    private static final String[][] variantLabels = {
-      {WSConstants.WS_PASSWORD_TEXT, Webservices_Messages.WebServicePropertyPage_UsernamePasswordLabel}, 
-      {WSConstants.WS_PASSWORD_DIGEST, Webservices_Messages.WebServicePropertyPage_UsernamePasswordDigestLabel}//, 
-      //{WSConstants.WS_XWSS_CONFIGURATION, Webservices_Messages.WebServicePropertyPage_XWSSConfigurationLabel} 
+      {WSConstants.WS_PASSWORD_TEXT, Diagram_Messages.WebServicePropertyPage_UsernamePasswordLabel},
+      {WSConstants.WS_PASSWORD_DIGEST, Diagram_Messages.WebServicePropertyPage_UsernamePasswordDigestLabel}//,
+      //{WSConstants.WS_XWSS_CONFIGURATION, Webservices_Messages.WebServicePropertyPage_XWSSConfigurationLabel}
    };
-   
+
    private LabeledText wsdlText;
    private ComboViewer serviceViewer;
    private Label portLabel;
@@ -103,12 +149,12 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
    private Binding binding;
    private BindingOperation operation;
    private JaxWSOutlineSynchronizer synchronizer;
-   
+
    private Label endpointLabel;
    private Text endpoint;
 
    private DynamicBoundService dynamicBoundService;
-   
+
    private MessageDialog dialog;
    private Map<Runnable, Boolean> threadMap = new HashMap<Runnable, Boolean>();
    private ModelType model;
@@ -171,7 +217,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                JaxWSResource.getSoapActionUri(operation));
          AttributeUtil.setAttribute(application, WSConstants.WS_SOAP_PROTOCOL_ATT,
                JaxWSResource.getOperationProtocol(operation));
-         
+
          List<Part> inputOrdering = operation.getOperation().getInput() == null
             || operation.getOperation().getInput().getMessage() == null
                ? Collections.emptyList()
@@ -194,7 +240,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
          AttributeUtil.setAttribute(application, WSConstants.WS_INPUT_ORDER_ATT, null);
          AttributeUtil.setAttribute(application, WSConstants.WS_OUTPUT_ORDER_ATT, null);
       }
-      
+
       AttributeUtil.setAttribute(application, WSConstants.WS_IMPLEMENTATION_ATT,
          addressingButton.getSelection() ?
             implementationLabels[implementationCombo.getSelectionIndex()][0] : null);
@@ -244,7 +290,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                ? Collections.emptyList()
                : operation.getOperation().getInput().getMessage().getOrderedParts(null);
          addMappings(inputMappingScope, inputNamespaceScope, inputParts);
-         
+
          IAttributeCategory outputMappingScope = mappingScope.createAttributeCategory(OUTPUT_CATEGORY);
          IAttributeCategory outputNamespaceScope = namespaceScope.createAttributeCategory(OUTPUT_CATEGORY);
          List<Part> outputParts = operation.getOperation().getOutput() == null
@@ -252,7 +298,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                ? Collections.emptyList()
                : operation.getOperation().getOutput().getMessage().getOrderedParts(null);
          addMappings(outputMappingScope, outputNamespaceScope, outputParts);
-   
+
          IAttributeCategory allFaultsScope = mappingScope.createAttributeCategory(FAULT_CATEGORY);
          Collection<Fault> faults = operation.getOperation().getFaults() == null
                ? Collections.emptyList()
@@ -299,7 +345,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 
       // clear all mapping attributes
       engineScope.removeAttributeCategory(templateScope.getId());
-      
+
       if (operation != null)
       {
          // only input parts may have templates
@@ -461,10 +507,10 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                   endpoint.setText(EMPTY_STRING);
                }
             }
-   
+
             String portName = AttributeUtil.getAttributeValue(application, WSConstants.WS_PORT_NAME_ATT);
             QName qName = portName == null ? null : QName.valueOf(portName);
-            setViewerSelection(portViewer, qName == null ? null : 
+            setViewerSelection(portViewer, qName == null ? null :
                service instanceof DynamicBoundService
                   ? ((DynamicBoundService) service).getPort(qName) : service.getPort(portName));
             portChanged();
@@ -539,12 +585,12 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             catch (Exception ex)
             {
                ex.printStackTrace();
-               showError(Webservices_Messages.WebServicePropertyPage_LoadErrorMessage, WSConstants.WSDL_LOAD_ERROR_CODE, ex); 
+               showError(Diagram_Messages.WebServicePropertyPage_LoadErrorMessage, WSConstants.WSDL_LOAD_ERROR_CODE, ex);
             }
          }
       });
 
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_ServiceLabel); 
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_ServiceLabel);
       Combo serviceCombo = FormBuilder.createCombo(composite, 3);
       serviceViewer = new ComboViewer(serviceCombo);
       serviceViewer.setContentProvider(new ArrayContentProvider());
@@ -558,7 +604,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
          }
       });
 
-      this.portLabel = FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_PortLabel); 
+      this.portLabel = FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_PortLabel);
       Combo portCombo = FormBuilder.createCombo(composite);
       this.portViewer = new ComboViewer(portCombo);
       portViewer.setContentProvider(new ArrayContentProvider());
@@ -571,9 +617,9 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             portChanged();
          }
       });
-      
+
       operationLabel = FormBuilder.createLabelWithRightAlignedStatus(composite,
-            Webservices_Messages.WebServicePropertyPage_OperationLabel);
+            Diagram_Messages.WebServicePropertyPage_OperationLabel);
       Combo operationCombo = FormBuilder.createCombo(composite);
       operationViewer = new ComboViewer(operationCombo);
       operationViewer.setContentProvider(new ArrayContentProvider());
@@ -586,7 +632,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             operationChanged();
          }
       });
-      
+
       operationCombo.addVerifyListener(new VerifyListener ()
       {
          public void verifyText(VerifyEvent verifyEvent)
@@ -602,16 +648,16 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             }
          }
       });
-      
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_StyleLabel);
+
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_StyleLabel);
       styleLabel = FormBuilder.createLabel(composite, EMPTY_STRING);
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_UseLabel); 
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_UseLabel);
       useLabel = FormBuilder.createLabel(composite, EMPTY_STRING);
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_ProtocolLabel); 
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_ProtocolLabel);
       protocolLabel = FormBuilder.createLabel(composite, EMPTY_STRING, 3);
 
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_AddressingLabel);
-      addressingButton = FormBuilder.createCheckBox(composite, Webservices_Messages.WebServicePropertyPage_IncludeAddressingCheckBoxLabel);
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_AddressingLabel);
+      addressingButton = FormBuilder.createCheckBox(composite, Diagram_Messages.WebServicePropertyPage_IncludeAddressingCheckBoxLabel);
       addressingButton.addSelectionListener(new SelectionAdapter()
       {
          private int cache = 0;
@@ -621,7 +667,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             cache = addressingChanged(cache);
          }
       });
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_ImplementationLabel); 
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_ImplementationLabel);
       implementationCombo = FormBuilder.createCombo(composite);
       addLabels(implementationCombo, implementationLabels);
 
@@ -635,8 +681,8 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
          }
       };
 
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_AuthenticationLabel); 
-      authenticationButton = FormBuilder.createCheckBox(composite, Webservices_Messages.WebServicePropertyPage_RequiredCheckBoxLabel); 
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_AuthenticationLabel);
+      authenticationButton = FormBuilder.createCheckBox(composite, Diagram_Messages.WebServicePropertyPage_RequiredCheckBoxLabel);
       authenticationButton.addSelectionListener(new SelectionAdapter()
       {
          private int cache = 0;
@@ -647,21 +693,21 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
             mechSel.widgetSelected(null);
          }
       });
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_MechanismLabel);
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_MechanismLabel);
       mechanismCombo = FormBuilder.createCombo(composite);
       mechanismCombo.addSelectionListener(mechSel);
       addLabels(mechanismCombo, mechanismLabels);
 
       FormBuilder.createLabel(composite, EMPTY_STRING, 2);
-      FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_VariantLabel);
+      FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_VariantLabel);
       variantCombo = FormBuilder.createCombo(composite);
       addLabels(variantCombo, variantLabels);
 
-      endpointLabel = FormBuilder.createLabel(composite, Webservices_Messages.WebServicePropertyPage_EndpointLabel);
+      endpointLabel = FormBuilder.createLabel(composite, Diagram_Messages.WebServicePropertyPage_EndpointLabel);
       endpoint = FormBuilder.createText(composite, 3);
       endpointLabel.setVisible(false);
       endpoint.setVisible(false);
-      
+
       synchronizer = new JaxWSOutlineSynchronizer(this);
 
       return composite;
@@ -669,7 +715,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 
    protected String validateOperation(BindingOperation operationToVerify)
    {
-      try 
+      try
       {
          Operation soapOperation = operationToVerify.getOperation();
          if (soapOperation != null)
@@ -687,13 +733,13 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                      if (JaxWSUtil.findMatchingTypeDeclaration(this.getApplication(), part) == null)
                      {
                         return MessageFormat.format(
-                              Webservices_Messages.WebServicePropertyPage_TypeNotFoundForInputPart,
+                              Diagram_Messages.WebServicePropertyPage_TypeNotFoundForInputPart,
                               new Object[] {part.getName()});
                      }
                   }
                }
             }
-            
+
             Output output = soapOperation.getOutput();
             if (output != null)
             {
@@ -707,7 +753,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                      if (JaxWSUtil.findMatchingTypeDeclaration(this.getApplication(), part) == null)
                      {
                         return MessageFormat.format(
-                              Webservices_Messages.WebServicePropertyPage_TypeNotFoundForOutputPart,
+                              Diagram_Messages.WebServicePropertyPage_TypeNotFoundForOutputPart,
                               new Object[] {part.getName()});
                      }
                   }
@@ -717,7 +763,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       }
       catch (Exception e)
       {
-         String messageString = Webservices_Messages.WebServicePropertyPage_UnknownPartValidationError;
+         String messageString = Diagram_Messages.WebServicePropertyPage_UnknownPartValidationError;
          showError(messageString, 0, e);
          return messageString;
       }
@@ -727,7 +773,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 
    private void showError(String message, int code, Exception exception)
    {
-      ErrorDialog.openError(null, Webservices_Messages.WebServicePropertyPage_ErrorDialogTitle, message,  
+      ErrorDialog.openError(null, Diagram_Messages.WebServicePropertyPage_ErrorDialogTitle, message,
          new Status(Status.WARNING, CarnotConstants.DIAGRAM_PLUGIN_ID, code,
             exception.getMessage() == null ? exception.getClass().getName() : exception.getMessage(),
             exception));
@@ -782,7 +828,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       variantCombo.setEnabled(wsSecuritySelected);
       return cache;
    }
-   
+
    private void addLabels(Combo combo, String[][] strings)
    {
       for (int i = 0; i < strings.length; i++)
@@ -806,7 +852,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
          }
          catch (Exception ex)
          {
-            showError(Webservices_Messages.WebServicePropertyPage_LoadErrorMessage, WSConstants.WSDL_LOAD_ERROR_CODE, ex); 
+            showError(Diagram_Messages.WebServicePropertyPage_LoadErrorMessage, WSConstants.WSDL_LOAD_ERROR_CODE, ex);
          }
       }
    }
@@ -829,8 +875,8 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                XmlUtils.class.getClassLoader(), project, resource));
          String[] buttons = new String[] {IDialogConstants.CANCEL_LABEL };
          dialog = new MessageDialog(Display.getDefault().getActiveShell(),
-               Webservices_Messages.WebServicePropertyPage_WSDL, null,
-               Webservices_Messages.WebServicePropertyPage_Retrieving_WSDL,
+               Diagram_Messages.WebServicePropertyPage_WSDL, null,
+               Diagram_Messages.WebServicePropertyPage_Retrieving_WSDL,
                MessageDialog.INFORMATION, buttons, 0)
          {
             protected void buttonPressed(int buttonId)
@@ -842,8 +888,8 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
          currentLoader = new WSDLLoader(resource);
          threadMap.put(currentLoader, false);
          Thread thread = new Thread(currentLoader);
-         thread.start();         
-         dialog.open();          
+         thread.start();
+         dialog.open();
       }
       finally
       {
@@ -920,13 +966,13 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
    private void serviceChanged()
    {
       this.service = (Service) getSelectedItem(serviceViewer);
-      
+
       boolean isDynamic = service instanceof DynamicBoundService;
 
-      portLabel.setText(isDynamic ? Webservices_Messages.WebServicePropertyPage_BindingLabel : Webservices_Messages.WebServicePropertyPage_PortLabel); 
+      portLabel.setText(isDynamic ? Diagram_Messages.WebServicePropertyPage_BindingLabel : Diagram_Messages.WebServicePropertyPage_PortLabel);
       endpointLabel.setVisible(isDynamic);
       endpoint.setVisible(isDynamic);
-      
+
       setViewerData(portViewer, getPorts()/*, false*/);
       portChanged();
    }
@@ -999,7 +1045,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       String protocol = JaxWSResource.getOperationProtocol(operation);
       protocolLabel.setText(protocol == null ? "" : protocol); //$NON-NLS-1$
       synchronizer.setOperation(operation);
-      
+
    }
 
    private void setViewerSelection(StructuredViewer viewer, Object selection)
@@ -1034,12 +1080,12 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       URL url = cl.getResource(resource);
       return url == null ? resource : url.toString();
    }
-   
-   class WSDLLoader implements Runnable {   
-      private String resource;      
-      private Definition definition = null; 
+
+   class WSDLLoader implements Runnable {
+      private String resource;
+      private Definition definition = null;
       private Exception e;
-      
+
       public Definition getDefinition()
       {
          return definition;
@@ -1051,22 +1097,22 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       public void run()
       {
          try
-         {           
-            definition = getWSDL(resource);          
+         {
+            definition = getWSDL(resource);
             dynamicBoundService = new DynamicBoundService(definition);
             wsdlDefinition = definition;
-            if (definition != null) {               
+            if (definition != null) {
                Display.getDefault().syncExec(new Runnable() {
                   public void run()
                   {
                      setViewerData(serviceViewer, getServices()/*, wsdlDefinition.getServices().size() == 1*/);
-                     serviceChanged();                                              
-                  }                  
-               });               
-            }           
+                     serviceChanged();
+                  }
+               });
+            }
          }
          catch (Exception ex)
-         {            
+         {
             e = ex;
             boolean isCanceled = ((Boolean) threadMap.get(this)).booleanValue();
             if (!isCanceled && currentLoader == this) {
@@ -1076,8 +1122,8 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                      String message = e.getMessage() == null ? e.toString() : e.getMessage();
                      ErrorDialog.openError(null, "", "", //$NON-NLS-1$ //$NON-NLS-2$
                         new Status(Status.WARNING, CarnotConstants.DIAGRAM_PLUGIN_ID, 1, message, e));
-                  }                  
-                 });                
+                  }
+                 });
             }
          }
          finally {
@@ -1087,11 +1133,11 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
                   public void run()
                   {
                      dialog.close();
-                  }                  
-               });                
+                  }
+               });
             }
-            threadMap.remove(this);            
+            threadMap.remove(this);
          }
-      }      
+      }
    }
 }

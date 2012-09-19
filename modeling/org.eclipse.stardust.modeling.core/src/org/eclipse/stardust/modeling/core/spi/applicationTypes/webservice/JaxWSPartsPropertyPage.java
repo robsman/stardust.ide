@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2012 SunGard CSA 
+ * Copyright (c) 2011 - 2012 SunGard CSA
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice;
 
@@ -53,7 +53,7 @@ public class JaxWSPartsPropertyPage extends
    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
    private static final String[][] LABELS = {
       {new String("_input_"), Diagram_Messages.ELEMENT_Input}, //$NON-NLS-1$
-      {new String("_output_"), Diagram_Messages.ELEMENT_Output}, //$NON-NLS-1$ 
+      {new String("_output_"), Diagram_Messages.ELEMENT_Output}, //$NON-NLS-1$
       {new String("_faults_"), Diagram_Messages.ELEMENT_Faults}}; //$NON-NLS-1$
    private static final int MAPPED_COLUMN = 2;
 
@@ -71,7 +71,7 @@ public class JaxWSPartsPropertyPage extends
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
    }
-   
+
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 1);
@@ -84,7 +84,7 @@ public class JaxWSPartsPropertyPage extends
             Diagram_Messages.COL_NAME_Parts,
             Diagram_Messages.COL_NAME_XMLType,
             Diagram_Messages.COL_NAME_Mapped};
-      
+
       viewer = new TreeViewer(tree);
       TableUtil.createColumns(tree, columnProperties);
       TableUtil.setInitialColumnSizes(tree, new int[] {30, 58, 12});
@@ -159,7 +159,7 @@ public class JaxWSPartsPropertyPage extends
 
       return composite;
    }
-   
+
    private JaxWSOutlineSynchronizer getSynchronizer()
    {
       return (JaxWSOutlineSynchronizer)
@@ -171,7 +171,7 @@ public class JaxWSPartsPropertyPage extends
    {
       ((GridLayout) parent.getLayout()).numColumns++;
       Button button = new Button(parent, SWT.PUSH);
-      button.setText(Webservices_Messages.WebServicePropertyPage_Generate_Classes);
+      button.setText(Diagram_Messages.WebServicePropertyPage_Generate_Classes);
       setButtonLayoutData(button);
       button.setEnabled(!SpiExtensionRegistry.instance().getExtensions(JAXWS_CLASS_GENERATOR).isEmpty());
       button.addSelectionListener(new SelectionListener()
@@ -224,7 +224,7 @@ public class JaxWSPartsPropertyPage extends
       private Part part;
       private DirectionType direction;
       private Object parent;
-      
+
       public PartWrapper(Part part, DirectionType direction, Object parent)
       {
          this.part = part;
@@ -232,7 +232,7 @@ public class JaxWSPartsPropertyPage extends
          this.parent = parent;
       }
    }
-   
+
    @SuppressWarnings("unchecked") //$NON-NLS-1$
    private Object[] wrap(Message message, DirectionType direction, Object parent)
    {
@@ -457,12 +457,12 @@ public class JaxWSPartsPropertyPage extends
          ArrayList<Object> result = new ArrayList<Object>(3);
          if (hasInputParts())
          {
-            result.add(LABELS[0][0]); 
+            result.add(LABELS[0][0]);
          }
 
          if (hasOutputParts())
          {
-            result.add(LABELS[1][0]); 
+            result.add(LABELS[1][0]);
          }
 
          if (hasFaults())
