@@ -101,12 +101,17 @@ public class Model_Messages extends NLS
    public static String SYNC_SHARED;
 
    public static String SYNC_SEPARATE;
-   
+
    public static String ASYNC_SEPARATE;
-   
+
    public static String NEW_ENTRY;
-   
+
    public static String EXC_FAILED_INSTANTIATING_EXTENSION;
 
+   public static String AUDITTRAIL_PERSISTENCE_TRANSIENT;
+
+   public static String AUDITTRAIL_PERSISTENCE_DEFERRED;
+
+   public static String AUDITTRAIL_PERSISTENCE_IMMEDIATE;
 
 }
