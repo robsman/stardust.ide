@@ -49,7 +49,6 @@ public class ServerConfigurationElement implements IConfigurationElement
       }      
       catch (Exception e)
       {
-         System.err.println("the class " + theClass + " " + e.getMessage());
       }
       
       return newInstance;
