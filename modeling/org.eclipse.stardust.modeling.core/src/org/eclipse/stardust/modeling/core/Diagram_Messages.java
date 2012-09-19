@@ -145,8 +145,8 @@ public class Diagram_Messages extends NLS {
    public static String MSG_ConditionalPerformer;
 
    public static String MSG_Modeler;
-   
-   public static String BUT_JAXWS_CXF;   
+
+   public static String BUT_JAXWS_CXF;
 
    public static String MSG_Organization;
 
@@ -173,7 +173,7 @@ public class Diagram_Messages extends NLS {
    public static String DESC_CurrentModel;
 
    public static String DESC_CarnotWizard;
-  
+
    public static String NAME_StartingUser;
 
    public static String NAME_RootProcessOID;
@@ -337,9 +337,9 @@ public class Diagram_Messages extends NLS {
    public static String WIZARD_LB_ToFile;
 
    public static String LB_NoDescriptor;
-   
+
    public static String WIZARD_LB_Browse;
-   
+
    public static String LB_KeyDescriptor;
 
    public static String WIZARD_LB_Select;
@@ -523,9 +523,9 @@ public class Diagram_Messages extends NLS {
    public static String ConnectAction_ToolTip;
 
    public static String ConnectAction_WorksForConnectionType;
-   
-   public static String ConnectAction_TeamLeadConnectionType;   
-   
+
+   public static String ConnectAction_TeamLeadConnectionType;
+
    public static String DIA_DO_YOU_WANT_TO_CREATE_CONNECTION_TO_ALL_SYMBOLS_NOR_TO_THE_CLOSEST_CLOSSEST_SYMBOL_ONLY;
 
    public static String DIA_MULTIPLE_CONNECTION_DETECTED;
@@ -1827,11 +1827,11 @@ public class Diagram_Messages extends NLS {
    public static String MONTHS;
 
    public static String YEARS;
-   
+
    public static String SHORT_HOURS;
-   
+
    public static String SHORT_MINUTES;
-   
+
    public static String SHORT_SECONDS;
 
    public static String PERIOD;
@@ -2003,72 +2003,74 @@ public class Diagram_Messages extends NLS {
    public static String MSG_INVALID_JAXP_SETUP;
 
    public static String MSG_ANOTHER_MODEL_HIERARCHY_WITH_ID_ALREADY_EXISTS;
-   
+
    public static String LBL_SELECT;
-   
+
    public static String NAME_ProcessPriority;
-   
+
    public static String DESC_ProcessPriority;
-   
+
    public static String LBL_Incoming_Transitions;
-   
+
    public static String LBL_Outgoing_Transitions;
-   
+
    public static String CONFIGURATION_VARIABLE_NEW;
-   
+
    public static String LBL_CATEGORY;
-   
+
    public static String LBL_DATA_TYPE;
-   
+
    public static String LBL_RootHierarchy;
-   
+
    public static String LBL_SubHierarchy;
-   
+
    public static String LBL_Participant;
-   
-   public static String QUALITY_CONTROL_LABEL;   
-   
-   public static String QUALITY_CONTROL_CODES_LABEL;   
-   
+
+   public static String QUALITY_CONTROL_LABEL;
+
+   public static String QUALITY_CONTROL_CODES_LABEL;
+
    public static String QUALITY_CONTROL_ACTIVITY;
-   
+
    public static String QUALITY_CONTROL_PARTICIPANT;
-   
+
    public static String QUALITY_CONTROL_PROBABILITY;
-   
+
    public static String QUALITY_CONTROL_FORMULA;
-   
+
    public static String QUALITY_CONTROL_PROBABILITY_VALIDATION;
-   
+
    public static String QUALITY_ASSURANCE_PERFORMER_VALIDATION;
-   
+
    public static String QUALITY_CONTROL_CODE;
-   
+
    public static String QUALITY_CONTROL_CODE_AVAILABLE;
-   
+
    public static String QUALITY_CONTROL_DESCRIPTION;
-   
+
    public static String QUALITY_CONTROL_VALIDATION_CODE;
-   
+
    public static String QUALITY_CONTROL_VALIDATION_DUPLICATE;
-   
-   public static String QUALITY_CONTROL_VALIDATION_EMPTY;   
-   
+
+   public static String QUALITY_CONTROL_VALIDATION_EMPTY;
+
    public static String CRITICALITY_TARGET_EXECUTION_TIME;
-   
+
    public static String CRITICALITY_INITIAL_CRITICALITY_LOW;
-   
+
    public static String CRITICALITY_INITIAL_CRITICALITY_MEDIUM;
-   
+
    public static String CRITICALITY_INITIAL_CRITICALITY_HIGH;
-   
+
    public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_LOW;
-   
+
    public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_MEDIUM;
-   
+
    public static String CRITICALITY_MULTIPLE_TARGET_EXECUTION_HIGH;
-   
-   public static String LB_OPEN_REFERENCED_MODEL;   
-   
+
+   public static String LB_OPEN_REFERENCED_MODEL;
+
    public static String MSG_ProviderFileNotExists;
+
+   public static String LBL_AUDITTRAIL_PERSISTENCE;
 }

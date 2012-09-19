@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import java.util.ArrayList;
+
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -22,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -29,30 +36,40 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPage
 {
    private static final int DEFAULT_PRIORITY = 1;
-   
+
    private LabeledText priorityText;
 
-   private Button transientCheckBox;
+   private Button auditTrailPersistenceCheckBox;
 
-   private boolean isTransient = false;
+   private String auditTrailPersistence = null;
+
+   private ComboViewer comboViewer;
+
+   private boolean isAuditTrailPersistent;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       super.loadFieldsFromElement(symbol, element);
       ProcessDefinitionType pd = (ProcessDefinitionType) element;
       priorityText.getText().setText(Integer.toString(pd.getDefaultPriority()));
-      
-      AttributeType transientAttribute = AttributeUtil.getAttribute(
-            (IExtensibleElement) getModelElement(),
-            "carnot:engine:transientProcessExecutionSupport");
 
-      if (transientAttribute != null)
+      AttributeType auditTrailPersistenceAttribute = AttributeUtil.getAttribute(
+            (IExtensibleElement) getModelElement(),
+            "carnot:engine:auditTrailPersistence"); //$NON-NLS-1$
+
+      if (auditTrailPersistenceAttribute != null)
       {
-         isTransient = AttributeUtil.getBooleanValue(transientAttribute);
+         auditTrailPersistence = AttributeUtil.getAttributeValue(
+               (IExtensibleElement) getModelElement(),
+               "carnot:engine:auditTrailPersistence"); //$NON-NLS-1$
+         auditTrailPersistenceCheckBox.setSelection(true);
+         isAuditTrailPersistent = true;
+         comboViewer.setSelection(new StructuredSelection(auditTrailPersistence));
       }
-      transientCheckBox.setSelection(isTransient);
+
+      comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
    }
-   
+
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
       super.loadElementFromFields(symbol, element);
@@ -73,6 +90,13 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       {
          // nothing to do here, maybe log an error
       }
+
+      if ( !isAuditTrailPersistent)
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) modelElement,
+               "carnot:engine:auditTrailPersistence", null); //$NON-NLS-1$
+
+      }
    }
 
    public void contributeExtraControls(Composite composite)
@@ -80,28 +104,47 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       priorityText = FormBuilder.createLabeledText(composite,
             Diagram_Messages.LBL_TXT_DEFAULT_PRIORITY);
 
-      transientCheckBox = FormBuilder.createCheckBox(composite, "Transient", 2);
-      transientCheckBox.addSelectionListener(new SelectionAdapter()
+      auditTrailPersistenceCheckBox = FormBuilder.createCheckBox(composite,
+            Diagram_Messages.LBL_AUDITTRAIL_PERSISTENCE, 1); //$NON-NLS-1$
+
+      ArrayList<String> list = ModelUtils.getPersistenceOptions((ProcessDefinitionType) getModelElement());
+
+      comboViewer = FormBuilder.createComboViewer(composite, list);
+      comboViewer.getCombo().addSelectionListener(new SelectionAdapter()
       {
 
          public void widgetSelected(SelectionEvent e)
          {
 
-            AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
-                  "carnot:engine:transientProcessExecutionSupport", true);
-            isTransient = !isTransient;
-            if (isTransient)
-            {
-               AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
-                     "carnot:engine:transientProcessExecutionSupport", true);
-            }
-            else
-            {
-               AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
-                     "carnot:engine:transientProcessExecutionSupport", false);
-            }
+            IStructuredSelection value = (IStructuredSelection) comboViewer.getSelection();
+            AttributeUtil.setAttribute((IExtensibleElement) modelElement,
+                  "carnot:engine:auditTrailPersistence", value.getFirstElement() //$NON-NLS-1$
+                        .toString());
+         }
+      });
+
+      comboViewer.setLabelProvider(new LabelProvider()
+      {
+
+         public String getText(Object element)
+         {
+            return ModelUtils.getPersistenceOptionsText(element.toString());
+         }
+
+      });
+
+      auditTrailPersistenceCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+
+         public void widgetSelected(SelectionEvent e)
+         {
+
+            isAuditTrailPersistent = !isAuditTrailPersistent;
+            comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
          }
       });
 
    }
+
+
 }

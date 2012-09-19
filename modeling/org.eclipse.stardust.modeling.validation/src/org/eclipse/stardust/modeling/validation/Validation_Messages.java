@@ -48,51 +48,51 @@ public class Validation_Messages extends NLS
    public static String MODEL_TooLongId;
 
    public static String MODEL_ValidFromAfterValidTo;
-   
+
    public static String MODEL_ConfigurationVariable_NeverUsed;
-   
+
    public static String MODEL_ConfigurationVariable_Invalid;
-   
+
    public static String MODEL_ConfigurationVariable_NoDefaultValue;
-      
+
    public static String MODEL_ConfigurationVariable_NotAllowed;
-   
+
    public static String MODEL_ConfigurationVariable_NAME;
-   
+
    public static String MODEL_ConfigurationVariable_ID;
-   
+
    public static String MODEL_ConfigurationVariable_TypeDec;
-   
+
    public static String MODEL_ConfigurationVariable_Description;
-   
+
    public static String MODEL_Connection_NoConnection;
-   
+
    public static String MODEL_ReferencedModel_NoModel;
-   
+
    public static String MODEL_ExternalPackage_IDConflict;
-   
+
    public static String MODEL_ReferencedType_NotFound;
-   
+
    public static String MODEL_ReferencedType_NotVisible;
-   
+
    public static String MODEL_ProcessInterface_NotValid;
-   
+
    public static String MODEL_ProcessInterface_InvalidForExternalInvocation;
-   
+
    public static String MODEL_ProcessInterface_Multiple_Implementations;
-   
+
    public static String MODEL_ProcessInterface_ParameterMissing;
-   
+
    public static String MODEL_ProcessInterface_ParameterPending;
-   
+
    public static String MODEL_ProcessInterface_NoMapping;
-   
+
    public static String MODEL_ProcessInterface_IncompatibleTypes;
-  
+
    public static String MSG_ClassCanNotBeResolved;
 
    public static String MSG_ClassNotSerilizable;
-   
+
    public static String MSG_ConstructorNotVisible;
 
    public static String MSG_DataHasNoType;
@@ -174,7 +174,7 @@ public class Validation_Messages extends NLS
    public static String MSG_InvalidDataMapping;
 
    public static String MSG_InvalidDataPath;
-   
+
    public static String MSG_MissingDataPath;
 
    public static String MSG_InvalidDataSpecified;
@@ -214,9 +214,9 @@ public class Validation_Messages extends NLS
    public static String MSG_JMSTRIGGER_NoValidTypeForParameter;
 
    public static String MSG_Trigger_UnspecifiedParticipant;
-   
+
    public static String MSG_Scantrigger_UnspecifiedParticipant;
-   
+
    public static String MSG_Scantrigger_NoDocumentDataSpecified;
 
    public static String MSG_Trigger_InvalidParticipant;
@@ -274,11 +274,11 @@ public class Validation_Messages extends NLS
    public static String ERR_ROLE_WorksForManagerOf;
 
    public static String ERR_ROLE_WorksFor;
-   
-   public static String ERR_ROLE_ManagerOf;   
 
-   public static String ERR_Trigger_InvalidScopedParticipant;      
-   
+   public static String ERR_ROLE_ManagerOf;
+
+   public static String ERR_Trigger_InvalidScopedParticipant;
+
    public static String MSG_COND_PERFORMER_DuplicateId;
 
    public static String MSG_COND_PERFORMER_NoDataSet;
@@ -299,7 +299,7 @@ public class Validation_Messages extends NLS
 
    public static String ERR_ACTIVITY_NoPerformerSet;
 
-   public static String ERR_ACTIVITY_QualityAssurancePerformer;   
+   public static String ERR_ACTIVITY_QualityAssurancePerformer;
 
    public static String ERR_ACTIVITY_PerformerWronglySet;
 
@@ -333,14 +333,14 @@ public class Validation_Messages extends NLS
 
    public static String ERR_ORGANIZATION_DuplicateId;
 
-   public static String ERR_ORGANIZATION_PartOf;   
+   public static String ERR_ORGANIZATION_PartOf;
 
-   public static String ERR_ORGANIZATION_InvalidScopeData;      
-   
+   public static String ERR_ORGANIZATION_InvalidScopeData;
+
    public static String ERR_ELEMENT_EmptyId;
 
    public static String ERR_ELEMENT_InvalidId;
-   
+
    public static String ERR_ELEMENT_IdLength;
 
    public static String MSG_ELEMENT_EmptyName;
@@ -398,15 +398,15 @@ public static String Validation_MSG_JNDIPathNotSpecified;
    public static String EventHandlerValidator_MSG_NO_PERIOD_VALUE;
 
    public static String MSG_EmptyTransitionCond;
-   
-   public static String MSG_TransitionCondUpdate;  
-   
-   public static String MSG_InvalidJavaScriptTransitionCondition;   
-   
+
+   public static String MSG_TransitionCondUpdate;
+
+   public static String MSG_InvalidJavaScriptTransitionCondition;
+
    public static String MSG_InvalidJavaScriptMessageTransformation;
-   
-   public static String MSG_MissingExternalClass; 
-   
+
+   public static String MSG_MissingExternalClass;
+
    public static String MSG_InvalidExternalReference;
 
    public static String MSG_SyntaxInvalidTransitionCond;
@@ -428,9 +428,9 @@ public static String Validation_MSG_JNDIPathNotSpecified;
    public static String MSG_NoBeanId;
 
    public static String Msg_XORSplitANDJoinBlock;
-   
+
    public static String MSG_StartEventSymbolWrongConnected;
-   
+
    public static String ERR_Invalid_TeamLeadConnection;
 
    public static String EXC_NOT_IMPLEMENTED;
@@ -438,7 +438,7 @@ public static String Validation_MSG_JNDIPathNotSpecified;
    public static String WR_IS_A_RESERVED_IDENTIFIER;
 
    public static String WR_MAPPING_INCONSISTENT_DATA_MAPPING_ID;
-   
+
    public static String MSG_REMOVED_TRANSFORMATION;
 
    public static String WR_MAPPING_NO_IN_DATA_MAPPING_SPECIFIED;
@@ -446,15 +446,17 @@ public static String Validation_MSG_JNDIPathNotSpecified;
    public static String WR_MAPPING_NO_IN_DATA_MAPPING_WITH_ID_STELLE_NULL_FOUND;
 
    public static String WR_MD_HAS_AN_OLDER_VERSION;
-   
+
    public static String MSG_KEY_DESCRIPTOR_PRIMITIVE_STRUCTURED;
-   
+
    public static String MSG_KEY_DESCRIPTOR_PRIMITIVE;
-   
+
    public static String MSG_KEY_DESCRIPTOR_INDEXED_PERSISTENT;
-   
+
    public static String MSG_KEY_DESCRIPTOR_NO_SCHEMA;
-   
+
    public static String MSG_KEY_DESCRIPTOR_NO_DESCRIPTOR;
-   
+
+   public static String MSG_PERSISTENCE_OPTION_NOT_ALLOWED;
+
 }

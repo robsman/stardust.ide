@@ -11,12 +11,25 @@
 package org.eclipse.stardust.modeling.validation.impl;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.ValidationService;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 public class DefaultProcessDefinitionValidator implements IModelElementValidator
 {
@@ -74,16 +87,16 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
          {
             result.add(Issue.error(proc, Validation_Messages.MSG_NoActivity));
          }
-         
+
          if (null != startActivity)
          {
             Set<ActivityType> allActivities = CollectionUtils.newSet();
             allActivities.addAll(proc.getActivity());
-            
+
             List<ActivityType> reachedActivities = CollectionUtils.newLinkedList();
             Set<ActivityType> visitedActivities = CollectionUtils.newSet();
             reachedActivities.add(startActivity);
-            
+
             // span activity graph reachable from starting activity
             while (!reachedActivities.isEmpty())
             {
@@ -108,6 +121,24 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
                result.add(Issue.error(proc, MessageFormat.format(
                      Validation_Messages.MSG_PROCDEF_DisconnectedActivityGraph,
                      new Object[] {new Integer(allActivities.size())})));
+            }
+         }
+
+         // validate auditTrailPersistence setting
+         AttributeType auditTrailPersistenceAttribute = AttributeUtil.getAttribute(
+               (IExtensibleElement) element, "carnot:engine:auditTrailPersistence");
+
+         if (auditTrailPersistenceAttribute != null)
+         {
+            String auditTrailPersistence = auditTrailPersistenceAttribute.getValue();
+            List<String> options = ModelUtils.getPersistenceOptions((ProcessDefinitionType) element);
+            if ( !options.contains(auditTrailPersistence))
+            {
+               result.add(Issue.warning(
+                     proc,
+                     MessageFormat.format(
+                           Validation_Messages.MSG_PERSISTENCE_OPTION_NOT_ALLOWED,
+                           new Object[] {ModelUtils.getPersistenceOptionsText(auditTrailPersistence)})));
             }
          }
 
@@ -148,4 +179,5 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
       }
       return false;
    }
+
 }

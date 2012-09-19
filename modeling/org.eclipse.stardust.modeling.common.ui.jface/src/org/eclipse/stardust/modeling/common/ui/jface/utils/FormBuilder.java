@@ -16,6 +16,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.StructuredViewer;
+
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -32,12 +34,12 @@ import org.eclipse.swt.widgets.*;
 public class FormBuilder
 {
    private static final ArrayContentProvider ARRAY_CONTENT_PROVIDER = new ArrayContentProvider();
-   
+
    public static final int DEFAULT_TEXT_FIELD_CHARS = 50;
 
    /**
-    * Creates a default 'label to the left of control' composite. 
-    * 
+    * Creates a default 'label to the left of control' composite.
+    *
     * @param parent
     * @return
     */
@@ -47,8 +49,8 @@ public class FormBuilder
    }
 
    /**
-    * Creates a default 'label to the left of control' composite. 
-    * 
+    * Creates a default 'label to the left of control' composite.
+    *
     * @param parent
     * @param nLabeledControlsColumns the number of 'labeled controls' columns (usually 1).
     * @return
@@ -123,7 +125,7 @@ public class FormBuilder
       button.setLayoutData(createDefaultSingleLineWidgetGridData(span));
       return button;
    }
-   
+
    public static Group createGroup(Composite composite, String title, int numColumns)
    {
       return createGroup(composite, title, numColumns, 1);
@@ -149,7 +151,7 @@ public class FormBuilder
    {
       return createList(composite, 1);
    }
-   
+
    public static org.eclipse.swt.widgets.List createList(Composite composite, int span)
    {
       org.eclipse.swt.widgets.List list = new org.eclipse.swt.widgets.List(composite,
@@ -169,12 +171,12 @@ public class FormBuilder
    {
       return createCheckBox(composite, label, 1);
    }
-   
+
    public static Button createCheckBox(Composite composite, String label, int span)
    {
       return createCheckBox(composite, label, createDefaultButtonGridData(span));
    }
-   
+
    public static Button createCheckBox(Composite composite, String label, GridData gd)
    {
       Button checkBox = new Button(composite, SWT.CHECK);
@@ -236,7 +238,7 @@ public class FormBuilder
       applyDefaultTextControlWidth(text);
       return text;
    }
-   
+
    public static Tree createTree(Composite composite, int style)
    {
       Tree tree = new Tree(composite,style);
@@ -262,12 +264,12 @@ public class FormBuilder
          tree.addControlListener(new ControlListener()
          {
             private boolean realized;
-   
+
             public void controlMoved(ControlEvent e)
             {
                // ignore
             }
-   
+
             public void controlResized(ControlEvent e)
             {
                if (!realized)
@@ -285,10 +287,10 @@ public class FormBuilder
       }
       return tree;
    }
-   
+
    /**
     * Creates a table with column sizes relative to table size.
-    * 
+    *
     * @see #createTable(Composite, int, String[], int[], int, boolean)
     * @return
     */
@@ -300,13 +302,13 @@ public class FormBuilder
 
    /**
     * Creates a table with absolute column sizes.
-    * 
+    *
     * @param composite
     * @param style
     * @param columnNames
     * @param columnSizes
     * @param span
-    * @param absoluteColumnSizes true if columnSizes are meant as absolute values, false if meant as relative values (%) of table size. 
+    * @param absoluteColumnSizes true if columnSizes are meant as absolute values, false if meant as relative values (%) of table size.
     * @return
     */
    public static Table createTable(Composite composite, int style, String[] columnNames,
@@ -326,12 +328,12 @@ public class FormBuilder
          table.addControlListener(new ControlListener()
          {
             private boolean realized;
-   
+
             public void controlMoved(ControlEvent e)
             {
                // ignore
             }
-   
+
             public void controlResized(ControlEvent e)
             {
                if ( !realized)
@@ -408,7 +410,7 @@ public class FormBuilder
    {
       return createLabelWithLeftAlignedStatus(composite, name, 1);
    }
-   
+
    public static LabelWithStatus createLabelWithLeftAlignedStatus(Composite composite,
          String name, int span)
    {
@@ -422,7 +424,7 @@ public class FormBuilder
    {
       return createLabelWithRightAlignedStatus(composite, name, 1);
    }
-   
+
    public static LabelWithStatus createLabelWithRightAlignedStatus(Composite composite,
          String name, int span)
    {
@@ -430,12 +432,12 @@ public class FormBuilder
       label.setLayoutData(createDefaultLabelGridData(span));
       return label;
    }
-   
+
    /**
     * Creates a label with right aligned status to the left of a single line text control.
     * <br />
     * The parent is assumed contain a grid layout with standard two column layout.
-    * 
+    *
     * @param composite
     * @param txtLabel
     * @return
@@ -454,7 +456,7 @@ public class FormBuilder
       Text text = createText(composite, password);
       return new LabeledText(text, label);
    }
-   
+
    public static LabeledText createLabeledTextLeftAlignedStatus(Composite composite, String txtLabel)
    {
       LabelWithStatus label = createLabelWithLeftAlignedStatus(composite, txtLabel);
@@ -482,7 +484,7 @@ public class FormBuilder
    /**
     * Creates a label with right aligned status to the left of a combo box control. <br />
     * The parent is assumed contain a grid layout with standard two column layout.
-    * 
+    *
     * @param composite
     * @param txtLabel
     * @return
@@ -497,7 +499,7 @@ public class FormBuilder
    /**
     * Creates a label with left aligned status above a multi line text control. <br />
     * The parent is assumed contain a grid layout with standard two column layout.
-    * 
+    *
     * @param composite
     * @param txtLabel
     * @return
@@ -513,7 +515,7 @@ public class FormBuilder
    {
       return new GridData(SWT.FILL, SWT.CENTER, false, false);
    }
-   
+
    public static GridData createDefaultLabelGridData(int horizonalSpan)
    {
       GridData gd = createDefaultLabelGridData();
@@ -525,7 +527,7 @@ public class FormBuilder
    {
       return new GridData(SWT.FILL, SWT.CENTER, true, false);
    }
-   
+
    public static GridData createDefaultSingleLineWidgetGridData(int horizonalSpan)
    {
       GridData gd = createDefaultSingleLineWidgetGridData();
@@ -537,7 +539,7 @@ public class FormBuilder
    {
       return new GridData(SWT.FILL, SWT.FILL, true, true);
    }
-   
+
    public static GridData createDefaultLimitedMultiLineWidgetGridData(int hHint)
    {
       GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -556,21 +558,21 @@ public class FormBuilder
    {
       return new GridData(SWT.LEAD, SWT.CENTER, false, false);
    }
-   
+
    public static GridData createDefaultButtonGridData(int horizonalSpan)
    {
       GridData gd = createDefaultButtonGridData();
       gd.horizontalSpan = horizonalSpan;
       return gd;
    }
-   
+
    public static void applyDefaultTextControlWidth(Control control)
    {
       Object layoutData = control.getLayoutData();
       if (layoutData instanceof GridData)
       {
          ((GridData) layoutData).widthHint = FormBuilder.getDefaultTextSize(control);
-      }      
+      }
    }
 
    public static void applyDefaultButtonWidth(Button button)
@@ -581,7 +583,7 @@ public class FormBuilder
          Point minButtonSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
          ((GridData) layoutData).widthHint = Math.max(
                FormBuilder.getDefaultButtonSize(button.getParent()), minButtonSize.x);
-      }      
+      }
    }
 
    public static int getDefaultTextSize(Control parent)
@@ -608,7 +610,7 @@ public class FormBuilder
       gc.dispose();
       return fontMetrics;
    }
-   
+
    /**
     * @deprecated Use {@link #createDefaultSingleLineWidgetGridData()} and
     *             {@link #applyDefaultTextControlWidth(Control)} directly.
@@ -626,5 +628,14 @@ public class FormBuilder
       targetViewer.setContentProvider(ARRAY_CONTENT_PROVIDER);
       targetViewer.setInput(values);
       return new LabeledViewer(targetViewer, targetCombo.getLabel());
+   }
+
+   public static ComboViewer createComboViewer(Composite parent, List<?> values)
+   {
+      Combo targetCombo = createCombo(parent);
+      ComboViewer targetViewer = new ComboViewer(targetCombo);
+      targetViewer.setContentProvider(ARRAY_CONTENT_PROVIDER);
+      targetViewer.setInput(values);
+      return targetViewer;
    }
 }

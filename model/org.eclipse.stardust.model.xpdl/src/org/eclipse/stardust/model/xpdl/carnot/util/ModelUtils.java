@@ -15,11 +15,23 @@ import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.*;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -34,27 +46,77 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.xsd.XSDSchema;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.persistence.jdbc.transientpi.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
+import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
+import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.IdRef;
+import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.xsd.XSDSchema;
 
 public class ModelUtils
 {
    private static XpdlFactory xpdlFactory = XpdlFactory.eINSTANCE;
-   
+
    public static final class EObjectInvocationHandler implements InvocationHandler
    {
       private final EObject model;
@@ -124,7 +186,7 @@ public class ModelUtils
       }
       return null;
    }
-   
+
    public static DiagramType findContainingDiagram(IGraphicalObject graphicalObject)
    {
       EObject element = graphicalObject;
@@ -231,7 +293,7 @@ public class ModelUtils
 
       return handler;
    }
-   
+
    public static TriggerType findContainingTriggerType(EObject element)
    {
       TriggerType triggerType = (element instanceof TriggerType)
@@ -267,12 +329,12 @@ public class ModelUtils
    public static long getMaxUsedOid(ModelType model)
    {
       long maxOid = 0;
-      
+
       if (model.isSetOid())
       {
          maxOid = model.getOid();
       }
-      
+
       for (TreeIterator<EObject> i = model.eAllContents(); i.hasNext();)
       {
          EObject obj = i.next();
@@ -283,11 +345,11 @@ public class ModelUtils
       }
       return maxOid;
    }
-   
+
    public static ActivityType findRootActivity(ProcessDefinitionType process)
    {
       ActivityType result = null;
-      
+
       for (ActivityType activity : process.getActivity())
       {
          if (activity.getInTransitions().isEmpty())
@@ -304,23 +366,23 @@ public class ModelUtils
             }
          }
       }
-      
+
       return result;
    }
-   
+
    public static DataType findData(IModelElement context, String dataId)
    {
       DataType result = null;
-      
+
       ModelType model = findContainingModel(context);
       if (null != model)
       {
          result = (DataType) findIdentifiableElement(model.getData(), dataId);
       }
-      
+
       return result;
    }
-   
+
    public static DescriptionType createDescription(String description)
    {
       if (description == null)
@@ -337,7 +399,7 @@ public class ModelUtils
    {
       setCDataString(mixed, description, false);
    }
-   
+
    public static void setCDataString(FeatureMap mixed, String description,
          boolean normalizeCrLf)
    {
@@ -367,7 +429,7 @@ public class ModelUtils
    public static String getCDataString(FeatureMap featureMap)
    {
       String result = null;
-      
+
       Collection<?> parts = (Collection<?>) featureMap.get(
             XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), false);
       if (parts == null || parts.isEmpty())
@@ -400,7 +462,7 @@ public class ModelUtils
       EObject result = findElementById(parent, feature, id);
       return result instanceof IIdentifiableElement ? (IIdentifiableElement) result : null;
    }
-   
+
    public static EObject findElementById(EObject parent, EStructuralFeature feature, String id)
    {
       if (parent != null)
@@ -425,7 +487,7 @@ public class ModelUtils
    public static EObject findElementById(List<?> domain, IIdentifiableElement object)
    {
       String id = object.getId();
-      
+
       EObject result = null;
       for (Object candidate : domain)
       {
@@ -450,8 +512,8 @@ public class ModelUtils
             {
                continue;
             }
-         }               
-               
+         }
+
          if(object instanceof AccessPointType)
          {
             DirectionType direction = ((AccessPointType) object).getDirection();
@@ -468,7 +530,7 @@ public class ModelUtils
                continue;
             }
          }
-               
+
          if (CompareHelper.areEqual(id, candidateId))
          {
             result = (EObject) candidate;
@@ -476,8 +538,8 @@ public class ModelUtils
          }
       }
       return result;
-   }   
-   
+   }
+
    public static <T> T findElementById(List<? extends T> domain, String id)
    {
       T result = null;
@@ -497,14 +559,14 @@ public class ModelUtils
       }
       return result;
    }
-   
+
    public static List<ITypedElement> findMetaTypeInstances(List<? extends IModelElement> domain, String metaTypeId)
    {
       if (domain == null || domain.isEmpty())
       {
          return Collections.emptyList();
       }
-      
+
       List<ITypedElement> result = CollectionUtils.newList(domain.size());
       for (IModelElement element : domain)
       {
@@ -551,7 +613,7 @@ public class ModelUtils
          {
             addSymbols(set, subContainer, ref, feat, element);
          }
-         
+
          @SuppressWarnings("unchecked")
          List<INodeSymbol> list = (List<INodeSymbol>) container.eGet(ref);
          for (INodeSymbol symbol : list)
@@ -607,12 +669,12 @@ public class ModelUtils
    {
       return getTypeDeclaration(findContainingModel(element), typeId);
    }
-   
+
    public static TypeDeclarationType getTypeDeclaration(IModelElement element, String typeId)
    {
       return getTypeDeclaration(findContainingModel(element), typeId);
    }
-   
+
    private static TypeDeclarationType getTypeDeclaration(ModelType model, String typeId)
    {
       return (TypeDeclarationType) findElementById(model.getTypeDeclarations().getTypeDeclaration(), typeId);
@@ -694,7 +756,7 @@ public class ModelUtils
          if (eResource != null)
          {
             URI eUri = eResource.getURI();
-            
+
             if (eUri.isFile())
             {
                String fileString = eUri.toFileString();
@@ -707,7 +769,7 @@ public class ModelUtils
                   return container.getProject();
                }
             }
-            
+
             if (eUri.segmentCount() > 1)
             {
                IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
@@ -763,7 +825,7 @@ public class ModelUtils
             return method.invoke(model, args);
          }
       }
-   
+
       if (method.getDeclaringClass().equals(IModelElement.class))
       {
          if (method.getName().equals("getElementOid") && model instanceof ModelType) //$NON-NLS-1$
@@ -784,7 +846,7 @@ public class ModelUtils
          }
          return null;
       }
-   
+
       if (method.getDeclaringClass().equals(IIdentifiableModelElement.class))
       {
          if (method.getName().equals("getDescription") && model instanceof ModelType) //$NON-NLS-1$
@@ -797,14 +859,14 @@ public class ModelUtils
          }
          return null;
       }
-   
+
       if (method.getDeclaringClass().equals(Object.class))
       {
          if (method.getName().equals("equals")) //$NON-NLS-1$
          {
             return Boolean.valueOf(model.equals(args[0]) || (proxy == args[0]));
          }
-      }   
+      }
       return method.invoke(model, args);
    }
 
@@ -820,7 +882,7 @@ public class ModelUtils
       name = StringUtils.replace(name, "\u002d", "_"); //$NON-NLS-1$ //$NON-NLS-2$
       name = StringUtils.replace(name, "\u0026", ""); //$NON-NLS-1$ //$NON-NLS-2$
       name = StringUtils.replace(name, "\u002e", ""); //$NON-NLS-1$ //$NON-NLS-2$
-      
+
       StringBuffer sb = new StringBuffer();
       StringTokenizer st = new StringTokenizer(name);
       while (st.hasMoreTokens())
@@ -838,7 +900,7 @@ public class ModelUtils
       }
       return sb.toString();
    }
-   
+
    public static void resolve(ModelType model, IExtensibleElement extensible)
    {
       // resolve internal type declarations
@@ -862,7 +924,7 @@ public class ModelUtils
             }
          }
       }
-      
+
       // resolve declared references
       IConfigurationElement config = SpiExtensionRegistry.getConfiguration(extensible);
       if (config != null)
@@ -879,18 +941,18 @@ public class ModelUtils
             }
          }
       }
-      
-      // resolve references for Organizations which are not part of ExtensionRegistry (see CRNT-16871) 
+
+      // resolve references for Organizations which are not part of ExtensionRegistry (see CRNT-16871)
       if (extensible instanceof OrganizationType)
       {
          AttributeType attribute = AttributeUtil.getAttribute(extensible,
                PredefinedConstants.BINDING_DATA_ID_ATT);
          if (attribute != null)
          {
-            setReference(attribute, model, "data"); //$NON-NLS-1$            
+            setReference(attribute, model, "data"); //$NON-NLS-1$
          }
       }
-      
+
       // resolve permissions
       // TODO: make permissions a first class element
       IAttributeCategory category = AttributeUtil.createAttributeCategory(extensible, "authorization"); //$NON-NLS-1$
@@ -898,7 +960,7 @@ public class ModelUtils
       {
          setReference(attribute, model, "role+organization"); //$NON-NLS-1$
       }
-      
+
       for (Object item : extensible.eContents())
       {
          if (item instanceof IExtensibleElement)
@@ -986,9 +1048,9 @@ public class ModelUtils
       }
       return true;
    }
-   
+
    public static ModelType parseModelType(String modelString)
-   {      
+   {
       String modelXmlEncoding = getXmlEncoding(modelString);
 
       CarnotWorkflowModelResourceImpl resource = new CarnotWorkflowModelResourceImpl(
@@ -1019,7 +1081,7 @@ public class ModelUtils
 
       throw new RuntimeException(Model_Messages.EXC_COULD_NOT_LOAD_MODEL_DOC_ROOT_NOT_FOUND);
    }
-   
+
    private static String getXmlEncoding(String text)
    {
       String pattern = "encoding=\""; //$NON-NLS-1$
@@ -1027,14 +1089,14 @@ public class ModelUtils
       int pos = text.indexOf("\"", offset); //$NON-NLS-1$
       return text.substring(offset, pos);
    }
-   
+
    public static EObject getEObject(IAdaptable adaptable)
    {
       if (adaptable == null)
       {
          return null;
       }
-      
+
       IModelElementNodeSymbol symbol = (IModelElementNodeSymbol) adaptable.getAdapter(
             IModelElementNodeSymbol.class);
       if (symbol != null)
@@ -1042,8 +1104,8 @@ public class ModelUtils
          IModelElement modelElement = symbol.getModelElement();
          return modelElement == null ? symbol : modelElement;
       }
-      
-      
+
+
       IModelElement modelElement = (IModelElement) adaptable.getAdapter(IModelElement.class);
       return modelElement == null ? ((EObject)adaptable.getAdapter(EObject.class)) : modelElement;
    }
@@ -1075,7 +1137,7 @@ public class ModelUtils
 	  {
 	     return null;
 	  }
-	  
+
 	  Object value1 = ((EObject) prototype).eGet(feature);
 	  for (Object object : list)
 	  {
@@ -1109,7 +1171,7 @@ public class ModelUtils
       }
       return null;
    }
-   
+
    public static List<FormalParameterType> findAllFormalParameters(ModelType model)
    {
       List<FormalParameterType> result = new ArrayList<FormalParameterType>();
@@ -1124,7 +1186,7 @@ public class ModelUtils
       }
       return result;
    }
-   
+
    public static List<String> getURIsForExternalPackages(ModelType model)
    {
       List<String> result = new ArrayList<String>();
@@ -1184,20 +1246,20 @@ public class ModelUtils
    public static Map<String, TypeType> getTypeMapping()
    {
       Map<String, TypeType> typeMapping;
-      
+
       typeMapping = CollectionUtils.newMap();
       typeMapping.put(Type.String.getId(), TypeType.STRING_LITERAL);
       typeMapping.put(Type.Integer.getId(), TypeType.INTEGER_LITERAL);
       typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN_LITERAL);
       typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME_LITERAL);
-      
+
       return typeMapping;
    }
-   
+
    public static DataTypeType createDataType(DataType data)
    {
       Map<String, TypeType> typeMapping = getTypeMapping();
-      
+
       DataTypeType dataType = xpdlFactory.createDataTypeType();
       String typeId = data.getType().getId();
 
@@ -1222,7 +1284,7 @@ public class ModelUtils
       }
       return dataType;
    }
-   
+
    public static FormalParameterType cloneFormalParameterType(
          FormalParameterType referencedParameterType, DataType mappedData)
    {
@@ -1230,20 +1292,20 @@ public class ModelUtils
             .createFormalParameterType();
       if(mappedData != null)
       {
-         parameterType.setDataType(createDataType(mappedData));         
+         parameterType.setDataType(createDataType(mappedData));
       }
       else
       {
-         parameterType.setDataType((DataTypeType) EcoreUtil.copy(referencedParameterType.getDataType()));       
+         parameterType.setDataType((DataTypeType) EcoreUtil.copy(referencedParameterType.getDataType()));
       }
-      
+
       parameterType.setDescription(referencedParameterType.getDescription());
       parameterType.setMode(referencedParameterType.getMode());
       parameterType.setId(referencedParameterType.getId());
       parameterType.setName(referencedParameterType.getName());
       return parameterType;
    }
-   
+
    public static boolean haveDifferentTypes(FormalParameterType type1,
          FormalParameterType type2)
    {
@@ -1284,7 +1346,7 @@ public class ModelUtils
       }
       return true;
    }
-   
+
    public static ModelType getExternalModel(ExternalPackage pack)
    {
       String uri = ExtendedAttributeUtil.getAttributeValue(pack, IConnectionManager.URI_ATTRIBUTE_NAME);
@@ -1353,24 +1415,24 @@ public class ModelUtils
    public static String getFileSystemPath(String project, String fullPath)
    {
       IWorkspaceRoot wspRoot = ResourcesPlugin.getWorkspace().getRoot();
-      
+
       if (null != wspRoot && null != project)
       {
          IProject wspProject = wspRoot.getProject(project);
          if (null != wspProject && null != fullPath)
          {
-            IResource resource = wspProject.findMember(fullPath);            
-            
+            IResource resource = wspProject.findMember(fullPath);
+
             if (null != resource)
             {
                return resource.getLocation().toFile().getAbsolutePath();
             }
          }
       }
-   
+
       return null;
    }
-   
+
    public static boolean hasCircularDependency(String referencingModelID,
          ModelType referencedModel)
    {
@@ -1399,7 +1461,7 @@ public class ModelUtils
       }
       return false;
    }
-   
+
    public static boolean externalPackageExists(ModelType referingModel, ModelType referencedModel)
    {
       ExternalPackages externalPackages = referingModel.getExternalPackages();
@@ -1415,7 +1477,7 @@ public class ModelUtils
       }
       return false;
    }
-   
+
    public static List<IModelElement> findPackageReferingModelElements(ModelType referingModel, ExternalPackage externalPackage)
    {
       List<IModelElement> result = CollectionUtils.newList();
@@ -1445,7 +1507,7 @@ public class ModelUtils
       }
       return result;
    }
-   
+
    public static String getActivityImplementationTypeText(
          ActivityImplementationType implementation)
    {
@@ -1519,7 +1581,7 @@ public class ModelUtils
    {
       List<TypeDeclarationType> dataTypes = CollectionUtils.newList();
       addTypeDeclarations(dataTypes, modelType);
-   
+
       ExternalPackages packages = modelType.getExternalPackages();
       if (packages != null)
       {
@@ -1543,4 +1605,55 @@ public class ModelUtils
          dataTypes.addAll(typeDeclarations.getTypeDeclaration());
       }
    }
+
+   public static ArrayList<String> getPersistenceOptions(ProcessDefinitionType process)
+   {
+      ArrayList<String> list = new ArrayList<String>();
+      list.add(AuditTrailPersistence.IMMEDIATE.name());
+
+      for (Iterator<ActivityType> i = process.getActivity().iterator(); i.hasNext();)
+      {
+         ActivityType activity = i.next();
+         if (activity.getApplication() != null)
+         {
+            ApplicationType application = activity.getApplication();
+            if (application.isInteractive())
+            {
+               return list;
+            }
+            if (application.getType().getId().equals(PredefinedConstants.JMS_APPLICATION))
+            {
+               String directionType = AttributeUtil.getAttributeValue(
+                     (IExtensibleElement) application, "carnot:engine:type"); //$NON-NLS-1$
+               if (directionType != null && !directionType.equalsIgnoreCase("out")) //$NON-NLS-1$
+               {
+                  return list;
+               }
+            }
+         }
+      }
+
+      list.add(AuditTrailPersistence.TRANSIENT.name());
+      list.add(AuditTrailPersistence.DEFERRED.name());
+
+      return list;
+   }
+
+   public static String getPersistenceOptionsText(String value)
+   {
+      if (value.equals(AuditTrailPersistence.IMMEDIATE.name()))
+      {
+         return Model_Messages.AUDITTRAIL_PERSISTENCE_IMMEDIATE;
+      }
+      if (value.equals(AuditTrailPersistence.DEFERRED.name()))
+      {
+         return Model_Messages.AUDITTRAIL_PERSISTENCE_DEFERRED;
+      }
+      if (value.equals(AuditTrailPersistence.TRANSIENT.name()))
+      {
+         return Model_Messages.AUDITTRAIL_PERSISTENCE_TRANSIENT;
+      }
+      return null;
+   }
+
 }
