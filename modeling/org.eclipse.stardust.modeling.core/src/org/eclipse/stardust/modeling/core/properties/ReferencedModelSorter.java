@@ -79,8 +79,8 @@ public class ReferencedModelSorter extends ViewerSorter
       String path = AttributeUtil.getAttribute(apt, "carnot:engine:dataType").getValue(); //$NON-NLS-1$      
       if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$ 
       {
-         int idx1 = path.indexOf("{");
-         int idx2 = path.indexOf("}");
+         int idx1 = path.indexOf("{"); //$NON-NLS-1$
+         int idx2 = path.indexOf("}"); //$NON-NLS-1$
          String modelID = path.substring(idx1 + 1, idx2);
          java.util.List<String> refModelsURI = ModelUtils
                .getURIsForExternalPackages(model);

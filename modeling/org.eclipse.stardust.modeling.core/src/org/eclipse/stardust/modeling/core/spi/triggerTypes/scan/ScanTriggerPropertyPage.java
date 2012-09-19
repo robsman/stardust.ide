@@ -192,7 +192,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
       participantNode = new CarnotPreferenceNode(element, getElement(), 0);
       getPreferenceManager().addToRoot(participantNode);
       triggerNode = (CarnotPreferenceNode) this
-            .getPreferenceManager().find("scan");
+            .getPreferenceManager().find("scan"); //$NON-NLS-1$
       return composite;
    }
    
@@ -226,7 +226,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       this.participantNode.updatePageStatus(state);
       TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
-            this.getContainer(), "treeViewer");
+            this.getContainer(), "treeViewer"); //$NON-NLS-1$
       parentTreeViewer.refresh(true);
    }
    
@@ -234,7 +234,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       this.triggerNode.updatePageStatus(state);
       TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
-            this.getContainer(), "treeViewer");
+            this.getContainer(), "treeViewer"); //$NON-NLS-1$
       parentTreeViewer.refresh(true);
    }
 
@@ -262,7 +262,7 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
             }
 
          };
-         Reflect.setFieldValue(wBndMgr, "vBndMgr", pm);
+         Reflect.setFieldValue(wBndMgr, "vBndMgr", pm); //$NON-NLS-1$
          return wBndMgr;
       }
       return super.getWidgetBindingManager();

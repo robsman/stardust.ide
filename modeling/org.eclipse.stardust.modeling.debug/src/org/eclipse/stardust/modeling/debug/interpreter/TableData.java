@@ -78,11 +78,11 @@ public class TableData extends Data
       {
          try
          {
-            icon = new ImageIcon(Data.class.getResource("images/table.gif"));
+            icon = new ImageIcon(Data.class.getResource("images/table.gif")); //$NON-NLS-1$
          }
          catch (Exception x)
          {
-            throw new PublicException("Cannnot load resource \"images/table.gif\"");
+            throw new PublicException("Cannnot load resource \"images/table.gif\""); //$NON-NLS-1$
          }
       }
 

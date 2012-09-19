@@ -131,11 +131,11 @@ public class MetadataParser extends HandlerBase
       }
       catch (ParserConfigurationException e)
       {
-         throw new InternalException("Invalid JAXP setup.", e);
+         throw new InternalException("Invalid JAXP setup.", e); //$NON-NLS-1$
       }
       catch (SAXException e)
       {
-         throw new InternalException("SAX error.", e);
+         throw new InternalException("SAX error.", e); //$NON-NLS-1$
       }
    }
 
@@ -164,29 +164,29 @@ public class MetadataParser extends HandlerBase
       String tooltip = null;
       Hashtable properties = null;
 
-      if (tag.compareTo("DATA_GROUP") == 0)
+      if (tag.compareTo("DATA_GROUP") == 0) //$NON-NLS-1$
       {
-         trace.debug( "Processing data group ...");
+         trace.debug( "Processing data group ..."); //$NON-NLS-1$
 
          for (i = 0; i < atts.getLength(); i++)
          {
-            if (atts.getName(i).compareTo("id") == 0)
+            if (atts.getName(i).compareTo("id") == 0) //$NON-NLS-1$
             {
                id = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("label") == 0)
+            else if (atts.getName(i).compareTo("label") == 0) //$NON-NLS-1$
             {
                label = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("type") == 0)
+            else if (atts.getName(i).compareTo("type") == 0) //$NON-NLS-1$
             {
                type = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("row") == 0)
+            else if (atts.getName(i).compareTo("row") == 0) //$NON-NLS-1$
             {
                rowString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("column") == 0)
+            else if (atts.getName(i).compareTo("column") == 0) //$NON-NLS-1$
             {
                columnString = atts.getValue(i);
             }
@@ -201,7 +201,7 @@ public class MetadataParser extends HandlerBase
 
                properties.put(atts.getName(i), atts.getName(i));
 
-               trace.debug( "Property " + atts.getName(i) + " set to " + atts.getValue(i));
+               trace.debug( "Property " + atts.getName(i) + " set to " + atts.getValue(i)); //$NON-NLS-1$ //$NON-NLS-2$
             }
          }
 
@@ -210,7 +210,7 @@ public class MetadataParser extends HandlerBase
             row = Byte.parseByte(rowString);
             column = Byte.parseByte(columnString);
 
-            trace.debug( "R/C: " + row + " " + column);
+            trace.debug( "R/C: " + row + " " + column); //$NON-NLS-1$ //$NON-NLS-2$
          }
          catch (NumberFormatException x)
          {
@@ -238,49 +238,49 @@ public class MetadataParser extends HandlerBase
 
          return;
       }
-      else if (tag.compareTo("DATA") == 0)
+      else if (tag.compareTo("DATA") == 0) //$NON-NLS-1$
       {
-         trace.debug( "Processing data definition ...");
+         trace.debug( "Processing data definition ..."); //$NON-NLS-1$
 
          for (i = 0; i < atts.getLength(); i++)
          {
-            if (atts.getName(i).compareTo("id") == 0)
+            if (atts.getName(i).compareTo("id") == 0) //$NON-NLS-1$
             {
                id = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("label") == 0)
+            else if (atts.getName(i).compareTo("label") == 0) //$NON-NLS-1$
             {
                label = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("type") == 0)
+            else if (atts.getName(i).compareTo("type") == 0) //$NON-NLS-1$
             {
                type = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("mandatory") == 0)
+            else if (atts.getName(i).compareTo("mandatory") == 0) //$NON-NLS-1$
             {
                mandatoryString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("readonly") == 0)
+            else if (atts.getName(i).compareTo("readonly") == 0) //$NON-NLS-1$
             {
                readonlyString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("length") == 0)
+            else if (atts.getName(i).compareTo("length") == 0) //$NON-NLS-1$
             {
                lengthString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("default") == 0)
+            else if (atts.getName(i).compareTo("default") == 0) //$NON-NLS-1$
             {
                defaultValue = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("row") == 0)
+            else if (atts.getName(i).compareTo("row") == 0) //$NON-NLS-1$
             {
                rowString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("column") == 0)
+            else if (atts.getName(i).compareTo("column") == 0) //$NON-NLS-1$
             {
                columnString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("tooltip") == 0)
+            else if (atts.getName(i).compareTo("tooltip") == 0) //$NON-NLS-1$
             {
                tooltip = atts.getValue(i);
             }
@@ -310,7 +310,7 @@ public class MetadataParser extends HandlerBase
 
          data.setID(id);
 
-         if (label.equals("null"))
+         if (label.equals("null")) //$NON-NLS-1$
          {
             label = null;
          }
@@ -319,7 +319,7 @@ public class MetadataParser extends HandlerBase
          data.setRow(row);
          data.setColumn(column);
 
-         if (readonlyString.equals("true"))
+         if (readonlyString.equals("true")) //$NON-NLS-1$
          {
             data.setReadonly(true);
          }
@@ -328,7 +328,7 @@ public class MetadataParser extends HandlerBase
             data.setReadonly(false);
          }
 
-         if (mandatoryString.equals("true"))
+         if (mandatoryString.equals("true")) //$NON-NLS-1$
          {
             data.setMandatory(true);
          }
@@ -341,33 +341,33 @@ public class MetadataParser extends HandlerBase
 
          return;
       }
-      else if (tag.compareTo("TABLE_DATA") == 0)
+      else if (tag.compareTo("TABLE_DATA") == 0) //$NON-NLS-1$
       {
-         trace.debug( "Processing table data ...");
+         trace.debug( "Processing table data ..."); //$NON-NLS-1$
 
          for (i = 0; i < atts.getLength(); i++)
          {
-            if (atts.getName(i).compareTo("id") == 0)
+            if (atts.getName(i).compareTo("id") == 0) //$NON-NLS-1$
             {
                id = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("label") == 0)
+            else if (atts.getName(i).compareTo("label") == 0) //$NON-NLS-1$
             {
                label = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("readonly") == 0)
+            else if (atts.getName(i).compareTo("readonly") == 0) //$NON-NLS-1$
             {
                readonlyString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("row") == 0)
+            else if (atts.getName(i).compareTo("row") == 0) //$NON-NLS-1$
             {
                rowString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("column") == 0)
+            else if (atts.getName(i).compareTo("column") == 0) //$NON-NLS-1$
             {
                columnString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("tooltip") == 0)
+            else if (atts.getName(i).compareTo("tooltip") == 0) //$NON-NLS-1$
             {
                tooltip = atts.getValue(i);
             }
@@ -390,45 +390,45 @@ public class MetadataParser extends HandlerBase
 
          return;
       }
-      else if (tag.compareTo("COLUMN") == 0)
+      else if (tag.compareTo("COLUMN") == 0) //$NON-NLS-1$
       {
-         trace.debug( "Processing column ...");
+         trace.debug( "Processing column ..."); //$NON-NLS-1$
 
          for (i = 0; i < atts.getLength(); i++)
          {
-            if (atts.getName(i).compareTo("id") == 0)
+            if (atts.getName(i).compareTo("id") == 0) //$NON-NLS-1$
             {
                id = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("label") == 0)
+            else if (atts.getName(i).compareTo("label") == 0) //$NON-NLS-1$
             {
                label = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("type") == 0)
+            else if (atts.getName(i).compareTo("type") == 0) //$NON-NLS-1$
             {
                type = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("mandatory") == 0)
+            else if (atts.getName(i).compareTo("mandatory") == 0) //$NON-NLS-1$
             {
                mandatoryString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("readonly") == 0)
+            else if (atts.getName(i).compareTo("readonly") == 0) //$NON-NLS-1$
             {
                readonlyString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("length") == 0)
+            else if (atts.getName(i).compareTo("length") == 0) //$NON-NLS-1$
             {
                lengthString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("row") == 0)
+            else if (atts.getName(i).compareTo("row") == 0) //$NON-NLS-1$
             {
                rowString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("column") == 0)
+            else if (atts.getName(i).compareTo("column") == 0) //$NON-NLS-1$
             {
                columnString = atts.getValue(i);
             }
-            else if (atts.getName(i).compareTo("tooltip") == 0)
+            else if (atts.getName(i).compareTo("tooltip") == 0) //$NON-NLS-1$
             {
                tooltip = atts.getValue(i);
             }
@@ -447,7 +447,7 @@ public class MetadataParser extends HandlerBase
 
          if (currentTable == null)
          {
-            throw new SAXException("No current table defined.");
+            throw new SAXException("No current table defined."); //$NON-NLS-1$
          }
 
          Column tableColumn = currentTable.createColumn(Integer.TYPE, label, true, true);
@@ -465,11 +465,11 @@ public class MetadataParser extends HandlerBase
     */
    public void endElement(String tag) throws SAXException
    {
-      if (tag.compareTo("DATA_GROUP") == 0)
+      if (tag.compareTo("DATA_GROUP") == 0) //$NON-NLS-1$
       {
          dataGroupStack.pop();
       }
-      else if (tag.compareTo("TABLE") == 0)
+      else if (tag.compareTo("TABLE") == 0) //$NON-NLS-1$
       {
          currentTable = null;
       }
@@ -488,8 +488,8 @@ public class MetadataParser extends HandlerBase
     */
    public void warning(SAXParseException e) throws SAXException
    {
-      System.err.println("Warning at (file " + e.getSystemId() + ", line " +
-            e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage());
+      System.err.println("Warning at (file " + e.getSystemId() + ", line " + //$NON-NLS-1$ //$NON-NLS-2$
+            e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -497,8 +497,8 @@ public class MetadataParser extends HandlerBase
     */
    public void error(SAXParseException e) throws SAXException
    {
-      throw new SAXException("Error at (file " + e.getSystemId() + ", line " +
-            e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage());
+      throw new SAXException("Error at (file " + e.getSystemId() + ", line " + //$NON-NLS-1$ //$NON-NLS-2$
+            e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -506,8 +506,8 @@ public class MetadataParser extends HandlerBase
     */
    public void fatalError(SAXParseException e) throws SAXException
    {
-      throw new SAXException("Fatal Error at (file " + e.getSystemId() +
-            ", line " + e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage());
+      throw new SAXException("Fatal Error at (file " + e.getSystemId() + //$NON-NLS-1$
+            ", line " + e.getLineNumber() + ", char " + e.getColumnNumber() + "): " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
    /**

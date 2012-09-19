@@ -2073,4 +2073,10 @@ public class Diagram_Messages extends NLS {
    public static String MSG_ProviderFileNotExists;
 
    public static String LBL_AUDITTRAIL_PERSISTENCE;
+
+   public static String LBL_SUPPORTS_RELOCATION;
+
+   public static String LBL_IS_RELOCATION_TARGET;
+
+   public static String RELOCATION_TRANSITION;
 }

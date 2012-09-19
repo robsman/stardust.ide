@@ -56,12 +56,12 @@ public class CreateSubGroupDialog extends AbstractDialog
 
       LabeledComponentsPanel components = new LabeledComponentsPanel();
 
-      components.add(idEntry = new TextEntry(10), "ID:", 'i');
+      components.add(idEntry = new TextEntry(10), "ID:", 'i'); //$NON-NLS-1$
       idEntry.setMandatory(true);
-      components.add(labelEntry = new TextEntry(20), "Label:", 'l');
-      components.add(typeEntry = new TextEntry(20), "Type:", 't');
+      components.add(labelEntry = new TextEntry(20), "Label:", 'l'); //$NON-NLS-1$
+      components.add(typeEntry = new TextEntry(20), "Type:", 't'); //$NON-NLS-1$
       components.add(new JComponent[]{rowEntry = new ByteEntry(), columnEntry = new ByteEntry()},
-            new String[]{"Row:", "Column:"}, new int[]{'r', 'c'});
+            new String[]{"Row:", "Column:"}, new int[]{'r', 'c'}); //$NON-NLS-1$ //$NON-NLS-2$
       components.pack();
 
       panel.add(components);
@@ -137,7 +137,7 @@ public class CreateSubGroupDialog extends AbstractDialog
       singleton.createSubgroup = false;
       singleton.setData(dataGroup);
 
-      return showDialog("Modify Data Group", singleton, editor);
+      return showDialog("Modify Data Group", singleton, editor); //$NON-NLS-1$
    }
 
    /**
@@ -165,6 +165,6 @@ public class CreateSubGroupDialog extends AbstractDialog
       singleton.createSubgroup = true;
       singleton.dataGroup = dataGroup;
 
-      return showDialog("Create Subgroup", singleton, editor);
+      return showDialog("Create Subgroup", singleton, editor); //$NON-NLS-1$
    }
 }

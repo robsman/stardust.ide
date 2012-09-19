@@ -258,7 +258,7 @@ public class OpenDiagramAction extends UpdateDiagramAction
       
       if (null != x)
       {
-         throw new InternalException("");
+         throw new InternalException(""); //$NON-NLS-1$
       }
       return loader.getEditor();
       

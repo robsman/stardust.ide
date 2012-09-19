@@ -82,38 +82,38 @@ public class Column extends MetadataPropertyHolder
    {
       StringBuffer buffer = new StringBuffer();
 
-      buffer.append("<COLUMN");
+      buffer.append("<COLUMN"); //$NON-NLS-1$
 
-      buffer.append(" id=\"");
-      buffer.append("12");
-      buffer.append("\"");
-      buffer.append(" type=\"");
-      buffer.append("" + getType());
-      buffer.append("\"");
+      buffer.append(" id=\""); //$NON-NLS-1$
+      buffer.append("12"); //$NON-NLS-1$
+      buffer.append("\""); //$NON-NLS-1$
+      buffer.append(" type=\""); //$NON-NLS-1$
+      buffer.append("" + getType()); //$NON-NLS-1$
+      buffer.append("\""); //$NON-NLS-1$
 
       if (getLabel() != null)
       {
-         buffer.append(" label=\"");
+         buffer.append(" label=\""); //$NON-NLS-1$
          buffer.append(getLabel());
-         buffer.append("\"");
+         buffer.append("\""); //$NON-NLS-1$
       }
 
-      buffer.append(" mandatory=\"");
-      buffer.append("" + getMandatory());
-      buffer.append("\"");
-      buffer.append(" readonly=\"");
-      buffer.append("" + getReadonly());
-      buffer.append("\"");
+      buffer.append(" mandatory=\""); //$NON-NLS-1$
+      buffer.append("" + getMandatory()); //$NON-NLS-1$
+      buffer.append("\""); //$NON-NLS-1$
+      buffer.append(" readonly=\""); //$NON-NLS-1$
+      buffer.append("" + getReadonly()); //$NON-NLS-1$
+      buffer.append("\""); //$NON-NLS-1$
 
       if (getToolTip() != null)
       {
-         buffer.append(" tooltip=\"");
+         buffer.append(" tooltip=\""); //$NON-NLS-1$
          buffer.append(getToolTip());
-         buffer.append("\"");
+         buffer.append("\""); //$NON-NLS-1$
       }
 
-      buffer.append(">\n");
-      buffer.append("</COLUMN>\n");
+      buffer.append(">\n"); //$NON-NLS-1$
+      buffer.append("</COLUMN>\n"); //$NON-NLS-1$
 
       return buffer.toString();
    }
@@ -127,11 +127,11 @@ public class Column extends MetadataPropertyHolder
       {
          try
          {
-            icon = new ImageIcon(Data.class.getResource("images/column.gif"));
+            icon = new ImageIcon(Data.class.getResource("images/column.gif")); //$NON-NLS-1$
          }
          catch (Exception x)
          {
-            throw new PublicException("Cannnot load resource \"images/column.gif\"");
+            throw new PublicException("Cannnot load resource \"images/column.gif\""); //$NON-NLS-1$
          }
       }
 

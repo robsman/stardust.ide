@@ -21,7 +21,7 @@ public class FeatureTester extends PropertyTester
    {
       if (value instanceof EObject && "feature".equals(property) && args.length > 0) //$NON-NLS-1$
       {
-         for (String featureId : args[0].toString().split("\\."))
+         for (String featureId : args[0].toString().split("\\.")) //$NON-NLS-1$
          {
             if (value == null)
             {

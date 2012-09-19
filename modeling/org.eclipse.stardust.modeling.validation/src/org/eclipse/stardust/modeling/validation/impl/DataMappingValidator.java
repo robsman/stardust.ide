@@ -158,7 +158,7 @@ public class DataMappingValidator implements IModelElementValidator
             }
             
             IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataMapping.getData());
-            if (dataPath.indexOf("[") > -1)
+            if (dataPath.indexOf("[") > -1) //$NON-NLS-1$
             {
                checkNestedPath(dataPath, xPathMap);
             }
@@ -176,12 +176,12 @@ public class DataMappingValidator implements IModelElementValidator
 
    private void checkNestedPath(String dataPath, IXPathMap xPathMap)
    {
-      String[] pathSegs = dataPath.split("/");
-      String path = "";
+      String[] pathSegs = dataPath.split("/"); //$NON-NLS-1$
+      String path = ""; //$NON-NLS-1$
       for (int i = 0; i < pathSegs.length; i++)
       {
          path = path + pathSegs[i];
-         path = path.replaceAll("\\[[^\\]]*\\]|\\..*/", "");
+         path = path.replaceAll("\\[[^\\]]*\\]|\\..*/", ""); //$NON-NLS-1$ //$NON-NLS-2$
          if (!xPathMap.containsXPath(path))
          {
             throw new ValidationException(
@@ -189,7 +189,7 @@ public class DataMappingValidator implements IModelElementValidator
          }
          else
          {
-            if (pathSegs[i].indexOf("[") > -1)
+            if (pathSegs[i].indexOf("[") > -1) //$NON-NLS-1$
             {
                TypedXPath xPath = xPathMap.getXPath(path);
                if (!xPath.isList())
@@ -200,7 +200,7 @@ public class DataMappingValidator implements IModelElementValidator
             }
             if (i < pathSegs.length)
             {
-               path = path + "/";
+               path = path + "/"; //$NON-NLS-1$
             }
          }
       }

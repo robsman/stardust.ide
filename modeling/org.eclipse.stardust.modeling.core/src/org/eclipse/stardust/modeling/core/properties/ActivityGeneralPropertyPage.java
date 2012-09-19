@@ -157,8 +157,8 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
             process.getTransition().add(relocationTransition);
          }
          relocationTransition.setId(PredefinedConstants.RELOCATION_TRANSITION_ID);
-         relocationTransition.setName("Relocation Transition");
-         relocationTransition.setCondition("TRUE");
+         relocationTransition.setName(Diagram_Messages.RELOCATION_TRANSITION);
+         relocationTransition.setCondition("TRUE"); //$NON-NLS-1$
          relocationTransition.setFrom(null);
          relocationTransition.setTo(null);
          relocationTransition.setForkOnTraversal(false);
@@ -180,14 +180,18 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
       grid.makeColumnsEqualWidth = true;
       grid.marginWidth = 0;
       grid.marginHeight = 0;
-      abortCheck = FormBuilder.createCheckBox(panel, Diagram_Messages.CHECKBOX_AllowsAbortByParticipant,
-            new GridData(SWT.LEAD, SWT.CENTER, true, false));
-      relocateSourceCheck = FormBuilder.createCheckBox(panel, "Supports relocation",
-            new GridData(SWT.LEAD, SWT.CENTER, true, false));
-      hibernateCheck = FormBuilder.createCheckBox(panel, Diagram_Messages.CHECKBOX_HibernateInitially,
-            new GridData(SWT.LEAD, SWT.CENTER, true, false));
-      relocateTargetCheck = FormBuilder.createCheckBox(panel, "Is relocation target",
-            new GridData(SWT.LEAD, SWT.CENTER, true, false));
+      abortCheck = FormBuilder.createCheckBox(panel,
+            Diagram_Messages.CHECKBOX_AllowsAbortByParticipant, new GridData(SWT.LEAD,
+                  SWT.CENTER, true, false));
+      relocateSourceCheck = FormBuilder.createCheckBox(panel,
+            Diagram_Messages.LBL_SUPPORTS_RELOCATION, new GridData(SWT.LEAD, SWT.CENTER,
+                  true, false));
+      hibernateCheck = FormBuilder.createCheckBox(panel,
+            Diagram_Messages.CHECKBOX_HibernateInitially, new GridData(SWT.LEAD,
+                  SWT.CENTER, true, false));
+      relocateTargetCheck = FormBuilder.createCheckBox(panel,
+            Diagram_Messages.LBL_IS_RELOCATION_TARGET, new GridData(SWT.LEAD, SWT.CENTER,
+                  true, false));
    }
 
 

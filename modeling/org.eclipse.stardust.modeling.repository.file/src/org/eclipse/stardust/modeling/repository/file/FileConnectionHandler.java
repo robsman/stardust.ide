@@ -50,7 +50,7 @@ public class FileConnectionHandler implements ConnectionHandler
    private Connection connection;
    
    private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
-         "role", "organization", "conditionalPerformer"
+         "role", "organization", "conditionalPerformer" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    });
    
    private EObjectDescriptor modelDescriptor;
@@ -243,7 +243,7 @@ public class FileConnectionHandler implements ConnectionHandler
       {
          return true;
       }
-      if ("participants".equals(categoryUri.lastSegment()) && uri.segmentCount() > categoryUri.segmentCount())
+      if ("participants".equals(categoryUri.lastSegment()) && uri.segmentCount() > categoryUri.segmentCount()) //$NON-NLS-1$
       {
          return PARTICIPANTS.contains(uri.segment(categoryUri.segmentCount() - 1));
       }

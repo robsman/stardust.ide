@@ -81,7 +81,7 @@ public class DeployUtil
                {
                   String fileName = resource.getLocation().toOSString();
                   String encodedFileName = new String(Base64.encode(fileName.getBytes(XpdlUtils.UTF8_ENCODING)));
-                  addArgument(programAttributes, "filename64", encodedFileName, false, separator);            
+                  addArgument(programAttributes, "filename64", encodedFileName, false, separator);             //$NON-NLS-1$
                   separator = true;
                }
                catch (UnsupportedEncodingException e)

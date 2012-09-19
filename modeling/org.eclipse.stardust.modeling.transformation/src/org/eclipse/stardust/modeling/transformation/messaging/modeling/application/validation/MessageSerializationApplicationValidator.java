@@ -55,7 +55,7 @@ public class MessageSerializationApplicationValidator implements IModelElementVa
       else
       {
          ModelType model = ModelUtils.findContainingModel(element);
-         int ix = declaredTypeId.indexOf(":{");
+         int ix = declaredTypeId.indexOf(":{"); //$NON-NLS-1$
          if (ix > 0 && declaredTypeId.substring(0, ix).equals(XpdlPackage.eINSTANCE.getTypeDeclarationsType_TypeDeclaration().getName()))
          {
             ExternalPackages packages = model.getExternalPackages();

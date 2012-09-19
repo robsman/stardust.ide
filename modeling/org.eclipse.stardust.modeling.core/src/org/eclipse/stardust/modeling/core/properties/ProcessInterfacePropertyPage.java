@@ -141,7 +141,7 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
 
    private Button restButton;
    
-   private static final String INVOCATION_GENERATOR_ID = "org.eclipse.stardust.modeling.core.processInterfaceInvocationGenerator";
+   private static final String INVOCATION_GENERATOR_ID = "org.eclipse.stardust.modeling.core.processInterfaceInvocationGenerator"; //$NON-NLS-1$
    
    private IProcessInterfaceInvocationGenerator piInvocationGenerators[];
 

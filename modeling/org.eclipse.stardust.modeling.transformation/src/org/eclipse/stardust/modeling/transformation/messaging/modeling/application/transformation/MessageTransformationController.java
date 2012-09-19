@@ -342,7 +342,7 @@ public class MessageTransformationController {
 	       if (messageType instanceof StructAccessPointType) {
 	          realfieldPath = realfieldPath.substring(realfieldPath.indexOf("/") + 1, realfieldPath.length());  //$NON-NLS-1$
 	          isContained = ((StructAccessPointType)messageType).getXPathMap().containsXPath(realfieldPath);
-	          String firstSegment = fieldPath.substring(0, fieldPath.indexOf("/"));
+	          String firstSegment = fieldPath.substring(0, fieldPath.indexOf("/")); //$NON-NLS-1$
 	          isContained = isContained &&  (firstSegment.equalsIgnoreCase(messageType.getId()));
 	           //It may be possible that this is an Attribute type - check this
 	           if (!isContained) {	                   

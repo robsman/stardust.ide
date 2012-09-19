@@ -197,11 +197,11 @@ public class Data extends MetadataPropertyHolder
       {
          try
          {
-            icon = new ImageIcon(Data.class.getResource("images/data.gif"));
+            icon = new ImageIcon(Data.class.getResource("images/data.gif")); //$NON-NLS-1$
          }
          catch (Exception x)
          {
-            throw new PublicException("Cannnot load resource \"images/data.gif\"");
+            throw new PublicException("Cannnot load resource \"images/data.gif\""); //$NON-NLS-1$
          }
       }
 

@@ -130,7 +130,7 @@ public abstract class MetadataPropertyHolder implements Serializable
    {
       String string = (String) properties.get(id);
 
-      if (string == null || string.compareTo("false") == 0)
+      if (string == null || string.compareTo("false") == 0) //$NON-NLS-1$
       {
          return false;
       }

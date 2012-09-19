@@ -126,7 +126,7 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
 
          // validate auditTrailPersistence setting
          AttributeType auditTrailPersistenceAttribute = AttributeUtil.getAttribute(
-               (IExtensibleElement) element, "carnot:engine:auditTrailPersistence");
+               (IExtensibleElement) element, "carnot:engine:auditTrailPersistence"); //$NON-NLS-1$
 
          if (auditTrailPersistenceAttribute != null)
          {

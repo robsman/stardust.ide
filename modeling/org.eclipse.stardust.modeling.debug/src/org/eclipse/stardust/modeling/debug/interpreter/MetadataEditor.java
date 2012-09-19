@@ -24,8 +24,8 @@ import org.eclipse.stardust.engine.core.compatibility.gui.GenericTree;
 public class MetadataEditor extends AbstractDialog
 {
    private static Class[] treeClasses = new Class[]{DataGroup.class, TableData.class, Data.class, Column.class};
-   private static String[][] treeAssociations = new String[][]{{"SubGroups", "Data"}, {"Columns"}, null, null};
-   private static String[] treeNames = new String[]{"Label", "Label", "Label", "Label"};
+   private static String[][] treeAssociations = new String[][]{{"SubGroups", "Data"}, {"Columns"}, null, null}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+   private static String[] treeNames = new String[]{"Label", "Label", "Label", "Label"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
    private static MetadataEditor instance;
 
@@ -141,7 +141,7 @@ public class MetadataEditor extends AbstractDialog
       viewPanel = new JPanel();
 
       viewPanel.setLayout(new BoxLayout(viewPanel, BoxLayout.Y_AXIS));
-      viewPanel.setBorder(new TitledBorder(new EtchedBorder(), "Activity Dialog"));
+      viewPanel.setBorder(new TitledBorder(new EtchedBorder(), "Activity Dialog")); //$NON-NLS-1$
 
       panel.add(viewPanel);
       panel.add(Box.createHorizontalStrut(10));
@@ -152,10 +152,10 @@ public class MetadataEditor extends AbstractDialog
       tree.setPopupMenu(getDataPopupMenu(), Data.class);
       tree.setPopupMenu(getTableDataPopupMenu(), TableData.class);
       tree.setPopupMenu(getColumnPopupMenu(), Column.class);
-      tree.setIconMethod("getIcon", DataGroup.class);
-      tree.setIconMethod("getIcon", Data.class);
-      tree.setIconMethod("getIcon", TableData.class);
-      tree.setIconMethod("getIcon", Column.class);
+      tree.setIconMethod("getIcon", DataGroup.class); //$NON-NLS-1$
+      tree.setIconMethod("getIcon", Data.class); //$NON-NLS-1$
+      tree.setIconMethod("getIcon", TableData.class); //$NON-NLS-1$
+      tree.setIconMethod("getIcon", Column.class); //$NON-NLS-1$
       tree.setLoadIncrement(100000);
       tree.setDragAndDropEnabled(true);
 
@@ -178,7 +178,7 @@ public class MetadataEditor extends AbstractDialog
    {
       JPopupMenu popupMenu = new JPopupMenu();
 
-      columnPropertiesItem = new JMenuItem("Properties...");
+      columnPropertiesItem = new JMenuItem("Properties..."); //$NON-NLS-1$
 
       columnPropertiesItem.addActionListener(this);
       columnPropertiesItem.setMnemonic('e');
@@ -192,20 +192,20 @@ public class MetadataEditor extends AbstractDialog
    {
       JPopupMenu popupMenu = new JPopupMenu();
 
-      dataGroupPropertiesItem = new JMenuItem("Properties...");
+      dataGroupPropertiesItem = new JMenuItem("Properties..."); //$NON-NLS-1$
 
       dataGroupPropertiesItem.addActionListener(this);
       dataGroupPropertiesItem.setMnemonic('e');
       popupMenu.add(dataGroupPropertiesItem);
       popupMenu.addSeparator();
 
-      addDataItem = new JMenuItem("Add Data...");
+      addDataItem = new JMenuItem("Add Data..."); //$NON-NLS-1$
 
       addDataItem.addActionListener(this);
       addDataItem.setMnemonic('e');
       popupMenu.add(addDataItem);
 
-      addSubGroupItem = new JMenuItem("Add Subgroup...");
+      addSubGroupItem = new JMenuItem("Add Subgroup..."); //$NON-NLS-1$
 
       addSubGroupItem.addActionListener(this);
       addSubGroupItem.setMnemonic('e');
@@ -220,7 +220,7 @@ public class MetadataEditor extends AbstractDialog
    {
       JPopupMenu popupMenu = new JPopupMenu();
 
-      dataPropertiesItem = new JMenuItem("Properties...");
+      dataPropertiesItem = new JMenuItem("Properties..."); //$NON-NLS-1$
 
       dataPropertiesItem.addActionListener(this);
       dataPropertiesItem.setMnemonic('e');
@@ -234,7 +234,7 @@ public class MetadataEditor extends AbstractDialog
    {
       JPopupMenu popupMenu = new JPopupMenu();
 
-      tableDataPropertiesItem = new JMenuItem("Properties...");
+      tableDataPropertiesItem = new JMenuItem("Properties..."); //$NON-NLS-1$
 
       tableDataPropertiesItem.addActionListener(this);
       tableDataPropertiesItem.setMnemonic('p');
@@ -274,6 +274,6 @@ public class MetadataEditor extends AbstractDialog
       }
 
       instance.setData(topGroup);
-      return showDialog("Manual Activity Dialog Editor", instance, dialog);
+      return showDialog("Manual Activity Dialog Editor", instance, dialog); //$NON-NLS-1$
    }
 }

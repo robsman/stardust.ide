@@ -96,7 +96,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
          for (int i = 0; i < configs.length; i++)
          {
             String name = configs[i].getName();
-            if ("category".equals(name))
+            if ("category".equals(name)) //$NON-NLS-1$
             {
                elements.add(new CategoryAnnotation(this, decl, configs[i]));
             }
@@ -127,7 +127,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < children.size(); i++)
       {
          ElementAnnotation annotation = (ElementAnnotation) children.get(i);
-         if ("storage".equals(annotation.getConfigurationAttribute("name"))) //$NON-NLS-1$
+         if ("storage".equals(annotation.getConfigurationAttribute("name"))) //$NON-NLS-1$ //$NON-NLS-2$
          {
             return annotation;
          }
@@ -142,9 +142,9 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < configs.length; i++)
       {
          String name = configs[i].getName();
-         if ("category".equals(name))
+         if ("category".equals(name)) //$NON-NLS-1$
          {
-            if (IPP_CATEGORY_ID.equals(configs[i].getAttribute("id")))
+            if (IPP_CATEGORY_ID.equals(configs[i].getAttribute("id"))) //$NON-NLS-1$
             {
                return new CategoryAnnotation(this, decl, configs[i]);
             }

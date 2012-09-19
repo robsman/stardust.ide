@@ -209,11 +209,11 @@ public class DataGroup extends MetadataPropertyHolder
       {
          try
          {
-            icon = new ImageIcon(Data.class.getResource("images/data_group.gif"));
+            icon = new ImageIcon(Data.class.getResource("images/data_group.gif")); //$NON-NLS-1$
          }
          catch (Exception x)
          {
-            throw new PublicException("Cannnot load resource \"images/data_group.gif\"");
+            throw new PublicException("Cannnot load resource \"images/data_group.gif\""); //$NON-NLS-1$
          }
       }
 

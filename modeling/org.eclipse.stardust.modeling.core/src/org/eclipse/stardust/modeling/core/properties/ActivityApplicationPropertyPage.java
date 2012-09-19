@@ -210,7 +210,7 @@ public class ActivityApplicationPropertyPage extends AbstractModelElementPropert
                                  (IExtensibleElement) application,
                                  PredefinedConstants.MODELELEMENT_VISIBILITY);
                            if (visibility == null
-                                 || visibility.getValue().equalsIgnoreCase("Public"))
+                                 || visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
                            {
                               applicationsList.add(application);
                            } 

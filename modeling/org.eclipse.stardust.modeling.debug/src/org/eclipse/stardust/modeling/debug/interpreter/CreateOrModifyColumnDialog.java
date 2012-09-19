@@ -55,16 +55,16 @@ public class CreateOrModifyColumnDialog extends AbstractDialog
 
       LabeledComponentsPanel components = new LabeledComponentsPanel();
 
-      components.add(idEntry = new TextEntry(10), "ID:", 'i');
+      components.add(idEntry = new TextEntry(10), "ID:", 'i'); //$NON-NLS-1$
       idEntry.setMandatory(true);
-      components.add(new JComboBox(new String[]{"Integer", "Money"}), "ID:", 'i');
-      components.add(labelEntry = new TextEntry(20), "Label:", 'l');
-      components.add(new JComponent[]{mandatoryBox = new JCheckBox("Mandatory"), readonlyBox = new JCheckBox("Readonly")},
-            new String[]{"", ""}, new int[]{'m', 'r'});
-      components.add(defaultEntry = new TextEntry(30), "Default Value: ", 'd');
+      components.add(new JComboBox(new String[]{"Integer", "Money"}), "ID:", 'i'); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      components.add(labelEntry = new TextEntry(20), "Label:", 'l'); //$NON-NLS-1$
+      components.add(new JComponent[]{mandatoryBox = new JCheckBox("Mandatory"), readonlyBox = new JCheckBox("Readonly")}, //$NON-NLS-1$ //$NON-NLS-2$
+            new String[]{"", ""}, new int[]{'m', 'r'}); //$NON-NLS-1$ //$NON-NLS-2$
+      components.add(defaultEntry = new TextEntry(30), "Default Value: ", 'd'); //$NON-NLS-1$
       components.add(new JComponent[]{lengthEntry = new ShortEntry(), rowEntry = new ByteEntry(), columnEntry = new ByteEntry()},
-            new String[]{"Length:", "Row:", "Column:"}, new int[]{'l', 'r', 'c'});
-      components.add(toolTipEntry = new TextEntry(20), "Tooltip Text: ", 't');
+            new String[]{"Length:", "Row:", "Column:"}, new int[]{'l', 'r', 'c'}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+      components.add(toolTipEntry = new TextEntry(20), "Tooltip Text: ", 't'); //$NON-NLS-1$
       components.pack();
 
       panel.add(components);
@@ -103,7 +103,7 @@ public class CreateOrModifyColumnDialog extends AbstractDialog
          singleton = new CreateOrModifyColumnDialog(parent);
       }
 
-      return showDialog("Modify Column", singleton, editor);
+      return showDialog("Modify Column", singleton, editor); //$NON-NLS-1$
    }
 
    /**
@@ -128,6 +128,6 @@ public class CreateOrModifyColumnDialog extends AbstractDialog
 
       singleton.table = table;
 
-      return showDialog("Create Column", singleton, editor);
+      return showDialog("Create Column", singleton, editor); //$NON-NLS-1$
    }
 }

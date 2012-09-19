@@ -47,7 +47,7 @@ public class ManualTriggerValidator implements IModelElementValidator
          if (metaType != null)
          {
             typeId = metaType.getId();
-            if (typeId != null && typeId.equals("scan"))
+            if (typeId != null && typeId.equals("scan")) //$NON-NLS-1$
             {
                if (((TriggerType) element).getAccessPoint().isEmpty())
                {

@@ -37,7 +37,7 @@ public class TypesLabelProvider extends LabelProvider
       {
          ModelType parent = ModelUtils.findContainingModel((TypeDeclarationType) element);
          String name = ((TypeDeclarationType) element).getName();
-         return parent == model ? name : parent.getName() + " / " + name;
+         return parent == model ? name : parent.getName() + " / " + name; //$NON-NLS-1$
       }
       return element.getClass().getName();
    }

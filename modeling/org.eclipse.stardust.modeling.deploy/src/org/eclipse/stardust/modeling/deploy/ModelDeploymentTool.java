@@ -256,7 +256,7 @@ public class ModelDeploymentTool
          {
             int dialogResult = JOptionPane.showConfirmDialog(null,
                /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
-                  inconsistencies.get(0).getMessage() + " "
+                  inconsistencies.get(0).getMessage() + " " //$NON-NLS-1$
                   + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
                   Deploy_Messages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

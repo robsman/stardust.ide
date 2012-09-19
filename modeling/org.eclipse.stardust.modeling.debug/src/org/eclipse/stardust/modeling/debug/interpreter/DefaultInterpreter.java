@@ -111,8 +111,8 @@ public class DefaultInterpreter extends Interpreter
          _processedData.add(data.getID());
          if (data instanceof TableData)
          {
-            table = new GenericTable(Data.class, new String[]{"Label", "Label", "Label"},
-                  new String[]{"Column1", "Column2", "Column3"});
+            table = new GenericTable(Data.class, new String[]{"Label", "Label", "Label"}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                  new String[]{"Column1", "Column2", "Column3"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             table.setMaximumSize(new Dimension(table.getMaximumSize().width, 100));
             table.setPreferredSize(new Dimension(100, 100));
          }
