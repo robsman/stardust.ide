@@ -180,4 +180,5 @@ public class ModelerConstants
    public static final String OUT_PARAMETER_KEY = "out";
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointId";
+   public static final String INTERACTIVE_PROPERTY = "interactive";
 }
