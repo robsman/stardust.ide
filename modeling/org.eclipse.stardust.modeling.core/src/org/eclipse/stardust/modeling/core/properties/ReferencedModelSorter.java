@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
-import java.awt.List;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -73,11 +74,16 @@ public class ReferencedModelSorter extends ViewerSorter
    {
       this.model = model;
    }
-   
+
    private ModelType parseReferencedModel(AccessPointType apt)
    {
-      String path = AttributeUtil.getAttribute(apt, "carnot:engine:dataType").getValue(); //$NON-NLS-1$      
-      if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$ 
+      AttributeType attribute = AttributeUtil.getAttribute(apt, "carnot:engine:dataType"); //$NON-NLS-1$
+      if (attribute == null)
+      {
+         return model;
+      }
+      String path = attribute.getValue();
+      if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$
       {
          int idx1 = path.indexOf("{"); //$NON-NLS-1$
          int idx2 = path.indexOf("}"); //$NON-NLS-1$
