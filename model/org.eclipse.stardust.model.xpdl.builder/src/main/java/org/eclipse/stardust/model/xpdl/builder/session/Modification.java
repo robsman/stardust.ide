@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.session;
 
 import static java.util.Collections.unmodifiableCollection;
+import static org.eclipse.stardust.common.CollectionUtils.isEmpty;
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
 
 import java.util.Collection;
@@ -201,11 +202,14 @@ public class Modification
       EList<FeatureChange> changes = Modification.this.getChangeDescription()
             .getObjectChanges()
             .get(eObject);
-      for (FeatureChange change : changes)
+      if ( !isEmpty(changes))
       {
-         if (eFeature == change.getFeature())
+         for (FeatureChange change : changes)
          {
-            return true;
+            if (eFeature == change.getFeature())
+            {
+               return true;
+            }
          }
       }
       return false;
