@@ -86,6 +86,8 @@ public class ModelerConstants
    public static final String DIRECTION_PROPERTY = "direction";
    public static final String CONTROL_FLOW_LITERAL = "controlFlow";
    public static final String DATA_FLOW_LITERAL = "dataFlow";
+   public static final String CONTROL_FLOW_CONNECTION_LITERAL = "controlFlowConnection";
+   public static final String DATA_FLOW_CONNECTION_LITERAL = "dataFlowConnection";
    public static final String ACTIVITY_ID_PROPERTY = "activityId";
    public static final String FROM_ANCHOR_POINT_ORIENTATION_PROPERTY = "fromAnchorPointOrientation";
    public static final String TO_ANCHOR_POINT_ORIENTATION_PROPERTY = "toAnchorPointOrientation";
