@@ -46,19 +46,15 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
 //      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan-2.6.0.jar"},
       
-      {"com.infinity.bpm.ide.thirdparty.jaxws", "lib/webservices-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"com.infinity.bpm.ide.thirdparty.jaxws", "lib/webservices-extra-api-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-
-      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-rt-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-extra-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"com.infinity.bpm.ide.thirdparty.jaxws.metro", "lib/webservices-tools-1.5.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-
+      // TODO which cxf jars are needed?
+      {"org.eclipse.stardust.ide.thirdparty.cxf", "lib/cxf-api-2.6.1-stardust01.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+     
       {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-ejb_2.1_spec-1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-jms_1.1_spec-1.1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"com.infinity.bpm.modeling.integration.webservices", "lib/ipp-engine-ws-metro.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.modeling.integration.webservices", "lib/stardust-engine-ws-cxf.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "etc"}, //$NON-NLS-1$ //$NON-NLS-2$
 
       {"org.eclipse.stardust.modeling.debug", ".eclipse/bin", "/"}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
