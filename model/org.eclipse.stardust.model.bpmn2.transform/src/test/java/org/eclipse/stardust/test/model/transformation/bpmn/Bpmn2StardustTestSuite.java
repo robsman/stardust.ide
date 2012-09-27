@@ -31,13 +31,16 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
-        {TestData2Stardust.class,
+        {TestUserTaskDataFlow2Stardust.class,
          TestGateways2Stardust.class,
          TestSequences2Stardust.class,
          TestStartEvents2Stardust.class,
          TestSubprocesses2Stardust.class,
          TestSwimlanes2Stardust.class,
-         TestTasks2Stardust.class
+         TestTasks2Stardust.class,
+         TestWebServiceTask2Stardust.class,
+         TestUserTaskWebApp2Stardust.class,
+         TestSimpleTypeDataFlow2Stardust.class
         })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";

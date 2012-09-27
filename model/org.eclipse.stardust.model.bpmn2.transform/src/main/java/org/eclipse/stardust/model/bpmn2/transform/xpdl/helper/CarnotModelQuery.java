@@ -14,6 +14,8 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -74,6 +76,10 @@ public class CarnotModelQuery {
         return findVariable(carnotModel, id);
     }
 
+	public ApplicationType findApplication(String id) {
+		return findApplication(carnotModel, id);
+	}
+
     public static IModelParticipant findParticipant(ModelType model, String id) {
         for (RoleType role : model.getRole()) {
             if (role.getId().equals(id)) return role;
@@ -125,5 +131,20 @@ public class CarnotModelQuery {
         }
         return null;
     }
+
+	public static ApplicationType findApplication(ModelType model, String id) {
+		for (ApplicationType app : model.getApplication()) {
+			if (app.getId().equals(id)) return app;
+		}
+		return null;
+		//return (ApplicationType)ModelUtils.findIdentifiableElement((EObject)model, CarnotWorkflowModelPackage.eINSTANCE.getModelType_ApplicationType(), id);
+	}
+
+	public static DataMappingType getDataMapping(ActivityType activity, String id) {
+		for (DataMappingType mapping : activity.getDataMapping()) {
+			if (mapping != null && mapping.getId().equals(id)) return mapping;
+		}
+		return null;
+	}
 
 }

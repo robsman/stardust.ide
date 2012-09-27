@@ -23,8 +23,10 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
@@ -49,11 +51,8 @@ public class Bpmn2StardustXPDLExtension {
     }
 
     public static void addTimerStartEventExtensions(StartEvent event, TriggerType trigger) {
-//        StardustTimerStartEventType ext = ExtensionHelper.getInstance().getTimerStartEventExtension(event);
-//        if (ext != null && ext.getStardustAttributes() != null && ext.getStardustAttributes().getAttributeType() != null && ext.getStardustAttributes().getAttributeType().size() > 0) {
-//            AttributeType attr = ext.getStardustAttributes().getAttributeType().get(0);
-//        }
         StardustTimerStartEventType extension = ExtensionHelper.getInstance().getTimerStartEventExtension(event);
+        System.out.println("Bpmn2StardustXPDLExtension.addTimerStartEventExtensions() " + extension);
         if (extension != null)
             trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
     }
@@ -74,17 +73,31 @@ public class Bpmn2StardustXPDLExtension {
         }
     }
 
-    public static void addUserTaskExtensions(UserTask task, ActivityType activity) {
+    public static void addUserTaskExtensions(CarnotModelQuery query, UserTask task, ActivityType activity) {
         StardustUserTaskType taskExt = ExtensionHelper.getInstance().getUserTaskExtension(task);
         if (taskExt == null) return;
         activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
         activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
-        activity.setElementOid(Long.parseLong(taskExt.getElementOid()));
-        activity.getDataMapping().addAll(taskExt.getDataMapping());
+        activity.setElementOid(tryParseLong(taskExt.getElementOid()));
+        //activity.getDataMapping().addAll(taskExt.getDataMapping());
         activity.getEventHandler().addAll(taskExt.getEventHandler());
+        activity.setApplication(getApplication(query, taskExt));
+        System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
     }
 
-    public static void addModelExtensionDefaults(Definitions definitions, ModelType carnotModel) {
+    public static String getUserTaskApplicationRef(UserTask task) {
+        StardustUserTaskType taskExt = ExtensionHelper.getInstance().getUserTaskExtension(task);
+        if (taskExt == null) return "";
+        return taskExt.getInteractiveApplicationRef();
+    }
+
+    private static ApplicationType getApplication(CarnotModelQuery query, StardustUserTaskType taskExt) {
+        String appRef = taskExt.getInteractiveApplicationRef();
+        if (appRef == null || appRef.isEmpty()) return null;
+		return query.findApplication(appRef);
+	}
+
+	public static void addModelExtensionDefaults(Definitions definitions, ModelType carnotModel) {
         if (carnotModel.getCreated().isEmpty()) carnotModel.setCreated(DateFormat.getInstance().format(new Date()));
         if (carnotModel.getModelOID() <= 0) carnotModel.setModelOID(0);
         if (carnotModel.getOid() <= 0) carnotModel.setOid(0);
@@ -103,4 +116,11 @@ public class Bpmn2StardustXPDLExtension {
         carnotModel.setVendor(modelValues.getVendor());
     }
 
+    private static long tryParseLong(String val) {
+    	try {
+    		return Long.parseLong(val);
+    	} catch (NumberFormatException nfe) {
+    		return 0;
+    	}
+    }
 }

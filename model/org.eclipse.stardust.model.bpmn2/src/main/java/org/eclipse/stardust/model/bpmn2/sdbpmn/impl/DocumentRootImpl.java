@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
@@ -49,6 +50,8 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
 
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Document Root</b></em>'.
@@ -59,9 +62,11 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getDataType <em>Data Type</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustActivity <em>Stardust Activity</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustAttributes <em>Stardust Attributes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustCommon <em>Stardust Common</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustModel <em>Stardust Model</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustSeqenceFlow <em>Stardust Seqence Flow</em>}</li>
@@ -70,9 +75,11 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustSubprocess <em>Stardust Subprocess</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustTimerStartEvent <em>Stardust Timer Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustUserTask <em>Stardust User Task</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getApplicationAccessPointRef <em>Application Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getAuthor <em>Author</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getCarnotVersion <em>Carnot Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getCreated <em>Created</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getVendor <em>Vendor</em>}</li>
@@ -111,6 +118,26 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      * @ordered
      */
     protected EMap<String, String> xSISchemaLocation;
+
+    /**
+     * The default value of the '{@link #getApplicationAccessPointRef() <em>Application Access Point Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getApplicationAccessPointRef()
+     * @generated
+     * @ordered
+     */
+    protected static final String APPLICATION_ACCESS_POINT_REF_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getApplicationAccessPointRef() <em>Application Access Point Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getApplicationAccessPointRef()
+     * @generated
+     * @ordered
+     */
+    protected String applicationAccessPointRef = APPLICATION_ACCESS_POINT_REF_EDEFAULT;
 
     /**
      * The default value of the '{@link #getAuthor() <em>Author</em>}' attribute.
@@ -171,6 +198,26 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      * @ordered
      */
     protected XMLGregorianCalendar created = CREATED_EDEFAULT;
+
+    /**
+     * The default value of the '{@link #getInteractiveApplicationRef() <em>Interactive Application Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getInteractiveApplicationRef()
+     * @generated
+     * @ordered
+     */
+    protected static final String INTERACTIVE_APPLICATION_REF_EDEFAULT = null;
+
+    /**
+     * The cached value of the '{@link #getInteractiveApplicationRef() <em>Interactive Application Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see #getInteractiveApplicationRef()
+     * @generated
+     * @ordered
+     */
+    protected String interactiveApplicationRef = INTERACTIVE_APPLICATION_REF_EDEFAULT;
 
     /**
      * The default value of the '{@link #getModelOID() <em>Model OID</em>}' attribute.
@@ -301,6 +348,33 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      * <!-- end-user-doc -->
      * @generated
      */
+    public DataTypeType getDataType() {
+        return (DataTypeType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__DATA_TYPE, true);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetDataType(DataTypeType newDataType, NotificationChain msgs) {
+        return ((FeatureMap.Internal)getMixed()).basicAdd(SdbpmnPackage.Literals.DOCUMENT_ROOT__DATA_TYPE, newDataType, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setDataType(DataTypeType newDataType) {
+        ((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__DATA_TYPE, newDataType);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public TStardustActivity getStardustActivity() {
         return (TStardustActivity)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_ACTIVITY, true);
     }
@@ -375,6 +449,33 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      */
     public void setStardustCommon(TStardustCommon newStardustCommon) {
         ((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_COMMON, newStardustCommon);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public StardustInterfaceType getStardustInterface() {
+        return (StardustInterfaceType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE, true);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public NotificationChain basicSetStardustInterface(StardustInterfaceType newStardustInterface, NotificationChain msgs) {
+        return ((FeatureMap.Internal)getMixed()).basicAdd(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE, newStardustInterface, msgs);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setStardustInterface(StardustInterfaceType newStardustInterface) {
+        ((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE, newStardustInterface);
     }
 
     /**
@@ -598,6 +699,27 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
      * <!-- end-user-doc -->
      * @generated
      */
+    public String getApplicationAccessPointRef() {
+        return applicationAccessPointRef;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setApplicationAccessPointRef(String newApplicationAccessPointRef) {
+        String oldApplicationAccessPointRef = applicationAccessPointRef;
+        applicationAccessPointRef = newApplicationAccessPointRef;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF, oldApplicationAccessPointRef, applicationAccessPointRef));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public String getAuthor() {
         return author;
     }
@@ -654,6 +776,27 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
         created = newCreated;
         if (eNotificationRequired())
             eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__CREATED, oldCreated, created));
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public String getInteractiveApplicationRef() {
+        return interactiveApplicationRef;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public void setInteractiveApplicationRef(String newInteractiveApplicationRef) {
+        String oldInteractiveApplicationRef = interactiveApplicationRef;
+        interactiveApplicationRef = newInteractiveApplicationRef;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF, oldInteractiveApplicationRef, interactiveApplicationRef));
     }
 
     /**
@@ -758,12 +901,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+            case SdbpmnPackage.DOCUMENT_ROOT__DATA_TYPE:
+                return basicSetDataType(null, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ACTIVITY:
                 return basicSetStardustActivity(null, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ATTRIBUTES:
                 return basicSetStardustAttributes(null, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
                 return basicSetStardustCommon(null, msgs);
+            case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
+                return basicSetStardustInterface(null, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
                 return basicSetStardustMessageStartEvent(null, msgs);
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
@@ -801,12 +948,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SdbpmnPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 if (coreType) return getXSISchemaLocation();
                 else return getXSISchemaLocation().map();
+            case SdbpmnPackage.DOCUMENT_ROOT__DATA_TYPE:
+                return getDataType();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ACTIVITY:
                 return getStardustActivity();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ATTRIBUTES:
                 return getStardustAttributes();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
                 return getStardustCommon();
+            case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
+                return getStardustInterface();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
                 return getStardustMessageStartEvent();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
@@ -823,12 +974,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getStardustTimerStartEvent();
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_USER_TASK:
                 return getStardustUserTask();
+            case SdbpmnPackage.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF:
+                return getApplicationAccessPointRef();
             case SdbpmnPackage.DOCUMENT_ROOT__AUTHOR:
                 return getAuthor();
             case SdbpmnPackage.DOCUMENT_ROOT__CARNOT_VERSION:
                 return getCarnotVersion();
             case SdbpmnPackage.DOCUMENT_ROOT__CREATED:
                 return getCreated();
+            case SdbpmnPackage.DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF:
+                return getInteractiveApplicationRef();
             case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
                 return getModelOID();
             case SdbpmnPackage.DOCUMENT_ROOT__OID:
@@ -856,6 +1011,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SdbpmnPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
                 return;
+            case SdbpmnPackage.DOCUMENT_ROOT__DATA_TYPE:
+                setDataType((DataTypeType)newValue);
+                return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ACTIVITY:
                 setStardustActivity((TStardustActivity)newValue);
                 return;
@@ -864,6 +1022,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
                 setStardustCommon((TStardustCommon)newValue);
+                return;
+            case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
+                setStardustInterface((StardustInterfaceType)newValue);
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
                 setStardustMessageStartEvent((StardustMessageStartEventType)newValue);
@@ -889,6 +1050,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_USER_TASK:
                 setStardustUserTask((StardustUserTaskType)newValue);
                 return;
+            case SdbpmnPackage.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF:
+                setApplicationAccessPointRef((String)newValue);
+                return;
             case SdbpmnPackage.DOCUMENT_ROOT__AUTHOR:
                 setAuthor((String)newValue);
                 return;
@@ -897,6 +1061,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__CREATED:
                 setCreated((XMLGregorianCalendar)newValue);
+                return;
+            case SdbpmnPackage.DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF:
+                setInteractiveApplicationRef((String)newValue);
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
                 setModelOID((BigInteger)newValue);
@@ -928,6 +1095,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SdbpmnPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 getXSISchemaLocation().clear();
                 return;
+            case SdbpmnPackage.DOCUMENT_ROOT__DATA_TYPE:
+                setDataType((DataTypeType)null);
+                return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ACTIVITY:
                 setStardustActivity((TStardustActivity)null);
                 return;
@@ -936,6 +1106,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
                 setStardustCommon((TStardustCommon)null);
+                return;
+            case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
+                setStardustInterface((StardustInterfaceType)null);
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
                 setStardustMessageStartEvent((StardustMessageStartEventType)null);
@@ -961,6 +1134,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_USER_TASK:
                 setStardustUserTask((StardustUserTaskType)null);
                 return;
+            case SdbpmnPackage.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF:
+                setApplicationAccessPointRef(APPLICATION_ACCESS_POINT_REF_EDEFAULT);
+                return;
             case SdbpmnPackage.DOCUMENT_ROOT__AUTHOR:
                 setAuthor(AUTHOR_EDEFAULT);
                 return;
@@ -969,6 +1145,9 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__CREATED:
                 setCreated(CREATED_EDEFAULT);
+                return;
+            case SdbpmnPackage.DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF:
+                setInteractiveApplicationRef(INTERACTIVE_APPLICATION_REF_EDEFAULT);
                 return;
             case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
                 setModelOID(MODEL_OID_EDEFAULT);
@@ -997,12 +1176,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return xMLNSPrefixMap != null && !xMLNSPrefixMap.isEmpty();
             case SdbpmnPackage.DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
                 return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
+            case SdbpmnPackage.DOCUMENT_ROOT__DATA_TYPE:
+                return getDataType() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ACTIVITY:
                 return getStardustActivity() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_ATTRIBUTES:
                 return getStardustAttributes() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
                 return getStardustCommon() != null;
+            case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
+                return getStardustInterface() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
                 return getStardustMessageStartEvent() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
@@ -1019,12 +1202,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
                 return getStardustTimerStartEvent() != null;
             case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_USER_TASK:
                 return getStardustUserTask() != null;
+            case SdbpmnPackage.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF:
+                return APPLICATION_ACCESS_POINT_REF_EDEFAULT == null ? applicationAccessPointRef != null : !APPLICATION_ACCESS_POINT_REF_EDEFAULT.equals(applicationAccessPointRef);
             case SdbpmnPackage.DOCUMENT_ROOT__AUTHOR:
                 return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
             case SdbpmnPackage.DOCUMENT_ROOT__CARNOT_VERSION:
                 return CARNOT_VERSION_EDEFAULT == null ? carnotVersion != null : !CARNOT_VERSION_EDEFAULT.equals(carnotVersion);
             case SdbpmnPackage.DOCUMENT_ROOT__CREATED:
                 return CREATED_EDEFAULT == null ? created != null : !CREATED_EDEFAULT.equals(created);
+            case SdbpmnPackage.DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF:
+                return INTERACTIVE_APPLICATION_REF_EDEFAULT == null ? interactiveApplicationRef != null : !INTERACTIVE_APPLICATION_REF_EDEFAULT.equals(interactiveApplicationRef);
             case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
                 return MODEL_OID_EDEFAULT == null ? modelOID != null : !MODEL_OID_EDEFAULT.equals(modelOID);
             case SdbpmnPackage.DOCUMENT_ROOT__OID:
@@ -1047,12 +1234,16 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
         StringBuffer result = new StringBuffer(super.toString());
         result.append(" (mixed: ");
         result.append(mixed);
+        result.append(", applicationAccessPointRef: ");
+        result.append(applicationAccessPointRef);
         result.append(", author: ");
         result.append(author);
         result.append(", carnotVersion: ");
         result.append(carnotVersion);
         result.append(", created: ");
         result.append(created);
+        result.append(", interactiveApplicationRef: ");
+        result.append(interactiveApplicationRef);
         result.append(", modelOID: ");
         result.append(modelOID);
         result.append(", oid: ");

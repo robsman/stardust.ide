@@ -39,7 +39,6 @@ import org.junit.Test;
  */
 public class TestTasks2Stardust {
 
-
     @Test
     public void testUserTask() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "UserTask.bpmn";

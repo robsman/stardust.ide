@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -27,10 +27,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 
 /**
@@ -41,7 +40,6 @@ import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.TStardustActivityImpl#getEventHandler <em>Event Handler</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.TStardustActivityImpl#getDataMapping <em>Data Mapping</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.TStardustActivityImpl#isHibernateOnCreation <em>Hibernate On Creation</em>}</li>
  * </ul>
  * </p>
@@ -58,16 +56,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
      * @ordered
      */
     protected EList<EventHandlerType> eventHandler;
-
-    /**
-     * The cached value of the '{@link #getDataMapping() <em>Data Mapping</em>}' containment reference list.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see #getDataMapping()
-     * @generated
-     * @ordered
-     */
-    protected EList<DataMappingType> dataMapping;
 
     /**
      * The default value of the '{@link #isHibernateOnCreation() <em>Hibernate On Creation</em>}' attribute.
@@ -134,18 +122,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
      * <!-- end-user-doc -->
      * @generated
      */
-    public EList<DataMappingType> getDataMapping() {
-        if (dataMapping == null) {
-            dataMapping = new EObjectContainmentEList<DataMappingType>(DataMappingType.class, this, SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING);
-        }
-        return dataMapping;
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public boolean isHibernateOnCreation() {
         return hibernateOnCreation;
     }
@@ -197,8 +173,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
         switch (featureID) {
             case SdbpmnPackage.TSTARDUST_ACTIVITY__EVENT_HANDLER:
                 return ((InternalEList<?>)getEventHandler()).basicRemove(otherEnd, msgs);
-            case SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING:
-                return ((InternalEList<?>)getDataMapping()).basicRemove(otherEnd, msgs);
         }
         return super.eInverseRemove(otherEnd, featureID, msgs);
     }
@@ -213,8 +187,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
         switch (featureID) {
             case SdbpmnPackage.TSTARDUST_ACTIVITY__EVENT_HANDLER:
                 return getEventHandler();
-            case SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING:
-                return getDataMapping();
             case SdbpmnPackage.TSTARDUST_ACTIVITY__HIBERNATE_ON_CREATION:
                 return isHibernateOnCreation();
         }
@@ -234,10 +206,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
                 getEventHandler().clear();
                 getEventHandler().addAll((Collection<? extends EventHandlerType>)newValue);
                 return;
-            case SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING:
-                getDataMapping().clear();
-                getDataMapping().addAll((Collection<? extends DataMappingType>)newValue);
-                return;
             case SdbpmnPackage.TSTARDUST_ACTIVITY__HIBERNATE_ON_CREATION:
                 setHibernateOnCreation((Boolean)newValue);
                 return;
@@ -256,9 +224,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
             case SdbpmnPackage.TSTARDUST_ACTIVITY__EVENT_HANDLER:
                 getEventHandler().clear();
                 return;
-            case SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING:
-                getDataMapping().clear();
-                return;
             case SdbpmnPackage.TSTARDUST_ACTIVITY__HIBERNATE_ON_CREATION:
                 unsetHibernateOnCreation();
                 return;
@@ -276,8 +241,6 @@ public class TStardustActivityImpl extends TStardustCommonImpl implements TStard
         switch (featureID) {
             case SdbpmnPackage.TSTARDUST_ACTIVITY__EVENT_HANDLER:
                 return eventHandler != null && !eventHandler.isEmpty();
-            case SdbpmnPackage.TSTARDUST_ACTIVITY__DATA_MAPPING:
-                return dataMapping != null && !dataMapping.isEmpty();
             case SdbpmnPackage.TSTARDUST_ACTIVITY__HIBERNATE_ON_CREATION:
                 return isSetHibernateOnCreation();
         }

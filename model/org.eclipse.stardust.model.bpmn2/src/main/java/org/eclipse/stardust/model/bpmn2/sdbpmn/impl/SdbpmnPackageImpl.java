@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -21,11 +21,14 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-
 import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
@@ -36,6 +39,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
+
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
@@ -59,7 +63,35 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass stardustAccessPointTypeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass stardustApplicationTypeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass stardustAttributesTypeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass stardustContextTypeEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass stardustInterfaceTypeEClass = null;
 
     /**
      * <!-- begin-user-doc -->
@@ -238,7 +270,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustActivity() {
+    public EReference getDocumentRoot_DataType() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(3);
     }
 
@@ -247,7 +279,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustAttributes() {
+    public EReference getDocumentRoot_StardustActivity() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(4);
     }
 
@@ -256,7 +288,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustCommon() {
+    public EReference getDocumentRoot_StardustAttributes() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(5);
     }
 
@@ -265,7 +297,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustMessageStartEvent() {
+    public EReference getDocumentRoot_StardustCommon() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(6);
     }
 
@@ -274,7 +306,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustModel() {
+    public EReference getDocumentRoot_StardustInterface() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(7);
     }
 
@@ -283,7 +315,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustSeqenceFlow() {
+    public EReference getDocumentRoot_StardustMessageStartEvent() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(8);
     }
 
@@ -292,7 +324,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustServiceTask() {
+    public EReference getDocumentRoot_StardustModel() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(9);
     }
 
@@ -301,7 +333,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustStartEvent() {
+    public EReference getDocumentRoot_StardustSeqenceFlow() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(10);
     }
 
@@ -310,7 +342,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustSubprocess() {
+    public EReference getDocumentRoot_StardustServiceTask() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(11);
     }
 
@@ -319,7 +351,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustTimerStartEvent() {
+    public EReference getDocumentRoot_StardustStartEvent() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(12);
     }
 
@@ -328,7 +360,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getDocumentRoot_StardustUserTask() {
+    public EReference getDocumentRoot_StardustSubprocess() {
         return (EReference)documentRootEClass.getEStructuralFeatures().get(13);
     }
 
@@ -337,8 +369,8 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_Author() {
-        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(14);
+    public EReference getDocumentRoot_StardustTimerStartEvent() {
+        return (EReference)documentRootEClass.getEStructuralFeatures().get(14);
     }
 
     /**
@@ -346,8 +378,8 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_CarnotVersion() {
-        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(15);
+    public EReference getDocumentRoot_StardustUserTask() {
+        return (EReference)documentRootEClass.getEStructuralFeatures().get(15);
     }
 
     /**
@@ -355,7 +387,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_Created() {
+    public EAttribute getDocumentRoot_ApplicationAccessPointRef() {
         return (EAttribute)documentRootEClass.getEStructuralFeatures().get(16);
     }
 
@@ -364,7 +396,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_ModelOID() {
+    public EAttribute getDocumentRoot_Author() {
         return (EAttribute)documentRootEClass.getEStructuralFeatures().get(17);
     }
 
@@ -373,7 +405,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_Oid() {
+    public EAttribute getDocumentRoot_CarnotVersion() {
         return (EAttribute)documentRootEClass.getEStructuralFeatures().get(18);
     }
 
@@ -382,8 +414,89 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getDocumentRoot_Vendor() {
+    public EAttribute getDocumentRoot_Created() {
         return (EAttribute)documentRootEClass.getEStructuralFeatures().get(19);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDocumentRoot_InteractiveApplicationRef() {
+        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(20);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDocumentRoot_ModelOID() {
+        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(21);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDocumentRoot_Oid() {
+        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(22);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getDocumentRoot_Vendor() {
+        return (EAttribute)documentRootEClass.getEStructuralFeatures().get(23);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStardustAccessPointType() {
+        return stardustAccessPointTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStardustAccessPointType_TypeRef() {
+        return (EAttribute)stardustAccessPointTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStardustApplicationType() {
+        return stardustApplicationTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getStardustApplicationType_AccessPoint1() {
+        return (EReference)stardustApplicationTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getStardustApplicationType_Context1() {
+        return (EReference)stardustApplicationTypeEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -402,6 +515,51 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      */
     public EReference getStardustAttributesType_AttributeType() {
         return (EReference)stardustAttributesTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStardustContextType() {
+        return stardustContextTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStardustContextType_TypeRef() {
+        return (EAttribute)stardustContextTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getStardustInterfaceType() {
+        return stardustInterfaceTypeEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getStardustInterfaceType_StardustApplication() {
+        return (EReference)stardustInterfaceTypeEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getStardustInterfaceType_ApplicationType() {
+        return (EAttribute)stardustInterfaceTypeEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -544,15 +702,6 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EAttribute getStardustServiceTaskType_Application() {
-        return (EAttribute)stardustServiceTaskTypeEClass.getEStructuralFeatures().get(0);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EClass getStardustStartEventType() {
         return stardustStartEventTypeEClass;
     }
@@ -625,6 +774,15 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
+    public EAttribute getStardustUserTaskType_InteractiveApplicationRef() {
+        return (EAttribute)stardustUserTaskTypeEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EClass getTStardustActivity() {
         return tStardustActivityEClass;
     }
@@ -643,17 +801,8 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
      * <!-- end-user-doc -->
      * @generated
      */
-    public EReference getTStardustActivity_DataMapping() {
-        return (EReference)tStardustActivityEClass.getEStructuralFeatures().get(1);
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
     public EAttribute getTStardustActivity_HibernateOnCreation() {
-        return (EAttribute)tStardustActivityEClass.getEStructuralFeatures().get(2);
+        return (EAttribute)tStardustActivityEClass.getEStructuralFeatures().get(1);
     }
 
     /**
@@ -706,9 +855,11 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__MIXED);
         createEReference(documentRootEClass, DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
         createEReference(documentRootEClass, DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+        createEReference(documentRootEClass, DOCUMENT_ROOT__DATA_TYPE);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_ACTIVITY);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_ATTRIBUTES);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_COMMON);
+        createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_INTERFACE);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_MODEL);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW);
@@ -717,15 +868,31 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_SUBPROCESS);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT);
         createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_USER_TASK);
+        createEAttribute(documentRootEClass, DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__AUTHOR);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__CARNOT_VERSION);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__CREATED);
+        createEAttribute(documentRootEClass, DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__MODEL_OID);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__OID);
         createEAttribute(documentRootEClass, DOCUMENT_ROOT__VENDOR);
 
+        stardustAccessPointTypeEClass = createEClass(STARDUST_ACCESS_POINT_TYPE);
+        createEAttribute(stardustAccessPointTypeEClass, STARDUST_ACCESS_POINT_TYPE__TYPE_REF);
+
+        stardustApplicationTypeEClass = createEClass(STARDUST_APPLICATION_TYPE);
+        createEReference(stardustApplicationTypeEClass, STARDUST_APPLICATION_TYPE__ACCESS_POINT1);
+        createEReference(stardustApplicationTypeEClass, STARDUST_APPLICATION_TYPE__CONTEXT1);
+
         stardustAttributesTypeEClass = createEClass(STARDUST_ATTRIBUTES_TYPE);
         createEReference(stardustAttributesTypeEClass, STARDUST_ATTRIBUTES_TYPE__ATTRIBUTE_TYPE);
+
+        stardustContextTypeEClass = createEClass(STARDUST_CONTEXT_TYPE);
+        createEAttribute(stardustContextTypeEClass, STARDUST_CONTEXT_TYPE__TYPE_REF);
+
+        stardustInterfaceTypeEClass = createEClass(STARDUST_INTERFACE_TYPE);
+        createEReference(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION);
+        createEAttribute(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__APPLICATION_TYPE);
 
         stardustMessageStartEventTypeEClass = createEClass(STARDUST_MESSAGE_START_EVENT_TYPE);
         createEReference(stardustMessageStartEventTypeEClass, STARDUST_MESSAGE_START_EVENT_TYPE__STARDUST_ATTRIBUTES);
@@ -745,7 +912,6 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         createEAttribute(stardustSeqenceFlowTypeEClass, STARDUST_SEQENCE_FLOW_TYPE__FORK_ON_TRAVERSAL);
 
         stardustServiceTaskTypeEClass = createEClass(STARDUST_SERVICE_TASK_TYPE);
-        createEAttribute(stardustServiceTaskTypeEClass, STARDUST_SERVICE_TASK_TYPE__APPLICATION);
 
         stardustStartEventTypeEClass = createEClass(STARDUST_START_EVENT_TYPE);
         createEReference(stardustStartEventTypeEClass, STARDUST_START_EVENT_TYPE__STARDUST_ATTRIBUTES);
@@ -758,10 +924,10 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 
         stardustUserTaskTypeEClass = createEClass(STARDUST_USER_TASK_TYPE);
         createEAttribute(stardustUserTaskTypeEClass, STARDUST_USER_TASK_TYPE__ALLOWS_ABORT_BY_PERFORMER);
+        createEAttribute(stardustUserTaskTypeEClass, STARDUST_USER_TASK_TYPE__INTERACTIVE_APPLICATION_REF);
 
         tStardustActivityEClass = createEClass(TSTARDUST_ACTIVITY);
         createEReference(tStardustActivityEClass, TSTARDUST_ACTIVITY__EVENT_HANDLER);
-        createEReference(tStardustActivityEClass, TSTARDUST_ACTIVITY__DATA_MAPPING);
         createEAttribute(tStardustActivityEClass, TSTARDUST_ACTIVITY__HIBERNATE_ON_CREATION);
 
         tStardustCommonEClass = createEClass(TSTARDUST_COMMON);
@@ -792,14 +958,17 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         setNsURI(eNS_URI);
 
         // Obtain other dependent packages
-        XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
         CarnotWorkflowModelPackage theCarnotWorkflowModelPackage = (CarnotWorkflowModelPackage)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI);
+        XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
         // Create type parameters
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
+        stardustAccessPointTypeEClass.getESuperTypes().add(theCarnotWorkflowModelPackage.getAccessPointType());
+        stardustApplicationTypeEClass.getESuperTypes().add(theCarnotWorkflowModelPackage.getApplicationType());
+        stardustContextTypeEClass.getESuperTypes().add(theCarnotWorkflowModelPackage.getContextType());
         stardustServiceTaskTypeEClass.getESuperTypes().add(this.getTStardustActivity());
         stardustSubprocessTypeEClass.getESuperTypes().add(this.getTStardustActivity());
         stardustUserTaskTypeEClass.getESuperTypes().add(this.getTStardustActivity());
@@ -810,9 +979,11 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getDocumentRoot_DataType(), theCarnotWorkflowModelPackage.getDataTypeType(), null, "dataType", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustActivity(), this.getTStardustActivity(), null, "stardustActivity", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustAttributes(), this.getStardustAttributesType(), null, "stardustAttributes", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustCommon(), this.getTStardustCommon(), null, "stardustCommon", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+        initEReference(getDocumentRoot_StardustInterface(), this.getStardustInterfaceType(), null, "stardustInterface", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustMessageStartEvent(), this.getStardustMessageStartEventType(), null, "stardustMessageStartEvent", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustModel(), this.getStardustModelType(), null, "stardustModel", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustSeqenceFlow(), this.getStardustSeqenceFlowType(), null, "stardustSeqenceFlow", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -821,15 +992,31 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         initEReference(getDocumentRoot_StardustSubprocess(), this.getStardustSubprocessType(), null, "stardustSubprocess", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustTimerStartEvent(), this.getStardustTimerStartEventType(), null, "stardustTimerStartEvent", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
         initEReference(getDocumentRoot_StardustUserTask(), this.getStardustUserTaskType(), null, "stardustUserTask", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDocumentRoot_ApplicationAccessPointRef(), theXMLTypePackage.getString(), "applicationAccessPointRef", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_Author(), theXMLTypePackage.getString(), "author", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_CarnotVersion(), theXMLTypePackage.getString(), "carnotVersion", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_Created(), theXMLTypePackage.getDateTime(), "created", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getDocumentRoot_InteractiveApplicationRef(), theXMLTypePackage.getString(), "interactiveApplicationRef", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_ModelOID(), theXMLTypePackage.getInteger(), "modelOID", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_Oid(), theXMLTypePackage.getLong(), "oid", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getDocumentRoot_Vendor(), theXMLTypePackage.getString(), "vendor", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        initEClass(stardustAccessPointTypeEClass, StardustAccessPointType.class, "StardustAccessPointType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getStardustAccessPointType_TypeRef(), theXMLTypePackage.getString(), "typeRef", null, 0, 1, StardustAccessPointType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(stardustApplicationTypeEClass, StardustApplicationType.class, "StardustApplicationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getStardustApplicationType_AccessPoint1(), this.getStardustAccessPointType(), null, "accessPoint1", null, 0, -1, StardustApplicationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEReference(getStardustApplicationType_Context1(), this.getStardustContextType(), null, "context1", null, 0, -1, StardustApplicationType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         initEClass(stardustAttributesTypeEClass, StardustAttributesType.class, "StardustAttributesType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getStardustAttributesType_AttributeType(), theCarnotWorkflowModelPackage.getAttributeType(), null, "attributeType", null, 0, -1, StardustAttributesType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(stardustContextTypeEClass, StardustContextType.class, "StardustContextType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getStardustContextType_TypeRef(), theXMLTypePackage.getString(), "typeRef", null, 0, 1, StardustContextType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(stardustInterfaceTypeEClass, StardustInterfaceType.class, "StardustInterfaceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getStardustInterfaceType_StardustApplication(), this.getStardustApplicationType(), null, "stardustApplication", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getStardustInterfaceType_ApplicationType(), theXMLTypePackage.getString(), "applicationType", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(stardustMessageStartEventTypeEClass, StardustMessageStartEventType.class, "StardustMessageStartEventType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getStardustMessageStartEventType_StardustAttributes(), this.getStardustAttributesType(), null, "stardustAttributes", null, 1, 1, StardustMessageStartEventType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -849,7 +1036,6 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
         initEAttribute(getStardustSeqenceFlowType_ForkOnTraversal(), theXMLTypePackage.getBoolean(), "forkOnTraversal", "false", 0, 1, StardustSeqenceFlowType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(stardustServiceTaskTypeEClass, StardustServiceTaskType.class, "StardustServiceTaskType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getStardustServiceTaskType_Application(), theXMLTypePackage.getString(), "application", null, 0, 1, StardustServiceTaskType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(stardustStartEventTypeEClass, StardustStartEventType.class, "StardustStartEventType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getStardustStartEventType_StardustAttributes(), this.getStardustAttributesType(), null, "stardustAttributes", null, 1, 1, StardustStartEventType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -862,10 +1048,10 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 
         initEClass(stardustUserTaskTypeEClass, StardustUserTaskType.class, "StardustUserTaskType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getStardustUserTaskType_AllowsAbortByPerformer(), theXMLTypePackage.getBoolean(), "allowsAbortByPerformer", null, 0, 1, StardustUserTaskType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getStardustUserTaskType_InteractiveApplicationRef(), theXMLTypePackage.getString(), "interactiveApplicationRef", null, 0, 1, StardustUserTaskType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(tStardustActivityEClass, TStardustActivity.class, "TStardustActivity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEReference(getTStardustActivity_EventHandler(), theCarnotWorkflowModelPackage.getEventHandlerType(), null, "eventHandler", null, 0, -1, TStardustActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-        initEReference(getTStardustActivity_DataMapping(), theCarnotWorkflowModelPackage.getDataMappingType(), null, "dataMapping", null, 0, -1, TStardustActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
         initEAttribute(getTStardustActivity_HibernateOnCreation(), theXMLTypePackage.getBoolean(), "hibernateOnCreation", null, 0, 1, TStardustActivity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
         initEClass(tStardustCommonEClass, TStardustCommon.class, "TStardustCommon", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -916,6 +1102,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "name", "xsi:schemaLocation"
            });
         addAnnotation
+          (getDocumentRoot_DataType(),
+           source,
+           new String[] {
+             "kind", "element",
+             "name", "dataType",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
           (getDocumentRoot_StardustActivity(),
            source,
            new String[] {
@@ -937,6 +1131,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
            new String[] {
              "kind", "element",
              "name", "StardustCommon",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
+          (getDocumentRoot_StardustInterface(),
+           source,
+           new String[] {
+             "kind", "element",
+             "name", "StardustInterface",
              "namespace", "##targetNamespace"
            });
         addAnnotation
@@ -1004,6 +1206,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "namespace", "##targetNamespace"
            });
         addAnnotation
+          (getDocumentRoot_ApplicationAccessPointRef(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "applicationAccessPointRef",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
           (getDocumentRoot_Author(),
            source,
            new String[] {
@@ -1025,6 +1235,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
            new String[] {
              "kind", "attribute",
              "name", "created",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
+          (getDocumentRoot_InteractiveApplicationRef(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "interactiveApplicationRef",
              "namespace", "##targetNamespace"
            });
         addAnnotation
@@ -1052,6 +1270,43 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "namespace", "##targetNamespace"
            });
         addAnnotation
+          (stardustAccessPointTypeEClass,
+           source,
+           new String[] {
+             "name", "StardustAccessPointType",
+             "kind", "elementOnly"
+           });
+        addAnnotation
+          (getStardustAccessPointType_TypeRef(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "typeRef"
+           });
+        addAnnotation
+          (stardustApplicationTypeEClass,
+           source,
+           new String[] {
+             "name", "StardustApplicationType",
+             "kind", "elementOnly"
+           });
+        addAnnotation
+          (getStardustApplicationType_AccessPoint1(),
+           source,
+           new String[] {
+             "kind", "element",
+             "name", "accessPoint",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
+          (getStardustApplicationType_Context1(),
+           source,
+           new String[] {
+             "kind", "element",
+             "name", "context",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
           (stardustAttributesTypeEClass,
            source,
            new String[] {
@@ -1065,6 +1320,42 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "kind", "element",
              "name", "AttributeType",
              "namespace", "http://www.carnot.ag/workflowmodel/3.1"
+           });
+        addAnnotation
+          (stardustContextTypeEClass,
+           source,
+           new String[] {
+             "name", "StardustContextType",
+             "kind", "elementOnly"
+           });
+        addAnnotation
+          (getStardustContextType_TypeRef(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "typeRef"
+           });
+        addAnnotation
+          (stardustInterfaceTypeEClass,
+           source,
+           new String[] {
+             "name", "StardustInterface_._type",
+             "kind", "elementOnly"
+           });
+        addAnnotation
+          (getStardustInterfaceType_StardustApplication(),
+           source,
+           new String[] {
+             "kind", "element",
+             "name", "StardustApplication",
+             "namespace", "##targetNamespace"
+           });
+        addAnnotation
+          (getStardustInterfaceType_ApplicationType(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "applicationType"
            });
         addAnnotation
           (stardustMessageStartEventTypeEClass,
@@ -1181,13 +1472,6 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "kind", "elementOnly"
            });
         addAnnotation
-          (getStardustServiceTaskType_Application(),
-           source,
-           new String[] {
-             "kind", "attribute",
-             "name", "application"
-           });
-        addAnnotation
           (stardustStartEventTypeEClass,
            source,
            new String[] {
@@ -1246,6 +1530,13 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
              "name", "allowsAbortByPerformer"
            });
         addAnnotation
+          (getStardustUserTaskType_InteractiveApplicationRef(),
+           source,
+           new String[] {
+             "kind", "attribute",
+             "name", "interactiveApplicationRef"
+           });
+        addAnnotation
           (tStardustActivityEClass,
            source,
            new String[] {
@@ -1258,14 +1549,6 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
            new String[] {
              "kind", "element",
              "name", "eventHandler",
-             "namespace", "##targetNamespace"
-           });
-        addAnnotation
-          (getTStardustActivity_DataMapping(),
-           source,
-           new String[] {
-             "kind", "element",
-             "name", "dataMapping",
              "namespace", "##targetNamespace"
            });
         addAnnotation

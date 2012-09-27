@@ -1,11 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>org.eclipse.stardust.model.bpmn2.transform</artifactId>
 	<groupId>org.eclipse.stardust.modeling.model</groupId>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<ipp.version>7.1.0-NIGHTLY-SNAPSHOT</ipp.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -14,10 +17,20 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.stardust.modeling.model</groupId>
-			<artifactId>org.eclipse.stardust.model.xpdl</artifactId>
-			<version>9.9.9-SNAPSHOT</version>
+			<groupId>com.infinity.bpm</groupId>
+			<artifactId>ipp-bpm-model</artifactId>
+			<version>${ipp.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.infinity.bpm</groupId>
+			<artifactId>carnot-engine</artifactId>
+			<version>${ipp.version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.eclipse.stardust.modeling.model</groupId> -->
+		<!-- <artifactId>org.eclipse.stardust.model.xpdl</artifactId> -->
+		<!-- <version>9.9.9-SNAPSHOT</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>org.eclipse.stardust.modeling.model</groupId>
 			<artifactId>org.eclipse.stardust.model.xpdl.builder</artifactId>
@@ -33,16 +46,6 @@
 			<artifactId>emf-ecore-xmi</artifactId>
 			<version>2.4.2</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.emf</groupId> -->
-<!-- 			<artifactId>org.eclipse.emf.ecore.xmi</artifactId> -->
-<!-- 			<version>2.5.0.v20100521-1846</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.emf</groupId> -->
-<!-- 			<artifactId>org.eclipse.emf.common</artifactId> -->
-<!-- 			<version>2.6.0.v20100614-1136</version> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -53,7 +56,46 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>unit-tests</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>**/*TestSuite.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/Test*</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

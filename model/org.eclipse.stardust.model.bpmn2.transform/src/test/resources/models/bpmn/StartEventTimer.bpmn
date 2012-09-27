@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
 <definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 09:37:13" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
- xmlns:sdbpmn="http://www.eclipse.org/stardust/bpmn20/sdbpmn" 
+ xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
  xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
 >
   <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
@@ -12,7 +12,7 @@
       <extensionElements/>
       <timerEventDefinition>
       	<timeDate xsi:type="tFormalExpression">2012-09-01T11:00:00</timeDate>
-      </timerEventDefinition>      
+      </timerEventDefinition>
     </startEvent>
     <startEvent id="TestModelStartEventCycleStop" name="TimerStartEvent">
       <documentation>Documentation: Timer Start Event</documentation>
@@ -21,7 +21,7 @@
           <sdbpmn:StardustAttributes>
             <stardust:AttributeType name="carnot:engine:stopTime" type="long" value="1347919200000"/>
           </sdbpmn:StardustAttributes>
-        </sdbpmn:StardustTimerStartEvent>        
+        </sdbpmn:StardustTimerStartEvent>
       </extensionElements>
       <timerEventDefinition>
       	<timeCycle xsi:type="tFormalExpression" id="_J4Gw4fi3EeGWf5efbeOuhA">2012-09-01T11:00:00/P1Y2M1DT20H30M</timeCycle>

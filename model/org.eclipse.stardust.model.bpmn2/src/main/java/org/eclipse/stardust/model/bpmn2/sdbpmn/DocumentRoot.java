@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
 
@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.util.FeatureMap;
 
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Document Root</b></em>'.
@@ -33,9 +35,11 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getDataType <em>Data Type</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustActivity <em>Stardust Activity</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustAttributes <em>Stardust Attributes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustCommon <em>Stardust Common</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustModel <em>Stardust Model</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustSeqenceFlow <em>Stardust Seqence Flow</em>}</li>
@@ -44,9 +48,11 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustSubprocess <em>Stardust Subprocess</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustTimerStartEvent <em>Stardust Timer Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustUserTask <em>Stardust User Task</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getApplicationAccessPointRef <em>Application Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getAuthor <em>Author</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getCarnotVersion <em>Carnot Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getCreated <em>Created</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getVendor <em>Vendor</em>}</li>
@@ -110,6 +116,33 @@ public interface DocumentRoot extends EObject {
      * @generated
      */
     EMap<String, String> getXSISchemaLocation();
+
+    /**
+     * Returns the value of the '<em><b>Data Type</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Data Type</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Data Type</em>' containment reference.
+     * @see #setDataType(DataTypeType)
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_DataType()
+     * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+     *        extendedMetaData="kind='element' name='dataType' namespace='##targetNamespace'"
+     * @generated
+     */
+    DataTypeType getDataType();
+
+    /**
+     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getDataType <em>Data Type</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Data Type</em>' containment reference.
+     * @see #getDataType()
+     * @generated
+     */
+    void setDataType(DataTypeType value);
 
     /**
      * Returns the value of the '<em><b>Stardust Activity</b></em>' containment reference.
@@ -191,6 +224,33 @@ public interface DocumentRoot extends EObject {
      * @generated
      */
     void setStardustCommon(TStardustCommon value);
+
+    /**
+     * Returns the value of the '<em><b>Stardust Interface</b></em>' containment reference.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Stardust Interface</em>' containment reference isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Stardust Interface</em>' containment reference.
+     * @see #setStardustInterface(StardustInterfaceType)
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustInterface()
+     * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+     *        extendedMetaData="kind='element' name='StardustInterface' namespace='##targetNamespace'"
+     * @generated
+     */
+    StardustInterfaceType getStardustInterface();
+
+    /**
+     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustInterface <em>Stardust Interface</em>}' containment reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Stardust Interface</em>' containment reference.
+     * @see #getStardustInterface()
+     * @generated
+     */
+    void setStardustInterface(StardustInterfaceType value);
 
     /**
      * Returns the value of the '<em><b>Stardust Message Start Event</b></em>' containment reference.
@@ -409,6 +469,33 @@ public interface DocumentRoot extends EObject {
     void setStardustUserTask(StardustUserTaskType value);
 
     /**
+     * Returns the value of the '<em><b>Application Access Point Ref</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Application Access Point Ref</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Application Access Point Ref</em>' attribute.
+     * @see #setApplicationAccessPointRef(String)
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_ApplicationAccessPointRef()
+     * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+     *        extendedMetaData="kind='attribute' name='applicationAccessPointRef' namespace='##targetNamespace'"
+     * @generated
+     */
+    String getApplicationAccessPointRef();
+
+    /**
+     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getApplicationAccessPointRef <em>Application Access Point Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Application Access Point Ref</em>' attribute.
+     * @see #getApplicationAccessPointRef()
+     * @generated
+     */
+    void setApplicationAccessPointRef(String value);
+
+    /**
      * Returns the value of the '<em><b>Author</b></em>' attribute.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -491,6 +578,33 @@ public interface DocumentRoot extends EObject {
      * @generated
      */
     void setCreated(XMLGregorianCalendar value);
+
+    /**
+     * Returns the value of the '<em><b>Interactive Application Ref</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <p>
+     * If the meaning of the '<em>Interactive Application Ref</em>' attribute isn't clear,
+     * there really should be more of a description here...
+     * </p>
+     * <!-- end-user-doc -->
+     * @return the value of the '<em>Interactive Application Ref</em>' attribute.
+     * @see #setInteractiveApplicationRef(String)
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_InteractiveApplicationRef()
+     * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+     *        extendedMetaData="kind='attribute' name='interactiveApplicationRef' namespace='##targetNamespace'"
+     * @generated
+     */
+    String getInteractiveApplicationRef();
+
+    /**
+     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getInteractiveApplicationRef <em>Interactive Application Ref</em>}' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @param value the new value of the '<em>Interactive Application Ref</em>' attribute.
+     * @see #getInteractiveApplicationRef()
+     * @generated
+     */
+    void setInteractiveApplicationRef(String value);
 
     /**
      * Returns the value of the '<em><b>Model OID</b></em>' attribute.

@@ -19,7 +19,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
+import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -31,6 +33,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
@@ -53,6 +56,9 @@ public class ExtensionHelper {
     private static final Internal START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_START_EVENT;
     private static final Internal TIMER_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT;
     private static final Internal MESSAGE_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT;
+    private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
+
+    private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
 
     private static final Internal MODEL_ATT_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__OID;
     private static final Internal MODEL_ATT_MODEL_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__MODEL_OID;
@@ -127,6 +133,15 @@ public class ExtensionHelper {
 
     public StardustSeqenceFlowType getSequenceFlowExtension(SequenceFlow element) {
         return getFirstExtension(StardustSeqenceFlowType.class, element, SEQUENCE_FLOW_EXT);
+    }
+
+    public StardustInterfaceType getApplicationExtension(RootElement element) {
+        StardustInterfaceType iface = getFirstExtension(StardustInterfaceType.class, element, APPLICATION_INTERFACE_TYPE);
+        return iface;
+    }
+
+    public String getAssignmentAccessPointRef(Expression assignment) {
+        return getString(assignment, ATT_APPLICATION_ACCESS_POINT);
     }
 
     public void setModelAttributes(Definitions element, StardustModelType values) {
@@ -209,6 +224,10 @@ public class ExtensionHelper {
             return val;
         } catch (Exception e) {}
         return empty;
+    }
+
+    private String getString(BaseElement element, Internal attribute) {
+        return getString(element.getAnyAttribute(), attribute);
     }
 
     private String getString(FeatureMap attributes, Internal attribute) {

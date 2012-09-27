@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
 
@@ -41,6 +41,24 @@ public interface SdbpmnFactory extends EFactory {
     DocumentRoot createDocumentRoot();
 
     /**
+     * Returns a new object of class '<em>Stardust Access Point Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Access Point Type</em>'.
+     * @generated
+     */
+    StardustAccessPointType createStardustAccessPointType();
+
+    /**
+     * Returns a new object of class '<em>Stardust Application Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Application Type</em>'.
+     * @generated
+     */
+    StardustApplicationType createStardustApplicationType();
+
+    /**
      * Returns a new object of class '<em>Stardust Attributes Type</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -48,6 +66,24 @@ public interface SdbpmnFactory extends EFactory {
      * @generated
      */
     StardustAttributesType createStardustAttributesType();
+
+    /**
+     * Returns a new object of class '<em>Stardust Context Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Context Type</em>'.
+     * @generated
+     */
+    StardustContextType createStardustContextType();
+
+    /**
+     * Returns a new object of class '<em>Stardust Interface Type</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Stardust Interface Type</em>'.
+     * @generated
+     */
+    StardustInterfaceType createStardustInterfaceType();
 
     /**
      * Returns a new object of class '<em>Stardust Message Start Event Type</em>'.

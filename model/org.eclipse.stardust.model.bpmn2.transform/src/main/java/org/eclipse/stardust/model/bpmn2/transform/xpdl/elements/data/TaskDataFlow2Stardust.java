@@ -8,7 +8,7 @@
  * Contributors:
  *    ITpearls - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements;
+package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +27,14 @@ import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -100,7 +104,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             addInDataMappingFromAssignments(activity, assocIn, dataInput, fromVariable);
         } else {
             logger.debug("DataInputAssociation without assignment " + assocIn);
-            DataMappingType mapping = buildInDataMapping(activity, assocIn.getId(), getDataMappingName(dataInput, assocIn), fromVariable);
+            DataMappingType mapping = buildInDataMapping(activity, assocIn.getId(), getDataMappingName(dataInput, assocIn), fromVariable, "", "");
             addDataPathFromTransformationExpression(mapping, assocIn);
         }
         return dataInput;
@@ -120,7 +124,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             addOutDataMappingFromAssignments(activity, assocOut, dataOutput, toVariable);
         } else {
             logger.debug("DataInputAssociation without assignment " + assocOut);
-            DataMappingType mapping = buildOutDataMapping(activity, assocOut.getId(), getDataMappingName(dataOutput, assocOut), toVariable);
+            DataMappingType mapping = buildOutDataMapping(activity, assocOut.getId(), getDataMappingName(dataOutput, assocOut), toVariable, "","");
             addDataPathFromTransformationExpression(mapping, assocOut);
         }
         return dataOutput;
@@ -131,10 +135,13 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         for (Assignment assign : assocIn.getAssignment()) {
             Expression fromExpression = assign.getFrom();
             String assingmentId = assign.getId();
-            //Expression toExpression = assign.getTo();
-            // TODO : use 'toExpression' to evaluate ApplicationAccessPoint?
+            Expression toExpression = assign.getTo();
+
+            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+            String applicationAccessPath = getExpressionValue(toExpression);
+
             String mappingId = assocIn.getId() + "_" + assingmentId;
-            DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable);
+            DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable, applicationAccessPoint, applicationAccessPath);
             String fromExpressionValue = getExpressionValue(fromExpression);
             mapping.setDataPath(fromExpressionValue);
         }
@@ -143,23 +150,26 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     private void addOutDataMappingFromAssignments(ActivityType activity, DataOutputAssociation assocOut, DataOutput dataOutput, DataType toVariable) {
         logger.debug("addOutDataMappingFromAssignments " + activity);
         for (Assignment assign : assocOut.getAssignment()) {
+            Expression fromExpression = assign.getFrom();
             Expression toExpression = assign.getTo();
             String assingmentId = assign.getId();
-            //Expression fromExpression = assign.getFrom();
-            // TODO : use 'fromExpression' to evaluate ApplicationAccessPoint?
             String mappingId = assocOut.getId() + "_" + assingmentId;
-            DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable);
+
+            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+            String applicationAccessPath = getExpressionValue(fromExpression);
+
+            DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
+
             String toExpressionValue = getExpressionValue(toExpression);
             mapping.setDataPath(toExpressionValue);
         }
     }
-
     private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container) {
         DataType inVariable = query.findVariable(input.getId());
         if (inVariable == null) {
             inVariable = new Data2Stardust(carnotModel, failures).addDataInputVariable(input);
         }
-        buildInDataMapping(activity, input.getId(), input.getName(), inVariable);
+        buildInDataMapping(activity, input.getId(), input.getName(), inVariable, "", "");
     }
 
     private void addOutDataMappingWithoutAssociation(DataOutput output, ActivityType activity, FlowElementsContainer container) {
@@ -167,25 +177,27 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         if (outVariable == null) {
             outVariable = new Data2Stardust(carnotModel, failures).addDataOutputVariable(output);
         }
-        buildOutDataMapping(activity, output.getId(), output.getName(), outVariable);
+        buildOutDataMapping(activity, output.getId(), output.getName(), outVariable, "","");
     }
 
-    private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable) {
+    private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable, String accessPointId, String path) {
+    	String context = getDataFlowContext(activity);
         return BpmModelBuilder.newInDataMapping(activity)
                 .withIdAndName(id, name)
                 .fromVariable(fromVariable)
-                .inContext(PredefinedConstants.DEFAULT_CONTEXT)
-                // TODO .toApplicationAccessPoint(accessPointId)
+                .inContext(context)
+                .toApplicationAccessPoint(accessPointId, path)
                 .build();
     }
 
-    private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable) {
-        return BpmModelBuilder.newOutDataMapping(activity)
+    private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable, String accessPointId, String path) {
+    	String context = getDataFlowContext(activity);
+    	return BpmModelBuilder.newOutDataMapping(activity)
                 .withIdAndName(id, name)
                 .toVariable(toVariable)
-                // TODO .fromApplicationAccessPoint(accessPointId)
-                .inContext(PredefinedConstants.DEFAULT_CONTEXT)
-                .build();
+                .inContext(context)
+    	 		.fromApplicationAccessPoint(accessPointId, path)
+    	 		.build();
     }
 
     private void addDataPathFromTransformationExpression(DataMappingType mapping, DataAssociation assoc) {
@@ -255,6 +267,21 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         }
         logger.debug("Assignment 'informal' expression: " + expression);
         return  DocumentationTool.getInformalExpressionValue(expression);
+    }
+
+    private String getDataFlowContext(ActivityType activity) {
+    	if (ActivityImplementationType.APPLICATION_LITERAL.equals(activity.getImplementation())) {
+    		ApplicationType app = activity.getApplication();
+    		if (app != null) {
+    			if (app.getContext() != null && app.getContext().size() > 0) {
+    				return app.getContext().get(0).getType().getId();
+    			}
+    			else {
+    				return PredefinedConstants.APPLICATION_CONTEXT;
+    			}
+    		}
+    	}
+    	return PredefinedConstants.DEFAULT_CONTEXT;
     }
 
 }

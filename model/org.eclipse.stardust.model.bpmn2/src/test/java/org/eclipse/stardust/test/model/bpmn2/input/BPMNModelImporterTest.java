@@ -43,5 +43,19 @@ public class BPMNModelImporterTest extends TestCase {
         }
     }
 
+    public void testModelImport2() {
+        final String filePath = this.getClass().getClassLoader().getResource("models/StartEventTimer.bpmn").getPath();
+        try {
+            Bpmn2Resource modelResource = BPMNModelImporter.importModel(filePath);
+            assertNotNull(modelResource);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Assert.fail(e.getLocalizedMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Assert.fail(e.getLocalizedMessage());
+        }
+    }
+
 
 }

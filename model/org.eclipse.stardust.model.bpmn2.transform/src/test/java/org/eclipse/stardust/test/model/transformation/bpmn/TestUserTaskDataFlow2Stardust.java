@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.ItemDefinition;
-import org.eclipse.bpmn2.RootElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.bpmn2.reader.ModelInfo;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
@@ -44,7 +44,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestData2Stardust {
+public class TestUserTaskDataFlow2Stardust {
 
     private final String TEST_PROCESS_ID = "TestProcessDataObjectFlow";
     private final String ITEM_DEFINITION_ID = "TestImportedXmlItemDefinition";
@@ -58,13 +58,13 @@ public class TestData2Stardust {
     private final String modelFile = TEST_BPMN_MODEL_DIR + "DataObjectFlow.bpmn";
     private final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testDataObjectFlow.xpdl";
 
-    public TestData2Stardust() {
+    public TestUserTaskDataFlow2Stardust() {
         transform();
     }
 
     @Test
     public void testImportedItemDefinition() {
-        ItemDefinition bpmnItemDef = getItemDef(bpmnDefs, ITEM_DEFINITION_ID);
+        ItemDefinition bpmnItemDef = ModelInfo.getItemDef(bpmnDefs, ITEM_DEFINITION_ID);
         EObject structRef = (EObject)bpmnItemDef.getStructureRef();
         TypeDeclarationType typeDeclaration = CarnotModelQuery.findTypeDeclaration(resultModel, ITEM_DEFINITION_ID);
 
@@ -126,13 +126,6 @@ public class TestData2Stardust {
     private DataMappingType getInputMapping(ActivityType task) {
         for (DataMappingType map : task.getDataMapping()) {
             if (map.getDirection().equals(DirectionType.IN_LITERAL)) return map;
-        }
-        return null;
-    }
-
-    private ItemDefinition getItemDef(Definitions bpmnDefs, String id) {
-        for (RootElement root : bpmnDefs.getRootElements()) {
-            if (root.getId().equals(id) && root instanceof ItemDefinition) return (ItemDefinition) root;
         }
         return null;
     }

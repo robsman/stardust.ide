@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.util;
 
@@ -20,6 +20,16 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
+
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.ContextType;
+import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 
 /**
  * <!-- begin-user-doc -->
@@ -82,8 +92,24 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
                 return createDocumentRootAdapter();
             }
             @Override
+            public Adapter caseStardustAccessPointType(StardustAccessPointType object) {
+                return createStardustAccessPointTypeAdapter();
+            }
+            @Override
+            public Adapter caseStardustApplicationType(StardustApplicationType object) {
+                return createStardustApplicationTypeAdapter();
+            }
+            @Override
             public Adapter caseStardustAttributesType(StardustAttributesType object) {
                 return createStardustAttributesTypeAdapter();
+            }
+            @Override
+            public Adapter caseStardustContextType(StardustContextType object) {
+                return createStardustContextTypeAdapter();
+            }
+            @Override
+            public Adapter caseStardustInterfaceType(StardustInterfaceType object) {
+                return createStardustInterfaceTypeAdapter();
             }
             @Override
             public Adapter caseStardustMessageStartEventType(StardustMessageStartEventType object) {
@@ -126,6 +152,42 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
                 return createTStardustCommonAdapter();
             }
             @Override
+            public Adapter caseIModelElement(IModelElement object) {
+                return createIModelElementAdapter();
+            }
+            @Override
+            public Adapter caseIIdentifiableElement(IIdentifiableElement object) {
+                return createIIdentifiableElementAdapter();
+            }
+            @Override
+            public Adapter caseIExtensibleElement(IExtensibleElement object) {
+                return createIExtensibleElementAdapter();
+            }
+            @Override
+            public Adapter caseIIdentifiableModelElement(IIdentifiableModelElement object) {
+                return createIIdentifiableModelElementAdapter();
+            }
+            @Override
+            public Adapter caseITypedElement(ITypedElement object) {
+                return createITypedElementAdapter();
+            }
+            @Override
+            public Adapter caseAccessPointType(AccessPointType object) {
+                return createAccessPointTypeAdapter();
+            }
+            @Override
+            public Adapter caseIAccessPointOwner(IAccessPointOwner object) {
+                return createIAccessPointOwnerAdapter();
+            }
+            @Override
+            public Adapter caseApplicationType(ApplicationType object) {
+                return createApplicationTypeAdapter();
+            }
+            @Override
+            public Adapter caseContextType(ContextType object) {
+                return createContextTypeAdapter();
+            }
+            @Override
             public Adapter defaultCase(EObject object) {
                 return createEObjectAdapter();
             }
@@ -160,6 +222,34 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType <em>Stardust Access Point Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType
+     * @generated
+     */
+    public Adapter createStardustAccessPointTypeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType <em>Stardust Application Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType
+     * @generated
+     */
+    public Adapter createStardustApplicationTypeAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType <em>Stardust Attributes Type</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -170,6 +260,34 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createStardustAttributesTypeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType <em>Stardust Context Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType
+     * @generated
+     */
+    public Adapter createStardustContextTypeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType <em>Stardust Interface Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType
+     * @generated
+     */
+    public Adapter createStardustInterfaceTypeAdapter() {
         return null;
     }
 
@@ -310,6 +428,132 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createTStardustCommonAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IModelElement <em>IModel Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.IModelElement
+     * @generated
+     */
+    public Adapter createIModelElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement <em>IIdentifiable Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement
+     * @generated
+     */
+    public Adapter createIIdentifiableElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement <em>IExtensible Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement
+     * @generated
+     */
+    public Adapter createIExtensibleElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement <em>IIdentifiable Model Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement
+     * @generated
+     */
+    public Adapter createIIdentifiableModelElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.ITypedElement <em>ITyped Element</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.ITypedElement
+     * @generated
+     */
+    public Adapter createITypedElementAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.AccessPointType <em>Access Point Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.AccessPointType
+     * @generated
+     */
+    public Adapter createAccessPointTypeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner <em>IAccess Point Owner</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner
+     * @generated
+     */
+    public Adapter createIAccessPointOwnerAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.ApplicationType <em>Application Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.ApplicationType
+     * @generated
+     */
+    public Adapter createApplicationTypeAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.ContextType <em>Context Type</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.stardust.model.xpdl.carnot.ContextType
+     * @generated
+     */
+    public Adapter createContextTypeAdapter() {
         return null;
     }
 

@@ -49,6 +49,7 @@ public class BPMNModelImporter {
         options.put(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS, Boolean.TRUE);
         options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
         options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+        options.put(XMLResource.OPTION_PROCESS_DANGLING_HREF, XMLResource.OPTION_PROCESS_DANGLING_HREF_DISCARD);
         loadedResource.load(options);
 
         //debugPrint(loadedResource);

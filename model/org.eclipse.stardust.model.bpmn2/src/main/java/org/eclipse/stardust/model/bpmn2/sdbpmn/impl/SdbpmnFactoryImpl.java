@@ -1,14 +1,14 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -37,7 +37,7 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
      */
     public static SdbpmnFactory init() {
         try {
-            SdbpmnFactory theSdbpmnFactory = (SdbpmnFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/stardust/bpmn20/sdbpmn");
+            SdbpmnFactory theSdbpmnFactory = (SdbpmnFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/stardust/model/bpmn2/sdbpmn");
             if (theSdbpmnFactory != null) {
                 return theSdbpmnFactory;
             }
@@ -67,7 +67,11 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case SdbpmnPackage.DOCUMENT_ROOT: return createDocumentRoot();
+            case SdbpmnPackage.STARDUST_ACCESS_POINT_TYPE: return createStardustAccessPointType();
+            case SdbpmnPackage.STARDUST_APPLICATION_TYPE: return createStardustApplicationType();
             case SdbpmnPackage.STARDUST_ATTRIBUTES_TYPE: return createStardustAttributesType();
+            case SdbpmnPackage.STARDUST_CONTEXT_TYPE: return createStardustContextType();
+            case SdbpmnPackage.STARDUST_INTERFACE_TYPE: return createStardustInterfaceType();
             case SdbpmnPackage.STARDUST_MESSAGE_START_EVENT_TYPE: return createStardustMessageStartEventType();
             case SdbpmnPackage.STARDUST_MODEL_TYPE: return createStardustModelType();
             case SdbpmnPackage.STARDUST_SEQENCE_FLOW_TYPE: return createStardustSeqenceFlowType();
@@ -98,9 +102,49 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
      * <!-- end-user-doc -->
      * @generated
      */
+    public StardustAccessPointType createStardustAccessPointType() {
+        StardustAccessPointTypeImpl stardustAccessPointType = new StardustAccessPointTypeImpl();
+        return stardustAccessPointType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public StardustApplicationType createStardustApplicationType() {
+        StardustApplicationTypeImpl stardustApplicationType = new StardustApplicationTypeImpl();
+        return stardustApplicationType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public StardustAttributesType createStardustAttributesType() {
         StardustAttributesTypeImpl stardustAttributesType = new StardustAttributesTypeImpl();
         return stardustAttributesType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public StardustContextType createStardustContextType() {
+        StardustContextTypeImpl stardustContextType = new StardustContextTypeImpl();
+        return stardustContextType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public StardustInterfaceType createStardustInterfaceType() {
+        StardustInterfaceTypeImpl stardustInterfaceType = new StardustInterfaceTypeImpl();
+        return stardustInterfaceType;
     }
 
     /**

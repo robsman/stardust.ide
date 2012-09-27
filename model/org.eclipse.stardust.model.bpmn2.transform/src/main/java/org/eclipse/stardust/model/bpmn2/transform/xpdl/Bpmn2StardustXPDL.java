@@ -10,27 +10,16 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl;
 
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newModelDiagram;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.Duration;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
@@ -38,63 +27,52 @@ import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
-import org.eclipse.bpmn2.Documentation;
 import org.eclipse.bpmn2.EndEvent;
-import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.ExclusiveGateway;
-import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
-import org.eclipse.bpmn2.FlowNode;
-import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
+import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
-import org.eclipse.bpmn2.MessageEventDefinition;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
-import org.eclipse.bpmn2.Performer;
 import org.eclipse.bpmn2.Process;
-import org.eclipse.bpmn2.Resource;
-import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
-import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.bpmn2.UserTask;
-import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
 import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
-import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.Data2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.Gateway2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.Sequence2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.TaskDataFlow2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.ServiceTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.UserTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.Gateway2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Process2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Subprocess2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service.Interface2StardustApplication;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
+import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 /**
  * @author Simon Nikles
  *
@@ -112,8 +90,6 @@ public class Bpmn2StardustXPDL implements Transformator {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     private CarnotModelQuery query;
-    private BpmnModelQuery bpmnquery;
-
 
     public void createTargetModel(Definitions definitions) {
         carnotModel = newBpmModel()
@@ -122,7 +98,6 @@ public class Bpmn2StardustXPDL implements Transformator {
         Bpmn2StardustXPDLExtension.addModelExtensions(definitions, carnotModel);
         Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);
         query = new CarnotModelQuery(carnotModel);
-        bpmnquery = new BpmnModelQuery();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////TODO REMOVE IF DEFAULTTYPESINITIALIZER IS COMPLETE (OR WHAT IS ABOUT THESE TYPES?)!!! ////////////////////
@@ -133,7 +108,29 @@ public class Bpmn2StardustXPDL implements Transformator {
         false, MailTriggerValidator.class);
         initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger",
         false, TimerTriggerValidator.class);
+        initializer.initializeInteractionContextTypes(carnotModel);
+        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
+        {
+           ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
+           typeDef.setId(PredefinedConstants.APPLICATION_CONTEXT);
+           typeDef.setName("Noninteractive Application Context");
+           typeDef.setIsPredefined(true);
 
+           typeDef.setHasApplicationPath(true);
+           typeDef.setHasMappingId(false);
+           carnotModel.getApplicationContextType().add(typeDef);
+        }
+        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
+        {
+           ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
+           typeDef.setId(PredefinedConstants.JSF_CONTEXT);
+           typeDef.setName("JSF Application");
+           typeDef.setIsPredefined(true);
+           typeDef.setHasApplicationPath(true);
+           typeDef.setHasMappingId(false);
+           carnotModel.getApplicationContextType().add(typeDef);
+        }
+        ///**************************************************************************************************************///
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
@@ -162,32 +159,7 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addStartEvent(StartEvent event, FlowElementsContainer container) {
-        logger.debug("addStartEvent " + event);
-        int eventDefCount = bpmnquery.countEventDefinitions(event);
-        EventDefinition def = bpmnquery.getFirstEventDefinition(event);
-        if (eventDefCount > 1) {
-            failures.add(FAIL_ELEMENT_UNSUPPORTED_FEATURE + "StartEvent - Multiple Event definitions " + event.getId());
-            return;
-        }
-        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-        if (processDef != null) {
-            if (def == null) {
-                failures.add("StartEvent - no event definition available (" + event.getId() + "). Manual Start is assumed.");
-                addManualTrigger(event, container, processDef);
-            } else if (def instanceof MessageEventDefinition) {
-                //def = event.getEventDefinitions().get(0);
-                addMessageTrigger(event, (MessageEventDefinition)def, container, processDef);
-            } else if (def instanceof TimerEventDefinition) {
-                //def = event.getEventDefinitions().get(0);
-                addTimerTrigger(event, (TimerEventDefinition)def, container, processDef);
-            } else {
-                failures.add(FAIL_ELEMENT_UNSUPPORTED_FEATURE + "StartEvent " + event.getId() + " EventDefinition " + def.getClass().getName());
-                return;
-            }
-
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
+    	new StartEvent2Stardust(carnotModel, failures).addStartEvent(event, container);
     }
 
     public void addExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
@@ -209,50 +181,17 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     public void addProcess(Process process) {
         logger.debug("addProcess " + process);
-        List<Documentation> docs = process.getDocumentation();
-        String processDescription = DocumentationTool.getDescriptionFromDocumentation(docs);
-
-        ProcessDefinitionType def =
-            newProcessDefinition(carnotModel)
-                .withIdAndName(process.getId(), process.getName())
-                .withDescription(processDescription)
-                .build();
-
-            newModelDiagram(carnotModel).forProcess(def).build();
+        new Process2Stardust(carnotModel, failures).addProcess(process);
     }
 
     public void addSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
         logger.debug("addSequenceFlow " + seq);
-        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-        FlowNode sourceNode = seq.getSourceRef();
-        FlowNode targetNode = seq.getTargetRef();
-        if (processDef != null) {
-            if (sourceNode instanceof StartEvent || targetNode instanceof EndEvent) return;
-            if (sourceNode instanceof Activity && targetNode instanceof Activity) {
-                addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
-            }
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
+        new SequenceFlow2Stardust(carnotModel, failures).addSequenceFlow(seq, container);
     }
 
     public void addSubProcess(SubProcess subprocess, FlowElementsContainer container) {
         logger.info("addSubProcess" + subprocess.getId() + " " + subprocess.getName());
-        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-        if (processDef != null) {
-            List<Documentation> docs = subprocess.getDocumentation();
-            String processDescription = DocumentationTool.getDescriptionFromDocumentation(docs);
-            ProcessDefinitionType implProcessDef = newProcessDefinition(carnotModel)
-                    .withIdAndName(subprocess.getId(), subprocess.getName())
-                    .withDescription(processDescription).build();
-            ActivityType activity = newSubProcessActivity(processDef)
-                    .withIdAndName(subprocess.getId(), subprocess.getName())
-                    .withDescription(processDescription)
-                    .build();
-            activity.setImplementationProcess(implProcessDef);
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
+        new Subprocess2Stardust(carnotModel, failures).addSubprocess(subprocess, container);
     }
 
     public void addAbstractTask(Task task, FlowElementsContainer container) {
@@ -266,158 +205,11 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addUserTask(UserTask task, FlowElementsContainer container) {
-        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-        if (processDef != null) {
-            String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
-            ActivityType activity = newManualActivity(processDef)
-                    .withIdAndName(task.getId(), task.getName())
-                    .withDescription(descr)
-                    .build();
-
-            Bpmn2StardustXPDLExtension.addUserTaskExtensions(task, activity);
-
-            List<ResourceRole> resources = task.getResources();
-            for (ResourceRole role : resources) {
-                if (role instanceof Performer) {
-                    setTaskPerformer(activity, role, task, container);
-                }
-            }
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
-
+    	new UserTask2Stardust(carnotModel, failures).addUserTask(task, container);
     }
 
     public void addServiceTask(ServiceTask task, FlowElementsContainer container) {
-        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-        if (processDef != null) {
-            String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
-            newApplicationActivity(processDef)
-                    .withIdAndName(task.getId(), task.getName())
-                    .withDescription(descr)
-                    .build();
-            // TODO StardustServiceTaskType (Extensions)
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
-    }
-
-
-    private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
-        if (processDef != null) {
-            ActivityType sourceActivity = query.findActivity(sourceNode, container);
-            ActivityType targetActivity = query.findActivity(targetNode, container);
-            if (sourceActivity != null && targetActivity != null) {
-                String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
-                TransitionType transition = Sequence2Stardust.createTransition(seq.getId(), seq.getName(), documentation, processDef, sourceActivity, targetActivity);
-                if (seq.getConditionExpression() != null) {
-                    if (seq.getConditionExpression() instanceof FormalExpression) {
-                        Sequence2Stardust.setSequenceFormalCondition(transition, (FormalExpression)seq.getConditionExpression(), failures);
-                    } else if (seq.getConditionExpression().getDocumentation() != null
-                            && seq.getConditionExpression().getDocumentation().get(0) != null
-                            && !seq.getConditionExpression().getDocumentation().get(0).getText().equals("")) {
-                        Sequence2Stardust.setSequenceInformalCondition(transition, seq.getConditionExpression().getDocumentation().get(0).getText());
-                    } else {
-                        Sequence2Stardust.setSequenceTrueCondition(transition);
-                    }
-                }
-                // TODO transition.setForkOnTraversal()
-                processDef.getTransition().add(transition);
-            } else {
-                failures.add("No valid source and target for sequence flow: " + seq.getId() + " sourceRef " + seq.getSourceRef() + " targetRef " + seq.getTargetRef());
-            }
-        } else {
-            failures.add(FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-        }
-    }
-
-    private void addManualTrigger(StartEvent event, FlowElementsContainer container, ProcessDefinitionType processDef) {
-        logger.debug("addManualTrigger " + event);
-        TriggerType trigger = newManualTrigger(processDef)
-            .withIdAndName(event.getId(), event.getName())
-            .build();
-        Bpmn2StardustXPDLExtension.addStartEventExtensions(event, trigger);
-    }
-
-    private void addMessageTrigger(StartEvent event, MessageEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
-        logger.debug("addMessageTrigger (JMS) " + event);
-        TriggerTypeType triggerType = Bpmn2StardustXPDLExtension.getMessageStartEventTriggerType(event, carnotModel);
-        if (triggerType != null) {
-            TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
-            trigger.setType(triggerType);
-            trigger.setId(event.getId());
-            trigger.setName(event.getName());
-            Bpmn2StardustXPDLExtension.addMessageStartEventExtensions(event, trigger);
-            processDef.getTrigger().add(trigger);
-        } else {
-            failures.add(FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
-        }
-    }
-
-    private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
-        logger.debug("addTimerTrigger " + event);
-
-        TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
-        if (triggerType != null) {
-            TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
-            trigger.setType(triggerType);
-            trigger.setId(event.getId());
-            trigger.setName(event.getName());
-            setTimerTriggerDefinition(event, def, trigger);
-            Bpmn2StardustXPDLExtension.addTimerStartEventExtensions(event, trigger);
-            processDef.getTrigger().add(trigger);
-        } else {
-            failures.add(FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
-        }
-    }
-
-    private void setTimerTriggerDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {
-        // According to OMG-BPMN, only one (date, cycle or duration) for executable processes;
-        // duration is not considered here (rather useful for waiting-timers)
-        if (eventDef.getTimeCycle()!= null) {
-            setTimerCycleDefinition(eventDef, trigger);
-        } else if (eventDef.getTimeDate() != null) {
-            setTimerTimeDefinition(event, eventDef, trigger);
-        }
-    }
-
-    private void setTimerCycleDefinition(TimerEventDefinition eventDef, TriggerType trigger) {
-        Expression cycleExpression =  eventDef.getTimeCycle();
-        if (cycleExpression instanceof FormalExpression) {
-            FormalExpression formalCycle = (FormalExpression)cycleExpression;
-            String body = formalCycle.getBody();
-            BpmnTimerCycle cycle = BpmnTimerCycle.getCycle(body);
-            Duration dur = cycle.getCycleDuration();
-            Period p = new Period((short)dur.getYears(), (short)dur.getMonths(), (short)dur.getDays(), (short)dur.getHours(), (short)dur.getMinutes(), (short)dur.getSeconds());
-            AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT, "long", String.valueOf(cycle.getStartDate().getTime()));
-            AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_PERIODICITY_ATT, "Period", String.valueOf(p.toString()));
-        } else {
-            String expression = DocumentationTool.getInformalExpressionValue(cycleExpression);
-            DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
-            String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
-            XpdlModelUtils.setCDataString(descriptor.getMixed(), expression.concat(descr), true);
-        }
-    }
-
-    private void setTimerTimeDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {
-        Expression timeExpression =  eventDef.getTimeDate();
-        if (timeExpression instanceof FormalExpression) {
-            FormalExpression formalCycle = (FormalExpression)timeExpression;
-            String body = formalCycle.getBody();
-            try {
-                Date d = DatatypeFactory.newInstance().newXMLGregorianCalendar(body).toGregorianCalendar().getTime();
-                AttributeUtil.setAttribute(trigger, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT, "long", String.valueOf(d.getTime()));
-            } catch (Exception e) {
-                logger.info("Date cannot be parsed: " + body + " (Start Event " + event.getId() + " )");
-            }
-        } else {
-            String expression = DocumentationTool.getInformalExpressionValue(timeExpression);
-            DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
-            String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
-            if (null!=descr) expression = expression.concat(descr);
-            XpdlModelUtils.setCDataString(descriptor.getMixed(), expression, true);
-            trigger.setDescription(descriptor);
-        }
+    	new ServiceTask2Stardust(carnotModel, failures).addServiceTask(task, container);
     }
 
     public void addItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports) {
@@ -451,35 +243,20 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     }
 
+    public void addTaskDataFlows(Activity activity, FlowElementsContainer container) {
+        logger.info("addTaskDataFlows " + activity.getId() + " " + activity.getName());
+        new TaskDataFlow2Stardust(carnotModel,failures).addDataFlows(activity, container);
+    }
+
+	public void addInterface(Interface bpmnInterface) {
+		new Interface2StardustApplication(carnotModel, failures).addIInterface(bpmnInterface);
+	}
+
     @SuppressWarnings("unused")
     private static DescriptionType getDescription(String description) {
         DescriptionType descriptor = AbstractElementBuilder.F_CWM.createDescriptionType();
         XpdlModelUtils.setCDataString(descriptor.getMixed(), description, true);
         return descriptor;
-    }
-
-    private void setTaskPerformer(ActivityType activity, ResourceRole role, UserTask task, FlowElementsContainer container) {
-        if (role.getResourceAssignmentExpression() != null) failures.add(FAIL_ELEMENT_UNSUPPORTED_FEATURE + "(RESOURCE ASSIGNMENT EXPRESSION NOT IMPLEMENTED)");
-        if (role.getResourceParameterBindings() != null) failures.add(FAIL_ELEMENT_UNSUPPORTED_FEATURE + "RESOURCE PARAMETER BINDINGS NOT IMPLEMENTED");
-
-        if (role.eIsProxy()) role = Bpmn2ProxyResolver.resolveRoleProxy(role, container);
-        if (role.getResourceRef() != null) {
-            Resource resource = role.getResourceRef();
-            if (resource.eIsProxy()) resource = Bpmn2ProxyResolver.resolveResourceProxy(resource, container);
-            if (resource != null) {
-                IModelParticipant resourceType = query.findResourceType(resource.getId());
-                if (resourceType==null) {
-                    String descr = DocumentationTool.getDescriptionFromDocumentation(resource.getDocumentation());
-                    resourceType = newRole(carnotModel).withIdAndName(resource.getId(), resource.getName()).withDescription(descr).build();
-                }
-                activity.setPerformer(resourceType);
-            }
-        }
-    }
-
-    public void addTaskDataFlows(Activity activity, FlowElementsContainer container) {
-        logger.info("addTaskDataFlows " + activity.getId() + " " + activity.getName());
-        new TaskDataFlow2Stardust(carnotModel,failures).addDataFlows(activity, container);
     }
 
 }

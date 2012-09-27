@@ -22,6 +22,7 @@ import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
+import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
@@ -88,6 +89,6 @@ public interface Transformator {
 
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container);
 
-
+	public void addInterface(Interface bpmnInterface);
 
 }

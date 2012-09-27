@@ -130,6 +130,8 @@ public class TransformationControl {
         for (RootElement root : definitions.getRootElements()) {
             if (root instanceof ItemDefinition) {
                 processItemDefinition((ItemDefinition)root, bpmnImports);
+            } else if (root instanceof Interface) {
+                processInterface((Interface)root);
             }
         }
         for (RootElement root : roots) {
@@ -153,8 +155,6 @@ public class TransformationControl {
                 processEscalation((Escalation)root);
             } else if (root instanceof EventDefinition) {
                 processEventDefinition((EventDefinition)root);
-            } else if (root instanceof Interface) {
-                processInterface((Interface)root);
             } else if (root instanceof Message) {
                 processMessage((Message)root);
             } else if (root instanceof PartnerEntity) {
@@ -379,7 +379,7 @@ public class TransformationControl {
     }
 
     private void processServiceTask(ServiceTask activity, FlowElementsContainer container) {
-        processingInfo +=   "ServiceTask" + NOT_SUPPORTED;
+        //processingInfo +=   "ServiceTask" + NOT_SUPPORTED;
         transf.addServiceTask(activity, container);
     }
 
@@ -523,7 +523,8 @@ public class TransformationControl {
     }
 
     private  void processInterface(Interface iface) {
-        processingInfo +=   "Interface" + NOT_SUPPORTED;
+        //processingInfo +=   "Interface" + NOT_SUPPORTED;
+    	transf.addInterface(iface);
 
     }
 

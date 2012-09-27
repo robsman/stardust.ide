@@ -1,20 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2012 ITpearls AG and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+/**
+ * ****************************************************************************
+ *  Copyright (c) 2012 ITpearls AG and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors:
- *    ITpearls - initial API and implementation and/or initial documentation
- *******************************************************************************
- * $Id$
+ *  Contributors:
+ *     ITpearls - initial API and implementation and/or initial documentation
+ * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 
 /**
@@ -26,7 +25,6 @@ import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity#getEventHandler <em>Event Handler</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity#getDataMapping <em>Data Mapping</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity#isHibernateOnCreation <em>Hibernate On Creation</em>}</li>
  * </ul>
  * </p>
@@ -51,22 +49,6 @@ public interface TStardustActivity extends TStardustCommon {
      * @generated
      */
     EList<EventHandlerType> getEventHandler();
-
-    /**
-     * Returns the value of the '<em><b>Data Mapping</b></em>' containment reference list.
-     * The list contents are of type {@link org.eclipse.stardust.model.xpdl.carnot.DataMappingType}.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * The list of data mappings.
-     * <!-- end-model-doc -->
-     * @return the value of the '<em>Data Mapping</em>' containment reference list.
-     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getTStardustActivity_DataMapping()
-     * @model containment="true"
-     *        extendedMetaData="kind='element' name='dataMapping' namespace='##targetNamespace'"
-     * @generated
-     */
-    EList<DataMappingType> getDataMapping();
 
     /**
      * Returns the value of the '<em><b>Hibernate On Creation</b></em>' attribute.

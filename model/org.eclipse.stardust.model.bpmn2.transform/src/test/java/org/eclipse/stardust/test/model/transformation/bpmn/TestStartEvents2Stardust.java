@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
 
+import org.eclipse.bpmn2.Definitions;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -84,7 +85,8 @@ public class TestStartEvents2Stardust {
         long startTime = cal.getTime().getTime(); //2012-09-01T11:00:00
         String period = "000001:000002:000001:000020:000030:000000";
 
-        ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+        Definitions defs = loadBpmnModel(modelFile);
+        ModelType result = transformModel(defs, fileOutput);
         ProcessDefinitionType process = result.getProcessDefinition().get(0);
         assertNotNull(process);
         assertNotNull(result);

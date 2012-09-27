@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.util;
 
+import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.emf.common.util.URI;
@@ -39,6 +42,24 @@ public class Bpmn2ProxyResolver {
         }
         return role;
     }
+
+    public static Operation resolveOperationProxy(Operation operation, FlowElementsContainer container) {
+        URI proxyURI = ((InternalEObject) operation).eProxyURI();
+        if (container.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+            operation = (Operation)eRes.getEObject(proxyURI.fragment());
+        }
+        return operation;
+    }
+
+	public static ItemDefinition resolveItemDefinition(ItemDefinition itemDef, Definitions definitions) {
+        URI proxyURI = ((InternalEObject) itemDef).eProxyURI();
+        if (definitions.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = definitions.eResource();
+            itemDef = (ItemDefinition)eRes.getEObject(proxyURI.fragment());
+        }
+        return itemDef;
+	}
 
 //	public static AnyType resolveAnyTypeProxy(AnyType type, RootElement container) {
 //		URI proxyURI = ((InternalEObject) type).eProxyURI();
