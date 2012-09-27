@@ -38,7 +38,7 @@
       <ivy:resolve file="${project.dir}/ivy.xml"/>
    </target>
 
-	<target name="init" depends="initIvy">
+	<target name="init" depends="initIvy, initBuildDir">
       <property name="build.dir" value="${build.home}" />
    </target>
 
@@ -46,7 +46,7 @@
       <property name="build.home" value="${project.dir}/build" />
    </target>
 
-   <target name="initBuild" depends="init, initBuildDir">
+   <target name="initBuild" depends="init">
       <property name="build.dir" value="${build.home}" />
       <property name="build.lib" value="${build.dir}/lib" />
 
