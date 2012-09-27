@@ -2288,5 +2288,41 @@ public class ModelBuilderFacade
       return path;
    }
 
+   public ApplicationType setApplication(ActivityType activity,
+         String applicationFullId)
+   {
+      ApplicationType application = getApplication(getModelId(applicationFullId),
+            stripFullId(applicationFullId));
+
+      ModelType model = ModelUtils.findContainingModel(activity);
+      ModelType applicationModel = ModelUtils.findContainingModel(application);
+
+      if (model.equals(applicationModel))
+      {
+         activity.setApplication(application);
+      }
+      else
+      {
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+               model, applicationModel);
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
+               uri, application, bundleId, null, true);
+
+         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
+               descriptor.getURI().toString());
+
+         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
+         idRef.setRef(application.getId());
+         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model,
+               applicationModel));
+         activity.setExternalRef(idRef);
+      }
+      return application;
+   }
+
 
 }
