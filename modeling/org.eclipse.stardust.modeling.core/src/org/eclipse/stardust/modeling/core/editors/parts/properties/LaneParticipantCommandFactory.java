@@ -96,7 +96,7 @@ public class LaneParticipantCommandFactory extends DefaultPropSheetCmdFactory
          TriggerType trigger = startEventSymbol.getTrigger();
          if ((null != trigger) && (null != trigger.getType())
                && PredefinedConstants.MANUAL_TRIGGER.equals(trigger.getType().getId())
-               || PredefinedConstants.SCAN_TRIGGER.equals(trigger.getType().getId()))
+               ||  null != trigger && PredefinedConstants.SCAN_TRIGGER.equals(trigger.getType().getId()))
          {
             AttributeType attribute = AttributeUtil.getAttribute(trigger,
                   PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
