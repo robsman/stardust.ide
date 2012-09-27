@@ -10,21 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.figures;
 
-import org.eclipse.draw2d.AbstractRouter;
-import org.eclipse.draw2d.BorderLayout;
-import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.ConnectionLocator;
-import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.MarginBorder;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseMotionListener;
-import org.eclipse.draw2d.PrinterGraphics;
-import org.eclipse.draw2d.RectangleFigure;
-import org.eclipse.draw2d.RotatableDecoration;
-import org.eclipse.draw2d.RoundedRectangle;
-import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.*;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
@@ -38,6 +24,7 @@ import org.eclipse.stardust.modeling.core.utils.TransitionConnectionUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.ui.PlatformUI;
 
 
@@ -177,7 +164,45 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
                };
             }
             rect.setOutline(SHOW_BORDER);
-            label = new Label(text);
+            label = new Label(text)
+            {
+               private Dimension longestText;
+
+               public String getSubStringText()
+               {
+                  String[] splitText = text.split("\n");
+                  String newText = new String();
+                  for (int i = 0; i < splitText.length; i++)
+                  {
+                     newText = newText + getSubStringText(splitText[i]) + "\n";
+                  }
+                  return newText;
+               }
+
+               public String getSubStringText(String segment)
+               {
+                  String subStringText = segment;
+                  Dimension textLength = getTextUtilities().getTextExtents(segment,
+                        getFont());
+                  int widthShrink = textLength.width - getSize().width;
+                  if (widthShrink <= 0)
+                     return subStringText;
+
+                  Dimension effectiveSize = textLength.getExpanded( -widthShrink, 0);
+                  Font currentFont = getFont();
+                  int dotsWidth = getTextUtilities().getTextExtents(
+                        getTruncationString(), currentFont).width;
+
+                  if (effectiveSize.width < dotsWidth)
+                     effectiveSize.width = dotsWidth;
+
+                  int subStringLength = getTextUtilities().getLargestSubstringConfinedTo(
+                        segment, currentFont, effectiveSize.width - dotsWidth);
+                  subStringText = new String(segment.substring(0, subStringLength)
+                        + getTruncationString());
+                  return subStringText;
+               }
+            };
 
             // Workaround (rsauer): explicity setting font to prevent NPE in headless mode
             if (null == label.getFont())
