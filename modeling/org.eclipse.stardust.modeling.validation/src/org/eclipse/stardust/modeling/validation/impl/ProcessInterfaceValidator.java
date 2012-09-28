@@ -59,19 +59,6 @@ public class ProcessInterfaceValidator implements IModelElementValidator
          if (proc.getExternalRef() != null)
          {
             ProcessDefinitionType referencedProcess = findProcess(externalRef);
-            if (isMultipleImplementation(proc, referencedProcess))
-            {
-               String referencingModelID = ((ModelType) modelElement.eContainer())
-                     .getId();
-               String referencedProcessID = referencedProcess.getId();
-               String referencedModelID = ((ModelType) referencedProcess.eContainer())
-                     .getId();
-               result.add(Issue.error(proc, MessageFormat.format(
-                     Validation_Messages.MODEL_ProcessInterface_Multiple_Implementations,
-                     new Object[] {
-                           referencingModelID, referencedProcessID, referencedModelID}),
-                     ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
-            }
             // Process interface does not exist anymore
             if (referencedProcess.getFormalParameters() == null)
             {
@@ -210,32 +197,10 @@ public class ProcessInterfaceValidator implements IModelElementValidator
       return (Issue[]) result.toArray(ISSUE_ARRAY);
    }
 
-   private boolean isMultipleImplementation(ProcessDefinitionType referencingProcess,
-         ProcessDefinitionType referencedProcess)
-   {
-      ModelType modelType = (ModelType) modelElement.eContainer();
-      for (Iterator<ProcessDefinitionType> i = modelType.getProcessDefinition()
-            .iterator(); i.hasNext();)
-      {
-         ProcessDefinitionType process = i.next();
-         IdRef externalRef = process.getExternalRef();
-         if (process.getExternalRef() != null)
-         {
-            ProcessDefinitionType extProcess = findProcess(externalRef);
-            if (!process.equals(referencingProcess)
-                  && referencedProcess.equals(extProcess))
-            {
-               return true;
-            }
-         }
-      }
-      return false;
-   }
-
-   private java.util.List<ProcessDefinitionType> collectReferencedProcessDefinitions(
+   private List<ProcessDefinitionType> collectReferencedProcessDefinitions(
          ModelType model)
    {
-      java.util.List<ProcessDefinitionType> processesList = CollectionUtils.newList();
+      List<ProcessDefinitionType> processesList = CollectionUtils.newList();
       ExternalPackages packages = model.getExternalPackages();
       if (packages != null)
       {
@@ -255,7 +220,7 @@ public class ProcessInterfaceValidator implements IModelElementValidator
                   }
                   if (externalModel instanceof ModelType)
                   {
-                     java.util.List<ProcessDefinitionType> externalDeclarations = ((ModelType) externalModel)
+                     List<ProcessDefinitionType> externalDeclarations = ((ModelType) externalModel)
                            .getProcessDefinition();
                      if (externalDeclarations != null)
                      {

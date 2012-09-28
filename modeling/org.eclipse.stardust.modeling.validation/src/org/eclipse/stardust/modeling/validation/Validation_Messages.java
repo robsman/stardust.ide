@@ -79,8 +79,6 @@ public class Validation_Messages extends NLS
 
    public static String MODEL_ProcessInterface_InvalidForExternalInvocation;
 
-   public static String MODEL_ProcessInterface_Multiple_Implementations;
-
    public static String MODEL_ProcessInterface_ParameterMissing;
 
    public static String MODEL_ProcessInterface_ParameterPending;
