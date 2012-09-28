@@ -38,6 +38,23 @@
       <dependency org="org.apache.cxf" name="cxf-tools-wsdlto-databinding-jaxb" rev="2.6.1" transitive="false" conf="bom->default" />
       <dependency org="org.apache.cxf" name="cxf-tools-wsdlto-frontend-jaxws" rev="2.6.1" transitive="false" conf="bom->default" />
       
+      <dependency org="org.apache.cxf" name="cxf-rt-bindings-xml" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-databinding-jaxb" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-frontend-simple" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-transports-http" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-ws-addr" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-ws-policy" rev="2.6.1" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-ws-security" rev="2.6.1" transitive="false" conf="bom->default" />
+
+      <dependency org="asm" name="asm" rev="3.3.1" transitive="false" conf="bom->default" />
+      <dependency org="net.sf.ehcache" name="ehcache-core" rev="2.5.1" transitive="false" conf="bom->default" />
+      <dependency org="com.google.code.gson" name="gson" rev="1.6" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.neethi" name="neethi" rev="3.0.2" transitive="false" conf="bom->default" />
+      <dependency org="wsdl4j" name="wsdl4j" rev="1.6.2" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.ws.security" name="wss4j" rev="1.6.6" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.santuario" name="xmlsec" rev="1.5.2" transitive="false" conf="bom->default" />
+      
       <dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.12" transitive="false" conf="bom->default" />
       <dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.1.12" transitive="false" conf="bom->default" />
       <dependency org="org.apache.velocity" name="velocity" rev="1.7" transitive="false" conf="bom->default" />
