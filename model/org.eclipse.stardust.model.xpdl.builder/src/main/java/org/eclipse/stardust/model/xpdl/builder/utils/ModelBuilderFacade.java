@@ -1181,7 +1181,6 @@ public class ModelBuilderFacade
 
       processDefinition.getDiagram().add(diagram);
 
-      newManualTrigger(processDefinition).accessibleTo(ADMINISTRATOR_ROLE).build();
       return processDefinition;
    }
 
