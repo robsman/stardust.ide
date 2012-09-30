@@ -57,6 +57,7 @@ import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
@@ -889,6 +890,40 @@ public class ModelBuilderFacade
       processDefinition.getDiagram().get(0).getActivitySymbol().add(activitySymbol);
       parentLaneSymbol.getActivitySymbol().add(activitySymbol);
       return activitySymbol;
+   }
+
+   /**
+    * 
+    * @param model
+    * @param processDefinition
+    * @param parentLaneID
+    * @param xProperty
+    * @param yProperty
+    * @param widthProperty
+    * @param heightProperty
+    * @return
+    */
+   public AnnotationSymbolType createAnnotationSymbol(ModelType model,
+         ProcessDefinitionType processDefinition, String parentLaneID,
+         int xProperty, int yProperty, int widthProperty,
+         int heightProperty)
+   {
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
+
+      AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM
+            .createAnnotationSymbolType();
+      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
+
+      annotationSymbol.setElementOid(++maxOID);
+      annotationSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
+      annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
+      annotationSymbol.setWidth(widthProperty);
+      annotationSymbol.setHeight(heightProperty);
+
+      processDefinition.getDiagram().get(0).getAnnotationSymbol().add(annotationSymbol);
+      parentLaneSymbol.getAnnotationSymbol().add(annotationSymbol);
+      
+      return annotationSymbol;
    }
 
    /**

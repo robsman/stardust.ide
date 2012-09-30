@@ -183,4 +183,6 @@ public class ModelerConstants
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointId";
    public static final String INTERACTIVE_PROPERTY = "interactive";
+   public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
+   public static final String CONTENT_PROPERTY = "content";
 }
