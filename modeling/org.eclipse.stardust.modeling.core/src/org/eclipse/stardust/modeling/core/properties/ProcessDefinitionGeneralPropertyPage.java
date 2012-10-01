@@ -22,10 +22,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.persistence.jdbc.transientpi.AuditTrailPersistence;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -65,6 +67,10 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
          auditTrailPersistenceCheckBox.setSelection(true);
          isAuditTrailPersistent = true;
          comboViewer.setSelection(new StructuredSelection(auditTrailPersistence));
+      }
+      else
+      {
+         comboViewer.getCombo().select(0);
       }
 
       comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
