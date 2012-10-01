@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public class EditingSession
 {
@@ -30,7 +29,7 @@ public class EditingSession
 
    private final String id;
 
-   private final Set<ModelType> models = newHashSet();
+   private final Set<EObject> models = newHashSet();
 
    private ChangeRecorder emfChangeRecorder = new ChangeRecorder()
    {
@@ -61,12 +60,12 @@ public class EditingSession
       return id;
    }
 
-   public boolean isTrackingModel(ModelType model)
+   public boolean isTrackingModel(EObject model)
    {
       return models.contains(model);
    }
 
-   public void trackModel(ModelType model)
+   public void trackModel(EObject model)
    {
       if ( !models.contains(model))
       {

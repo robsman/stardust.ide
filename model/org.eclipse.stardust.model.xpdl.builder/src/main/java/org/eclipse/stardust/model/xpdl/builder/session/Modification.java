@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.builder.session;
 import static java.util.Collections.unmodifiableCollection;
 import static org.eclipse.stardust.common.CollectionUtils.isEmpty;
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.findContainingModel;
 
 import java.util.Collection;
 import java.util.Map;
@@ -135,7 +136,8 @@ public class Modification
             modifiedElements);
       for (EObject candidate : changeDescription.getObjectsToDetach())
       {
-         if ( !isModelOrModelElement(candidate))
+         if ((null != findContainingModel(candidate))
+               && !isModelOrModelElement(candidate))
          {
             // report any change to a non-element sub-object as modification of the
             // containing parent element
@@ -148,7 +150,7 @@ public class Modification
       // added
       for (EObject candidate : changeDescription.getObjectsToDetach())
       {
-         if (isModelOrModelElement(candidate))
+         if ((null == findContainingModel(candidate)) || isModelOrModelElement(candidate))
          {
             addedElements.add(candidate);
          }
@@ -177,11 +179,12 @@ public class Modification
 
    public EObject determineChangedElement(EObject changedObject)
    {
-      while ( !isModelOrModelElement(changedObject))
+      EObject element = changedObject;
+      while ((null != element) && !isModelOrModelElement(element))
       {
-         changedObject = changedObject.eContainer();
+         element = element.eContainer();
       }
-      return changedObject;
+      return (null != element) ? element : changedObject;
    }
 
    private boolean isModelOrModelElement(EObject changedObject)
