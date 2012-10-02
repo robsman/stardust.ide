@@ -81,7 +81,7 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
    private Button requestButton;
    private Button responseButton;
    private EObjectLabelProvider labelProvider;
-   
+
    public void dispose()
    {
       requestOutlineSynchronizer.dispose();
@@ -114,7 +114,7 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
    {
       if (requestButton.getSelection())
       {
-         
+
          addJmsType(REQUEST_NODE, REQUEST,
               RequestPropertyPage.class.getName(), application);
       }
@@ -242,7 +242,7 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
       };
       TableUtil.setLabelProvider(viewer, labelProvider, labelProperties);
       viewer.setContentProvider(new JmsAccessPointsTreeContentProvider());
-      
+
       requestOutlineSynchronizer = new ModelElementsOutlineSynchronizer(
             new DefaultOutlineProvider(this,
                CarnotWorkflowModelPackage.eINSTANCE.getIAccessPointOwner_AccessPoint(),
@@ -254,8 +254,12 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
                {
                   public boolean select(Object toTest)
                   {
-                     return AccessPointUtil.isDirectionCompatible(
-                           (AccessPointType) toTest, true);
+                        if (toTest instanceof AccessPointType)
+                        {
+                           return AccessPointUtil.isDirectionCompatible(
+                                 (AccessPointType) toTest, true);
+                        }
+                        return false;
                   }
                })
             {
@@ -280,7 +284,7 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
                }
             });
       addModelElementsOutlineSynchronizer(requestOutlineSynchronizer);
-      
+
       responseOutlineSynchronizer = new ModelElementsOutlineSynchronizer(
             new DefaultOutlineProvider(this,
                CarnotWorkflowModelPackage.eINSTANCE.getIAccessPointOwner_AccessPoint(),
@@ -453,13 +457,13 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
          factory.getId(), factory.getName(), null,
          isIn ? DirectionType.IN_LITERAL : DirectionType.OUT_LITERAL, !isIn, null,
          ModelUtils.getDataType(application, CarnotConstants.SERIALIZABLE_DATA_ID));
-      
+
       AttributeUtil.setAttribute(ap, CarnotConstants.BROWSABLE_ATT, BOOLEAN_TYPE,
             Boolean.FALSE.toString());
 
       ap.setElementOid(ModelUtils.getElementOid(ap,
             ModelUtils.findContainingModel(application)));
-      
+
       application.getAccessPoint().add(ap);
       if (preselect)
       {
