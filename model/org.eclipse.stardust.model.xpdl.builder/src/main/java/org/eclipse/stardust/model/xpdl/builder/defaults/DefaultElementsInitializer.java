@@ -36,6 +36,11 @@ public class DefaultElementsInitializer implements ModelInitializer
             "Root Process OID")
             .ofType(Long.class)
             .build();
+
+      newPrimitiveVariable(model).withIdAndName(PredefinedConstants.PROCESS_PRIORITY,
+            "Process Priority")
+            .ofType(Integer.class)
+            .build();      
    }
 
 }
