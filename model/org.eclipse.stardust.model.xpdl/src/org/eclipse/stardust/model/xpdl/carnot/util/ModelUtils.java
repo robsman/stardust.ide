@@ -65,6 +65,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
@@ -750,6 +751,14 @@ public class ModelUtils
    // TODO: duplicate method VersionRepository, need to put it in a common place
    public static IProject getProjectFromEObject(EObject eObject)
    {
+      if (eObject instanceof ContextType)
+      {
+         ContextType contextType = (ContextType) eObject;
+         if (contextType.getType() != null)
+         {
+            eObject = contextType.getType().eContainer();
+         }
+      }
       if (eObject != null)
       {
          Resource eResource = eObject.eResource();
