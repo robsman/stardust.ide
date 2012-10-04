@@ -257,6 +257,11 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    {
       model = loadModel(id);
 
+      if(model == null)
+      {
+         throw new IllegalArgumentException("Model not found: " + id);         
+      }
+      
       IconFactory iconFactory = new PepperIconFactory();
 
       modelDescriptor = new EObjectDescriptor(uri, model, model.getId(), model.getName(),
