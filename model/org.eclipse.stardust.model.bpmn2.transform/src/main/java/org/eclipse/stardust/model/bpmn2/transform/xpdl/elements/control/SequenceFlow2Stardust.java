@@ -12,14 +12,14 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control;
 
 import java.util.List;
 
-import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
-import org.eclipse.bpmn2.FormalExpression;
+import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -40,14 +40,20 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 		ProcessDefinitionType processDef = getProcessOrReportFailure(seq, container);
 		if (processDef == null) return;
 
+		if (CarnotModelQuery.findTransition(processDef, seq.getId()) != null) return;
+
 		FlowNode sourceNode = seq.getSourceRef();
 		FlowNode targetNode = seq.getTargetRef();
 
+		if (sourceNode instanceof Gateway || targetNode instanceof Gateway)
+			return;
+
 		if (sourceNode instanceof StartEvent || targetNode instanceof EndEvent)
 			return;
-		if (sourceNode instanceof Activity && targetNode instanceof Activity) {
+
+		//if (sourceNode instanceof Activity && targetNode instanceof Activity) {
 			addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
-		}
+		//}
 	}
 
 	private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
@@ -57,17 +63,9 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 			String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
 			TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), documentation,
 					processDef, sourceActivity, targetActivity);
-			if (seq.getConditionExpression() != null) {
-				if (seq.getConditionExpression() instanceof FormalExpression) {
-					TransitionUtil.setSequenceFormalCondition(transition, (FormalExpression) seq.getConditionExpression(), failures);
-				} else if (seq.getConditionExpression().getDocumentation() != null
-						&& seq.getConditionExpression().getDocumentation().get(0) != null
-						&& !seq.getConditionExpression().getDocumentation().get(0).getText().equals("")) {
-					TransitionUtil.setSequenceInformalCondition(transition, seq.getConditionExpression().getDocumentation().get(0).getText());
-				} else {
-					TransitionUtil.setSequenceTrueCondition(transition);
-				}
-			}
+
+			TransitionUtil.setSequenceExpressionConditionOrTrue(transition, seq.getConditionExpression(), logger, failures);
+
 			// TODO transition.setForkOnTraversal()
 			processDef.getTransition().add(transition);
 		} else {
@@ -75,4 +73,30 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 					+ seq.getSourceRef() + " targetRef " + seq.getTargetRef());
 		}
 	}
+
+//	private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
+//		ActivityType sourceActivity = query.findActivity(sourceNode, container);
+//		ActivityType targetActivity = query.findActivity(targetNode, container);
+//		if (sourceActivity != null && targetActivity != null) {
+//			String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
+//			TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), documentation,
+//					processDef, sourceActivity, targetActivity);
+//			if (seq.getConditionExpression() != null) {
+//				if (seq.getConditionExpression() instanceof FormalExpression) {
+//					TransitionUtil.setSequenceFormalCondition(transition, (FormalExpression) seq.getConditionExpression(), failures);
+//				} else if (seq.getConditionExpression().getDocumentation() != null
+//						&& seq.getConditionExpression().getDocumentation().get(0) != null
+//						&& !seq.getConditionExpression().getDocumentation().get(0).getText().equals("")) {
+//					TransitionUtil.setSequenceInformalCondition(transition, seq.getConditionExpression().getDocumentation().get(0).getText());
+//				} else {
+//					TransitionUtil.setSequenceTrueCondition(transition);
+//				}
+//			}
+//			// TODO transition.setForkOnTraversal()
+//			processDef.getTransition().add(transition);
+//		} else {
+//			failures.add("No valid source and target for sequence flow: " + seq.getId() + " sourceRef "
+//					+ seq.getSourceRef() + " targetRef " + seq.getTargetRef());
+//		}
+//	}
 }

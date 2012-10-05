@@ -78,6 +78,7 @@ import org.eclipse.bpmn2.Transaction;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 
 /**
  * @author Simon Nikles
@@ -106,12 +107,14 @@ public class TransformationControl {
         processingInfo = "";
         transf = dialect.getTransformator();
         processBpmn(definitions, transf);
+        transf.finalizeTransformation(definitions);
         transf.serializeTargetModel(outputFile);
 
         for (String msg : transf.getTransformationMessages()) {
             log.info(msg);
         }
         log.info(processingInfo);
+
         return processingInfo;
     }
 
@@ -126,12 +129,14 @@ public class TransformationControl {
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
         List<Import> bpmnImports =  definitions.getImports();
-
+        // 'globally' used elements
         for (RootElement root : definitions.getRootElements()) {
             if (root instanceof ItemDefinition) {
                 processItemDefinition((ItemDefinition)root, bpmnImports);
             } else if (root instanceof Interface) {
                 processInterface((Interface)root);
+            } else if (root instanceof Resource) {
+                processResource((Resource)root);
             }
         }
         for (RootElement root : roots) {
@@ -161,8 +166,6 @@ public class TransformationControl {
                 processPartnerEntity((PartnerEntity)root);
             } else if (root instanceof PartnerRole) {
                 processPartnerRole((PartnerRole)root);
-            } else if (root instanceof Resource) {
-                processResource((Resource)root);
             } else if (root instanceof Signal) {
                 processSignal((Signal)root);
             } else if (root instanceof Collaboration) {
@@ -193,6 +196,7 @@ public class TransformationControl {
     private  void processFlowElementsContainer(FlowElementsContainer process) {
         List<SequenceFlow> sequenceFlows = new ArrayList<SequenceFlow>();
         List<Gateway> gateways = new ArrayList<Gateway>();
+        List<FlowNode> routingFlowNodes = new ArrayList<FlowNode>();
 
         for (LaneSet laneset : process.getLaneSets()) {
             processLaneset(laneset, process);
@@ -204,12 +208,20 @@ public class TransformationControl {
                 if (flowElement instanceof Gateway) {
                     gateways.add((Gateway)flowElement);
                 } else {
+                	if (flowElement instanceof FlowNode) {
+                		if (BpmnModelQuery.isRoutingFlowNode((FlowNode)flowElement)) {
+                			routingFlowNodes.add((FlowNode)flowElement);
+                		}
+                	}
                     processFlowElement(flowElement, process);
                 }
             }
         }
         for (Gateway gate : gateways) {
             processFlowElement(gate, process);
+        }
+        for (FlowNode node : routingFlowNodes) {
+        	transf.addRoutingSequenceFlows(node, process);
         }
         for (SequenceFlow flow : sequenceFlows) {
             processSequenceFlow((SequenceFlow)flow, process);
@@ -223,7 +235,7 @@ public class TransformationControl {
         }
     }
 
-    private void processLane(Lane lane, LaneSet laneset, Lane parentLane, FlowElementsContainer container) {
+	private void processLane(Lane lane, LaneSet laneset, Lane parentLane, FlowElementsContainer container) {
         transf.addLane(lane, laneset, parentLane, container);
         if (lane.getChildLaneSet() == null) return;
         for (Lane childLane : lane.getChildLaneSet().getLanes()) {
@@ -340,7 +352,8 @@ public class TransformationControl {
     }
 
     private  void processResource(Resource resource) {
-        processingInfo +=   "Resource" + NOT_SUPPORTED;
+        //processingInfo +=   "Resource" + NOT_SUPPORTED;
+    	transf.addResource(resource);
     }
 
     private  void processCollaboration(Collaboration collab) {

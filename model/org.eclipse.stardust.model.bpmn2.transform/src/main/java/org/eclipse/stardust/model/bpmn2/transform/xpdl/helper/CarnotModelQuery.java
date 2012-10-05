@@ -12,9 +12,9 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -47,16 +47,8 @@ public class CarnotModelQuery {
         return null;
     }
 
-    public IModelParticipant findResourceType(String id) {
-        EList<RoleType> roles = carnotModel.getRole();
-        EList<OrganizationType> orgs = carnotModel.getOrganization();
-        for (RoleType role : roles) {
-            if (role.getId().equals(id)) return role;
-        }
-        for (OrganizationType org : orgs) {
-            if (org.getId().equals(id)) return org;
-        }
-        return null;
+    public IModelParticipant findParticipant(String id) {
+    	return findParticipant(carnotModel, id);
     }
 
     public ProcessDefinitionType findProcessDefinition(String id) {
@@ -86,6 +78,9 @@ public class CarnotModelQuery {
         }
         for (OrganizationType org : model.getOrganization()) {
             if (org.getId().equals(id)) return org;
+        }
+        for (ConditionalPerformerType cond : model.getConditionalPerformer()) {
+        	if (cond.getId().equals(id)) return cond;
         }
         return null;
     }

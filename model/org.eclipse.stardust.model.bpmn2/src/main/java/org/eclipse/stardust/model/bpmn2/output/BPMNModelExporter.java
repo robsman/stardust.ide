@@ -38,6 +38,7 @@ public class BPMNModelExporter {
         options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
         options.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
         options.put(XMLResource.OPTION_KEEP_DEFAULT_CONTENT, Boolean.TRUE);
+        options.put(XMLResource.OPTION_SAVE_TYPE_INFORMATION, Boolean.FALSE);
         FileOutputStream fos = new FileOutputStream(targetFilePath);
 
         resource.save(fos, options);

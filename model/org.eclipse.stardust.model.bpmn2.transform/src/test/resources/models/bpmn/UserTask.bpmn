@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 13:54:38" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 13:54:38" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+ xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
+>
+
+	<resource name="Administrator" id="Administrator">
+		<extensionElements>
+			<sdbpmn:StardustResource>
+				<sdbpmn:StardustRole oid="10080">
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+				</sdbpmn:StardustRole>
+			</sdbpmn:StardustResource>
+		</extensionElements>
+	</resource>
+	<resource id="OrganizationX" name="OrganizationX">
+		<extensionElements>
+			<sdbpmn:StardustResource>
+				<sdbpmn:StardustOrganization oid="10074">
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+					<stardust:attribute name="carnot:engine:bound" type="boolean" value="false" />
+					<stardust:attribute name="carnot:engine:dataPath" value="" />
+				</sdbpmn:StardustOrganization>
+			</sdbpmn:StardustResource>
+		</extensionElements>
+	</resource>
+	<resource id="ConditionalX" name="ConditionalX">
+		<extensionElements>
+			<sdbpmn:StardustResource dataId="PROCESS_ID">
+<!-- 				<sdbpmn:StardustConditionalPerformer oid="10072" dataId="STARTING_USER" dataPath="getId()" is_user="false"> -->
+				<sdbpmn:StardustConditionalPerformer oid="10072" dataPath="getId()" is_user="false">
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+					<stardust:attribute name="carnot:engine:conditionalPerformer:kind" value="userGroup" />
+				</sdbpmn:StardustConditionalPerformer>
+			</sdbpmn:StardustResource>
+		</extensionElements>
+  </resource>
+
+
   <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
-    <extensionElements>
-      <itp:systemDefinedAttributes>
-        <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
-        <attribute name="ExternalId" type="String" />
-        <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
-        <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
-          <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
-          <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
-        </attribute>
-      </itp:systemDefinedAttributes>
-      <itp:localization>
-        <itp:label lang="unspecified" text="Hauptprozess" default="True" />
-      </itp:localization>
-    </extensionElements>
+
     <userTask id="TestModelTaskA" name="Task A" implementation="unspecified">
-      <extensionElements>
-        <itp:systemDefinedAttributes>
-          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
-          <attribute name="ExternalId" type="String" />
-          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
-          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
-            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
-            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
-          </attribute>
-        </itp:systemDefinedAttributes>
-        <itp:localization>
-          <itp:label lang="unspecified" text="Task A" default="True" />
-        </itp:localization>
-      </extensionElements>
+		<performer>
+			<resourceRef>Administrator</resourceRef>
+		</performer>
+    </userTask>
+    <userTask id="TestModelTaskB" name="Task B" implementation="unspecified">
+		<performer>
+			<resourceRef>OrganizationX</resourceRef>
+		</performer>
+    </userTask>
+    <userTask id="TestModelTaskC" name="Task C" implementation="unspecified">
+		<performer>
+			<resourceRef>ConditionalX</resourceRef>
+		</performer>
     </userTask>
   </process>
   <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">

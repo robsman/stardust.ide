@@ -82,9 +82,9 @@ public class ServiceTask2Stardust extends AbstractElement2Stardust {
 
 	private Interface getServiceInterface(ServiceTask task, FlowElementsContainer container) {
 		Operation operation = task.getOperationRef();
-		if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, container);
-		logger.debug("ServiceTask2Stardust.getServiceInterface() operation=" + operation);
 		if (operation != null) {
+			if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, container);
+			logger.debug("ServiceTask2Stardust.getServiceInterface() operation=" + operation);
 			return (Interface) operation.eContainer();
 		}
 		return null;

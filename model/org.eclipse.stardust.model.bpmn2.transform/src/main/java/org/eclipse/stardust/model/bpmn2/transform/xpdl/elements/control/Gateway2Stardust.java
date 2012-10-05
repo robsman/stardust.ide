@@ -19,12 +19,13 @@ import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
-import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
@@ -63,17 +64,17 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private void addGateway(Gate type, Gateway gateway, FlowElementsContainer container) {
-    	ProcessDefinitionType processDef = getProcessOrReportFailure(gateway, container);
+        ProcessDefinitionType processDef = getProcessOrReportFailure(gateway, container);
         if (processDef == null) return;
         if (!validateGate(gateway)) return;
 
         boolean isFork = isFork(gateway);
         boolean isJoin = isJoin(gateway);
         boolean isMixed = isMixed(gateway);
-        boolean isInGatewaySequence = hasBpmnGateSource(gateway, gateway.getIncoming());
+
         JoinSplitType joinsplit = getJoinSplitType(type);
 
-        if (isMixed || isInGatewaySequence) {
+        if (isGatewayTransformedToRoute(gateway)) {
             GateDirection direction = getDirection(isMixed, isFork, isJoin);
             ActivityType route = addRoute(type, direction, gateway, processDef, container);
             createRouteTransitions(route, processDef, type, direction, gateway, container);
@@ -110,6 +111,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         if (sourceActivity != null) sourceActivity.setSplit(splitType);
         for (SequenceFlow outgoing : outgoings) {
             if (outgoing.getTargetRef() instanceof Activity || outgoing.getTargetRef() instanceof Gateway) {
+                if (isBpmnMergingNonGateway(outgoing.getTargetRef())) continue;
                 ActivityType targetActivity = query.findActivity(outgoing.getTargetRef(), container);
                 if (targetActivity == null) continue;
                 String gatewayDoc = DocumentationTool.getDescriptionFromDocumentation(gateway.getDocumentation());
@@ -128,6 +130,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         if (targetActivity != null) targetActivity.setJoin(joinsplit);
         for (SequenceFlow incoming : incomings) {
             if (incoming.getSourceRef() instanceof Activity || incoming.getSourceRef() instanceof Gateway) {
+                if (isBpmnForkingNonGateway(incoming.getSourceRef())) continue;
                 ActivityType sourceActivity = query.findActivity(incoming.getSourceRef(), container);
                 if (sourceActivity == null) continue;
                 addGatewayTransition(gate, gateway, incoming.getConditionExpression(), incoming.getId(), incoming.getId(), DocumentationTool.getDescriptionFromDocumentation(gateway.getDocumentation()), sourceActivity, targetActivity, processDef);
@@ -158,7 +161,10 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         List<SequenceFlow> outgoings = gateway.getOutgoing();
         for (SequenceFlow out : outgoings) {
             ActivityType target = findSequenceTargetActivity(out, container);
-            if (target != null) {
+            if (target == null && out.getTargetRef() instanceof Gateway && direction.equals(GateDirection.CONVERGE)) {
+                Gateway targetGate = (Gateway)out.getTargetRef();
+                forwardCreateTransitionToGate(out, route, gateway, type, targetGate, processDef, container);
+            } else if (target != null && !isBpmnMergingNonGateway(out.getTargetRef())) {
                 TransitionType transition = TransitionUtil.createTransition(out.getId(), out.getName(), DocumentationTool.getDescriptionFromDocumentation(out.getDocumentation()), processDef, route, target);
                 setGatewayConditions(type, gateway, out.getConditionExpression(), transition, route, target);
             }
@@ -179,12 +185,13 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
                     }
                 }
             } else {
-                TransitionType transition = TransitionUtil.createTransition(in.getId(), in.getName(), DocumentationTool.getDescriptionFromDocumentation(in.getDocumentation()), processDef, source, route);
-                setGatewayConditions(type, gateway, in.getConditionExpression(), transition, source, route);
+                if (!isBpmnForkingNonGateway(in.getSourceRef())) {
+                    TransitionType transition = TransitionUtil.createTransition(in.getId(), in.getName(), DocumentationTool.getDescriptionFromDocumentation(in.getDocumentation()), processDef, source, route);
+                    setGatewayConditions(type, gateway, in.getConditionExpression(), transition, source, route);
+                }
             }
         }
     }
-
 
     private void backwardCreateMissingTransitions(Gate type, Gateway gateway, ActivityType target, ProcessDefinitionType processDef, SequenceFlow flowToTarget, FlowElementsContainer container) {
 
@@ -215,15 +222,23 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         }
     }
 
-    private void setGatewayConditions(Gate gate, Gateway gateway, Expression expression, TransitionType transition, ActivityType sourceActivity, ActivityType targetActivity) {
-        String expressionVal = "";
-        FormalExpression formal = null;
-        if (expression != null)
-        if (expression instanceof FormalExpression) {
-            formal = (FormalExpression) expression;
-        } else {
-            expressionVal = DocumentationTool.getInformalExpressionValue(expression);
+    private void forwardCreateTransitionToGate(SequenceFlow seq, ActivityType sourceActivity, Gateway gateway, Gate type, Gateway targetGate, ProcessDefinitionType processDef, FlowElementsContainer container) {
+        if (isMixed(gateway)) return;
+        if (isFork(gateway)) return;
+        if (targetGate.getOutgoing() != null && targetGate.getOutgoing().size() == 1) {
+            SequenceFlow sequence = targetGate.getOutgoing().get(0);
+            FlowNode targetNode = sequence.getTargetRef();
+            if (targetNode == null) return;
+            if (query.findTransition(seq.getId(), container) != null) return;
+
+            ActivityType target = CarnotModelQuery.findActivity(processDef, targetNode.getId());
+            if (target == null) return;
+            TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation()), processDef, sourceActivity, target);
+            setGatewayConditions(type, gateway, sequence.getConditionExpression(), transition, sourceActivity, target);
         }
+    }
+
+    private void setGatewayConditions(Gate gate, Gateway gateway, Expression expression, TransitionType transition, ActivityType sourceActivity, ActivityType targetActivity) {
 
         if (isGatewayDefaultSequenceTarget(gate, gateway, targetActivity)) {
             logger.debug("transition: " + transition.getId() + " setSequenceOtherwiseCondition");
@@ -231,17 +246,9 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         } else if (gate.equals(Gate.PARALLEL)) {
             logger.debug("transition: " + transition.getId() + " setSequenceTrueCondition");
             TransitionUtil.setSequenceTrueCondition(transition);
-        } else if (!expressionVal.equals("")) {
-            logger.debug("transition: " + transition.getId() + " setSequenceInformalCondition: " + expressionVal);
-            TransitionUtil.setSequenceInformalCondition(transition, expressionVal);
-        } else if (formal != null) {
-            logger.debug("transition: " + transition.getId() + " setSequenceFormalCondition ");
-            TransitionUtil.setSequenceFormalCondition(transition, formal, failures);
         } else {
-            logger.debug("transition: " + transition.getId() + " setSequenceTrueCondition");
-            TransitionUtil.setSequenceTrueCondition(transition);
+            TransitionUtil.setSequenceExpressionConditionOrTrue(transition, expression, logger, failures);
         }
-
     }
 
     private boolean validateGate(Gateway gateway) {
@@ -254,30 +261,54 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         return true;
     }
 
-//    private boolean validateContainer(FlowElementsContainer container) {
-//        ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-//        if (processDef ==null) {
-//            failures.add(Bpmn2StardustXPDL.FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + ")");
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
-    private boolean isGatewayTransformedToRoute(Gateway sourceGate) {
-        if (isMixed(sourceGate)) return true;
-        if (hasBpmnGateSource(sourceGate, sourceGate.getIncoming())) return true;
+    private boolean isGatewayTransformedToRoute(Gateway gate) {
+        if (isMixed(gate)) return true;
+        if (hasBpmnGateSource(gate, gate.getIncoming())) return true;
+        if (isJoin(gate) && hasMergingGatewayTarget(gate.getOutgoing())) return true;
+        if (hasIncomingFromBpmnForkingNonGateway(gate)) return true;
+        if (hasOutgoingToBpmnMergingNonGateway(gate)) return true;
         return false;
     }
 
-    private ActivityType findSequenceTargetActivity(SequenceFlow flow, FlowElementsContainer container) {
-        FlowNode targetNode = flow.getTargetRef();
-        return query.findActivity(targetNode, container);
+	private boolean hasIncomingFromBpmnForkingNonGateway(Gateway gate) {
+		for (SequenceFlow seq : gate.getIncoming()) {
+            FlowNode source = seq.getSourceRef();
+            if (BpmnModelQuery.isForkingNonGateway(source)) return true;
+		}
+		return false;
+	}
+
+	private boolean hasOutgoingToBpmnMergingNonGateway(Gateway gate) {
+		for (SequenceFlow seq : gate.getOutgoing()) {
+            FlowNode target = seq.getTargetRef();
+            if (BpmnModelQuery.isMergingNonGateway(target)) return true;
+		}
+		return false;
+	}
+
+	private boolean hasBpmnGateSource(Gateway gateway, List<SequenceFlow> incomings) {
+        for (SequenceFlow in : incomings) {
+            FlowNode source = in.getSourceRef();
+            if (source instanceof Gateway) return true;
+            if (BpmnModelQuery.isRoutingFlowNode(source)) return true;
+        }
+        return false;
     }
 
-    private ActivityType findSequenceSourceActivity(SequenceFlow flow, FlowElementsContainer container) {
-        FlowNode sourceNode = flow.getSourceRef();
-        return query.findActivity(sourceNode, container);
+	private boolean hasMergingGatewayTarget(List<SequenceFlow> sequences) {
+        for (SequenceFlow seq : sequences) {
+            FlowNode target = seq.getTargetRef();
+            if (target instanceof Gateway && isJoin((Gateway)target)) return true;
+        }
+        return false;
+	}
+
+    private boolean isBpmnForkingNonGateway(FlowNode node) {
+    	return BpmnModelQuery.isForkingNonGateway(node);
+    }
+
+    private boolean isBpmnMergingNonGateway(FlowNode node) {
+    	return BpmnModelQuery.isMergingNonGateway(node);
     }
 
     private boolean isFork(Gateway gateway) {
@@ -295,11 +326,10 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         return false;
     }
 
-    private boolean hasBpmnGateSource(Gateway gateway, List<SequenceFlow> incomings) {
-        for (SequenceFlow in : incomings) {
-            if (in.getSourceRef() instanceof Gateway) return true;
-        }
-        return false;
+    private boolean isGatewayDefaultSequenceTarget(Gate gate, Gateway gateway, ActivityType targetActivity) {
+        return gate.equals(Gate.EXCLUSIVE)
+                && ((ExclusiveGateway)gateway).getDefault() != null
+                && ((ExclusiveGateway)gateway).getDefault().getTargetRef().getId().equals(targetActivity.getId());
     }
 
     private JoinSplitType getJoinSplitType(Gate type) {
@@ -325,10 +355,14 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         return null;
     }
 
-    private boolean isGatewayDefaultSequenceTarget(Gate gate, Gateway gateway, ActivityType targetActivity) {
-        return gate.equals(Gate.EXCLUSIVE)
-                && ((ExclusiveGateway)gateway).getDefault() != null
-                && ((ExclusiveGateway)gateway).getDefault().getTargetRef().getId().equals(targetActivity.getId());
+    private ActivityType findSequenceTargetActivity(SequenceFlow flow, FlowElementsContainer container) {
+        FlowNode targetNode = flow.getTargetRef();
+        return query.findActivity(targetNode, container);
+    }
+
+    private ActivityType findSequenceSourceActivity(SequenceFlow flow, FlowElementsContainer container) {
+        FlowNode sourceNode = flow.getSourceRef();
+        return query.findActivity(sourceNode, container);
     }
 
 }

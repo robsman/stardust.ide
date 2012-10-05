@@ -19,6 +19,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustInterface"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustMessageStartEvent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustResource"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustSeqenceFlow"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustServiceTask"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustStartEvent"/>
@@ -64,6 +65,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/modelOID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/oid"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/vendor"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustResourceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustConditionalPerformer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustRole"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustOrganization"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustResourceType/dataId"/>
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustSeqenceFlowType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustSeqenceFlowType/forkOnTraversal"/>
