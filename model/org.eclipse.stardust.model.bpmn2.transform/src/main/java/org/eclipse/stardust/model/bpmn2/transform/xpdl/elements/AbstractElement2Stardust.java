@@ -31,4 +31,14 @@ public class AbstractElement2Stardust {
     	return process;
     }
 
+    protected String getNonEmpty(String name, String id, Object obj) {
+        if (name != null && !name.isEmpty()) {
+            return name;
+        }
+        if (id != null && !id.isEmpty()) {
+            return id;
+        }
+        return String.valueOf(obj.hashCode());
+    }
+
 }

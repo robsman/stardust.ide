@@ -6,7 +6,6 @@
 		<participantRef>TestModelPool1</participantRef>
 	</partnerEntity>
 
-
 	<resource id="TestPerformerRoleA" name="Test Role A"></resource>
 
   <collaboration id="_ba2d7f88-eb78-443e-bd7f-ff5a37de8ef4">
@@ -79,7 +78,7 @@
       <performer id="TestPerformerTaskA" name="Test Performer Task A">
     		<resourceRef>TestPerformerRoleA</resourceRef>
 	  </performer>
-    
+
     </userTask>
     <userTask id="TestModelTaskB" name="Task B" implementation="unspecified">
       <extensionElements>

@@ -14,6 +14,8 @@ import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustT
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_PARTNER_ENTITY_ORG_A;
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_RESOURCE_ROLE_A;
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
+import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
+import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
@@ -22,14 +24,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.junit.Test;
 
 
@@ -38,6 +43,10 @@ import org.junit.Test;
  *
  */
 public class TestTasks2Stardust {
+
+	private static final String PERFORMER_ROLE_ADMIN = "Administrator";
+	private static final String PERFORMER_ORGANIZATION = "OrganizationX";
+	private static final String PERFORMER_CONDITIONAL = "ConditionalX";
 
     @Test
     public void testUserTask() {
@@ -49,9 +58,40 @@ public class TestTasks2Stardust {
 
         assertNotNull(process);
         assertNotNull(result);
-        ActivityType activity = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
-        assertNotNull(activity);
-        assertEquals(ActivityImplementationType.MANUAL_LITERAL, activity.getImplementation());
+
+        ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+        ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+        ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+        assertNotNull(taskA);
+        assertNotNull(taskB);
+        assertNotNull(taskC);
+
+        IModelParticipant adminRole = taskA.getPerformer();
+        IModelParticipant organization =  taskB.getPerformer();
+        IModelParticipant conditionalPerformer =  taskC.getPerformer();
+        assertNotNull(adminRole);
+        assertNotNull(organization);
+        assertNotNull(conditionalPerformer);
+
+        assertEquals(ActivityImplementationType.MANUAL_LITERAL, taskA.getImplementation());
+        assertEquals(ActivityImplementationType.MANUAL_LITERAL, taskB.getImplementation());
+        assertEquals(ActivityImplementationType.MANUAL_LITERAL, taskC.getImplementation());
+
+        assertEquals(PERFORMER_ROLE_ADMIN, adminRole.getId());
+        assertEquals(PERFORMER_ORGANIZATION, organization.getId());
+        assertEquals(PERFORMER_CONDITIONAL, conditionalPerformer.getId());
+
+        assertTrue(adminRole instanceof RoleType);
+        assertTrue(organization instanceof OrganizationType);
+        assertTrue(conditionalPerformer instanceof ConditionalPerformerType);
+
+        assertEquals("PROCESS_ID", ((ConditionalPerformerType)conditionalPerformer).getData().getId());
+        assertEquals("getId()", ((ConditionalPerformerType)conditionalPerformer).getDataPath());
+        assertEquals("userGroup", AttributeUtil.getAttributeValue(conditionalPerformer, PredefinedConstants.CONDITIONAL_PERFORMER_KIND));
+        assertEquals("Public", AttributeUtil.getAttributeValue(adminRole, PredefinedConstants.MODELELEMENT_VISIBILITY));
+        assertEquals("false", AttributeUtil.getAttributeValue(organization, PredefinedConstants.BINDING_ATT));
+
+
     }
 
     @Test

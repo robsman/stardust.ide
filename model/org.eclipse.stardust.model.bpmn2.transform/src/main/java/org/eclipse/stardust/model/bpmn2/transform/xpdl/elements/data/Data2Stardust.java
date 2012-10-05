@@ -215,14 +215,14 @@ public class Data2Stardust extends AbstractElement2Stardust {
 		return null;
 	}
 
-    private String getNonEmpty(String name, String id, Object data) {
-        if (name != null && !name.isEmpty()) {
-            return name;
-        }
-        if (id != null && !id.isEmpty()) {
-            return id;
-        }
-        return String.valueOf(data.hashCode());
-    }
+//    private String getNonEmpty(String name, String id, Object data) {
+//        if (name != null && !name.isEmpty()) {
+//            return name;
+//        }
+//        if (id != null && !id.isEmpty()) {
+//            return id;
+//        }
+//        return String.valueOf(data.hashCode());
+//    }
 
 }

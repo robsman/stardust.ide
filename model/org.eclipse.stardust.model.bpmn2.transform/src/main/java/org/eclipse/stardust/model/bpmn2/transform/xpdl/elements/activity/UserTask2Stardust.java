@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity;
 
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newInteractiveApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newInteractiveApplicationActivity;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 	}
 
 	public void addUserTask(UserTask task, FlowElementsContainer container) {
-		logger.info("Add user task: " + task);
+		logger.debug("Add user task: " + task);
 		ProcessDefinitionType processDef = getProcessOrReportFailure(task, container);
 		if (processDef == null) return;
 		String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
@@ -86,28 +86,35 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 				.withDescription(descr)
 				// usingApplication is set by through extension-attribute (reference id)
 				.build();
-		// TODO REVIEW - for some reason, the interactiveApplicationBuilder sets 'route'
+		// TODO REVIEW - currently, the interactiveApplicationBuilder sets 'route'
 		activity.setImplementation(ActivityImplementationType.APPLICATION_LITERAL);
 		return activity;
 	}
 
 	private void setTaskPerformer(ActivityType activity, ResourceRole role, UserTask task, FlowElementsContainer container) {
-        if (role.getResourceAssignmentExpression() != null) failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "(RESOURCE ASSIGNMENT EXPRESSION NOT IMPLEMENTED)");
-        if (role.getResourceParameterBindings() != null) failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "RESOURCE PARAMETER BINDINGS NOT IMPLEMENTED");
-
+		logger.debug("Set Task Performer task: " + task + ", performer: " + role);
         if (role.eIsProxy()) role = Bpmn2ProxyResolver.resolveRoleProxy(role, container);
+        validateResource(role);
         if (role.getResourceRef() != null) {
             Resource resource = role.getResourceRef();
             if (resource.eIsProxy()) resource = Bpmn2ProxyResolver.resolveResourceProxy(resource, container);
             if (resource != null) {
-                IModelParticipant resourceType = query.findResourceType(resource.getId());
+                IModelParticipant resourceType = query.findParticipant(resource.getId());
                 if (resourceType==null) {
-                    String descr = DocumentationTool.getDescriptionFromDocumentation(resource.getDocumentation());
-                    resourceType = newRole(carnotModel).withIdAndName(resource.getId(), resource.getName()).withDescription(descr).build();
+                	String descr = DocumentationTool.getDescriptionFromDocumentation(resource.getDocumentation());
+                	resourceType = newRole(carnotModel).withIdAndName(resource.getId(), resource.getName()).withDescription(descr).build();
                 }
                 activity.setPerformer(resourceType);
             }
         }
     }
+
+	private void validateResource(ResourceRole role) {
+        if (role.getResourceAssignmentExpression() != null)
+        	failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "(RESOURCE ASSIGNMENT EXPRESSION NOT IMPLEMENTED) " + role);
+        if (role.getResourceParameterBindings() != null
+        	&& role.getResourceParameterBindings().size() > 0)
+        	failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "RESOURCE PARAMETER BINDINGS NOT IMPLEMENTED " + role);
+	}
 
 }

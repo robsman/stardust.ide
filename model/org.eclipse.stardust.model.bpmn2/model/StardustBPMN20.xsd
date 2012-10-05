@@ -121,7 +121,7 @@
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="sdbpmn:tStardustActivity">
-					<xsd:attribute name="interactiveApplicationRef" type="xsd:string" />				
+					<xsd:attribute name="interactiveApplicationRef" type="xsd:string" />
 					<xsd:attribute name="allowsAbortByPerformer" type="xsd:boolean">
 						<xsd:annotation>
 							<xsd:documentation>Determines whether the activity is allowed to be aborted.</xsd:documentation>
@@ -184,7 +184,18 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
+
+	<xsd:element name="StardustResource">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:element name="StardustConditionalPerformer" type="stardust:ConditionalPerformerType"></xsd:element>
+				<xsd:element name="StardustRole" type="stardust:RoleType"></xsd:element>
+				<xsd:element name="StardustOrganization" type="stardust:OrganizationType"></xsd:element>
+			</xsd:choice>
+			<xsd:attribute name="dataId" type="xsd:string"></xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
 	<xsd:attribute name="author" type="xsd:string">
 		<xsd:annotation>
 			<xsd:documentation>
@@ -238,13 +249,13 @@
 		<xsd:attribute ref="sdbpmn:created"></xsd:attribute>
 		<xsd:attribute ref="sdbpmn:carnotVersion"></xsd:attribute>
 		<xsd:attribute ref="sdbpmn:vendor"></xsd:attribute>
-	</xsd:attributeGroup>	
+	</xsd:attributeGroup>
 
 	<xsd:element name="dataType" type="stardust:DataTypeType"></xsd:element>
 
 	<xsd:attribute name="applicationAccessPointRef" type="xsd:string"></xsd:attribute>
-	
+
 	<xsd:attribute name="interactiveApplicationRef" type="xsd:string"></xsd:attribute>
 
-	
+
 </schema>

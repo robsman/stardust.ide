@@ -5,7 +5,7 @@
  *  are made available under the terms of the Eclipse Public License v1.0
  *  which accompanies this distribution, and is available at
  *  http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  *  Contributors:
  *     ITpearls - initial API and implementation and/or initial documentation
  * *****************************************************************************
@@ -31,31 +31,31 @@ import org.eclipse.stardust.model.xpdl.carnot.ContextType;
  * @generated
  */
 public interface StardustContextType extends ContextType {
-    /**
-     * Returns the value of the '<em><b>Type Ref</b></em>' attribute.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Type Ref</em>' attribute isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Type Ref</em>' attribute.
-     * @see #setTypeRef(String)
-     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustContextType_TypeRef()
-     * @model dataType="org.eclipse.emf.ecore.xml.type.String"
-     *        extendedMetaData="kind='attribute' name='typeRef'"
-     * @generated
-     */
-    String getTypeRef();
+	/**
+	 * Returns the value of the '<em><b>Type Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type Ref</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type Ref</em>' attribute.
+	 * @see #setTypeRef(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustContextType_TypeRef()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='typeRef'"
+	 * @generated
+	 */
+	String getTypeRef();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType#getTypeRef <em>Type Ref</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Type Ref</em>' attribute.
-     * @see #getTypeRef()
-     * @generated
-     */
-    void setTypeRef(String value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType#getTypeRef <em>Type Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type Ref</em>' attribute.
+	 * @see #getTypeRef()
+	 * @generated
+	 */
+	void setTypeRef(String value);
 
 } // StardustContextType

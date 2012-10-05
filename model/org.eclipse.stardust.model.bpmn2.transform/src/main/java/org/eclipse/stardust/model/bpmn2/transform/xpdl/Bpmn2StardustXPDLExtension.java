@@ -14,12 +14,14 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
@@ -27,7 +29,10 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 
@@ -57,6 +62,28 @@ public class Bpmn2StardustXPDLExtension {
             trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
     }
 
+    public static void addResourceExtension(Resource resource, ModelType model) {
+    	StardustResourceType res = ExtensionHelper.getInstance().getResourceExtension(resource);
+    	if (res == null) return;
+    	System.out.println("Bpmn2StardustXPDLExtension.addResourceExtension() dataId " + res.getDataId());
+    	if (res.getStardustConditionalPerformer() != null) {
+    		ConditionalPerformerType performer = (ConditionalPerformerType)res.getStardustConditionalPerformer();
+    		performer.setId(resource.getId());
+    		performer.setName(resource.getName());
+    		model.getConditionalPerformer().add(performer);
+    	} else if (res.getStardustOrganization() != null) {
+    		OrganizationType performer = (OrganizationType)res.getStardustOrganization();
+    		performer.setId(resource.getId());
+    		performer.setName(resource.getName());
+    		model.getOrganization().add(performer);
+    	} else if (res.getStardustRole() != null) {
+    		RoleType performer = (RoleType)res.getStardustRole();
+    		performer.setId(resource.getId());
+    		performer.setName(resource.getName());
+    		model.getRole().add(performer);
+    	}
+    }
+
     /**
      * Defaults to JMS-Trigger
      * @param event
@@ -79,7 +106,6 @@ public class Bpmn2StardustXPDLExtension {
         activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
         activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
         activity.setElementOid(tryParseLong(taskExt.getElementOid()));
-        //activity.getDataMapping().addAll(taskExt.getDataMapping());
         activity.getEventHandler().addAll(taskExt.getEventHandler());
         activity.setApplication(getApplication(query, taskExt));
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());

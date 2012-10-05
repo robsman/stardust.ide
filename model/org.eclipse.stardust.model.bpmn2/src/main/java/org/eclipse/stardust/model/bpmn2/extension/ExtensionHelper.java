@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
+import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
@@ -36,12 +37,17 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSubprocessType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 
 /**
  * @author Simon Nikles
@@ -57,6 +63,7 @@ public class ExtensionHelper {
     private static final Internal TIMER_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT;
     private static final Internal MESSAGE_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT;
     private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
+    private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
 
     private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
 
@@ -143,6 +150,55 @@ public class ExtensionHelper {
     public String getAssignmentAccessPointRef(Expression assignment) {
         return getString(assignment, ATT_APPLICATION_ACCESS_POINT);
     }
+
+	public StardustResourceType getResourceExtension(Resource resource) {
+		StardustResourceType stardustResource = getFirstExtension(StardustResourceType.class, resource, RESOURCE_TYPE);
+//		if (stardustResource == null) return stardustResource;
+//		ConditionalPerformerType conditionalPerformer = stardustResource.getStardustConditionalPerformer();
+//		OrganizationType organization = stardustResource.getStardustOrganization();
+//		RoleType role = stardustResource.getStardustRole();
+//		if (conditionalPerformer != null) {
+//			copyIdAndNameFromResourceToParticipant(resource, conditionalPerformer);
+//		} else if (organization != null) {
+//			copyIdAndNameFromResourceToParticipant(resource, organization);
+//		} else if (role != null) {
+//			copyIdAndNameFromResourceToParticipant(resource, role);
+//		}
+		return stardustResource;
+	}
+
+	public void setResourceExtension(Resource resource, StardustResourceType stardustResource) {
+		ConditionalPerformerType conditionalPerformer = stardustResource.getStardustConditionalPerformer();
+		OrganizationType organization = stardustResource.getStardustOrganization();
+		RoleType role = stardustResource.getStardustRole();
+		if (conditionalPerformer != null) {
+			if (stardustResource.getStardustConditionalPerformer().getData() != null) {
+				String dataId = stardustResource.getStardustConditionalPerformer().getData().getId();
+				stardustResource.setDataId(dataId);
+				stardustResource.getStardustConditionalPerformer().setData(null);
+			}
+			switchIdAndNameFromParticipantToResource(resource, conditionalPerformer);
+		} else if (organization != null) {
+			switchIdAndNameFromParticipantToResource(resource, organization);
+		} else if (role != null) {
+			switchIdAndNameFromParticipantToResource(resource, role);
+		}
+		setExtension(resource, stardustResource, RESOURCE_TYPE);
+	}
+
+	private void switchIdAndNameFromParticipantToResource(Resource resource, IIdentifiableElement participant) {
+		resource.setId(participant.getId());
+		resource.setName(participant.getName());
+//		participant.setId("");
+//		participant.setName("");
+	}
+
+	private void copyIdAndNameFromResourceToParticipant(Resource resource, IIdentifiableElement participant) {
+		participant.setId(resource.getId());
+		participant.setName(resource.getName());
+		resource.setId(participant.getId());
+		resource.setName(participant.getName());
+	}
 
     public void setModelAttributes(Definitions element, StardustModelType values) {
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_AUTHOR, values.getAuthor()));
@@ -239,5 +295,4 @@ public class ExtensionHelper {
         } catch (Exception e) {}
         return empty;
     }
-
 }

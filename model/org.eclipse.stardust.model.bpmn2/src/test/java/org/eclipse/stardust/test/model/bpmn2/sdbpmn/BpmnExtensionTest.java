@@ -140,7 +140,7 @@ public class BpmnExtensionTest extends TestCase {
         return event;
     }
 
-    private StardustUserTaskType createUserTaskExtension() {
+	private StardustUserTaskType createUserTaskExtension() {
         StardustUserTaskType userTaskExtension = efac.createStardustUserTaskType();
         userTaskExtension.setAllowsAbortByPerformer(false);
         userTaskExtension.setElementOid(OID);

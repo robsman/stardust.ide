@@ -30,6 +30,7 @@ import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
@@ -40,6 +41,7 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -53,7 +55,9 @@ import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.ServiceTask2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.UserTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.Resource2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.Gateway2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingSequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
@@ -258,5 +262,20 @@ public class Bpmn2StardustXPDL implements Transformator {
         XpdlModelUtils.setCDataString(descriptor.getMixed(), description, true);
         return descriptor;
     }
+
+	@Override
+	public void addRoutingSequenceFlows(FlowNode node, FlowElementsContainer process) {
+		new RoutingSequenceFlow2Stardust(carnotModel, failures).processRoutingNode(node, process);
+	}
+
+	@Override
+	public void addResource(Resource resource) {
+		new Resource2Stardust(carnotModel, failures).addResource(resource);
+	}
+
+	@Override
+	public void finalizeTransformation(Definitions defs) {
+		new Resource2Stardust(carnotModel, failures).setConditionalPerformerData(defs);
+	}
 
 }

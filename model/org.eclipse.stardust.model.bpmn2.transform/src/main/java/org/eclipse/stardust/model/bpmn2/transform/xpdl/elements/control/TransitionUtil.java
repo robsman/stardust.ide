@@ -14,8 +14,11 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransit
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -31,6 +34,7 @@ public class TransitionUtil {
 
     public static final String CONDITION_KEY = "CONDITION";
     public static final String OTHERWISE_KEY = "OTHERWISE";
+    // TODO Change to JavaScript: e.g. http://ecma-international.org/ecma-262 (?)
     public static final String EXPRESSION_LANGUAGE_JAVA = "http://www.sun.com/java";
 
     public static TransitionType createTransition(String id, String name, String documentation, ProcessDefinitionType process, ActivityType sourceActivity, ActivityType targetActivity) {
@@ -42,6 +46,22 @@ public class TransitionUtil {
                 .withDescription(documentation)
                 .build();
         return transition;
+    }
+
+    public static void setSequenceExpressionConditionOrTrue(TransitionType transition, Expression expression, Logger logger, List<String> failures) {
+
+        String expressionVal = getInformalExpressionValueOrBlank(expression);
+        FormalExpression formal = getFormalExpressionOrNull(expression);
+        if (formal != null) {
+            logger.debug("transition: " + transition.getId() + " setSequenceFormalCondition ");
+            setSequenceFormalCondition(transition, formal, failures);
+        } else if (!expressionVal.trim().equals("")) {
+            logger.debug("transition: " + transition.getId() + " setSequenceInformalCondition: " + expressionVal);
+            setSequenceInformalCondition(transition, expressionVal);
+        } else {
+            logger.debug("transition: " + transition.getId() + " setSequenceTrueCondition");
+            setSequenceTrueCondition(transition);
+        }
     }
 
     public static void setSequenceOtherwiseCondition(TransitionType transition) {
@@ -64,7 +84,6 @@ public class TransitionUtil {
         XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
         ModelUtils.setCDataString(expression.getMixed(), string, true);
         transition.setExpression(expression);
-
     }
 
     public static void setSequenceFormalCondition(TransitionType transition, FormalExpression formalExpression, List<String> failures) {
@@ -81,4 +100,16 @@ public class TransitionUtil {
         }
     }
 
+    public static String getInformalExpressionValueOrBlank(Expression expression) {
+    	return DocumentationTool.getInformalExpressionValue(expression);
+    }
+
+    public static FormalExpression getFormalExpressionOrNull(Expression expression) {
+        if (expression != null) {
+        	if (expression instanceof FormalExpression) {
+        		return (FormalExpression) expression;
+        	}
+        }
+        return null;
+    }
 }

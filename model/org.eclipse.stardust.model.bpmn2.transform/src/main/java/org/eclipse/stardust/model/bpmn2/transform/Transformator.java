@@ -20,6 +20,7 @@ import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
@@ -30,6 +31,7 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -90,5 +92,11 @@ public interface Transformator {
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container);
 
 	public void addInterface(Interface bpmnInterface);
+
+	public void addRoutingSequenceFlows(FlowNode node, FlowElementsContainer process);
+
+	public void addResource(Resource resource);
+
+	public void finalizeTransformation(Definitions defs);
 
 }

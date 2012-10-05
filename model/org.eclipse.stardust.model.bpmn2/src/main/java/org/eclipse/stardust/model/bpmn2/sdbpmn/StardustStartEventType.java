@@ -5,7 +5,7 @@
  *  are made available under the terms of the Eclipse Public License v1.0
  *  which accompanies this distribution, and is available at
  *  http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  *  Contributors:
  *     ITpearls - initial API and implementation and/or initial documentation
  * *****************************************************************************
@@ -31,31 +31,31 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface StardustStartEventType extends EObject {
-    /**
-     * Returns the value of the '<em><b>Stardust Attributes</b></em>' containment reference.
-     * <!-- begin-user-doc -->
-     * <p>
-     * If the meaning of the '<em>Stardust Attributes</em>' containment reference isn't clear,
-     * there really should be more of a description here...
-     * </p>
-     * <!-- end-user-doc -->
-     * @return the value of the '<em>Stardust Attributes</em>' containment reference.
-     * @see #setStardustAttributes(StardustAttributesType)
-     * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustStartEventType_StardustAttributes()
-     * @model containment="true" required="true"
-     *        extendedMetaData="kind='element' name='StardustAttributes' namespace='##targetNamespace'"
-     * @generated
-     */
-    StardustAttributesType getStardustAttributes();
+	/**
+	 * Returns the value of the '<em><b>Stardust Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Attributes</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Attributes</em>' containment reference.
+	 * @see #setStardustAttributes(StardustAttributesType)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustStartEventType_StardustAttributes()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='StardustAttributes' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	StardustAttributesType getStardustAttributes();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType#getStardustAttributes <em>Stardust Attributes</em>}' containment reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Stardust Attributes</em>' containment reference.
-     * @see #getStardustAttributes()
-     * @generated
-     */
-    void setStardustAttributes(StardustAttributesType value);
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType#getStardustAttributes <em>Stardust Attributes</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Attributes</em>' containment reference.
+	 * @see #getStardustAttributes()
+	 * @generated
+	 */
+	void setStardustAttributes(StardustAttributesType value);
 
 } // StardustStartEventType
