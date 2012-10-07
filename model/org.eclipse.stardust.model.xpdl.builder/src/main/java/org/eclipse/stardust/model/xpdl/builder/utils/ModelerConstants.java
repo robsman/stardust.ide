@@ -185,4 +185,5 @@ public class ModelerConstants
    public static final String INTERACTIVE_PROPERTY = "interactive";
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
    public static final String CONTENT_PROPERTY = "content";
+   public static final String COMMENTS_PROPERTY = "comments";
 }
