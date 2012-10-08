@@ -26,6 +26,11 @@ import org.eclipse.xsd.XSDNamedComponent;
 
 public class AnnotationContentProvider implements ITreeContentProvider
 {
+   private static final String NAME_ATTRIBUTE = "name";
+   private static final String ID_ATTRIBUTE = "id";
+   private static final String STORAGE_ELEMENT = "storage";
+   private static final String CATEGORY_ELEMENT = "category";
+   
    private static final String APPLICATION_INFO_EXTENSION_ID = 
          "org.eclipse.stardust.modeling.data.structured.applicationInfo"; //$NON-NLS-1$
    private static final String IPP_CATEGORY_ID = APPLICATION_INFO_EXTENSION_ID.substring(0, 
@@ -127,7 +132,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
       for (int i = 0; i < children.size(); i++)
       {
          ElementAnnotation annotation = (ElementAnnotation) children.get(i);
-         if ("storage".equals(annotation.getConfigurationAttribute("name"))) //$NON-NLS-1$ //$NON-NLS-2$
+         if (STORAGE_ELEMENT.equals(annotation.getConfigurationAttribute(NAME_ATTRIBUTE))) //$NON-NLS-1$
          {
             return annotation;
          }
@@ -144,7 +149,7 @@ public class AnnotationContentProvider implements ITreeContentProvider
          String name = configs[i].getName();
          if ("category".equals(name)) //$NON-NLS-1$
          {
-            if (IPP_CATEGORY_ID.equals(configs[i].getAttribute("id"))) //$NON-NLS-1$
+            if (IPP_CATEGORY_ID.equals(configs[i].getAttribute(ID_ATTRIBUTE)))
             {
                return new CategoryAnnotation(this, decl, configs[i]);
             }

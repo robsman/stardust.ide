@@ -136,9 +136,15 @@ public class OpenDiagramAction extends UpdateDiagramAction
                if (file != null)
                {
                   WorkflowModelEditor editor = getEditor(file);     
+
                   if(editor != null)
                   {
-                     editor.showDiagramPage(diagram);
+                     ProcessDefinitionType containingProcess = ModelUtils.findContainingProcess(diagram);
+                     ModelType diagramModel = (ModelType) editor.getModel();                     
+                     ProcessDefinitionType targetProcess = (ProcessDefinitionType) ModelUtils.findElementById(diagramModel, CarnotWorkflowModelPackage.eINSTANCE.getModelType_ProcessDefinition(), containingProcess.getId());
+                     DiagramType targetDiagram = (DiagramType) ModelUtils.findElementByOid(targetProcess.getDiagram(), diagram.getElementOid());
+                     
+                     editor.showDiagramPage(targetDiagram);
                   }
                }
             }

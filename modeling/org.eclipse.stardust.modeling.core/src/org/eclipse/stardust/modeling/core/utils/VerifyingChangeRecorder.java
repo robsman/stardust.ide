@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ValidationIssueManager;
@@ -113,6 +114,11 @@ public class VerifyingChangeRecorder extends ChangeRecorder
 
    public void performElementValidation(boolean delayed)
    {
+      if (!PlatformUI.getPreferenceStore().getBoolean(
+            BpmProjectNature.PREFERENCE_AUTO_VALIDATION))
+      {
+         return;
+      }
       validationTask.cancel();
       validationTask.schedule(delayed ? 500 : 0);
    }

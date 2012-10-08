@@ -164,6 +164,18 @@ public class OrganizationRuntimeBindingPropertyPage
                AttributeUtil.setReference((IExtensibleElement) getModelElement(),
                      PredefinedConstants.BINDING_DATA_ID_ATT, null);
             }
+            if (selection)
+            {
+               ModelType modelType = (ModelType) getModelElement().eContainer();
+               AttributeUtil.setReference((IExtensibleElement) getModelElement(),
+                     PredefinedConstants.BINDING_DATA_ID_ATT,
+                     (EObject) modelType.getData().get(0));
+            }
+            else
+            {
+               AttributeUtil.setReference((IExtensibleElement) getModelElement(),
+                     PredefinedConstants.BINDING_DATA_ID_ATT, null);
+            }
             validate(null);
          }
       });

@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jface.preference.IPreferenceNode;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -41,6 +43,7 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor.RegionWithLineOffset;
@@ -241,6 +244,11 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
             }
          }         
       }      
+      
+      PreferenceManager preferenceManager = ((ModelElementPropertyDialog) getContainer()).getPreferenceManager();
+      IPreferenceNode node = preferenceManager.find(ActivityQualityControlCodesPropertyPage.QUALITY_CONTROL_CODES_ID);
+      AbstractModelElementPropertyPage page = (AbstractModelElementPropertyPage) node.getPage();      
+      page.elementChanged();
    }
 
    public Control createBody(Composite parent)
