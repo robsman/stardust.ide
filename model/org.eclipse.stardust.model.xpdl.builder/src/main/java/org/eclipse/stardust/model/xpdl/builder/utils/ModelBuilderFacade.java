@@ -10,14 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newMessageTransformationApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveAccessPoint;
@@ -61,6 +59,7 @@ import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
@@ -73,6 +72,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
@@ -96,6 +96,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
@@ -106,6 +108,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
@@ -248,7 +251,6 @@ public class ModelBuilderFacade
       xsdSchema.getContents().add(xsdElementDeclaration);
 
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
-
       return structuredDataType;
    }
 
@@ -893,7 +895,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param processDefinition
     * @param parentLaneID
@@ -922,7 +924,7 @@ public class ModelBuilderFacade
 
       processDefinition.getDiagram().get(0).getAnnotationSymbol().add(annotationSymbol);
       parentLaneSymbol.getAnnotationSymbol().add(annotationSymbol);
-      
+
       return annotationSymbol;
    }
 
@@ -2356,6 +2358,58 @@ public class ModelBuilderFacade
          activity.setExternalRef(idRef);
       }
       return application;
+   }
+
+   public void setAttribute(Object element, String name, String value)
+   {
+      if (element instanceof Extensible)
+      {
+         ExtendedAttributeUtil.setAttribute((Extensible) element, name, value);
+      }
+      if (element instanceof IExtensibleElement)
+      {
+         AttributeUtil.setAttribute((IExtensibleElement) element, name, value);
+      }
+   }
+
+   @SuppressWarnings("rawtypes")
+   public List getAttributes(Object element)
+   {
+      if (element instanceof Extensible)
+      {
+         return ((Extensible) element).getExtendedAttributes().getExtendedAttribute();
+      }
+      if (element instanceof IExtensibleElement)
+      {
+         return ((IExtensibleElement) element).getAttribute();
+      }
+      return null;
+   }
+
+   public String getAttributeName(Object attribute)
+   {
+      if (attribute instanceof ExtendedAttributeType)
+      {
+         return ((ExtendedAttributeType) attribute).getName();
+      }
+      if (attribute instanceof AttributeType)
+      {
+         return ((AttributeType) attribute).getName();
+      }
+      return null;
+   }
+
+   public String getAttributeValue(Object attribute)
+   {
+      if (attribute instanceof ExtendedAttributeType)
+      {
+         return ((ExtendedAttributeType) attribute).getValue();
+      }
+      if (attribute instanceof AttributeType)
+      {
+         return ((AttributeType) attribute).getValue();
+      }
+      return null;
    }
 
 
