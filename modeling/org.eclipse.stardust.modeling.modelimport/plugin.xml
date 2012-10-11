@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?> 
+<?eclipse version="3.0"?>
 <!--
     Copyright (c) 2011 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
 <plugin>
    <extension-point id="thirdPartyModelImport" name="%extensionPointName" schema="schema/thirdPartyModelImport.exsd"/>
-	<extension 
-   		id="WorkflowModelImportWizard" 
-   		name="%modelImportExtension" 
-   		point="org.eclipse.ui.importWizards"> 
+	<extension
+   		id="WorkflowModelImportWizard"
+   		name="%modelImportExtension"
+   		point="org.eclipse.ui.importWizards">
 	    <category
            id="org.eclipse.stardust.modeling.modelimport.carnot"
-           name="Infinity Process Platform"/> 
+           name="%processManagerWizards"/>
    		<wizard
            category="org.eclipse.stardust.modeling.modelimport.carnot"
            class="org.eclipse.stardust.modeling.modelimport.ImportModelWizard"
            icon="icons/ImportWorkflowModel.gif"
            id="org.eclipse.stardust.modeling.modelimport.ImportModelWizard"
-           name="%modelImportWizardName"> 
-           <description> 
+           name="%modelImportWizardName">
+           <description>
 	         %modelImportWizardDesc
-           </description> 
+           </description>
         </wizard>
    		<wizard
            category="org.eclipse.stardust.modeling.modelimport.carnot"
            class="org.eclipse.stardust.modeling.modelimport.elements.ImportModelElementsWizard"
            icon="icons/ImportWorkflowModelElements.gif"
            id="org.eclipse.stardust.modeling.modelimport.ImportModelElementsWizard"
-           name="%modelElementsImportWizardName"> 
-         <description> 
+           name="%modelElementsImportWizardName">
+         <description>
 	         %modelElementsImportWizardDesc
          </description>
          <selection class="org.eclipse.core.resources.IFile"/>
-      </wizard> 
+      </wizard>
 	</extension>
 	<extension
          id="CarnotModelImport"
          name="%extensionName"
          point="org.eclipse.stardust.modeling.modelimport.thirdPartyModelImport">
-         <modelImportType 
-         	id="carnotXml" 
-         	name="Infinity XML" 
+         <modelImportType
+         	id="carnotXml"
+         	name="Infinity XML"
          	class="org.eclipse.stardust.modeling.modelimport.carnot.CarnotXmlSourceGroupProvider" />
          <modelImportType
                class="org.eclipse.stardust.modeling.modelimport.carnot.audittrail.CarnotAuditTrailSourceGroupProvider"
@@ -64,4 +64,3 @@
       <attribute name="wfModelValidationElementId"/>
    </extension>
 </plugin>
- 
