@@ -93,6 +93,7 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
             String fileName = text.getText().getText();
             if (!StringUtils.isEmpty(fileName))
             {
+               
                File file = FileConnectionHandler.resolve(getConnection(), fileName);
                dialog.setFilterPath(file.getParent());
                dialog.setFileName(file.getName());
@@ -114,6 +115,13 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
                      URI projectRelative = projectURI.relativize(platformRelative);
                      if (projectRelative != platformRelative)
                      {
+                        String path = FilePathUtil.isSameFolder(model, projectRelative);
+                        if(path != null)
+                        {
+                           text.getText().setText(path); //$NON-NLS-1$
+                           return;                           
+                        }
+                        
                         text.getText().setText("project:/" + projectRelative); //$NON-NLS-1$
                         return;
                      }
@@ -164,12 +172,14 @@ public class FileConnectionPropertyPage extends AbstractConnectionPropertyPage
          return false;
       }
       setAttribute(IConnectionManager.BY_REFERENCE, byReferenceCheckbox.getSelection() ? "true" : "false"); //$NON-NLS-1$ //$NON-NLS-2$
-	  setAttribute(FILENAME, fileName);
+      setAttribute(FILENAME, fileName);
+	  
       connectionPropertiesChanged();
       if (getElement() != null)
       {
          ((TreeEditPart) getElement()).refresh();
       }
+      
       return true;
    }
 

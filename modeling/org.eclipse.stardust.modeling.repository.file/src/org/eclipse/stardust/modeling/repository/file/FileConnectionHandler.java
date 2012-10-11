@@ -258,22 +258,7 @@ public class FileConnectionHandler implements ConnectionHandler
          java.net.URI uri = java.net.URI.create(fileName);
          if ("project".equals(uri.getScheme())) //$NON-NLS-1$
          {
-            ConnectionManager manager = (ConnectionManager) connection.getProperty(IConnectionManager.CONNECTION_MANAGER);
-            ModelType model = manager.getModel();
-            org.eclipse.emf.common.util.URI modelURI = model.eResource().getURI();
-            if (modelURI.isPlatformResource())
-            {
-               file = new File(modelURI.segment(1), uri.getPath());
-            }
-            else if (modelURI.isFile())
-            {
-               String fileString = modelURI.toFileString();
-               java.net.URI netModelUri = new File(fileString).toURI();
-               java.net.URI platformRelative = Platform.getLocation().toFile().toURI().relativize(
-                     netModelUri);
-               modelURI = org.eclipse.emf.common.util.URI.createPlatformResourceURI(platformRelative.toString(), false);
-               file = new File(modelURI.segment(1), uri.getPath());
-            }
+            file = getFile(connection, fileName, uri, false);
          }
          else if ("platform".equals(uri.getScheme())) //$NON-NLS-1$
          {
@@ -287,10 +272,50 @@ public class FileConnectionHandler implements ConnectionHandler
          {
             file = new File(Platform.getLocation().toFile(), file.toString());
          }
+         
+         if(!file.exists())
+         {
+            file = getFile(connection, fileName, null, true);
+            if (!file.isAbsolute())
+            {
+               file = new File(Platform.getLocation().toFile(), file.toString());
+            }            
+         }         
       }
       catch (Exception e)
       {
          file = new File(fileName);
+      }
+      
+      return file;
+   }
+
+   private static File getFile(Connection connection, String fileName, java.net.URI uri, boolean convert)
+   {
+      File file = null;
+      
+      ConnectionManager manager = (ConnectionManager) connection.getProperty(IConnectionManager.CONNECTION_MANAGER);
+      ModelType model = manager.getModel();
+      
+      if(convert)
+      {
+         fileName = FilePathUtil.convertPath(model, fileName);
+         uri = java.net.URI.create(fileName);         
+      }
+      
+      org.eclipse.emf.common.util.URI modelURI = model.eResource().getURI();
+      if (modelURI.isPlatformResource())
+      {
+         file = new File(modelURI.segment(1), uri.getPath());
+      }
+      else if (modelURI.isFile())
+      {
+         String fileString = modelURI.toFileString();
+         java.net.URI netModelUri = new File(fileString).toURI();
+         java.net.URI platformRelative = Platform.getLocation().toFile().toURI().relativize(
+               netModelUri);
+         modelURI = org.eclipse.emf.common.util.URI.createPlatformResourceURI(platformRelative.toString(), false);
+         file = new File(modelURI.segment(1), uri.getPath());
       }
       return file;
    }
