@@ -10,36 +10,16 @@
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
-<cheatsheet title="@productnameonly@ Developer Quick Start Tutorial">
+<cheatsheet title="Quick Start Tutorial">
   <intro><description>
-    	Welcome to the @productnameonly@ Cheat Sheet. This cheat sheet guides you through the basic
+    	Welcome to the Process Manager Cheat Sheet. This cheat sheet guides you through the basic
 		steps of building a workflow model with a process definition and its elements in
 		the <b>Developer Modeling Perspective</b>.</description>
   </intro>
-  <item skip="true" title="Open the @productnameonly@ Developer Modeling Perspective">
-     <description>If the @productnameonly@ Developer Perspective is not already opened:<br/>
-     1. Select <b>Window &gt; Open Perspective &gt; Other...</b><br/>
-     2. In the following dialog, select the <b>@productnameonly@ Development Perspective.</b><br/>
-     3. <b>OK</b> the dialog.<br/><br/>
-     This step changes the perspective to set up the workbench for @productnameonly@
-     modeling.</description>
-	<action class="org.eclipse.stardust.modeling.core.cheatsheets.OpenPerspectiveAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1="ag.carnot.workflow.modeler.workflowModelingPerspective"/>
-	</item>
   <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm" title="Create a New Process Model">
-     <description>1. Select <b>File &gt; New &gt; @productnameonly@ Process Model.</b><br/>
+     <description>1. Select <b>File &gt; New &gt; Process Model.</b><br/>
      2. In the following dialog, enter the id, the name and optionally the
      description of the model.<br/>
-    3. If not already set, a dialog opens where you have to browse to the location of your
-    <b>carnot.license</b> file.</description>
-     <!--
-    <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateNewModelAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1="NewWorkflowModel"
-     		 param2="New Workflow Model"
-     		 param3="This model was created as part of the @productnameonly@ cheatsheets tutorial."/>
-  -->
   </item>
   <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm" title="Create a Process Definition">
      <description>. In the <b>Outline view</b> of the Process Workbench Modeler right-click your model. 

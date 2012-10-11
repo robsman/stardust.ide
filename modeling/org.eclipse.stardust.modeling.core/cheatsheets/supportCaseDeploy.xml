@@ -25,7 +25,7 @@
      	3. Select <b>new AuditTrail database</b>.<br/> 
 	 	4. Enter the database name "support-case" (this name will be different for each model).<br/> 
 	 	5. Select <b>OK</b>.<br/><br/> 
-     	There will be a pause as @productnameonly@ creates the database!
+     	There will be a pause while the database is created!
 	 </description>
   </item>
   <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-12.htm#setTomcatProj" 
@@ -67,11 +67,11 @@
      be deployed:<br/><br/>
 		1. Right-click the model to be deployed in the Package Explorer view.<br/>
 		2. Select <b>Export...</b>.<br/>
-		3. Choose <b>Other.. &gt; Deploy @productnameonly@ Process Model</b>.<br/>
+		3. Choose <b>Process Manager Wizards &gt; Deploy Process Model</b>.<br/>
 		4. Click <b>Next</b>.<br/>
   		5. In the Deploy wizard check that the <b>ACME Workflow Model</b> is selected.<br/>
 		6. Click <b>Finish</b>.<br/>
-		7. You will be prompted to login to the @productnameonly@ process engine.<br/> 
+		7. You will be prompted to login to the process engine.<br/> 
 		8. Use ID "motu", Password "motu".<br/>
 		9. Click <b>OK</b>.<br/>
 		10. Again choose <b>OK</b>, when the version dialog prompts.<br/><br/>

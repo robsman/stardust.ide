@@ -52,7 +52,7 @@
 	3. Choose the default context and click the <b>Add</b> button.<br/>  
 	4. The dialog content changes to provide mapping details.<br/>  
 	5. Use the Data drop down list to select <b>Support Case Data</b>. This is the serializable object representing the entire case.<br/> 
-	6. Type over the ID supplied by @productnameonly@ and provide the ID <b>Customer ID</b>. This ID will 
+	6. Type over the supplied ID and provide the ID <b>Customer ID</b>. This ID will 
 	later be used as a user prompt in the final user interface. <br/>
 	7. Press the Browse button on the <b>Data Path</b> prompt of the dialog.<br/> 
 	8. Select the data path &quot;Id&quot;.<br/> 
@@ -74,7 +74,7 @@
         2. Choose the default context and click the <b>Add</b> button.<br/>  
         3. The dialog content changes to provide mapping details.<br/>  
         4. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
-        5. Type over the ID supplied by @productnameonly@ and provide the ID <b>Customer ID</b>.<br/>
+        5. Type over the supplied ID and provide the ID <b>Customer ID</b>.<br/>
         6. Press the Browse button on the <b>Data Path</b> prompt of the dialog.<br/> 
         7. Select the data path &quot;Id&quot;.<br/> 
         8. Continue to use the <b>Add</b> button to create the following In Data Mappings:<br/>
@@ -98,7 +98,7 @@
 	3. Choose the default context and click the <b>Add</b> button.<br/>  
 	4. The dialog content changes to provide mapping details. <br/> 
 	5. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
-	6. Type over the ID supplied by @productnameonly@ and provide the ID <b>Customer ID</b>.<br/> 
+	6. Type over the supplied ID and provide the ID <b>Customer ID</b>.<br/> 
 	7. Use the <b>Browse</b> button on the Data Path to select the element &quot;Id&quot;.<br/> 
 	8. Press the <b>Add</b> button to add more In Data Mappings as follows:<br/>
       </description>
@@ -135,7 +135,7 @@
 	3. Choose the default context and click the <b>Add</b> button.<br/>  
 	4. The dialog content changes to provide mapping details. <br/> 
 	5. Use the Data drop down list to select <b>Support Case Data</b>.<br/> 
-	6. Type over the ID supplied by @productnameonly@ and provide the ID <b>eMail</b>.<br/> 
+	6. Type over the supplied ID and provide the ID <b>eMail</b>.<br/> 
 	7. Use the <b>Browse</b> button on the Data Path to select the&quot;Email&quot; element.<br/> 
 	8. Click <b>OK</b>.<br/>
       </description>

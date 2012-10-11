@@ -34,7 +34,7 @@
   	title="Start the Analyze To Solve Activity">
        <description> A work item for this activity will be placed in the worklist of the user 
        assigned to the role <b>Engineer</b>.<br/><br/>
-       1. Log on to the @productname@ Portal with the ID and password of the user assigned 
+       1. Log on to the Portal with the ID and password of the user assigned 
        to the role <b>Engineer</b>.<br/>
        2. In the <b>Worklist by Role</b> click on <b>Engineer</b>.<br/>
        3. In the worklist of pending activities appears, choose one.<br/><br/>
@@ -51,6 +51,6 @@
        2. Entering an "R "for the state variable would send the item to the 
          <b>Notify Customer</b> (REJECTED path).
 	</description>
-	<onCompletion>Congratulations! You have completed the @productnameonly@ Support Case Tutorial</onCompletion>
+	<onCompletion>Congratulations! You have completed the Support Case Tutorial</onCompletion>
   </item>
 </cheatsheet>

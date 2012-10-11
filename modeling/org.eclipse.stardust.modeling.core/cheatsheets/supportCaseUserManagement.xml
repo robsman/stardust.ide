@@ -17,10 +17,10 @@
         users and assign them to the created roles.</description>
   </intro>
   <item dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-13.htm#manageUsers" 
-  title="Log into the @productname@ Portal">
+  title="Log into the Portal">
        <description>
   		To create a user in this tutorial, you must first log on to the 
-  		@productname@ Portal:<br/><br/>
+  		Portal:<br/><br/>
 		1. The start URL for the Support-Case Process Portal is:<br/>
 			&quot;http://hostname:port/Support-Case&quot;<br/>
 		2. Log on with the default administrator&apos;s user ID and password: &quot;motu/motu&quot;.<br/>

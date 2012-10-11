@@ -19,7 +19,7 @@
    </intro>
    <item title="Download Example Source Files" dialog="true" skip="true" href="/org.eclipse.stardust.docs.dev/html/examples/tutorials/support-case/support-case.zip">
       <description>
-         To use this tutorial you need some classes provided in your @productnameonly@  installation, which
+         To use this tutorial you need some example classes, which
          are provided in a zipped file.<br/><br/>
 	1. Click the <b>?</b> in the upper right corner of this task to download the example zip file
 		<b>support-case.zip</b>.<br/>

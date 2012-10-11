@@ -10,24 +10,24 @@
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
-<compositeCheatsheet name="@productnameonly@">
-    <taskGroup name="@productnameonly@">
+<compositeCheatsheet name="Process Manager">
+    <taskGroup name="Process Manager">
   	<intro>
-    	Welcome to the @productname@ Cheat Sheets.
+    	Welcome to the Process Manager Cheat Sheets.
   	</intro>
-    <task kind="cheatsheet" name="@productnameonly@ Modeling Quick Start Tutorial" skip="true">
+    <task kind="cheatsheet" name="Modeling Quick Start Tutorial" skip="true">
 		<param name="path" value="quickStartDev.xml" />
 		<intro>
-    		Welcome to the @productnameonly@ Modeling Quick Start Tutorial. This cheat sheet guides you 
+    		Welcome to the Modeling Quick Start Tutorial. This cheat sheet guides you 
     		through the basic steps of building a workflow model with a process definition
     		and its elements in the <b>Modeling Perspective</b>.
 		</intro>
     </task>  
 	<taskGroup name="Support Case Tutorial" kind="sequence">
 	<intro>     	
-    	Welcome to the Developer Support Case Tutorial. This cheat sheet guides you 
+    	Welcome to the Support Case Tutorial. This cheat sheet guides you 
     	through the steps of building a sample business process, automate and deploy it
-    	in the <b>@productnameonly@ Developer Modeling Perspective</b>.
+    	in the Eclipse modeler.
 	</intro>
     <onCompletion></onCompletion>
     	<task kind="cheatsheet" name="Getting Started" skip="true">

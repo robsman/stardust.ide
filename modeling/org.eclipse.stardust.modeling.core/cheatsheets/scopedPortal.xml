@@ -9,11 +9,11 @@
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
 
-<cheatsheet title="Creating the Users and Departments in the @productnameonly@ Portal">
+<cheatsheet title="Creating the Users and Departments in the Portal">
   <intro>
     <description>
     	This cheat sheet will guide you through the steps of creating departments
-    	in the @productnameonly@ Portal.</description>
+    	in the Portal.</description>
   </intro>
   <item       
         skip="true"
