@@ -2377,13 +2377,16 @@ public class ModelBuilderFacade
    {
       if (element instanceof Extensible)
       {
-         return ((Extensible) element).getExtendedAttributes().getExtendedAttribute();
+         if (((Extensible) element).getExtendedAttributes() != null)
+         {
+            return ((Extensible) element).getExtendedAttributes().getExtendedAttribute();
+         }
       }
       if (element instanceof IExtensibleElement)
       {
          return ((IExtensibleElement) element).getAttribute();
       }
-      return null;
+      return new ArrayList();
    }
 
    public String getAttributeName(Object attribute)
