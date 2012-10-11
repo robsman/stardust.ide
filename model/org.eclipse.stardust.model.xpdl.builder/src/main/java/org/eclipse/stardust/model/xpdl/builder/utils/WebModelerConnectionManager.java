@@ -331,7 +331,7 @@ public class WebModelerConnectionManager implements IConnectionManager
             Attribute attribute = (Attribute) attributes.get(j);
             if(attribute.getName().equals("filename"))
             {
-               if (attribute.getValue().equals(filename))
+               if (attribute.getValue().equals("project:/" + filename) || attribute.getValue().equals(filename))
                {
                   return connection;
                }               
@@ -339,8 +339,7 @@ public class WebModelerConnectionManager implements IConnectionManager
          }
       }
       return null;
-   }
-   
+   }   
    
    public Connection getConnection(String id)
    {
@@ -876,7 +875,7 @@ public class WebModelerConnectionManager implements IConnectionManager
       String id = null;
       
       WebModelerConnectionManager jcrConnectionManager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
-      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute("project:/" + referencedModel.getId() + ".xpdl");
+      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(referencedModel.getId() + ".xpdl");
       
       if(findConnection == null)
       {
