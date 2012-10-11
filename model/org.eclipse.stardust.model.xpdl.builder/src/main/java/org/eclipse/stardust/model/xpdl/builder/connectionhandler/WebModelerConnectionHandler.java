@@ -282,11 +282,15 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       {
          String path = uri.getPath();
          xpdlName = path.substring(1);
-     }
+      }
       else if ("platform".equals(uri.getScheme())) //$NON-NLS-1$
       {
          // uri.getPath();
       }
+      else if (null == uri.getScheme())
+      {
+         xpdlName = fileName;
+      }      
       return xpdlName;
    }
 }
