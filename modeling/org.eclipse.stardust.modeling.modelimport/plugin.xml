@@ -48,7 +48,7 @@
          point="org.eclipse.stardust.modeling.modelimport.thirdPartyModelImport">
          <modelImportType
          	id="carnotXml"
-         	name="Infinity XML"
+         	name="Process Model File"
          	class="org.eclipse.stardust.modeling.modelimport.carnot.CarnotXmlSourceGroupProvider" />
          <modelImportType
                class="org.eclipse.stardust.modeling.modelimport.carnot.audittrail.CarnotAuditTrailSourceGroupProvider"

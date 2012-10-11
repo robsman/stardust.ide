@@ -262,7 +262,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       }
    }
 
-  
+
    private void createAdvancedExpandedComposite(Composite parent)
    {
       Composite advancedComp = new Composite(parent, SWT.NONE);
@@ -333,7 +333,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       modelTypsCombo.addSelectionListener(listener);
 
       IConfigurationElement firstConfig = (IConfigurationElement) ImportPlugin
-            .getExtensions().get("Infinity XML"); //$NON-NLS-1$
+            .getExtensions().get("Process Model File"); //$NON-NLS-1$
       modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
       for (Iterator _iterator = ImportPlugin.getExtensions().keySet().iterator(); _iterator
             .hasNext();)
@@ -410,7 +410,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
 
    /**
     * create the file path and check if file already exists
-    * 
+    *
     * @return
     */
    public boolean checkFileExists()
@@ -556,7 +556,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
            // cache the selected source group provider
             sourceGroupProvider = (ISourceGroupProvider) ImportPlugin
                   .getSourceGroupProviders().get(key);
-           
+
             sourceGroupLayout.topControl = sourceGroupControl;
 
             additionalOptionsControl.setVisible(true);

@@ -66,7 +66,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
    private Map<String, Control> sourceGroupControls;
    private Map<String, Control> advancedExpandableControls;
-   
+
    private StackLayout advancedExpandableGroupLayout;
 
    private StackLayout layout;
@@ -105,14 +105,14 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
    public boolean canFlipToNextPage()
    {
-      return isPageComplete();   
+      return isPageComplete();
    }
 
    public IWizardPage getNextPage()
    {
       try
       {
-         getInput();         
+         getInput();
       }
       catch (Exception ex)
       {
@@ -146,7 +146,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
          super.setVisible(visible);
       }
    }
-   
+
    public void updateButtons()
    {
       if (getWizard().getContainer().getCurrentPage() != null)
@@ -193,7 +193,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       createSourceGroup(composite);
 
       createOptionsGroup(composite);
-      
+
       createAdvancedExpandedComposite(composite);
 
       setPageComplete(determinePageCompletion());
@@ -250,7 +250,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       // TODO: replace with CARNOT EXP specific image
       setImageDescriptor(WorkbenchImages.getImageDescriptor(IWorkbenchGraphicConstants.IMG_WIZBAN_IMPORT_WIZ));
    }
-   
+
    private void createAdvancedExpandedComposite(Composite parent)
    {
       Composite advancedComp = new Composite(parent, SWT.NONE);
@@ -265,7 +265,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       advancedExpandableGroupLayout = new StackLayout();
       advancedExpandableGroupLayout.marginHeight = 5;
       advancedComp.setLayout(advancedExpandableGroupLayout);
-   
+
       advancedExpandableControls = new HashMap<String, Control>();
       @SuppressWarnings("unchecked")
       Map<String, ISourceGroupProvider> sourceGroupProviders = ImportPlugin.getSourceGroupProviders();
@@ -328,7 +328,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
       @SuppressWarnings("unchecked")
       Map<String, IConfigurationElement> extensions = ImportPlugin.getExtensions();
-      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("Infinity XML"); //$NON-NLS-1$
+      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("Process Model File"); //$NON-NLS-1$
       modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
       for (IConfigurationElement config : extensions.values())
       {
@@ -344,7 +344,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
    public boolean isPageComplete()
    {
       boolean pageIsValid = true;
-      
+
       // no external file to import is selected
       if (sourceGroupProvider != null && !sourceGroupProvider.isComplete())
       {
@@ -354,7 +354,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
       {
          pageIsValid = isValidResource();
       }
-      
+
       // no destination location is selected
       if (getResourcePath() == null)
       {
@@ -388,7 +388,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
                   .getSourceGroupProviders().get(key);
 
             layout.topControl = sourceGroupControl;
-            
+
             if (advancedExpandableControl != null)
             {
                advancedExpandableControl.setVisible(true);
@@ -411,7 +411,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
    {
       return sourceGroupProvider;
    }
-    
+
    public MergeEditorInput getInput()
    {
       if (input == null)
@@ -436,8 +436,8 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
          return false;
       }
       return true;
-   }   
-   
+   }
+
    private void prepareInput()
    {
       Resource source = sourceGroupProvider.getExternalResource();
