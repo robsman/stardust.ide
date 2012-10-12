@@ -18,6 +18,18 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Tree;
+
 import org.eclipse.stardust.engine.extensions.jms.app.JMSDirection;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -43,17 +55,6 @@ import org.eclipse.stardust.modeling.core.properties.IButtonManager;
 import org.eclipse.stardust.modeling.core.properties.ModelElementAdaptable;
 import org.eclipse.stardust.modeling.core.properties.ModelElementsOutlineSynchronizer;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Tree;
 
 public class JmsPropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager
@@ -296,8 +297,12 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
                {
                   public boolean select(Object toTest)
                   {
-                     return AccessPointUtil.isDirectionCompatible(
-                           (AccessPointType) toTest, false);
+                        if (toTest instanceof AccessPointType)
+                        {
+                           return AccessPointUtil.isDirectionCompatible(
+                                 (AccessPointType) toTest, false);
+                        }
+                        return false;
                   }
                })
             {
