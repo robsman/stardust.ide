@@ -333,7 +333,7 @@ public class ImportModelWizardPage extends WizardResourceImportPage
       modelTypsCombo.addSelectionListener(listener);
 
       IConfigurationElement firstConfig = (IConfigurationElement) ImportPlugin
-            .getExtensions().get("Process Model File"); //$NON-NLS-1$
+            .getExtensions().get("File"); //$NON-NLS-1$
       modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
       for (Iterator _iterator = ImportPlugin.getExtensions().keySet().iterator(); _iterator
             .hasNext();)
