@@ -73,7 +73,7 @@ import com.infinity.bpm.thirdparty.emf.common.util.ECollections;
 
 public class MessageTransformationController {
 
-    
+
     private Map<String, FieldMapping> fieldMappings = new HashMap<String, FieldMapping>();
     private Map<String, AccessPointType> fieldPathsToAccessPoints = new HashMap<String, AccessPointType>();
 	private List<AccessPointType> availableMessageTypes = new ArrayList<AccessPointType>();
@@ -120,7 +120,7 @@ public class MessageTransformationController {
     public MessageTransformationUtils getMtaUtils() {
 		return mtaUtils;
 	}
-    
+
 	public int getArraySelectionDepthSource() {
 		return arraySelectionDepthSource;
 	}
@@ -131,8 +131,8 @@ public class MessageTransformationController {
 
 	private int arraySelectionDepthSource;
 	private int arraySelectionDepthTarget;
-	
-	
+
+
 	public Map<String, String> getUsedVar() {
 		return usedVar;
 	}
@@ -140,44 +140,44 @@ public class MessageTransformationController {
 	public IProject getProject() {
 		return project;
 	}
-    
+
     public IModelElement getModelElement() {
 		return modelElement;
 	}
 
 	public String getNameString() {
 		if (this.isSimpleMode()) {
-			return Modeling_Messages.NAME_PARAMETER; 
-		} 
-		return Modeling_Messages.NAME_MESSAGE;  
+			return Modeling_Messages.NAME_PARAMETER;
+		}
+		return Modeling_Messages.NAME_MESSAGE;
 	}
-  
+
     public void reset() {
 		availableMessageTypes.clear();
 	}
 
 	public void intializeModel(ModelType model, IModelElement element) {
-	   modelElement = element;	   
+	   modelElement = element;
 	   intializeModel(model, null, element);
 	}
-	
+
 	public void intializeModel(ModelType model, IModelElementNodeSymbol symbol,
 			IModelElement element) {
-			    
+
 	    mtaUtils = new MessageTransformationUtils(ModelUtils.getProjectFromEObject(element), element, model);
 		String xmlString = AttributeUtil.getAttributeValue((IExtensibleElement) element, Constants.TRANSFORMATION_PROPERTY);
 		if (xmlString != null) {
-			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString);	
+			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString);
 		}
 		CodeCompletionHelper.getInstance().getTypeMap().clear();
-		
+
 		this.application = element;
 		this.modelType = model;
-    
+
         //Retrieve the for transformation available types from the model (Data, StructTypes).
 		//All found types are implicitly added to the available message types.
 		availableMessageTypes.clear();
-		extractMessageTypesFromModelData(model, element);		        		
+		extractMessageTypesFromModelData(model, element);
         extractMessagesFromStructuredTypes(model);
         ExternalPackages packages = model.getExternalPackages();
         if (packages != null)
@@ -191,7 +191,7 @@ public class MessageTransformationController {
               }
            }
         }
-              
+
         //Extract the already defined Input - and Outputmessages from the model element
     	sourceMessageTypes = new ArrayList<AccessPointType>();
 		targetMessageTypes = new ArrayList<AccessPointType>();
@@ -199,7 +199,7 @@ public class MessageTransformationController {
 		externalClassTypesMissing = new ArrayList<AccessPointType>();
 		if (trafoProp != null) {
 			extractAccessPoints(element);
-			extractExternalClassesfromTrafoprop(model, element); 	
+			extractExternalClassesfromTrafoprop(model, element);
 		}
 	}
 
@@ -274,7 +274,7 @@ public class MessageTransformationController {
               .iterator(); j.hasNext();) {
           TypeDeclarationType typeAdapter = j.next();
           if(TypeDeclarationUtils.getType(typeAdapter) == TypeDeclarationUtils.COMPLEX_TYPE)
-          {              
+          {
               AccessPointType messageType = mtaUtils.createStructAccessPoint((EObject) typeAdapter, typeAdapter.getId(), DirectionType.INOUT_LITERAL);
               availableMessageTypes.add(messageType);
           }
@@ -284,25 +284,25 @@ public class MessageTransformationController {
    private void extractMessageTypesFromModelData(ModelType model, IModelElement element)
    {
 	  DataTypeType primitiveType = ModelUtils.getDataType(element, "primitive"); //$NON-NLS-1$
-	  List<Type> primitiveTypes = Arrays.asList(TYPES);	   
-	  for (Iterator<Type> i = primitiveTypes.iterator(); i.hasNext();) 
+	  List<Type> primitiveTypes = Arrays.asList(TYPES);
+	  for (Iterator<Type> i = primitiveTypes.iterator(); i.hasNext();)
 	  {
 		  Type type = i.next();
 		  AccessPointType accessPoint = mtaUtils.createPrimitiveAccessPoint(primitiveType, type.getName(), DirectionType.IN_LITERAL);
-          if (accessPoint != null) 
+          if (accessPoint != null)
           {
-             availableMessageTypes.add(accessPoint);              
+             availableMessageTypes.add(accessPoint);
           }
-	  }     
+	  }
    }
-   
+
    private void extractExternalClassesfromTrafoprop(ModelType model, IModelElement element) {
 	   if (trafoProp.getExternalClasses() != null) {
 		   for(Iterator<ExternalClass> s = trafoProp.getExternalClasses().iterator(); s.hasNext();) {
 			    ExternalClass externalClass = s.next();
-				String className = externalClass.getClassName();				
-				if (className != null) {					
-					String typeName = externalClass.getInstanceName();							
+				String className = externalClass.getClassName();
+				if (className != null) {
+					String typeName = externalClass.getInstanceName();
 					AccessPointType accessPoint = mtaUtils.createSerializableAccessPoints(element, className, typeName);
 					if (mtaUtils.classExists(className)) {
 						accessPoint.setElementOid(1);
@@ -311,15 +311,15 @@ public class MessageTransformationController {
 					}
 					externalClassTypes.add(accessPoint);
 				}
-			}				   
+			}
 	   }
 	}
 
 
-   public void removeInvalidAccessPoints() {         
+   public void removeInvalidAccessPoints() {
       removeAccessPoints(invalidAccessPoints);
    }
-   
+
    public void initializeMappings(IModelElement element) {
 		if (trafoProp != null) {
 			for (Iterator<FieldMapping> k = trafoProp.getFieldMappings().iterator(); k.hasNext();) {
@@ -334,7 +334,7 @@ public class MessageTransformationController {
 		}
 	}
 
-    private boolean fieldPathExists(String fieldPath) {     	   	  
+    private boolean fieldPathExists(String fieldPath) {
        for (Iterator<AccessPointType> i = targetMessageTypes.iterator(); i.hasNext();) {
            String realfieldPath = fieldPath;
 	       boolean isContained = false;
@@ -345,7 +345,7 @@ public class MessageTransformationController {
 	          String firstSegment = fieldPath.substring(0, fieldPath.indexOf("/")); //$NON-NLS-1$
 	          isContained = isContained &&  (firstSegment.equalsIgnoreCase(messageType.getId()));
 	           //It may be possible that this is an Attribute type - check this
-	           if (!isContained) {	                   
+	           if (!isContained) {
 	              String lastSegment = realfieldPath.substring(realfieldPath.lastIndexOf("/") + 1); //$NON-NLS-1$
 	              String attributeFieldPath = realfieldPath;
 	              if (realfieldPath.lastIndexOf("/") > 0) { //$NON-NLS-1$
@@ -354,14 +354,14 @@ public class MessageTransformationController {
 	              } else {
 	                 attributeFieldPath = "@" + attributeFieldPath; //$NON-NLS-1$
 	              }
-	              isContained = ((StructAccessPointType)messageType).getXPathMap().containsXPath(attributeFieldPath);    
+	              isContained = ((StructAccessPointType)messageType).getXPathMap().containsXPath(attributeFieldPath);
 	           }
 	       } else {
 	    	  if (isSerializable(messageType)) {
 	    		  isContained = true;
 	    	  } else {
 		          realfieldPath = realfieldPath.replaceAll("/", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		          isContained = messageType.getName().equalsIgnoreCase(realfieldPath);	    		  
+		          isContained = messageType.getName().equalsIgnoreCase(realfieldPath);
 	    	  }
 	       }
 	       if (isContained) {
@@ -376,7 +376,7 @@ public class MessageTransformationController {
 		jScriptProlog = "function ippInitialize(e) {return null;}\n"; //$NON-NLS-1$
 		jScriptProlog = jScriptProlog
 				+ "function ippImport(e) {return null;}\n"; //$NON-NLS-1$
-				
+
 		for (Iterator<AccessPointType> i = sourceMessageTypes.iterator(); i.hasNext();) {
 		   AccessPointType apt = i.next();
 		   if (apt instanceof StructAccessPointType) {
@@ -393,9 +393,9 @@ public class MessageTransformationController {
 		    	} else {
 		              jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
 		              + " = new " + getTypeString(messageType) + "();\n";   //$NON-NLS-1$ //$NON-NLS-2$
-		              CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);		    		
+		              CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);
 		    	}
-		   }			
+		   }
 		}
 		for (Iterator<AccessPointType> i = targetMessageTypes.iterator(); i.hasNext();) {
 		    AccessPointType apt = i.next();
@@ -413,7 +413,7 @@ public class MessageTransformationController {
 		    	} else {
 		            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
 		            + " = new " + getTypeString(messageType) + "();\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		            CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);		    	
+		            CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);
 		    	}
 		    }
 		}
@@ -431,8 +431,8 @@ public class MessageTransformationController {
 		           jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
 		              + " = ippInitialize(\"" + className + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
 		           CodeCompletionHelper.getInstance().getExternalTypeMap().put(messageType.getId(), messageType);
-		   	} 
-		  }					
+		   	}
+		  }
 		}
 		fieldsDocument = "//Fields\n" + jScriptProlog; //$NON-NLS-1$
 
@@ -443,7 +443,7 @@ public class MessageTransformationController {
 				.getIdentifiable(messageType, StructuredDataConstants.TYPE_DECLARATION_ATT);
 		return declarationType.getId();
 	}
-	
+
 	public void recalculateRegions(IDocument document) {
 		int lines = document.getNumberOfLines();
 		int fo, fl, so, sl, eo, el;
@@ -518,7 +518,7 @@ public class MessageTransformationController {
        if (selectedTargetField == null) {
            return false;
        }
-       
+
            String xPath = getXPathFor(selectedTargetField);
            if (selectedTargetField != null && xPath != null) {
                this.selectedTargetFieldMapping = fieldMappings
@@ -533,7 +533,7 @@ public class MessageTransformationController {
                    statementsDocument = "//Statements\n" + "\n"; //$NON-NLS-1$ //$NON-NLS-2$
                    return true;
                }
-                     
+
        }
        return false;
    }
@@ -559,10 +559,10 @@ public class MessageTransformationController {
                    draggedText = selectedSourceField.getName();
                    draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
                }
-           }          
+           }
        }
    }
-   
+
 	private List<AccessPointType> extractSelectedElements(TreeSelection sourceTreeSelection) {
 		List<AccessPointType> result = new ArrayList<AccessPointType>();
 		for (Iterator<?> i = sourceTreeSelection.iterator(); i.hasNext();) {
@@ -616,7 +616,7 @@ public class MessageTransformationController {
 				.get(getXPathFor(selectedTargetField));
 		if (fm != null) {
 			String expression = text;
-			fm.setMappingExpression(expression);			
+			fm.setMappingExpression(expression);
 			validateMapping(fm, true);
 		}
 	}
@@ -629,24 +629,26 @@ public class MessageTransformationController {
 		// Store
 		TransformationProperty property = MappingFactory.eINSTANCE.createTransformationProperty();
 		for (Iterator<FieldMapping> j = fieldMappings.values().iterator(); j.hasNext();) {
-			FieldMapping fm = j.next();			
+			FieldMapping fm = j.next();
 			if (fm != null && !fm.getMappingExpression().equalsIgnoreCase("")) { //$NON-NLS-1$
 				property.getFieldMappings().add(fm);
 				AccessPointType accessPoint = fieldPathsToAccessPoints.get(fm.getFieldPath());
 				if (accessPoint != null && this.isContentMapping(accessPoint)) {
-					fm.setContentMapping(true);					
+					fm.setContentMapping(true);
 				}
 			}
 		}
-		
-		ECollections.sort(property.getFieldMappings(), new FieldMappingsComparator());	
-		
-		for (Iterator<AccessPointType> j = externalClassTypes.iterator(); j.hasNext();) {
-			AccessPointType apt = j.next();			
-			ExternalClass externalClass = MappingFactory.eINSTANCE.createExternalClass();
-			externalClass.setClassName(AttributeUtil.getAttributeValue(apt, PredefinedConstants.CLASS_NAME_ATT));
-			externalClass.setInstanceName(apt.getName());
-			property.getExternalClasses().add(externalClass);			
+
+		ECollections.sort(property.getFieldMappings(), new FieldMappingsComparator());
+
+		if (externalClassTypes != null) {
+	      for (Iterator<AccessPointType> j = externalClassTypes.iterator(); j.hasNext();) {
+	         AccessPointType apt = j.next();
+	         ExternalClass externalClass = MappingFactory.eINSTANCE.createExternalClass();
+	         externalClass.setClassName(AttributeUtil.getAttributeValue(apt, PredefinedConstants.CLASS_NAME_ATT));
+	         externalClass.setInstanceName(apt.getName());
+	         property.getExternalClasses().add(externalClass);
+	      }
 		}
 
 		String xmlString = MappingModelUtil.transformEcore2XML(property);
@@ -655,12 +657,12 @@ public class MessageTransformationController {
 				Constants.TRANSFORMATION_PROPERTY, xmlString);
 
 	}
-	
+
 	public void performDropMapping(AccessPointType mapTarget, MappingConfiguration config) {
 		IMappingRenderer sourceMapper = getMapperByType(selectedSourceField);
 		IMappingRenderer targetMapper = getMapperByType(mapTarget);
 		this.arraySelectionDepthSource = this.getArraySelectionDepth(selectedSourceField);
-		this.arraySelectionDepthTarget = this.getArraySelectionDepth(mapTarget);		
+		this.arraySelectionDepthTarget = this.getArraySelectionDepth(mapTarget);
 		if (checkStandardMappingAllowed(mapTarget, selectedSourceField)) {
 			if (selectedSourceFields.size() > 1) {
 				performMultipleDropMapping(mapTarget, config);
@@ -680,7 +682,7 @@ public class MessageTransformationController {
 				if (sourceAPB.hasChildren(sourceMapper.getType()) && targetAPB.hasChildren(targetMapper.getType())) {
 					Object[] sourceChildren = sourceAPB.getChildren(sourceMapper.getType());
 					Object[] targetChildren = targetAPB.getChildren(targetMapper.getType());
-					for (int i = 0; i < targetChildren.length; i++) {					
+					for (int i = 0; i < targetChildren.length; i++) {
 						AccessPointType targetChild = (AccessPointType) targetChildren[i];
 						AccessPointType sourceChild = (AccessPointType) sourceChildren[i];
 						selectedSourceField = sourceChild;
@@ -689,11 +691,11 @@ public class MessageTransformationController {
 						performSingleDropMapping(sourceMapper, targetMapper, config);
 					}
 				}
-			}				
-		}		
+			}
+		}
 		draggedText = null;
 	}
-	
+
 
     private boolean checkStandardMappingAllowed(AccessPointType target,	AccessPointType source) {
     	if (isPrimitive(source)) {
@@ -710,7 +712,7 @@ public class MessageTransformationController {
 			}
 			return true;
 		}
-		if (isPrimitive(target)) {		    
+		if (isPrimitive(target)) {
 			if (isPrimitive(source)) {
 				return true;
 			}
@@ -757,14 +759,14 @@ public class MessageTransformationController {
        }
        return false;
     }
-    
+
     public boolean isSerializable(AccessPointType apt) {
        if (apt.getType() != null) {
     	   return (apt.getType().getId().equalsIgnoreCase("serializable")); //$NON-NLS-1$
        }
        return false;
     }
-    
+
     public boolean isStructData(AccessPointType apt) {
         if (apt != null && apt instanceof StructAccessPointType) {
         	return true;
@@ -775,7 +777,7 @@ public class MessageTransformationController {
 
    private void performSingleDropMapping(IMappingRenderer sm, IMappingRenderer tm, MappingConfiguration config) {
 		usedVar.clear();
-	    if (sourceAPB.hasChildren(sm.getType()) && targetAPB.hasChildren(tm.getType())) {		   	
+	    if (sourceAPB.hasChildren(sm.getType()) && targetAPB.hasChildren(tm.getType())) {
 	       if (isList(tm.getType()) && isList(sm.getType())) {
 	    	    String mappingCode = sm.renderListMappingCode(sm, tm, "", 0, config); //$NON-NLS-1$
 	    	    FieldMapping fm = fieldMappings.get(getXPathFor(tm.getType()));
@@ -795,16 +797,16 @@ public class MessageTransformationController {
 	}
 
 	public boolean isList(AccessPointType messageType)
-   {      
+   {
       if (messageType instanceof StructAccessPointType) {
          return ((StructAccessPointType)messageType).getXPath().isList();
       } else {
     	 return isJavaArray(messageType) || isJavaList(messageType);
       }
    }
-	
+
 	public boolean isJavaList(AccessPointType messageType)
-	{      
+	{
 	  if (isSerializable(messageType)) {
 	  	  String className = AttributeUtil.getAttributeValue(messageType, PredefinedConstants.CLASS_NAME_ATT);
 	  	  if (className.startsWith("java.util.List")) { //$NON-NLS-1$
@@ -812,10 +814,10 @@ public class MessageTransformationController {
 	 	  }
 	  }
 	  return false;
-	}	
-	
+	}
+
 	public boolean isJavaArray(AccessPointType messageType)
-	{      
+	{
 	  if (isSerializable(messageType)) {
 	  	  String className = AttributeUtil.getAttributeValue(messageType, PredefinedConstants.CLASS_NAME_ATT);
 	  	  if (className.endsWith("[]")) { //$NON-NLS-1$
@@ -830,16 +832,16 @@ public class MessageTransformationController {
 		String mappingCode = createFieldAddition(targetRenderer, selectedSourceFields);
 		FieldMapping fm = fieldMappings.get(getXPathFor(mapTarget));
 		mappingCode = mappingCode.replaceAll("@", "");	 //$NON-NLS-1$ //$NON-NLS-2$
-	    fm.setAdvancedMapping(targetRenderer instanceof SerializableMappingRenderer);		
- 		fm.setMappingExpression(mappingCode);		
-		validateMapping(fm, true);		
+	    fm.setAdvancedMapping(targetRenderer instanceof SerializableMappingRenderer);
+ 		fm.setMappingExpression(mappingCode);
+		validateMapping(fm, true);
 	}
 
     private void mapPrimitiveToPrimitiveMessage(IMappingRenderer sm, IMappingRenderer tm, MappingConfiguration config) {
        usedVar.clear();
        String mappingCode = ""; //$NON-NLS-1$
        FieldMapping fm = fieldMappings.get(getXPathFor(tm.getType()));
-       
+
        if (!isList(sm.getType()) && isList(tm.getType())) {
           mappingCode = sm.renderAdditionCode(sm, tm, config);
           fm = fieldMappings.get(getXPathFor(tm.getType()));
@@ -855,15 +857,15 @@ public class MessageTransformationController {
            mappingCode = tm.renderSetterCode(getterCode, false, false, config);
            fm.setAdvancedMapping(tm instanceof SerializableMappingRenderer);
            if (tm instanceof StructDataMappingRenderer) {
-               fm.setAdvancedMapping(arraySelectionDepthTarget > 0); 
-           }       
+               fm.setAdvancedMapping(arraySelectionDepthTarget > 0);
+           }
          }
          mappingCode = mappingCode.replaceAll("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
          fm.setMappingExpression(mappingCode);
          validateMapping(fm, true);
       }
-       
-       
+
+
 
   }
 
@@ -898,7 +900,7 @@ public class MessageTransformationController {
 		for (int i = 0; i < targetChildren.length; i++) {
 			AccessPointType targetChild = (AccessPointType) targetChildren[i];
 			for (int j = 0; j < sourceChildren.length; j++) {
-				AccessPointType sourceChild = (AccessPointType) sourceChildren[j];				
+				AccessPointType sourceChild = (AccessPointType) sourceChildren[j];
 				if (isList(sourceChild) && isList(targetChild)) {
 					String mappingCode = sourceMapper.renderListMappingCode(getMapperByType(sourceChild), getMapperByType(targetChild), "", 0, config); //$NON-NLS-1$
 					FieldMapping fm = fieldMappings.get(getXPathFor(targetChild));
@@ -922,7 +924,7 @@ public class MessageTransformationController {
 	public boolean isComplexType(AccessPointType messageType)
    {
 	  if (messageType instanceof StructAccessPointType) {
-	     return (((StructAccessPointType)messageType).getXPath().getType() == BigData.NULL);   
+	     return (((StructAccessPointType)messageType).getXPath().getType() == BigData.NULL);
 	  }	else {
 		  if (isSerializable(messageType)) {
 				MultipleAccessPathBrowserContentProvider apcp = null;
@@ -970,11 +972,11 @@ public class MessageTransformationController {
  			if (targetName.equalsIgnoreCase(sourceName)) {
  				return true;
  			}
- 			return false; 			
+ 			return false;
  		}
  		return false;
 	}
- 	
+
  	private boolean isSpecialCase(IMappingRenderer sr, IMappingRenderer tr) {
 		//This is a workaround for the case of dealing with Serializable Arrays which are not exposed with fq-Names
  		if ((sr instanceof SerializableMappingRenderer) && (tr instanceof SerializableMappingRenderer)) {
@@ -996,8 +998,8 @@ public class MessageTransformationController {
  			return true;
  		}
  		return false;
- 	}  
- 	 	
+ 	}
+
 	private String createFieldAddition(AccessPointType messageType) {
 		String result = ""; //$NON-NLS-1$
 		if (sourceAPB.hasChildren(messageType)) {
@@ -1020,7 +1022,7 @@ public class MessageTransformationController {
 		String result = ""; //$NON-NLS-1$
 		for (Iterator<AccessPointType> i = messageTypes.iterator(); i.hasNext();) {
 			AccessPointType messageType = (AccessPointType) i.next();
-			IMappingRenderer renderer = getMapperByType(messageType);						
+			IMappingRenderer renderer = getMapperByType(messageType);
 			result = result + renderer.renderGetterCode(false, false, null) + " + ";			 //$NON-NLS-1$
 		}
 		result = targetRenderer.renderSetterCode(result, false, false, null);
@@ -1033,7 +1035,7 @@ public class MessageTransformationController {
 		return result.trim();
 	}
 
-	
+
 	public AccessPointType getMessageTypeByName(String name) {
 		for (Iterator<AccessPointType> i = sourceMessageTypes.iterator(); i.hasNext();) {
 			AccessPointType apt = i.next();
@@ -1046,7 +1048,7 @@ public class MessageTransformationController {
 			if (apt.getName().equalsIgnoreCase(name)) {
 				return apt;
 			}
-		}		
+		}
 		return null;
 	}
 
@@ -1067,7 +1069,7 @@ public class MessageTransformationController {
 	    return false;
 	}
 
-	public boolean containsSelectedSourceField(Object targetElement) {		
+	public boolean containsSelectedSourceField(Object targetElement) {
 		if (selectedSourceField != null) {
 			IMappingRenderer sourceRenderer = getMapperByType(selectedSourceField);
 			FieldMapping sm = fieldMappings
@@ -1085,19 +1087,19 @@ public class MessageTransformationController {
 				}
 				AccessPointType keyElement = (AccessPointType) targetElement;
 				Object key = getXPathFor(keyElement);
-				FieldMapping tm = fieldMappings.get(key);				
+				FieldMapping tm = fieldMappings.get(key);
 				if (tm != null && javaPath != null) {
 					String targetMessage = tm.getMappingExpression();
 					if (StringUtils.isEmpty(targetMessage)) {
 						return false;
-					} 
+					}
 					javaPath = javaPath.replaceAll("\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
 					targetMessage = targetMessage.replaceAll("\n", " "); //$NON-NLS-1$ //$NON-NLS-2$
 					if (sourceRenderer instanceof SerializableMappingRenderer) {
 						if (targetMessage != null && targetMessage.indexOf(javaPath) > -1) {
 							return true;
-						}						
-					} 					
+						}
+					}
 					String regex = ".*\\b" + javaPath + "\\b.*"; //$NON-NLS-1$ //$NON-NLS-2$
 					if (targetMessage != null && targetMessage.matches(regex)) {
 						return true;
@@ -1108,21 +1110,21 @@ public class MessageTransformationController {
 		return false;
 	}
 
-	public boolean isContainedInSelectedTargetField(Object sourceElement) {	    
+	public boolean isContainedInSelectedTargetField(Object sourceElement) {
 		AccessPointType sourceMessageType = (AccessPointType) sourceElement;
 		IMappingRenderer sourceRenderer = getMapperByType(sourceMessageType);
 		String javaPath = getXPathFor(sourceMessageType);
 		if (javaPath != null) {
 		   if (sourceRenderer instanceof SerializableMappingRenderer) {
 			 javaPath = sourceRenderer.renderGetterCode(true, true, null);
-		   }				
+		   }
            if (isPrimitive(sourceMessageType)) {
               javaPath = javaPath.replace("/", ""); //$NON-NLS-1$ //$NON-NLS-2$
            } else {
-              javaPath = javaPath.replace('/', '.');              
+              javaPath = javaPath.replace('/', '.');
            }
 			if (selectedTargetField != null) {
-				FieldMapping tm = fieldMappings.get(getXPathFor(selectedTargetField));				
+				FieldMapping tm = fieldMappings.get(getXPathFor(selectedTargetField));
 				if (tm != null) {
 					String targetMessage = tm.getMappingExpression();
 					if (StringUtils.isEmpty(targetMessage)) {
@@ -1133,8 +1135,8 @@ public class MessageTransformationController {
 					if (sourceRenderer instanceof SerializableMappingRenderer) {
 						if (targetMessage != null && targetMessage.indexOf(javaPath) > -1) {
 							return true;
-						}						
-					}										
+						}
+					}
 					String regex = ".*\\b" + javaPath + "\\b.*"; //$NON-NLS-1$ //$NON-NLS-2$
 					if (targetMessage != null && targetMessage.matches(regex)) {
 						return true;
@@ -1147,7 +1149,7 @@ public class MessageTransformationController {
 
 	public void addSourceMessageType(AccessPointType declaringType,
 			String messageName) {
-	   
+
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
 	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.IN_LITERAL);
@@ -1162,17 +1164,17 @@ public class MessageTransformationController {
 	    	  accessPoint.setType(serializableType);
 	    	  accessPoint.setDirection(DirectionType.IN_LITERAL);
 	       } else {
-	          accessPoint = mtaUtils.createPrimitiveAccessPoint(declaringType, messageName, DirectionType.IN_LITERAL);; 	          
+	          accessPoint = mtaUtils.createPrimitiveAccessPoint(declaringType, messageName, DirectionType.IN_LITERAL);;
 	       }
-	    }	
+	    }
 	    //application.eAdapters().clear();
 	    getAccessPoint(application).add(accessPoint);
 		sourceMessageTypes.add(accessPoint);
 		refreshJavaScriptContext();
 	}
-	
+
 	public AccessPointType createExternalClass(AccessPointType declaringType,
-			String messageName, boolean addToContext) {	   
+			String messageName, boolean addToContext) {
 	    AccessPointType accessPoint = null;
        if (declaringType.getType() == null || declaringType.getType().getId().equalsIgnoreCase("serializable")) { //$NON-NLS-1$
     	   accessPoint = declaringType;
@@ -1181,17 +1183,17 @@ public class MessageTransformationController {
 	       DataTypeType serializableType = ModelUtils.getDataType(application, "serializable"); //$NON-NLS-1$
 	       accessPoint.setType(serializableType);
 	       accessPoint.setDirection(DirectionType.IN_LITERAL);
-	    }	
+	    }
         if (addToContext) {
     		externalClassTypes.add(accessPoint);
-    		refreshJavaScriptContext();        	
+    		refreshJavaScriptContext();
         }
 		return accessPoint;
-	}	
-	
+	}
+
 	public void addTargetMessageType(AccessPointType declaringType,
 			String messageName) {
-	   
+
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
 	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.OUT_LITERAL);
@@ -1205,13 +1207,13 @@ public class MessageTransformationController {
 	    	  accessPoint.setType(serializableType);
 	    	  accessPoint.setDirection(DirectionType.OUT_LITERAL);
 	       } else {
-	          accessPoint = mtaUtils.createPrimitiveAccessPoint(declaringType, messageName, DirectionType.OUT_LITERAL); 	          
+	          accessPoint = mtaUtils.createPrimitiveAccessPoint(declaringType, messageName, DirectionType.OUT_LITERAL);
 	       }
 	    }
 		getAccessPoint(application).add(accessPoint);
 		targetMessageTypes.add(accessPoint);
 		refreshJavaScriptContext();
-	}	
+	}
 
 
 
@@ -1232,11 +1234,11 @@ public class MessageTransformationController {
 	public List<AccessPointType> getExternalClassTypes() {
 		return externalClassTypes;
 	}
-	
+
 	public List<AccessPointType> getExternalClassTypesMissing() {
 		return externalClassTypesMissing;
-	}	
-	
+	}
+
 	public List<AccessPointType> getTargetMessageTypes() {
 		return targetMessageTypes;
 	}
@@ -1250,35 +1252,35 @@ public class MessageTransformationController {
 	}
 
 	public void performSourceMessageRemovement() {
-		List<AccessPointType> newList = new ArrayList<AccessPointType>();		
+		List<AccessPointType> newList = new ArrayList<AccessPointType>();
 		for (Iterator<AccessPointType> i = selectedSourceFields.iterator(); i.hasNext();) {
-		   AccessPointType selectedType = i.next(); 
-		   removeMappingsFor(selectedType);		
+		   AccessPointType selectedType = i.next();
+		   removeMappingsFor(selectedType);
 		}
         for (Iterator<AccessPointType> j = sourceMessageTypes.iterator(); j.hasNext();) {
            AccessPointType messageType = j.next();
            boolean found = false;
            for (Iterator<AccessPointType> i = selectedSourceFields.iterator(); i.hasNext();) {
-              AccessPointType selectedType = i.next();               
+              AccessPointType selectedType = i.next();
               if (messageType.getId() == selectedType.getId()) {
                  found = true;
-              }              
+              }
            }
            if (!found) {
               newList.add(messageType);
-           }                     
-       }          
+           }
+       }
        sourceMessageTypes = newList;
 	   for (Iterator<AccessPointType> i = selectedSourceFields.iterator(); i.hasNext();) {
-	       remove(i.next());		   
-	   }				
+	       remove(i.next());
+	   }
 	   if (project != null) {
-		   initilizeValidator(project);			
+		   initilizeValidator(project);
 	   }
 	   errorCache.clear();
 	   refreshJavaScriptContext();
 	}
-	
+
 	public void performTargetMessageRemovement() {
 		removeMappingsFor(selectedTargetField);
 		List<AccessPointType> newList = new ArrayList<AccessPointType>();
@@ -1292,7 +1294,7 @@ public class MessageTransformationController {
 		getAccessPoint(application).remove(selectedTargetField);
 		remove(selectedTargetField);
 		if (project != null) {
-			initilizeValidator(project);			
+			initilizeValidator(project);
 		}
 		errorCache.clear();
 		refreshJavaScriptContext();
@@ -1309,13 +1311,13 @@ public class MessageTransformationController {
 		}
 		if (removeIndex > -1) {
 		    try {
-	            getAccessPoint(application).remove(removeIndex);		       
+	            getAccessPoint(application).remove(removeIndex);
 		    } catch (Throwable t) {
 		       //Ignore this
 		    }
 		}
 	}
-	
+
 	public void removeAccessPoints(List<AccessPointType> messageTypes) {
 	   for (Iterator<AccessPointType> i = messageTypes.iterator(); i.hasNext();) {
 	      AccessPointType type = i.next();
@@ -1386,14 +1388,14 @@ public class MessageTransformationController {
 		if (fm == null) {
 			return false;
 		}
-		return false;				
+		return false;
 	}
 
 	public boolean isToggleBreakpointAvailable() {
 		return (!simpleMode && selectedTargetField != null && !isRoot(selectedTargetField));
 	}
 
-	public boolean validateMapping(FieldMapping fieldMapping, boolean updateCache) {		
+	public boolean validateMapping(FieldMapping fieldMapping, boolean updateCache) {
 		if (!externalReference) {
 	        javaScriptValidator = new JavaScriptValidator((IJavaScriptProject) javaProject);
 	        if (javaScriptValidator != null && fieldMapping != null && !StringUtils.isEmpty(fieldMapping.getMappingExpression())) {
@@ -1402,8 +1404,8 @@ public class MessageTransformationController {
 	            if (errorCache.get(fieldPath) == null || updateCache) {
 	                String sourceCode = jScriptProlog + "\n" +  fieldMapping.getMappingExpression() + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 	                problems = javaScriptValidator.validate(sourceCode);
-	                errorCache.put(fieldPath, problems);                
-	            } 
+	                errorCache.put(fieldPath, problems);
+	            }
 	            problems = errorCache.get(fieldPath);
 	            if (problems != null) {
 	                for (int i = 0; i < problems.length; i++) {
@@ -1411,9 +1413,9 @@ public class MessageTransformationController {
 	                    if (problem.isError()) {
 	                        return false;
 	                    }
-	                }               
-	            }                       
-	        }		   
+	                }
+	            }
+	        }
 		}
 		return true;
 	}
@@ -1463,7 +1465,7 @@ public class MessageTransformationController {
 	public String getXPathFor(AccessPointType messageType) {
 		if (messageType == null) {
 			return null;
-		}	
+		}
 		return AttributeUtil.getAttributeValue(messageType, "FullXPath"); //$NON-NLS-1$
 	}
 
@@ -1552,11 +1554,11 @@ public class MessageTransformationController {
 			e.printStackTrace();
 		}
 	}
-	
+
    public boolean isEditable()
    {
       return !isRoot(selectedTargetField) || isPrimitive(selectedTargetField);
-      
+
    }
 
    public boolean isSimpleMode()
@@ -1568,21 +1570,21 @@ public class MessageTransformationController {
    {
       this.simpleMode = simpleMode;
    }
-   
+
    public void setExternalReference(boolean externalReference)
    {
       this.externalReference = externalReference;
    }
-   
+
    public boolean isExternalReference()
    {
       return externalReference;
    }
-   
+
    public Map getFieldPathsToAccessPoints() {
 	   return fieldPathsToAccessPoints;
-   }   
-   
+   }
+
    public boolean isContentMapping(AccessPointType accessPoint) {
 	   if (accessPoint instanceof StructAccessPointType) {
 	       //rainer:Fix for CRNT-17926
@@ -1596,7 +1598,7 @@ public class MessageTransformationController {
 	   }
 	   return false;
    }
-   
+
    public int getArraySelectionDepth(AccessPointType messageType) {
 	   IMappingRenderer renderer = getMapperByType(messageType);
 	   String javaPath = renderer.renderGetterCode(false, false, null);
@@ -1608,7 +1610,7 @@ public class MessageTransformationController {
 			   if (segment.indexOf("[0]") > -1) { //$NON-NLS-1$
 				   depth = depth + 1;
 			   }
-		   }		   
+		   }
 	   }
 	   if (renderer instanceof SerializableMappingRenderer) {
 		   for (int i = 0; i < segments.length; i++) {
@@ -1616,11 +1618,11 @@ public class MessageTransformationController {
 			   if ((segment.indexOf("(0)") > -1) || (segment.indexOf("[0]") > -1)) { //$NON-NLS-1$ //$NON-NLS-2$
 				   depth = depth + 1;
 			   }
-		   }		   
+		   }
 	   }
 	   return depth;
    }
 
- 
+
 
 }

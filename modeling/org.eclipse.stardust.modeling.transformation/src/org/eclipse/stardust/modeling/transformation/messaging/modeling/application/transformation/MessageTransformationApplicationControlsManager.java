@@ -188,11 +188,11 @@ public class MessageTransformationApplicationControlsManager
    private Button sourceHighlightedFilter;
 
    private MessageTransformationController controller = new MessageTransformationController();
-   
+
    private DelegatingMessageTypeLabelProvider sourceLabelProvider = new DelegatingMessageTypeLabelProvider(controller);
-   
+
    private DelegatingMessageTypeLabelProvider targetLabelProvider = new DelegatingMessageTypeLabelProvider(controller);
-   
+
    private ReferencedModelSorter refModelSorter = new ReferencedModelSorter();
 
    private SourceHighlightFilter sourceHighlightViewerFilter;
@@ -555,7 +555,7 @@ public class MessageTransformationApplicationControlsManager
 		if (!simpleMode) {
 			targetColumns = new String[] { Modeling_Messages.COL_NAME,
 					Modeling_Messages.COL_TYPE, Modeling_Messages.COL_MAPPING,
-					Modeling_Messages.COL_PROBLEMS }; 
+					Modeling_Messages.COL_PROBLEMS };
 		}
       else
       {
@@ -680,7 +680,7 @@ public class MessageTransformationApplicationControlsManager
       targetMessageTreeViewer.addFilter(targetHighlightViewerFilter);
       targetMessageTreeViewer.addFilter(targetTextViewerFilter);
       targetMessageTreeViewer.addFilter(targetErrorViewerFilter);
-      
+
       targetMessageTreeViewer.addSelectionChangedListener(new ISelectionChangedListener()
       {
          public void selectionChanged(SelectionChangedEvent event)
@@ -723,7 +723,7 @@ public class MessageTransformationApplicationControlsManager
          }
 
       });
-      
+
       targetMessageTreeViewer.getTree().addKeyListener(new KeyListener()
       {
          public void keyPressed(KeyEvent e)
@@ -764,7 +764,7 @@ public class MessageTransformationApplicationControlsManager
                         MessageTransformationApplicationControlsManager.this, controller);
                   manager.add(deleteMessageAction);
                }
-               
+
                // else
                // {
                if (controller.isClearMappingExpressionAvailable())
@@ -783,21 +783,21 @@ public class MessageTransformationApplicationControlsManager
             }
             if (controller.isSimpleMode())
             {
-               
+
                RenameMessageAction renameMessageAction = new RenameMessageAction(
                      MessageTransformationApplicationControlsManager.this, controller, false);
-               manager.add(renameMessageAction);                                    
-            }            
+               manager.add(renameMessageAction);
+            }
          }
       });
       menuMgr.setRemoveAllWhenShown(true);
       tree.setMenu(menu);
-      
+
       groupingCheckbox = FormBuilder.createCheckBox(ioComposite, Diagram_Messages.LB_GroupModelElements);
       groupingCheckbox.addSelectionListener(new SelectionListener(){
 
         public void widgetDefaultSelected(SelectionEvent e) {
-            
+
         }
 
          public void widgetSelected(SelectionEvent e)
@@ -819,7 +819,7 @@ public class MessageTransformationApplicationControlsManager
             targetMessageTreeViewer.refresh();
             refreshDocument();
          }
-                      
+
       });
 
    }
@@ -1201,7 +1201,7 @@ public class MessageTransformationApplicationControlsManager
       MultipleAccessPathBrowserContentProvider provider = new MultipleAccessPathBrowserContentProvider(
             DirectionType.INOUT_LITERAL, controller);
       sourceMessageTreeViewer.setContentProvider(provider);
-      sourceMessageTreeViewer.setLabelProvider(sourceLabelProvider);            
+      sourceMessageTreeViewer.setLabelProvider(sourceLabelProvider);
       sourceMessageTreeViewer.setComparer(new MessageTypeComparer());
       refModelSorter.setModel(this.model);
       sourceMessageTreeViewer.setInput(controller.getSourceMessageTypes());
@@ -1210,7 +1210,7 @@ public class MessageTransformationApplicationControlsManager
       provider = new MultipleAccessPathBrowserContentProvider(
             DirectionType.INOUT_LITERAL, controller);
       targetMessageTreeViewer.setContentProvider(provider);
-      targetMessageTreeViewer.setLabelProvider(targetLabelProvider);      
+      targetMessageTreeViewer.setLabelProvider(targetLabelProvider);
       targetMessageTreeViewer.setComparer(new MessageTypeComparer());
       targetMessageTreeViewer.setInput(controller.getTargetMessageTypes());
       controller.setTargetAPB(provider);
@@ -1541,7 +1541,10 @@ public class MessageTransformationApplicationControlsManager
 
    public void dispose()
    {
-      EditorUtils.deleteFileStructure(project, model);
+      if ( !controller.isSimpleMode())
+      {
+         EditorUtils.deleteFileStructure(project, model);
+      }
    }
 
    private static final Image errorImage = JavaPluginImages
