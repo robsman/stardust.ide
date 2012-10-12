@@ -1552,6 +1552,7 @@ public class MessageTransformationApplicationControlsManager
 
    public void modelChanged(IAnnotationModel model)
    {
+
       // (rp): This is a fix for a bug in WTP related to the annotation ruler(CRNT-9659)
       for (Iterator i = model.getAnnotationIterator(); i.hasNext();)
       {
