@@ -63,6 +63,10 @@ public class PrimitiveAccessPointBuilder
          {
             createMessageTransformationApplicationAccessPoint(applicationType);
          }
+         else
+         {
+            applicationType.getAccessPoint().add(element);
+         }
       }
    }
 

@@ -64,6 +64,10 @@ public class StructAccessPointBuilder
          {
             createMessageTransformationApplicationAccessPoint(applicationType);
          }
+         else
+         {
+            applicationType.getAccessPoint().add(element);
+         }
       }
    }
 
