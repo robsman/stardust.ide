@@ -110,6 +110,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
@@ -2413,6 +2414,69 @@ public class ModelBuilderFacade
          return ((AttributeType) attribute).getValue();
       }
       return null;
+   }
+
+   public boolean isExternalReference(EObject modelElement)
+   {
+      if (modelElement != null)
+      {
+         if (modelElement instanceof ActivityType)
+         {
+            return false;
+         }
+         if (modelElement instanceof IExtensibleElement)
+         {
+            if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
+                  IConnectionManager.URI_ATTRIBUTE_NAME) != null)
+            {
+               String uri = AttributeUtil.getAttributeValue(
+                     (IExtensibleElement) modelElement,
+                     IConnectionManager.URI_ATTRIBUTE_NAME);
+               ModelType model = ModelUtils.findContainingModel(modelElement);
+               if (model == null)
+               {
+                  return false;
+               }
+               Connection connection = (Connection) model.getConnectionManager()
+                     .findConnection(uri);
+               if (connection != null)
+               {
+                  String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
+                  if (importString != null && importString.equalsIgnoreCase("false")) //$NON-NLS-1$
+                  {
+                     return false;
+                  }
+               }
+               return true;
+            }
+         }
+         if (modelElement instanceof Extensible)
+         {
+            if (ExtendedAttributeUtil.getAttributeValue((Extensible) modelElement,
+                  IConnectionManager.URI_ATTRIBUTE_NAME) != null)
+            {
+               String uri = ExtendedAttributeUtil.getAttributeValue(
+                     (Extensible) modelElement, IConnectionManager.URI_ATTRIBUTE_NAME);
+               ModelType model = ModelUtils.findContainingModel(modelElement);
+               if (model == null)
+               {
+                  return false;
+               }
+               Connection connection = (Connection) model.getConnectionManager()
+                     .findConnection(uri);
+               if (connection != null)
+               {
+                  String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
+                  if (importString != null && importString.equalsIgnoreCase("false")) //$NON-NLS-1$
+                  {
+                     return false;
+                  }
+               }
+               return true;
+            }
+         }
+      }
+      return false;
    }
 
 

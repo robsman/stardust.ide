@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ModelerConstants
 {
@@ -188,4 +187,5 @@ public class ModelerConstants
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
    public static final String CONTENT_PROPERTY = "content";
    public static final String COMMENTS_PROPERTY = "comments";
+   public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
 }
