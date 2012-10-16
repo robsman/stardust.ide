@@ -2199,12 +2199,21 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ABSTRACT_EVENT_SYMBOL__OUT_TRANSITIONS = IFLOW_OBJECT_SYMBOL__OUT_TRANSITIONS;
 
 	/**
+    * The feature id for the '<em><b>Label</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ABSTRACT_EVENT_SYMBOL__LABEL = IFLOW_OBJECT_SYMBOL_FEATURE_COUNT + 0;
+
+   /**
     * The number of structural features of the '<em>Abstract Event Symbol</em>' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ABSTRACT_EVENT_SYMBOL_FEATURE_COUNT = IFLOW_OBJECT_SYMBOL_FEATURE_COUNT + 0;
+   int ABSTRACT_EVENT_SYMBOL_FEATURE_COUNT = IFLOW_OBJECT_SYMBOL_FEATURE_COUNT + 1;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -4994,6 +5003,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int END_EVENT_SYMBOL__OUT_TRANSITIONS = ABSTRACT_EVENT_SYMBOL__OUT_TRANSITIONS;
 
 	/**
+    * The feature id for the '<em><b>Label</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int END_EVENT_SYMBOL__LABEL = ABSTRACT_EVENT_SYMBOL__LABEL;
+
+   /**
     * The number of structural features of the '<em>End Event Symbol</em>' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -6385,6 +6403,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int INTERMEDIATE_EVENT_SYMBOL__OUT_TRANSITIONS = ABSTRACT_EVENT_SYMBOL__OUT_TRANSITIONS;
 
 	/**
+    * The feature id for the '<em><b>Label</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int INTERMEDIATE_EVENT_SYMBOL__LABEL = ABSTRACT_EVENT_SYMBOL__LABEL;
+
+   /**
     * The number of structural features of the '<em>Intermediate Event Symbol</em>' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -9037,6 +9064,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int PUBLIC_INTERFACE_SYMBOL__OUT_TRANSITIONS = ABSTRACT_EVENT_SYMBOL__OUT_TRANSITIONS;
 
    /**
+    * The feature id for the '<em><b>Label</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int PUBLIC_INTERFACE_SYMBOL__LABEL = ABSTRACT_EVENT_SYMBOL__LABEL;
+
+   /**
     * The number of structural features of the '<em>Public Interface Symbol</em>' class.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -9625,6 +9661,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int START_EVENT_SYMBOL__OUT_TRANSITIONS = ABSTRACT_EVENT_SYMBOL__OUT_TRANSITIONS;
 
 	/**
+    * The feature id for the '<em><b>Label</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int START_EVENT_SYMBOL__LABEL = ABSTRACT_EVENT_SYMBOL__LABEL;
+
+   /**
     * The feature id for the '<em><b>Trigger</b></em>' reference.
     * <!-- begin-user-doc
     * --> <!-- end-user-doc -->
@@ -15490,6 +15535,17 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EClass getAbstractEventSymbol();
 
 	/**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol#getLabel <em>Label</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Label</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol#getLabel()
+    * @see #getAbstractEventSymbol()
+    * @generated
+    */
+   EAttribute getAbstractEventSymbol_Label();
+
+   /**
     * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.carnot.ImplementationType <em>Implementation Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -16574,6 +16630,14 @@ public interface CarnotWorkflowModelPackage extends EPackage {
       EClass ABSTRACT_EVENT_SYMBOL = eINSTANCE.getAbstractEventSymbol();
 
 		/**
+       * The meta object literal for the '<em><b>Label</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute ABSTRACT_EVENT_SYMBOL__LABEL = eINSTANCE.getAbstractEventSymbol_Label();
+
+      /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.AccessPointTypeImpl <em>Access Point Type</em>}' class.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->

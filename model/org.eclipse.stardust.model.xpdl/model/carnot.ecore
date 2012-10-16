@@ -833,6 +833,7 @@
       <details key="name" value="abstractEventSymbol_._type"/>
       <details key="kind" value="empty"/>
     </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AccessPointType" eSuperTypes="#//IIdentifiableModelElement #//ITypedElement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
