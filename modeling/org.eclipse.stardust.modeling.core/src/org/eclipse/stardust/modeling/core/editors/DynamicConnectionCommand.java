@@ -509,6 +509,10 @@ public class DynamicConnectionCommand extends Command
 						type = JoinSplitType.XOR_LITERAL;
 					}
 			   }
+			   else
+			   {
+			      return UnexecutableCommand.INSTANCE;
+			   }
 		   }
 		   else if(PlatformUI.getPreferenceStore().getBoolean(
 				   BpmProjectNature.PREFERENCE_SPLIT_AND))
@@ -536,6 +540,10 @@ public class DynamicConnectionCommand extends Command
 					{
 						type = JoinSplitType.XOR_LITERAL;
 					}
+				}
+				else
+				{
+               return UnexecutableCommand.INSTANCE;				   
 				}
 			}
 			else if(PlatformUI.getPreferenceStore().getBoolean(
