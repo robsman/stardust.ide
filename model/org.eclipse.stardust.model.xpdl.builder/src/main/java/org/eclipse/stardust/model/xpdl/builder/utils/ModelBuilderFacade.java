@@ -2420,10 +2420,6 @@ public class ModelBuilderFacade
    {
       if (modelElement != null)
       {
-         if (modelElement instanceof ActivityType)
-         {
-            return false;
-         }
          if (modelElement instanceof IExtensibleElement)
          {
             if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
