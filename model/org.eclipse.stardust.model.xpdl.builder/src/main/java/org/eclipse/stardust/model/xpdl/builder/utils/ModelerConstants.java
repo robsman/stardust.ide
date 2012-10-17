@@ -152,6 +152,9 @@ public class ModelerConstants
     * TODO - may need to be handled on the client side down the line.
     * @deprecated */
    public static final int START_END_SYMBOL_LEFT_OFFSET = 12;
+
+   public static final String X_OFFSET = "xOffset";
+   public static final String Y_OFFSET = "yOffset";
    // Added to set symbol type at Marshaller same as client side
    public static final String SWIMLANE_SYMBOL = "swimlaneSymbol";
    public static final String ACTIVITY_SYMBOL = "activitySymbol";
