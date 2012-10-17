@@ -97,17 +97,21 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
             ModelType model = ModelUtils.findContainingModel(obj);
             if (model != null && model.getExternalPackages() != null)
             {
-               String id = ((EObjectImpl) obj).eProxyURI().toString();
-               for (ExternalPackage pkg : model.getExternalPackages().getExternalPackage())
+               URI eProxyURI = ((EObjectImpl) obj).eProxyURI();
+               if(eProxyURI != null)
                {
-                  String pkgConnectionUri = ExtendedAttributeUtil.getAttributeValue(pkg, IConnectionManager.URI_ATTRIBUTE_NAME);
-                  if (id.startsWith(pkgConnectionUri))
+                  String id = eProxyURI.toString();
+                  for (ExternalPackage pkg : model.getExternalPackages().getExternalPackage())
                   {
-                     String path = id.substring(pkgConnectionUri.length());
-                     int ix = path.indexOf('/');
-                     if (ix > 0)
+                     String pkgConnectionUri = ExtendedAttributeUtil.getAttributeValue(pkg, IConnectionManager.URI_ATTRIBUTE_NAME);
+                     if (id.startsWith(pkgConnectionUri))
                      {
-                        return path.substring(0, ix) + ':' +  new QName(pkg.getId(), path.substring(ix + 1));
+                        String path = id.substring(pkgConnectionUri.length());
+                        int ix = path.indexOf('/');
+                        if (ix > 0)
+                        {
+                           return path.substring(0, ix) + ':' +  new QName(pkg.getId(), path.substring(ix + 1));
+                        }
                      }
                   }
                }
