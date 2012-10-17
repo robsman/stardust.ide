@@ -116,8 +116,8 @@ public class ModelerConstants
    public static final String CONTROL_FLOWS_PROPERTY = "controlFlows";
    public static final String DATA_FLOWS_PROPERTY = "dataFlows";
    public static final String CONDITION_EXPRESSION_PROPERTY = "conditionExpression";
-   public static final String IN_DATA_MAPPING_PROPERTY = "inDataMapping";
-   public static final String OUT_DATA_MAPPING_PROPERTY = "outDataMapping";
+   public static final String IN_DATA_MAPPING_PROPERTY = "inputDataMapping";
+   public static final String OUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
    public static final String OTHERWISE_PROPERTY = "otherwise";
