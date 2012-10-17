@@ -116,8 +116,8 @@ public class ModelerConstants
    public static final String CONTROL_FLOWS_PROPERTY = "controlFlows";
    public static final String DATA_FLOWS_PROPERTY = "dataFlows";
    public static final String CONDITION_EXPRESSION_PROPERTY = "conditionExpression";
-   public static final String IN_DATA_MAPPING_PROPERTY = "inputDataMapping";
-   public static final String OUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
+   public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
+   public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
    public static final String OTHERWISE_PROPERTY = "otherwise";
@@ -188,4 +188,10 @@ public class ModelerConstants
    public static final String CONTENT_PROPERTY = "content";
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
+   public static final String INPUT_DATA_PATH_PROPERTY = "inputDataPath";
+   public static final String OUTPUT_DATA_PATH_PROPERTY = "outputDataPath";
+   public static final String INPUT_ACCESS_POINT_ID_PROPERTY = "inputAccessPointId";
+   public static final String OUTPUT_ACCESS_POINT_ID_PROPERTY = "outputAccessPointId";
+   public static final String INPUT_ACCESS_POINT_CONTEXT_PROPERTY = "inputAccessPointContext";
+   public static final String OUTPUT_ACCESS_POINT_CONTEXT_PROPERTY = "outputAccessPointContext";
 }
