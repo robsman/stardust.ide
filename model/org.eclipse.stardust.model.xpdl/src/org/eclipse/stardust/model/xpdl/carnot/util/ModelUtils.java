@@ -53,7 +53,7 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.core.persistence.jdbc.transientpi.AuditTrailPersistence;
+import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
