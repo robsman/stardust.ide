@@ -47,6 +47,7 @@ import org.eclipse.stardust.engine.core.persistence.Predicates;
 import org.eclipse.stardust.engine.core.persistence.QueryExtension;
 import org.eclipse.stardust.engine.core.persistence.ResultIterator;
 import org.eclipse.stardust.engine.core.persistence.Session;
+import org.eclipse.stardust.engine.core.persistence.Session.FilterOperation;
 import org.eclipse.stardust.engine.core.runtime.beans.AuditTrailPartitionBean;
 import org.eclipse.stardust.engine.core.runtime.beans.DetailsFactory;
 import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
@@ -759,5 +760,10 @@ public class DebugSession implements Session, Session.NotJoinEnabled
    public void cluster(DataClusterInstance cluster)
    {
       // TODO Auto-generated method stub
-   }   
+   }
+   
+   public <T> Iterator<T> getSessionCacheIterator(final Class<T> type, final FilterOperation<T> op)
+   {
+      throw new UnsupportedOperationException(debugModeLimitation);
+   }
 }
