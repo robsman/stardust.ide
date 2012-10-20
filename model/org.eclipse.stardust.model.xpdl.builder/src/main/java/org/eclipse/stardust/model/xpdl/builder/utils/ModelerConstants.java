@@ -184,17 +184,11 @@ public class ModelerConstants
    public static final String IN_PARAMETER_KEY = "in";
    public static final String INOUT_PARAMETER_KEY = "inOut";
    public static final String OUT_PARAMETER_KEY = "out";
-   public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
-   public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointId";
    public static final String INTERACTIVE_PROPERTY = "interactive";
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
    public static final String CONTENT_PROPERTY = "content";
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
-   public static final String INPUT_DATA_PATH_PROPERTY = "inputDataPath";
-   public static final String OUTPUT_DATA_PATH_PROPERTY = "outputDataPath";
-   public static final String INPUT_ACCESS_POINT_ID_PROPERTY = "inputAccessPointId";
-   public static final String OUTPUT_ACCESS_POINT_ID_PROPERTY = "outputAccessPointId";
-   public static final String INPUT_ACCESS_POINT_CONTEXT_PROPERTY = "inputAccessPointContext";
-   public static final String OUTPUT_ACCESS_POINT_CONTEXT_PROPERTY = "outputAccessPointContext";
+   public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
+   public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
 }
