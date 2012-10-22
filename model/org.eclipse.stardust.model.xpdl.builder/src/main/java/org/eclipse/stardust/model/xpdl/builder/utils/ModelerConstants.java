@@ -34,6 +34,7 @@ public class ModelerConstants
    public static final String ACTIVITY_IS_ABORTABLE_BY_PERFORMER = "isAbortableByPerformer";
    public static final String ACTIVITY_IS_HIBERNATED_ON_CREATION = "isHibernatedOnCreation";
    public static final String MODEL_ELEMENT_PROPERTY = "modelElement";
+   public static final String DATE_OF_CREATION = "dateOfCreation";
    public static final String PARTICIPANT_FULL_ID = "participantFullId";
    public static final String SUBPROCESS_ID = "subprocessFullId";
    public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
