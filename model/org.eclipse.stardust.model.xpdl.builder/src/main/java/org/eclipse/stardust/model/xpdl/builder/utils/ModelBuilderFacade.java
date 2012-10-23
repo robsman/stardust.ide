@@ -2475,5 +2475,57 @@ public class ModelBuilderFacade
       return false;
    }
 
+   public void updateTeamLead(OrganizationType organization, String participantFullID)
+   {
+      ModelType model = ModelUtils.findContainingModel(organization);
+      if (participantFullID != null)
+      {
+
+         String participantModelID = getModelId(participantFullID);
+         if (StringUtils.isEmpty(participantModelID))
+         {
+            participantModelID = model.getId();
+         }
+         ModelType participantModel = model;
+         if (!participantModelID.equals(model.getId()))
+         {
+            participantModel = getModelManagementStrategy().getModels().get(
+                  participantModelID);
+         }
+
+         IModelParticipant modelParticipant = findParticipant(
+               getModelManagementStrategy().getModels().get(participantModelID),
+               stripFullId(participantFullID));
+
+         if (!participantModelID.equals(model.getId()))
+         {
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
+                  participantModel);
+
+            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+            ModelType loadModel = getModelManagementStrategy().loadModel(participantModelID + ".xpdl");
+            IModelParticipant participantCopy = findParticipant(loadModel, stripFullId(participantFullID));
+            if(participantCopy == null)
+            {
+               ElementCopier copier = new ElementCopier(loadModel, null);
+               participantCopy = (IModelParticipant) copier.copy(modelParticipant);
+            }
+
+            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
+                  uri, participantCopy, bundleId, null, true);
+            PepperIconFactory iconFactory = new PepperIconFactory();
+            descriptor.importElements(iconFactory, model, true);
+            modelParticipant = findParticipant(model, stripFullId(participantFullID));
+         }
+         organization.setTeamLead((RoleType) modelParticipant);
+      }
+
+   }
+
+
+
+
 
 }
