@@ -53,6 +53,7 @@ public class ModelerConstants
    public static final String FILE_NAME = "fileName";
    public static final String FILE_PATH = "filePath";
    public static final String ATTRIBUTES_PROPERTY = "attributes";
+   public static final String BOOLEAN_ATTRIBUTES_PROPERTY = "booleanAttributes";
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";
    public static final String MODEL_UUID_PROPERTY = "modelUUID";
@@ -145,7 +146,7 @@ public class ModelerConstants
    public static final String CHILD_PARTICIPANTS_KEY = "childParticipants";
    public static final String ORGANIZATION_PARTICIPANT_TYPE_KEY = "organizationParticipant";
    public static final String CONDITIONAL_PERFORMER_PARTICIPANT_TYPE_KEY = "conditionalPerformerParticipant";
-
+   public static final String TO_BE_DEFINED = "TO_BE_DEFINED";
    // @deprecated
    public static final int POOL_LANE_MARGIN = 5;
    // @deprecated

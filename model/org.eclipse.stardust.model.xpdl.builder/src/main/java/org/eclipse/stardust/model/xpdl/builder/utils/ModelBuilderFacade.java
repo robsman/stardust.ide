@@ -2373,6 +2373,18 @@ public class ModelBuilderFacade
       }
    }
 
+   public void setBooleanAttribute(Object element, String name, boolean value)
+   {
+      if (element instanceof Extensible)
+      {
+         ExtendedAttributeUtil.setBooleanAttribute((Extensible) element, name, value);
+      }
+      if (element instanceof IExtensibleElement)
+      {
+         AttributeUtil.setBooleanAttribute((IExtensibleElement) element, name, value);
+      }
+   }
+
    @SuppressWarnings("rawtypes")
    public List getAttributes(Object element)
    {
@@ -2477,6 +2489,13 @@ public class ModelBuilderFacade
 
    public void updateTeamLead(OrganizationType organization, String participantFullID)
    {
+      // Set team leader to null if participantFullID is set to "TO_BE_DEFINED"
+      if (ModelerConstants.TO_BE_DEFINED.equals(participantFullID))
+      {
+         organization.setTeamLead(null);
+         return;
+      }
+
       ModelType model = ModelUtils.findContainingModel(organization);
       if (participantFullID != null)
       {
