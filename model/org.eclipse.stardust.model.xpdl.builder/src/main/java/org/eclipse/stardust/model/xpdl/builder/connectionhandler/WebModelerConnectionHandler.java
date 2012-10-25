@@ -51,7 +51,7 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 
 public class WebModelerConnectionHandler implements ConnectionHandler
-{  
+{
    DocumentManagementService documentManagementService;
 
    private static final String MODELS_DIR = "/process-models/";
@@ -79,13 +79,8 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
    synchronized ModelType loadModel(String id)
    {
-           
-      return strategy.loadModel(id);
-   }
 
-   private byte[] readModelContext(Document modelDocument) {
-      return documentManagementService.retrieveDocumentContent(
-            modelDocument.getId());
+      return strategy.loadModel(id);
    }
 
    public void importObject(ModelType model, IObjectDescriptor[] descriptors, boolean asLink)
@@ -259,9 +254,9 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
       if(model == null)
       {
-         throw new IllegalArgumentException("Model not found: " + id);         
+         throw new IllegalArgumentException("Model not found: " + id);
       }
-      
+
       IconFactory iconFactory = new PepperIconFactory();
 
       modelDescriptor = new EObjectDescriptor(uri, model, model.getId(), model.getName(),
@@ -290,7 +285,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       else if (null == uri.getScheme())
       {
          xpdlName = fileName;
-      }      
+      }
       return xpdlName;
    }
 }

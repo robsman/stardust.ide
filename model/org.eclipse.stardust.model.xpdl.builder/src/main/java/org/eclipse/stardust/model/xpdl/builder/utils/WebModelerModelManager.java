@@ -45,13 +45,17 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       saveModel = model;
    }
-   
+
    @Override
    public void resolve(ModelType model)
    {
       if (model != null && model.getId() != null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
+         manager = (WebModelerConnectionManager) model.getConnectionManager();
+         if (manager == null)
+         {
+            manager = new WebModelerConnectionManager(model, strategy);
+         }
          manager.resolve();
       }
       super.resolve(model);
@@ -61,7 +65,7 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       if (manager == null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(saveModel, strategy);
+         manager = (WebModelerConnectionManager) saveModel.getConnectionManager();
          if(saveModel.getConnectionManager() == null)
          {
             saveModel.setConnectionManager(manager);
@@ -72,7 +76,7 @@ public class WebModelerModelManager extends WorkflowModelManager
          manager.setModel(saveModel);
       }
       manager.save();
-      
+
       super.save(uri);
    }
 
@@ -80,13 +84,13 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       return manager;
    }
-   
+
    public static ModelType loadModel(File modelXml) throws IOException
    {
       // optionally override default TraxFactory to get rid of a Xalan related bug of loosing namespace alias declarations
       final String ippTraxFactory = Parameters.instance().getString(
             XmlProperties.XSLT_TRANSFORMER_FACTORY);
-      
+
       final String traxFactoryOverride = System.getProperty(TransformerFactory.class.getName());
       try
       {
@@ -96,9 +100,9 @@ public class WebModelerModelManager extends WorkflowModelManager
          }
 
          WorkflowModelManager modelMgr = new WorkflowModelManager();
-   
+
          modelMgr.load(modelXml);
-         
+
          return modelMgr.getModel();
       }
       finally

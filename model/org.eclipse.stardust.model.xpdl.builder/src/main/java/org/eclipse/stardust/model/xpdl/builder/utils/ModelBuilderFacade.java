@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
@@ -2557,6 +2558,13 @@ public class ModelBuilderFacade
          return attribute.getValue();
       }
       return "unknown";
+   }
+
+   public ModelType createModel(String modelID, String modelName)
+   {
+      ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
+      model.setConnectionManager(new WebModelerConnectionManager(model, this.modelManagementStrategy));
+      return model;
    }
 
 
