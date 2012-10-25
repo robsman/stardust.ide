@@ -2521,7 +2521,23 @@ public class ModelBuilderFacade
          }
          organization.setTeamLead((RoleType) modelParticipant);
       }
+   }
 
+   public void setModified(ModelType modelType, String modified)
+   {
+      AttributeUtil
+            .setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED, modified);
+   }
+
+   public String getModified(ModelType modelType)
+   {
+      AttributeType attribute = AttributeUtil.getAttribute(modelType,
+            ModelerConstants.ATTRIBUTE_MODIFIED);
+      if (attribute != null)
+      {
+         return attribute.getValue();
+      }
+      return "unknown";
    }
 
 
