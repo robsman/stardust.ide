@@ -29,8 +29,11 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructu
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -2547,6 +2550,15 @@ public class ModelBuilderFacade
    {
       AttributeUtil
             .setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED, modified);
+   }
+
+   public void setModified(ModelType modelType, Date modified)
+   {
+      // TODO I18N
+      final String MODIFIED_DATE_FORMAT = "dd MMM; yyyy KK:mm:ss a";
+      DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
+      AttributeUtil
+            .setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED, format.format(modified));
    }
 
    public String getModified(ModelType modelType)
