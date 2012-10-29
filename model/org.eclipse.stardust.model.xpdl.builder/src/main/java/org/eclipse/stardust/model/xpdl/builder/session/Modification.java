@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -216,6 +217,34 @@ public class Modification
          }
       }
       return false;
+   }
+
+   public <T extends EObject> T findContainer(EObject element, Class<T> containerType)
+   {
+      EObject currentElement = element;
+      while (null != currentElement)
+      {
+         EObject currentContainer = currentElement.eContainer();
+         if ((currentContainer instanceof ChangeDescription)
+               && getRemovedElements().contains(currentElement)
+               && (getChangeDescription() instanceof ChangeDescriptionImpl))
+         {
+            // substitute with real container (the one containing the element before it was detached)
+            currentContainer = ((ChangeDescriptionImpl) getChangeDescription()).getOldContainer(currentElement);
+         }
+
+         if (containerType.isInstance(currentContainer))
+         {
+            return containerType.cast(currentContainer);
+         }
+         else
+         {
+            // navigate one level up
+            currentElement = currentContainer;
+         }
+      }
+
+      return null;
    }
 
    public void markUnmodified(EObject element)
