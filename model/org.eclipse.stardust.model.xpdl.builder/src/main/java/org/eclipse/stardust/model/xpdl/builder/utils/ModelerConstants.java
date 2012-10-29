@@ -185,9 +185,6 @@ public class ModelerConstants
    public static final String SYNC_SEPARATE_KEY = "synchSeparate";
    public static final String ASYNC_SEPARATE_KEY = "asynchSeparate";
    public static final String SYNC_SHARED_KEY = "synchShared";
-   public static final String IN_PARAMETER_KEY = "in";
-   public static final String INOUT_PARAMETER_KEY = "inOut";
-   public static final String OUT_PARAMETER_KEY = "out";
    public static final String INTERACTIVE_PROPERTY = "interactive";
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
    public static final String CONTENT_PROPERTY = "content";
