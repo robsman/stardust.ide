@@ -193,4 +193,5 @@ public class ModelerConstants
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
    public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
+   public static final String APPLICATION_CONTEXT_KEY = "application";
 }
