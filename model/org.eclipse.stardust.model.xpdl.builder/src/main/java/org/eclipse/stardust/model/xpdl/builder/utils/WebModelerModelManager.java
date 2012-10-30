@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
-import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
@@ -66,14 +65,10 @@ public class WebModelerModelManager extends WorkflowModelManager
       if (manager == null)
       {
          manager = (WebModelerConnectionManager) saveModel.getConnectionManager();
-         if(saveModel.getConnectionManager() == null)
+         if(manager == null)
          {
-            saveModel.setConnectionManager(manager);
+            manager = new WebModelerConnectionManager(model, strategy);            
          }
-      }
-      else
-      {
-         manager.setModel(saveModel);
       }
       manager.save();
 
