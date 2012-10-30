@@ -23,6 +23,8 @@ import org.eclipse.stardust.model.xpdl.builder.BpmActivityDef;
 import org.eclipse.stardust.model.xpdl.builder.BpmActivitySequenceDef;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelDef;
 import org.eclipse.stardust.model.xpdl.builder.BpmProcessDef;
+import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -35,10 +37,13 @@ public class HelloWorldModelBuilderTest
 {
 
    private ModelType model;
+   private InMemoryModelManagementStrategy strategy;
 
    @Before
    public void initHelloWorldModel()
    {
+      strategy = new InMemoryModelManagementStrategy();
+      
       // specify transitions explicitly
       this.model = newBpmModel().withName("Hello-World Model").definedAs(new BpmModelDef()
       {{
@@ -92,6 +97,9 @@ public class HelloWorldModelBuilderTest
             }});
          }});
       }}).build();
+      model.setConnectionManager(new WebModelerConnectionManager(model, strategy));
+      
+      
 
       byte[] modelContent = XpdlModelIoUtils.saveModel(model);
       System.out.println(new String(modelContent));

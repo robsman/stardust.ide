@@ -26,6 +26,7 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -94,7 +95,9 @@ public class CrossModelSupportModelBuilderTest
       ModelBuilderFacade facade = new ModelBuilderFacade(strategy);
 
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
+      providerModel.setConnectionManager(new WebModelerConnectionManager(providerModel, strategy));
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
+      consumerModel.setConnectionManager(new WebModelerConnectionManager(consumerModel, strategy));      
       strategy.registerModel(consumerModel);
       strategy.registerModel(providerModel);
 

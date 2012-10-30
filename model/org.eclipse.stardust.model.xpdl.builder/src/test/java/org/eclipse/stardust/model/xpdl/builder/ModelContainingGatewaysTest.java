@@ -35,6 +35,8 @@ import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmRouteActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.diagram.BpmDiagramBuilder;
+import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -56,11 +58,15 @@ public class ModelContainingGatewaysTest
 {
 
    private ModelType gatewaysModel;
+   private InMemoryModelManagementStrategy strategy;
 
    @Before
    public void initGatewaysModel()
    {
+      strategy = new InMemoryModelManagementStrategy();
+      
       this.gatewaysModel = newBpmModel().withName("Gateways Model").build();
+      this.gatewaysModel.setConnectionManager(new WebModelerConnectionManager(this.gatewaysModel, strategy));      
 
       DataType aString = newPrimitiveVariable(gatewaysModel).withId("aString")
             .ofType(Type.String)
