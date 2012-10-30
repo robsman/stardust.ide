@@ -727,13 +727,22 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ISYMBOL_CONTAINER = 10;
 
    /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ISYMBOL_CONTAINER__ATTRIBUTE = IEXTENSIBLE_ELEMENT__ATTRIBUTE;
+
+   /**
     * The feature id for the '<em><b>Nodes</b></em>' attribute list. <!--
     * begin-user-doc --> <!-- end-user-doc -->
     * 
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__NODES = 0;
+   int ISYMBOL_CONTAINER__NODES = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
     * The feature id for the '<em><b>Activity Symbol</b></em>' containment reference list.
@@ -741,7 +750,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__ACTIVITY_SYMBOL = 1;
+   int ISYMBOL_CONTAINER__ACTIVITY_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
     * The feature id for the '<em><b>Annotation Symbol</b></em>' containment reference list.
@@ -749,7 +758,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__ANNOTATION_SYMBOL = 2;
+   int ISYMBOL_CONTAINER__ANNOTATION_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
     * The feature id for the '<em><b>Application Symbol</b></em>' containment reference list.
@@ -757,7 +766,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__APPLICATION_SYMBOL = 3;
+   int ISYMBOL_CONTAINER__APPLICATION_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
     * The feature id for the '<em><b>Conditional Performer Symbol</b></em>' containment reference list.
@@ -765,7 +774,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__CONDITIONAL_PERFORMER_SYMBOL = 4;
+   int ISYMBOL_CONTAINER__CONDITIONAL_PERFORMER_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
     * The feature id for the '<em><b>Data Symbol</b></em>' containment reference list.
@@ -773,7 +782,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__DATA_SYMBOL = 5;
+   int ISYMBOL_CONTAINER__DATA_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
     * The feature id for the '<em><b>End Event Symbols</b></em>' containment reference list.
@@ -781,7 +790,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__END_EVENT_SYMBOLS = 6;
+   int ISYMBOL_CONTAINER__END_EVENT_SYMBOLS = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
     * The feature id for the '<em><b>Gateway Symbol</b></em>' containment reference list.
@@ -789,7 +798,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__GATEWAY_SYMBOL = 7;
+   int ISYMBOL_CONTAINER__GATEWAY_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
     * The feature id for the '<em><b>Group Symbol</b></em>' containment reference list.
@@ -797,7 +806,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__GROUP_SYMBOL = 8;
+   int ISYMBOL_CONTAINER__GROUP_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 8;
 
 	/**
     * The feature id for the '<em><b>Intermediate Event Symbols</b></em>' containment reference list.
@@ -805,7 +814,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__INTERMEDIATE_EVENT_SYMBOLS = 9;
+   int ISYMBOL_CONTAINER__INTERMEDIATE_EVENT_SYMBOLS = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 9;
 
 	/**
     * The feature id for the '<em><b>Modeler Symbol</b></em>' containment reference list.
@@ -813,7 +822,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__MODELER_SYMBOL = 10;
+   int ISYMBOL_CONTAINER__MODELER_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 10;
 
 	/**
     * The feature id for the '<em><b>Organization Symbol</b></em>' containment reference list.
@@ -821,7 +830,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__ORGANIZATION_SYMBOL = 11;
+   int ISYMBOL_CONTAINER__ORGANIZATION_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 11;
 
 	/**
     * The feature id for the '<em><b>Process Symbol</b></em>' containment reference list.
@@ -829,7 +838,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__PROCESS_SYMBOL = 12;
+   int ISYMBOL_CONTAINER__PROCESS_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 12;
 
 	/**
     * The feature id for the '<em><b>Process Interface Symbols</b></em>' containment reference list.
@@ -838,7 +847,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__PROCESS_INTERFACE_SYMBOLS = 13;
+   int ISYMBOL_CONTAINER__PROCESS_INTERFACE_SYMBOLS = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 13;
 
    /**
     * The feature id for the '<em><b>Role Symbol</b></em>' containment reference list.
@@ -846,7 +855,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__ROLE_SYMBOL = 14;
+   int ISYMBOL_CONTAINER__ROLE_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 14;
 
 	/**
     * The feature id for the '<em><b>Start Event Symbols</b></em>' containment reference list.
@@ -854,7 +863,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__START_EVENT_SYMBOLS = 15;
+   int ISYMBOL_CONTAINER__START_EVENT_SYMBOLS = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 15;
 
 	/**
     * The feature id for the '<em><b>Text Symbol</b></em>' containment reference list.
@@ -862,7 +871,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__TEXT_SYMBOL = 16;
+   int ISYMBOL_CONTAINER__TEXT_SYMBOL = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 16;
 
    /**
     * The feature id for the '<em><b>Connections</b></em>' attribute list. <!--
@@ -871,7 +880,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__CONNECTIONS = 17;
+   int ISYMBOL_CONTAINER__CONNECTIONS = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 17;
 
 	/**
     * The feature id for the '<em><b>Data Mapping Connection</b></em>' containment reference list.
@@ -879,7 +888,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__DATA_MAPPING_CONNECTION = 18;
+   int ISYMBOL_CONTAINER__DATA_MAPPING_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 18;
 
 	/**
     * The feature id for the '<em><b>Executed By Connection</b></em>' containment reference list.
@@ -887,7 +896,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__EXECUTED_BY_CONNECTION = 19;
+   int ISYMBOL_CONTAINER__EXECUTED_BY_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 19;
 
 	/**
     * The feature id for the '<em><b>Generic Link Connection</b></em>' containment reference list.
@@ -895,7 +904,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__GENERIC_LINK_CONNECTION = 20;
+   int ISYMBOL_CONTAINER__GENERIC_LINK_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 20;
 
 	/**
     * The feature id for the '<em><b>Part Of Connection</b></em>' containment reference list.
@@ -903,7 +912,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__PART_OF_CONNECTION = 21;
+   int ISYMBOL_CONTAINER__PART_OF_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 21;
 
 	/**
     * The feature id for the '<em><b>Performs Connection</b></em>' containment reference list.
@@ -911,7 +920,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__PERFORMS_CONNECTION = 22;
+   int ISYMBOL_CONTAINER__PERFORMS_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 22;
 
 	/**
     * The feature id for the '<em><b>Triggers Connection</b></em>' containment reference list.
@@ -920,7 +929,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__TRIGGERS_CONNECTION = 23;
+   int ISYMBOL_CONTAINER__TRIGGERS_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 23;
 
 	/**
     * The feature id for the '<em><b>Refers To Connection</b></em>' containment reference list.
@@ -928,7 +937,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__REFERS_TO_CONNECTION = 24;
+   int ISYMBOL_CONTAINER__REFERS_TO_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 24;
 
 	/**
     * The feature id for the '<em><b>Sub Process Of Connection</b></em>' containment reference list.
@@ -936,7 +945,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__SUB_PROCESS_OF_CONNECTION = 25;
+   int ISYMBOL_CONTAINER__SUB_PROCESS_OF_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 25;
 
 	/**
     * The feature id for the '<em><b>Transition Connection</b></em>' containment reference list.
@@ -944,7 +953,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__TRANSITION_CONNECTION = 26;
+   int ISYMBOL_CONTAINER__TRANSITION_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 26;
 
 	/**
     * The feature id for the '<em><b>Works For Connection</b></em>' containment reference list.
@@ -952,7 +961,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__WORKS_FOR_CONNECTION = 27;
+   int ISYMBOL_CONTAINER__WORKS_FOR_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 27;
 
 	/**
     * The feature id for the '<em><b>Team Lead Connection</b></em>' containment reference list.
@@ -961,7 +970,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER__TEAM_LEAD_CONNECTION = 28;
+   int ISYMBOL_CONTAINER__TEAM_LEAD_CONNECTION = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 28;
 
 	/**
     * The number of structural features of the '<em>ISymbol Container</em>' class.
@@ -969,7 +978,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ISYMBOL_CONTAINER_FEATURE_COUNT = 29;
+   int ISYMBOL_CONTAINER_FEATURE_COUNT = IEXTENSIBLE_ELEMENT_FEATURE_COUNT + 29;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -4518,6 +4527,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int DESCRIPTION_TYPE_FEATURE_COUNT = 1;
 
    /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+	int DIAGRAM_TYPE__ATTRIBUTE = ISYMBOL_CONTAINER__ATTRIBUTE;
+
+   /**
     * The feature id for the '<em><b>Nodes</b></em>' attribute list. <!--
     * begin-user-doc --> <!-- end-user-doc -->
     * 
@@ -4526,7 +4544,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__NODES = ISYMBOL_CONTAINER__NODES;
 
-	/**
+   /**
     * The feature id for the '<em><b>Activity Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4534,7 +4552,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__ACTIVITY_SYMBOL = ISYMBOL_CONTAINER__ACTIVITY_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Annotation Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4542,7 +4560,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__ANNOTATION_SYMBOL = ISYMBOL_CONTAINER__ANNOTATION_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Application Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4550,7 +4568,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__APPLICATION_SYMBOL = ISYMBOL_CONTAINER__APPLICATION_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Conditional Performer Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4558,7 +4576,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__CONDITIONAL_PERFORMER_SYMBOL = ISYMBOL_CONTAINER__CONDITIONAL_PERFORMER_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Data Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4566,7 +4584,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__DATA_SYMBOL = ISYMBOL_CONTAINER__DATA_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>End Event Symbols</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4574,7 +4592,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__END_EVENT_SYMBOLS = ISYMBOL_CONTAINER__END_EVENT_SYMBOLS;
 
-	/**
+   /**
     * The feature id for the '<em><b>Gateway Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4582,7 +4600,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__GATEWAY_SYMBOL = ISYMBOL_CONTAINER__GATEWAY_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Group Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4590,7 +4608,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__GROUP_SYMBOL = ISYMBOL_CONTAINER__GROUP_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Intermediate Event Symbols</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4598,7 +4616,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__INTERMEDIATE_EVENT_SYMBOLS = ISYMBOL_CONTAINER__INTERMEDIATE_EVENT_SYMBOLS;
 
-	/**
+   /**
     * The feature id for the '<em><b>Modeler Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4606,7 +4624,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__MODELER_SYMBOL = ISYMBOL_CONTAINER__MODELER_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Organization Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4614,7 +4632,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__ORGANIZATION_SYMBOL = ISYMBOL_CONTAINER__ORGANIZATION_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Process Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4622,7 +4640,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__PROCESS_SYMBOL = ISYMBOL_CONTAINER__PROCESS_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Process Interface Symbols</b></em>' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -4639,7 +4657,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__ROLE_SYMBOL = ISYMBOL_CONTAINER__ROLE_SYMBOL;
 
-	/**
+   /**
     * The feature id for the '<em><b>Start Event Symbols</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4647,7 +4665,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__START_EVENT_SYMBOLS = ISYMBOL_CONTAINER__START_EVENT_SYMBOLS;
 
-	/**
+   /**
     * The feature id for the '<em><b>Text Symbol</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4664,7 +4682,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__CONNECTIONS = ISYMBOL_CONTAINER__CONNECTIONS;
 
-	/**
+   /**
     * The feature id for the '<em><b>Data Mapping Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4672,7 +4690,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__DATA_MAPPING_CONNECTION = ISYMBOL_CONTAINER__DATA_MAPPING_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Executed By Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4680,7 +4698,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__EXECUTED_BY_CONNECTION = ISYMBOL_CONTAINER__EXECUTED_BY_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Generic Link Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4688,7 +4706,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__GENERIC_LINK_CONNECTION = ISYMBOL_CONTAINER__GENERIC_LINK_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Part Of Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4696,7 +4714,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__PART_OF_CONNECTION = ISYMBOL_CONTAINER__PART_OF_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Performs Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4704,7 +4722,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__PERFORMS_CONNECTION = ISYMBOL_CONTAINER__PERFORMS_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Triggers Connection</b></em>' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -4713,7 +4731,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__TRIGGERS_CONNECTION = ISYMBOL_CONTAINER__TRIGGERS_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Refers To Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4721,7 +4739,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__REFERS_TO_CONNECTION = ISYMBOL_CONTAINER__REFERS_TO_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Sub Process Of Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4729,7 +4747,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__SUB_PROCESS_OF_CONNECTION = ISYMBOL_CONTAINER__SUB_PROCESS_OF_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Transition Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4737,7 +4755,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__TRANSITION_CONNECTION = ISYMBOL_CONTAINER__TRANSITION_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Works For Connection</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
@@ -4745,7 +4763,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     */
    int DIAGRAM_TYPE__WORKS_FOR_CONNECTION = ISYMBOL_CONTAINER__WORKS_FOR_CONNECTION;
 
-	/**
+   /**
     * The feature id for the '<em><b>Team Lead Connection</b></em>' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -4764,22 +4782,13 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int DIAGRAM_TYPE__ELEMENT_OID = ISYMBOL_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
-    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
-    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-    * @generated
-    * @ordered
-    */
-	int DIAGRAM_TYPE__ATTRIBUTE = ISYMBOL_CONTAINER_FEATURE_COUNT + 1;
-
-	/**
     * The feature id for the '<em><b>Name</b></em>' attribute.
     * <!-- begin-user-doc
     * --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int DIAGRAM_TYPE__NAME = ISYMBOL_CONTAINER_FEATURE_COUNT + 2;
+   int DIAGRAM_TYPE__NAME = ISYMBOL_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
     * The feature id for the '<em><b>Pool Symbols</b></em>' containment reference list.
@@ -4787,7 +4796,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DIAGRAM_TYPE__POOL_SYMBOLS = ISYMBOL_CONTAINER_FEATURE_COUNT + 3;
+   int DIAGRAM_TYPE__POOL_SYMBOLS = ISYMBOL_CONTAINER_FEATURE_COUNT + 2;
 
    /**
     * The feature id for the '<em><b>Orientation</b></em>' attribute. <!--
@@ -4796,7 +4805,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DIAGRAM_TYPE__ORIENTATION = ISYMBOL_CONTAINER_FEATURE_COUNT + 4;
+   int DIAGRAM_TYPE__ORIENTATION = ISYMBOL_CONTAINER_FEATURE_COUNT + 3;
 
 	/**
     * The feature id for the '<em><b>Mode</b></em>' attribute.
@@ -4805,7 +4814,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DIAGRAM_TYPE__MODE = ISYMBOL_CONTAINER_FEATURE_COUNT + 5;
+   int DIAGRAM_TYPE__MODE = ISYMBOL_CONTAINER_FEATURE_COUNT + 4;
 
    /**
     * The number of structural features of the the '<em>Diagram Type</em>' class. <!--
@@ -4814,7 +4823,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int DIAGRAM_TYPE_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 6;
+   int DIAGRAM_TYPE_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 5;
 
    /**
     * The feature id for the '<em><b>Mixed</b></em>' attribute list. <!--
@@ -5901,6 +5910,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int GENERIC_LINK_CONNECTION_TYPE_FEATURE_COUNT = ICONNECTION_SYMBOL_FEATURE_COUNT + 3;
 
    /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int GROUP_SYMBOL_TYPE__ATTRIBUTE = ISYMBOL_CONTAINER__ATTRIBUTE;
+
+   /**
     * The feature id for the '<em><b>Nodes</b></em>' attribute list. <!--
     * begin-user-doc --> <!-- end-user-doc -->
     * 
@@ -6427,6 +6445,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     */
    int LANE_SYMBOL = 55;
+
+   /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LANE_SYMBOL__ATTRIBUTE = ISYMBOL_CONTAINER__ATTRIBUTE;
 
    /**
     * The feature id for the '<em><b>Nodes</b></em>' attribute list. <!--
@@ -8146,6 +8173,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     */
    int POOL_SYMBOL = 66;
+
+   /**
+    * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int POOL_SYMBOL__ATTRIBUTE = ISYMBOL_CONTAINER__ATTRIBUTE;
 
    /**
     * The feature id for the '<em><b>Nodes</b></em>' attribute list. <!--
