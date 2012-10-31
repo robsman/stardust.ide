@@ -328,7 +328,7 @@ public class ImportModelElementsWizardPage extends WizardDataTransferPage
 
       @SuppressWarnings("unchecked")
       Map<String, IConfigurationElement> extensions = ImportPlugin.getExtensions();
-      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("Process Model File"); //$NON-NLS-1$
+      IConfigurationElement firstConfig = (IConfigurationElement) extensions.get("File"); //$NON-NLS-1$
       modelTypsCombo.add(firstConfig.getAttribute(SpiConstants.NAME));
       for (IConfigurationElement config : extensions.values())
       {
