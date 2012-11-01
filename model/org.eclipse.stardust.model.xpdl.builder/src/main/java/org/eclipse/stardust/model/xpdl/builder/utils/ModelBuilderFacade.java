@@ -255,7 +255,11 @@ public class ModelBuilderFacade
       xsdElementDeclaration.setTypeDefinition(xsdComplexTypeDefinition);
       xsdSchema.getContents().add(xsdElementDeclaration);
 
+      // propagate ns-prefix mappings to DOM
+      schema.getSchema().updateElement(true);
+
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
+
       return structuredDataType;
    }
 
