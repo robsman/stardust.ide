@@ -2165,7 +2165,30 @@ public class ModelBuilderFacade
     */
    public String createIdFromName(String name)
    {
-      return name.replace(" ", "_");
+      StringBuilder idBuilder = new StringBuilder(name.length());
+      boolean firstWord = true;
+      boolean newWord = true;
+      for (int i = 0; i < name.length(); ++i)
+      {
+         char nameChar = name.charAt(i);
+         if (Character.isLetterOrDigit(nameChar))
+         {
+            if (newWord && !firstWord)
+            {
+               // append underscore for each first illegal character
+               idBuilder.append('_');
+            }
+            idBuilder.append(Character.toUpperCase(nameChar));
+            firstWord &= false;
+            newWord = false;
+         }
+         else
+         {
+            newWord = true;
+         }
+      }
+
+      return idBuilder.toString();
    }
 
    /**
