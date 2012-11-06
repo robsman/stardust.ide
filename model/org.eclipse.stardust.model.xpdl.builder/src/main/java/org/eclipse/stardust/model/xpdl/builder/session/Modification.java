@@ -247,6 +247,13 @@ public class Modification
       return null;
    }
 
+   public boolean isChangedElement(EObject element)
+   {
+      return modifiedElements.contains(element) //
+         || addedElements.contains(element) //
+         || removedElements.contains(element);
+   }   
+   
    public void markUnmodified(EObject element)
    {
       // this is safe as sets are copy-on-write
