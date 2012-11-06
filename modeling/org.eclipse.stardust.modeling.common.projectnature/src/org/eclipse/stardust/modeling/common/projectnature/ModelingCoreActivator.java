@@ -34,6 +34,8 @@ public class ModelingCoreActivator extends Plugin
    
    public static final String ID_CARNOT_TOOL_CP_PROVIDER = PLUGIN_ID + ".carnotToolClasspathProvider"; //$NON-NLS-1$
    
+   public static final String ID_DEPLOY_MODEL_CP_PROVIDER = PLUGIN_ID + ".deployModelClasspathProvider"; //$NON-NLS-1$
+   
    // The shared instance
    private static ModelingCoreActivator plugin;
 
