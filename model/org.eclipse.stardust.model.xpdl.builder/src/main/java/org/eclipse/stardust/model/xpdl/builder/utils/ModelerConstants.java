@@ -194,4 +194,6 @@ public class ModelerConstants
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
    public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
    public static final String APPLICATION_CONTEXT_KEY = "application";
+   public static final String EVENT_CLASS_PROPERTY = "eventClass";
+   public static final String MANUAL_TRIGGER_EVENT_CLASS_KEY = "manualTrigger";
 }
