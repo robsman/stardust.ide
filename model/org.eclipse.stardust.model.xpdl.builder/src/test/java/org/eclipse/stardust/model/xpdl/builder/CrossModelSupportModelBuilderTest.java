@@ -31,6 +31,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
@@ -97,7 +98,7 @@ public class CrossModelSupportModelBuilderTest
       ModelType providerModel = newBpmModel().withName("ProviderModel").build();
       providerModel.setConnectionManager(new WebModelerConnectionManager(providerModel, strategy));
       ModelType consumerModel = newBpmModel().withName("ConsumerModel").build();
-      consumerModel.setConnectionManager(new WebModelerConnectionManager(consumerModel, strategy));      
+      consumerModel.setConnectionManager(new WebModelerConnectionManager(consumerModel, strategy));
       strategy.registerModel(consumerModel);
       strategy.registerModel(providerModel);
 
@@ -153,8 +154,9 @@ public class CrossModelSupportModelBuilderTest
 
 
       ApplicationType externalWebApp = facade.createApplication(providerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
-      facade.createPrimitiveAccessPoint(externalWebApp, "NewPrimitive", "NewPrimitive", Type.String.getId() , "IN");
-      facade.createStructuredAccessPoint(externalWebApp, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");
+      ContextType cty = facade.getApplicationContext(externalWebApp, ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+      facade.createPrimitiveAccessPoint(cty, "NewPrimitive", "NewPrimitive", Type.String.getId() , "IN");
+      facade.createStructuredAccessPoint(cty, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");
 
       ApplicationType consumedExtWebApp = facade.createApplication(consumerModel, "UI MashUp", "UI MashUp", ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
       facade.createStructuredAccessPoint(consumedExtWebApp, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");

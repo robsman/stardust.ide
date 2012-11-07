@@ -124,6 +124,9 @@ public class DefaultTypesInitializer implements ModelInitializer
       initializeInteractionContextType(model, PredefinedConstants.ENGINE_CONTEXT,
             "Engine Context", true, false);
 
+      initializeInteractionContextType(model, PredefinedConstants.EXTERNALWEBAPP_CONTEXT,
+            "External Web Application", true, false);
+
       // TODO
    }
 

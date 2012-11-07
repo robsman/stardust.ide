@@ -96,6 +96,21 @@ public class PrimitiveAccessPointBuilder
             "messageTransformation:TransformationProperty", xmlString);
    }
 
+   private void createInteractiveAccessPoint(ContextType contextType)
+   {
+      contextType.getAccessPoint().add(element);
+      if (contextType.getType().getId()
+            .equals(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY))
+      {
+         AttributeUtil.setAttribute(element, "RootElement", element.getId());
+         TransformationProperty property = MappingFactory.eINSTANCE
+               .createTransformationProperty();
+         String xmlString = MappingModelUtil.transformEcore2XML(property);
+         AttributeUtil.setAttribute(contextType,
+               "messageTransformation:TransformationProperty", xmlString);
+      }
+   }
+
    @Override
    protected String getDefaultElementIdPrefix()
    {
@@ -117,7 +132,15 @@ public class PrimitiveAccessPointBuilder
       }
       else
       {
-         createDefaultAccessPoint(owner);
+         if (owner instanceof ContextType)
+         {
+            createInteractiveAccessPoint((ContextType) owner);
+         }
+         else
+         {
+            createDefaultAccessPoint(owner);
+         }
+
       }
       return element;
    }
