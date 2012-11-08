@@ -2574,6 +2574,31 @@ public class ModelBuilderFacade
       return new ArrayList();
    }
 
+   @SuppressWarnings({"rawtypes", "unchecked"})
+   public List getAttributes(Object element, boolean excludeBoolean, boolean booleanOnly)
+   {
+      if (excludeBoolean == booleanOnly && booleanOnly == true)
+      {
+         return new ArrayList();
+      }
+      List attributes = getAttributes(element);
+      if (excludeBoolean == booleanOnly && booleanOnly == false)
+      {
+         return attributes;
+      }
+      List filteredAttributes = new ArrayList();
+      for (Iterator<Object> i = attributes.iterator(); i.hasNext();)
+      {
+         Object attribute = i.next();
+         if ((booleanOnly && isBooleanAttribute(attribute))
+               || (excludeBoolean && !isBooleanAttribute(attribute)))
+         {
+            filteredAttributes.add(attribute);
+         }
+      }
+      return filteredAttributes;
+   }
+
    /**
     *
     * @param element
@@ -2617,6 +2642,25 @@ public class ModelBuilderFacade
          return ((AttributeType) attribute).getValue();
       }
       return null;
+   }
+
+   public boolean isBooleanAttribute(Object attribute)
+   {
+      if (attribute instanceof ExtendedAttributeType)
+      {
+         ExtendedAttributeType attributeType = (ExtendedAttributeType)attribute;
+         if (attributeType.getValue().equalsIgnoreCase("true") || attributeType.getValue().equalsIgnoreCase("false")) {
+            return true;
+         }
+      }
+      if (attribute instanceof AttributeType)
+      {
+         AttributeType attributeType = (AttributeType)attribute;
+         if (attributeType.getType() != null && attributeType.getType().equalsIgnoreCase("Boolean")) {
+            return true;
+         }
+      }
+      return false;
    }
 
    public boolean isExternalReference(EObject modelElement)
