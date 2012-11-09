@@ -40,6 +40,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -89,6 +90,7 @@ import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
@@ -974,7 +976,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * Create Annotation Symbol
     * @param model
     * @param processDefinition
     * @param parentLaneID
@@ -982,11 +984,12 @@ public class ModelBuilderFacade
     * @param yProperty
     * @param widthProperty
     * @param heightProperty
+    * @param content
     * @return
     */
    public AnnotationSymbolType createAnnotationSymbol(ModelType model,
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
-         int yProperty, int widthProperty, int heightProperty)
+         int yProperty, int widthProperty, int heightProperty, String content)
    {
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
 
@@ -998,11 +1001,40 @@ public class ModelBuilderFacade
       annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       annotationSymbol.setWidth(widthProperty);
       annotationSymbol.setHeight(heightProperty);
+      
+      if (StringUtils.isNotEmpty(content))
+      {
+         TextType text = AbstractElementBuilder.F_CWM.createTextType();
+         text.getMixed().add(FeatureMapUtil.createRawTextEntry(content));
+         annotationSymbol.setText(text);
+      }
 
       processDefinition.getDiagram().get(0).getAnnotationSymbol().add(annotationSymbol);
       parentLaneSymbol.getAnnotationSymbol().add(annotationSymbol);
 
       return annotationSymbol;
+   }
+
+   /**
+    * @param parentLaneSymbol
+    * @param annotationOId
+    * @return
+    */
+   public AnnotationSymbolType findAnnotationSymbol(LaneSymbol parentLaneSymbol,
+         Long annotationOId)
+   {
+      Iterator<AnnotationSymbolType> annotationIterator = parentLaneSymbol.getAnnotationSymbol()
+            .iterator();
+
+      while (annotationIterator.hasNext())
+      {
+         AnnotationSymbolType annSymbol = annotationIterator.next();
+         if (annotationOId.equals(annSymbol.getElementOid()))
+         {
+            return annSymbol;
+         }
+      }
+      return null;
    }
 
    /**
@@ -1826,6 +1858,79 @@ public class ModelBuilderFacade
 
       return null;
    }
+   
+   /**
+    * 
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   public AnnotationSymbolType findAnnotationSymbol(DiagramType diagram, long oid)
+   {
+      LaneSymbol laneSymbol = findLaneContainingAnnotationSymbol(diagram, oid);
+
+      if (laneSymbol != null)
+      {
+         return findAnnotationSymbol(laneSymbol, oid);
+      }
+
+      return null;
+   }
+
+   /**
+    * 
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   private LaneSymbol findLaneContainingAnnotationSymbol(DiagramType diagram, long oid)
+   {
+      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
+      {
+         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
+         {
+            LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
+                  laneSymbol, oid);
+
+            if (containingLaneSymbol != null)
+            {
+               return containingLaneSymbol;
+            }
+         }
+      }
+
+      return null;
+   }
+
+   /**
+    * @param laneSymbol
+    * @param oid
+    * @return
+    */
+   private LaneSymbol findLaneContainingAnnotationSymbolRecursively(
+         LaneSymbol laneSymbol, long oid)
+   {
+      for (AnnotationSymbolType annotationSymbol : laneSymbol.getAnnotationSymbol())
+      {
+         if (annotationSymbol.getElementOid() == oid)
+         {
+            return laneSymbol;
+         }
+      }
+
+      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
+      {
+         LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
+               childLaneSymbol, oid);
+
+         if (containingLaneSymbol != null)
+         {
+            return containingLaneSymbol;
+         }
+      }
+
+      return null;
+   } 
 
    /**
     *

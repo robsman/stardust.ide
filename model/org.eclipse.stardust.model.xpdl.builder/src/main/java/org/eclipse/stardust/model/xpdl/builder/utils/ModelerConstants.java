@@ -187,6 +187,7 @@ public class ModelerConstants
    public static final String SYNC_SHARED_KEY = "synchShared";
    public static final String INTERACTIVE_PROPERTY = "interactive";
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
+   public static final String ANNOTATION_SYMBOL = "annotationSymbol";
    public static final String CONTENT_PROPERTY = "content";
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
@@ -196,4 +197,5 @@ public class ModelerConstants
    public static final String APPLICATION_CONTEXT_KEY = "application";
    public static final String EVENT_CLASS_PROPERTY = "eventClass";
    public static final String MANUAL_TRIGGER_EVENT_CLASS_KEY = "manualTrigger";
+   public static final String ASSOCIATION = "association";
 }
