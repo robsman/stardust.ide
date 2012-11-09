@@ -122,6 +122,7 @@ public class ModelerConstants
    public static final String UPDATE_DATA_MAPPING_LITERAL = "updateDataMapping";
    public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
    public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
+   public static final String DEFAULT_LITERAL = "default";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
    public static final String OTHERWISE_PROPERTY = "otherwise";
