@@ -200,4 +200,5 @@ public class ModelerConstants
    public static final String EVENT_CLASS_PROPERTY = "eventClass";
    public static final String MANUAL_TRIGGER_EVENT_CLASS_KEY = "manualTrigger";
    public static final String ASSOCIATION = "association";
+   public static final String PARAMETER_MAPPINGS_PROPERTY = "parameterMappings";
 }
