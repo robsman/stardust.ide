@@ -39,7 +39,7 @@
             <configuration>
               <includeArtifactIds>antlr-runtime</includeArtifactIds>
             </configuration>          </execution>        </executions>
-      </plugin>    </plugins>
+      </plugin>      <plugin>         <artifactId>maven-install-plugin</artifactId>         <configuration>            <!-- artifact is needed during compile time of reporting.app.web -->            <skip>false</skip>         </configuration>      </plugin>    </plugins>
   </build>
 
 </project>
