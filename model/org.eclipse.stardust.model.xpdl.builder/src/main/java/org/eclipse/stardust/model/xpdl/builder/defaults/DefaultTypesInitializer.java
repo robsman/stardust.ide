@@ -38,6 +38,8 @@ import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXMLValidator;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXPathEvaluator;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListAccessPathEvaluator;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListValidator;
 import org.eclipse.stardust.engine.extensions.ejb.SessionBeanValidator;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanAccessPointProvider;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanApplicationInstance;
@@ -96,6 +98,10 @@ public class DefaultTypesInitializer implements ModelInitializer
             StructuredDataXPathEvaluator.class, StructuredDataXMLValidator.class,
             StructuredDataFilterExtension.class, StructuredDataLoader.class);
 
+      initializeDataType(model, "dmsDocumentList", "Document List",
+            VfsDocumentListAccessPathEvaluator.class, VfsDocumentListValidator.class,
+            StructuredDataFilterExtension.class, StructuredDataLoader.class);
+
    }
 
    public void initializeApplicationTypes(ModelType model)
@@ -126,6 +132,9 @@ public class DefaultTypesInitializer implements ModelInitializer
 
       initializeInteractionContextType(model, PredefinedConstants.EXTERNALWEBAPP_CONTEXT,
             "External Web Application", true, false);
+
+      initializeInteractionContextType(model, PredefinedConstants.APPLICATION_CONTEXT,
+            "Noninteractive Application Context", true, false);
 
       // TODO
    }
@@ -236,6 +245,9 @@ public class DefaultTypesInitializer implements ModelInitializer
 
          typeDef.setHasApplicationPath(hasApplicationPath);
          typeDef.setHasMappingId(hasMappingId);
+
+         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+         typeDef.setElementOid(++maxElementOid);
 
          model.getApplicationContextType().add(typeDef);
       }
