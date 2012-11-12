@@ -55,8 +55,11 @@ import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDImport;
@@ -555,6 +558,11 @@ public class UnusedModelElementsSearcher
          {
             return true;            
          }     
+         if(isDataUsedInProcess(process, element))
+         {
+            return true;            
+         }     
+         
          List dataPathList = process.getDataPath();
          for (Iterator it = dataPathList.iterator(); it.hasNext();)
          {               
@@ -566,6 +574,28 @@ public class UnusedModelElementsSearcher
             }
          }
       }
+      return false;
+   }
+
+   private boolean isDataUsedInProcess(ProcessDefinitionType process, EObject element)
+   {
+      if(element instanceof DataType)
+      {      
+         FormalParameterMappingsType mappings = process.getFormalParameterMappings();
+         FormalParametersType formalParameters = process.getFormalParameters();
+         if(formalParameters != null && formalParameters.getFormalParameter() != null)
+         {
+            for(FormalParameterType type : formalParameters.getFormalParameter())
+            {
+               DataType mappedData = mappings.getMappedData(type);
+               if(mappedData.equals(element))
+               {
+                  return true;
+               }               
+            }
+         }
+      }
+      
       return false;
    }
 
