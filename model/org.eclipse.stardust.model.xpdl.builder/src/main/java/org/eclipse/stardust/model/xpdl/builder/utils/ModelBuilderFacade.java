@@ -151,7 +151,7 @@ public class ModelBuilderFacade
 
    /**
     * Sets the team leader for an organization.
-    *
+    * 
     * @param organization
     * @param role
     * @return
@@ -163,7 +163,7 @@ public class ModelBuilderFacade
 
    /**
     * Adds a participant to an organization.
-    *
+    * 
     * @param organization
     * @param participant
     * @return
@@ -178,7 +178,7 @@ public class ModelBuilderFacade
 
    /**
     * Returns a list of organizations a participants belongs to.
-    *
+    * 
     * @param model
     * @param participant
     * @return list of organizations
@@ -207,14 +207,14 @@ public class ModelBuilderFacade
 
    /**
     * Created a type declaration.
-    *
+    * 
     * @param model
     *           model to create the type declaration in
     * @param typeID
     *           id of the type
     * @param typeName
     *           name of the type
-    *
+    * 
     * @return type declaration created
     */
    public TypeDeclarationType createTypeDeclaration(ModelType model, String typeID,
@@ -480,7 +480,7 @@ public class ModelBuilderFacade
 
    /**
     * Created a data of type <b>Document</b>.
-    *
+    * 
     * @param model
     *           model to create the document data in
     * @param dataID
@@ -489,7 +489,7 @@ public class ModelBuilderFacade
     *           name of the data
     * @param typeDeclarationID
     *           id of the type declaration assigned to the document
-    *
+    * 
     * @return document data created
     */
    public DataType createDocumentData(ModelType model, String dataID, String dataName,
@@ -521,11 +521,11 @@ public class ModelBuilderFacade
 
    /**
     * Created a data of type <b>Structured Type</b>.
-    *
+    * 
     * <p>
     * The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.
     * </p>
-    *
+    * 
     * @param model
     *           model to create the document data in
     * @param dataID
@@ -534,7 +534,7 @@ public class ModelBuilderFacade
     *           name of the data
     * @param typeFullID
     *           full qualified id of the type declaration assigned to the document
-    *
+    * 
     * @return structured data created
     */
    public DataType createStructuredData(ModelType model, String dataID, String dataName,
@@ -570,12 +570,12 @@ public class ModelBuilderFacade
 
    /**
     * Update the type of a primitive data.
-    *
+    * 
     * @param data
     *           the primitive data to update
     * @param primitiveTypeID
     *           the id of the primitive type to assign
-    *
+    * 
     * @return
     */
    public void updatePrimitiveData(DataType data, String primitiveTypeID)
@@ -586,16 +586,16 @@ public class ModelBuilderFacade
 
    /**
     * Update the type declaration a structured data refers to.
-    *
+    * 
     * <p>
     * The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.
     * </p>
-    *
+    * 
     * @param data
     *           the structured data to update
     * @param typeFullID
     *           full qualified id of the type declaration to assign to the data
-    *
+    * 
     * @return
     */
    public void updateStructuredDataType(DataType data, String typeFullID)
@@ -696,7 +696,7 @@ public class ModelBuilderFacade
 
    /**
     * Created a primitive data.
-    *
+    * 
     * <p>
     * As <b>primitiveTypeID</b> might be set:
     * </p>
@@ -709,7 +709,7 @@ public class ModelBuilderFacade
     * ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE</li>
     * <ul>
     * </ul>
-    *
+    * 
     * @param model
     *           model to create the data in
     * @param dataID
@@ -718,7 +718,7 @@ public class ModelBuilderFacade
     *           name of the data
     * @param primitiveTypeID
     *           id of the data
-    *
+    * 
     * @return primitive data created
     */
    public DataType createPrimitiveData(ModelType model, String dataID, String dataName,
@@ -763,16 +763,16 @@ public class ModelBuilderFacade
     * differs from the model to import the data in, then a file connection is established
     * and a reference is created. If the data exists locally in the model this is not
     * necessary.
-    *
+    * 
     * <p>
     * The <i>dataFullID</i> id provided as <b>ModelID:DataID</b>.
     * </p>
-    *
+    * 
     * @param model
     *           model to import a data in
     * @param dataFullID
     *           full qualified id of the data to be imported
-    *
+    * 
     * @return local or referenced data
     */
    public DataType importData(ModelType model, String dataFullID)
@@ -819,11 +819,11 @@ public class ModelBuilderFacade
 
    /**
     * Creates lane in a diagram
-    *
+    * 
     * <p>
     * The <i>participantFullID</i> id is provided as <b>ModelID:ParticipantID</b>.
     * </p>
-    *
+    * 
     * <p>
     * As <b>orientation</b> might be set:
     * </p>
@@ -833,7 +833,7 @@ public class ModelBuilderFacade
     * ModelerConstants.DIAGRAM_FLOW_ORIENTATION_VERTICAL</li>
     * <ul>
     * </ul>
-    *
+    * 
     * @param model
     *           model to create the lane in
     * @param processDefinition
@@ -940,7 +940,7 @@ public class ModelBuilderFacade
 
    /**
     * Create an activity diagram symbol
-    *
+    * 
     * @param model
     *           model to create the symbol in
     * @param activity
@@ -983,6 +983,7 @@ public class ModelBuilderFacade
 
    /**
     * Create Annotation Symbol
+    * 
     * @param model
     * @param processDefinition
     * @param parentLaneID
@@ -1045,7 +1046,7 @@ public class ModelBuilderFacade
 
    /**
     * Create a data diagram symbol
-    *
+    * 
     * @param model
     *           model to create the symbol in
     * @param data
@@ -1090,7 +1091,7 @@ public class ModelBuilderFacade
 
    /**
     * Creates a role.
-    *
+    * 
     * @param model
     *           The model to create the role in.
     * @param roleID
@@ -1122,7 +1123,7 @@ public class ModelBuilderFacade
 
    /**
     * Creates an organization.
-    *
+    * 
     * @param model
     *           The model to create the organization in.
     * @param orgID
@@ -1140,7 +1141,7 @@ public class ModelBuilderFacade
 
    /**
     * Creates an application.
-    *
+    * 
     * <p>
     * As <b>applicationTypeID</b> might be set:
     * </p>
@@ -1154,7 +1155,7 @@ public class ModelBuilderFacade
     * ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY</li>
     * <ul>
     * </ul>
-    *
+    * 
     * @param model
     *           model to create the application in.
     * @param applicationID
@@ -1195,7 +1196,7 @@ public class ModelBuilderFacade
 
    /**
     * Creates an activity.
-    *
+    * 
     * <p>
     * As <b>activityTypeID</b> might be set:
     * </p>
@@ -1205,7 +1206,7 @@ public class ModelBuilderFacade
     * <li>ModelerConstants.SUBPROCESS_ACTIVITY</li>
     * <ul>
     * </ul>
-    *
+    * 
     * <p>
     * The <b>xxxFullID</b> are provided like that:
     * </p>
@@ -1216,7 +1217,7 @@ public class ModelBuilderFacade
     * <li>The <i>subProcessFullID</i> id provided as <b>ModelID:ProcessID</b>.</p></li>
     * <ul>
     * </ul>
-    *
+    * 
     * @param model
     *           model to create the activity in.
     * @param processDefinition
@@ -1320,7 +1321,7 @@ public class ModelBuilderFacade
 
    /**
     * Creates a process.
-    *
+    * 
     * @param model
     *           model to create the process in
     * @param processID
@@ -1378,7 +1379,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @return
     */
    public DataPathType createDataPath()
@@ -1387,7 +1388,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param modelId
     * @return
     */
@@ -1397,7 +1398,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1416,7 +1417,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param processFullID
     * @return processDefinition
     */
@@ -1438,7 +1439,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param modelId
     * @param id
     * @return
@@ -1449,7 +1450,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return application
@@ -1468,7 +1469,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param fullApplicationID
     * @return application
@@ -1491,7 +1492,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1510,7 +1511,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1531,7 +1532,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1551,7 +1552,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param fullTypeID
     * @return typeDeclaration
     */
@@ -1574,7 +1575,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1593,7 +1594,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1612,7 +1613,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param dataFullID
     * @return data
@@ -1634,7 +1635,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1668,7 +1669,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param fullParticipantID
     * @return participant
@@ -1699,7 +1700,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1731,7 +1732,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -1760,7 +1761,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param id
     * @return
@@ -1779,7 +1780,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1797,7 +1798,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -1816,7 +1817,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1866,7 +1867,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1884,7 +1885,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1939,7 +1940,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -1963,7 +1964,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -1981,7 +1982,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -2000,7 +2001,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -2025,7 +2026,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -2056,7 +2057,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -2074,7 +2075,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -2093,7 +2094,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param diagram
     * @param oid
     * @return
@@ -2118,7 +2119,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param oid
     * @return
@@ -2149,7 +2150,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param id
     * @return
@@ -2175,7 +2176,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param id
     * @return
@@ -2203,7 +2204,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param laneSymbol
     * @param id
     * @return
@@ -2231,7 +2232,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
@@ -2269,7 +2270,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
@@ -2305,7 +2306,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param processDefinition
     * @param oid
     * @return
@@ -2326,7 +2327,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param poolSymbol
     * @param oid
     * @return
@@ -2346,7 +2347,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param poolSymbol
     * @param oid
     * @return
@@ -2371,7 +2372,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param modelId
     * @param appId
     * @return
@@ -2393,7 +2394,7 @@ public class ModelBuilderFacade
 
    /**
     * TODO Replace by Eclipse modeler logic
-    *
+    * 
     * @param name
     * @return
     */
@@ -2426,7 +2427,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param model
     * @param modelElement
     * @return
@@ -2451,7 +2452,7 @@ public class ModelBuilderFacade
 
    /**
     * TODO Auxiliary method while cross-model references are not supported
-    *
+    * 
     * @param fullId
     * @return
     */
@@ -2464,7 +2465,7 @@ public class ModelBuilderFacade
 
    /**
     * Retrieves the model ID of a full ID (e.g. ModelA for ModelA:CreateCustomer).
-    *
+    * 
     * @param fullId
     * @return
     */
@@ -2541,62 +2542,66 @@ public class ModelBuilderFacade
    }
 
    public ContextType createApplicationContext(ApplicationType application,
-         String contextID)
+         String contextId)
    {
       ModelType model = ModelUtils.findContainingModel(application);
       ContextType context = AbstractElementBuilder.F_CWM.createContextType();
       ApplicationContextTypeType contextTypeType = null;
-      try {
-          contextTypeType = findApplicationContextTypeType(model,  contextID);
-      } catch (Throwable t) {
 
+      try
+      {
+         contextTypeType = findApplicationContextTypeType(model, contextId);
       }
-
+      catch (ObjectNotFoundException x)
+      {
+         // Excpected
+      }
 
       if (contextTypeType == null)
       {
-         contextTypeType = AbstractElementBuilder.F_CWM
-               .createApplicationContextTypeType();
-         if (contextID == "externalWebApp") {
+         contextTypeType = AbstractElementBuilder.F_CWM.createApplicationContextTypeType();
+
+         if (ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY.equals(contextId))
+         {
             contextTypeType.setName("External Web Application");
-            contextTypeType.setId("externalWebApp");
+            contextTypeType.setId(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
             long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
             contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
-         if (contextID == "application") {
+         else if (ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY.equals(contextId))
+         {
             contextTypeType.setName("Noninteractive Application Context");
-            contextTypeType.setId("application");
+            contextTypeType.setId(ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
             long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
             contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
-         if (contextID == "engine") {
+         else if (ModelerConstants.ENGINE_CONTEXT_TYPE_KEY.equals(contextId))
+         {
             contextTypeType.setName("Engine Context");
-            contextTypeType.setId("engine");
+            contextTypeType.setId(ModelerConstants.ENGINE_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
             long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
             contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
-         if (contextID == "default") {
+         else if (ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY.equals(contextId))
+         {
             contextTypeType.setName("Default Context");
-            contextTypeType.setId("default");
+            contextTypeType.setId(ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
             long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
             contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
-
-
-
-
-
       }
+
       context.setType(contextTypeType);
       application.getContext().add(context);
+
       return context;
    }
 
@@ -2748,7 +2753,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    *
+    * 
     * @param element
     * @param attributeName
     * @return
@@ -2796,15 +2801,19 @@ public class ModelBuilderFacade
    {
       if (attribute instanceof ExtendedAttributeType)
       {
-         ExtendedAttributeType attributeType = (ExtendedAttributeType)attribute;
-         if (attributeType.getValue().equalsIgnoreCase("true") || attributeType.getValue().equalsIgnoreCase("false")) {
+         ExtendedAttributeType attributeType = (ExtendedAttributeType) attribute;
+         if (attributeType.getValue().equalsIgnoreCase("true")
+               || attributeType.getValue().equalsIgnoreCase("false"))
+         {
             return true;
          }
       }
       if (attribute instanceof AttributeType)
       {
-         AttributeType attributeType = (AttributeType)attribute;
-         if (attributeType.getType() != null && attributeType.getType().equalsIgnoreCase("Boolean")) {
+         AttributeType attributeType = (AttributeType) attribute;
+         if (attributeType.getType() != null
+               && attributeType.getType().equalsIgnoreCase("Boolean"))
+         {
             return true;
          }
       }
@@ -2960,7 +2969,6 @@ public class ModelBuilderFacade
       return model;
    }
 
-
    public DataType createProcessAttachementData(ModelType model)
    {
       DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
@@ -2983,6 +2991,5 @@ public class ModelBuilderFacade
       return data;
 
    }
-
 
 }

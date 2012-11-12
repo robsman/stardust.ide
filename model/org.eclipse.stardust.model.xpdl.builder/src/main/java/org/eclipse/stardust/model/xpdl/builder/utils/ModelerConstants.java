@@ -196,9 +196,11 @@ public class ModelerConstants
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
    public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
-   public static final String APPLICATION_CONTEXT_KEY = "application";
+   public static final String APPLICATION_CONTEXT_TYPE_KEY = "application";
    public static final String EVENT_CLASS_PROPERTY = "eventClass";
    public static final String MANUAL_TRIGGER_EVENT_CLASS_KEY = "manualTrigger";
    public static final String ASSOCIATION = "association";
    public static final String PARAMETER_MAPPINGS_PROPERTY = "parameterMappings";
+   public static final String ENGINE_CONTEXT_TYPE_KEY = "engine";
+   public static final String DEFAULT_CONTEXT_TYPE_KEY = "default";
 }
