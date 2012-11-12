@@ -47,6 +47,7 @@ import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
@@ -779,6 +780,11 @@ public class ModelBuilderFacade
       DataType data;
       // TODO Cross-model references
 
+      if (dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
+      {
+         createProcessAttachementData(model);
+      }
+
       String dataModelId = getModelId(dataFullID);
 
       ModelType dataModel = getModelManagementStrategy().getModels().get(dataModelId);
@@ -1001,7 +1007,7 @@ public class ModelBuilderFacade
       annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       annotationSymbol.setWidth(widthProperty);
       annotationSymbol.setHeight(heightProperty);
-      
+
       if (StringUtils.isNotEmpty(content))
       {
          TextType text = AbstractElementBuilder.F_CWM.createTextType();
@@ -1858,9 +1864,9 @@ public class ModelBuilderFacade
 
       return null;
    }
-   
+
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -1878,7 +1884,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param diagram
     * @param oid
     * @return
@@ -1930,7 +1936,7 @@ public class ModelBuilderFacade
       }
 
       return null;
-   } 
+   }
 
    /**
     *
@@ -2539,18 +2545,55 @@ public class ModelBuilderFacade
    {
       ModelType model = ModelUtils.findContainingModel(application);
       ContextType context = AbstractElementBuilder.F_CWM.createContextType();
-      ApplicationContextTypeType contextTypeType = findApplicationContextTypeType(model,
-            contextID);
+      ApplicationContextTypeType contextTypeType = null;
+      try {
+          contextTypeType = findApplicationContextTypeType(model,  contextID);
+      } catch (Throwable t) {
+
+      }
+
+
       if (contextTypeType == null)
       {
          contextTypeType = AbstractElementBuilder.F_CWM
                .createApplicationContextTypeType();
-         contextTypeType.setName("External Web Application");
-         contextTypeType.setId("externalWebApp");
-         contextTypeType.setIsPredefined(true);
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         contextTypeType.setElementOid(++maxElementOid);
-         model.getApplicationContextType().add(contextTypeType);
+         if (contextID == "externalWebApp") {
+            contextTypeType.setName("External Web Application");
+            contextTypeType.setId("externalWebApp");
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         if (contextID == "application") {
+            contextTypeType.setName("Noninteractive Application Context");
+            contextTypeType.setId("application");
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         if (contextID == "engine") {
+            contextTypeType.setName("Engine Context");
+            contextTypeType.setId("engine");
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         if (contextID == "default") {
+            contextTypeType.setName("Default Context");
+            contextTypeType.setId("default");
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+
+
+
+
+
       }
       context.setType(contextTypeType);
       application.getContext().add(context);
@@ -2917,6 +2960,29 @@ public class ModelBuilderFacade
       return model;
    }
 
+
+   public DataType createProcessAttachementData(ModelType model)
+   {
+      DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
+            model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
+      DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+      data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
+      data.setName("Process Attachments"); //$NON-NLS-1$
+      data.setType(dataTypeType);
+      data.setElementOid(ModelUtils.getElementOid(data, model));
+
+      model.getData().add(data);
+
+      AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT,
+            List.class.getName());
+      AttributeUtil.setAttribute(data, CarnotConstants.ENGINE_SCOPE
+            + "data:bidirectional", //$NON-NLS-1$
+            Boolean.TYPE.getName(), Boolean.TRUE.toString());
+      System.out.println("Process Attachement Created!");
+
+      return data;
+
+   }
 
 
 }
