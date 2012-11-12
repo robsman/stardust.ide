@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="com.infinity.bpm.ide.runtime" module="base"
+   <info organisation="org.eclipse.stardust.modeling.engine" module="base"
       revision="${ipp.version.full}" />
 
    <configurations>
@@ -22,11 +22,11 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.engine.base" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.modeling.engine.base" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>
-      <dependency org="com.infinity.bpm" name="stardust-engine-base-module" rev="${ipp.version.full}" transitive="false" conf="bom->base-module-runtime">
+      <dependency org="org.eclipse.stardust.engine" name="stardust-engine-base-module" rev="${ipp.version.full}" transitive="false" conf="bom->base-module-runtime">
          <!--
          <exclude org="javax.activation" module="activation"/>
          <exclude org="javax.mail" module="mail"/>

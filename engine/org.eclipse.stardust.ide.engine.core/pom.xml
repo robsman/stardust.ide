@@ -27,18 +27,18 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.infinity.bpm</groupId>
+      <groupId>org.eclipse.stardust.engine</groupId>
       <artifactId>carnot-engine</artifactId>
       <version>${ipp.version}</version>
       <exclusions>
          <exclusion>
-            <groupId>com.infinity.bpm</groupId>
+            <groupId>org.eclipse.stardust.engine</groupId>
             <artifactId>base-module</artifactId>
          </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.infinity.bpm</groupId>
+      <groupId>org.eclipse.stardust.engine</groupId>
       <artifactId>carnot-emf-xsd-integration</artifactId>
       <version>${ipp.version}</version>
     </dependency>

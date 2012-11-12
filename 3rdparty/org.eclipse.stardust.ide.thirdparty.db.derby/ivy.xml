@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="com.infinity.bpm.ide.3rdparty" module="derby"
+   <info organisation="org.eclipse.stardust.ide.3rdparty" module="derby"
       revision="${ipp.version.full}" />
 
    <configurations>
@@ -22,7 +22,7 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.thirdparty.db.derby" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.3rdparty.db.derby" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>

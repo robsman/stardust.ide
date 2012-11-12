@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="com.infinity.bpm" module="ipp-bpm-model-builder" revision="${ipp.version.full}" />
+   <info organisation="org.eclipse.stardust.modeling.model" module="ipp-bpm-model-builder" revision="${ipp.version.full}" />
 
    <configurations>
       <conf name="ipp-bpm-model-builder-compile" description="XPDL Builder - Compile Scope" />
@@ -34,9 +34,9 @@
 
    <dependencies>      
       <!-- compile -->
-      <dependency org="com.infinity.bpm" name="infinity-process-engine" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->carnot-engine-compile" />
-      <dependency org="com.infinity.bpm" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-model-runtime"/>
-      <dependency org="com.infinity.bpm" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-repository-runtime"/>
+      <dependency org="org.eclipse.stardust.engine" name="infinity-process-engine" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->carnot-engine-compile" />
+      <dependency org="org.eclipse.stardust.modeling.model" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-model-runtime"/>
+      <dependency org="org.eclipse.stardust.modeling.core" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-repository-runtime"/>
       
       <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
       <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="ipp-bpm-model-builder-compile->default"/>
