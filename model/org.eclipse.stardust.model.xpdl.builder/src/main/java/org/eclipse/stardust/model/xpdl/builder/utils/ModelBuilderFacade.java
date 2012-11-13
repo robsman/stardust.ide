@@ -778,12 +778,11 @@ public class ModelBuilderFacade
    public DataType importData(ModelType model, String dataFullID)
    {
       DataType data;
-      // TODO Cross-model references
 
-      /*if (dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
+      if (dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
       {
          createProcessAttachementData(model);
-      }*/
+      }
 
       String dataModelId = getModelId(dataFullID);
 
@@ -2986,7 +2985,6 @@ public class ModelBuilderFacade
       AttributeUtil.setAttribute(data, CarnotConstants.ENGINE_SCOPE
             + "data:bidirectional", //$NON-NLS-1$
             Boolean.TYPE.getName(), Boolean.TRUE.toString());
-      System.out.println("Process Attachement Created!");
 
       return data;
 
