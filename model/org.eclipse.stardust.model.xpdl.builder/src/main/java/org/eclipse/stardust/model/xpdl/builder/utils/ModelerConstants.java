@@ -119,7 +119,6 @@ public class ModelerConstants
    public static final String CONTROL_FLOWS_PROPERTY = "controlFlows";
    public static final String DATA_FLOWS_PROPERTY = "dataFlows";
    public static final String CONDITION_EXPRESSION_PROPERTY = "conditionExpression";
-   public static final String UPDATE_DATA_MAPPING_LITERAL = "updateDataMapping";
    public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
    public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
    public static final String DEFAULT_LITERAL = "default";
