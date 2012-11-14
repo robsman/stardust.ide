@@ -72,10 +72,8 @@ public class ProgressDialog extends AbstractDialog implements ActionListener
       
       if (null != okButton)
       {
-         okButton.setText(Deploy_Messages.getString("BUT_TXT_OK"));
          okButton.setEnabled(false);
       }
-      cancelButton.setText(Deploy_Messages.getString("BUT_TXT_CANCEL"));
       
       return buttonPanel;
    }

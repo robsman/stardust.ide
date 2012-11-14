@@ -13,31 +13,26 @@ package org.eclipse.stardust.modeling.deploy;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.*;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.stardust.common.Base64;
-import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.BpmCoreLibrariesClasspathContainer;
 import org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider;
 import org.eclipse.ui.PlatformUI;
 
+import org.eclipse.stardust.common.Base64;
+import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
+
 public class DeployUtil
 {
-   private static final String DUSER_REGION_ARG = " -Duser.region=";
-   private static final String DUSER_LANGUAGE_ARG = " -Duser.language=";
-
    public static boolean deployModel(List<IResource> resources, String carnotHome, String carnotWork)
    {
       boolean deployed = false;
@@ -47,6 +42,7 @@ public class DeployUtil
          try
          {
             IProject project = getCommonProject(resources);
+
             ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
             ILaunchConfigurationType type = manager
                   .getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
@@ -55,7 +51,7 @@ public class DeployUtil
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, project
                   .getName());
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH_PROVIDER,
-                  ModelingCoreActivator.ID_DEPLOY_MODEL_CP_PROVIDER);
+                  ModelingCoreActivator.ID_CARNOT_TOOL_CP_PROVIDER);
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
                   ModelDeploymentTool.class.getName());
             // Activate if debugging deployment is needed.
@@ -64,9 +60,9 @@ public class DeployUtil
             // String debug =
             // " -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000";
             wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_VM_ARGUMENTS,
-                  "-Xms50m -Xmx256m" + getLocaleArgs()); //$NON-NLS-1$
+                  "-Xms50m -Xmx256m"); //$NON-NLS-1$
             // "-Xms50m -Xmx256m" + debug);
-                
+                        
             boolean version = PlatformUI.getPreferenceStore().getBoolean(BpmProjectNature.PREFERENCE_DEPLOY_version);
             
             String realm = PlatformUI.getPreferenceStore().getString(BpmProjectNature.PREFERENCE_DEPLOY_realm);            
@@ -147,31 +143,6 @@ public class DeployUtil
       return deployed;
    }
 
-   private static String getLocaleArgs()
-   {
-      String nl = Platform.getNL();
-      StringBuilder localeJVMArg = new StringBuilder();
-      StringTokenizer tokenizer = new StringTokenizer(nl, "_"); //$NON-NLS-1$
-      int token = tokenizer.countTokens();
-      String language = Locale.getDefault().getLanguage();
-      String country = Locale.getDefault().getCountry();
-      if (token > 0)
-      {
-         language = tokenizer.nextToken();
-         country = tokenizer.hasMoreTokens() ? tokenizer.nextToken() : null;
-      }
-
-      localeJVMArg.append(DUSER_LANGUAGE_ARG);
-      localeJVMArg.append(language);
-      if (StringUtils.isNotEmpty(country))
-      {
-         localeJVMArg.append(DUSER_REGION_ARG);
-         localeJVMArg.append(country);
-      }
-
-      return localeJVMArg.toString();
-   }
-
    private static void addArgument(StringBuilder programAttributes, String name,
          String value, boolean encode, boolean separator)
    {
@@ -213,6 +184,4 @@ public class DeployUtil
       }
       return project;
    }
-   
-   
 }

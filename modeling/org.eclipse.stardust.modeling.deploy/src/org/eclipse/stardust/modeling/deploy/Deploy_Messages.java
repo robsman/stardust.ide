@@ -17,14 +17,18 @@ public class Deploy_Messages
 {
    private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.deploy.deploy-messages"; //$NON-NLS-1$
 
+   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+         .getBundle(BUNDLE_NAME);
+
    private Deploy_Messages()
    {}
 
    public static String getString(String key)
    {
+      // TODO Auto-generated method stub
       try
       {
-         return ResourceBundle.getBundle(BUNDLE_NAME).getString(key);
+         return RESOURCE_BUNDLE.getString(key);
       }
       catch (MissingResourceException e)
       {
