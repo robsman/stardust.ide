@@ -68,6 +68,10 @@
       <classpathProvider
             class="org.eclipse.stardust.modeling.common.projectnature.classpath.CarnotToolClasspathProvider"
             id="org.eclipse.stardust.modeling.common.projectnature.carnotToolClasspathProvider"/>
+      <classpathProvider
+            class="org.eclipse.stardust.modeling.common.projectnature.classpath.DeployModelNLClasspathProvider"
+            id="org.eclipse.stardust.modeling.common.projectnature.deployModelClasspathProvider">
+      </classpathProvider>
    </extension>
 
 </plugin>
