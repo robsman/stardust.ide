@@ -13,7 +13,6 @@ package org.eclipse.stardust.model.xpdl.carnot;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 /**
@@ -61,7 +60,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *        extendedMetaData="name='nodeSymbolContainer_._type' kind='empty'"
  * @generated
  */
-public interface ISymbolContainer extends EObject
+public interface ISymbolContainer extends IExtensibleElement
 {
    /**
     * <!-- begin-user-doc -->

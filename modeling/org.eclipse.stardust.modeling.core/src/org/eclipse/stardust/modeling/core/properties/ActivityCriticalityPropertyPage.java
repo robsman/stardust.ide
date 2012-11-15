@@ -22,6 +22,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
 import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor;
@@ -128,7 +129,8 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
 
       project = ModelUtils.getProjectFromEObject(getModelElement());
 
-      criticalityFormula = FormBuilder.createLabel(composite, "Formula", 2); //$NON-NLS-1$
+      criticalityFormula = FormBuilder.createLabel(composite,
+            Diagram_Messages.LBL_Formula, 2);
 
       EditorUtils.deleteFileStructure(project, model);
       try

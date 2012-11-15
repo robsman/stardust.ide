@@ -31,8 +31,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -45,7 +43,6 @@ import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
@@ -144,12 +141,8 @@ public class WorkflowModelManager
    static public CarnotWorkflowModelFactory getFactory()
    {
       if (cwmFactory == null)
-      {
-         // Access the factory (needed to create instances)
-         Registry registry = EPackage.Registry.INSTANCE;
-         String cwmURI = CarnotWorkflowModelPackage.eNS_URI;
-         CarnotWorkflowModelPackage cwmPackage = (CarnotWorkflowModelPackage) registry.get(cwmURI);
-         cwmFactory = cwmPackage.getCarnotWorkflowModelFactory();
+      {         
+         cwmFactory = CarnotWorkflowModelFactory.eINSTANCE;         
       }
       return cwmFactory;
    }

@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
-import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
@@ -45,13 +44,17 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       saveModel = model;
    }
-   
+
    @Override
    public void resolve(ModelType model)
    {
       if (model != null && model.getId() != null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
+         manager = (WebModelerConnectionManager) model.getConnectionManager();
+         if (manager == null)
+         {
+            manager = new WebModelerConnectionManager(model, strategy);
+         }
          manager.resolve();
       }
       super.resolve(model);
@@ -61,18 +64,14 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       if (manager == null)
       {
-         manager = XpdlModelIoUtils.getJcrConnectionManager(saveModel, strategy);
-         if(saveModel.getConnectionManager() == null)
+         manager = (WebModelerConnectionManager) saveModel.getConnectionManager();
+         if(manager == null)
          {
-            saveModel.setConnectionManager(manager);
+            manager = new WebModelerConnectionManager(model, strategy);            
          }
       }
-      else
-      {
-         manager.setModel(saveModel);
-      }
       manager.save();
-      
+
       super.save(uri);
    }
 
@@ -80,13 +79,13 @@ public class WebModelerModelManager extends WorkflowModelManager
    {
       return manager;
    }
-   
+
    public static ModelType loadModel(File modelXml) throws IOException
    {
       // optionally override default TraxFactory to get rid of a Xalan related bug of loosing namespace alias declarations
       final String ippTraxFactory = Parameters.instance().getString(
             XmlProperties.XSLT_TRANSFORMER_FACTORY);
-      
+
       final String traxFactoryOverride = System.getProperty(TransformerFactory.class.getName());
       try
       {
@@ -96,9 +95,9 @@ public class WebModelerModelManager extends WorkflowModelManager
          }
 
          WorkflowModelManager modelMgr = new WorkflowModelManager();
-   
+
          modelMgr.load(modelXml);
-         
+
          return modelMgr.getModel();
       }
       finally

@@ -2149,4 +2149,6 @@ public class Diagram_Messages extends NLS {
    public static String WebServicePropertyPage_Generate_Classes;
 
    public static String WebServicePropertyPage_Retrieving_WSDL;
+
+   public static String LBL_Formula;
 }

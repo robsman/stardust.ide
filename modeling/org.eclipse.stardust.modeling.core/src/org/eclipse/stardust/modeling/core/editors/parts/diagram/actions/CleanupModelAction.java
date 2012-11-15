@@ -20,15 +20,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.UnusedModelElementsSearcher;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.search.CleanupModelSearchQuery;
 import org.eclipse.stardust.modeling.core.search.CleanupModelSearchResult;
-import org.eclipse.stardust.modeling.core.search.UnusedModelElementsSearcher;
 import org.eclipse.ui.IWorkbenchPart;
-
 
 public class CleanupModelAction extends SelectionAction
 {

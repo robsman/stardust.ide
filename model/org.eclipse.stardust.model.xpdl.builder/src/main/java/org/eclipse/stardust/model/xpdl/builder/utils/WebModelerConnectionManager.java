@@ -24,8 +24,6 @@ import javax.xml.namespace.QName;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -50,7 +48,6 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.repository.common.Attribute;
@@ -68,8 +65,8 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescri
 
 public class WebModelerConnectionManager implements IConnectionManager
 {
-   private static ModelManagementStrategy strategy;
-   
+   private ModelManagementStrategy strategy;
+
    private static final IFilter BY_REF_FILTER = new IFilter()
    {
       public boolean accept(Object object)
@@ -156,7 +153,7 @@ public class WebModelerConnectionManager implements IConnectionManager
          return true;
       }
    };
-   
+
    private Repository repository;
 
    private Map<Connection, ConnectionHandler> handlers = CollectionUtils.newMap();
@@ -169,7 +166,7 @@ public class WebModelerConnectionManager implements IConnectionManager
    public void setModel(ModelType model)
    {
       this.model = model;
-      model.setConnectionManager(this);      
+      model.setConnectionManager(this);
    }
 
    public WebModelerConnectionManager(ModelType model, ModelManagementStrategy strategy)
@@ -287,7 +284,7 @@ public class WebModelerConnectionManager implements IConnectionManager
             i.remove();
          }
       }
-      
+
       List<Connection> connections = repository.getConnection();
       for (int i = 0; i < connections.size(); i++)
       {
@@ -309,13 +306,13 @@ public class WebModelerConnectionManager implements IConnectionManager
    public void setAllConnections(List<Connection> connections)
    {
       repository.getConnection().addAll(connections);
-   }      
-   
+   }
+
    public List<Connection> getAllConnections()
    {
       return repository.getConnection();
-   }   
-   
+   }
+
    public Iterator<Connection> getConnections()
    {
       return repository.getConnection().iterator();
@@ -334,13 +331,13 @@ public class WebModelerConnectionManager implements IConnectionManager
                if (attribute.getValue().equals("project:/" + filename) || attribute.getValue().equals(filename))
                {
                   return connection;
-               }               
+               }
             }
          }
       }
       return null;
-   }   
-   
+   }
+
    public Connection getConnection(String id)
    {
       for (Connection connection : repository.getConnection())
@@ -429,8 +426,8 @@ public class WebModelerConnectionManager implements IConnectionManager
       }
    }
 
-   
-   
+
+
    private ConnectionHandler createHandler(String type) throws CoreException
    {
       return new WebModelerConnectionHandler(strategy);
@@ -506,10 +503,10 @@ public class WebModelerConnectionManager implements IConnectionManager
          }
       };
       ClassLoader classLoader = desc.getClass().getClassLoader();
-      Class<?>[] interfaces = getInterfaces(desc);                
+      Class<?>[] interfaces = getInterfaces(desc);
       return (IObjectDescriptor) Proxy.newProxyInstance(classLoader, interfaces, handler);
    }
-   
+
 
    private Class< ? >[] getInterfaces(IObjectDescriptor desc)
    {
@@ -533,7 +530,7 @@ public class WebModelerConnectionManager implements IConnectionManager
    /**
     * TODO describe
     * @param filters
-    * @param byReference 
+    * @param byReference
     * @return
     */
    private IFilter[] getFilters(IFilter[] filters, boolean byReference)
@@ -645,7 +642,7 @@ public class WebModelerConnectionManager implements IConnectionManager
    {
       ArrayList<Connection> connections = new ArrayList<Connection>();
       UsageDisplayDialog.setUsage(null);
-      
+
       ChangeRecorder recorder = new ChangeRecorder(model);
 
       String id;
@@ -673,7 +670,7 @@ public class WebModelerConnectionManager implements IConnectionManager
                   new Object[] {id});
             throw new CoreException(new Status(IStatus.ERROR,
                   ObjectRepositoryActivator.PLUGIN_ID, 0, message, null));
-         }         
+         }
          connections.add(connection);
          ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
          if (handler != null)
@@ -750,7 +747,7 @@ public class WebModelerConnectionManager implements IConnectionManager
             if (object instanceof EObjectImpl)
             {
                URI uri = ((EObjectImpl) object).eProxyURI();
-               
+
                // decode uri from the format produced by xpdl transformation
                if (uri.opaquePart() != null)
                {
@@ -773,7 +770,7 @@ public class WebModelerConnectionManager implements IConnectionManager
                      // not a special reference
                   }
                }
-               
+
                resolve(object, uri);
             }
          }
@@ -835,8 +832,8 @@ public class WebModelerConnectionManager implements IConnectionManager
    public void setConnectionManager(Connection connection)
    {
       connection.setProperty(CONNECTION_MANAGER, this);
-   }   
-   
+   }
+
    public static ConnectionManager getConnectionManager(Connection connection)
    {
       return (ConnectionManager) connection.getProperty(CONNECTION_MANAGER);
@@ -851,7 +848,7 @@ public class WebModelerConnectionManager implements IConnectionManager
          {
             String uri = ExtendedAttributeUtil.getAttributeValue(pkg,
                   IConnectionManager.URI_ATTRIBUTE_NAME);
-            EObject eObject = find(uri);            
+            EObject eObject = find(uri);
             if (eObject instanceof IObjectReference)
             {
                eObject = ((IObjectReference) eObject).getEObject();
@@ -869,14 +866,14 @@ public class WebModelerConnectionManager implements IConnectionManager
    {
       return model;
    }
-   
+
    public static String createFileConnection(ModelType model, ModelType referencedModel)
    {
       String id = null;
-      
-      WebModelerConnectionManager jcrConnectionManager = XpdlModelIoUtils.getJcrConnectionManager(model, strategy);
+
+      WebModelerConnectionManager jcrConnectionManager = (WebModelerConnectionManager) model.getConnectionManager();
       IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(referencedModel.getId() + ".xpdl");
-      
+
       if(findConnection == null)
       {
          try
@@ -884,11 +881,11 @@ public class WebModelerConnectionManager implements IConnectionManager
             Connection connection = jcrConnectionManager.create("file");
             id = connection.getId();
             RepositoryFactory factory = RepositoryFactory.eINSTANCE;
-            
+
             Attribute attribute = factory.createAttribute();
             attribute.setName("filename");
-            attribute.setValue("project:/" + referencedModel.getId() + ".xpdl"); //$NON-NLS-1$               
-            connection.getAttributes().add(attribute);               
+            attribute.setValue("project:/" + referencedModel.getId() + ".xpdl"); //$NON-NLS-1$
+            connection.getAttributes().add(attribute);
          }
          catch (CoreException e)
          {
@@ -898,7 +895,7 @@ public class WebModelerConnectionManager implements IConnectionManager
       {
          id = findConnection.getId();
       }
-      
+
       return id;
    }
 }

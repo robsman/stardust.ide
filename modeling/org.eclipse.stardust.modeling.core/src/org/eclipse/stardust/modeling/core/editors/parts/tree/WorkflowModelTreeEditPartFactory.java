@@ -12,6 +12,7 @@ package org.eclipse.stardust.modeling.core.editors.parts.tree;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
@@ -70,6 +71,14 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                {
                   @SuppressWarnings("unchecked")
                   List<Object> children = super.getModelChildren();
+                  Map<String, IModelParticipant> participantsById = CollectionUtils.newMap();
+                  for (Object c : children)
+                  {
+                     if (c instanceof IModelParticipant)
+                     {
+                        participantsById.put(((IModelParticipant) c).getId(), (IModelParticipant) c);
+                     }
+                  }
                   List<Object> toRemove = CollectionUtils.newList();
                   // filter out elements that do have parents
                   for (int i = 0; i < children.size(); i++)
@@ -82,7 +91,15 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                         for (int j = 0; j < participants.size(); j++)
                         {
                            ParticipantType ref = (ParticipantType) participants.get(j);
-                           toRemove.add(ref.getParticipant());
+                           IModelParticipant participant = ref.getParticipant();
+                           if (participant != null)
+                           {
+                              IModelParticipant actual = participantsById.get(participant.getId());
+                              if (actual != null)
+                              {
+                                 toRemove.add(actual);
+                              }
+                           }
                         }
                      }
                      // as of 4.0 strategy, modelers have no longer any role
@@ -233,6 +250,17 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
             @SuppressWarnings("rawtypes")
             protected List getModelChildren()
             {
+               ModelType model = editor.getWorkflowModel();
+               Map<String, IModelParticipant> participantsById = CollectionUtils.newMap();
+               for (OrganizationType org : model.getOrganization())
+               {
+                  participantsById.put(org.getId(), org);
+               }
+               for (RoleType role : model.getRole())
+               {
+                  participantsById.put(role.getId(), role);
+               }
+
                OrganizationType organization = (OrganizationType) getModel();
                List<ParticipantType> participants = organization.getParticipant();
                List<IModelParticipant> list = CollectionUtils.newList();
@@ -241,7 +269,12 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                   ParticipantType ref = participants.get(i);
                   if (null != ref.getParticipant())
                   {
-                     list.add(ref.getParticipant());
+                     IModelParticipant participant = ref.getParticipant();
+                     IModelParticipant actual = participantsById.get(participant.getId());
+                     if (actual != null)
+                     {
+                        list.add(actual);
+                     }
                   }
                }
                Collections.sort(list, ModelUtils.IDENTIFIABLE_COMPARATOR);

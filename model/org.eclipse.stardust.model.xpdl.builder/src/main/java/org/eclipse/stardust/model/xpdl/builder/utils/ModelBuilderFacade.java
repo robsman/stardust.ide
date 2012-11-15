@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
@@ -28,20 +29,25 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructu
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
@@ -85,6 +91,7 @@ import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
@@ -164,8 +171,7 @@ public class ModelBuilderFacade
    public void addOrganizationParticipant(OrganizationType organization,
          IModelParticipant participant)
    {
-      ParticipantType participantType = AbstractElementBuilder.F_CWM
-            .createParticipantType();
+      ParticipantType participantType = AbstractElementBuilder.F_CWM.createParticipantType();
       participantType.setParticipant(participant);
       organization.getParticipant().add(participantType);
    }
@@ -202,17 +208,19 @@ public class ModelBuilderFacade
    /**
     * Created a type declaration.
     *
-    * @param model      model to create the type declaration in
-    * @param typeID     id of the type
-    * @param typeName   name of the type
+    * @param model
+    *           model to create the type declaration in
+    * @param typeID
+    *           id of the type
+    * @param typeName
+    *           name of the type
     *
     * @return type declaration created
     */
    public TypeDeclarationType createTypeDeclaration(ModelType model, String typeID,
          String typeName)
    {
-      TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE
-            .createTypeDeclarationType();
+      TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE.createTypeDeclarationType();
 
       structuredDataType.setId(typeID);
       structuredDataType.setName(typeName);
@@ -235,8 +243,7 @@ public class ModelBuilderFacade
             + structuredDataType.getId());
       schema.setSchema(xsdSchema);
 
-      XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE
-            .createXSDComplexTypeDefinition();
+      XSDComplexTypeDefinition xsdComplexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
       xsdComplexTypeDefinition.setName(structuredDataType.getId());
       XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
       XSDModelGroup modelGroup = XSDFactory.eINSTANCE.createXSDModelGroup();
@@ -245,13 +252,16 @@ public class ModelBuilderFacade
       xsdComplexTypeDefinition.setContent(particle);
       xsdSchema.getContents().add(xsdComplexTypeDefinition);
 
-      XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE
-            .createXSDElementDeclaration();
+      XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE.createXSDElementDeclaration();
       xsdElementDeclaration.setName(structuredDataType.getId());
       xsdElementDeclaration.setTypeDefinition(xsdComplexTypeDefinition);
       xsdSchema.getContents().add(xsdElementDeclaration);
 
+      // propagate ns-prefix mappings to DOM
+      schema.getSchema().updateElement(true);
+
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
+
       return structuredDataType;
    }
 
@@ -275,17 +285,14 @@ public class ModelBuilderFacade
       parametersType.addFormalParameter(parameterType);
       processInterface.setFormalParameters(parametersType);
 
-      FormalParameterMappingsType parameterMappingsType = processInterface
-            .getFormalParameterMappings();
+      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
       if (parameterMappingsType == null)
       {
-         parameterMappingsType = ExtensionsFactory.eINSTANCE
-               .createFormalParameterMappingsType();
+         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
       }
 
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE
-            .createDataTypeType();
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
       basicType.setType(getPrimitiveType(primitiveTypeID));
       dataTypeType.setBasicType(basicType);
@@ -297,7 +304,6 @@ public class ModelBuilderFacade
       {
          parameterMappingsType.setMappedData(parameterType, data);
       }
-
 
       processInterface.setFormalParameterMappings(parameterMappingsType);
       return parameterType;
@@ -314,8 +320,9 @@ public class ModelBuilderFacade
       }
    }
 
-   public FormalParameterType createStructuredParameter(ProcessDefinitionType processInterface,
-         DataType data, String id, String name, String structTypeFullID, ModeType mode)
+   public FormalParameterType createStructuredParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
@@ -324,16 +331,15 @@ public class ModelBuilderFacade
       parameterType.setName(name);
       parameterType.setMode(mode);
 
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
-            .createDataTypeType();
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
 
       DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      //declaredType.setId(AttributeUtil.getAttributeValue(data,
-      //      StructuredDataConstants.TYPE_DECLARATION_ATT));
+      // declaredType.setId(AttributeUtil.getAttributeValue(data,
+      // StructuredDataConstants.TYPE_DECLARATION_ATT));
 
       declaredType.setId(stripFullId(structTypeFullID));
 
@@ -348,13 +354,11 @@ public class ModelBuilderFacade
       parametersType.addFormalParameter(parameterType);
       processInterface.setFormalParameters(parametersType);
 
-      FormalParameterMappingsType parameterMappingsType = processInterface
-            .getFormalParameterMappings();
+      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
       if (parameterMappingsType == null)
       {
-         parameterMappingsType = ExtensionsFactory.eINSTANCE
-               .createFormalParameterMappingsType();
+         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
       }
 
       if (data != null)
@@ -367,8 +371,9 @@ public class ModelBuilderFacade
       return parameterType;
    }
 
-   public FormalParameterType createDocumentParameter(ProcessDefinitionType processInterface,
-         DataType data, String id, String name, String structTypeFullID, ModeType mode)
+   public FormalParameterType createDocumentParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
@@ -377,16 +382,15 @@ public class ModelBuilderFacade
       parameterType.setName(name);
       parameterType.setMode(mode);
 
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory
-            .createDataTypeType();
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
 
       DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      //declaredType.setId(AttributeUtil.getAttributeValue(data,
-      //      StructuredDataConstants.TYPE_DECLARATION_ATT));
+      // declaredType.setId(AttributeUtil.getAttributeValue(data,
+      // StructuredDataConstants.TYPE_DECLARATION_ATT));
 
       declaredType.setId(stripFullId(structTypeFullID));
 
@@ -401,13 +405,11 @@ public class ModelBuilderFacade
       parametersType.addFormalParameter(parameterType);
       processInterface.setFormalParameters(parametersType);
 
-      FormalParameterMappingsType parameterMappingsType = processInterface
-            .getFormalParameterMappings();
+      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
       if (parameterMappingsType == null)
       {
-         parameterMappingsType = ExtensionsFactory.eINSTANCE
-               .createFormalParameterMappingsType();
+         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
       }
 
       if (data != null)
@@ -420,24 +422,29 @@ public class ModelBuilderFacade
       return parameterType;
    }
 
-   public AccessPointType createPrimitiveAccessPoint(IAccessPointOwner application, String id,
-         String name, String primaryDataTypeID, String direction)
+   public AccessPointType createPrimitiveAccessPoint(IAccessPointOwner application,
+         String id, String name, String primaryDataTypeID, String direction)
    {
-      return newPrimitiveAccessPoint(application).withIdAndName(id, name).withType(primaryDataTypeID).withDirection(direction).build();
+      return newPrimitiveAccessPoint(application).withIdAndName(id, name)
+            .withType(primaryDataTypeID)
+            .withDirection(direction)
+            .build();
    }
 
-   public AccessPointType createStructuredAccessPoint(IAccessPointOwner application, String id,
-         String name, String structTypeFullID, String direction)
+   public AccessPointType createStructuredAccessPoint(IAccessPointOwner application,
+         String id, String name, String structTypeFullID, String direction)
    {
-      return newStructuredAccessPoint(application).withIdAndName(id, name).withType(structTypeFullID).withDirection(direction).build();
+      return newStructuredAccessPoint(application).withIdAndName(id, name)
+            .withType(structTypeFullID)
+            .withDirection(direction)
+            .build();
    }
 
    public void setProcessImplementation(ProcessDefinitionType processInterface,
          ProcessDefinitionType processImplementation)
    {
       ModelType interfaceModel = ModelUtils.findContainingModel(processInterface);
-      ModelType implementationModel = ModelUtils
-            .findContainingModel(processImplementation);
+      ModelType implementationModel = ModelUtils.findContainingModel(processImplementation);
       ExternalPackage packageRef = implementationModel.getExternalPackages()
             .getExternalPackage(interfaceModel.getId());
 
@@ -446,14 +453,11 @@ public class ModelBuilderFacade
       idRef.setPackageRef(packageRef);
       processImplementation.setExternalRef(idRef);
 
-      FormalParameterMappingsType parameterMappings = ExtensionsFactory.eINSTANCE
-            .createFormalParameterMappingsType();
-      FormalParametersType referencedParametersType = processInterface
-            .getFormalParameters();
-      FormalParametersType formalParameters = XpdlFactory.eINSTANCE
-            .createFormalParametersType();
-      for (Iterator<FormalParameterType> i = referencedParametersType
-            .getFormalParameter().iterator(); i.hasNext();)
+      FormalParameterMappingsType parameterMappings = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
+      FormalParametersType referencedParametersType = processInterface.getFormalParameters();
+      FormalParametersType formalParameters = XpdlFactory.eINSTANCE.createFormalParametersType();
+      for (Iterator<FormalParameterType> i = referencedParametersType.getFormalParameter()
+            .iterator(); i.hasNext();)
       {
          FormalParameterType referencedParameterType = i.next();
          FormalParameterType parameterType = ModelUtils.cloneFormalParameterType(
@@ -477,10 +481,14 @@ public class ModelBuilderFacade
    /**
     * Created a data of type <b>Document</b>.
     *
-    * @param model              model to create the document data in
-    * @param dataID             id of the data
-    * @param dataName           name of the data
-    * @param typeDeclarationID  id of the type declaration assigned to the document
+    * @param model
+    *           model to create the document data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    * @param typeDeclarationID
+    *           id of the type declaration assigned to the document
     *
     * @return document data created
     */
@@ -492,15 +500,14 @@ public class ModelBuilderFacade
       String sourceModelID = null;
 
       BpmDocumentVariableBuilder documentVariable = newDocumentVariable(model);
-      if (!StringUtils.isEmpty(typeDeclarationID))
+      if ( !StringUtils.isEmpty(typeDeclarationID))
       {
          sourceModelID = getModelId(typeDeclarationID);
-         if(sourceModelID != null)
+         if (sourceModelID != null)
          {
             typeDeclarationModel = getModelManagementStrategy().getModels().get(
-               sourceModelID);
+                  sourceModelID);
          }
-
 
          typeDeclarationID = stripFullId(typeDeclarationID);
          documentVariable.setTypeDeclarationModel(typeDeclarationModel);
@@ -515,12 +522,18 @@ public class ModelBuilderFacade
    /**
     * Created a data of type <b>Structured Type</b>.
     *
-    * <p>The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.</p>
+    * <p>
+    * The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.
+    * </p>
     *
-    * @param model       model to create the document data in
-    * @param dataID      id of the data
-    * @param dataName    name of the data
-    * @param typeFullID  full qualified id of the type declaration assigned to the document
+    * @param model
+    *           model to create the document data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    * @param typeFullID
+    *           full qualified id of the type declaration assigned to the document
     *
     * @return structured data created
     */
@@ -536,11 +549,11 @@ public class ModelBuilderFacade
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
       data = structVariable.withIdAndName(dataID, dataName)
-            .ofType(this.stripFullId(typeFullID)).build();
+            .ofType(this.stripFullId(typeFullID))
+            .build();
 
       return data;
    }
-
 
    public void convertDataType(DataType data, String targetTypeID)
    {
@@ -555,12 +568,13 @@ public class ModelBuilderFacade
 
    }
 
-
    /**
     * Update the type of a primitive data.
     *
-    * @param data               the primitive data to update
-    * @param primitiveTypeID    the id of the primitive type to assign
+    * @param data
+    *           the primitive data to update
+    * @param primitiveTypeID
+    *           the id of the primitive type to assign
     *
     * @return
     */
@@ -573,10 +587,14 @@ public class ModelBuilderFacade
    /**
     * Update the type declaration a structured data refers to.
     *
-    * <p>The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.</p>
+    * <p>
+    * The <i>typeFullID</i> id is provided as <b>ModelID:TypedeclarationID</b>.
+    * </p>
     *
-    * @param data        the structured data to update
-    * @param typeFullID  full qualified id of the type declaration to assign to the data
+    * @param data
+    *           the structured data to update
+    * @param typeFullID
+    *           full qualified id of the type declaration to assign to the data
     *
     * @return
     */
@@ -586,31 +604,41 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
-      if (typeDeclarationModel != null) {
+      if (typeDeclarationModel != null)
+      {
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
-         if(sourceModelID.equals(model.getId()))
+         if (sourceModelID.equals(model.getId()))
          {
-            AttributeUtil.setAttribute(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
-                  declarationID);
-         } else {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
+            AttributeUtil.setAttribute(data,
+                  StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);
+         }
+         else
+         {
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+                  model, typeDeclarationModel);
 
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
-                  typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
-                  bundleId, null);
+            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
+                  MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
+                  typeDeclaration.getId(), typeDeclaration.getName(),
+                  typeDeclaration.getDescription(), bundleId, null);
 
-            AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+            AttributeUtil.setAttribute(
+                  data,
+                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+            AttributeUtil.setBooleanAttribute(data,
+                  "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
+                  descriptor.getURI().toString());
             ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
             if (typeDeclarationModel != null)
             {
-               reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
+               reference.setLocation(ImportUtils.getPackageRef(descriptor, model,
+                     typeDeclarationModel).getId());
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
@@ -624,31 +652,41 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
-      if (typeDeclarationModel != null) {
+      if (typeDeclarationModel != null)
+      {
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
-         if(sourceModelID.equals(model.getId()))
+         if (sourceModelID.equals(model.getId()))
          {
             AttributeUtil.setAttribute(data, "carnot:engine:dms:resourceMetadataSchema",
                   declarationID);
-         } else {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
+         }
+         else
+         {
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+                  model, typeDeclarationModel);
 
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
-                  typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
-                  bundleId, null);
+            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
+                  MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
+                  typeDeclaration.getId(), typeDeclaration.getName(),
+                  typeDeclaration.getDescription(), bundleId, null);
 
-            AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+            AttributeUtil.setAttribute(
+                  data,
+                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+            AttributeUtil.setBooleanAttribute(data,
+                  "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
+                  descriptor.getURI().toString());
             ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
             if (typeDeclarationModel != null)
             {
-               reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
+               reference.setLocation(ImportUtils.getPackageRef(descriptor, model,
+                     typeDeclarationModel).getId());
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
@@ -659,19 +697,27 @@ public class ModelBuilderFacade
    /**
     * Created a primitive data.
     *
-    * <p>As <b>primitiveTypeID</b> might be set:</p>
-    * <p></p>
-    * <li>ModelerConstants.STRING_PRIMITIVE_DATA_TYPE</li>
-    * <li>ModelerConstants.DATE_PRIMITIVE_DATA_TYPE</li>
-    * <li>ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE</li>
-    * <li>ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE</li>
-    * <li>ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE</li>
-    * <ul></ul>
+    * <p>
+    * As <b>primitiveTypeID</b> might be set:
+    * </p>
+    * <p>
+    * </p>
+    * <li>ModelerConstants.STRING_PRIMITIVE_DATA_TYPE</li> <li>
+    * ModelerConstants.DATE_PRIMITIVE_DATA_TYPE</li> <li>
+    * ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE</li> <li>
+    * ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE</li> <li>
+    * ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE</li>
+    * <ul>
+    * </ul>
     *
-    * @param model              model to create the data in
-    * @param dataID             id of the data
-    * @param dataName           name of the data
-    * @param primitiveTypeID    id of the data
+    * @param model
+    *           model to create the data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    * @param primitiveTypeID
+    *           id of the data
     *
     * @return primitive data created
     */
@@ -703,29 +749,40 @@ public class ModelBuilderFacade
          type = Type.Money;
       }
 
-      data = newPrimitiveVariable(model).withIdAndName(dataID, dataName).ofType(type).build();
+      data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
+            .ofType(type)
+            .build();
       data.setElementOid(++maxOID);
 
       return data;
    }
 
    /**
-    * Imports a data into an existing model. The model to import the data from is qualified by a
-    * full qualified id of the data. If the data exists in a model which differs from the model
-    * to import the data in, then a file connection is established and a reference is created.
-    * If the data exists locally in the model this is not necessary.
+    * Imports a data into an existing model. The model to import the data from is
+    * qualified by a full qualified id of the data. If the data exists in a model which
+    * differs from the model to import the data in, then a file connection is established
+    * and a reference is created. If the data exists locally in the model this is not
+    * necessary.
     *
-    * <p>The <i>dataFullID</i> id provided as <b>ModelID:DataID</b>.</p>
+    * <p>
+    * The <i>dataFullID</i> id provided as <b>ModelID:DataID</b>.
+    * </p>
     *
-    * @param model          model to import a data in
-    * @param dataFullID     full qualified id of the data to be imported
+    * @param model
+    *           model to import a data in
+    * @param dataFullID
+    *           full qualified id of the data to be imported
     *
     * @return local or referenced data
     */
    public DataType importData(ModelType model, String dataFullID)
    {
       DataType data;
-      // TODO Cross-model references
+
+      if (dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
+      {
+         createProcessAttachementData(model);
+      }
 
       String dataModelId = getModelId(dataFullID);
 
@@ -733,17 +790,18 @@ public class ModelBuilderFacade
 
       data = findData(dataModel, stripFullId(dataFullID));
 
-      if (!dataModelId.equals(model.getId()))
+      if ( !dataModelId.equals(model.getId()))
       {
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
-               dataModel);
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+               model, dataModel);
 
          String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
-         ModelType loadModel = getModelManagementStrategy().loadModel(dataModelId + ".xpdl");
+         ModelType loadModel = getModelManagementStrategy().loadModel(
+               dataModelId + ".xpdl");
          DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
-         if(dataCopy == null)
+         if (dataCopy == null)
          {
             ElementCopier copier = new ElementCopier(loadModel, null);
             dataCopy = (DataType) copier.copy(data);
@@ -761,36 +819,55 @@ public class ModelBuilderFacade
    /**
     * Creates lane in a diagram
     *
-    * <p>The <i>participantFullID</i> id is provided as <b>ModelID:ParticipantID</b>.</p>
+    * <p>
+    * The <i>participantFullID</i> id is provided as <b>ModelID:ParticipantID</b>.
+    * </p>
     *
-    * <p>As <b>orientation</b> might be set:</p>
-    * <p></p>
-    * <li>ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL</li>
-    * <li>ModelerConstants.DIAGRAM_FLOW_ORIENTATION_VERTICAL</li>
-    * <ul></ul>
+    * <p>
+    * As <b>orientation</b> might be set:
+    * </p>
+    * <p>
+    * </p>
+    * <li>ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL</li> <li>
+    * ModelerConstants.DIAGRAM_FLOW_ORIENTATION_VERTICAL</li>
+    * <ul>
+    * </ul>
     *
-    * @param model model to create the lane in
-    * @param processDefinition process definition to create the lane in
-    * @param participantFullID  full qualified id of the participant assigned to the lane
-    * @param laneID id of the lane
-    * @param laneName name of the lane
-    * @param orientationID orientation of the lane
-    * @param xProperty x position
-    * @param yProperty y position
-    * @param widthProperty width
-    * @param heightProperty height
+    * @param model
+    *           model to create the lane in
+    * @param processDefinition
+    *           process definition to create the lane in
+    * @param participantFullID
+    *           full qualified id of the participant assigned to the lane
+    * @param laneID
+    *           id of the lane
+    * @param laneName
+    *           name of the lane
+    * @param orientationID
+    *           orientation of the lane
+    * @param xProperty
+    *           x position
+    * @param yProperty
+    *           y position
+    * @param widthProperty
+    *           width
+    * @param heightProperty
+    *           height
     * @return lane created
     */
-   public LaneSymbol createLane(ModelType model,
-         ProcessDefinitionType processDefinition, String participantFullID, String laneID,
-         String laneName, String orientationID, int xProperty, int yProperty, int widthProperty,
-         int heightProperty)
+   public LaneSymbol createLane(ModelType model, ProcessDefinitionType processDefinition,
+         String participantFullID, String laneID, String laneName, String orientationID,
+         int xProperty, int yProperty, int widthProperty, int heightProperty)
    {
       long maxOid = XpdlModelUtils.getMaxUsedOid(model);
 
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
 
-      processDefinition.getDiagram().get(0).getPoolSymbols().get(0).getChildLanes()
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getChildLanes()
             .add(laneSymbol);
 
       laneSymbol.setElementOid(++maxOid);
@@ -820,7 +897,7 @@ public class ModelBuilderFacade
             participantModelID = model.getId();
          }
          ModelType participantModel = model;
-         if (!participantModelID.equals(model.getId()))
+         if ( !participantModelID.equals(model.getId()))
          {
             participantModel = getModelManagementStrategy().getModels().get(
                   participantModelID);
@@ -830,17 +907,19 @@ public class ModelBuilderFacade
                getModelManagementStrategy().getModels().get(participantModelID),
                stripFullId(participantFullID));
 
-         if (!participantModelID.equals(model.getId()))
+         if ( !participantModelID.equals(model.getId()))
          {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
-                  participantModel);
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+                  model, participantModel);
 
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
-            ModelType loadModel = getModelManagementStrategy().loadModel(participantModelID + ".xpdl");
-            IModelParticipant participantCopy = findParticipant(loadModel, stripFullId(participantFullID));
-            if(participantCopy == null)
+            ModelType loadModel = getModelManagementStrategy().loadModel(
+                  participantModelID + ".xpdl");
+            IModelParticipant participantCopy = findParticipant(loadModel,
+                  stripFullId(participantFullID));
+            if (participantCopy == null)
             {
                ElementCopier copier = new ElementCopier(loadModel, null);
                participantCopy = (IModelParticipant) copier.copy(modelParticipant);
@@ -861,25 +940,31 @@ public class ModelBuilderFacade
    /**
     * Create an activity diagram symbol
     *
-    * @param model model to create the symbol in
-    * @param activity activity for which the symbol is created
-    * @param processDefinition process definition to create the symbol in
-    * @param parentLaneID id of the lane to create the symbol in
-    * @param xProperty x position
-    * @param yProperty y position
-    * @param widthProperty width
-    * @param heightProperty height
+    * @param model
+    *           model to create the symbol in
+    * @param activity
+    *           activity for which the symbol is created
+    * @param processDefinition
+    *           process definition to create the symbol in
+    * @param parentLaneID
+    *           id of the lane to create the symbol in
+    * @param xProperty
+    *           x position
+    * @param yProperty
+    *           y position
+    * @param widthProperty
+    *           width
+    * @param heightProperty
+    *           height
     * @return activity symbol
     */
-   public ActivitySymbolType createActivitySymbol(ModelType model,
-         ActivityType activity, ProcessDefinitionType processDefinition, String parentLaneID,
-         int xProperty, int yProperty, int widthProperty,
-         int heightProperty)
+   public ActivitySymbolType createActivitySymbol(ModelType model, ActivityType activity,
+         ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
+         int yProperty, int widthProperty, int heightProperty)
    {
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
 
-      ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM
-            .createActivitySymbolType();
+      ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM.createActivitySymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
       activitySymbol.setElementOid(++maxOID);
@@ -896,6 +981,7 @@ public class ModelBuilderFacade
    }
 
    /**
+    * Create Annotation Symbol
     *
     * @param model
     * @param processDefinition
@@ -904,17 +990,16 @@ public class ModelBuilderFacade
     * @param yProperty
     * @param widthProperty
     * @param heightProperty
+    * @param content
     * @return
     */
    public AnnotationSymbolType createAnnotationSymbol(ModelType model,
-         ProcessDefinitionType processDefinition, String parentLaneID,
-         int xProperty, int yProperty, int widthProperty,
-         int heightProperty)
+         ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
+         int yProperty, int widthProperty, int heightProperty, String content)
    {
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
 
-      AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM
-            .createAnnotationSymbolType();
+      AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM.createAnnotationSymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
       annotationSymbol.setElementOid(++maxOID);
@@ -923,6 +1008,13 @@ public class ModelBuilderFacade
       annotationSymbol.setWidth(widthProperty);
       annotationSymbol.setHeight(heightProperty);
 
+      if (StringUtils.isNotEmpty(content))
+      {
+         TextType text = AbstractElementBuilder.F_CWM.createTextType();
+         text.getMixed().add(FeatureMapUtil.createRawTextEntry(content));
+         annotationSymbol.setText(text);
+      }
+
       processDefinition.getDiagram().get(0).getAnnotationSymbol().add(annotationSymbol);
       parentLaneSymbol.getAnnotationSymbol().add(annotationSymbol);
 
@@ -930,21 +1022,51 @@ public class ModelBuilderFacade
    }
 
    /**
+    * @param parentLaneSymbol
+    * @param annotationOId
+    * @return
+    */
+   public AnnotationSymbolType findAnnotationSymbol(LaneSymbol parentLaneSymbol,
+         Long annotationOId)
+   {
+      Iterator<AnnotationSymbolType> annotationIterator = parentLaneSymbol.getAnnotationSymbol()
+            .iterator();
+
+      while (annotationIterator.hasNext())
+      {
+         AnnotationSymbolType annSymbol = annotationIterator.next();
+         if (annotationOId.equals(annSymbol.getElementOid()))
+         {
+            return annSymbol;
+         }
+      }
+      return null;
+   }
+
+   /**
     * Create a data diagram symbol
     *
-    * @param model model to create the symbol in
-    * @param data data for which the symbol is created
-    * @param processDefinition process definition to create the symbol in
-    * @param parentLaneID id of the lane to create the symbol in
-    * @param xProperty x position
-    * @param yProperty y position
-    * @param widthProperty width
-    * @param heightProperty height
+    * @param model
+    *           model to create the symbol in
+    * @param data
+    *           data for which the symbol is created
+    * @param processDefinition
+    *           process definition to create the symbol in
+    * @param parentLaneID
+    *           id of the lane to create the symbol in
+    * @param xProperty
+    *           x position
+    * @param yProperty
+    *           y position
+    * @param widthProperty
+    *           width
+    * @param heightProperty
+    *           height
     * @return data symbol
     */
    public DataSymbolType createDataSymbol(ModelType model, DataType data,
-         ProcessDefinitionType processDefinition, String parentLaneID, int xProperty, int yProperty,
-         int widthProperty, int heightProperty)
+         ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
+         int yProperty, int widthProperty, int heightProperty)
    {
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
 
@@ -969,9 +1091,12 @@ public class ModelBuilderFacade
    /**
     * Creates a role.
     *
-    * @param model      The model to create the role in.
-    * @param roleID     id of the role
-    * @param roleName   name of the role
+    * @param model
+    *           The model to create the role in.
+    * @param roleID
+    *           id of the role
+    * @param roleName
+    *           name of the role
     * @return role created
     */
    public RoleType createRole(ModelType model, String roleID, String roleName)
@@ -998,9 +1123,12 @@ public class ModelBuilderFacade
    /**
     * Creates an organization.
     *
-    * @param model      The model to create the organization in.
-    * @param orgID      id of the organization
-    * @param orgName   name of the organization
+    * @param model
+    *           The model to create the organization in.
+    * @param orgID
+    *           id of the organization
+    * @param orgName
+    *           name of the organization
     * @return organization created
     */
    public OrganizationType createOrganization(ModelType model, String orgID,
@@ -1013,50 +1141,54 @@ public class ModelBuilderFacade
    /**
     * Creates an application.
     *
-    * <p>As <b>applicationTypeID</b> might be set:</p>
-    * <p></p>
-    * <li>ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID</li>
-    * <li>ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID</li>
-    * <li>ModelerConstants.CAMEL_APPLICATION_TYPE</li>
-    * <li>ModelerConstants.MAIL_APPLICATION_TYPE_ID</li>
-    * <li>ModelerConstants.INTERACTIVE_APPLICATION_TYPE_KEY</li>
-    * <li>ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY</li>
-    * <ul></ul>
+    * <p>
+    * As <b>applicationTypeID</b> might be set:
+    * </p>
+    * <p>
+    * </p>
+    * <li>ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID</li> <li>
+    * ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID</li> <li>
+    * ModelerConstants.CAMEL_APPLICATION_TYPE</li> <li>
+    * ModelerConstants.MAIL_APPLICATION_TYPE_ID</li> <li>
+    * ModelerConstants.INTERACTIVE_APPLICATION_TYPE_KEY</li> <li>
+    * ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY</li>
+    * <ul>
+    * </ul>
     *
-    * @param model              model to create the application in.
-    * @param applicationID      id of the application
-    * @param applicationName    name of the application
-    * @param applicationTypeID  id of the application type to be set
+    * @param model
+    *           model to create the application in.
+    * @param applicationID
+    *           id of the application
+    * @param applicationName
+    *           name of the application
+    * @param applicationTypeID
+    *           id of the application type to be set
     * @return application created
     */
    public ApplicationType createApplication(ModelType model, String applicationID,
          String applicationName, String applicationTypeID)
    {
-      if (applicationTypeID
-            .equalsIgnoreCase(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID))
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID))
       {
          return newMessageTransformationApplication(model).withIdAndName(applicationID,
                applicationName).build();
 
       }
-      if (applicationTypeID
-            .equalsIgnoreCase(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY))
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY))
       {
          return newExternalWebApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
 
-      if (applicationTypeID
-            .equalsIgnoreCase(ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID))
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID))
       {
          return newWebserviceApplication(model).withIdAndName(applicationID,
                applicationName).build();
       }
-      if (applicationTypeID
-            .equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
-         return newCamelApplication(model).withIdAndName(applicationID,
-               applicationName).build();
+         return newCamelApplication(model).withIdAndName(applicationID, applicationName)
+               .build();
       }
       return null;
    }
@@ -1064,28 +1196,46 @@ public class ModelBuilderFacade
    /**
     * Creates an activity.
     *
-    * <p>As <b>activityTypeID</b> might be set:</p>
-    * <p></p>
-    * <li>ModelerConstants.MANUAL_ACTIVITY</li>
-    * <li>ModelerConstants.APPLICATION_ACTIVITY</li>
+    * <p>
+    * As <b>activityTypeID</b> might be set:
+    * </p>
+    * <p>
+    * </p>
+    * <li>ModelerConstants.MANUAL_ACTIVITY</li> <li>ModelerConstants.APPLICATION_ACTIVITY</li>
     * <li>ModelerConstants.SUBPROCESS_ACTIVITY</li>
-    * <ul></ul>
+    * <ul>
+    * </ul>
     *
-    * <p>The <b>xxxFullID</b> are provided like that:</p>
-    * <p></p>
+    * <p>
+    * The <b>xxxFullID</b> are provided like that:
+    * </p>
+    * <p>
+    * </p>
     * <li>The <i>participantFullID</i> id provided as <b>ModelID:ParticipantID</b>.</p></li>
     * <li>The <i>applicationFullID</i> id provided as <b>ModelID:ApplicationID</b>.</p></li>
     * <li>The <i>subProcessFullID</i> id provided as <b>ModelID:ProcessID</b>.</p></li>
-    * <ul></ul>
+    * <ul>
+    * </ul>
     *
-    * @param model              model to create the activity in.
-    * @param processDefinition  process definition to create the activity in.
-    * @param activityTypeID     id of the activity type
-    * @param activityID         id of the activity
-    * @param activityName       name of the activity
-    * @param participantFullID  full qualified id of the participant to be assigned <i>(MANUAL_ACTIVITY only)</i>
-    * @param applicationFullID  full qualified id of the application to be assigned <i>(APPLICATION_ACTIVITY only)</i>
-    * @param subProcessFullID   full qualified id of the process to be assigned <i>(SUBPROCESS_ACTIVITY only)</i>
+    * @param model
+    *           model to create the activity in.
+    * @param processDefinition
+    *           process definition to create the activity in.
+    * @param activityTypeID
+    *           id of the activity type
+    * @param activityID
+    *           id of the activity
+    * @param activityName
+    *           name of the activity
+    * @param participantFullID
+    *           full qualified id of the participant to be assigned <i>(MANUAL_ACTIVITY
+    *           only)</i>
+    * @param applicationFullID
+    *           full qualified id of the application to be assigned
+    *           <i>(APPLICATION_ACTIVITY only)</i>
+    * @param subProcessFullID
+    *           full qualified id of the process to be assigned <i>(SUBPROCESS_ACTIVITY
+    *           only)</i>
     * @return activity created
     */
    public ActivityType createActivity(ModelType model,
@@ -1101,9 +1251,10 @@ public class ModelBuilderFacade
       {
          if (participantFullID != null)
          {
-            activity = newManualActivity(processDefinition)
-                  .withIdAndName(activityID, activityName)
-                  .havingDefaultPerformer(stripFullId(participantFullID)).build();
+            activity = newManualActivity(processDefinition).withIdAndName(activityID,
+                  activityName)
+                  .havingDefaultPerformer(stripFullId(participantFullID))
+                  .build();
          }
          else
          {
@@ -1127,11 +1278,11 @@ public class ModelBuilderFacade
          BpmApplicationActivityBuilder applicationActivity = newApplicationActivity(processDefinition);
          applicationActivity.setApplicationModel(applicationModel);
 
-         activity = applicationActivity
-               .withIdAndName(activityID, activityName)
+         activity = applicationActivity.withIdAndName(activityID, activityName)
                .invokingApplication(
                      getApplication(applicationModel.getId(),
-                           stripFullId(applicationFullID))).build();
+                           stripFullId(applicationFullID)))
+               .build();
          // }
       }
       else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityTypeID))
@@ -1151,8 +1302,7 @@ public class ModelBuilderFacade
          BpmSubProcessActivityBuilder subProcessActivity = newSubProcessActivity(processDefinition);
          subProcessActivity.setSubProcessModel(subProcessModel);
 
-         activity = subProcessActivity
-               .withIdAndName(model.getId(), activityName)
+         activity = subProcessActivity.withIdAndName(model.getId(), activityName)
                .invokingProcess(
                      findProcessDefinition(
                            getModelManagementStrategy().getModels().get(
@@ -1171,15 +1321,20 @@ public class ModelBuilderFacade
    /**
     * Creates a process.
     *
-    * @param model          model to create the process in
-    * @param processID      id of the process
-    * @param processName    name of the process
+    * @param model
+    *           model to create the process in
+    * @param processID
+    *           id of the process
+    * @param processName
+    *           name of the process
     * @return process created
     */
-   public ProcessDefinitionType createProcess(ModelType model, String processName, String processID)
+   public ProcessDefinitionType createProcess(ModelType model, String processName,
+         String processID)
    {
-      ProcessDefinitionType processDefinition = newProcessDefinition(model)
-            .withIdAndName(processID, processName).build();
+      ProcessDefinitionType processDefinition = newProcessDefinition(model).withIdAndName(
+            processID, processName)
+            .build();
 
       // Create diagram bits too
 
@@ -1278,7 +1433,8 @@ public class ModelBuilderFacade
          }
       }
 
-      throw new ObjectNotFoundException("Process Definition " + processFullID + " does not exist.");
+      throw new ObjectNotFoundException("Process Definition " + processFullID
+            + " does not exist.");
    }
 
    /**
@@ -1330,7 +1486,8 @@ public class ModelBuilderFacade
          }
       }
 
-      throw new ObjectNotFoundException("Application " + fullApplicationID + " does not exist.");
+      throw new ObjectNotFoundException("Application " + fullApplicationID
+            + " does not exist.");
    }
 
    /**
@@ -1361,8 +1518,7 @@ public class ModelBuilderFacade
    public ApplicationContextTypeType findApplicationContextTypeType(ModelType model,
          String id)
    {
-      for (ApplicationContextTypeType applicationContextType : model
-            .getApplicationContextType())
+      for (ApplicationContextTypeType applicationContextType : model.getApplicationContextType())
       {
          if (applicationContextType.getId().equals(id))
          {
@@ -1413,7 +1569,8 @@ public class ModelBuilderFacade
          }
       }
 
-      throw new ObjectNotFoundException("Type declaration " + fullTypeID + " does not exist.");
+      throw new ObjectNotFoundException("Type declaration " + fullTypeID
+            + " does not exist.");
    }
 
    /**
@@ -1537,7 +1694,8 @@ public class ModelBuilderFacade
          }
       }
 
-      throw new ObjectNotFoundException("Participant " + fullParticipantID + " does not exist.");
+      throw new ObjectNotFoundException("Participant " + fullParticipantID
+            + " does not exist.");
    }
 
    /**
@@ -1638,7 +1796,6 @@ public class ModelBuilderFacade
       return null;
    }
 
-
    /**
     *
     * @param laneSymbol
@@ -1697,6 +1854,79 @@ public class ModelBuilderFacade
       for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
       {
          LaneSymbol containingLaneSymbol = findLaneContainingActivitySymbolRecursively(
+               childLaneSymbol, oid);
+
+         if (containingLaneSymbol != null)
+         {
+            return containingLaneSymbol;
+         }
+      }
+
+      return null;
+   }
+
+   /**
+    *
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   public AnnotationSymbolType findAnnotationSymbol(DiagramType diagram, long oid)
+   {
+      LaneSymbol laneSymbol = findLaneContainingAnnotationSymbol(diagram, oid);
+
+      if (laneSymbol != null)
+      {
+         return findAnnotationSymbol(laneSymbol, oid);
+      }
+
+      return null;
+   }
+
+   /**
+    *
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   private LaneSymbol findLaneContainingAnnotationSymbol(DiagramType diagram, long oid)
+   {
+      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
+      {
+         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
+         {
+            LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
+                  laneSymbol, oid);
+
+            if (containingLaneSymbol != null)
+            {
+               return containingLaneSymbol;
+            }
+         }
+      }
+
+      return null;
+   }
+
+   /**
+    * @param laneSymbol
+    * @param oid
+    * @return
+    */
+   private LaneSymbol findLaneContainingAnnotationSymbolRecursively(
+         LaneSymbol laneSymbol, long oid)
+   {
+      for (AnnotationSymbolType annotationSymbol : laneSymbol.getAnnotationSymbol())
+      {
+         if (annotationSymbol.getElementOid() == oid)
+         {
+            return laneSymbol;
+         }
+      }
+
+      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
+      {
+         LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
                childLaneSymbol, oid);
 
          if (containingLaneSymbol != null)
@@ -2010,7 +2240,8 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, long oid)
    {
       for (TransitionConnectionType transitionConnection : processDefinition.getDiagram()
-            .get(0).getTransitionConnection())
+            .get(0)
+            .getTransitionConnection())
       {
          if (transitionConnection.getElementOid() == oid)
          {
@@ -2023,7 +2254,10 @@ public class ModelBuilderFacade
       // TODO Support multiple pools
 
       for (TransitionConnectionType transitionConnection : processDefinition.getDiagram()
-            .get(0).getPoolSymbols().get(0).getTransitionConnection())
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getTransitionConnection())
       {
          if (transitionConnection.getElementOid() == oid)
          {
@@ -2043,8 +2277,9 @@ public class ModelBuilderFacade
    public DataMappingConnectionType findDataMappingConnectionByModelOid(
          ProcessDefinitionType processDefinition, long oid)
    {
-      for (DataMappingConnectionType dataMappingConnectionType : processDefinition
-            .getDiagram().get(0).getDataMappingConnection())
+      for (DataMappingConnectionType dataMappingConnectionType : processDefinition.getDiagram()
+            .get(0)
+            .getDataMappingConnection())
       {
          if (dataMappingConnectionType.getElementOid() == oid)
          {
@@ -2055,7 +2290,10 @@ public class ModelBuilderFacade
       // TODO Support multiple pools
 
       for (DataMappingConnectionType dataMappingConnectionType : processDefinition.getDiagram()
-            .get(0).getPoolSymbols().get(0).getDataMappingConnection())
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getDataMappingConnection())
       {
          if (dataMappingConnectionType.getElementOid() == oid)
          {
@@ -2161,7 +2399,30 @@ public class ModelBuilderFacade
     */
    public String createIdFromName(String name)
    {
-      return name.replace(" ", "_");
+      StringBuilder idBuilder = new StringBuilder(name.length());
+      boolean firstWord = true;
+      boolean newWord = true;
+      for (int i = 0; i < name.length(); ++i)
+      {
+         char nameChar = name.charAt(i);
+         if (Character.isLetterOrDigit(nameChar))
+         {
+            if (newWord && !firstWord)
+            {
+               // append underscore for each first illegal character
+               idBuilder.append('_');
+            }
+            idBuilder.append(Character.toUpperCase(nameChar));
+            firstWord &= false;
+            newWord = false;
+         }
+         else
+         {
+            newWord = true;
+         }
+      }
+
+      return idBuilder.toString();
    }
 
    /**
@@ -2175,11 +2436,12 @@ public class ModelBuilderFacade
       // TODO Change to {modelId}elementId
       if (null != model && null != modelElement)
       {
-         if(modelElement instanceof IIdentifiableModelElement)
+         if (modelElement instanceof IIdentifiableModelElement)
          {
-            return model.getId() + ":" + ((IIdentifiableModelElement) modelElement).getId();
+            return model.getId() + ":"
+                  + ((IIdentifiableModelElement) modelElement).getId();
          }
-         if(modelElement instanceof TypeDeclarationType)
+         if (modelElement instanceof TypeDeclarationType)
          {
             return model.getId() + ":" + ((TypeDeclarationType) modelElement).getId();
          }
@@ -2264,7 +2526,6 @@ public class ModelBuilderFacade
       return type;
    }
 
-
    public ContextType getApplicationContext(ApplicationType application,
          String contextTypeKey)
    {
@@ -2279,7 +2540,71 @@ public class ModelBuilderFacade
       return null;
    }
 
-   public Class<?> getClassForType(String type)
+   public ContextType createApplicationContext(ApplicationType application,
+         String contextId)
+   {
+      ModelType model = ModelUtils.findContainingModel(application);
+      ContextType context = AbstractElementBuilder.F_CWM.createContextType();
+      ApplicationContextTypeType contextTypeType = null;
+
+      try
+      {
+         contextTypeType = findApplicationContextTypeType(model, contextId);
+      }
+      catch (ObjectNotFoundException x)
+      {
+         // Excpected
+      }
+
+      if (contextTypeType == null)
+      {
+         contextTypeType = AbstractElementBuilder.F_CWM.createApplicationContextTypeType();
+
+         if (ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY.equals(contextId))
+         {
+            contextTypeType.setName("External Web Application");
+            contextTypeType.setId(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         else if (ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY.equals(contextId))
+         {
+            contextTypeType.setName("Noninteractive Application Context");
+            contextTypeType.setId(ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY);
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         else if (ModelerConstants.ENGINE_CONTEXT_TYPE_KEY.equals(contextId))
+         {
+            contextTypeType.setName("Engine Context");
+            contextTypeType.setId(ModelerConstants.ENGINE_CONTEXT_TYPE_KEY);
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+         else if (ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY.equals(contextId))
+         {
+            contextTypeType.setName("Default Context");
+            contextTypeType.setId(ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY);
+            contextTypeType.setIsPredefined(true);
+            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+            contextTypeType.setElementOid(++maxElementOid);
+            model.getApplicationContextType().add(contextTypeType);
+         }
+      }
+
+      context.setType(contextTypeType);
+      application.getContext().add(context);
+
+      return context;
+   }
+
+   public Class<? > getClassForType(String type)
    {
       if (type.equalsIgnoreCase("long")) { //$NON-NLS-1$
          return Long.class;
@@ -2325,8 +2650,7 @@ public class ModelBuilderFacade
       return path;
    }
 
-   public ApplicationType setApplication(ActivityType activity,
-         String applicationFullId)
+   public ApplicationType setApplication(ActivityType activity, String applicationFullId)
    {
       ApplicationType application = getApplication(getModelId(applicationFullId),
             stripFullId(applicationFullId));
@@ -2373,6 +2697,18 @@ public class ModelBuilderFacade
       }
    }
 
+   public void setBooleanAttribute(Object element, String name, boolean value)
+   {
+      if (element instanceof Extensible)
+      {
+         ExtendedAttributeUtil.setBooleanAttribute((Extensible) element, name, value);
+      }
+      if (element instanceof IExtensibleElement)
+      {
+         AttributeUtil.setBooleanAttribute((IExtensibleElement) element, name, value);
+      }
+   }
+
    @SuppressWarnings("rawtypes")
    public List getAttributes(Object element)
    {
@@ -2388,6 +2724,50 @@ public class ModelBuilderFacade
          return ((IExtensibleElement) element).getAttribute();
       }
       return new ArrayList();
+   }
+
+   @SuppressWarnings({"rawtypes", "unchecked"})
+   public List getAttributes(Object element, boolean excludeBoolean, boolean booleanOnly)
+   {
+      if (excludeBoolean == booleanOnly && booleanOnly == true)
+      {
+         return new ArrayList();
+      }
+      List attributes = getAttributes(element);
+      if (excludeBoolean == booleanOnly && booleanOnly == false)
+      {
+         return attributes;
+      }
+      List filteredAttributes = new ArrayList();
+      for (Iterator<Object> i = attributes.iterator(); i.hasNext();)
+      {
+         Object attribute = i.next();
+         if ((booleanOnly && isBooleanAttribute(attribute))
+               || (excludeBoolean && !isBooleanAttribute(attribute)))
+         {
+            filteredAttributes.add(attribute);
+         }
+      }
+      return filteredAttributes;
+   }
+
+   /**
+    *
+    * @param element
+    * @param attributeName
+    * @return
+    */
+   public Object getAttribute(Object element, String attributeName)
+   {
+      for (Object attribute : getAttributes(element))
+      {
+         if (getAttributeName(attribute).equals(attributeName))
+         {
+            return attribute;
+         }
+      }
+
+      return null;
    }
 
    public String getAttributeName(Object attribute)
@@ -2414,6 +2794,29 @@ public class ModelBuilderFacade
          return ((AttributeType) attribute).getValue();
       }
       return null;
+   }
+
+   public boolean isBooleanAttribute(Object attribute)
+   {
+      if (attribute instanceof ExtendedAttributeType)
+      {
+         ExtendedAttributeType attributeType = (ExtendedAttributeType) attribute;
+         if (attributeType.getValue().equalsIgnoreCase("true")
+               || attributeType.getValue().equalsIgnoreCase("false"))
+         {
+            return true;
+         }
+      }
+      if (attribute instanceof AttributeType)
+      {
+         AttributeType attributeType = (AttributeType) attribute;
+         if (attributeType.getType() != null
+               && attributeType.getType().equalsIgnoreCase("Boolean"))
+         {
+            return true;
+         }
+      }
+      return false;
    }
 
    public boolean isExternalReference(EObject modelElement)
@@ -2477,6 +2880,13 @@ public class ModelBuilderFacade
 
    public void updateTeamLead(OrganizationType organization, String participantFullID)
    {
+      // Set team leader to null if participantFullID is set to "TO_BE_DEFINED"
+      if (ModelerConstants.TO_BE_DEFINED.equals(participantFullID))
+      {
+         organization.setTeamLead(null);
+         return;
+      }
+
       ModelType model = ModelUtils.findContainingModel(organization);
       if (participantFullID != null)
       {
@@ -2487,7 +2897,7 @@ public class ModelBuilderFacade
             participantModelID = model.getId();
          }
          ModelType participantModel = model;
-         if (!participantModelID.equals(model.getId()))
+         if ( !participantModelID.equals(model.getId()))
          {
             participantModel = getModelManagementStrategy().getModels().get(
                   participantModelID);
@@ -2497,17 +2907,19 @@ public class ModelBuilderFacade
                getModelManagementStrategy().getModels().get(participantModelID),
                stripFullId(participantFullID));
 
-         if (!participantModelID.equals(model.getId()))
+         if ( !participantModelID.equals(model.getId()))
          {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
-                  participantModel);
+            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+                  model, participantModel);
 
             String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
-            ModelType loadModel = getModelManagementStrategy().loadModel(participantModelID + ".xpdl");
-            IModelParticipant participantCopy = findParticipant(loadModel, stripFullId(participantFullID));
-            if(participantCopy == null)
+            ModelType loadModel = getModelManagementStrategy().loadModel(
+                  participantModelID + ".xpdl");
+            IModelParticipant participantCopy = findParticipant(loadModel,
+                  stripFullId(participantFullID));
+            if (participantCopy == null)
             {
                ElementCopier copier = new ElementCopier(loadModel, null);
                participantCopy = (IModelParticipant) copier.copy(modelParticipant);
@@ -2521,11 +2933,61 @@ public class ModelBuilderFacade
          }
          organization.setTeamLead((RoleType) modelParticipant);
       }
-
    }
 
+   public void setModified(ModelType modelType, String modified)
+   {
+      AttributeUtil.setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED, modified);
+   }
 
+   public void setModified(ModelType modelType, Date modified)
+   {
+      // TODO I18N
+      final String MODIFIED_DATE_FORMAT = "dd MMM; yyyy KK:mm:ss a";
+      DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
+      AttributeUtil.setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED,
+            format.format(modified));
+   }
 
+   public String getModified(ModelType modelType)
+   {
+      AttributeType attribute = AttributeUtil.getAttribute(modelType,
+            ModelerConstants.ATTRIBUTE_MODIFIED);
+      if (attribute != null)
+      {
+         return attribute.getValue();
+      }
+      return "unknown";
+   }
 
+   public ModelType createModel(String modelID, String modelName)
+   {
+      ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
+      model.setConnectionManager(new WebModelerConnectionManager(model,
+            this.modelManagementStrategy));
+      return model;
+   }
+
+   public DataType createProcessAttachementData(ModelType model)
+   {
+      DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
+            model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
+      DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+      data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
+      data.setName("Process Attachments"); //$NON-NLS-1$
+      data.setType(dataTypeType);
+      data.setElementOid(ModelUtils.getElementOid(data, model));
+
+      model.getData().add(data);
+
+      AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT,
+            List.class.getName());
+      AttributeUtil.setAttribute(data, CarnotConstants.ENGINE_SCOPE
+            + "data:bidirectional", //$NON-NLS-1$
+            Boolean.TYPE.getName(), Boolean.TRUE.toString());
+
+      return data;
+
+   }
 
 }

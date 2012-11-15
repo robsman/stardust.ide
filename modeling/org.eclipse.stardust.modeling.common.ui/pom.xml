@@ -23,5 +23,5 @@
   <artifactId>org.eclipse.stardust.modeling.common.ui</artifactId>
 
   <packaging>eclipse-plugin</packaging>
-
+  <build>    <plugins>      <plugin>         <artifactId>maven-install-plugin</artifactId>         <configuration>            <!-- artifact is needed during compile time of reporting.app.web -->            <skip>false</skip>         </configuration>      </plugin>    </plugins>  </build>
 </project>

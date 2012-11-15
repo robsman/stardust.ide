@@ -21,10 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.transform.TransformerFactory;
 
@@ -50,28 +48,13 @@ import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
  */
 public class XpdlModelIoUtils
 {
-   //private static JcrModelManager manager;
+
    private static final Logger trace = LogManager.getLogger(XpdlModelIoUtils.class);
 
    public static final byte[] EMPTY_BUFFER = new byte[0];
 
    private static final int COPY_BUFFER_LENGHT = 16 * 1024;
 
-   // TODO how is this supposed to be thread/multi-user save?
-   private static Map<String, WebModelerConnectionManager> map = new HashMap<String, WebModelerConnectionManager>();
-
-   public static WebModelerConnectionManager getJcrConnectionManager(ModelType model, ModelManagementStrategy strategy)
-   {
-      WebModelerConnectionManager manager = map.get(model.getId());
-      if(manager == null)
-      {
-         manager = new WebModelerConnectionManager(model, strategy);
-         map.put(model.getId(), manager);
-      }
-      
-      return manager;
-   }
-   
    public static ModelType loadModel(byte[] modelXml, ModelManagementStrategy strategy)
    {
       try
@@ -127,7 +110,7 @@ public class XpdlModelIoUtils
          }
 
          WorkflowModelManager modelMgr = new WebModelerModelManager(strategy);
-         
+
          try
          {
             modelMgr.load(modelXml);
@@ -291,11 +274,6 @@ public class XpdlModelIoUtils
       }
 
       return tmpModel;
-   }   
-   
-   
-   public static void clearModelsMap()
-   {
-      map.clear();
-   }   
+   }
+
 }

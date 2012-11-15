@@ -185,7 +185,7 @@
     </eAnnotations>
     <eOperations name="getMetaType" eType="#//IMetaType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ISymbolContainer" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="ISymbolContainer" abstract="true" eSuperTypes="#//IExtensibleElement">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="nodeSymbolContainer_._type"/>
       <details key="kind" value="empty"/>

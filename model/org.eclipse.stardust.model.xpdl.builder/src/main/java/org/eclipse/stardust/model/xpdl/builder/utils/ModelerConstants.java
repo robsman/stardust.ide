@@ -35,6 +35,7 @@ public class ModelerConstants
    public static final String ACTIVITY_IS_HIBERNATED_ON_CREATION = "isHibernatedOnCreation";
    public static final String MODEL_ELEMENT_PROPERTY = "modelElement";
    public static final String DATE_OF_CREATION = "dateOfCreation";
+   public static final String DATE_OF_MODIFICATION = "dateOfModification";
    public static final String PARTICIPANT_FULL_ID = "participantFullId";
    public static final String SUBPROCESS_ID = "subprocessFullId";
    public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
@@ -52,6 +53,7 @@ public class ModelerConstants
    public static final String FILE_NAME = "fileName";
    public static final String FILE_PATH = "filePath";
    public static final String ATTRIBUTES_PROPERTY = "attributes";
+   public static final String BOOLEAN_ATTRIBUTES_PROPERTY = "booleanAttributes";
    public static final String OID_PROPERTY = "oid";
    public static final String UUID_PROPERTY = "uuid";
    public static final String MODEL_UUID_PROPERTY = "modelUUID";
@@ -117,8 +119,10 @@ public class ModelerConstants
    public static final String CONTROL_FLOWS_PROPERTY = "controlFlows";
    public static final String DATA_FLOWS_PROPERTY = "dataFlows";
    public static final String CONDITION_EXPRESSION_PROPERTY = "conditionExpression";
+   public static final String UPDATE_DATA_MAPPING_LITERAL = "updateDataMapping";
    public static final String INPUT_DATA_MAPPING_PROPERTY = "inputDataMapping";
    public static final String OUTPUT_DATA_MAPPING_PROPERTY = "outputDataMapping";
+   public static final String DEFAULT_LITERAL = "default";
    public static final String DATA_PATH_PROPERTY = "dataPath";
    public static final String APPLICATION_PATH_PROPERTY = "applicationPath";
    public static final String OTHERWISE_PROPERTY = "otherwise";
@@ -144,7 +148,8 @@ public class ModelerConstants
    public static final String CHILD_PARTICIPANTS_KEY = "childParticipants";
    public static final String ORGANIZATION_PARTICIPANT_TYPE_KEY = "organizationParticipant";
    public static final String CONDITIONAL_PERFORMER_PARTICIPANT_TYPE_KEY = "conditionalPerformerParticipant";
-
+   public static final String TO_BE_DEFINED = "TO_BE_DEFINED";
+   public static final String CARDINALITY = "cardinality";
    // @deprecated
    public static final int POOL_LANE_MARGIN = 5;
    // @deprecated
@@ -182,14 +187,20 @@ public class ModelerConstants
    public static final String SYNC_SEPARATE_KEY = "synchSeparate";
    public static final String ASYNC_SEPARATE_KEY = "asynchSeparate";
    public static final String SYNC_SHARED_KEY = "synchShared";
-   public static final String IN_PARAMETER_KEY = "in";
-   public static final String INOUT_PARAMETER_KEY = "inOut";
-   public static final String OUT_PARAMETER_KEY = "out";
    public static final String INTERACTIVE_PROPERTY = "interactive";
    public static final String ANNOTATION_SYMBOLS = "annotationSymbols";
+   public static final String ANNOTATION_SYMBOL = "annotationSymbol";
    public static final String CONTENT_PROPERTY = "content";
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
+   public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
+   public static final String APPLICATION_CONTEXT_TYPE_KEY = "application";
+   public static final String EVENT_CLASS_PROPERTY = "eventClass";
+   public static final String MANUAL_TRIGGER_EVENT_CLASS_KEY = "manualTrigger";
+   public static final String ASSOCIATION = "association";
+   public static final String PARAMETER_MAPPINGS_PROPERTY = "parameterMappings";
+   public static final String ENGINE_CONTEXT_TYPE_KEY = "engine";
+   public static final String DEFAULT_CONTEXT_TYPE_KEY = "default";
 }

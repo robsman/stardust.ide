@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -267,6 +268,7 @@ public class CarnotWorkflowModelSwitch<T>
          {
             ISymbolContainer iSymbolContainer = (ISymbolContainer)theEObject;
             T result = caseISymbolContainer(iSymbolContainer);
+            if (result == null) result = caseIExtensibleElement(iSymbolContainer);
             if (result == null) result = defaultCase(theEObject);
             return result;
          }
@@ -726,6 +728,7 @@ public class CarnotWorkflowModelSwitch<T>
             T result = caseGroupSymbolType(groupSymbolType);
             if (result == null) result = caseISymbolContainer(groupSymbolType);
             if (result == null) result = caseINodeSymbol(groupSymbolType);
+            if (result == null) result = caseIExtensibleElement(groupSymbolType);
             if (result == null) result = caseIGraphicalObject(groupSymbolType);
             if (result == null) result = caseIModelElement(groupSymbolType);
             if (result == null) result = defaultCase(theEObject);
@@ -750,6 +753,7 @@ public class CarnotWorkflowModelSwitch<T>
             T result = caseLaneSymbol(laneSymbol);
             if (result == null) result = caseISymbolContainer(laneSymbol);
             if (result == null) result = caseISwimlaneSymbol(laneSymbol);
+            if (result == null) result = caseIExtensibleElement(laneSymbol);
             if (result == null) result = caseINodeSymbol(laneSymbol);
             if (result == null) result = caseIIdentifiableElement(laneSymbol);
             if (result == null) result = caseIGraphicalObject(laneSymbol);
@@ -865,6 +869,7 @@ public class CarnotWorkflowModelSwitch<T>
             T result = casePoolSymbol(poolSymbol);
             if (result == null) result = caseISymbolContainer(poolSymbol);
             if (result == null) result = caseISwimlaneSymbol(poolSymbol);
+            if (result == null) result = caseIExtensibleElement(poolSymbol);
             if (result == null) result = caseINodeSymbol(poolSymbol);
             if (result == null) result = caseIIdentifiableElement(poolSymbol);
             if (result == null) result = caseIGraphicalObject(poolSymbol);

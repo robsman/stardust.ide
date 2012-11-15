@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -95,7 +94,7 @@ import org.eclipse.stardust.model.xpdl.carnot.WorksForConnectionType;
  *
  * @generated
  */
-public abstract class ISymbolContainerImpl extends EObjectImpl implements ISymbolContainer
+public abstract class ISymbolContainerImpl extends IExtensibleElementImpl implements ISymbolContainer
 {
    /**
     * <!-- begin-user-doc -->
