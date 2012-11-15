@@ -42,10 +42,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
+import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.pojo.data.JavaDataTypeUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
@@ -422,6 +426,18 @@ public class ModelBuilderFacade
       return parameterType;
    }
 
+   public AccessPoint createJavaAccessPoint(String id, String name,
+         String clazz, Direction direction, boolean browsable, Object characteristics)
+   {
+      if(clazz == null)
+      {
+         clazz = "java.util.Map";
+      }      
+      
+      return JavaDataTypeUtils.createIntrinsicAccessPoint(id, name, clazz, direction, browsable,
+            characteristics);
+   }
+   
    public AccessPointType createPrimitiveAccessPoint(IAccessPointOwner application,
          String id, String name, String primaryDataTypeID, String direction)
    {
@@ -2987,7 +3003,5 @@ public class ModelBuilderFacade
             Boolean.TYPE.getName(), Boolean.TRUE.toString());
 
       return data;
-
    }
-
 }
