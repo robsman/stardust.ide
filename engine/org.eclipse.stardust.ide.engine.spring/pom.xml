@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><!--    Copyright (c) 2011, 2012 SunGard CSA LLC and others.    All rights reserved. This program and the accompanying materials    are made available under the terms of the Eclipse Public License v1.0    which accompanies this distribution, and is available at    http://www.eclipse.org/legal/epl-v10.html       Contributors:       SunGard CSA LLC - initial API and implementation and/or initial documentation -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2011, 2012 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
@@ -16,9 +26,15 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.infinity.bpm</groupId>
+      <groupId>org.eclipse.stardust.engine</groupId>
       <artifactId>carnot-spring</artifactId>
-      <version>${ipp.version}</version>      <exclusions>         <exclusion>            <groupId>org.eclipse.stardust.engine</groupId>            <artifactId>engine-module</artifactId>         </exclusion>      </exclusions>
+      <version>${ipp.version}</version>
+      <exclusions>
+         <exclusion>
+            <groupId>org.eclipse.stardust.engine</groupId>
+            <artifactId>engine-module</artifactId>
+         </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -26,7 +42,14 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars-no-version</id>            <configuration>              <includeArtifactIds>carnot-spring</includeArtifactIds>            </configuration>          </execution>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>embed-jars-no-version</id>
+            <configuration>
+              <includeArtifactIds>carnot-spring</includeArtifactIds>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>

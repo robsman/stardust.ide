@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="com.infinity.bpm.ide.runtime" module="spring"
+   <info organisation="org.eclipse.stardust.ide.engine.spring" module="spring"
       revision="${ipp.version.full}" />
 
    <configurations>
