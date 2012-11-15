@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="com.infinity.bpm" name="carnot-spring-module" rev="${ipp.version.full}" transitive="false" conf="bom->spring-module-runtime"/>
+      <dependency org="org.eclipse.stardust.engine" name="carnot-spring-module" rev="${ipp.version.full}" transitive="false" conf="bom->spring-module-runtime"/>
    </dependencies>
 </ivy-module>
