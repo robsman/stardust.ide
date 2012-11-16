@@ -252,8 +252,8 @@ public class Modification
       return modifiedElements.contains(element) //
          || addedElements.contains(element) //
          || removedElements.contains(element);
-   }   
-   
+   }
+
    public void markUnmodified(EObject element)
    {
       // this is safe as sets are copy-on-write
@@ -262,31 +262,100 @@ public class Modification
       removedElements.remove(element);
    }
 
+   /**
+    * Tags the element as "modified", but only if it does not yet have any modification tag.
+    *
+    * @param element The model element.
+    *
+    *  @see #markAlsoModified(EObject, boolean)
+    */
    public void markAlsoModified(EObject element)
    {
-      // this is safe as sets are copy-on-write
-      modifiedElements.add(element);
-
-      addedElements.remove(element);
-      removedElements.remove(element);
+      markAlsoModified(element, false);
    }
 
+   /**
+    * Tags the element as "modified", optionally overriding any previous modification tag.
+    *
+    * @param element The model element.
+    * @param overrideStatus Indicates if a previous tag, if existent, should be overrideen or not.
+    *
+    *  @see #markAlsoModified(EObject)
+    */
+   public void markAlsoModified(EObject element, boolean overrideStatus)
+   {
+      if ( !isChangedElement(element) || overrideStatus)
+      {
+         // this is safe as sets are copy-on-write
+         modifiedElements.add(element);
+
+         addedElements.remove(element);
+         removedElements.remove(element);
+      }
+   }
+
+   /**
+    * Tags the element as "added", but only if it does not yet have any modification tag.
+    *
+    * @param element The model element.
+    *
+    *  @see #markAlsoAdded(EObject, boolean)
+    */
    public void markAlsoAdded(EObject element)
    {
-      // this is safe as sets are copy-on-write
-      addedElements.add(element);
-
-      modifiedElements.remove(element);
-      removedElements.remove(element);
+      markAlsoAdded(element, false);
    }
 
+   /**
+    * Tags the element as "added", optionally overriding any previous modification tag.
+    *
+    * @param element The model element.
+    * @param overrideStatus Indicates if a previous tag, if existent, should be overrideen or not.
+    *
+    *  @see #markAlsoAdded(EObject)
+    */
+   public void markAlsoAdded(EObject element, boolean overrideStatus)
+   {
+      if ( !isChangedElement(element) || overrideStatus)
+      {
+         // this is safe as sets are copy-on-write
+         addedElements.add(element);
+
+         modifiedElements.remove(element);
+         removedElements.remove(element);
+      }
+   }
+
+   /**
+    * Tags the element as "removed", but only if it does not yet have any modification tag.
+    *
+    * @param element The model element.
+    *
+    *  @see #markAlsoRemoved(EObject, boolean)
+    */
    public void markAlsoRemoved(EObject element)
    {
-      // this is safe as sets are copy-on-write
-      removedElements.add(element);
+      markAlsoRemoved(element, false);
+   }
 
-      modifiedElements.remove(element);
-      addedElements.remove(element);
+   /**
+    * Tags the element as "removed", optionally overriding any previous modification tag.
+    *
+    * @param element The model element.
+    * @param overrideStatus Indicates if a previous tag, if existent, should be overrideen or not.
+    *
+    *  @see #markAlsoRemoved(EObject)
+    */
+   public void markAlsoRemoved(EObject element, boolean overrideStatus)
+   {
+      if ( !isChangedElement(element) || overrideStatus)
+      {
+         // this is safe as sets are copy-on-write
+         removedElements.add(element);
+
+         modifiedElements.remove(element);
+         addedElements.remove(element);
+      }
    }
 
 }
