@@ -12,44 +12,27 @@ package org.eclipse.stardust.modeling.validation.impl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
-import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.modeling.validation.IModelElementValidator;
-import org.eclipse.stardust.modeling.validation.Issue;
-import org.eclipse.stardust.modeling.validation.ValidationException;
-import org.eclipse.stardust.modeling.validation.ValidationService;
-import org.eclipse.stardust.modeling.validation.Validation_Messages;
+import org.eclipse.stardust.modeling.validation.*;
 
 public class ProcessInterfaceValidator implements IModelElementValidator
 {
    private static final Issue[] ISSUE_ARRAY = new Issue[0];
 
-   private IModelElement modelElement;
-
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      modelElement = element;
       List<Issue> result = new ArrayList<Issue>();
 
       if (element instanceof ProcessDefinitionType)
@@ -58,9 +41,9 @@ public class ProcessInterfaceValidator implements IModelElementValidator
          IdRef externalRef = proc.getExternalRef();
          if (proc.getExternalRef() != null)
          {
-            ProcessDefinitionType referencedProcess = findProcess(externalRef);
+            ProcessDefinitionType referencedProcess = externalRef.get(ProcessDefinitionType.class);
             // Process interface does not exist anymore
-            if (referencedProcess.getFormalParameters() == null)
+            if (referencedProcess == null || referencedProcess.getFormalParameters() == null)
             {
                result.add(Issue.warning(proc,
                      Validation_Messages.MODEL_ProcessInterface_NotValid,
@@ -68,70 +51,50 @@ public class ProcessInterfaceValidator implements IModelElementValidator
             }
             else
             {
-               FormalParametersType parametersType = proc.getFormalParameters();
-               FormalParametersType referencedParametersType = referencedProcess
-                     .getFormalParameters();
+               FormalParametersType parameters = proc.getFormalParameters();
+               FormalParametersType referencedParameters = referencedProcess.getFormalParameters();
                FormalParameterMappingsType mappings = proc.getFormalParameterMappings();
                // Not every parameter provided
-               for (Iterator<FormalParameterType> i = referencedParametersType
-                     .getFormalParameter().iterator(); i.hasNext();)
+               for (FormalParameterType referencedParameter : referencedParameters.getFormalParameter())
                {
-                  FormalParameterType referencedParameterType = i.next();
-                  FormalParameterType parameterType = parametersType
-                        .getFormalParameter(referencedParameterType.getId());
-                  if (parameterType == null)
+                  FormalParameterType parameter = parameters.getFormalParameter(referencedParameter.getId());
+                  if (parameter == null)
                   {
                      result.add(Issue.warning(proc, MessageFormat.format(
-                           Validation_Messages.MODEL_ProcessInterface_ParameterMissing,
-                           new Object[] {referencedParameterType.getId()}),
+                           Validation_Messages.MODEL_ProcessInterface_ParameterMissing, referencedParameter.getId()),
                            ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
                   }
                   else
                   {
                      // No mapping provided
-                     if (mappings.getMappedData(parameterType) == null)
+                     if (mappings.getMappedData(parameter) == null)
                      {
                         result.add(Issue.warning(proc, MessageFormat.format(
-                              Validation_Messages.MODEL_ProcessInterface_NoMapping,
-                              new Object[] {parameterType.getId()}),
+                              Validation_Messages.MODEL_ProcessInterface_NoMapping, parameter.getId()),
                               ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
                      }
                      else
                      {
                         // Types incompatible
-                        if (ModelUtils.haveDifferentTypes(referencedParameterType,
-                              parameterType))
+                        if (ModelUtils.haveDifferentTypes(referencedParameter, parameter))
                         {
-                           result
-                                 .add(Issue
-                                       .warning(
-                                             proc,
-                                             MessageFormat
-                                                   .format(
-                                                         Validation_Messages.MODEL_ProcessInterface_IncompatibleTypes,
-                                                         new Object[] {parameterType
-                                                               .getId()}),
-                                             ValidationService.PKG_CWM
-                                                   .getIIdentifiableElement_Id()));
-                           ;
+                           result.add(Issue.warning(proc, MessageFormat.format(
+                                 Validation_Messages.MODEL_ProcessInterface_IncompatibleTypes, parameter.getId()),
+                                 ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
                         }
                      }
                   }
                }
                // Pending mappings
-               for (Iterator<FormalParameterType> i = parametersType.getFormalParameter()
-                     .iterator(); i.hasNext();)
+               for (FormalParameterType parameter : parameters.getFormalParameter())
                {
-                  FormalParameterType parameterType = i.next();
-                  FormalParameterType referencedParameterType = referencedParametersType
-                        .getFormalParameter(parameterType.getId());
-                  if (referencedParameterType == null)
+                  FormalParameterType referencedParameter = referencedParameters.getFormalParameter(parameter.getId());
+                  if (referencedParameter == null)
                   {
                      // Should be an error as soon as it is possible to remove such
                      // pending mappings via UI
                      result.add(Issue.warning(proc, MessageFormat.format(
-                           Validation_Messages.MODEL_ProcessInterface_ParameterPending,
-                           new Object[] {parameterType.getId()}),
+                           Validation_Messages.MODEL_ProcessInterface_ParameterPending, parameter.getId()),
                            ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
                   }
                }
@@ -143,36 +106,33 @@ public class ProcessInterfaceValidator implements IModelElementValidator
             boolean invalid = false;
             if (AttributeUtil.getAttribute(proc, "carnot:engine:externalInvocationType") != null) //$NON-NLS-1$
             {
-               for (Iterator<FormalParameterType> i = proc.getFormalParameters()
-                     .getFormalParameter().iterator(); i.hasNext();)
+               for (FormalParameterType parameter : proc.getFormalParameters().getFormalParameter())
                {
-                  FormalParameterType parameterType = i.next();
-                  String category = parameterType.getDataType().getCarnotType();
+                  String category = parameter.getDataType().getCarnotType();
                   if (category == null)
                   {
-                     if (parameterType.getDataType().getBasicType() != null)
+                     if (parameter.getDataType().getBasicType() != null)
                      {
-                        category = "primitive"; //$NON-NLS-1$
+                        category = PredefinedConstants.PRIMITIVE_DATA;
                      }
-                     if (parameterType.getDataType().getDeclaredType() != null)
+                     if (parameter.getDataType().getDeclaredType() != null)
                      {
-                        category = "struct"; //$NON-NLS-1$
+                        category = PredefinedConstants.STRUCTURED_DATA;
                      }
                   }
                   else
                   {
-                     category = parameterType.getDataType().getCarnotType();
+                     category = parameter.getDataType().getCarnotType();
                   }
-                  if (!"struct".equals(category) && !"primitive".equals(category)) //$NON-NLS-1$ //$NON-NLS-2$
+                  if (!PredefinedConstants.PRIMITIVE_DATA.equals(category)
+                        && !PredefinedConstants.STRUCTURED_DATA.equals(category))
                   {
                      invalid = true;
                   }
                   else
                   {
-                     DataType dataType = proc.getFormalParameterMappings().getMappedData(
-                           parameterType);
-                     String typeValue = AttributeUtil.getAttributeValue(dataType,
-                           PredefinedConstants.TYPE_ATT);
+                     DataType dataType = proc.getFormalParameterMappings().getMappedData(parameter);
+                     String typeValue = AttributeUtil.getAttributeValue(dataType, PredefinedConstants.TYPE_ATT);
                      if (typeValue.equals(Type.Timestamp.getId())
                            || typeValue.equals(Type.Timestamp.getId()))
                      {
@@ -183,73 +143,13 @@ public class ProcessInterfaceValidator implements IModelElementValidator
             }
             if (invalid)
             {
-               result
-                     .add(Issue
-                           .error(
-                                 proc,
-                                 Validation_Messages.MODEL_ProcessInterface_InvalidForExternalInvocation,
-                                 ValidationService.PKG_CWM
-                                       .getProcessDefinitionType_FormalParameters()));
+               result.add(Issue.error(proc,
+                     Validation_Messages.MODEL_ProcessInterface_InvalidForExternalInvocation,
+                     ValidationService.PKG_CWM.getProcessDefinitionType_FormalParameters()));
             }
          }
 
       }
       return (Issue[]) result.toArray(ISSUE_ARRAY);
-   }
-
-   private List<ProcessDefinitionType> collectReferencedProcessDefinitions(
-         ModelType model)
-   {
-      List<ProcessDefinitionType> processesList = CollectionUtils.newList();
-      ExternalPackages packages = model.getExternalPackages();
-      if (packages != null)
-      {
-         for (ExternalPackage pkg : packages.getExternalPackage())
-         {
-            String uri = ExtendedAttributeUtil.getAttributeValue(pkg,
-                  IConnectionManager.URI_ATTRIBUTE_NAME);
-            if (!StringUtils.isEmpty(uri))
-            {
-               IConnectionManager manager = model.getConnectionManager();
-               if (manager != null)
-               {
-                  EObject externalModel = manager.find(uri);
-                  if (externalModel instanceof IObjectReference)
-                  {
-                     externalModel = ((IObjectReference) externalModel).getEObject();
-                  }
-                  if (externalModel instanceof ModelType)
-                  {
-                     List<ProcessDefinitionType> externalDeclarations = ((ModelType) externalModel)
-                           .getProcessDefinition();
-                     if (externalDeclarations != null)
-                     {
-                        processesList.addAll(externalDeclarations);
-                     }
-                  }
-               }
-            }
-         }
-      }
-      return processesList;
-   }
-
-   private ProcessDefinitionType findProcess(IdRef externalReference)
-   {
-      List<ProcessDefinitionType> referencedProcesses = this
-            .collectReferencedProcessDefinitions((ModelType) modelElement.eContainer());
-      for (Iterator<ProcessDefinitionType> i = referencedProcesses.iterator(); i
-            .hasNext();)
-      {
-         ProcessDefinitionType proc = i.next();
-         ModelType refModel = (ModelType) proc.eContainer();
-         String pid = externalReference.getRef();
-         String mid = externalReference.getPackageRef().getId();
-         if (refModel.getId().equalsIgnoreCase(mid) && proc.getId().equalsIgnoreCase(pid))
-         {
-            return proc;
-         }
-      }
-      return null;
    }
 }
