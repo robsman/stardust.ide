@@ -120,10 +120,6 @@ public class ProcessInterfaceValidator implements IModelElementValidator
                         category = PredefinedConstants.STRUCTURED_DATA;
                      }
                   }
-                  else
-                  {
-                     category = parameter.getDataType().getCarnotType();
-                  }
                   if (!PredefinedConstants.PRIMITIVE_DATA.equals(category)
                         && !PredefinedConstants.STRUCTURED_DATA.equals(category))
                   {
