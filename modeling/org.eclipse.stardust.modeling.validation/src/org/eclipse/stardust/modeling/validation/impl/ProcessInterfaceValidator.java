@@ -129,8 +129,7 @@ public class ProcessInterfaceValidator implements IModelElementValidator
                   {
                      DataType dataType = proc.getFormalParameterMappings().getMappedData(parameter);
                      String typeValue = AttributeUtil.getAttributeValue(dataType, PredefinedConstants.TYPE_ATT);
-                     if (typeValue.equals(Type.Timestamp.getId())
-                           || typeValue.equals(Type.Timestamp.getId()))
+                     if (typeValue.equals(Type.Timestamp.getId()))
                      {
                         invalid = true;
                      }
