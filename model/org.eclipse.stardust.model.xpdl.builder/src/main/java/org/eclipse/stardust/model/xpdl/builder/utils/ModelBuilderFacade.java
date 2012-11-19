@@ -90,6 +90,7 @@ import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
+import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -97,6 +98,7 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
@@ -432,12 +434,12 @@ public class ModelBuilderFacade
       if(clazz == null)
       {
          clazz = "java.util.Map";
-      }      
-      
+      }
+
       return JavaDataTypeUtils.createIntrinsicAccessPoint(id, name, clazz, direction, browsable,
             characteristics);
    }
-   
+
    public AccessPointType createPrimitiveAccessPoint(IAccessPointOwner application,
          String id, String name, String primaryDataTypeID, String direction)
    {
@@ -3003,5 +3005,19 @@ public class ModelBuilderFacade
             Boolean.TYPE.getName(), Boolean.TRUE.toString());
 
       return data;
+   }
+
+   public ParameterMappingType createParameterMapping(TriggerType trigger,
+         String dataFullID, String dataPath)
+   {
+      ModelType model = ModelUtils.findContainingModel(trigger);
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
+      ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE
+            .createParameterMappingType();
+      mappingType.setData(findData(dataFullID));
+      mappingType.setDataPath(dataPath);
+      mappingType.setElementOid(++maxOID);
+      trigger.getParameterMapping().add(mappingType);
+      return mappingType;
    }
 }
