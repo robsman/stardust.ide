@@ -587,7 +587,16 @@ public class UnusedModelElementsSearcher
          {
             for(FormalParameterType type : formalParameters.getFormalParameter())
             {
-               DataType mappedData = mappings.getMappedData(type);
+               DataType mappedData = null;
+               
+               try
+               {
+                  mappedData = mappings.getMappedData(type);
+               }
+               catch (NullPointerException e)
+               {
+               }
+               
                if(mappedData != null && mappedData.equals(element))
                {
                   return true;
@@ -787,8 +796,7 @@ public class UnusedModelElementsSearcher
                for(Iterator iter = pool.getLanes().iterator(); iter.hasNext();)
                {
                   LaneSymbol lane = (LaneSymbol) iter.next();             
-                  //IModelParticipant participant = lane.getParticipantReference();
-                  IModelParticipant participant = lane.getParticipant();
+                  IModelParticipant participant = lane.getParticipantReference();
                   if(participant != null && participant.equals(element))
                   {
                      return true;
