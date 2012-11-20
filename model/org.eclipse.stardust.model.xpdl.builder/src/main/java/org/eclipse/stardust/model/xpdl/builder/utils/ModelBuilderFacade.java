@@ -795,20 +795,24 @@ public class ModelBuilderFacade
     */
    public DataType importData(ModelType model, String dataFullID)
    {
-      DataType data;
+      DataType data = null;
+      String dataModelId = getModelId(dataFullID);
+      ModelType dataModel = getModelManagementStrategy().getModels().get(dataModelId);
+      try
+      {
+         data = findData(dataModel, stripFullId(dataFullID));
+      }
+      catch (ObjectNotFoundException ex)
+      {
 
-      if (dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
+      }
+
+      if (data == null && dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
       {
          createProcessAttachementData(model);
       }
 
-      String dataModelId = getModelId(dataFullID);
-
-      ModelType dataModel = getModelManagementStrategy().getModels().get(dataModelId);
-
-      data = findData(dataModel, stripFullId(dataFullID));
-
-      if ( !dataModelId.equals(model.getId()))
+      if (!dataModelId.equals(model.getId()))
       {
          String fileConnectionId = WebModelerConnectionManager.createFileConnection(
                model, dataModel);
@@ -2725,6 +2729,19 @@ public class ModelBuilderFacade
       {
          AttributeUtil.setBooleanAttribute((IExtensibleElement) element, name, value);
       }
+   }
+
+   public boolean getBooleanAttribute(Object element, String name)
+   {
+      if (element instanceof Extensible)
+      {
+         return ExtendedAttributeUtil.getBooleanValue((Extensible) element, name);
+      }
+      if (element instanceof IExtensibleElement)
+      {
+         return AttributeUtil.getBooleanValue((IExtensibleElement) element, name);
+      }
+      return false;
    }
 
    @SuppressWarnings("rawtypes")
