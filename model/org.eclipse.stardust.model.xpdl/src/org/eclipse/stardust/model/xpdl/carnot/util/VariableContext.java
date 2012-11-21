@@ -11,6 +11,8 @@
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +52,22 @@ public class VariableContext
       super();
    }
 
+   private List<AttributeType> getConfigurationVariableElements(ModelType model)
+   {
+      List<AttributeType> elements = new ArrayList<AttributeType>();
+      List<AttributeType> allAttributes = model.getAttribute(); 
+      for(AttributeType at: allAttributes)
+      {
+         if(at.getName().startsWith("ipp:variables"))
+         {
+            elements.add(at);
+         }
+      }
+      //sort ascending by index to prevent lookup problems
+      Collections.sort(elements, new ConfigurationVariableIndexComparator()); 
+      return elements;
+   }
+   
    public void initializeVariables(ModelType model)
    {
       try
@@ -57,34 +75,27 @@ public class VariableContext
          this.model = model;
          variableReferences.clear();
          variables.clear();
-         List<AttributeType> attributes = model.getAttribute();
-         int i = 0;
          int lastIndex = -1;
-         while (i <= attributes.size() - 1)
+         
+         List<AttributeType> configVariableElements 
+            = getConfigurationVariableElements(model);
+         for(AttributeType configVariableElement: configVariableElements)
          {
-            AttributeType attribute = attributes.get(i);
-            if (attribute.getName().startsWith("ipp:variables")) //$NON-NLS-1$
+            int variableIndex = getIndex(configVariableElement.getName());
+            ModelVariable modelVariable 
+               = createModelVariable(configVariableElement);
+            try
             {
-               int variableIndex = getIndex(attribute.getName());
-               ModelVariable modelVariable = createModelVariable(attribute);
-               i++;
-               try
+               if (lastIndex != variableIndex)
                {
-                  if (lastIndex != variableIndex)
-                  {
-                     parseVariables(model, modelVariable.getName());
-                  }
+                  parseVariables(model, modelVariable.getName());
                }
-               catch (Throwable t)
-               {
-                  t.printStackTrace();
-               }
-               lastIndex = variableIndex;
             }
-            else
+            catch (Throwable t)
             {
-               i++;
+               t.printStackTrace();
             }
+            lastIndex = variableIndex;
          }
       }
       catch (Throwable t)
@@ -169,12 +180,25 @@ public class VariableContext
       return modelVariable;
    }
 
-   private int getIndex(String name)
+   public static int getIndex(String name)
    {
       int startIndex = name.indexOf("["); //$NON-NLS-1$
       int endIndex = name.indexOf("]"); //$NON-NLS-1$
       String index = name.substring(startIndex + 1, endIndex);
       return Integer.parseInt(index);
+   }
+   
+   private class ConfigurationVariableIndexComparator implements Comparator<AttributeType>
+   {
+
+      public int compare(AttributeType o1, AttributeType o2)
+      {
+         Integer index1 = getIndex(o1.getName());
+         Integer index2 = getIndex(o2.getName());
+         
+         return index1.compareTo(index2);
+      }
+      
    }
    
    private void parseVariables(EObject modelElement, String ref)
