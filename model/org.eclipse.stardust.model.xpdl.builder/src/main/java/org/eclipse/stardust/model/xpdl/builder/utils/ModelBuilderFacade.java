@@ -3016,7 +3016,7 @@ public class ModelBuilderFacade
             descriptor.importElements(iconFactory, model, true);
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
-         organization.setTeamLead((RoleType) modelParticipant);
+         setTeamLeader(organization, (RoleType) modelParticipant);
       }
    }
 
