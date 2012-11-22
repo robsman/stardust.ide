@@ -164,6 +164,20 @@ public class ModelBuilderFacade
    public void setTeamLeader(OrganizationType organization, RoleType role)
    {
       organization.setTeamLead(role);
+      List<ParticipantType> participants = organization.getParticipant();
+      ParticipantType removeType = null;
+      for (Iterator<ParticipantType> i = participants.iterator(); i.hasNext();)
+      {
+         ParticipantType participant = i.next();
+         if (participant.getParticipant().getId().equals(role.getId()))
+         {
+            removeType = participant;
+         }
+      }
+      if (removeType != null)
+      {
+         participants.remove(removeType);
+      }
    }
 
    /**
