@@ -42,7 +42,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -2671,6 +2670,43 @@ public class ModelBuilderFacade
       }
       return path;
    }
+
+   public ProcessDefinitionType setSubProcess(ActivityType activity, String processFullId)
+   {
+      ProcessDefinitionType process = this.getProcessDefinition(getModelId(processFullId),
+            stripFullId(processFullId));
+
+      ModelType model = ModelUtils.findContainingModel(activity);
+      ModelType processModel = ModelUtils.findContainingModel(process);
+
+      if (model.equals(processModel))
+      {
+         activity.setImplementationProcess(process);
+      }
+      else
+      {
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+               model, processModel);
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
+               uri, process, bundleId, null, true);
+
+         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
+               descriptor.getURI().toString());
+
+         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
+         idRef.setRef(process.getId());
+         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model,
+               processModel));
+         activity.setExternalRef(idRef);
+         activity.setImplementationProcess(process);
+      }
+      return process;
+   }
+
 
    public ApplicationType setApplication(ActivityType activity, String applicationFullId)
    {
