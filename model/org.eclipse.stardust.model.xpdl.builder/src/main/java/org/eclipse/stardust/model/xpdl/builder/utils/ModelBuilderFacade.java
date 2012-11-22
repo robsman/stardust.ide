@@ -163,6 +163,12 @@ public class ModelBuilderFacade
     */
    public void setTeamLeader(OrganizationType organization, RoleType role)
    {
+      // Add previous team lead back as a member
+      if (null != organization.getTeamLead())
+      {
+         addOrganizationParticipant(organization, organization.getTeamLead());
+      }
+
       organization.setTeamLead(role);
       List<ParticipantType> participants = organization.getParticipant();
       ParticipantType removeType = null;
