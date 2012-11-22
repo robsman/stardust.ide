@@ -71,11 +71,11 @@ public class TransitionValidator implements IModelElementValidator
       // JavaScript, ECMA
       if(!StringUtils.isEmpty(language) && language.equals(ECMA_LANGUAGE))
       {
-         if(condition.equals("OTHERWISE")) //$NON-NLS-1$
+         if(condition != null && condition.equals("OTHERWISE")) //$NON-NLS-1$
          {
             needsValidation = false;
          }
-         else if(condition.equals("CONDITION")) //$NON-NLS-1$
+         else if(condition != null && condition.equals("CONDITION")) //$NON-NLS-1$
          {
             expressionValue = ModelUtils.getCDataString(expression.getMixed());
             if(expressionValue.equals("true") || expressionValue.equals("false")) //$NON-NLS-1$//$NON-NLS-2$
@@ -85,7 +85,7 @@ public class TransitionValidator implements IModelElementValidator
          }
          if(needsValidation)         
          {
-            if (expressionValue.startsWith(CARNOT_EL))
+            if (expressionValue != null && expressionValue.startsWith(CARNOT_EL))
             {
                result.add(Issue.error(transition, Validation_Messages.MSG_TransitionCondUpdate,
                      CarnotWorkflowModelPackage.eINSTANCE.getTransitionType_Expression()));            
