@@ -37,7 +37,7 @@
       <ivy:resolve file="${project.dir}/ivy.xml"/>
    </target>
 
-	<target name="init" depends="initIvy, initBuildDir">
+	<target name="init" depends="initBuildDir">
       <property name="build.dir" value="${build.home}" />
    </target>
 
@@ -85,5 +85,20 @@
 	<target name="publish.ivy" depends="unpack.p2, jar.m2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
 		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />		   
 	</target>
-      
+   
+	<target name="deploy" depends="publish.ivy" />
+	   
+   <target name="install" if="maven.localRepository" depends="initBuild"
+      description="installs the artifacts into a local Maven repository">
+
+      <ipp:init-mvn localMavenRepository="${maven.localRepository}" />
+      <ipp:mvn-install file="${ipp-bpm-validation.jar}" pomFile="${ipp-bpm-validation.pom}" />
+   </target>
+   
+   <target name="publish" depends="initBuild"
+     description="publish artifacts into a remote Maven repository">
+
+      <ipp:init-mvn />
+      <ipp:mvn-deploy file="${ipp-bpm-validation.jar}" pomFile="${ipp-bpm-validation.pom}" />
+   </target>
 </project>
