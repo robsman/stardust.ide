@@ -170,19 +170,24 @@ public class ModelBuilderFacade
       }
 
       organization.setTeamLead(role);
-      List<ParticipantType> participants = organization.getParticipant();
-      ParticipantType removeType = null;
-      for (Iterator<ParticipantType> i = participants.iterator(); i.hasNext();)
+
+      // Remove team lead from the member list
+      if (null != role)
       {
-         ParticipantType participant = i.next();
-         if (participant.getParticipant().getId().equals(role.getId()))
+         List<ParticipantType> participants = organization.getParticipant();
+         ParticipantType removeType = null;
+         for (Iterator<ParticipantType> i = participants.iterator(); i.hasNext();)
          {
-            removeType = participant;
+            ParticipantType participant = i.next();
+            if (participant.getParticipant().getId().equals(role.getId()))
+            {
+               removeType = participant;
+            }
          }
-      }
-      if (removeType != null)
-      {
-         participants.remove(removeType);
+         if (removeType != null)
+         {
+            participants.remove(removeType);
+         }
       }
    }
 
@@ -2974,7 +2979,7 @@ public class ModelBuilderFacade
       // Set team leader to null if participantFullID is set to "TO_BE_DEFINED"
       if (ModelerConstants.TO_BE_DEFINED.equals(participantFullID))
       {
-         organization.setTeamLead(null);
+         setTeamLeader(organization, null);
          return;
       }
 
