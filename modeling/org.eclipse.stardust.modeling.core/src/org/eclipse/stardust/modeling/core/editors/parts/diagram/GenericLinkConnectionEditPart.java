@@ -102,17 +102,20 @@ public class GenericLinkConnectionEditPart extends AbstractConnectionSymbolEditP
       GenericLinkConnectionType link = (GenericLinkConnectionType) getModel();
       LinkTypeType type = link.getLinkType();
 
-      pLine.setForegroundColor(getLineColor(type.getLineColor()));
-      pLine.setLineStyle(getLineStyle(type.getLineStyle()));
-      pLine.setSourceDecoration(getDecoration(type.getSourceSymbol()));
-      pLine.setTargetDecoration(getDecoration(type.getTargetSymbol()));
-
-      nameLabel = setLabel(nameLabel, pLine, normalizeLabel(type.getName()),
-         type.isShowLinkTypeName(), ConnectionLocator.MIDDLE, true);
-      sourceRoleLabel = setLabel(sourceRoleLabel, pLine, normalizeLabel(type.getSourceRole()),
-         type.isShowRoleNames(), ConnectionLocator.SOURCE, false);
-      targetRoleLabel = setLabel(targetRoleLabel, pLine, normalizeLabel(type.getTargetRole()),
-         type.isShowRoleNames(), ConnectionLocator.TARGET, false);
+      if (type != null)
+      {
+         pLine.setForegroundColor(getLineColor(type.getLineColor()));
+         pLine.setLineStyle(getLineStyle(type.getLineStyle()));
+         pLine.setSourceDecoration(getDecoration(type.getSourceSymbol()));
+         pLine.setTargetDecoration(getDecoration(type.getTargetSymbol()));
+   
+         nameLabel = setLabel(nameLabel, pLine, normalizeLabel(type.getName()),
+            type.isShowLinkTypeName(), ConnectionLocator.MIDDLE, true);
+         sourceRoleLabel = setLabel(sourceRoleLabel, pLine, normalizeLabel(type.getSourceRole()),
+            type.isShowRoleNames(), ConnectionLocator.SOURCE, false);
+         targetRoleLabel = setLabel(targetRoleLabel, pLine, normalizeLabel(type.getTargetRole()),
+            type.isShowRoleNames(), ConnectionLocator.TARGET, false);
+      }
    }
 
    private Label setLabel(Label label, PolylineConnection pLine, String name,
