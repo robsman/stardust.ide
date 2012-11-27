@@ -186,12 +186,12 @@ public class SetSymbolContainerCommand extends Command
                   && changePerformer())
             {
                ISwimlaneSymbol swimlane = (ISwimlaneSymbol) newContainer;
-               while (swimlane.getParticipant() == null
+               while (swimlane.getParticipantReference() == null
                      && swimlane.eContainer() instanceof ISwimlaneSymbol)
                {
                   swimlane = (ISwimlaneSymbol) swimlane.eContainer();
                }
-               newPerformer = swimlane.getParticipant();
+               newPerformer = swimlane.getParticipantReference();
 
                LaneParticipantCommandFactory.addSetPerformerCommands(command, activity,
                      newPerformer, originalPerformer, false, targetEditPart);
@@ -237,13 +237,13 @@ public class SetSymbolContainerCommand extends Command
             if (newContainer instanceof ISwimlaneSymbol && changePerformer())
             {
                ISwimlaneSymbol swimlane = (ISwimlaneSymbol) newContainer;
-               while (swimlane.getParticipant() == null
+               while (swimlane.getParticipantReference() == null
                      && swimlane.eContainer() instanceof ISwimlaneSymbol)
                {
                   swimlane = (ISwimlaneSymbol) swimlane.eContainer();
                }
-               newPerformer = swimlane.getParticipant() != null ? swimlane
-                     .getParticipant() : newPerformer;
+               newPerformer = swimlane.getParticipantReference() != null ? swimlane
+                     .getParticipantReference() : newPerformer;
 
                LaneParticipantCommandFactory.addSetPerformerCommands(command, trigger,
                      newPerformer, originalPerformer, performerAtt, false, targetEditPart);
