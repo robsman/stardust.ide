@@ -43,7 +43,7 @@ public class LaneValidator implements IModelElementValidator
                ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
       }
 
-      if (null != lane.getParticipant())
+      if (null != lane.getParticipantReference())
       {
          for (Iterator i = lane.getActivitySymbol().iterator(); i.hasNext();)
          {
@@ -51,13 +51,13 @@ public class LaneValidator implements IModelElementValidator
             ActivityType activity = activitySymbol.getActivity();
             if ((null != activity) && ActivityUtil.isInteractive(activity)
                   && (null != activity.getPerformer())
-                  && (lane.getParticipant() != activity.getPerformer()))
+                  && (lane.getParticipantReference() != activity.getPerformer()))
             {
                result.add(Issue.warning(activity,
                      MessageFormat.format(
                            Validation_Messages.MSG_OverriddenLaneParticipant,
                            new Object[] {
-                                 lane.getParticipant().getId(),
+                                 lane.getParticipantReference().getId(),
                                  activity.getPerformer().getId()}),
                      ValidationService.PKG_CWM.getActivityType_Performer()));
             }
