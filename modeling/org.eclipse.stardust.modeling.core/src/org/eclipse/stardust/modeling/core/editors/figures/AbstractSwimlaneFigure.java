@@ -73,7 +73,7 @@ public abstract class AbstractSwimlaneFigure extends AbstractCompartmentFigure
       if (swimlaneBorder != null)
       {
          AbstractSwimlaneEditPart part = (AbstractSwimlaneEditPart) getEditPart();
-         IModelParticipant participant = part.getSwimlaneModel().getParticipant();
+         IModelParticipant participant = part.getSwimlaneModel().getParticipantReference();
          swimlaneBorder.setLabel(participant == null ? fixName() : fixName()
                + " (" + //$NON-NLS-1$
                (participant.getName() == null || participant.getName().length() == 0
