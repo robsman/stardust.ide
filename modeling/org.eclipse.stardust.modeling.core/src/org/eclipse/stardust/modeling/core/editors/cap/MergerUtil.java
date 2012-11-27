@@ -431,7 +431,7 @@ public class MergerUtil
    static void getObjectsFromLane(EObject raw, Map elements, Map globalElements, Map processes, Map activities, Copier copier, boolean isSameModel)
    {
       LaneSymbol lane = (LaneSymbol) raw; 
-      IModelParticipant laneParticipant = lane.getParticipant();      
+      IModelParticipant laneParticipant = lane.getParticipantReference();      
       if(!isSameModel)
       {      
          if(laneParticipant != null)

@@ -819,19 +819,19 @@ public class DiagramMerger extends AbstractMerger
          }
          ((LaneSymbol) modelSymbol).setParentPool(DiagramUtil.getDefaultPool(storage.getTargetDiagram()));
          
-         IModelParticipant rawLaneParticipant = ((LaneSymbol) rawSymbol).getParticipant();
+         IModelParticipant rawLaneParticipant = ((LaneSymbol) rawSymbol).getParticipantReference();
          if(rawLaneParticipant != null)
          {
             if(isSameModel)
             {
-               ((LaneSymbol) modelSymbol).setParticipant(rawLaneParticipant);
+               ((LaneSymbol) modelSymbol).setParticipantReference(rawLaneParticipant);
             }
             else
             {
                IIdentifiableModelElement modelElement = getTargetModelElement(null, rawLaneParticipant);
                if(modelElement != null)
                {            
-                  ((LaneSymbol) modelSymbol).setParticipant((IModelParticipant) modelElement);
+                  ((LaneSymbol) modelSymbol).setParticipantReference((IModelParticipant) modelElement);
                }
             }
          }

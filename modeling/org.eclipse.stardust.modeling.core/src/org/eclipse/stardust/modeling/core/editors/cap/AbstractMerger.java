@@ -715,13 +715,13 @@ public abstract class AbstractMerger
       // when we have a lane symbol the lane may have a participant assigned
       if(copy instanceof LaneSymbol)         
       {
-         IModelParticipant rawLaneParticipant = ((LaneSymbol) raw).getParticipant();
+         IModelParticipant rawLaneParticipant = ((LaneSymbol) raw).getParticipantReference();
          if(rawLaneParticipant != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawLaneParticipant);
             if(modelElement != null)
             {            
-               ((LaneSymbol) copy).setParticipant((IModelParticipant) modelElement);
+               ((LaneSymbol) copy).setParticipantReference((IModelParticipant) modelElement);
             }
          }         
       }      
