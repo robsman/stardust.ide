@@ -193,7 +193,7 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
                               ActivityImplementationType.MANUAL_LITERAL))
                         {
                            activityType.setPerformer(laneEditPart.getLaneModel()
-                                 .getParticipant());
+                                 .getParticipantReference());
                         }
                      }
                   }
