@@ -247,7 +247,7 @@ public abstract class AbstractPasteAction extends SelectionAction
                                  for(int i = 0; i < copySet.size(); i++)
                                  {
                                     LaneSymbol symbol = (LaneSymbol) copySet.get(i);
-                                    if(symbol.getParticipant() != null
+                                    if(symbol.getParticipantReference() != null
                                           || HierarchyUtils.hasChildLanesParticipant(symbol))
                                     {
                                        return false;
@@ -276,7 +276,7 @@ public abstract class AbstractPasteAction extends SelectionAction
                                  for(int l = 0; l < copySet.size(); l++)
                                  {
                                     LaneSymbol laneCopy = (LaneSymbol) copySet.get(l);
-                                    IModelParticipant laneCopyParticipant = laneCopy.getParticipant();
+                                    IModelParticipant laneCopyParticipant = laneCopy.getParticipantReference();
                                     List childParticipants = null;
                                     if(laneCopyParticipant == null)
                                     {
