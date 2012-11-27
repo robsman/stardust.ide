@@ -678,12 +678,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
             save(file, monitor);
             getSharedCommandStack().markSaveLocation();
          }
-         else
-         {
-            // 
-            System.err.println("######## ");
-            
-         }
       }
       catch (CoreException e)
       {
