@@ -111,6 +111,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.AddExter
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CloseDiagramAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CommitChangesAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ConnectAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ConvertGatewayAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CopyAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateActivityAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateActivityGraphAction;
@@ -394,6 +395,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       addEditPartAction(new ValidateModelAction(this));
       addEditPartAction(new CreateLinkTypeAction(this));
       addEditPartAction(new CreateDiagramAction(this));
+      addEditPartAction(new ConvertGatewayAction(this));
 
       Map<String, IConfigurationElement> dataExtensions = registry
             .getExtensions(CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
@@ -662,8 +664,12 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    {
       try
       {
-         IFile file = ((IFileEditorInput) getEditorInput()).getFile();
-         if (file.exists()
+         IFile file = null;
+         if(getEditorInput() instanceof IFileEditorInput)
+         {
+            file = ((IFileEditorInput) getEditorInput()).getFile();
+         }
+         if (file != null && file.exists()
                || MessageDialog.openConfirm(getSite().getShell(),
                      Diagram_Messages.MSG_CreateFile,
                      Diagram_Messages.MSG_Confirm_P1_TheFile + file.getName()
@@ -671,6 +677,12 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          {
             save(file, monitor);
             getSharedCommandStack().markSaveLocation();
+         }
+         else
+         {
+            // 
+            System.err.println("######## ");
+            
          }
       }
       catch (CoreException e)
