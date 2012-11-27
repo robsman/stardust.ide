@@ -1343,12 +1343,21 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ISWIMLANE_SYMBOL__CHILD_LANES = INODE_SYMBOL_FEATURE_COUNT + 5;
 
 	/**
+    * The feature id for the '<em><b>Participant Reference</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ISWIMLANE_SYMBOL__PARTICIPANT_REFERENCE = INODE_SYMBOL_FEATURE_COUNT + 6;
+
+   /**
     * The number of structural features of the '<em>ISwimlane Symbol</em>' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ISWIMLANE_SYMBOL_FEATURE_COUNT = INODE_SYMBOL_FEATURE_COUNT + 6;
+   int ISWIMLANE_SYMBOL_FEATURE_COUNT = INODE_SYMBOL_FEATURE_COUNT + 7;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -6862,13 +6871,22 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int LANE_SYMBOL__CHILD_LANES = ISYMBOL_CONTAINER_FEATURE_COUNT + 18;
 
    /**
+    * The feature id for the '<em><b>Participant Reference</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LANE_SYMBOL__PARTICIPANT_REFERENCE = ISYMBOL_CONTAINER_FEATURE_COUNT + 19;
+
+   /**
     * The feature id for the '<em><b>Parent Pool</b></em>' container reference. <!--
     * begin-user-doc --> <!-- end-user-doc -->
     * 
     * @generated
     * @ordered
     */
-   int LANE_SYMBOL__PARENT_POOL = ISYMBOL_CONTAINER_FEATURE_COUNT + 19;
+   int LANE_SYMBOL__PARENT_POOL = ISYMBOL_CONTAINER_FEATURE_COUNT + 20;
 
    /**
     * The feature id for the '<em><b>Parent Lane</b></em>' reference. <!--
@@ -6877,7 +6895,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int LANE_SYMBOL__PARENT_LANE = ISYMBOL_CONTAINER_FEATURE_COUNT + 20;
+   int LANE_SYMBOL__PARENT_LANE = ISYMBOL_CONTAINER_FEATURE_COUNT + 21;
 
    /**
     * The number of structural features of the the '<em>Lane Symbol</em>' class. <!--
@@ -6886,7 +6904,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int LANE_SYMBOL_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 21;
+   int LANE_SYMBOL_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 22;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -8590,13 +8608,22 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int POOL_SYMBOL__CHILD_LANES = ISYMBOL_CONTAINER_FEATURE_COUNT + 18;
 
    /**
+    * The feature id for the '<em><b>Participant Reference</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int POOL_SYMBOL__PARTICIPANT_REFERENCE = ISYMBOL_CONTAINER_FEATURE_COUNT + 19;
+
+   /**
     * The feature id for the '<em><b>Diagram</b></em>' container reference. <!--
     * begin-user-doc --> <!-- end-user-doc -->
     * 
     * @generated
     * @ordered
     */
-   int POOL_SYMBOL__DIAGRAM = ISYMBOL_CONTAINER_FEATURE_COUNT + 19;
+   int POOL_SYMBOL__DIAGRAM = ISYMBOL_CONTAINER_FEATURE_COUNT + 20;
 
    /**
     * The feature id for the '<em><b>Boundary Visible</b></em>' attribute. <!--
@@ -8605,7 +8632,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int POOL_SYMBOL__BOUNDARY_VISIBLE = ISYMBOL_CONTAINER_FEATURE_COUNT + 20;
+   int POOL_SYMBOL__BOUNDARY_VISIBLE = ISYMBOL_CONTAINER_FEATURE_COUNT + 21;
 
 	/**
     * The feature id for the '<em><b>Process</b></em>' reference.
@@ -8614,7 +8641,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int POOL_SYMBOL__PROCESS = ISYMBOL_CONTAINER_FEATURE_COUNT + 21;
+   int POOL_SYMBOL__PROCESS = ISYMBOL_CONTAINER_FEATURE_COUNT + 22;
 
    /**
     * The feature id for the '<em><b>Lanes</b></em>' containment reference list. <!--
@@ -8623,7 +8650,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int POOL_SYMBOL__LANES = ISYMBOL_CONTAINER_FEATURE_COUNT + 22;
+   int POOL_SYMBOL__LANES = ISYMBOL_CONTAINER_FEATURE_COUNT + 23;
 
    /**
     * The number of structural features of the the '<em>Pool Symbol</em>' class. <!--
@@ -8632,7 +8659,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int POOL_SYMBOL_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 23;
+   int POOL_SYMBOL_FEATURE_COUNT = ISYMBOL_CONTAINER_FEATURE_COUNT + 24;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl <em>Process Definition Type</em>}' class.
@@ -13753,6 +13780,17 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EReference getISwimlaneSymbol_ChildLanes();
 
 	/**
+    * Returns the meta object for the reference '{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getParticipantReference <em>Participant Reference</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the reference '<em>Participant Reference</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getParticipantReference()
+    * @see #getISwimlaneSymbol()
+    * @generated
+    */
+   EReference getISwimlaneSymbol_ParticipantReference();
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol <em>IModel Element Node Symbol</em>}'.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @return the meta object for class '<em>IModel Element Node Symbol</em>'.
@@ -16500,6 +16538,14 @@ public interface CarnotWorkflowModelPackage extends EPackage {
       EReference ISWIMLANE_SYMBOL__CHILD_LANES = eINSTANCE.getISwimlaneSymbol_ChildLanes();
 
 		/**
+       * The meta object literal for the '<em><b>Participant Reference</b></em>' reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference ISWIMLANE_SYMBOL__PARTICIPANT_REFERENCE = eINSTANCE.getISwimlaneSymbol_ParticipantReference();
+
+      /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.IModelElementNodeSymbolImpl <em>IModel Element Node Symbol</em>}' class.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->

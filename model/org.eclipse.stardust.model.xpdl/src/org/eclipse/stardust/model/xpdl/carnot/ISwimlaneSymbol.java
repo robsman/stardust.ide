@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#isCollapsed <em>Collapsed</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getParticipant <em>Participant</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getChildLanes <em>Child Lanes</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getParticipantReference <em>Participant Reference</em>}</li>
  * </ul>
  * </p>
  *
@@ -170,5 +171,32 @@ public interface ISwimlaneSymbol extends INodeSymbol, IIdentifiableElement
     * @generated
     */
    EList<LaneSymbol> getChildLanes();
+
+   /**
+    * Returns the value of the '<em><b>Participant Reference</b></em>' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * <!-- begin-model-doc -->
+    * A reference to the associated participant, if existent.
+    * <!-- end-model-doc -->
+    * @return the value of the '<em>Participant Reference</em>' reference.
+    * @see #setParticipantReference(IModelParticipant)
+    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getISwimlaneSymbol_ParticipantReference()
+    * @model resolveProxies="false"
+    *        extendedMetaData="kind='attribute' name='participantReference'"
+    *        annotation="http://www.carnot.ag/workflow/model/ElementIdRef scope='model'"
+    * @generated
+    */
+   IModelParticipant getParticipantReference();
+
+   /**
+    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol#getParticipantReference <em>Participant Reference</em>}' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @param value the new value of the '<em>Participant Reference</em>' reference.
+    * @see #getParticipantReference()
+    * @generated
+    */
+   void setParticipantReference(IModelParticipant value);
 
 } // ISwimlaneSymbol
