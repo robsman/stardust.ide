@@ -97,7 +97,7 @@ public class ConvertGatewayUtil
             JoinSplitType join = activity.getJoin();
             JoinSplitType split = activity.getSplit();
             if(!StringUtils.isEmpty(activityId)
-                  && activityId.matches("^(?i)gateway.*"))
+                  && activityId.matches("^(?i)gateway.*")) //$NON-NLS-1$
             {
             }
             else
@@ -121,7 +121,7 @@ public class ConvertGatewayUtil
       modified = true;
       IdFactory idFactoryTransition = new IdFactory(Diagram_Messages.BASENAME_Transition, 
             Diagram_Messages.BASENAME_Transition);
-      IdFactory idFactoryActivity = new IdFactory("gateway", "gateway");      
+      IdFactory idFactoryActivity = new IdFactory("gateway", "gateway"); //$NON-NLS-1$ //$NON-NLS-2$      
       
       ProcessDefinitionType process = (ProcessDefinitionType) activity.eContainer();
       TransitionType newTransition = (TransitionType) CreateModelElementUtil.createModelElement(idFactoryTransition, PKG.getTransitionType(), process, model);      
