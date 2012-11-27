@@ -56,7 +56,7 @@ public class LanePropertyPage extends IdentifiablePropertyPage
       viewer.getTable().removeAll();
       // get all particpants, depends on assigned participants of parent lanes
       List participants = HierarchyUtils.getParticipants(lane, model);
-      originalPerformer = lane.getParticipant();      
+      originalPerformer = lane.getParticipantReference();      
       if(HierarchyUtils.hasChildLanesParticipant(lane))
       {
          setMessage(Diagram_Messages.LanePropertyPage_SetParticipantInformation, INFORMATION);
@@ -83,7 +83,7 @@ public class LanePropertyPage extends IdentifiablePropertyPage
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
       LaneSymbol lane = (LaneSymbol) element;
-      originalPerformer = lane.getParticipant();
+      originalPerformer = lane.getParticipantReference();
       TableViewer viewer = (TableViewer) labeledWidget.getViewer();
       IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
       IModelParticipant newPerformer = (IModelParticipant)
@@ -93,7 +93,7 @@ public class LanePropertyPage extends IdentifiablePropertyPage
       {
          DefaultPropSheetCmdFactory.INSTANCE.getSetCommand((EditPart) getElement(),
             (LaneSymbol) element,
-            PKG_CWM.getISwimlaneSymbol_Participant(), newPerformer).execute();
+            PKG_CWM.getISwimlaneSymbol_ParticipantReference(), newPerformer).execute();
       }
    }
 
@@ -125,7 +125,7 @@ public class LanePropertyPage extends IdentifiablePropertyPage
                      if(modelElement instanceof LaneSymbol)
                      {
                         LaneSymbol symbol = (LaneSymbol) modelElement;
-                        symbol.setParticipant(null);
+                        symbol.setParticipantReference(null);
                         viewer.setSelection(null);
                      }
                   }
