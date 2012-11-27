@@ -129,6 +129,8 @@ public interface DiagramActionConstants
    final String CREATE_CONNECTION = "org.eclipse.stardust.modeling.core.connection"; //$NON-NLS-1$
    
    final String SNAP_TO_GRID = "org.eclipse.stardust.modeling.core.snapToGrid"; //$NON-NLS-1$
+
+   final String CONVERT_GATEWAYS = "org.eclipse.stardust.modeling.core.convertGatewaysAction"; //$NON-NLS-1$      
    
    final String[] distributeActions = {
       DISTRIBUTE_HORIZONTAL,
