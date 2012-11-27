@@ -644,7 +644,7 @@ public class PoolLaneHelper
    // check for parent organizations
    public static boolean canMove(LaneEditPart hostEP, LaneEditPart laneEP)
    {
-      IModelParticipant laneParticipant = ((ISwimlaneSymbol) laneEP.getModel()).getParticipant();
+      IModelParticipant laneParticipant = ((ISwimlaneSymbol) laneEP.getModel()).getParticipantReference();
       List childParticipants = null;
       if(laneParticipant == null)
       {
@@ -662,7 +662,7 @@ public class PoolLaneHelper
       IModelParticipant parentParticipant = null;   
       while(parentEP != null && !(parentEP instanceof PoolEditPart))
       {
-         parentParticipant = ((ISwimlaneSymbol) parentEP.getModel()).getParticipant();
+         parentParticipant = ((ISwimlaneSymbol) parentEP.getModel()).getParticipantReference();
          if(parentParticipant != null)
          {
             hostParticipant = parentParticipant;   

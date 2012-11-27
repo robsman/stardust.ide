@@ -116,7 +116,7 @@ public class GenericUtils
          EObject container = symbol.eContainer();
          if(container instanceof LaneSymbol)
          {
-            IModelParticipant laneParticpant = ((LaneSymbol) container).getParticipant();
+            IModelParticipant laneParticpant = ((LaneSymbol) container).getParticipantReference();
             if(laneParticpant != null)
             {
                if(performer == null)

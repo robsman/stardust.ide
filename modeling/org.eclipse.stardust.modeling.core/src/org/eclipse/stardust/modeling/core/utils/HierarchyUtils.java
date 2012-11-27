@@ -39,7 +39,7 @@ public class HierarchyUtils
          for(int i = 0; i < children.size(); i++)
          {
             LaneSymbol childSymbol = (LaneSymbol) children.get(i);
-            IModelParticipant laneParticipant = childSymbol.getParticipant();
+            IModelParticipant laneParticipant = childSymbol.getParticipantReference();
             if(laneParticipant != null)
             {
                participants.add(laneParticipant);
@@ -254,7 +254,7 @@ public class HierarchyUtils
          IModelParticipant parentParticipant = null;   
          while (parent != null)
          {
-            parentParticipant = parent.getParticipant();
+            parentParticipant = parent.getParticipantReference();
             if(parentParticipant != null)
             {
                laneParticipant = parentParticipant;   
@@ -300,7 +300,7 @@ public class HierarchyUtils
          for(int i = 0; i < lanes.size(); i++)
          {
             LaneSymbol childLane = (LaneSymbol) lanes.get(i);
-            if(childLane.getParticipant() != null)
+            if(childLane.getParticipantReference() != null)
             {
                return true;
             }
@@ -316,9 +316,9 @@ public class HierarchyUtils
    // has lane or parent lane participant
    public static IModelParticipant hasParentLanesParticipant(LaneSymbol lane)
    {
-      if(lane.getParticipant() != null)
+      if(lane.getParticipantReference() != null)
       {
-         return lane.getParticipant();
+         return lane.getParticipantReference();
       }
       ISwimlaneSymbol parent = lane.getParentLane();
       if(parent instanceof PoolSymbol)
