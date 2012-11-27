@@ -796,8 +796,7 @@ public class UnusedModelElementsSearcher
                for(Iterator iter = pool.getLanes().iterator(); iter.hasNext();)
                {
                   LaneSymbol lane = (LaneSymbol) iter.next();             
-                  // IModelParticipant participant = lane.getParticipantReference();                  
-                  IModelParticipant participant = lane.getParticipant();
+                  IModelParticipant participant = lane.getParticipantReference();                  
                   if(participant != null && participant.equals(element))
                   {
                      return true;
