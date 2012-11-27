@@ -833,7 +833,7 @@ public class ModelBuilderFacade
 
       if (data == null && dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
       {
-         createProcessAttachementData(model);
+         data = createProcessAttachementData(model);
       }
 
       if (!dataModelId.equals(model.getId()))
