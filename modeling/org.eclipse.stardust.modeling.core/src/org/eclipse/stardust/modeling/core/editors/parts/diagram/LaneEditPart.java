@@ -35,9 +35,9 @@ public class LaneEditPart extends AbstractSwimlaneEditPart
    {
       super(editor, lane);
       // register for notification if name of participant gets changed
-      if (lane.getParticipant() != null)
+      if (lane.getParticipantReference() != null)
       {
-         lane.getParticipant().eAdapters().add(getNotificationAdapter());
+         lane.getParticipantReference().eAdapters().add(getNotificationAdapter());
       }
    }
 
