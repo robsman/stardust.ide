@@ -32,6 +32,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
@@ -52,6 +53,7 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateSymbolCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteNodeSymbolCmd;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IDiagramCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
@@ -246,7 +248,11 @@ public class UpdateProcessDiagramAction extends SelectionAction
             {
                moveConnectionsToDefaultPool(diagram, command);
             }
-            PoolSymbol pool = DiagramUtil.getDefaultPool(diagram);            
+            PoolSymbol pool = DiagramUtil.getDefaultPool(diagram);  
+            if(pool != null)
+            {
+               checkLaneParticipant(pool, command);
+            }
             
             // change to BPMN Mode (old model containing lanes)?
             DiagramModeType mode = diagram.getMode();
@@ -285,6 +291,27 @@ public class UpdateProcessDiagramAction extends SelectionAction
       return command.isEmpty() ? null : command.unwrap();
    }
 
+   public void checkLaneParticipant(ISwimlaneSymbol container, CompoundCommand cmd)
+   {
+      List childLanes = container.getChildLanes();
+      if(!childLanes.isEmpty())
+      {         
+         for (Iterator i = childLanes.listIterator(); i.hasNext();)
+         {
+            LaneSymbol lane = (LaneSymbol) i.next();
+            IModelParticipant participant = lane.getParticipant();
+            if(participant != null)
+            {
+               cmd.add(new SetValueCmd(lane, CWM_PKG.getISwimlaneSymbol_ParticipantReference(), participant));
+               cmd.add(new DeleteValueCmd(lane, CWM_PKG.getISwimlaneSymbol_Participant()));               
+            }
+            
+            checkLaneParticipant(lane, cmd);
+         }
+      }
+   }
+   
+   
    // check all lanes
    public void checkLaneActions(PoolSymbol pool, CompoundCommand cmd, boolean create)
    {

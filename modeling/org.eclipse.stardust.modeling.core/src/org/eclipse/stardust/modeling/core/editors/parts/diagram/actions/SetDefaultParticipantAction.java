@@ -81,7 +81,7 @@ public class SetDefaultParticipantAction extends SelectionAction
          {
             Command cmd = DefaultPropSheetCmdFactory.INSTANCE.getSetCommand(page
                   .findEditPart(getLane()), getLane(),
-                  CarnotWorkflowModelPackage.eINSTANCE.getISwimlaneSymbol_Participant(),
+                  CarnotWorkflowModelPackage.eINSTANCE.getISwimlaneSymbol_ParticipantReference(),
                   participant[0]);
             execute(cmd);
          }
@@ -135,10 +135,10 @@ public class SetDefaultParticipantAction extends SelectionAction
          }
       });
       LaneSymbol lane = getLane();
-      if (lane.getParticipant() != null)
+      if (lane.getParticipantReference() != null)
       {
-         viewer.setSelection(new StructuredSelection(lane.getParticipant()));
-         participant[0] = lane.getParticipant();
+         viewer.setSelection(new StructuredSelection(lane.getParticipantReference()));
+         participant[0] = lane.getParticipantReference();
       }
    }
 
