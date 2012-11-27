@@ -244,7 +244,7 @@ public class PropertySourceFactory
          participants.addAll(model.getConditionalPerformer());
          PropertyDescriptor participantDescr = new ModelElementListPropertyDescriptor(
                new BoundEObjectPropertyId(object, CWM_PKG
-                     .getISwimlaneSymbol_Participant(), part),
+                     .getISwimlaneSymbol_ParticipantReference(), part),
                Diagram_Messages.DISPL_NAME_Participant, participants);
          PropertyDescriptor composite = CmdFactoryPropertyDescriptorDecorator.create(
                participantDescr, LaneParticipantCommandFactory.INSTANCE);
