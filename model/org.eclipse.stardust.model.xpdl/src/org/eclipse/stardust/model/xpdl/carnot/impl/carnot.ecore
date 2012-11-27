@@ -556,6 +556,16 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="childLanes" upperBound="-1"
         eType="#//LaneSymbol" transient="true" resolveProxies="false" eOpposite="#//LaneSymbol/parentLane"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="participantReference" unique="false"
+        eType="#//IModelParticipant" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="participantReference"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.carnot.ag/workflow/model/ElementIdRef">
+        <details key="scope" value="model"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IModelElementNodeSymbol" abstract="true"
       eSuperTypes="#//INodeSymbol">
