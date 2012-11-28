@@ -64,7 +64,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private void addGateway(Gate type, Gateway gateway, FlowElementsContainer container) {
-        ProcessDefinitionType processDef = getProcessOrReportFailure(gateway, container);
+        ProcessDefinitionType processDef = getProcessAndReportFailure(gateway, container);
         if (processDef == null) return;
         if (!validateGate(gateway)) return;
 

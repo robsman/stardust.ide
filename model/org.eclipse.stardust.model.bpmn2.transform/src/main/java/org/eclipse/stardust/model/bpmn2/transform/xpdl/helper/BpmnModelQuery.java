@@ -10,13 +10,22 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
-import org.eclipse.bpmn2.CatchEvent;
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
+import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
 /**
  * @author Simon Nikles
@@ -24,18 +33,18 @@ import org.eclipse.bpmn2.RootElement;
  */
 public class BpmnModelQuery {
 
+	private Logger logger;
+
     public BpmnModelQuery() {
-
     }
 
-    public int countEventDefinitions(CatchEvent event) {
-        if (event.getEventDefinitions() != null) return event.getEventDefinitions().size();
-        return 0;
+    public BpmnModelQuery(Logger logger) {
+    	this.logger = logger;
     }
 
-    public EventDefinition getFirstEventDefinition(CatchEvent event) {
+    public EventDefinition getFirstEventDefinition(Event event) {
         if (countEventDefinitions(event) > 0) {
-            return event.getEventDefinitions().get(0);
+            return getEventDefinitions(event).get(0);
         }
         return null;
     }
@@ -72,5 +81,41 @@ public class BpmnModelQuery {
     	}
     	return null;
     }
+
+    public int countEventDefinitions(Event event) {
+		List<EventDefinition> eventDefinitions = getEventDefinitions(event);
+		return eventDefinitions == null ? 0 : eventDefinitions.size();
+	}
+
+    public Interface getInterfaceByOperationRef(BaseElement node, EObject container) {
+		Class<?> cls = node.getClass();
+		try {
+			Method m = cls.getMethod("getOperationRef");
+			Object op = m.invoke(node);
+			if (op != null && op instanceof Operation) {
+				Operation operation = (Operation)op;
+				if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, container);
+				return (Interface) operation.eContainer();
+			}
+		} catch (Exception e) {
+			if (logger != null) logger.error(e.getMessage());
+		}
+		return null;
+    }
+
+    @SuppressWarnings("unchecked")
+	private List<EventDefinition> getEventDefinitions(Event event) {
+		Class<?> cls = event.getClass();
+		try {
+			Method m = cls.getMethod("getEventDefinitions");
+			Object defs = m.invoke(event);
+			if (defs != null && defs instanceof List<?>) {
+				return ((List<EventDefinition>)defs);
+			}
+		} catch (Exception e) {
+			if (logger != null) logger.error(e.getMessage());
+		}
+		return null;
+	}
 
 }

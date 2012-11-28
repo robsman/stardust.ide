@@ -15,13 +15,10 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplica
 import java.util.List;
 
 import org.eclipse.bpmn2.FlowElementsContainer;
-import org.eclipse.bpmn2.Interface;
-import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.ServiceTask;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -30,13 +27,16 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
 public class ServiceTask2Stardust extends AbstractElement2Stardust {
 
+	private BpmnModelQuery bpmnquery;
+
 	public ServiceTask2Stardust(ModelType carnotModel, List<String> failures) {
 		super(carnotModel, failures);
+		bpmnquery = new BpmnModelQuery(logger);
 	}
 
 	public void addServiceTask(ServiceTask task, FlowElementsContainer container) {
 		logger.info("Add service task: " + task);
-		ProcessDefinitionType processDef = getProcessOrReportFailure(task, container);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(task, container);
 		if (processDef == null) return;
 		String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
 		BpmApplicationActivityBuilder builder =
@@ -48,46 +48,13 @@ public class ServiceTask2Stardust extends AbstractElement2Stardust {
 	}
 
 	private void setInvokedApplication(ServiceTask task, BpmApplicationActivityBuilder builder, FlowElementsContainer container) {
-		ApplicationType application = getApplication(task, container);
+		ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, bpmnquery, failures);
+		ApplicationType application = serviceUtil.getApplicationAndReportFailure(task, container);
 		if (application != null) {
 			builder.setApplicationModel(carnotModel);
 			builder.invokingApplication(application);
 			logger.info("setInvokedApplication: " + application);
 		}
-	}
-
-	private ApplicationType getApplication(ServiceTask task, FlowElementsContainer container) {
-		Interface bpmnInterface = getServiceInterface(task, container);
-		logger.debug("Interface " + bpmnInterface);
-		if (bpmnInterface != null) {
-			logger.debug("Interface implementation " + bpmnInterface.getImplementationRef());
-			Object impl = bpmnInterface.getImplementationRef();
-			if (impl != null && impl instanceof AnyType) {
-				String implId = "";
-				if (((AnyType)impl).eIsProxy()) {
-					try {
-						implId = ((InternalEObject)((AnyType)impl)).eProxyURI().fragment();
-					} catch (Exception e) {//URISyntaxException e) {
-						logger.error(e.getMessage());
-						failures.add("Implementation (Application) not resolved " + task + " in " + container);
-					}
-				} else {
-					implId = ((AnyType)impl).getMixed().toString();
-				}
-				return query.findApplication(implId);
-			}
-		}
-		return null;
-	}
-
-	private Interface getServiceInterface(ServiceTask task, FlowElementsContainer container) {
-		Operation operation = task.getOperationRef();
-		if (operation != null) {
-			if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, container);
-			logger.debug("ServiceTask2Stardust.getServiceInterface() operation=" + operation);
-			return (Interface) operation.eContainer();
-		}
-		return null;
 	}
 
 }

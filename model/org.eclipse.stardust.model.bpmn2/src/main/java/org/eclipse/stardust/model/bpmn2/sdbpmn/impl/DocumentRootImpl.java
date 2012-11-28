@@ -84,6 +84,8 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getOid <em>Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getVendor <em>Vendor</em>}</li>
  * </ul>
  * </p>
@@ -269,6 +271,46 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * @ordered
 	 */
 	protected boolean oidESet;
+
+	/**
+	 * The default value of the '{@link #getParameterMappingOid() <em>Parameter Mapping Oid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParameterMappingOid()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PARAMETER_MAPPING_OID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getParameterMappingOid() <em>Parameter Mapping Oid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getParameterMappingOid()
+	 * @generated
+	 * @ordered
+	 */
+	protected String parameterMappingOid = PARAMETER_MAPPING_OID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTriggerAccessPointRef() <em>Trigger Access Point Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggerAccessPointRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TRIGGER_ACCESS_POINT_REF_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTriggerAccessPointRef() <em>Trigger Access Point Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTriggerAccessPointRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected String triggerAccessPointRef = TRIGGER_ACCESS_POINT_REF_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getVendor() <em>Vendor</em>}' attribute.
@@ -900,6 +942,48 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getParameterMappingOid() {
+		return parameterMappingOid;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParameterMappingOid(String newParameterMappingOid) {
+		String oldParameterMappingOid = parameterMappingOid;
+		parameterMappingOid = newParameterMappingOid;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID, oldParameterMappingOid, parameterMappingOid));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getTriggerAccessPointRef() {
+		return triggerAccessPointRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTriggerAccessPointRef(String newTriggerAccessPointRef) {
+		String oldTriggerAccessPointRef = triggerAccessPointRef;
+		triggerAccessPointRef = newTriggerAccessPointRef;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF, oldTriggerAccessPointRef, triggerAccessPointRef));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getVendor() {
 		return vendor;
 	}
@@ -1021,6 +1105,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return getModelOID();
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				return getOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
+				return getParameterMappingOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
+				return getTriggerAccessPointRef();
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
 				return getVendor();
 		}
@@ -1106,6 +1194,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				setOid((Long)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
+				setParameterMappingOid((String)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
+				setTriggerAccessPointRef((String)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
 				setVendor((String)newValue);
@@ -1194,6 +1288,12 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				unsetOid();
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
+				setParameterMappingOid(PARAMETER_MAPPING_OID_EDEFAULT);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
+				setTriggerAccessPointRef(TRIGGER_ACCESS_POINT_REF_EDEFAULT);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
 				setVendor(VENDOR_EDEFAULT);
 				return;
@@ -1257,6 +1357,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return MODEL_OID_EDEFAULT == null ? modelOID != null : !MODEL_OID_EDEFAULT.equals(modelOID);
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				return isSetOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
+				return PARAMETER_MAPPING_OID_EDEFAULT == null ? parameterMappingOid != null : !PARAMETER_MAPPING_OID_EDEFAULT.equals(parameterMappingOid);
+			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
+				return TRIGGER_ACCESS_POINT_REF_EDEFAULT == null ? triggerAccessPointRef != null : !TRIGGER_ACCESS_POINT_REF_EDEFAULT.equals(triggerAccessPointRef);
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
 				return VENDOR_EDEFAULT == null ? vendor != null : !VENDOR_EDEFAULT.equals(vendor);
 		}
@@ -1289,6 +1393,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 		result.append(modelOID);
 		result.append(", oid: ");
 		if (oidESet) result.append(oid); else result.append("<unset>");
+		result.append(", parameterMappingOid: ");
+		result.append(parameterMappingOid);
+		result.append(", triggerAccessPointRef: ");
+		result.append(triggerAccessPointRef);
 		result.append(", vendor: ");
 		result.append(vendor);
 		result.append(')');

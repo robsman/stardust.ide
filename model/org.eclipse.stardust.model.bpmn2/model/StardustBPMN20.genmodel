@@ -2,7 +2,7 @@
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="****************************************************************************&#xD;&#xA; Copyright (c) 2012 ITpearls AG and others.&#xD;&#xA; All rights reserved. This program and the accompanying materials&#xD;&#xA; are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA; which accompanies this distribution, and is available at&#xD;&#xA; http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA;&#xD;&#xA; Contributors:&#xD;&#xA;    ITpearls - initial API and implementation and/or initial documentation&#xD;&#xA;*****************************************************************************"
-    modelDirectory="/Bpmn2StardustEmf/src" modelPluginID="Bpmn2StardustEmf" modelName="StardustBPMN20"
+    modelDirectory="/Bpmn2StardustEMF/src" modelPluginID="Bpmn2StardustEMF" modelName="StardustBPMN20"
     importerID="org.eclipse.xsd.ecore.importer" complianceLevel="6.0" copyrightFields="false"
     usedGenPackages="carnot/carnot.genmodel#//carnot carnot/xpdl.genmodel#//xpdl carnot/xpdl.genmodel#//xpdl/extensions platform:/plugin/org.eclipse.xsd/model/XSD.genmodel#//xsd">
   <foreignModel>StardustBPMN20.xsd</foreignModel>
@@ -33,6 +33,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/interactiveApplicationRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/modelOID"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/oid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/parameterMappingOid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/triggerAccessPointRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/vendor"/>
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustAccessPointType">
@@ -50,13 +52,11 @@
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustInterfaceType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustInterfaceType/stardustApplication"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustInterfaceType/stardustTrigger"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustInterfaceType/applicationType"/>
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustMessageStartEventType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustMessageStartEventType/stardustAttributes"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustMessageStartEventType/accessPoint"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustMessageStartEventType/parameterMapping"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustMessageStartEventType/type"/>
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustModelType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/author"/>
@@ -84,6 +84,10 @@
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustTimerStartEventType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTimerStartEventType/stardustAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustTriggerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTriggerType/accessPoint1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTriggerType/context"/>
     </genClasses>
     <genClasses ecoreClass="sdbpmn.ecore#//StardustUserTaskType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustUserTaskType/allowsAbortByPerformer"/>

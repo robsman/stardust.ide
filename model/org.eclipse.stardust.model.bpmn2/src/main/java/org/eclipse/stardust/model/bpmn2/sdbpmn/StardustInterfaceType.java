@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustApplication <em>Stardust Application</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustTrigger <em>Stardust Trigger</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getApplicationType <em>Application Type</em>}</li>
  * </ul>
  * </p>
@@ -58,6 +59,33 @@ public interface StardustInterfaceType extends EObject {
 	 * @generated
 	 */
 	void setStardustApplication(StardustApplicationType value);
+
+	/**
+	 * Returns the value of the '<em><b>Stardust Trigger</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Trigger</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Trigger</em>' containment reference.
+	 * @see #setStardustTrigger(StardustTriggerType)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustInterfaceType_StardustTrigger()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='StardustTrigger' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	StardustTriggerType getStardustTrigger();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustTrigger <em>Stardust Trigger</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Trigger</em>' containment reference.
+	 * @see #getStardustTrigger()
+	 * @generated
+	 */
+	void setStardustTrigger(StardustTriggerType value);
 
 	/**
 	 * Returns the value of the '<em><b>Application Type</b></em>' attribute.

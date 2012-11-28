@@ -192,19 +192,19 @@ public class Data2Stardust extends AbstractElement2Stardust {
     	if (dataObject.getName() == null || dataObject.getName().trim().isEmpty()) {
     		name = findDataObjectReferenceName(dataObject);
     	}
-        return getNonEmpty(name, dataObject.getId(), dataObject);
+        return getNonEmptyName(name, dataObject.getId(), dataObject);
     }
 
 	private String getName(DataInput data) {
-        return getNonEmpty(data.getName(), data.getId(), data);
+        return getNonEmptyName(data.getName(), data.getId(), data);
     }
 
     private String getName(DataOutput data) {
-        return getNonEmpty(data.getName(), data.getId(), data);
+        return getNonEmptyName(data.getName(), data.getId(), data);
     }
 
     private String getName(ItemDefinition itemdef, String uriFragment) {
-        return getNonEmpty(uriFragment, itemdef.getId(), itemdef);
+        return getNonEmptyName(uriFragment, itemdef.getId(), itemdef);
     }
 
     private String findDataObjectReferenceName(DataObject dataObject) {

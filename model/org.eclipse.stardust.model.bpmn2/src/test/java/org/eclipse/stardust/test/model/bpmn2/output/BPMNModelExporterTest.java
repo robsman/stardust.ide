@@ -32,8 +32,8 @@ public class BPMNModelExporterTest extends TestCase {
     }
 
     public void testModelExport() {
-        final String filePath = "c:/temp/test.bpmn";
-        final String targetFilePath = "c:/temp/test_export.bpmn";
+    	final String filePath = this.getClass().getClassLoader().getResource("models/simple_import_test.bpmn").getPath();
+        final String targetFilePath = this.getClass().getClassLoader().getResource("models/").getPath().concat("test_export.bpmn");
         try {
             Bpmn2Resource modelResource = BPMNModelImporter.importModel(filePath);
             System.out.println("BPMNModelExporterTest.testModelExport() " + modelResource.getClass().toString());

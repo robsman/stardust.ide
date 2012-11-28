@@ -45,26 +45,31 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
-				<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="stardust:AccessPointType">
-					<xsd:annotation>
-						<xsd:documentation>The list of access points.</xsd:documentation>
-					</xsd:annotation>
-				</xsd:element>
-				<xsd:element maxOccurs="unbounded" minOccurs="0" name="parameterMapping" type="stardust:ParameterMappingType">
-					<xsd:annotation>
-						<xsd:documentation>The list of parameter mappings.</xsd:documentation>
-					</xsd:annotation>
-				</xsd:element>
 			</xsd:sequence>
-			<xsd:attribute name="type" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation>
-						The model id of one of the previously defined triggerType elements.
-						Actual implementation of a message start event: i.e. jms or e-mail
-               </xsd:documentation>
-				</xsd:annotation>
-			</xsd:attribute>
 		</xsd:complexType>
+<!-- 		<xsd:complexType> -->
+<!-- 			<xsd:sequence> -->
+<!-- 				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" /> -->
+<!-- 				<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="stardust:AccessPointType"> -->
+<!-- 					<xsd:annotation> -->
+<!-- 						<xsd:documentation>The list of access points.</xsd:documentation> -->
+<!-- 					</xsd:annotation> -->
+<!-- 				</xsd:element> -->
+<!-- 				<xsd:element maxOccurs="unbounded" minOccurs="0" name="parameterMapping" type="stardust:ParameterMappingType"> -->
+<!-- 					<xsd:annotation> -->
+<!-- 						<xsd:documentation>The list of parameter mappings.</xsd:documentation> -->
+<!-- 					</xsd:annotation> -->
+<!-- 				</xsd:element> -->
+<!-- 			</xsd:sequence> -->
+<!-- 			<xsd:attribute name="type" type="xsd:string"> -->
+<!-- 				<xsd:annotation> -->
+<!-- 					<xsd:documentation> -->
+<!-- 						The model id of one of the previously defined triggerType elements. -->
+<!-- 						Actual implementation of a message start event: i.e. jms or e-mail -->
+<!--                </xsd:documentation> -->
+<!-- 				</xsd:annotation> -->
+<!-- 			</xsd:attribute> -->
+<!-- 		</xsd:complexType> -->
 	</xsd:element>
 
 	<xsd:element name="StardustSeqenceFlow">
@@ -153,6 +158,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="StardustApplication" type="sdbpmn:StardustApplicationType" minOccurs="0" maxOccurs="1" />
+				<xsd:element name="StardustTrigger" type="sdbpmn:StardustTriggerType" minOccurs="0" maxOccurs="1" />				
 			</xsd:sequence>
 			<xsd:attribute name="applicationType" type="xsd:string" />
 		</xsd:complexType>
@@ -161,6 +167,17 @@
 	<xsd:complexType name="StardustApplicationType">
 		<xsd:complexContent>
 			<xsd:extension base="stardust:ApplicationType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="sdbpmn:StardustAccessPointType" />
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="context" type="sdbpmn:StardustContextType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="StardustTriggerType">
+		<xsd:complexContent>
+			<xsd:extension base="stardust:TriggerType">
 				<xsd:sequence>
 					<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="sdbpmn:StardustAccessPointType" />
 					<xsd:element maxOccurs="unbounded" minOccurs="0" name="context" type="sdbpmn:StardustContextType" />
@@ -253,9 +270,20 @@
 
 	<xsd:element name="dataType" type="stardust:DataTypeType"></xsd:element>
 
-	<xsd:attribute name="applicationAccessPointRef" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="applicationAccessPointRef" type="xsd:string">
+		<xsd:annotation><xsd:documentation>BPMN2.0 Assignment-From/To: reference to a stardust application accesspoint.</xsd:documentation></xsd:annotation>
+	</xsd:attribute>
+	
+	<xsd:attribute name="triggerAccessPointRef" type="xsd:string">
+		<xsd:annotation><xsd:documentation>BPMN2.0 Assignment-From/To: reference to a stardust trigger accesspoint.</xsd:documentation></xsd:annotation>
+	</xsd:attribute>
 
-	<xsd:attribute name="interactiveApplicationRef" type="xsd:string"></xsd:attribute>
+	<xsd:attribute name="parameterMappingOid" type="xsd:string">
+		<xsd:annotation><xsd:documentation>BPMN2.0 Assignment: stardust mapping oid</xsd:documentation></xsd:annotation>
+	</xsd:attribute>
+
+	<xsd:attribute name="interactiveApplicationRef" type="xsd:string">
+	</xsd:attribute>
 
 
 </schema>

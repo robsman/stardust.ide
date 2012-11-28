@@ -45,7 +45,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 
 	public void addUserTask(UserTask task, FlowElementsContainer container) {
 		logger.debug("Add user task: " + task);
-		ProcessDefinitionType processDef = getProcessOrReportFailure(task, container);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(task, container);
 		if (processDef == null) return;
 		String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
 

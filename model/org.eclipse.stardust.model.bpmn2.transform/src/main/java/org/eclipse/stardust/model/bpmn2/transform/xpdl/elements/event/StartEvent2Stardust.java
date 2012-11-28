@@ -30,6 +30,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
@@ -48,7 +49,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
 
 	public StartEvent2Stardust(ModelType carnotModel, List<String> failures) {
 		super(carnotModel, failures);
-		bpmnquery = new BpmnModelQuery();
+		bpmnquery = new BpmnModelQuery(logger);
 	}
 
 	public void addStartEvent(StartEvent event, FlowElementsContainer container) {
@@ -57,7 +58,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
 
 		if (!checkAndReportElementSupport(event, def, container)) return;
 
-		ProcessDefinitionType processDef = getProcessOrReportFailure(event, container);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(event, container);
 		if (processDef == null) return;
 
 		if (def == null) {
@@ -95,22 +96,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         Bpmn2StardustXPDLExtension.addStartEventExtensions(event, trigger);
     }
 
-    private void addMessageTrigger(StartEvent event, MessageEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
-        logger.debug("addMessageTrigger (JMS) " + event);
-        TriggerTypeType triggerType = Bpmn2StardustXPDLExtension.getMessageStartEventTriggerType(event, carnotModel);
-        if (triggerType != null) {
-            TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
-            trigger.setType(triggerType);
-            trigger.setId(event.getId());
-            trigger.setName(event.getName());
-            Bpmn2StardustXPDLExtension.addMessageStartEventExtensions(event, trigger);
-            processDef.getTrigger().add(trigger);
-        } else {
-            failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
-        }
-    }
-
-    private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
+	private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
         logger.debug("addTimerTrigger " + event);
 
         TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
@@ -125,6 +111,14 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         } else {
             failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
         }
+    }
+
+    private void addMessageTrigger(StartEvent event, MessageEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
+        logger.debug("addMessageTrigger (JMS) " + event);
+        ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, bpmnquery, failures);
+        TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(event, def, container);
+        trigger.setId(event.getId());
+        if (trigger != null) processDef.getTrigger().add(trigger);
     }
 
     private void setTimerTriggerDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {
@@ -175,5 +169,4 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
             trigger.setDescription(descriptor);
         }
     }
-
 }

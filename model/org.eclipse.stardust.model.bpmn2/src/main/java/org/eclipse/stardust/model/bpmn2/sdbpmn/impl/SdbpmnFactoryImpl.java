@@ -80,6 +80,7 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
 			case SdbpmnPackage.STARDUST_START_EVENT_TYPE: return createStardustStartEventType();
 			case SdbpmnPackage.STARDUST_SUBPROCESS_TYPE: return createStardustSubprocessType();
 			case SdbpmnPackage.STARDUST_TIMER_START_EVENT_TYPE: return createStardustTimerStartEventType();
+			case SdbpmnPackage.STARDUST_TRIGGER_TYPE: return createStardustTriggerType();
 			case SdbpmnPackage.STARDUST_USER_TASK_TYPE: return createStardustUserTaskType();
 			case SdbpmnPackage.TSTARDUST_ACTIVITY: return createTStardustActivity();
 			case SdbpmnPackage.TSTARDUST_COMMON: return createTStardustCommon();
@@ -226,6 +227,16 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
 	public StardustTimerStartEventType createStardustTimerStartEventType() {
 		StardustTimerStartEventTypeImpl stardustTimerStartEventType = new StardustTimerStartEventTypeImpl();
 		return stardustTimerStartEventType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StardustTriggerType createStardustTriggerType() {
+		StardustTriggerTypeImpl stardustTriggerType = new StardustTriggerTypeImpl();
+		return stardustTriggerType;
 	}
 
 	/**

@@ -30,6 +30,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 
 /**
  * <!-- begin-user-doc -->
@@ -144,6 +145,10 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 				return createStardustTimerStartEventTypeAdapter();
 			}
 			@Override
+			public Adapter caseStardustTriggerType(StardustTriggerType object) {
+				return createStardustTriggerTypeAdapter();
+			}
+			@Override
 			public Adapter caseStardustUserTaskType(StardustUserTaskType object) {
 				return createStardustUserTaskTypeAdapter();
 			}
@@ -190,6 +195,10 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseContextType(ContextType object) {
 				return createContextTypeAdapter();
+			}
+			@Override
+			public Adapter caseTriggerType(TriggerType object) {
+				return createTriggerTypeAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -408,6 +417,20 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType <em>Stardust Trigger Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType
+	 * @generated
+	 */
+	public Adapter createStardustTriggerTypeAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType <em>Stardust User Task Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -572,6 +595,20 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createContextTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.TriggerType <em>Trigger Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.xpdl.carnot.TriggerType
+	 * @generated
+	 */
+	public Adapter createTriggerTypeAdapter() {
 		return null;
 	}
 

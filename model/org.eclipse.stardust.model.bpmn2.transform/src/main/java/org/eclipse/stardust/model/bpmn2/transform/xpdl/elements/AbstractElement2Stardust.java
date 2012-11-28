@@ -23,7 +23,7 @@ public class AbstractElement2Stardust {
         this.failures = failures;
     }
 
-    protected ProcessDefinitionType getProcessOrReportFailure(FlowElement element, FlowElementsContainer container) {
+    protected ProcessDefinitionType getProcessAndReportFailure(FlowElement element, FlowElementsContainer container) {
     	ProcessDefinitionType process = query.findProcessDefinition(container.getId());
     	if (process == null) {
     		failures.add(Bpmn2StardustXPDL.FAIL_NO_PROCESS_DEF + "(Id: " + container.getId() + " for element " + element.getId() + ", " + element.getName() + ")");
@@ -31,7 +31,7 @@ public class AbstractElement2Stardust {
     	return process;
     }
 
-    protected String getNonEmpty(String name, String id, Object obj) {
+    protected String getNonEmptyName(String name, String id, Object obj) {
         if (name != null && !name.isEmpty()) {
             return name;
         }

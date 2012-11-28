@@ -13,19 +13,20 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.Assignment;
+import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataAssociation;
 import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FormalExpression;
-import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.ItemAwareElement;
+import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
@@ -43,49 +44,46 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
  * @author Simon Nikles
  *
  */
-public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
+public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2Stardust {
 
-    public TaskDataFlow2Stardust(ModelType carnotModel, List<String> failures) {
+    public IntermediateAndEndEventDataFlow2Stardust(ModelType carnotModel, List<String> failures) {
         super(carnotModel, failures);
     }
 
-    public void addDataFlows(Activity activity, FlowElementsContainer container) {
-        ActivityType sdActivity = query.findActivity(activity, container);
+    public void addDataFlows(CatchEvent event, FlowElementsContainer container) {
+        ActivityType sdActivity = query.findActivity(event, container);
         if (sdActivity == null) {
-            failures.add("STARDUST-ACTIVITY NOT FOUND " + activity.getId() + " " + activity.getName() + " in "  + container.getId() );
-            return;
+            failures.add("STARDUST-ACTIVITY FOR EVENT NOT FOUND " + event.getId() + " " + event.getName() + " in "  + container.getId() );
         }
-        InputOutputSpecification ioSpec = activity.getIoSpecification();
-        List<DataInputAssociation> inputAssociations = activity.getDataInputAssociations();
-        List<DataOutputAssociation> outputAssociations = activity.getDataOutputAssociations();
-        List<DataInput> dataInputs = ioSpec.getDataInputs();
-        List<DataOutput> dataOutput = ioSpec.getDataOutputs();
+        List<DataOutputAssociation> outputAssociations = event.getDataOutputAssociation();
 
-        List<DataInput> associatedDataInputs = new ArrayList<DataInput>();
         List<DataOutput> associatedDataOutputs = new ArrayList<DataOutput>();
 
-        if (inputAssociations != null && inputAssociations.size() > 0) {
-            for (DataInputAssociation assocIn : inputAssociations) {
-                if (!hasValidSourceAndTarget(assocIn, activity, container)) continue;
-                DataInput input = addInDataMapping(assocIn, sdActivity, container);
-                if (input != null) associatedDataInputs.add(input);
-            }
-        }
         if (outputAssociations != null && outputAssociations.size() > 0) {
             for (DataOutputAssociation assocOut : outputAssociations) {
-                if (!hasValidSourceAndTarget(assocOut, activity, container)) continue;
+                if (!hasValidSourceAndTarget(assocOut, event, container)) continue;
                 DataOutput output = addOutDataMapping(assocOut, sdActivity, container);
                 if (output != null) associatedDataOutputs.add(output);
             }
         }
-        for (DataInput input : dataInputs) {
-            if (!associatedDataInputs.contains(input)) {
-                addInDataMappingWithoutAssociation(input, sdActivity, container);
-            }
+
+    }
+
+    public void addDataFlows(ThrowEvent event, FlowElementsContainer container) {
+        ActivityType sdActivity = query.findActivity(event, container);
+        if (sdActivity == null) {
+            failures.add("STARDUST-ACTIVITY FOR EVENT NOT FOUND " + event.getId() + " " + event.getName() + " in "  + container.getId() );
+            return;
         }
-        for (DataOutput output : dataOutput) {
-            if (!associatedDataOutputs.contains(output)) {
-                addOutDataMappingWithoutAssociation(output, sdActivity, container);
+        List<DataInputAssociation> inputAssociations = event.getDataInputAssociation();
+
+        List<DataInput> associatedDataInputs = new ArrayList<DataInput>();
+
+        if (inputAssociations != null && inputAssociations.size() > 0) {
+            for (DataInputAssociation assocIn : inputAssociations) {
+                if (!hasValidSourceAndTarget(assocIn, event, container)) continue;
+                DataInput input = addInDataMapping(assocIn, sdActivity, container);
+                if (input != null) associatedDataInputs.add(input);
             }
         }
     }
@@ -164,21 +162,6 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             mapping.setDataPath(toExpressionValue);
         }
     }
-    private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container) {
-        DataType inVariable = query.findVariable(input.getId());
-        if (inVariable == null) {
-            inVariable = new Data2Stardust(carnotModel, failures).addDataInputVariable(input);
-        }
-        buildInDataMapping(activity, input.getId(), input.getName(), inVariable, "", "");
-    }
-
-    private void addOutDataMappingWithoutAssociation(DataOutput output, ActivityType activity, FlowElementsContainer container) {
-        DataType outVariable = query.findVariable(output.getId());
-        if (outVariable == null) {
-            outVariable = new Data2Stardust(carnotModel, failures).addDataOutputVariable(output);
-        }
-        buildOutDataMapping(activity, output.getId(), output.getName(), outVariable, "","");
-    }
 
     private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
@@ -228,21 +211,21 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         return (assoc.getAssignment() != null && assoc.getAssignment().size() > 0);
     }
 
-    private boolean hasValidSourceAndTarget(DataAssociation assoc, Activity activity, FlowElementsContainer container) {
+    private boolean hasValidSourceAndTarget(DataAssociation assoc, Event event, FlowElementsContainer container) {
         boolean valid = true;
         ItemAwareElement associationTarget = assoc.getTargetRef();
         ItemAwareElement associationSource = getFirstAssociationSource(assoc);
         if (associationTarget == null) {
-            failures.add("DATA ASSOCIATION TARGET NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            failures.add("DATA ASSOCIATION TARGET NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + event.getName()  + " in "  + container.getId() );
             valid = false;
         }
         if (associationSource == null) {
-            failures.add("DATA ASSOCIATION SOURCE NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            failures.add("DATA ASSOCIATION SOURCE NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + event.getName()  + " in "  + container.getId() );
             valid = false;
         }
         if (associationSource instanceof DataObjectReference) associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
         if (associationSource == null) {
-            failures.add("DATA ASSOCIATION SOURCE NOT VALID " + assoc.getId() + " Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            failures.add("DATA ASSOCIATION SOURCE NOT VALID " + assoc.getId() + " Activity " + event.getId() + " " + event.getName()  + " in "  + container.getId() );
             valid = false;
         }
         return valid;

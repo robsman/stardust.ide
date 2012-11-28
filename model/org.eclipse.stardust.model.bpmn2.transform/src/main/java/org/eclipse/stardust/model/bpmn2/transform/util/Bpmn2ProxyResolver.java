@@ -17,6 +17,7 @@ import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceRole;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 /**
@@ -43,7 +44,16 @@ public class Bpmn2ProxyResolver {
         return role;
     }
 
-    public static Operation resolveOperationProxy(Operation operation, FlowElementsContainer container) {
+//    public static Operation resolveOperationProxy(Operation operation, FlowElementsContainer container) {
+//        URI proxyURI = ((InternalEObject) operation).eProxyURI();
+//        if (container.eResource() != null) {
+//            org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+//            operation = (Operation)eRes.getEObject(proxyURI.fragment());
+//        }
+//        return operation;
+//    }
+
+    public static Operation resolveOperationProxy(Operation operation, EObject container) {
         URI proxyURI = ((InternalEObject) operation).eProxyURI();
         if (container.eResource() != null) {
             org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();

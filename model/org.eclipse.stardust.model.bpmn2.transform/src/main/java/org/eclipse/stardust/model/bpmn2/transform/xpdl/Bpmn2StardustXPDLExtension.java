@@ -17,7 +17,6 @@ import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.UserTask;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
@@ -48,11 +47,11 @@ public class Bpmn2StardustXPDLExtension {
     }
 
     public static void addMessageStartEventExtensions(StartEvent event, TriggerType trigger) {
-        StardustMessageStartEventType extension = ExtensionHelper.getInstance().getMessageStartEventExtension(event);
-        if (extension == null) return;
-        trigger.getAccessPoint().addAll(extension.getAccessPoint());
-        trigger.getParameterMapping().addAll(extension.getParameterMapping());
-        trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
+//        StardustMessageStartEventType extension = ExtensionHelper.getInstance().getMessageStartEventExtension(event);
+//        if (extension == null) return;
+//        trigger.getAccessPoint().addAll(extension.getAccessPoint());
+//        trigger.getParameterMapping().addAll(extension.getParameterMapping());
+//        trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
     }
 
     public static void addTimerStartEventExtensions(StartEvent event, TriggerType trigger) {
@@ -91,13 +90,14 @@ public class Bpmn2StardustXPDLExtension {
      * @return
      */
     public static TriggerTypeType getMessageStartEventTriggerType(StartEvent event, ModelType carnotModel) {
-        StardustMessageStartEventType extension = ExtensionHelper.getInstance().getMessageStartEventExtension(event);
-        if (extension != null) {
-            String type = extension.getType();
-            return XpdlModelUtils.findElementById(carnotModel.getTriggerType(), type);
-        } else {
-            return XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER);
-        }
+//        StardustMessageStartEventType extension = ExtensionHelper.getInstance().getMessageStartEventExtension(event);
+//        if (extension != null) {
+//            String type = extension.getType();
+//            return XpdlModelUtils.findElementById(carnotModel.getTriggerType(), type);
+//        } else {
+//            return XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER);
+//        }
+    	return null;
     }
 
     public static void addUserTaskExtensions(CarnotModelQuery query, UserTask task, ActivityType activity) {

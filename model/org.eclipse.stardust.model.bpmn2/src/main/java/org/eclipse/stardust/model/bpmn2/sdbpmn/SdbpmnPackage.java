@@ -294,13 +294,31 @@ public interface SdbpmnPackage extends EPackage {
 	int DOCUMENT_ROOT__OID = 23;
 
 	/**
+	 * The feature id for the '<em><b>Parameter Mapping Oid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__PARAMETER_MAPPING_OID = 24;
+
+	/**
+	 * The feature id for the '<em><b>Trigger Access Point Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF = 25;
+
+	/**
 	 * The feature id for the '<em><b>Vendor</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__VENDOR = 24;
+	int DOCUMENT_ROOT__VENDOR = 26;
 
 	/**
 	 * The number of structural features of the '<em>Document Root</em>' class.
@@ -309,7 +327,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 25;
+	int DOCUMENT_ROOT_FEATURE_COUNT = 27;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustAccessPointTypeImpl <em>Stardust Access Point Type</em>}' class.
@@ -659,13 +677,22 @@ public interface SdbpmnPackage extends EPackage {
 	int STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION = 0;
 
 	/**
+	 * The feature id for the '<em><b>Stardust Trigger</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER = 1;
+
+	/**
 	 * The feature id for the '<em><b>Application Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_INTERFACE_TYPE__APPLICATION_TYPE = 1;
+	int STARDUST_INTERFACE_TYPE__APPLICATION_TYPE = 2;
 
 	/**
 	 * The number of structural features of the '<em>Stardust Interface Type</em>' class.
@@ -674,7 +701,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_INTERFACE_TYPE_FEATURE_COUNT = 2;
+	int STARDUST_INTERFACE_TYPE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustMessageStartEventTypeImpl <em>Stardust Message Start Event Type</em>}' class.
@@ -696,40 +723,13 @@ public interface SdbpmnPackage extends EPackage {
 	int STARDUST_MESSAGE_START_EVENT_TYPE__STARDUST_ATTRIBUTES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Access Point</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STARDUST_MESSAGE_START_EVENT_TYPE__ACCESS_POINT = 1;
-
-	/**
-	 * The feature id for the '<em><b>Parameter Mapping</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STARDUST_MESSAGE_START_EVENT_TYPE__PARAMETER_MAPPING = 2;
-
-	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int STARDUST_MESSAGE_START_EVENT_TYPE__TYPE = 3;
-
-	/**
 	 * The number of structural features of the '<em>Stardust Message Start Event Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_MESSAGE_START_EVENT_TYPE_FEATURE_COUNT = 4;
+	int STARDUST_MESSAGE_START_EVENT_TYPE_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl <em>Stardust Model Type</em>}' class.
@@ -895,7 +895,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getTStardustCommon()
 	 * @generated
 	 */
-	int TSTARDUST_COMMON = 16;
+	int TSTARDUST_COMMON = 17;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -923,7 +923,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getTStardustActivity()
 	 * @generated
 	 */
-	int TSTARDUST_ACTIVITY = 15;
+	int TSTARDUST_ACTIVITY = 16;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1119,6 +1119,124 @@ public interface SdbpmnPackage extends EPackage {
 	int STARDUST_TIMER_START_EVENT_TYPE_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustTriggerTypeImpl <em>Stardust Trigger Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustTriggerTypeImpl
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustTriggerType()
+	 * @generated
+	 */
+	int STARDUST_TRIGGER_TYPE = 14;
+
+	/**
+	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__ELEMENT_OID = CarnotWorkflowModelPackage.TRIGGER_TYPE__ELEMENT_OID;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__ID = CarnotWorkflowModelPackage.TRIGGER_TYPE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__NAME = CarnotWorkflowModelPackage.TRIGGER_TYPE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__ATTRIBUTE = CarnotWorkflowModelPackage.TRIGGER_TYPE__ATTRIBUTE;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__DESCRIPTION = CarnotWorkflowModelPackage.TRIGGER_TYPE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Access Point</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__ACCESS_POINT = CarnotWorkflowModelPackage.TRIGGER_TYPE__ACCESS_POINT;
+
+	/**
+	 * The feature id for the '<em><b>Parameter Mapping</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__PARAMETER_MAPPING = CarnotWorkflowModelPackage.TRIGGER_TYPE__PARAMETER_MAPPING;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__TYPE = CarnotWorkflowModelPackage.TRIGGER_TYPE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Starting Event Symbols</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__STARTING_EVENT_SYMBOLS = CarnotWorkflowModelPackage.TRIGGER_TYPE__STARTING_EVENT_SYMBOLS;
+
+	/**
+	 * The feature id for the '<em><b>Access Point1</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__ACCESS_POINT1 = CarnotWorkflowModelPackage.TRIGGER_TYPE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Context</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE__CONTEXT = CarnotWorkflowModelPackage.TRIGGER_TYPE_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Stardust Trigger Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_TRIGGER_TYPE_FEATURE_COUNT = CarnotWorkflowModelPackage.TRIGGER_TYPE_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustUserTaskTypeImpl <em>Stardust User Task Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1126,7 +1244,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustUserTaskType()
 	 * @generated
 	 */
-	int STARDUST_USER_TASK_TYPE = 14;
+	int STARDUST_USER_TASK_TYPE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1458,6 +1576,28 @@ public interface SdbpmnPackage extends EPackage {
 	EAttribute getDocumentRoot_Oid();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Parameter Mapping Oid</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_ParameterMappingOid();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Trigger Access Point Ref</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_TriggerAccessPointRef();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getVendor <em>Vendor</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1585,6 +1725,17 @@ public interface SdbpmnPackage extends EPackage {
 	EReference getStardustInterfaceType_StardustApplication();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustTrigger <em>Stardust Trigger</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Stardust Trigger</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustTrigger()
+	 * @see #getStardustInterfaceType()
+	 * @generated
+	 */
+	EReference getStardustInterfaceType_StardustTrigger();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getApplicationType <em>Application Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1615,39 +1766,6 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStardustMessageStartEventType_StardustAttributes();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getAccessPoint <em>Access Point</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Access Point</em>'.
-	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getAccessPoint()
-	 * @see #getStardustMessageStartEventType()
-	 * @generated
-	 */
-	EReference getStardustMessageStartEventType_AccessPoint();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getParameterMapping <em>Parameter Mapping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Parameter Mapping</em>'.
-	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getParameterMapping()
-	 * @see #getStardustMessageStartEventType()
-	 * @generated
-	 */
-	EReference getStardustMessageStartEventType_ParameterMapping();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType#getType()
-	 * @see #getStardustMessageStartEventType()
-	 * @generated
-	 */
-	EAttribute getStardustMessageStartEventType_Type();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType <em>Stardust Model Type</em>}'.
@@ -1872,6 +1990,38 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getStardustTimerStartEventType_StardustAttributes();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType <em>Stardust Trigger Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Stardust Trigger Type</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType
+	 * @generated
+	 */
+	EClass getStardustTriggerType();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType#getAccessPoint1 <em>Access Point1</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Access Point1</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType#getAccessPoint1()
+	 * @see #getStardustTriggerType()
+	 * @generated
+	 */
+	EReference getStardustTriggerType_AccessPoint1();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType#getContext <em>Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Context</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType#getContext()
+	 * @see #getStardustTriggerType()
+	 * @generated
+	 */
+	EReference getStardustTriggerType_Context();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType <em>Stardust User Task Type</em>}'.
@@ -2183,6 +2333,22 @@ public interface SdbpmnPackage extends EPackage {
 		EAttribute DOCUMENT_ROOT__OID = eINSTANCE.getDocumentRoot_Oid();
 
 		/**
+		 * The meta object literal for the '<em><b>Parameter Mapping Oid</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENT_ROOT__PARAMETER_MAPPING_OID = eINSTANCE.getDocumentRoot_ParameterMappingOid();
+
+		/**
+		 * The meta object literal for the '<em><b>Trigger Access Point Ref</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF = eINSTANCE.getDocumentRoot_TriggerAccessPointRef();
+
+		/**
 		 * The meta object literal for the '<em><b>Vendor</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2289,6 +2455,14 @@ public interface SdbpmnPackage extends EPackage {
 		EReference STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION = eINSTANCE.getStardustInterfaceType_StardustApplication();
 
 		/**
+		 * The meta object literal for the '<em><b>Stardust Trigger</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER = eINSTANCE.getStardustInterfaceType_StardustTrigger();
+
+		/**
 		 * The meta object literal for the '<em><b>Application Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2313,30 +2487,6 @@ public interface SdbpmnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STARDUST_MESSAGE_START_EVENT_TYPE__STARDUST_ATTRIBUTES = eINSTANCE.getStardustMessageStartEventType_StardustAttributes();
-
-		/**
-		 * The meta object literal for the '<em><b>Access Point</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STARDUST_MESSAGE_START_EVENT_TYPE__ACCESS_POINT = eINSTANCE.getStardustMessageStartEventType_AccessPoint();
-
-		/**
-		 * The meta object literal for the '<em><b>Parameter Mapping</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference STARDUST_MESSAGE_START_EVENT_TYPE__PARAMETER_MAPPING = eINSTANCE.getStardustMessageStartEventType_ParameterMapping();
-
-		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute STARDUST_MESSAGE_START_EVENT_TYPE__TYPE = eINSTANCE.getStardustMessageStartEventType_Type();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl <em>Stardust Model Type</em>}' class.
@@ -2519,6 +2669,32 @@ public interface SdbpmnPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STARDUST_TIMER_START_EVENT_TYPE__STARDUST_ATTRIBUTES = eINSTANCE.getStardustTimerStartEventType_StardustAttributes();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustTriggerTypeImpl <em>Stardust Trigger Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustTriggerTypeImpl
+		 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustTriggerType()
+		 * @generated
+		 */
+		EClass STARDUST_TRIGGER_TYPE = eINSTANCE.getStardustTriggerType();
+
+		/**
+		 * The meta object literal for the '<em><b>Access Point1</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STARDUST_TRIGGER_TYPE__ACCESS_POINT1 = eINSTANCE.getStardustTriggerType_AccessPoint1();
+
+		/**
+		 * The meta object literal for the '<em><b>Context</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STARDUST_TRIGGER_TYPE__CONTEXT = eINSTANCE.getStardustTriggerType_Context();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustUserTaskTypeImpl <em>Stardust User Task Type</em>}' class.

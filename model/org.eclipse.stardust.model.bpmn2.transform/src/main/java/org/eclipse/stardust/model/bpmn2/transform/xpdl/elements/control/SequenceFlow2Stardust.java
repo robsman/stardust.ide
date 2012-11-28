@@ -37,7 +37,7 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 	}
 
 	public void addSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
-		ProcessDefinitionType processDef = getProcessOrReportFailure(seq, container);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(seq, container);
 		if (processDef == null) return;
 
 		if (CarnotModelQuery.findTransition(processDef, seq.getId()) != null) return;
@@ -48,12 +48,21 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 		if (sourceNode instanceof Gateway || targetNode instanceof Gateway)
 			return;
 
-		if (sourceNode instanceof StartEvent || targetNode instanceof EndEvent)
+		if (sourceNode instanceof StartEvent)
 			return;
+
+		if (targetNode instanceof EndEvent) {
+			if (!endEventTransformedToActivity(targetNode, container)) return;
+		}
 
 		//if (sourceNode instanceof Activity && targetNode instanceof Activity) {
 			addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
 		//}
+	}
+
+	private boolean endEventTransformedToActivity(FlowNode targetNode, FlowElementsContainer container) {
+		ActivityType targetActivity = query.findActivity(targetNode, container);
+		return targetActivity != null;
 	}
 
 	private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
@@ -61,7 +70,8 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 		ActivityType targetActivity = query.findActivity(targetNode, container);
 		if (sourceActivity != null && targetActivity != null) {
 			String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
-			TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), documentation,
+			String name = getNonEmptyName(seq.getName(), seq.getId(), seq);
+			TransitionType transition = TransitionUtil.createTransition(seq.getId(), name, documentation,
 					processDef, sourceActivity, targetActivity);
 
 			TransitionUtil.setSequenceExpressionConditionOrTrue(transition, seq.getConditionExpression(), logger, failures);

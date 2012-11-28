@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.bpmn2.transform;
 import java.util.List;
 
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataStoreReference;
@@ -24,6 +25,8 @@ import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.IntermediateCatchEvent;
+import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
@@ -37,6 +40,7 @@ import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
+import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
 
 /**
@@ -98,5 +102,13 @@ public interface Transformator {
 	public void addResource(Resource resource);
 
 	public void finalizeTransformation(Definitions defs);
+
+	public void addIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container);
+
+	public void addIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container);
+
+	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container);
+
+	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container);
 
 }

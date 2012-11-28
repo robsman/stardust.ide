@@ -31,7 +31,7 @@ public class Subprocess2Stardust extends AbstractElement2Stardust {
 	}
 
 	public void addSubprocess(SubProcess subprocess, FlowElementsContainer container) {
-		ProcessDefinitionType processDef = getProcessOrReportFailure(subprocess, container);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(subprocess, container);
 		if (processDef == null) return;
 		List<Documentation> docs = subprocess.getDocumentation();
 		String processDescription = DocumentationTool.getDescriptionFromDocumentation(docs);

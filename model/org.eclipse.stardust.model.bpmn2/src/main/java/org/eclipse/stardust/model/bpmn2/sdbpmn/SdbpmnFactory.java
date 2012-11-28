@@ -158,6 +158,15 @@ public interface SdbpmnFactory extends EFactory {
 	StardustTimerStartEventType createStardustTimerStartEventType();
 
 	/**
+	 * Returns a new object of class '<em>Stardust Trigger Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Stardust Trigger Type</em>'.
+	 * @generated
+	 */
+	StardustTriggerType createStardustTriggerType();
+
+	/**
 	 * Returns a new object of class '<em>Stardust User Task Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

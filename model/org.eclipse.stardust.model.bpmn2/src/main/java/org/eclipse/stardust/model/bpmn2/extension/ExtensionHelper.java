@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.Definitions;
@@ -66,6 +67,8 @@ public class ExtensionHelper {
     private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
 
     private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
+    private static final Internal ATT_TRIGGER_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF;
+    private static final Internal ATT_TRIGGER_PARAM_MAPPING = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__PARAMETER_MAPPING_OID;
 
     private static final Internal MODEL_ATT_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__OID;
     private static final Internal MODEL_ATT_MODEL_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__MODEL_OID;
@@ -149,6 +152,14 @@ public class ExtensionHelper {
 
     public String getAssignmentAccessPointRef(Expression assignment) {
         return getString(assignment, ATT_APPLICATION_ACCESS_POINT);
+    }
+
+    public long getAssignmentParameterMappingOid(Assignment assignment) {
+        return getLong(assignment, ATT_TRIGGER_PARAM_MAPPING);
+    }
+
+    public String getAssignmentTriggerAccessPointRef(Expression assignment) {
+        return getString(assignment, ATT_TRIGGER_ACCESS_POINT);
     }
 
 	public StardustResourceType getResourceExtension(Resource resource) {
@@ -260,6 +271,10 @@ public class ExtensionHelper {
         } catch (NumberFormatException e) {}
           catch (NullPointerException e) {}
         return 0;
+    }
+
+    private long getLong(BaseElement element, Internal attribute) {
+        return getLong(element.getAnyAttribute(), attribute);
     }
 
     private BigInteger getInt(FeatureMap attributes, Internal attribute) {

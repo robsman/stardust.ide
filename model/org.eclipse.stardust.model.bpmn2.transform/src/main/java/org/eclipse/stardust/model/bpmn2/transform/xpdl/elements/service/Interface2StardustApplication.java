@@ -10,22 +10,16 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
@@ -47,10 +41,11 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
 
     private void addApplicationToModel(StardustInterfaceType sdInterface) {
     	StardustApplicationType application = sdInterface.getStardustApplication();
+    	ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, null, failures);
     	if (application != null) {
     		setApplicationType(sdInterface, application);
-    		convertAccessPoints(application);
-    		convertContexts(application);
+    		serviceUtil.convertAccessPoints(application);
+    		serviceUtil.convertContexts(application);
     		carnotModel.getApplication().add(application);
     	}
     }
@@ -64,37 +59,6 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
     	}
 	}
 
-	private void convertContexts(StardustApplicationType application) {
-		List<ContextType> contexts = new ArrayList<ContextType>();
-		for(StardustContextType ctxt : application.getContext1()) {
-			contexts.add(ctxt);
-			ApplicationContextTypeType contextType = getContextType(ctxt.getTypeRef());
-			ctxt.setType(contextType);
-		}
-		application.getContext().addAll(contexts);
-	}
-
-	private void convertAccessPoints(StardustApplicationType application) {
-		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
-		for(StardustAccessPointType ap : application.getAccessPoint1()) {
-			aptypes.add(ap);
-			DataTypeType type = getMetaDataType(ap.getTypeRef());
-			ap.setType(type);
-		}
-		application.getAccessPoint().addAll(aptypes);
-	}
-
-	private DataTypeType getMetaDataType(String typeRef) {
-		if (typeRef == null || typeRef.isEmpty()) return null;
-		return (DataTypeType)
-				ModelUtils.findIdentifiableElement(carnotModel, CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(), typeRef);
-	}
-
-	private ApplicationContextTypeType getContextType(String typeRef) {
-		if (typeRef == null || typeRef.isEmpty()) return null;
-		return (ApplicationContextTypeType)
-				ModelUtils.findIdentifiableElement(carnotModel, CarnotWorkflowModelPackage.eINSTANCE.getModelType_ApplicationContextType(), typeRef);
-	}
 
 
 }

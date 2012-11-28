@@ -151,7 +151,7 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	private ActivityType createComplexConditionalPartSplitRoute(ActivityType splittingActivity, List<SequenceFlow> conditionals) {
 		String id = splittingActivity.getId() + "_" + splittingActivity.hashCode();
-		String name = JoinSplitType.AND_LITERAL + "_Split_" + getNonEmpty(splittingActivity.getName(), splittingActivity.getId(), splittingActivity);
+		String name = JoinSplitType.AND_LITERAL + "_Split_" + getNonEmptyName(splittingActivity.getName(), splittingActivity.getId(), splittingActivity);
         ActivityType route =
                 newRouteActivity(processDef)
                 .withIdAndName(id, name)
@@ -174,8 +174,8 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	private void createComplexParallelToConditionalConnection(ActivityType source, ActivityType target) {
 		String id = source.getId() + "_" + target.getId();
-		String nameP1 = getNonEmpty(source.getName(), source.getId(), source);
-		String nameP2 = getNonEmpty(target.getName(), target.getId(), target);
+		String nameP1 = getNonEmptyName(source.getName(), source.getId(), source);
+		String nameP2 = getNonEmptyName(target.getName(), target.getId(), target);
 		String name = nameP1 + "_" + nameP2;
 
 		TransitionType transition = TransitionUtil.createTransition(id, name, "", processDef, source, target);

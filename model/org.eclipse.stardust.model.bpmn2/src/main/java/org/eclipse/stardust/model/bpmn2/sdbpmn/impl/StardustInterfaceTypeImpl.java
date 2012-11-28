@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,6 +34,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getStardustApplication <em>Stardust Application</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getStardustTrigger <em>Stardust Trigger</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getApplicationType <em>Application Type</em>}</li>
  * </ul>
  * </p>
@@ -49,6 +51,16 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 	 * @ordered
 	 */
 	protected StardustApplicationType stardustApplication;
+
+	/**
+	 * The cached value of the '{@link #getStardustTrigger() <em>Stardust Trigger</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStardustTrigger()
+	 * @generated
+	 * @ordered
+	 */
+	protected StardustTriggerType stardustTrigger;
 
 	/**
 	 * The default value of the '{@link #getApplicationType() <em>Application Type</em>}' attribute.
@@ -137,6 +149,49 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public StardustTriggerType getStardustTrigger() {
+		return stardustTrigger;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStardustTrigger(StardustTriggerType newStardustTrigger, NotificationChain msgs) {
+		StardustTriggerType oldStardustTrigger = stardustTrigger;
+		stardustTrigger = newStardustTrigger;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER, oldStardustTrigger, newStardustTrigger);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustTrigger(StardustTriggerType newStardustTrigger) {
+		if (newStardustTrigger != stardustTrigger) {
+			NotificationChain msgs = null;
+			if (stardustTrigger != null)
+				msgs = ((InternalEObject)stardustTrigger).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER, null, msgs);
+			if (newStardustTrigger != null)
+				msgs = ((InternalEObject)newStardustTrigger).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER, null, msgs);
+			msgs = basicSetStardustTrigger(newStardustTrigger, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER, newStardustTrigger, newStardustTrigger));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getApplicationType() {
 		return applicationType;
 	}
@@ -163,6 +218,8 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 		switch (featureID) {
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION:
 				return basicSetStardustApplication(null, msgs);
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER:
+				return basicSetStardustTrigger(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -177,6 +234,8 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 		switch (featureID) {
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION:
 				return getStardustApplication();
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER:
+				return getStardustTrigger();
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				return getApplicationType();
 		}
@@ -193,6 +252,9 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 		switch (featureID) {
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION:
 				setStardustApplication((StardustApplicationType)newValue);
+				return;
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER:
+				setStardustTrigger((StardustTriggerType)newValue);
 				return;
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				setApplicationType((String)newValue);
@@ -212,6 +274,9 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION:
 				setStardustApplication((StardustApplicationType)null);
 				return;
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER:
+				setStardustTrigger((StardustTriggerType)null);
+				return;
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				setApplicationType(APPLICATION_TYPE_EDEFAULT);
 				return;
@@ -229,6 +294,8 @@ public class StardustInterfaceTypeImpl extends EObjectImpl implements StardustIn
 		switch (featureID) {
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION:
 				return stardustApplication != null;
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER:
+				return stardustTrigger != null;
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				return APPLICATION_TYPE_EDEFAULT == null ? applicationType != null : !APPLICATION_TYPE_EDEFAULT.equals(applicationType);
 		}

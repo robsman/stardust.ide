@@ -23,13 +23,16 @@ import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.BusinessRuleTask;
 import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CallableElement;
+import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.Category;
 import org.eclipse.bpmn2.ChoreographyActivity;
 import org.eclipse.bpmn2.Collaboration;
 import org.eclipse.bpmn2.ComplexGateway;
 import org.eclipse.bpmn2.CorrelationProperty;
+import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataOutputAssociation;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
@@ -74,6 +77,7 @@ import org.eclipse.bpmn2.Signal;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
+import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.Transaction;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
@@ -92,6 +96,8 @@ public class TransformationControl {
     private String processingInfo = "";
     private Logger log;
     private Map<FlowElementsContainer, List<Activity>> tasksWithDataflow;
+    private Map<FlowElementsContainer, List<ThrowEvent>> throwEventsWithDataflow;
+    private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
 
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
@@ -104,6 +110,8 @@ public class TransformationControl {
 
     public String transformToTarget(Definitions definitions, String outputFile) {
         tasksWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
+        throwEventsWithDataflow = new HashMap<FlowElementsContainer, List<ThrowEvent>>();
+        catchEventsWithDataflow = new HashMap<FlowElementsContainer, List<CatchEvent>>();
         processingInfo = "";
         transf = dialect.getTransformator();
         processBpmn(definitions, transf);
@@ -182,9 +190,19 @@ public class TransformationControl {
                 processTaskDataFlow(activity, container);
             }
         }
+		for (FlowElementsContainer container : throwEventsWithDataflow.keySet()) {
+			for (ThrowEvent event : throwEventsWithDataflow.get(container)) {
+				processEventDataFlow(event, container);
+			}
+		}
+		for (FlowElementsContainer container : catchEventsWithDataflow.keySet()) {
+			for (CatchEvent event : catchEventsWithDataflow.get(container)) {
+				processEventDataFlow(event, container);
+			}
+		}
     }
 
-    private  void processProcess(Process process) {
+	private  void processProcess(Process process) {
         transf.addProcess(process);
         transf.addIOBinding(process.getIoBinding(), process);
         for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
@@ -310,6 +328,30 @@ public class TransformationControl {
         }
     }
 
+    private void addToCatchEventsWithDataFlow(CatchEvent event, FlowElementsContainer container) {
+        List<DataOutputAssociation> dataOutputAssociations = event.getDataOutputAssociation();
+        if (dataOutputAssociations != null) {
+            if (dataOutputAssociations.size() > 0) {
+            	if (!this.catchEventsWithDataflow.containsKey(container)) {
+            		this.catchEventsWithDataflow.put(container, new ArrayList<CatchEvent>());
+            	}
+            	this.catchEventsWithDataflow.get(container).add(event);
+            }
+        }
+    }
+
+    private void addToThrowEventsWithDataFlow(ThrowEvent event, FlowElementsContainer container) {
+        List<DataInputAssociation> dataInputAssociations = event.getDataInputAssociation();
+        if (dataInputAssociations != null) {
+            if (dataInputAssociations.size() > 0) {
+            	if (!this.throwEventsWithDataflow.containsKey(container)) {
+            		this.throwEventsWithDataflow.put(container, new ArrayList<ThrowEvent>());
+            	}
+            	this.throwEventsWithDataflow.get(container).add(event);
+            }
+        }
+    }
+
     private void processSubProcess(SubProcess activity, FlowElementsContainer container) {
         if (activity instanceof Transaction) {
             processTransaction((Transaction)activity, container);
@@ -337,14 +379,18 @@ public class TransformationControl {
 
     private void processEvent(Event event, FlowElementsContainer container) {
         if (event instanceof StartEvent) {
+        	addToCatchEventsWithDataFlow((StartEvent)event, container);
             processStartEvent((StartEvent)event, container);
         } else if (event instanceof EndEvent) {
+        	addToThrowEventsWithDataFlow((EndEvent)event, container);
             processEndEvent((EndEvent)event, container);
         } else if (event instanceof BoundaryEvent) {
             processBoundaryEvent((BoundaryEvent)event, container);
         } else if (event instanceof IntermediateCatchEvent) {
+        	addToCatchEventsWithDataFlow((IntermediateCatchEvent)event, container);
             processIntermediateCatchEvent((IntermediateCatchEvent)event, container);
         } else if (event instanceof IntermediateThrowEvent) {
+        	addToThrowEventsWithDataFlow((IntermediateThrowEvent)event, container);
             processIntermediateThrowEvent((IntermediateThrowEvent)event, container);
         } else if (event instanceof ImplicitThrowEvent) {
             processImplicitThrowEvent((ImplicitThrowEvent)event, container);
@@ -406,6 +452,14 @@ public class TransformationControl {
         transf.addTaskDataFlows(activity, container);
     }
 
+    private void processEventDataFlow(ThrowEvent event, FlowElementsContainer container) {
+    	transf.addEventDataFlows(event, container);
+	}
+
+	private void processEventDataFlow(CatchEvent event, FlowElementsContainer container) {
+		transf.addEventDataFlows(event, container);
+	}
+
     private void processSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
         transf.addSequenceFlow(seq, container);
     }
@@ -436,13 +490,14 @@ public class TransformationControl {
     }
 
     private void processIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
-        processingInfo +=   "IntermediateCatchEvent" + NOT_SUPPORTED;
+        //processingInfo +=   "IntermediateCatchEvent" + NOT_SUPPORTED;
+    	transf.addIntermediateCatchEvent(event, container);
 
     }
 
     private void processIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
-        processingInfo +=   "IntermediateThrowEvent" + NOT_SUPPORTED;
-
+        //processingInfo +=   "IntermediateThrowEvent" + NOT_SUPPORTED;
+    	transf.addIntermediateThrowEvent(event, container);
     }
 
     private void processImplicitThrowEvent(ImplicitThrowEvent event, FlowElementsContainer container) {

@@ -28,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 
 /**
  * <!-- begin-user-doc -->
@@ -206,6 +207,19 @@ public class SdbpmnSwitch<T> {
 			case SdbpmnPackage.STARDUST_TIMER_START_EVENT_TYPE: {
 				StardustTimerStartEventType stardustTimerStartEventType = (StardustTimerStartEventType)theEObject;
 				T result = caseStardustTimerStartEventType(stardustTimerStartEventType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SdbpmnPackage.STARDUST_TRIGGER_TYPE: {
+				StardustTriggerType stardustTriggerType = (StardustTriggerType)theEObject;
+				T result = caseStardustTriggerType(stardustTriggerType);
+				if (result == null) result = caseTriggerType(stardustTriggerType);
+				if (result == null) result = caseIIdentifiableModelElement(stardustTriggerType);
+				if (result == null) result = caseITypedElement(stardustTriggerType);
+				if (result == null) result = caseIAccessPointOwner(stardustTriggerType);
+				if (result == null) result = caseIModelElement(stardustTriggerType);
+				if (result == null) result = caseIIdentifiableElement(stardustTriggerType);
+				if (result == null) result = caseIExtensibleElement(stardustTriggerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -445,6 +459,21 @@ public class SdbpmnSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Stardust Trigger Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Stardust Trigger Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStardustTriggerType(StardustTriggerType object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Stardust User Task Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -621,6 +650,21 @@ public class SdbpmnSwitch<T> {
 	 * @generated
 	 */
 	public T caseContextType(ContextType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Trigger Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Trigger Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTriggerType(TriggerType object) {
 		return null;
 	}
 

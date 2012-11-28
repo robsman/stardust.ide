@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataStoreReference;
@@ -34,6 +35,8 @@ import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.IntermediateCatchEvent;
+import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
@@ -47,6 +50,7 @@ import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
+import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
@@ -60,7 +64,11 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.Gateway2
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingSequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.IntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Process2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Subprocess2Stardust;
@@ -77,6 +85,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 /**
  * @author Simon Nikles
  *
@@ -96,6 +106,7 @@ public class Bpmn2StardustXPDL implements Transformator {
     private CarnotModelQuery query;
 
     public void createTargetModel(Definitions definitions) {
+    	logger.info("createTargetModel " + definitions.getName());
         carnotModel = newBpmModel()
                 .withIdAndName(definitions.getId(), definitions.getName())
                 .build();
@@ -106,13 +117,26 @@ public class Bpmn2StardustXPDL implements Transformator {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////TODO REMOVE IF DEFAULTTYPESINITIALIZER IS COMPLETE (OR WHAT IS ABOUT THESE TYPES?)!!! ////////////////////
         DefaultTypesInitializer initializer = new DefaultTypesInitializer();
-        initializer.initializeTriggerType(carnotModel, PredefinedConstants.JMS_TRIGGER, "JMS Trigger",
-        false, JMSTriggerValidator.class);
+//FIXME (?) DefaultTypesInitializer.initializeTriggerType checks for already existing APPLICATION-TYPE by name - JMS_TRIGGER has the same value (name) as jms application...
+//        initializer.initializeTriggerType(carnotModel, PredefinedConstants.JMS_TRIGGER, "JMS Trigger",
+//        false, JMSTriggerValidator.class);
+//        model.getTriggerType().add(typeDef);
         initializer.initializeTriggerType(carnotModel, PredefinedConstants.MAIL_TRIGGER, "Mail Trigger",
         false, MailTriggerValidator.class);
         initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger",
         false, TimerTriggerValidator.class);
         initializer.initializeInteractionContextTypes(carnotModel);
+
+        if (null == XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
+	        TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
+	        typeDef.setId(PredefinedConstants.JMS_TRIGGER);
+	        typeDef.setName("JMS Trigger");
+	        typeDef.setPullTrigger(false);
+	        typeDef.setIsPredefined(true);
+	        AttributeUtil.setAttribute(typeDef, PredefinedConstants.VALIDATOR_CLASS_ATT, JMSTriggerValidator.class.getName());
+	        carnotModel.getTriggerType().add(typeDef);
+    	}
+
         if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
         {
            ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
@@ -163,20 +187,38 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addStartEvent(StartEvent event, FlowElementsContainer container) {
+    	logger.debug("addStartEvent" + event.getId() + " " + event.getName() + " in " + container);
     	new StartEvent2Stardust(carnotModel, failures).addStartEvent(event, container);
     }
 
+	@Override
+	public void addIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
+		logger.info("addIntermediateCatchEvent " + event);
+		new IntermediateEvent2Stardust(carnotModel, failures).addIntermediateCatchEvent(event, container);
+	}
+
+	@Override
+	public void addIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
+		logger.info("addIntermediateThrowEvent " + event);
+		new IntermediateEvent2Stardust(carnotModel, failures).addIntermediateThrowEvent(event, container);
+	}
+
+    public void addEndEvent(EndEvent event, FlowElementsContainer container) {
+    	new EndEvent2Stardust(carnotModel, failures).addEndEvent(event, container);
+    }
+
     public void addExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
-        logger.info("addExclusiveGateway" + gateway.getId() + " " + gateway.getName());
+        logger.debug("addExclusiveGateway" + gateway.getId() + " " + gateway.getName());
         new Gateway2Stardust(carnotModel,failures).addExclusiveGateway(gateway, container);
     }
 
     public void addParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
-        logger.info("addParallelGateway" + gateway.getId() + " " + gateway.getName());
+        logger.debug("addParallelGateway" + gateway.getId() + " " + gateway.getName());
         new Gateway2Stardust(carnotModel,failures).addParallelGateway(gateway, container);
     }
 
     public void addPartnerEntity(PartnerEntity entity) {
+    	logger.debug("addPartnerEntity " + entity);
         newOrganization(carnotModel)
             .withIdAndName(entity.getId(), entity.getName())
             .withDescription(DocumentationTool.getDescriptionFromDocumentation(entity.getDocumentation()))
@@ -194,11 +236,12 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addSubProcess(SubProcess subprocess, FlowElementsContainer container) {
-        logger.info("addSubProcess" + subprocess.getId() + " " + subprocess.getName());
+        logger.debug("addSubProcess" + subprocess.getId() + " " + subprocess.getName());
         new Subprocess2Stardust(carnotModel, failures).addSubprocess(subprocess, container);
     }
 
     public void addAbstractTask(Task task, FlowElementsContainer container) {
+    	logger.debug("addAbstractTask " + task + " in " + container);
         ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
         if (processDef == null) return;
         String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
@@ -213,10 +256,12 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addServiceTask(ServiceTask task, FlowElementsContainer container) {
+    	logger.debug("addServiceTask " + task + " in " + container);
     	new ServiceTask2Stardust(carnotModel, failures).addServiceTask(task, container);
     }
 
     public void addItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports) {
+    	logger.debug("addItemDefinition " + itemdef);
         new Data2Stardust(carnotModel, failures).addItemDefinition(itemdef);
     }
 
@@ -232,6 +277,7 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addDataObject(DataObject dataObject, FlowElementsContainer container) {
+    	logger.debug("addDataObject " + dataObject.getId() + " " + dataObject.getName() + " in " + container);
         new Data2Stardust(carnotModel, failures).addDataObject(dataObject);
     }
 
@@ -243,12 +289,8 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     }
 
-    public void addEndEvent(EndEvent event, FlowElementsContainer container) {
-
-    }
-
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container) {
-        logger.info("addTaskDataFlows " + activity.getId() + " " + activity.getName());
+        logger.debug("addTaskDataFlows " + activity.getId() + " " + activity.getName());
         new TaskDataFlow2Stardust(carnotModel,failures).addDataFlows(activity, container);
     }
 
@@ -265,17 +307,36 @@ public class Bpmn2StardustXPDL implements Transformator {
 
 	@Override
 	public void addRoutingSequenceFlows(FlowNode node, FlowElementsContainer process) {
+		logger.debug("Process control flows not using gateways (uncontrolled or conditional sequences) in container: " + process);
 		new RoutingSequenceFlow2Stardust(carnotModel, failures).processRoutingNode(node, process);
 	}
 
 	@Override
 	public void addResource(Resource resource) {
+		logger.debug("addResource " + resource);
 		new Resource2Stardust(carnotModel, failures).addResource(resource);
 	}
 
 	@Override
 	public void finalizeTransformation(Definitions defs) {
+		logger.info("Finalize transformation.");
 		new Resource2Stardust(carnotModel, failures).setConditionalPerformerData(defs);
+	}
+
+	@Override
+	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container) {
+		logger.debug("addEventDataFlows for catch event (" + event + ").");
+		if (event instanceof StartEvent) {
+			new StartEventDataFlow2Stardust(carnotModel, failures).addDataFlows((StartEvent)event, container);
+		} else {
+			new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
+		}
+	}
+
+	@Override
+	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container) {
+		logger.debug("addEventDataFlows for throw event (" + event + ").");
+		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
 	}
 
 }

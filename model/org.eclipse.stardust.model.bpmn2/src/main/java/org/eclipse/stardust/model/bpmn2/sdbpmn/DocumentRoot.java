@@ -56,6 +56,8 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getVendor <em>Vendor</em>}</li>
  * </ul>
  * </p>
@@ -499,11 +501,10 @@ public interface DocumentRoot extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Application Access Point Ref</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Application Access Point Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * BPMN2.0 Assignment-From/To: reference to a stardust application accesspoint.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Application Access Point Ref</em>' attribute.
 	 * @see #setApplicationAccessPointRef(String)
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_ApplicationAccessPointRef()
@@ -718,6 +719,58 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	boolean isSetOid();
+
+	/**
+	 * Returns the value of the '<em><b>Parameter Mapping Oid</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * BPMN2.0 Assignment: stardust mapping oid
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Parameter Mapping Oid</em>' attribute.
+	 * @see #setParameterMappingOid(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_ParameterMappingOid()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='parameterMappingOid' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	String getParameterMappingOid();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Parameter Mapping Oid</em>' attribute.
+	 * @see #getParameterMappingOid()
+	 * @generated
+	 */
+	void setParameterMappingOid(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Trigger Access Point Ref</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * BPMN2.0 Assignment-From/To: reference to a stardust trigger accesspoint.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Trigger Access Point Ref</em>' attribute.
+	 * @see #setTriggerAccessPointRef(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_TriggerAccessPointRef()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='triggerAccessPointRef' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	String getTriggerAccessPointRef();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Trigger Access Point Ref</em>' attribute.
+	 * @see #getTriggerAccessPointRef()
+	 * @generated
+	 */
+	void setTriggerAccessPointRef(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Vendor</b></em>' attribute.
