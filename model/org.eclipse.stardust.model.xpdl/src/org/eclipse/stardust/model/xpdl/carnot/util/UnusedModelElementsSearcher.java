@@ -130,7 +130,7 @@ public class UnusedModelElementsSearcher
       {
          TransitionType transition = (TransitionType) it.next();   
          String condition = transition.getCondition();
-         if(condition.equals("CONDITION")) //$NON-NLS-1$
+         if(condition != null && condition.equals("CONDITION")) //$NON-NLS-1$
          {
             XmlTextNode type = transition.getExpression();
             String expression = type == null ? null : ModelUtils.getCDataString(transition.getExpression().getMixed());
