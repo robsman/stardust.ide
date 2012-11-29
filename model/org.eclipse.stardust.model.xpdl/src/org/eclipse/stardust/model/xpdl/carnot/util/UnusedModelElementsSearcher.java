@@ -41,6 +41,7 @@ import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
@@ -365,7 +366,7 @@ public class UnusedModelElementsSearcher
          List pools = ((DiagramType) diagram).getPoolSymbols();
          for(int p = 0; p < pools.size(); p++)
          {
-            PoolSymbol pool = (PoolSymbol) pools.get(p); 
+            PoolSymbol pool = (PoolSymbol) pools.get(p);             
             EList genericLinks = ((PoolSymbol) pool).getGenericLinkConnection();
             for (int i = 0; i < genericLinks.size(); i++)
             {
@@ -376,21 +377,10 @@ public class UnusedModelElementsSearcher
                   return true;
                }
             }
-            EList lanes = ((PoolSymbol) pool).getLanes();
-            for(int l = 0; l < lanes.size(); l++)
+            if(isLinkTypeUsedinLanes(pool, link))
             {
-               LaneSymbol lane = (LaneSymbol) lanes.get(l);       
-               genericLinks = ((LaneSymbol) lane).getGenericLinkConnection();
-               for (int i = 0; i < genericLinks.size(); i++)
-               {
-                  GenericLinkConnectionType connection = (GenericLinkConnectionType) genericLinks.get(i);
-                  EObject modelElement = connection.getLinkType();
-                  if(modelElement.equals(link))
-                  {
-                     return true;
-                  }
-               }                
-            }
+               return true;
+            }            
          }            
          EList genericLinks = diagram.getGenericLinkConnection();
          for (int i = 0; i < genericLinks.size(); i++)
@@ -780,7 +770,6 @@ public class UnusedModelElementsSearcher
       return false;
    }   
    
-   // we may need to check for lanes
    private boolean isParticipantUsedInProcessDiagrams(ProcessDefinitionType process, EObject element)
    {
       if(element instanceof IModelParticipant)
@@ -793,20 +782,58 @@ public class UnusedModelElementsSearcher
             for (Iterator p = pools.iterator(); p.hasNext();)
             {
                PoolSymbol pool = (PoolSymbol) p.next();   
-               for(Iterator iter = pool.getLanes().iterator(); iter.hasNext();)
+               if(!pool.getLanes().isEmpty())
                {
-                  LaneSymbol lane = (LaneSymbol) iter.next();             
-                  IModelParticipant participant = lane.getParticipantReference();                  
-                  if(participant != null && participant.equals(element))
-                  {
-                     return true;
-                  }                  
+                  return isParticipantUsedInLanes(pool, element);
                }
             }            
          }
       }
       return false;
    }  
+
+   private boolean isParticipantUsedInLanes(ISwimlaneSymbol container, EObject element)
+   {
+      if(element instanceof IModelParticipant)
+      {                  
+         for (LaneSymbol lane : container.getChildLanes())
+         {
+            IModelParticipant participant = lane.getParticipantReference();                  
+            if(participant != null && participant.equals(element))
+            {
+               return true;
+            }                  
+            if(!lane.getChildLanes().isEmpty())
+            {
+               return isParticipantUsedInLanes(lane, element);
+            }            
+         }
+      }
+      return false;
+   }  
+   
+   private boolean isLinkTypeUsedinLanes(ISwimlaneSymbol container, LinkTypeType link)
+   {
+      for (LaneSymbol lane : container.getChildLanes())
+      {
+         EList genericLinks = lane.getGenericLinkConnection();
+         for (int i = 0; i < genericLinks.size(); i++)
+         {
+            GenericLinkConnectionType connection = (GenericLinkConnectionType) genericLinks.get(i);
+            EObject modelElement = connection.getLinkType();
+            if(modelElement.equals(link))
+            {
+               return true;
+            }
+         }
+         if(!lane.getChildLanes().isEmpty())
+         {
+            return isLinkTypeUsedinLanes(lane, link);
+         }            
+      }    
+      
+      return false;
+   }   
    
    private boolean isDMSDataType(DataType data)
    {
