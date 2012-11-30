@@ -899,15 +899,18 @@ public class ModelBuilderFacade
     *           width
     * @param heightProperty
     *           height
+    * @param parentSymbol 
     * @return lane created
     */
    public LaneSymbol createLane(ModelType model, ProcessDefinitionType processDefinition,
          String participantFullID, String laneID, String laneName, String orientationID,
-         int xProperty, int yProperty, int widthProperty, int heightProperty)
+         int xProperty, int yProperty, int widthProperty, int heightProperty, PoolSymbol parentSymbol)
    {
       long maxOid = XpdlModelUtils.getMaxUsedOid(model);
 
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+      parentSymbol.getLanes().add(laneSymbol);
+      laneSymbol.setParentPool(parentSymbol);
 
       processDefinition.getDiagram()
             .get(0)
@@ -925,7 +928,7 @@ public class ModelBuilderFacade
       laneSymbol.setWidth(widthProperty);
       laneSymbol.setHeight(heightProperty);
 
-      if (orientationID.equals(ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL))
+      if (orientationID != null && orientationID.equals(ModelerConstants.DIAGRAM_FLOW_ORIENTATION_HORIZONTAL))
       {
          laneSymbol.setOrientation(OrientationType.HORIZONTAL_LITERAL);
       }
@@ -936,7 +939,9 @@ public class ModelBuilderFacade
 
       if (participantFullID != null)
       {
-
+         
+         System.err.println("#### " + participantFullID);
+         
          String participantModelID = getModelId(participantFullID);
          if (StringUtils.isEmpty(participantModelID))
          {
@@ -965,6 +970,8 @@ public class ModelBuilderFacade
                   participantModelID + ".xpdl");
             IModelParticipant participantCopy = findParticipant(loadModel,
                   stripFullId(participantFullID));
+            
+            
             if (participantCopy == null)
             {
                ElementCopier copier = new ElementCopier(loadModel, null);
@@ -976,9 +983,15 @@ public class ModelBuilderFacade
             PepperIconFactory iconFactory = new PepperIconFactory();
             descriptor.importElements(iconFactory, model, true);
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
+            
+            System.err.println("#### 2");
          }
-
-         laneSymbol.setParticipant(modelParticipant);
+         
+         System.err.println("## " + modelParticipant);
+         
+         LaneParticipantUtil.setParticipant(laneSymbol, modelParticipant);      
+         
+         
       }
       return laneSymbol;
    }
