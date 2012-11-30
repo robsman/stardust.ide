@@ -3082,11 +3082,12 @@ public class ModelBuilderFacade
       DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
             model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
       DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
       data.setName("Process Attachments"); //$NON-NLS-1$
       data.setType(dataTypeType);
-      data.setElementOid(ModelUtils.getElementOid(data, model));
-
+      //data.setElementOid(ModelUtils.getElementOid(data, model));
+      data.setElementOid(++maxOID);
       model.getData().add(data);
 
       AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT,
