@@ -980,11 +980,7 @@ public class ModelBuilderFacade
             PepperIconFactory iconFactory = new PepperIconFactory();
             descriptor.importElements(iconFactory, model, true);
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
-            
-            System.err.println("#### 2");
          }
-         
-         System.err.println("## " + modelParticipant);
          
          LaneParticipantUtil.setParticipant(laneSymbol, modelParticipant);      
          
