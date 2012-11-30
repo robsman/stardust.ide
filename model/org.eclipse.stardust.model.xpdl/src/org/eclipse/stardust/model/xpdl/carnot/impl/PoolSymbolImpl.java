@@ -68,6 +68,7 @@ import org.eclipse.stardust.model.xpdl.carnot.RefersToConnectionType;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#isCollapsed <em>Collapsed</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#getParticipant <em>Participant</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#getChildLanes <em>Child Lanes</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#getParticipantReference <em>Participant Reference</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#isBoundaryVisible <em>Boundary Visible</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.PoolSymbolImpl#getProcess <em>Process</em>}</li>
@@ -477,6 +478,16 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
     * @ordered
     */
    protected EList<LaneSymbol> childLanes;
+
+   /**
+    * The cached value of the '{@link #getParticipantReference() <em>Participant Reference</em>}' reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getParticipantReference()
+    * @generated
+    * @ordered
+    */
+   protected IModelParticipant participantReference;
 
    /**
     * The default value of the '{@link #isBoundaryVisible() <em>Boundary Visible</em>}' attribute.
@@ -1187,6 +1198,29 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
     * <!-- end-user-doc -->
     * @generated
     */
+   public IModelParticipant getParticipantReference()
+   {
+      return participantReference;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public void setParticipantReference(IModelParticipant newParticipantReference)
+   {
+      IModelParticipant oldParticipantReference = participantReference;
+      participantReference = newParticipantReference;
+      if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE, oldParticipantReference, participantReference));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    public DiagramType getDiagram()
    {
       if (eContainerFeatureID() != CarnotWorkflowModelPackage.POOL_SYMBOL__DIAGRAM) return null;
@@ -1404,6 +1438,8 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
             return getParticipant();
          case CarnotWorkflowModelPackage.POOL_SYMBOL__CHILD_LANES:
             return getChildLanes();
+         case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE:
+            return getParticipantReference();
          case CarnotWorkflowModelPackage.POOL_SYMBOL__DIAGRAM:
             return getDiagram();
          case CarnotWorkflowModelPackage.POOL_SYMBOL__BOUNDARY_VISIBLE:
@@ -1489,6 +1525,9 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
             getChildLanes().clear();
             getChildLanes().addAll((Collection<? extends LaneSymbol>)newValue);
             return;
+         case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE:
+            setParticipantReference((IModelParticipant)newValue);
+            return;
          case CarnotWorkflowModelPackage.POOL_SYMBOL__BOUNDARY_VISIBLE:
             setBoundaryVisible((Boolean)newValue);
             return;
@@ -1570,6 +1609,9 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
          case CarnotWorkflowModelPackage.POOL_SYMBOL__CHILD_LANES:
             getChildLanes().clear();
             return;
+         case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE:
+            setParticipantReference((IModelParticipant)null);
+            return;
          case CarnotWorkflowModelPackage.POOL_SYMBOL__BOUNDARY_VISIBLE:
             setBoundaryVisible(BOUNDARY_VISIBLE_EDEFAULT);
             return;
@@ -1631,6 +1673,8 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
             return participant != null;
          case CarnotWorkflowModelPackage.POOL_SYMBOL__CHILD_LANES:
             return childLanes != null && !childLanes.isEmpty();
+         case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE:
+            return participantReference != null;
          case CarnotWorkflowModelPackage.POOL_SYMBOL__DIAGRAM:
             return getDiagram() != null;
          case CarnotWorkflowModelPackage.POOL_SYMBOL__BOUNDARY_VISIBLE:
@@ -1719,6 +1763,7 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
             case CarnotWorkflowModelPackage.POOL_SYMBOL__COLLAPSED: return CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__COLLAPSED;
             case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT: return CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__PARTICIPANT;
             case CarnotWorkflowModelPackage.POOL_SYMBOL__CHILD_LANES: return CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__CHILD_LANES;
+            case CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE: return CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__PARTICIPANT_REFERENCE;
             default: return -1;
          }
       }
@@ -1784,6 +1829,7 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
             case CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__COLLAPSED: return CarnotWorkflowModelPackage.POOL_SYMBOL__COLLAPSED;
             case CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__PARTICIPANT: return CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT;
             case CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__CHILD_LANES: return CarnotWorkflowModelPackage.POOL_SYMBOL__CHILD_LANES;
+            case CarnotWorkflowModelPackage.ISWIMLANE_SYMBOL__PARTICIPANT_REFERENCE: return CarnotWorkflowModelPackage.POOL_SYMBOL__PARTICIPANT_REFERENCE;
             default: return -1;
          }
       }
@@ -1801,33 +1847,33 @@ public class PoolSymbolImpl extends ISymbolContainerImpl implements PoolSymbol
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (elementOid: "); //$NON-NLS-1$
-      if (elementOidESet) result.append(elementOid); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", borderColor: "); //$NON-NLS-1$
+      result.append(" (elementOid: ");
+      if (elementOidESet) result.append(elementOid); else result.append("<unset>");
+      result.append(", borderColor: ");
       result.append(borderColor);
-      result.append(", fillColor: "); //$NON-NLS-1$
+      result.append(", fillColor: ");
       result.append(fillColor);
-      result.append(", style: "); //$NON-NLS-1$
+      result.append(", style: ");
       result.append(style);
-      result.append(", xPos: "); //$NON-NLS-1$
-      if (xPosESet) result.append(xPos); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", yPos: "); //$NON-NLS-1$
-      if (yPosESet) result.append(yPos); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", width: "); //$NON-NLS-1$
-      if (widthESet) result.append(width); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", height: "); //$NON-NLS-1$
-      if (heightESet) result.append(height); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", shape: "); //$NON-NLS-1$
+      result.append(", xPos: ");
+      if (xPosESet) result.append(xPos); else result.append("<unset>");
+      result.append(", yPos: ");
+      if (yPosESet) result.append(yPos); else result.append("<unset>");
+      result.append(", width: ");
+      if (widthESet) result.append(width); else result.append("<unset>");
+      result.append(", height: ");
+      if (heightESet) result.append(height); else result.append("<unset>");
+      result.append(", shape: ");
       result.append(shape);
-      result.append(", id: "); //$NON-NLS-1$
-      if (idESet) result.append(id); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", name: "); //$NON-NLS-1$
-      if (nameESet) result.append(name); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", orientation: "); //$NON-NLS-1$
-      if (orientationESet) result.append(orientation); else result.append("<unset>"); //$NON-NLS-1$
-      result.append(", collapsed: "); //$NON-NLS-1$
+      result.append(", id: ");
+      if (idESet) result.append(id); else result.append("<unset>");
+      result.append(", name: ");
+      if (nameESet) result.append(name); else result.append("<unset>");
+      result.append(", orientation: ");
+      if (orientationESet) result.append(orientation); else result.append("<unset>");
+      result.append(", collapsed: ");
       result.append(collapsed);
-      result.append(", boundaryVisible: "); //$NON-NLS-1$
+      result.append(", boundaryVisible: ");
       result.append(boundaryVisible);
       result.append(')');
       return result.toString();

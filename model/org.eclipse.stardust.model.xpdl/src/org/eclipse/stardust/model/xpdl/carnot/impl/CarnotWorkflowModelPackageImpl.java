@@ -804,7 +804,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
 
 	/**
     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-    *
+    * 
     * <p>This method is used to initialize {@link CarnotWorkflowModelPackage#eINSTANCE} when that field is accessed.
     * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -836,7 +836,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       // Mark meta-data to indicate it can't be changed
       theCarnotWorkflowModelPackage.freeze();
 
-
+  
       // Update the registry and return the package
       EPackage.Registry.INSTANCE.put(CarnotWorkflowModelPackage.eNS_URI, theCarnotWorkflowModelPackage);
       return theCarnotWorkflowModelPackage;
@@ -3017,6 +3017,16 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
 	/**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EReference getISwimlaneSymbol_ParticipantReference()
+   {
+        return (EReference)getISwimlaneSymbol().getEStructuralFeatures().get(4);
+   }
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
