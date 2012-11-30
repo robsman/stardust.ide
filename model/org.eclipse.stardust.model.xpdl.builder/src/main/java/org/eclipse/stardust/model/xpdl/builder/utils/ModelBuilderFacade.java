@@ -939,9 +939,6 @@ public class ModelBuilderFacade
 
       if (participantFullID != null)
       {
-         
-         System.err.println("#### " + participantFullID);
-         
          String participantModelID = getModelId(participantFullID);
          if (StringUtils.isEmpty(participantModelID))
          {
