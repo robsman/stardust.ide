@@ -38,25 +38,28 @@ public class DeployModelNLClasspathProvider extends CarnotToolClasspathProvider
 
       Bundle deployBundle = Platform.getBundle(MODELING_DEPLOY_NL_PLUGIN);
       Bundle[] fragments = Platform.getFragments(deployBundle);
-      for (int i = 0; i < fragments.length; i++)
+      if (fragments != null)
       {
-         boolean hasSrcFolder = false;
-         if (fragments[i].getEntry(SRC_FOLDER) != null)
+         for (int i = 0; i < fragments.length; i++)
          {
-            hasSrcFolder = true;
+            boolean hasSrcFolder = false;
+            if (fragments[i].getEntry(SRC_FOLDER) != null)
+            {
+               hasSrcFolder = true;
+            }
+            StringBuilder fragmentLocation = new StringBuilder();
+            fragmentLocation.append(fragments[i].getLocation());
+            if (hasSrcFolder)
+            {
+               fragmentLocation.append(SRC_FOLDER);
+            }
+            URI location = URI.create(fragmentLocation.toString());
+            String schemeSpecificPart = location.getSchemeSpecificPart();
+            location = URI.create(schemeSpecificPart);
+            Path path = new Path(URIUtil.toFile(location).getAbsolutePath());
+            IRuntimeClasspathEntry entry = JavaRuntime.newArchiveRuntimeClasspathEntry(path);
+            entries.add(entry);
          }
-         StringBuilder fragmentLocation = new StringBuilder();
-         fragmentLocation.append(fragments[i].getLocation());
-         if (hasSrcFolder)
-         {
-            fragmentLocation.append(SRC_FOLDER);
-         }
-         URI location = URI.create(fragmentLocation.toString());
-         String schemeSpecificPart = location.getSchemeSpecificPart();
-         location = URI.create(schemeSpecificPart);
-         Path path = new Path(URIUtil.toFile(location).getAbsolutePath());
-         IRuntimeClasspathEntry entry = JavaRuntime.newArchiveRuntimeClasspathEntry(path);
-         entries.add(entry);
       }
       return (IRuntimeClasspathEntry[]) entries.toArray(new IRuntimeClasspathEntry[0]);
    }
