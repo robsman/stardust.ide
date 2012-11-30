@@ -45,7 +45,10 @@ public class EndEvent2Stardust extends IntermediateEvent2Stardust {
 			failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "EndEvent - Multiple Event definitions " + event.getId());
 			return false;
 		}
-		if (def== null) return false; // no failure - just no element needed
+		if (def== null) {
+			// route element - just to simplify handling of conditional flows
+			return true;
+		}
 		if (def instanceof MessageEventDefinition)
 			return true;
 		else {

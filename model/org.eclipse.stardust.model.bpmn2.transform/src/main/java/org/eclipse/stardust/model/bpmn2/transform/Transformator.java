@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.bpmn2.transform;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.CatchEvent;
@@ -110,5 +111,7 @@ public interface Transformator {
 	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container);
 
 	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container);
+
+	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer, Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer);
 
 }

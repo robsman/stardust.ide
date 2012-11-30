@@ -15,6 +15,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteAc
 import java.util.List;
 
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -110,7 +111,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         ActivityType sourceActivity = query.findActivity(incomings.get(0).getSourceRef(), container);
         if (sourceActivity != null) sourceActivity.setSplit(splitType);
         for (SequenceFlow outgoing : outgoings) {
-            if (outgoing.getTargetRef() instanceof Activity || outgoing.getTargetRef() instanceof Gateway) {
+            if (outgoing.getTargetRef() instanceof Activity || outgoing.getTargetRef() instanceof Gateway || outgoing.getTargetRef() instanceof  Event) {
                 if (isBpmnMergingNonGateway(outgoing.getTargetRef())) continue;
                 ActivityType targetActivity = query.findActivity(outgoing.getTargetRef(), container);
                 if (targetActivity == null) continue;
@@ -144,6 +145,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     private void addGatewayTransition(Gate gate, Gateway gateway, Expression expression, String name, String Id, String documentation, ActivityType sourceActivity, ActivityType targetActivity, ProcessDefinitionType processDef) {
         logger.info("addGatewayTransition from " + sourceActivity.getName() + " to " + targetActivity.getName());
         if (sourceActivity != null && targetActivity != null) {
+        	if (CarnotModelQuery.findTransition(processDef, Id) != null) return;
             TransitionType transition = TransitionUtil.createTransition(Id, name, documentation, processDef, sourceActivity, targetActivity);
             setGatewayConditions(gate, gateway, expression, transition, sourceActivity, targetActivity);
             processDef.getTransition().add(transition);

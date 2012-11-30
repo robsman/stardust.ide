@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
@@ -52,6 +53,8 @@ import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
@@ -61,6 +64,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.Service
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.UserTask2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.Resource2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.Gateway2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.ProcessStartConfigurator;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingSequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
@@ -82,7 +86,12 @@ import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
@@ -158,6 +167,24 @@ public class Bpmn2StardustXPDL implements Transformator {
            typeDef.setHasMappingId(false);
            carnotModel.getApplicationContextType().add(typeDef);
         }
+
+        EventActionTypeType scheduleActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        EventActionTypeType completeActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        EventConditionTypeType timerEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
+        scheduleActionType.setId(PredefinedConstants.SCHEDULE_ACTIVITY_ACTION);
+        completeActionType.setId(PredefinedConstants.COMPLETE_ACTIVITY_ACTION);
+        timerEventHandlerType.setId(PredefinedConstants.TIMER_CONDITION);
+        scheduleActionType.setIsPredefined(true);
+        completeActionType.setIsPredefined(true);
+        timerEventHandlerType.setIsPredefined(true);
+        scheduleActionType.setActivityAction(true);
+        completeActionType.setActivityAction(true);
+        timerEventHandlerType.setActivityCondition(true);
+        timerEventHandlerType.setImplementation(ImplementationType.PULL_LITERAL);
+        carnotModel.getEventActionType().add(scheduleActionType);
+        carnotModel.getEventActionType().add(completeActionType);
+        carnotModel.getEventConditionType().add(timerEventHandlerType);
+
         ///**************************************************************************************************************///
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,6 +192,15 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     public ModelType getTargetModel() {
         BpmModelBuilder.assignMissingElementOids(carnotModel);
+
+        /************************************************************************/
+        System.out.println("Bpmn2StardustXPDL.getTargetModel()");
+        for (TreeIterator<EObject> modelContents = carnotModel.eAllContents(); modelContents.hasNext(); )
+        {
+           EObject element = modelContents.next();
+           System.out.println(" element " + element.toString() + " isModelElement " + (element instanceof IModelElement) + " isSetElementOid " + ((element instanceof IModelElement) ? ((IModelElement) element).isSetElementOid() : "No imodelelement"));
+        }
+        /************************************************************************/
         return carnotModel;
     }
 
@@ -338,5 +374,12 @@ public class Bpmn2StardustXPDL implements Transformator {
 		logger.debug("addEventDataFlows for throw event (" + event + ").");
 		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
 	}
+
+	@Override
+	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer,
+			Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer) {
+		new ProcessStartConfigurator(carnotModel, failures).configureProcessStarts(startEventsPerContainer, potentialStartNodesPerContainer);
+	}
+
 
 }

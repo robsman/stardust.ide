@@ -98,6 +98,8 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<Activity>> tasksWithDataflow;
     private Map<FlowElementsContainer, List<ThrowEvent>> throwEventsWithDataflow;
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
+    private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
+    private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
 
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
@@ -112,9 +114,12 @@ public class TransformationControl {
         tasksWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
         throwEventsWithDataflow = new HashMap<FlowElementsContainer, List<ThrowEvent>>();
         catchEventsWithDataflow = new HashMap<FlowElementsContainer, List<CatchEvent>>();
+        startEventsPerContainer = new HashMap<FlowElementsContainer, List<StartEvent>>();
+        potentialStartNodesPerContainer = new HashMap<FlowElementsContainer, List<FlowNode>>();
         processingInfo = "";
         transf = dialect.getTransformator();
         processBpmn(definitions, transf);
+        transf.postTransformProcessStarts(startEventsPerContainer, potentialStartNodesPerContainer);
         transf.finalizeTransformation(definitions);
         transf.serializeTargetModel(outputFile);
 
@@ -211,15 +216,16 @@ public class TransformationControl {
         processFlowElementsContainer(process);
     }
 
-    private  void processFlowElementsContainer(FlowElementsContainer process) {
+    private  void processFlowElementsContainer(FlowElementsContainer container) {
         List<SequenceFlow> sequenceFlows = new ArrayList<SequenceFlow>();
         List<Gateway> gateways = new ArrayList<Gateway>();
         List<FlowNode> routingFlowNodes = new ArrayList<FlowNode>();
 
-        for (LaneSet laneset : process.getLaneSets()) {
-            processLaneset(laneset, process);
+
+        for (LaneSet laneset : container.getLaneSets()) {
+            processLaneset(laneset, container);
         }
-        for (FlowElement flowElement : process.getFlowElements()) {
+        for (FlowElement flowElement : container.getFlowElements()) {
             if (flowElement instanceof SequenceFlow) {
                 sequenceFlows.add((SequenceFlow)flowElement);
             } else {
@@ -231,24 +237,30 @@ public class TransformationControl {
                 			routingFlowNodes.add((FlowNode)flowElement);
                 		}
                 	}
-                    processFlowElement(flowElement, process);
+                    processFlowElement(flowElement, container);
+                }
+                if (flowElement instanceof FlowNode && BpmnModelQuery.hasNoIncomingSequence((FlowNode)flowElement)) {
+                	if (!potentialStartNodesPerContainer.containsKey(container)) {
+                		potentialStartNodesPerContainer.put(container, new ArrayList<FlowNode>());
+                	}
+                	potentialStartNodesPerContainer.get(container).add((FlowNode)flowElement);
                 }
             }
         }
         for (Gateway gate : gateways) {
-            processFlowElement(gate, process);
+            processFlowElement(gate, container);
         }
         for (FlowNode node : routingFlowNodes) {
-        	transf.addRoutingSequenceFlows(node, process);
+        	transf.addRoutingSequenceFlows(node, container);
         }
         for (SequenceFlow flow : sequenceFlows) {
-            processSequenceFlow((SequenceFlow)flow, process);
+            processSequenceFlow((SequenceFlow)flow, container);
         }
 
         // process finally, because a transformer may want to set responsibilities (e.g. performing role) of contained elements
-        for (LaneSet laneset : process.getLaneSets()) {
+        for (LaneSet laneset : container.getLaneSets()) {
             for (Lane lane : laneset.getLanes()) {
-                processLane(lane, laneset, null, process);
+                processLane(lane, laneset, null, container);
             }
         }
     }
@@ -379,6 +391,10 @@ public class TransformationControl {
 
     private void processEvent(Event event, FlowElementsContainer container) {
         if (event instanceof StartEvent) {
+        	if (!startEventsPerContainer.containsKey(container)) {
+        		startEventsPerContainer.put(container, new ArrayList<StartEvent>());
+        	}
+        	startEventsPerContainer.get(container).add((StartEvent)event);
         	addToCatchEventsWithDataFlow((StartEvent)event, container);
             processStartEvent((StartEvent)event, container);
         } else if (event instanceof EndEvent) {

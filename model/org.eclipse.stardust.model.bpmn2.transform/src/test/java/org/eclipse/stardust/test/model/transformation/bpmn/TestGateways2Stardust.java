@@ -29,6 +29,7 @@ import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustT
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
@@ -278,4 +279,70 @@ public class TestGateways2Stardust {
 
     }
 
+    @Test
+    public void testConditionalEndGateway() {
+        final String TEST_ID_END_A = "TestModelEndEventA";
+        final String TEST_ID_END_B = "TestModelEndEventB";
+        final String TEST_ID_END_C = "TestModelEndEventC";
+        final String TEST_ID_GATE_A = "TestModelGateA";
+        final String TEST_ID_GATE_B = "TestModelGateB";
+
+        final String TEST_ID_SEQUENCE_GATEB_B = "TestModelGateBToTaskB";
+        final String TEST_ID_SEQUENCE_GATEB_ENDB = "TestModelGateBToEndB";
+        final String TEST_ID_SEQUENCE_B_ENDA = "TestModelTaskBToEndA";
+        final String TEST_ID_SEQUENCE_GATEA_GATEB = "TestModelGateAToGateB";
+        final String TEST_ID_SEQUENCE_GATEA_ENDC = "TestModelGateAToEndC";
+
+        final String modelFile = TEST_BPMN_MODEL_DIR + "ConditionalEnd.xml";
+        final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testConditionalEnd.xpdl";
+        ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+        ProcessDefinitionType process = result.getProcessDefinition().get(0);
+
+        ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+        ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+
+        ActivityType endA = CarnotModelQuery.findActivity(process, TEST_ID_END_A);
+        ActivityType endB = CarnotModelQuery.findActivity(process, TEST_ID_END_B);
+        ActivityType endC = CarnotModelQuery.findActivity(process, TEST_ID_END_C);
+
+        ActivityType gateA = CarnotModelQuery.findActivity(process, TEST_ID_GATE_A);
+        ActivityType gateB = CarnotModelQuery.findActivity(process, TEST_ID_GATE_B);
+
+        TransitionType transitionGateBB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATEB_B);
+        TransitionType transitionGateBEndB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATEB_ENDB);
+        TransitionType transitionBEndA = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_B_ENDA);
+        TransitionType transitionGateAGateB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATEA_GATEB);
+        TransitionType transitionGateAEndC = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GATEA_ENDC);
+
+        assertNotNull(taskA);
+        assertNotNull(taskB);
+        assertNotNull(endA);
+        assertNotNull(endB);
+        assertNotNull(endC);
+
+        assertNull(gateA); // taskA has a split config which makes a route activity for gateA unnecessary
+        assertNotNull(gateB);
+
+        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, gateB.getSplit());
+
+        assertEquals(2, taskA.getOutTransitions().size());
+        assertEquals(2, gateB.getOutTransitions().size());
+
+        assertEquals(taskA, transitionGateAGateB.getFrom());
+        assertEquals(gateB, transitionGateAGateB.getTo());
+
+        assertEquals(taskA, transitionGateAEndC.getFrom());
+        assertEquals(endC, transitionGateAEndC.getTo());
+
+        assertEquals(gateB, transitionGateBB.getFrom());
+        assertEquals(taskB, transitionGateBB.getTo());
+
+        assertEquals(gateB, transitionGateBEndB.getFrom());
+        assertEquals(endB, transitionGateBEndB.getTo());
+
+        assertEquals(taskB, transitionBEndA.getFrom());
+        assertEquals(endA, transitionBEndA.getTo());
+
+    }
 }

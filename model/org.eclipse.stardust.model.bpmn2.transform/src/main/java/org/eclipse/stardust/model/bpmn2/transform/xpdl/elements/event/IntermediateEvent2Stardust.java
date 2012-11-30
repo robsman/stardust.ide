@@ -11,23 +11,34 @@
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event;
 
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 
 import java.util.List;
 
+import javax.xml.datatype.Duration;
+
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
+import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.MessageEventDefinition;
+import org.eclipse.bpmn2.TimerEventDefinition;
+import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.bindaction.BpmScheduleActivityBindActionBuilder;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventaction.BpmCompleteActivityEventActionBuilder;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventhandler.BpmActivityTimerEventHandlerBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
@@ -43,13 +54,11 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 	public void addIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
 		logger.debug("addIntermediateCatchEvent " + event);
 		addEvent(event, container);
-//		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
 	}
 
 	public void addIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
 		logger.debug("addIntermediateThrowEvent " + event);
 		addEvent(event, container);
-//		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
 	}
 
 	protected void addEvent(Event event, FlowElementsContainer container) {
@@ -57,10 +66,13 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 		EventDefinition def = bpmnquery.getFirstEventDefinition(event);
 		if (def == null) {
 			failures.add("No Event Definition found. (Event " + event + " in " + container + ")");
+			addNoneEventRoute(container, event);
 			return;
 		}
 		if (def instanceof MessageEventDefinition) {
 			createMessageApplicationActivity(processDef, event, (MessageEventDefinition)def, container);
+		} else if (def instanceof TimerEventDefinition) {
+			createTimerRouteActivity(container, processDef, event, (TimerEventDefinition)def);
 		}
 	}
 
@@ -72,6 +84,40 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 		name = getNonEmptyName(name, id, event);
 		String descr = DocumentationTool.getDescriptionFromDocumentation(event.getDocumentation());
 		return createApplicationActivity(processDef, id, name, descr, application);
+	}
+
+	private void createTimerRouteActivity(FlowElementsContainer container, ProcessDefinitionType processDef, Event event, TimerEventDefinition def) {
+		//intermediateCatchEvent
+		String id = event.getId();
+		String name = getNonEmptyName(event.getName(), id, event);
+
+		Period p = getPeriod(def);
+
+		ActivityType route = createRouteActivity(processDef, id, name);
+
+		EventHandlerType handler = BpmActivityTimerEventHandlerBuilder
+								.newActivityTimerEventHandler(route)
+								.withAutoBinding()
+								.withConstantPeriod(p)
+								.build();
+
+		BpmScheduleActivityBindActionBuilder
+				.newScheduleActivityAction(handler)
+				.withTargetStateHibernated()
+				.build();
+
+		BpmCompleteActivityEventActionBuilder
+				.newScheduleActivityAction(handler)
+				.build();
+	}
+
+	private Period getPeriod(TimerEventDefinition def) {
+		Period period = null;
+		Duration dur = getTimerDuration(def);
+		if (dur != null) {
+			period = new Period((short)dur.getYears(), (short)dur.getMonths(), (short)dur.getDays(), (short)dur.getHours(), (short)dur.getMinutes(), (short)dur.getSeconds());
+		}
+		return period;
 	}
 
 	private ActivityType createApplicationActivity(ProcessDefinitionType processDef, String id, String name, String descr, ApplicationType application) {
@@ -87,5 +133,43 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 
 		return builder.build();
 	}
+
+	public ActivityType addNoneEventRoute(FlowElementsContainer container, Event event) {
+		ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
+		return createRouteActivity(processDef, event.getId(), event.getName());
+	}
+
+	private ActivityType createRouteActivity(ProcessDefinitionType processDef, String id, String name) {
+		return newRouteActivity(processDef)
+               .withIdAndName(id, name)
+               .build();
+	}
+
+    private Duration getTimerDuration(TimerEventDefinition eventDef) {
+        Expression durationExpression = null;
+        String durationLexValue = null;
+        Duration duration = null;
+        if (eventDef.getTimeDuration() != null) {
+        	durationExpression = eventDef.getTimeDuration();
+        } else if (eventDef.getTimeCycle()!= null) {
+        	durationExpression = eventDef.getTimeCycle();
+        }
+        if (durationExpression == null) return null;
+
+        if (durationExpression instanceof FormalExpression) {
+            FormalExpression formalCycle = (FormalExpression)durationExpression;
+            durationLexValue = formalCycle.getBody();
+        } else {
+        	durationLexValue = DocumentationTool.getInformalExpressionValue(durationExpression);
+        }
+        if (durationLexValue == null) return null;
+
+        try {
+        	BpmnTimerCycle cycle = BpmnTimerCycle.getCycle(durationLexValue);
+        	duration = cycle.getCycleDuration();
+        } catch (Exception e) {
+        }
+        return duration;
+    }
 
 }

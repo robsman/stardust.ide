@@ -24,6 +24,7 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.SequenceFlow;
+import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -42,6 +43,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	private ProcessDefinitionType processDef = null;
+	private int numSplittingStartEvents = 0;
 
 	private enum RoutingType {
 		UNCONTROLLED_FLOW, // unconditional split or join
@@ -55,6 +57,7 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	public void processRoutingNode(FlowNode node, FlowElementsContainer container) {
 		processDef = query.findProcessDefinition(container.getId());
+		numSplittingStartEvents = 0;
 		List<SequenceFlow> incomings = node.getIncoming();
 		List<SequenceFlow> outgoings = node.getOutgoing();
 
@@ -103,6 +106,10 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	private void createSimpleSplit(FlowNode node, List<SequenceFlow> outgoings, RoutingType splitType, FlowElementsContainer container) {
 		ActivityType splittingActivity = query.findActivity(node, container);
+		if (null == splittingActivity && node instanceof StartEvent) {
+			splittingActivity = new ProcessStartConfigurator(carnotModel, failures).createRouteActivity(container, node, numSplittingStartEvents);
+			numSplittingStartEvents++;
+		}
 		splittingActivity.setSplit(JoinSplitType.AND_LITERAL);
 		//SequenceFlow defaultSequence = getDefaultSequence(node, outgoings);
 		SequenceFlow defaultSequence = getDefault(node);

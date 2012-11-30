@@ -46,7 +46,9 @@ import org.junit.runners.Suite;
          TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
          TestSequencesConditionalPlusGateways2Stardust.class,
          TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
-         TestMessageEvents2Stardust.class
+         TestMessageEvents2Stardust.class,
+         TestProcessStart2Stardust.class,
+         TestIntermediateTimerEvent2Stardust.class
         })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";

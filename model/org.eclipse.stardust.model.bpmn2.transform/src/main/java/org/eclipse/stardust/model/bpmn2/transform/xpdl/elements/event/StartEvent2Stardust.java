@@ -117,8 +117,10 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         logger.debug("addMessageTrigger (JMS) " + event);
         ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, bpmnquery, failures);
         TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(event, def, container);
-        trigger.setId(event.getId());
-        if (trigger != null) processDef.getTrigger().add(trigger);
+        if (trigger != null) {
+        	trigger.setId(event.getId());
+        	processDef.getTrigger().add(trigger);
+        }
     }
 
     private void setTimerTriggerDefinition(StartEvent event, TimerEventDefinition eventDef, TriggerType trigger) {

@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -24,6 +25,7 @@ import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
+import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
@@ -118,4 +120,36 @@ public class BpmnModelQuery {
 		return null;
 	}
 
+	public static boolean hasNoIncomingSequence(FlowNode flowNode) {
+		List<SequenceFlow> incoming = flowNode.getIncoming();
+		return (null == incoming || 0 == incoming.size());
+	}
+
+	public static int getNumberOfSequenceSuccessorNodesOf(FlowNode node) {
+		if (null == node || null == node.getOutgoing()) return 0;
+		return node.getOutgoing().size();
+	}
+
+	public static int getNumberOfSequencePredecessorNodesOf(FlowNode node) {
+		if (null == node || null == node.getIncoming()) return 0;
+		return node.getIncoming().size();
+	}
+
+	public static List<FlowNode> getSequenceSuccessorNodesOf(FlowNode node) {
+		List<FlowNode> successors = new ArrayList<FlowNode>();
+		if (null == node) return successors;
+		for (SequenceFlow seq : node.getOutgoing()) {
+			successors.add(seq.getTargetRef());
+		}
+		return successors;
+	}
+
+	public static List<FlowNode> getSequencePredecessorNodesOf(FlowNode node) {
+		List<FlowNode> predecessors = new ArrayList<FlowNode>();
+		if (null == node) return predecessors;
+		for (SequenceFlow seq : node.getIncoming()) {
+			predecessors.add(seq.getSourceRef());
+		}
+		return predecessors;
+	}
 }

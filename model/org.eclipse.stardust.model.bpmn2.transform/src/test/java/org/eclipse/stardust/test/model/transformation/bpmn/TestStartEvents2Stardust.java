@@ -54,24 +54,6 @@ public class TestStartEvents2Stardust {
     }
 
     @Test
-    public void testStartEventMessage() {
-        // TODO JMS_TRIGGER type is not available
-
-//		final String modelFile = BPMN_MODEL_DIR + "StartEventMessage.bpmn";
-//		final String fileOutput = getResourceFilePath(OUTPUT_DIR) + "testStartEventMessage.xpdl";
-//
-//		ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
-//		ProcessDefinitionType process = result.getProcessDefinition().get(0);
-//
-//		assertNotNull(process);
-//		assertNotNull(result);
-//		TriggerType trigger =  CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
-//		assertNotNull(trigger);
-//		assertEquals(PredefinedConstants.JMS_TRIGGER, trigger.getType().getId());
-
-    }
-
-    @Test
     public void testStartEventTimer() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "StartEventTimer.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testStartEventTimer.xpdl";
