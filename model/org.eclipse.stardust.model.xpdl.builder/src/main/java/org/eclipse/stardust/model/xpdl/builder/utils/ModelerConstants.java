@@ -202,4 +202,5 @@ public class ModelerConstants
    public static final String PARAMETER_MAPPINGS_PROPERTY = "parameterMappings";
    public static final String ENGINE_CONTEXT_TYPE_KEY = "engine";
    public static final String DEFAULT_CONTEXT_TYPE_KEY = "default";
+   public static final String INTERMEDIATE_EVENT = "intermediateEvent";
 }
