@@ -209,4 +209,5 @@ public class ModelerConstants
    public static final String TIMER_EVENT_CLASS_KEY = "timer";
    public static final String MESSAGE_EVENT_CLASS_KEY = "message";
    public static final String ERROR_EVENT_CLASS_KEY = "error";
+   public static final String NONE_EVENT_CLASS_KEY = "none";
 }
