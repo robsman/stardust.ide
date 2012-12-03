@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.core.ui;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -655,7 +656,16 @@ public class AccessPathWizard extends Dialog
 
    private void updateChildren()
    {
-      List<PathEntry> children = path.getChildren();
+      List<PathEntry> children = null;
+      try
+      {
+         children = path.getChildren();
+      }
+      catch (RuntimeException e)
+      {
+         children = new ArrayList<PathEntry>();         
+      }
+      
       boolean hasChildren = !children.isEmpty();
 
       // preserve selection
