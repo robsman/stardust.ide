@@ -202,7 +202,9 @@ public class SelectSingleFileView
                List<IResource> result = CollectionUtils.newList();
                try
                {
-                  IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+                  IPackageFragmentRoot[] roots = element == javaProject
+                     ? javaProject.getAllPackageFragmentRoots()
+                     : ((IJavaProject) element).getPackageFragmentRoots();
                   for (int i = 0; i < roots.length; i++)
                   {
                      IResource resource = roots[i].getCorrespondingResource();
