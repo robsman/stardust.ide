@@ -123,11 +123,11 @@ public class IdFactory
    {
       boolean foundBaseId = false;
       String searchId = baseId + "_"; //$NON-NLS-1$
-      String searchName = baseName + " "; //$NON-NLS-1$
+      String searchName = baseName != null ? baseName + " " : null; //$NON-NLS-1$
       int counter = 1;
             
       if(PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION))
+            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION) && searchName != null)
       {
          searchId = ModelUtils.computeId(searchName);         
       }      
