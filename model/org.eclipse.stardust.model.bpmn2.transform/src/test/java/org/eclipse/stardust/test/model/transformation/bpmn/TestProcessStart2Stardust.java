@@ -45,7 +45,7 @@ public class TestProcessStart2Stardust {
 
     @Test
     public void testStartEventParallelSplit() {
-        final String modelFile = TEST_BPMN_MODEL_DIR + "ParallelSplitStart.xml";
+        final String modelFile = TEST_BPMN_MODEL_DIR + "ParallelSplitStart.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testParallelSplitStart.xpdl";
 
         ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
@@ -88,7 +88,7 @@ public class TestProcessStart2Stardust {
 
     @Test
     public void testParallelBox() {
-        final String modelFile = TEST_BPMN_MODEL_DIR + "ParallelBox.xml";
+        final String modelFile = TEST_BPMN_MODEL_DIR + "ParallelBox.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testParallelBox.xpdl";
 
         ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
@@ -130,7 +130,7 @@ public class TestProcessStart2Stardust {
 
     @Test
     public void testBackloop() {
-        final String modelFile = TEST_BPMN_MODEL_DIR + "BackloopToStart.xml";
+        final String modelFile = TEST_BPMN_MODEL_DIR + "BackloopToStart.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testBackloopToStart.xpdl";
 
         ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);

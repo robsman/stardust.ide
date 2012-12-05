@@ -53,8 +53,6 @@ import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
@@ -90,7 +88,6 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -192,15 +189,6 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     public ModelType getTargetModel() {
         BpmModelBuilder.assignMissingElementOids(carnotModel);
-
-        /************************************************************************/
-        System.out.println("Bpmn2StardustXPDL.getTargetModel()");
-        for (TreeIterator<EObject> modelContents = carnotModel.eAllContents(); modelContents.hasNext(); )
-        {
-           EObject element = modelContents.next();
-           System.out.println(" element " + element.toString() + " isModelElement " + (element instanceof IModelElement) + " isSetElementOid " + ((element instanceof IModelElement) ? ((IModelElement) element).isSetElementOid() : "No imodelelement"));
-        }
-        /************************************************************************/
         return carnotModel;
     }
 

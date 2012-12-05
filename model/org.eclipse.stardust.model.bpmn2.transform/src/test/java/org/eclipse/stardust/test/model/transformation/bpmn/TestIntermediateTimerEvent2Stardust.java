@@ -48,7 +48,7 @@ public class TestIntermediateTimerEvent2Stardust {
     @Test
     public void testIntermediateTimer() {
 
-    	final String modelFile = TEST_BPMN_MODEL_DIR + "CatchingIntermediateTimerEvent.xml";
+    	final String modelFile = TEST_BPMN_MODEL_DIR + "CatchingIntermediateTimerEvent.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testCatchingIntermediateTimerEvent.xpdl";
 
         final String DURATION = "000000:000000:000000:000001:000030:000000";

@@ -293,7 +293,7 @@ public class TestGateways2Stardust {
         final String TEST_ID_SEQUENCE_GATEA_GATEB = "TestModelGateAToGateB";
         final String TEST_ID_SEQUENCE_GATEA_ENDC = "TestModelGateAToEndC";
 
-        final String modelFile = TEST_BPMN_MODEL_DIR + "ConditionalEnd.xml";
+        final String modelFile = TEST_BPMN_MODEL_DIR + "ConditionalEnd.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testConditionalEnd.xpdl";
         ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
         ProcessDefinitionType process = result.getProcessDefinition().get(0);
