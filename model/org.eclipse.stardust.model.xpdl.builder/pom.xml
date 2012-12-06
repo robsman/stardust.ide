@@ -115,6 +115,26 @@
             </exclusion>
          </exclusions>
       </dependency>
+      <dependency>
+         <groupId>org.eclipse.core</groupId>
+         <artifactId>org.eclipse.core.resources</artifactId>
+         <version>3.6.1.R36x_v20110131-1630</version>
+         <scope>runtime</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.ant</groupId>
+               <artifactId>org.eclipse.ant.core</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>org.eclipse.core.expressions</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>org.eclipse.core.filesystem</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
 
       <dependency>
          <groupId>org.eclipse.equinox</groupId>
