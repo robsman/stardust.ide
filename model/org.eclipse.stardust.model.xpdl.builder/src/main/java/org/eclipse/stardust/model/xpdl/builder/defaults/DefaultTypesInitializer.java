@@ -14,6 +14,7 @@ import static org.eclipse.stardust.engine.api.model.PredefinedConstants.PRIMITIV
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.manual.ManualTriggerValidator;
 import org.eclipse.stardust.engine.core.pojo.app.PlainJavaAccessPointProvider;
@@ -38,8 +39,10 @@ import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXMLValidator;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXPathEvaluator;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEvaluator;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListAccessPathEvaluator;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListValidator;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentValidator;
 import org.eclipse.stardust.engine.extensions.ejb.SessionBeanValidator;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanAccessPointProvider;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanApplicationInstance;
@@ -96,6 +99,10 @@ public class DefaultTypesInitializer implements ModelInitializer
 
       initializeDataType(model, PredefinedConstants.STRUCTURED_DATA, "Structured Data",
             StructuredDataXPathEvaluator.class, StructuredDataXMLValidator.class,
+            StructuredDataFilterExtension.class, StructuredDataLoader.class);
+
+      initializeDataType(model, PredefinedConstants.DOCUMENT_DATA, "Document",
+            VfsDocumentAccessPathEvaluator.class, VfsDocumentValidator.class,
             StructuredDataFilterExtension.class, StructuredDataLoader.class);
 
       initializeDataType(model, "dmsDocumentList", "Document List",
