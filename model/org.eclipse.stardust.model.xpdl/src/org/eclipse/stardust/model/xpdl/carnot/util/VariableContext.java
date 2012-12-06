@@ -42,11 +42,11 @@ public class VariableContext
    private Map<String, Map<EObject, String>> elementReferences = new HashMap<String, Map<EObject, String>>();
 
    private Pattern pattern = Pattern.compile("(\\$\\{[^{}]+\\})"); //$NON-NLS-1$
-   
+
    private ModelType model;
-   
+
    private boolean criticalityFormulaChanged;
-   
+
    public VariableContext()
    {
       super();
@@ -55,7 +55,7 @@ public class VariableContext
    private List<AttributeType> getConfigurationVariableElements(ModelType model)
    {
       List<AttributeType> elements = new ArrayList<AttributeType>();
-      List<AttributeType> allAttributes = model.getAttribute(); 
+      List<AttributeType> allAttributes = model.getAttribute();
       for(AttributeType at: allAttributes)
       {
          if(at.getName().startsWith("ipp:variables"))
@@ -64,10 +64,10 @@ public class VariableContext
          }
       }
       //sort ascending by index to prevent lookup problems
-      Collections.sort(elements, new ConfigurationVariableIndexComparator()); 
+      Collections.sort(elements, new ConfigurationVariableIndexComparator());
       return elements;
    }
-   
+
    public void initializeVariables(ModelType model)
    {
       try
@@ -76,13 +76,13 @@ public class VariableContext
          variableReferences.clear();
          variables.clear();
          int lastIndex = -1;
-         
-         List<AttributeType> configVariableElements 
+
+         List<AttributeType> configVariableElements
             = getConfigurationVariableElements(model);
          for(AttributeType configVariableElement: configVariableElements)
          {
             int variableIndex = getIndex(configVariableElement.getName());
-            ModelVariable modelVariable 
+            ModelVariable modelVariable
                = createModelVariable(configVariableElement);
             try
             {
@@ -126,7 +126,7 @@ public class VariableContext
          }
       }
    }
-   
+
    public void createAttributeSet(ModelVariable modelVariable, int j)
    {
       if (!modelVariable.isRemoved())
@@ -142,7 +142,7 @@ public class VariableContext
                + "]:description", "String", modelVariable.getDescription()); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
-   
+
    private void removeAttributeSet(ModelVariable modelVariable, int j)
    {
       AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
@@ -152,7 +152,7 @@ public class VariableContext
       AttributeUtil.setAttribute((IExtensibleElement) model, "ipp:variables[" + j //$NON-NLS-1$
             + "]:description", "String", null); //$NON-NLS-1$ //$NON-NLS-2$
    }
-   
+
    private ModelVariable createModelVariable(AttributeType attribute)
    {
       ModelVariable modelVariable;
@@ -187,7 +187,7 @@ public class VariableContext
       String index = name.substring(startIndex + 1, endIndex);
       return Integer.parseInt(index);
    }
-   
+
    private class ConfigurationVariableIndexComparator implements Comparator<AttributeType>
    {
 
@@ -195,12 +195,12 @@ public class VariableContext
       {
          Integer index1 = getIndex(o1.getName());
          Integer index2 = getIndex(o2.getName());
-         
+
          return index1.compareTo(index2);
       }
-      
+
    }
-   
+
    private void parseVariables(EObject modelElement, String ref)
    {
       int idx = modelElement.toString().indexOf(ref);
@@ -235,7 +235,7 @@ public class VariableContext
          parseVariables(i.next(), ref);
       }
    }
-   
+
    public void cleanupReferences()
    {
       List<ModelVariable> invalidVariables = new ArrayList<ModelVariable>();
@@ -385,7 +385,7 @@ public class VariableContext
       }
    }
 
-   private ModelVariable getModelVariableByName(String value)
+   public ModelVariable getModelVariableByName(String value)
    {
       for (Iterator<ModelVariable> i = variables.iterator(); i.hasNext();)
       {
@@ -531,7 +531,7 @@ public class VariableContext
       }
       return value;
    }
-   
+
    public boolean isValidName(String name)
    {
       if (name == null)
@@ -552,7 +552,7 @@ public class VariableContext
       }
       return true;
    }
-   
+
    public boolean isCriticalityFormulaChanged()
    {
       return criticalityFormulaChanged;
