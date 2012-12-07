@@ -13,6 +13,8 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
@@ -101,6 +103,12 @@ public class BpmStructVariableBuilder
 
    public BpmStructVariableBuilder ofType(String declId)
    {
+      if(StringUtils.isEmpty(declId))
+      {
+         generateId();
+         declId = getGeneratedID();
+      }
+      
       if(getTypeDeclarationModel().getId().equals(model.getId()))
       {      
          AttributeUtil.setAttribute(element, StructuredDataConstants.TYPE_DECLARATION_ATT,

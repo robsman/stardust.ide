@@ -251,10 +251,14 @@ public class ModelBuilderFacade
          String typeName)
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE.createTypeDeclarationType();
-
-      structuredDataType.setId(typeID);
       structuredDataType.setName(typeName);
-
+      
+      if(StringUtils.isEmpty(typeID))
+      {
+         typeID = NameIdUtils.createIdFromName(typeName);
+      }
+      structuredDataType.setId(typeID);
+            
       SchemaTypeType schema = XpdlFactory.eINSTANCE.createSchemaTypeType();
       structuredDataType.setSchemaType(schema);
 
@@ -357,10 +361,15 @@ public class ModelBuilderFacade
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
 
-      parameterType.setId(id);
+      if(StringUtils.isEmpty(id))
+      {
+         id = NameIdUtils.createIdFromName(name);
+      }
+
+      parameterType.setId(id);      
       parameterType.setName(name);
       parameterType.setMode(mode);
-
+      
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
 
@@ -909,6 +918,14 @@ public class ModelBuilderFacade
       long maxOid = XpdlModelUtils.getMaxUsedOid(model);
 
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+      laneSymbol.setName(laneName);      
+      
+      if(StringUtils.isEmpty(laneID))
+      {
+         laneID = NameIdUtils.createIdFromName(null, laneSymbol);
+      }
+      laneSymbol.setId(laneID);         
+      
       parentSymbol.getLanes().add(laneSymbol);
       laneSymbol.setParentPool(parentSymbol);
 
@@ -921,8 +938,6 @@ public class ModelBuilderFacade
 
       laneSymbol.setElementOid(++maxOid);
 
-      laneSymbol.setId(laneID);
-      laneSymbol.setName(laneName);
       laneSymbol.setXPos(xProperty);
       laneSymbol.setYPos(yProperty);
       laneSymbol.setWidth(widthProperty);
@@ -2444,40 +2459,6 @@ public class ModelBuilderFacade
    }
 
    /**
-    * TODO Replace by Eclipse modeler logic
-    *
-    * @param name
-    * @return
-    */
-   public String createIdFromName(String name)
-   {
-      StringBuilder idBuilder = new StringBuilder(name.length());
-      boolean firstWord = true;
-      boolean newWord = true;
-      for (int i = 0; i < name.length(); ++i)
-      {
-         char nameChar = name.charAt(i);
-         if (Character.isLetterOrDigit(nameChar))
-         {
-            if (newWord && !firstWord)
-            {
-               // append underscore for each first illegal character
-               idBuilder.append('_');
-            }
-            idBuilder.append(Character.toUpperCase(nameChar));
-            firstWord &= false;
-            newWord = false;
-         }
-         else
-         {
-            newWord = true;
-         }
-      }
-
-      return idBuilder.toString();
-   }
-
-   /**
     *
     * @param model
     * @param modelElement
@@ -3067,6 +3048,13 @@ public class ModelBuilderFacade
       ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
       model.setConnectionManager(new WebModelerConnectionManager(model,
             this.modelManagementStrategy));
+      
+      if(StringUtils.isEmpty(modelID))
+      {
+         modelID = NameIdUtils.createIdFromName(modelName);
+      }
+      model.setId(modelID);
+      
       return model;
    }
 

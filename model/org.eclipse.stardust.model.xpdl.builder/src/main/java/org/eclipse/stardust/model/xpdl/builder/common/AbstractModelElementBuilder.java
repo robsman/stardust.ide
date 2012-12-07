@@ -13,7 +13,11 @@ package org.eclipse.stardust.model.xpdl.builder.common;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ElementBuilderUtils;
+import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
@@ -21,12 +25,16 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
-
-
 public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement & IModelElement, B extends AbstractModelElementBuilder<T, B>>
       extends AbstractIdentifiableElementBuilder<T, B>
 {
    protected ModelType model;
+   private String generatedID = null;
+
+   public String getGeneratedID()
+   {
+      return generatedID;
+   }
 
    public AbstractModelElementBuilder(T element)
    {
@@ -38,6 +46,8 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
    {
       T element = super.build();
 
+      generateId();
+      
       // attaching element to model
       EList<? super T> elementContainer = getElementContainer();
       if ((null != elementContainer) && !elementContainer.contains(element))
@@ -136,4 +146,19 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
 
    protected abstract String getDefaultElementIdPrefix();
 
+   protected void generateId()
+   {
+      if(generatedID == null)
+      {
+         generatedID = NameIdUtils.createIdFromName(getElementContainer(), element);
+         if(!StringUtils.isEmpty(element.getId()))
+         {
+            generatedID = element.getId();
+         }         
+         else if(!StringUtils.isEmpty(generatedID) && StringUtils.isEmpty(element.getId()))
+         {
+            element.setId(generatedID);            
+         }
+      }
+   }   
 }
