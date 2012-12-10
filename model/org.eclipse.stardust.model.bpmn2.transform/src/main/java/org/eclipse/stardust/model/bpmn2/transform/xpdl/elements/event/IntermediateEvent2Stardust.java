@@ -15,13 +15,9 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteAc
 
 import java.util.List;
 
-import javax.xml.datatype.Duration;
-
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
-import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
-import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.MessageEventDefinition;
@@ -33,7 +29,6 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.bindaction.Bp
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventaction.BpmCompleteActivityEventActionBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventhandler.BpmActivityTimerEventHandlerBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -91,7 +86,7 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 		String id = event.getId();
 		String name = getNonEmptyName(event.getName(), id, event);
 
-		Period p = getPeriod(def);
+		Period p = EventDefinitions2Stardust.getPeriod(def);
 
 		ActivityType route = createRouteActivity(processDef, id, name);
 
@@ -109,15 +104,6 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 		BpmCompleteActivityEventActionBuilder
 				.newScheduleActivityAction(handler)
 				.build();
-	}
-
-	private Period getPeriod(TimerEventDefinition def) {
-		Period period = null;
-		Duration dur = getTimerDuration(def);
-		if (dur != null) {
-			period = new Period((short)dur.getYears(), (short)dur.getMonths(), (short)dur.getDays(), (short)dur.getHours(), (short)dur.getMinutes(), (short)dur.getSeconds());
-		}
-		return period;
 	}
 
 	private ActivityType createApplicationActivity(ProcessDefinitionType processDef, String id, String name, String descr, ApplicationType application) {
@@ -144,32 +130,5 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
                .withIdAndName(id, name)
                .build();
 	}
-
-    private Duration getTimerDuration(TimerEventDefinition eventDef) {
-        Expression durationExpression = null;
-        String durationLexValue = null;
-        Duration duration = null;
-        if (eventDef.getTimeDuration() != null) {
-        	durationExpression = eventDef.getTimeDuration();
-        } else if (eventDef.getTimeCycle()!= null) {
-        	durationExpression = eventDef.getTimeCycle();
-        }
-        if (durationExpression == null) return null;
-
-        if (durationExpression instanceof FormalExpression) {
-            FormalExpression formalCycle = (FormalExpression)durationExpression;
-            durationLexValue = formalCycle.getBody();
-        } else {
-        	durationLexValue = DocumentationTool.getInformalExpressionValue(durationExpression);
-        }
-        if (durationLexValue == null) return null;
-
-        try {
-        	BpmnTimerCycle cycle = BpmnTimerCycle.getCycle(durationLexValue);
-        	duration = cycle.getCycleDuration();
-        } catch (Exception e) {
-        }
-        return duration;
-    }
 
 }

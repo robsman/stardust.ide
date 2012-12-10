@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
@@ -113,5 +114,7 @@ public interface Transformator {
 	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container);
 
 	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer, Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer);
+
+	public void addBoundaryEvent(BoundaryEvent event, FlowElementsContainer container);
 
 }

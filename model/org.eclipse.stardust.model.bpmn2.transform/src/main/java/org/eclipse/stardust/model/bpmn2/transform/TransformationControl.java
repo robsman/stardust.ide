@@ -239,7 +239,7 @@ public class TransformationControl {
                 	}
                     processFlowElement(flowElement, container);
                 }
-                if (flowElement instanceof FlowNode && BpmnModelQuery.hasNoIncomingSequence((FlowNode)flowElement)) {
+                if (BpmnModelQuery.isPotentialStartNode(flowElement)) { // && BpmnModelQuery.hasNoIncomingSequence((FlowNode)flowElement)) {
                 	if (!potentialStartNodesPerContainer.containsKey(container)) {
                 		potentialStartNodesPerContainer.put(container, new ArrayList<FlowNode>());
                 	}
@@ -501,7 +501,8 @@ public class TransformationControl {
     }
 
     private void processBoundaryEvent(BoundaryEvent event, FlowElementsContainer container) {
-        processingInfo +=   "BoundaryEvent" + NOT_SUPPORTED;
+//        processingInfo +=   "BoundaryEvent" + NOT_SUPPORTED;
+    	transf.addBoundaryEvent(event, container);
 
     }
 

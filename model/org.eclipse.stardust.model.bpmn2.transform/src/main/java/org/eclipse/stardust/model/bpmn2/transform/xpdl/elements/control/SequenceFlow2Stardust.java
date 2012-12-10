@@ -12,6 +12,8 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control;
 
 import java.util.List;
 
+import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
@@ -55,9 +57,13 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 			if (!endEventTransformedToActivity(targetNode, container)) return;
 		}
 
-		//if (sourceNode instanceof Activity && targetNode instanceof Activity) {
-			addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
-		//}
+		addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
+
+//		if (sourceNode instanceof BoundaryEvent) {
+//			addBoundaryToActivityTransition(seq, sourceNode, targetNode, container, processDef);
+//		} else {
+//			addActivityToActivityTransition(seq, sourceNode, targetNode, container, processDef);
+//		}
 	}
 
 	private boolean endEventTransformedToActivity(FlowNode targetNode, FlowElementsContainer container) {
@@ -66,42 +72,35 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 	}
 
 	private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
-		ActivityType sourceActivity = query.findActivity(sourceNode, container);
+		ActivityType sourceActivity = query.findSequenceSourceActivityForNode(sourceNode, container); //query.findActivity(sourceNode, container);
 		ActivityType targetActivity = query.findActivity(targetNode, container);
 		if (sourceActivity != null && targetActivity != null) {
 			String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
 			String name = getNonEmptyName(seq.getName(), seq.getId(), seq);
-			TransitionType transition = TransitionUtil.createTransition(seq.getId(), name, documentation,
-					processDef, sourceActivity, targetActivity);
-
+			TransitionType transition = TransitionUtil.createTransition(seq.getId(), name, documentation, processDef, sourceActivity, targetActivity);
 			TransitionUtil.setSequenceExpressionConditionOrTrue(transition, seq.getConditionExpression(), logger, failures);
 
 			// TODO transition.setForkOnTraversal()
 			processDef.getTransition().add(transition);
+
+
 		} else {
 			failures.add("No valid source and target for sequence flow: " + seq.getId() + " sourceRef "
 					+ seq.getSourceRef() + " targetRef " + seq.getTargetRef());
 		}
 	}
 
-//	private void addActivityToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
+//	private void addBoundaryToActivityTransition(SequenceFlow seq, FlowNode sourceNode, FlowNode targetNode, FlowElementsContainer container, ProcessDefinitionType processDef) {
 //		ActivityType sourceActivity = query.findActivity(sourceNode, container);
 //		ActivityType targetActivity = query.findActivity(targetNode, container);
 //		if (sourceActivity != null && targetActivity != null) {
 //			String documentation = DocumentationTool.getDescriptionFromDocumentation(seq.getDocumentation());
-//			TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), documentation,
+//			String name = getNonEmptyName(seq.getName(), seq.getId(), seq);
+//			TransitionType transition = TransitionUtil.createTransition(seq.getId(), name, documentation,
 //					processDef, sourceActivity, targetActivity);
-//			if (seq.getConditionExpression() != null) {
-//				if (seq.getConditionExpression() instanceof FormalExpression) {
-//					TransitionUtil.setSequenceFormalCondition(transition, (FormalExpression) seq.getConditionExpression(), failures);
-//				} else if (seq.getConditionExpression().getDocumentation() != null
-//						&& seq.getConditionExpression().getDocumentation().get(0) != null
-//						&& !seq.getConditionExpression().getDocumentation().get(0).getText().equals("")) {
-//					TransitionUtil.setSequenceInformalCondition(transition, seq.getConditionExpression().getDocumentation().get(0).getText());
-//				} else {
-//					TransitionUtil.setSequenceTrueCondition(transition);
-//				}
-//			}
+//
+//			TransitionUtil.setSequenceExpressionConditionOrTrue(transition, seq.getConditionExpression(), logger, failures);
+//
 //			// TODO transition.setForkOnTraversal()
 //			processDef.getTransition().add(transition);
 //		} else {
@@ -109,4 +108,6 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 //					+ seq.getSourceRef() + " targetRef " + seq.getTargetRef());
 //		}
 //	}
+
+
 }

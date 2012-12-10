@@ -10,13 +10,18 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
+import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
+import org.eclipse.bpmn2.SequenceFlow;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
@@ -40,6 +45,40 @@ public class CarnotModelQuery {
 
     public ActivityType findActivity(FlowNode node, FlowElementsContainer container) {
         String nodeId = node != null ? node.getId() : null;
+        ProcessDefinitionType processDef = findProcessDefinition(container.getId());
+        if (processDef != null && nodeId != null) {
+            return findActivity(processDef, nodeId);
+        }
+        return null;
+    }
+
+    /**
+     * Considers artificial constructs (i.e. the source of a transition may be an additional control-flow element).
+     */
+    public ActivityType findSequenceSourceActivity(SequenceFlow flow, FlowElementsContainer container) {
+        FlowNode sourceNode = flow.getSourceRef();
+        return findSequenceSourceActivityForNode(sourceNode, container);
+    }
+
+    /**
+     * Considers artificial constructs (i.e. the source of a transition may be an additional control-flow element).
+     */
+    public ActivityType findSequenceSourceActivityForNode(FlowNode node, FlowElementsContainer container) {
+        ActivityType activity = findActivity(node, container);
+        if (BpmnModelQuery.hasBoundaryEventAttached(node)) {
+        	String happyPathRouteId = BoundaryEvent2Stardust.getBoundaryEventHappyPathRouteId(activity);
+        	return findActivity(happyPathRouteId, container);
+        } else if (node instanceof BoundaryEvent) {
+        	Activity holderActivity = ((BoundaryEvent)node).getAttachedToRef();
+        	activity = findActivity(holderActivity, container);
+        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId(activity);
+        	return findActivity(eventPathRouteId, container);
+        } else {
+        	return activity;
+        }
+    }
+
+    public ActivityType findActivity(String nodeId, FlowElementsContainer container) {
         ProcessDefinitionType processDef = findProcessDefinition(container.getId());
         if (processDef != null && nodeId != null) {
             return findActivity(processDef, nodeId);
@@ -138,6 +177,13 @@ public class CarnotModelQuery {
 	public static DataMappingType getDataMapping(ActivityType activity, String id) {
 		for (DataMappingType mapping : activity.getDataMapping()) {
 			if (mapping != null && mapping.getId().equals(id)) return mapping;
+		}
+		return null;
+	}
+
+	public static EventHandlerType findEventHandler(ActivityType activity, String id) {
+		for (EventHandlerType handler : activity.getEventHandler()) {
+			if (handler != null && handler.getId().equals(id)) return handler;
 		}
 		return null;
 	}

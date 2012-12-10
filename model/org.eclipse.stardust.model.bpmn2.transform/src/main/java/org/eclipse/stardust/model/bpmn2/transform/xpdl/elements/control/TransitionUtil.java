@@ -64,6 +64,22 @@ public class TransitionUtil {
         }
     }
 
+    public static void setTransitionExpression(TransitionType transition, String expression) {
+        transition.setCondition(CONDITION_KEY);
+        XmlTextNode expressionNode = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
+        ModelUtils.setCDataString(expressionNode.getMixed(), expression, true);
+        transition.setExpression(expressionNode);
+    }
+
+    public static String getTransitionExpression(TransitionType transition) {
+    	String expression = "";
+    	XmlTextNode node = transition.getExpression();
+    	if (null == node) return "";
+    	expression = ModelUtils.getCDataString(node.getMixed());
+    	if (null == expression) expression = "";
+    	return expression;
+    }
+
     public static void setSequenceOtherwiseCondition(TransitionType transition) {
         transition.setCondition(OTHERWISE_KEY);
     }
@@ -111,5 +127,9 @@ public class TransitionUtil {
         	}
         }
         return null;
+    }
+
+    public static boolean hasOtherwiseCondition(TransitionType transition) {
+    	return transition.getCondition().equals(OTHERWISE_KEY);
     }
 }

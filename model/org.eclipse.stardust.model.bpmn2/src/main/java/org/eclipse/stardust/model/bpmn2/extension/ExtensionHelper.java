@@ -204,6 +204,7 @@ public class ExtensionHelper {
 //		participant.setName("");
 	}
 
+	@SuppressWarnings("unused")
 	private void copyIdAndNameFromResourceToParticipant(Resource resource, IIdentifiableElement participant) {
 		participant.setId(resource.getId());
 		participant.setName(resource.getName());

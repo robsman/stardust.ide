@@ -25,6 +25,7 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
@@ -108,7 +109,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     private void createForkingTransitions(Gate gate, JoinSplitType splitType, Gateway gateway, ProcessDefinitionType processDef, FlowElementsContainer container) {
         List<SequenceFlow> incomings = gateway.getIncoming();
         List<SequenceFlow> outgoings = gateway.getOutgoing();
-        ActivityType sourceActivity = query.findActivity(incomings.get(0).getSourceRef(), container);
+        ActivityType sourceActivity = query.findSequenceSourceActivityForNode(incomings.get(0).getSourceRef(), container); // query.findActivity(incomings.get(0).getSourceRef(), container);
         if (sourceActivity != null) sourceActivity.setSplit(splitType);
         for (SequenceFlow outgoing : outgoings) {
             if (outgoing.getTargetRef() instanceof Activity || outgoing.getTargetRef() instanceof Gateway || outgoing.getTargetRef() instanceof  Event) {
@@ -132,7 +133,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         for (SequenceFlow incoming : incomings) {
             if (incoming.getSourceRef() instanceof Activity || incoming.getSourceRef() instanceof Gateway) {
                 if (isBpmnForkingNonGateway(incoming.getSourceRef())) continue;
-                ActivityType sourceActivity = query.findActivity(incoming.getSourceRef(), container);
+                ActivityType sourceActivity =  query.findSequenceSourceActivityForNode(incoming.getSourceRef(), container); //query.findActivity(incoming.getSourceRef(), container);
                 if (sourceActivity == null) continue;
                 addGatewayTransition(gate, gateway, incoming.getConditionExpression(), incoming.getId(), incoming.getId(), DocumentationTool.getDescriptionFromDocumentation(gateway.getDocumentation()), sourceActivity, targetActivity, processDef);
             } else {
@@ -175,7 +176,6 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
 
     private void createIncomingRouteTransitions(ActivityType route, ProcessDefinitionType processDef, Gate type, GateDirection direction, Gateway gateway, FlowElementsContainer container) {
         List<SequenceFlow> incomings = gateway.getIncoming();
-
         for (SequenceFlow in : incomings) {
             ActivityType source = findSequenceSourceActivity(in, container);
             if (source == null) {
@@ -200,25 +200,26 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         if (isMixed(gateway)) return;
 
         if (isFork(gateway)) {
+        	// only missing transitions
             if (null != query.findTransition(flowToTarget.getId(), container)) return;
             FlowNode sourceNode = getFirstIncomingSource(gateway);
             if (sourceNode != null && sourceNode instanceof Activity) {
-                ActivityType source = query.findActivity(sourceNode, container);
+                ActivityType source = query.findSequenceSourceActivityForNode(sourceNode, container); //query.findActivity(sourceNode, container);
                 if (source == null) return;
                 TransitionType transition = TransitionUtil.createTransition(flowToTarget.getId(), flowToTarget.getName(), DocumentationTool.getDescriptionFromDocumentation(flowToTarget.getDocumentation()), processDef, source, target);
                 setGatewayConditions(type, gateway, flowToTarget.getConditionExpression(), transition, source, target);
             }
         } else {
             for (SequenceFlow in : gateway.getIncoming()) {
+            	// only missing transitions
                 if (null == query.findTransition(in.getId(), container)) {
                     FlowNode sourceNode = in.getSourceRef();
                     if (sourceNode != null && sourceNode instanceof Activity) {
-                        ActivityType source = query.findActivity(sourceNode, container);
+                        ActivityType source = query.findSequenceSourceActivityForNode(sourceNode, container); //query.findActivity(sourceNode, container);
                         if (source == null) continue;
                         TransitionType transition = TransitionUtil.createTransition(in.getId(), flowToTarget.getName(), DocumentationTool.getDescriptionFromDocumentation(in.getDocumentation()), processDef, source, target);
                         setGatewayConditions(type, gateway, in.getConditionExpression(), transition, source, target);
                     }
-
                 }
             }
         }
@@ -266,6 +267,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     private boolean isGatewayTransformedToRoute(Gateway gate) {
         if (isMixed(gate)) return true;
         if (hasBpmnGateSource(gate, gate.getIncoming())) return true;
+        if (hasBpmnSourceActivityWithBoundaryEvent(gate, gate.getIncoming())) return true;
         if (isJoin(gate) && hasMergingGatewayTarget(gate.getOutgoing())) return true;
         if (hasIncomingFromBpmnForkingNonGateway(gate)) return true;
         if (hasOutgoingToBpmnMergingNonGateway(gate)) return true;
@@ -296,6 +298,14 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         }
         return false;
     }
+
+	private boolean hasBpmnSourceActivityWithBoundaryEvent(Gateway gate, List<SequenceFlow> incomings) {
+        for (SequenceFlow in : incomings) {
+            FlowNode source = in.getSourceRef();
+            if (BpmnModelQuery.hasBoundaryEventAttached(source)) return true;
+        }
+        return false;
+	}
 
 	private boolean hasMergingGatewayTarget(List<SequenceFlow> sequences) {
         for (SequenceFlow seq : sequences) {
@@ -363,8 +373,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private ActivityType findSequenceSourceActivity(SequenceFlow flow, FlowElementsContainer container) {
-        FlowNode sourceNode = flow.getSourceRef();
-        return query.findActivity(sourceNode, container);
+        return query.findSequenceSourceActivity(flow, container);
     }
 
 }

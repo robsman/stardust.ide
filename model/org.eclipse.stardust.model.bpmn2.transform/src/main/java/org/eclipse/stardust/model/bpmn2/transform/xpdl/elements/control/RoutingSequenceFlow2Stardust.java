@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
@@ -26,19 +27,22 @@ import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 
 /**
- * @author Simon Nikles
- *
  * RoutingSequenceFlow handles bpmn flow-nodes with more than one outgoing/incoming sequence-flows.
  * The transformation differs based on whether the sequence-flows have conditions or not and
  * on whether they have a default path.
+ *
+ * @author Simon Nikles
  */
 public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
@@ -105,7 +109,7 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 	}
 
 	private void createSimpleSplit(FlowNode node, List<SequenceFlow> outgoings, RoutingType splitType, FlowElementsContainer container) {
-		ActivityType splittingActivity = query.findActivity(node, container);
+		ActivityType splittingActivity = query.findSequenceSourceActivityForNode(node, container); //query.findActivity(node, container);
 		if (null == splittingActivity && node instanceof StartEvent) {
 			splittingActivity = new ProcessStartConfigurator(carnotModel, failures).createRouteActivity(container, node, numSplittingStartEvents);
 			numSplittingStartEvents++;
@@ -131,17 +135,17 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 
 	private void createComplexSplit(FlowNode node, List<SequenceFlow> outgoings, FlowElementsContainer container) {
 		// two parallel AND Splits (the first without, the second with conditions)
-		ActivityType splittingActivity = query.findActivity(node, container);
+		ActivityType splittingActivity = query.findSequenceSourceActivityForNode(node, container); //query.findActivity(node, container);
 		List<SequenceFlow> unconditionals = getUnconditionalNonDefaults(node, outgoings);
 		List<SequenceFlow> conditionals = getConditionals(outgoings, unconditionals);
 		SequenceFlow defaultSequence = getDefault(node);
 
-		createComplexParallelPartSplit(splittingActivity, unconditionals, container);
-		ActivityType route = createComplexConditionalPartSplit(splittingActivity, conditionals, defaultSequence, container);
-		createComplexParallelToConditionalConnection(splittingActivity, route);
+		createComplexSplitParallelPart(splittingActivity, unconditionals, container);
+		ActivityType route = createComplexSplitConditionalPart(splittingActivity, conditionals, defaultSequence, container);
+		createComplexSplitParallelToConditionalConnection(splittingActivity, route);
 	}
 
-	private void createComplexParallelPartSplit(ActivityType splittingActivity, List<SequenceFlow> unconditionals, FlowElementsContainer container) {
+	private void createComplexSplitParallelPart(ActivityType splittingActivity, List<SequenceFlow> unconditionals, FlowElementsContainer container) {
 		splittingActivity.setSplit(JoinSplitType.AND_LITERAL);
 		for (SequenceFlow seq : unconditionals) {
 			ActivityType targetActivity = query.findActivity(seq.getTargetRef(), container);
@@ -150,13 +154,13 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 		}
 	}
 
-	private ActivityType createComplexConditionalPartSplit(ActivityType splittingActivity, List<SequenceFlow> conditionals, SequenceFlow defaultSequence, FlowElementsContainer container) {
-        ActivityType route = createComplexConditionalPartSplitRoute(splittingActivity, conditionals);
-        createComplexConditionalPartTransitions(route, conditionals, defaultSequence, container);
+	private ActivityType createComplexSplitConditionalPart(ActivityType splittingActivity, List<SequenceFlow> conditionals, SequenceFlow defaultSequence, FlowElementsContainer container) {
+        ActivityType route = createComplexSplitConditionalPartRoute(splittingActivity, conditionals);
+        createComplexSplitConditionalPartTransitions(route, conditionals, defaultSequence, container);
         return route;
 	}
 
-	private ActivityType createComplexConditionalPartSplitRoute(ActivityType splittingActivity, List<SequenceFlow> conditionals) {
+	private ActivityType createComplexSplitConditionalPartRoute(ActivityType splittingActivity, List<SequenceFlow> conditionals) {
 		String id = splittingActivity.getId() + "_" + splittingActivity.hashCode();
 		String name = JoinSplitType.AND_LITERAL + "_Split_" + getNonEmptyName(splittingActivity.getName(), splittingActivity.getId(), splittingActivity);
         ActivityType route =
@@ -167,7 +171,7 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
         return route;
 	}
 
-	private void createComplexConditionalPartTransitions(ActivityType sourceActivity, List<SequenceFlow> conditionals, SequenceFlow defaultSequence, FlowElementsContainer container) {
+	private void createComplexSplitConditionalPartTransitions(ActivityType sourceActivity, List<SequenceFlow> conditionals, SequenceFlow defaultSequence, FlowElementsContainer container) {
 		for (SequenceFlow seq : conditionals) {
 			ActivityType targetActivity = query.findActivity(seq.getTargetRef(), container);
 			TransitionType transition = TransitionUtil.createTransition(seq.getId(), seq.getName(), getDescr(seq), processDef, sourceActivity, targetActivity);
@@ -179,7 +183,7 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 		}
 	}
 
-	private void createComplexParallelToConditionalConnection(ActivityType source, ActivityType target) {
+	private void createComplexSplitParallelToConditionalConnection(ActivityType source, ActivityType target) {
 		String id = source.getId() + "_" + target.getId();
 		String nameP1 = getNonEmptyName(source.getName(), source.getId(), source);
 		String nameP2 = getNonEmptyName(target.getName(), target.getId(), target);
@@ -279,4 +283,5 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 	private String getDescr(BaseElement element) {
 		return DocumentationTool.getDescriptionFromDocumentation(element.getDocumentation());
 	}
+
 }

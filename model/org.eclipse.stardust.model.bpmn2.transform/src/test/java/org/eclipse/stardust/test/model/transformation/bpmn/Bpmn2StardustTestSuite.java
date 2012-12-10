@@ -20,7 +20,15 @@ import org.eclipse.bpmn2.util.Bpmn2Resource;
 import org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter;
 import org.eclipse.stardust.model.bpmn2.transform.TransformationControl;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.DialectStardustXPDL;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.TransitionUtil;
+import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -48,7 +56,8 @@ import org.junit.runners.Suite;
          TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
          TestMessageEvents2Stardust.class,
          TestProcessStart2Stardust.class,
-         TestIntermediateTimerEvent2Stardust.class
+         TestIntermediateTimerEvent2Stardust.class,
+         TestBoundaryEvents2Stardust.class
         })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
@@ -117,6 +126,61 @@ public class Bpmn2StardustTestSuite {
     public static String getResourceFilePath(String relativePath) {
         URL fileUri = Bpmn2StardustTestSuite.class.getClassLoader().getResource(relativePath);
         return fileUri.getPath();
+    }
+
+
+    public static boolean transitionExistsBetween(ActivityType source, ActivityType target) {
+    	for (TransitionType trans : source.getOutTransitions()) {
+    		if (trans.getTo() == target) return true;
+    	}
+    	return false;
+    }
+
+    public static String transitionConditionBetween(ActivityType source, ActivityType target) {
+    	String condition = "";
+    	for (TransitionType trans : source.getOutTransitions()) {
+    		if (trans.getTo() == target) {
+    			condition = TransitionUtil.getTransitionExpression(trans);
+    			break;
+    		}
+    	}
+    	return condition;
+    }
+
+    public static boolean otherwiseConditionBetween(ActivityType source, ActivityType target) {
+    	for (TransitionType trans : source.getOutTransitions()) {
+    		if (trans.getTo() == target) {
+    			return TransitionUtil.hasOtherwiseCondition(trans);
+    		}
+    	}
+    	return false;
+    }
+
+    public static boolean noneIsNull(IModelElement ... elements) {
+    	for (IModelElement element : elements) {
+    		if (null == element) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+
+    public static EventActionType getFirstEventActionOfType(EventHandlerType handler, EventActionTypeType actionType) {
+    	for (EventActionType eventAction : handler.getEventAction()) {
+    		if (eventAction.getType().equals(actionType)) {
+    			return eventAction;
+    		}
+    	}
+    	return null;
+    }
+
+    public static boolean eventHasActionType(EventHandlerType handler, EventActionTypeType actionType) {
+    	for (EventActionType eventAction : handler.getEventAction()) {
+    		if (eventAction.getType().equals(actionType)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 }

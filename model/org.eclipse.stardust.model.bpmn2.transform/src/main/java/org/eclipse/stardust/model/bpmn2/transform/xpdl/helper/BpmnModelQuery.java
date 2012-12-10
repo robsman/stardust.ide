@@ -15,10 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
+import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.Interface;
@@ -26,6 +29,7 @@ import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
+import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
@@ -151,5 +155,29 @@ public class BpmnModelQuery {
 			predecessors.add(seq.getSourceRef());
 		}
 		return predecessors;
+	}
+
+	public static boolean isPotentialStartNode(FlowElement flowElement) {
+		if (!(flowElement instanceof FlowNode)) return false;
+		if (flowElement instanceof BoundaryEvent) return false;
+		if (flowElement instanceof SubProcess && ((SubProcess)flowElement).isTriggeredByEvent()) return false;
+		return hasNoIncomingSequence((FlowNode)flowElement);
+	}
+
+	public static boolean hasBoundaryEventAttached(FlowNode node) {
+        if (node instanceof Activity) {
+        	List<BoundaryEvent> boundaryEventRefs = ((Activity)node).getBoundaryEventRefs();
+        	if (boundaryEventRefs != null && boundaryEventRefs.size() > 0) return true;
+        }
+		return false;
+	}
+
+	public static Definitions getModelDefinitions(BaseElement element) {
+		EObject object = element;
+		while (null != object.eContainer() && !(object instanceof Definitions) && !(object == object.eContainer())) {
+			object = object.eContainer();
+			if (object instanceof Definitions) return (Definitions)object;
+		}
+		return null;
 	}
 }

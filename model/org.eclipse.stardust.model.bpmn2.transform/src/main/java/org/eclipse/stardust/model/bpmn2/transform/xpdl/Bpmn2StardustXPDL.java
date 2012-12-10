@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
@@ -69,6 +70,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardu
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.IntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
@@ -166,21 +168,44 @@ public class Bpmn2StardustXPDL implements Transformator {
         }
 
         EventActionTypeType scheduleActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-        EventActionTypeType completeActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-        EventConditionTypeType timerEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
         scheduleActionType.setId(PredefinedConstants.SCHEDULE_ACTIVITY_ACTION);
-        completeActionType.setId(PredefinedConstants.COMPLETE_ACTIVITY_ACTION);
-        timerEventHandlerType.setId(PredefinedConstants.TIMER_CONDITION);
         scheduleActionType.setIsPredefined(true);
-        completeActionType.setIsPredefined(true);
-        timerEventHandlerType.setIsPredefined(true);
         scheduleActionType.setActivityAction(true);
+
+        EventActionTypeType completeActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        completeActionType.setId(PredefinedConstants.COMPLETE_ACTIVITY_ACTION);
+        completeActionType.setIsPredefined(true);
         completeActionType.setActivityAction(true);
+
+        EventActionTypeType abortActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        abortActionType.setId(PredefinedConstants.ABORT_ACTIVITY_ACTION);
+        abortActionType.setIsPredefined(true);
+        abortActionType.setActivityAction(true);
+
+        EventActionTypeType setDataActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        setDataActionType.setId(PredefinedConstants.SET_DATA_ACTION);
+        setDataActionType.setIsPredefined(true);
+        setDataActionType.setActivityAction(true);
+
+        EventConditionTypeType timerEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
+        timerEventHandlerType.setId(PredefinedConstants.TIMER_CONDITION);
+        timerEventHandlerType.setIsPredefined(true);
         timerEventHandlerType.setActivityCondition(true);
         timerEventHandlerType.setImplementation(ImplementationType.PULL_LITERAL);
+
+        EventConditionTypeType exceptionEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
+        exceptionEventHandlerType.setId(PredefinedConstants.EXCEPTION_CONDITION);
+        exceptionEventHandlerType.setIsPredefined(true);
+        exceptionEventHandlerType.setActivityCondition(true);
+        exceptionEventHandlerType.setImplementation(ImplementationType.ENGINE_LITERAL);
+
         carnotModel.getEventActionType().add(scheduleActionType);
         carnotModel.getEventActionType().add(completeActionType);
+        carnotModel.getEventActionType().add(abortActionType);
+        carnotModel.getEventActionType().add(setDataActionType);
+
         carnotModel.getEventConditionType().add(timerEventHandlerType);
+        carnotModel.getEventConditionType().add(exceptionEventHandlerType);
 
         ///**************************************************************************************************************///
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -367,6 +392,11 @@ public class Bpmn2StardustXPDL implements Transformator {
 	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer,
 			Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer) {
 		new ProcessStartConfigurator(carnotModel, failures).configureProcessStarts(startEventsPerContainer, potentialStartNodesPerContainer);
+	}
+
+	@Override
+	public void addBoundaryEvent(BoundaryEvent event, FlowElementsContainer container) {
+		new BoundaryEvent2Stardust(carnotModel, failures).addBoundaryEvent(event, container);
 	}
 
 
