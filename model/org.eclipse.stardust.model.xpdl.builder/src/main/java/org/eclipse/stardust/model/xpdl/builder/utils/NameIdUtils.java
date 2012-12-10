@@ -16,6 +16,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
@@ -44,7 +45,9 @@ public class NameIdUtils
       IdFactory factory = new IdFactory(base, base);
       
       List list = null;
-      if(container instanceof EObject && !(element instanceof AccessPointType))
+      if(container instanceof EObject 
+            && !(element instanceof AccessPointType)
+            && !(element instanceof ModelType))
       {      
          list = (List) computeIdNames(element.eClass(), (EObject) container);
       }
