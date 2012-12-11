@@ -962,17 +962,17 @@ public class ModelUtils
          }
       }
 
-      // resolve references for Organizations which are not part of ExtensionRegistry (see CRNT-16871) 
-      if (extensible instanceof OrganizationType)
+      // This is for the WebModeler who does not have access to the extension mechanism
+      if (config == null && extensible instanceof TriggerType)
       {
          AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               PredefinedConstants.BINDING_DATA_ID_ATT);
+               PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
          if (attribute != null)
          {
-            setReference(attribute, model, "data"); //$NON-NLS-1$            
+            setReference(attribute, model, "role+organization"); //$NON-NLS-1$
          }
       }
-      
+
       // resolve permissions
       // TODO: make permissions a first class element
       IAttributeCategory category = AttributeUtil.createAttributeCategory(extensible, "authorization"); //$NON-NLS-1$
