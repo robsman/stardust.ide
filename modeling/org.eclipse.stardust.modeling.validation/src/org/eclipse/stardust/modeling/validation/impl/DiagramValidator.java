@@ -233,17 +233,24 @@ public class DiagramValidator implements IModelElementValidator
       {
          ActivitySymbolType symbol = (ActivitySymbolType) activitySymbols.get(i);
          ActivityType activity = symbol.getActivity();
+                  
          if (activity != null)
          {
-            if (activity.getJoin() != JoinSplitType.NONE_LITERAL
-                  && !hasGateway(symbol, FlowControlType.JOIN_LITERAL))
+            String activityId = activity.getId();            
+            if(!StringUtils.isEmpty(activityId)
+                  && !activityId.matches("^(?i)gateway.*")) //$NON-NLS-1$
             {
-               return true;
-            }
-            if (activity.getSplit() != JoinSplitType.NONE_LITERAL
-                  && !hasGateway(symbol, FlowControlType.SPLIT_LITERAL))
-            {
-               return true;
+               
+               if (activity.getJoin() != JoinSplitType.NONE_LITERAL
+                     && !hasGateway(symbol, FlowControlType.JOIN_LITERAL))
+               {
+                  return true;
+               }
+               if (activity.getSplit() != JoinSplitType.NONE_LITERAL
+                     && !hasGateway(symbol, FlowControlType.SPLIT_LITERAL))
+               {
+                  return true;
+               }
             }
          }
       }
