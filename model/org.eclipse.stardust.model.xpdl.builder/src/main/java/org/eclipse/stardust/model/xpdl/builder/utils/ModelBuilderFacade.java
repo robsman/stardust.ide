@@ -36,6 +36,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -3045,13 +3047,16 @@ public class ModelBuilderFacade
 
    public ModelType createModel(String modelID, String modelName)
    {
+      Map<String, ModelType> models = this.modelManagementStrategy.getModels(true);
+      List<EObject> ids = new ArrayList<EObject>(models.values()); 
+      
       ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
       model.setConnectionManager(new WebModelerConnectionManager(model,
             this.modelManagementStrategy));
       
       if(StringUtils.isEmpty(modelID))
       {
-         modelID = NameIdUtils.createIdFromName(modelName);
+         modelID = NameIdUtils.createIdFromName(modelName, ids);
       }
       model.setId(modelID);
       
