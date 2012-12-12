@@ -31,6 +31,11 @@ public class NameIdUtils
     */
    public static String createIdFromName(Object container, IIdentifiableElement element)
    {
+      if(element instanceof ModelType && !StringUtils.isEmpty(element.getId()))
+      {
+         return element.getId();
+      }
+      
       if(container == null)
       {
          container = findContainer(element);
@@ -112,5 +117,21 @@ public class NameIdUtils
       }
 
       return result;
+   }
+
+   public static String createIdFromName(String name, List<EObject> ids)
+   {
+      if(StringUtils.isEmpty(name))
+      {
+         return "";
+      }      
+      
+      IdFactory factory = new IdFactory(name, name);
+      if(!ids.isEmpty())
+      {
+         factory.computeNames(ids);      
+      }
+      
+      return factory.getId();
    }
 }
