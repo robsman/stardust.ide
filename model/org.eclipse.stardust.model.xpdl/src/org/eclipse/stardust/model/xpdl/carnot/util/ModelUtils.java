@@ -990,7 +990,7 @@ public class ModelUtils
       }
    }
 
-   private static void setReference(AttributeType attribute, ModelType model,
+   public static void setReference(AttributeType attribute, ModelType model,
          String scopeList)
    {
       String id = attribute.getValue();
