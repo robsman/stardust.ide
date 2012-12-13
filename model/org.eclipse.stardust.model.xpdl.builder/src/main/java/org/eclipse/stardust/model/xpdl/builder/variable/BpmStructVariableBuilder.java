@@ -67,23 +67,14 @@ public class BpmStructVariableBuilder
          element.setType(structMetaType);
       }
 
-      AttributeUtil.setAttribute(element,
-            StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR,
-            StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR);
+      AttributeUtil.setAttribute(element, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
    }
 
    @Override
    protected DataType finalizeElement()
    {
       super.finalizeElement();
-
-      if (null == AttributeUtil.getAttributeValue(element, StructuredDataConstants.TYPE_DECLARATION_ATT))
-      {
-         // TODO if no explicit type was given, make it a string variable?
-         //ofType("xsd:string");
-      }
-
-      // TODO set type specific default value?
 
       model.getData().add(element);
 
@@ -105,8 +96,9 @@ public class BpmStructVariableBuilder
    {
       if(StringUtils.isEmpty(declId))
       {
-         generateId();
-         declId = getGeneratedID();
+         return this;
+         //generateId();
+         //declId = getGeneratedID();
       }
       
       if(getTypeDeclarationModel().getId().equals(model.getId()))
@@ -128,8 +120,6 @@ public class BpmStructVariableBuilder
                bundleId, null);
          
          
-         AttributeUtil.setAttribute(element, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-         AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
          AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
          ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
          if (typeDeclarationModel != null)
@@ -163,6 +153,4 @@ public class BpmStructVariableBuilder
 
      return null;
   }
-   
-   
 }
