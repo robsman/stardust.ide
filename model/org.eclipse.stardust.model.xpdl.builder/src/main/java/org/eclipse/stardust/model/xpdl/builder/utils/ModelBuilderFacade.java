@@ -601,8 +601,15 @@ public class ModelBuilderFacade
       BpmStructVariableBuilder structVariable = newStructVariable(model);
       structVariable.setTypeDeclarationModel(typeDeclarationModel);
 
+      String[] ids = typeFullID.split(":");
+      String typeValue = null;
+      if(ids.length > 1)
+      {
+         typeValue = this.stripFullId(typeFullID);         
+      }
+      
       data = structVariable.withIdAndName(dataID, dataName)
-            .ofType(this.stripFullId(typeFullID))
+            .ofType(typeValue)
             .build();
 
       return data;
