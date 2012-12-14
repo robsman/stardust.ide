@@ -17,7 +17,7 @@
     <sequenceFlow id="_13ba10a2-1633-4fbd-85df-6a9d071dfa01" sourceRef="TestModelBoundaryEvent" targetRef="TestModelTaskException">
     </sequenceFlow>
     <boundaryEvent id="TestModelBoundaryEvent" cancelActivity="true" attachedToRef="TestModelTaskA">
-      <errorEventDefinition errorRef="javaException"></errorEventDefinition>
+      <errorEventDefinition errorRef="javaException" ></errorEventDefinition>
     </boundaryEvent>
   </process>
   <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">

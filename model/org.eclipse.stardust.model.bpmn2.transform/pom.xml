@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -9,7 +8,7 @@
 
 	<properties>
 		<!-- <ipp.version>7.1.0-NIGHTLY-SNAPSHOT</ipp.version> -->
-		<ipp.version>9.9.9-SNAPSHOT</ipp.version>
+		<ipp.version>0.7.1-NIGHTLY-SNAPSHOT</ipp.version>
 	</properties>
 
 	<dependencies>
@@ -33,25 +32,28 @@
 			<artifactId>carnot-engine</artifactId>
 			<version>${ipp.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.eclipse.stardust.modeling.model</groupId> -->
-		<!-- <artifactId>org.eclipse.stardust.model.xpdl</artifactId> -->
-		<!-- <version>9.9.9-SNAPSHOT</version> -->
-		<!-- </dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.stardust.modeling.model</groupId> -->
-<!-- 			<artifactId>org.eclipse.stardust.model.xpdl.builder</artifactId> -->
-<!-- 			<version>0.0.1-SNAPSHOT</version> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
-			<artifactId>emf-ecore</artifactId>
-			<version>2.4.2</version>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.6.1.v20100914-1218</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.emf</groupId>
+					<artifactId>org.eclipse.emf.common</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
-			<artifactId>emf-ecore-xmi</artifactId>
-			<version>2.4.2</version>
+			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+			<version>2.5.0.v20100521-1846</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.emf</groupId>
+					<artifactId>org.eclipse.emf.ecore</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>

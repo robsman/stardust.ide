@@ -45,7 +45,7 @@ public class BpmActivityExceptionEventHandlerBuilder extends AbstractEventHandle
    }
 
    public BpmActivityExceptionEventHandlerBuilder forExceptionClass(String exceptionClass) {
-	   AttributeUtil.setAttribute(element, PredefinedConstants.EXCEPTION_ATT, exceptionClass);
+	   AttributeUtil.setAttribute(element, PredefinedConstants.EXCEPTION_CLASS_ATT, exceptionClass);
 	   return this;
    }
 

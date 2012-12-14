@@ -66,6 +66,7 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 
 	private static final String OR_CONJUNCTION = " || ";
 	private static final String AND_CONJUNCTION = " && ";
+	private static final String EXPRESSION_END = ";";
 	private static final String EMPTY_STRING = "";
 	private static final String VISIBILITY_PRIVATE = "Private";
 
@@ -106,7 +107,7 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 		}
 		ActivityType eventHolder = addEvent(event, container);
 		if (null != eventHolder) {
-			createBoundaryEventControl(eventHolder, controlFlowData);
+			createBoundaryEventControl(event, eventHolder, controlFlowData);
 		}
 	}
 
@@ -234,31 +235,36 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 		return variable;
 	}
 
-	private void createBoundaryEventControl(ActivityType eventHolder, DataType controlFlowData) {
+	private void createBoundaryEventControl(BoundaryEvent event, ActivityType eventHolder, DataType controlFlowData) {
 
 		String happyRouteId = getBoundaryEventHappyPathRouteId(eventHolder);
-		String eventRouteId = getBoundaryEventEventPathRouteId(eventHolder);
+		String eventRouteId = getBoundaryEventEventPathRouteId(event);
 		String happyTransitionId = getBoundaryEventHappyPathTransitionId(eventHolder);
-		String eventTransitionId = getBoundaryEventEventPathTransitionId(eventHolder);
+		String eventTransitionId = getBoundaryEventEventPathTransitionId(event);
 
 		ActivityType happyRoute = CarnotModelQuery.findActivity(processDef, happyRouteId);
 		ActivityType eventRoute = CarnotModelQuery.findActivity(processDef, eventRouteId);
 		TransitionType happyTransition = CarnotModelQuery.findTransition(processDef, happyTransitionId);
 		TransitionType eventTransition = CarnotModelQuery.findTransition(processDef, eventTransitionId);
 
-		if (null == happyRoute && null == eventRoute) {
+		if (null == happyRoute) {
 			String happyRouteName = getBoundaryEventHappyPathRouteName(eventHolder);
-			String eventRouteName = getBoundaryEventEventPathRouteName(eventHolder);
 			happyRoute = createBoundaryEventControlRoute(happyRouteId, happyRouteName);
+		}
+		if (null == eventRoute) {
+			String eventRouteName = getBoundaryEventEventPathRouteName(eventHolder, event);
 			eventRoute = createBoundaryEventControlRoute(eventRouteId, eventRouteName);
 		}
-		if (null == happyTransition && null == eventTransition) {
+		if (null == happyTransition) {
 			String happyTransitionName = getBoundaryEventHappyPathTransitionName(eventHolder);
-			String eventTransitionName = getBoundaryEventEventPathTransitionName(eventHolder);
 			eventHolder.setSplit(JoinSplitType.XOR_LITERAL);
 			happyTransition = createBoundaryControlTransition(happyTransitionId, happyTransitionName, eventHolder, happyRoute);
+		}
+		if (null == eventTransition) {
+			String eventTransitionName = getBoundaryEventEventPathTransitionName(eventHolder, event);
 			eventTransition = createBoundaryControlTransition(eventTransitionId, eventTransitionName, eventHolder, eventRoute);
 		}
+
 		addBoundaryEventControllCondition(happyTransition, eventTransition, controlFlowData);
 	}
 
@@ -276,8 +282,11 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 			eventConjunction = EMPTY_STRING;
 		}
 
-		happyExpression += happyConjunction + controlFlowData.getId() + BOUNDARY_EVENT_NOT_FIRED_CONDITION;
-		eventExpression += eventConjunction + controlFlowData.getId() + BOUNDARY_EVENT_FIRED_CONDITION;
+		happyExpression = happyExpression.replaceAll(EXPRESSION_END, "");
+		happyExpression += happyConjunction + controlFlowData.getId() + BOUNDARY_EVENT_NOT_FIRED_CONDITION + EXPRESSION_END;
+
+		eventExpression = eventExpression.replaceAll(EXPRESSION_END, "");
+		eventExpression += eventConjunction + controlFlowData.getId() + BOUNDARY_EVENT_FIRED_CONDITION + EXPRESSION_END;
 
 		TransitionUtil.setTransitionExpression(happyTransition, happyExpression);
 		TransitionUtil.setTransitionExpression(eventTransition, eventExpression);
@@ -332,6 +341,23 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 		return eventHolder.getName() + BOUNDARY_SPLIT_HAPPY_TRANSITION_POSTFIX;
 	}
 
+	public static String getBoundaryEventEventPathRouteId(BoundaryEvent event) {
+		return event.getId() + BOUNDARY_SPLIT_EVENT_ROUTE_POSTFIX;
+	}
+
+	public static String getBoundaryEventEventPathRouteName(ActivityType eventHolder, BoundaryEvent event) {
+		return eventHolder.getName() + "_" + event.getName() + BOUNDARY_SPLIT_EVENT_ROUTE_POSTFIX;
+	}
+
+	public static String getBoundaryEventEventPathTransitionId(BoundaryEvent event) {
+		return event.getId() + BOUNDARY_SPLIT_EVENT_TRANSITION_POSTFIX;
+	}
+
+	public static String getBoundaryEventEventPathTransitionName(ActivityType eventHolder, BoundaryEvent event) {
+		return eventHolder.getName() + "_" + event.getName() + BOUNDARY_SPLIT_EVENT_TRANSITION_POSTFIX;
+	}
+
+	/*
 	public static String getBoundaryEventEventPathRouteId(ActivityType eventHolder) {
 		return eventHolder.getId() + BOUNDARY_SPLIT_EVENT_ROUTE_POSTFIX;
 	}
@@ -347,6 +373,7 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 	public static String getBoundaryEventEventPathTransitionName(ActivityType eventHolder) {
 		return eventHolder.getName() + BOUNDARY_SPLIT_EVENT_TRANSITION_POSTFIX;
 	}
+	*/
 
 
 }

@@ -69,9 +69,10 @@ public class CarnotModelQuery {
         	String happyPathRouteId = BoundaryEvent2Stardust.getBoundaryEventHappyPathRouteId(activity);
         	return findActivity(happyPathRouteId, container);
         } else if (node instanceof BoundaryEvent) {
-        	Activity holderActivity = ((BoundaryEvent)node).getAttachedToRef();
-        	activity = findActivity(holderActivity, container);
-        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId(activity);
+//        	Activity holderActivity = ((BoundaryEvent)node).getAttachedToRef();
+//        	activity = findActivity(holderActivity, container);
+//        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId(activity);
+        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId((BoundaryEvent)node);
         	return findActivity(eventPathRouteId, container);
         } else {
         	return activity;
