@@ -78,8 +78,8 @@ public class ModelerConstants
    public static final String GATEWAY_SYMBOLS = "gatewaySymbols";
    public static final String APPLICATION_TYPE_PROPERTY = "applicationType";
    public static final String ACCESS_POINTS_PROPERTY = "accessPoints";
-   public static final String IN_ACCESS_POINT_KEY = "IN_ACCESS_POINT";
-   public static final String OUT_ACCESS_POINT_KEY = "OUT_ACCESS_POINT";
+   public static final String IN_ACCESS_POINT_KEY = "IN";
+   public static final String OUT_ACCESS_POINT_KEY = "OUT";
    public static final String INOUT_ACCESS_POINT_KEY = "INOUT_ACCESS_POINT";
    public static final String ACCESS_POINT_TYPE_PROPERTY = "accessPointType";
    public static final String PRIMITIVE_ACCESS_POINT_KEY = "PRIMITIVE_ACCESS_POINT";
