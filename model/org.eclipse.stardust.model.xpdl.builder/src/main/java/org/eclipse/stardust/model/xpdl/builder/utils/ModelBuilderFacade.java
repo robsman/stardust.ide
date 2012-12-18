@@ -37,13 +37,21 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDSchema;
+
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -128,14 +136,6 @@ import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
 
 public class ModelBuilderFacade
 {
@@ -254,13 +254,13 @@ public class ModelBuilderFacade
    {
       TypeDeclarationType structuredDataType = XpdlFactory.eINSTANCE.createTypeDeclarationType();
       structuredDataType.setName(typeName);
-      
+
       if(StringUtils.isEmpty(typeID))
       {
          typeID = NameIdUtils.createIdFromName(typeName);
       }
       structuredDataType.setId(typeID);
-            
+
       SchemaTypeType schema = XpdlFactory.eINSTANCE.createSchemaTypeType();
       structuredDataType.setSchemaType(schema);
 
@@ -368,10 +368,10 @@ public class ModelBuilderFacade
          id = NameIdUtils.createIdFromName(name);
       }
 
-      parameterType.setId(id);      
+      parameterType.setId(id);
       parameterType.setName(name);
       parameterType.setMode(mode);
-      
+
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
 
@@ -605,9 +605,9 @@ public class ModelBuilderFacade
       String typeValue = null;
       if(ids.length > 1)
       {
-         typeValue = this.stripFullId(typeFullID);         
+         typeValue = this.stripFullId(typeFullID);
       }
-      
+
       data = structVariable.withIdAndName(dataID, dataName)
             .ofType(typeValue)
             .build();
@@ -671,8 +671,11 @@ public class ModelBuilderFacade
 
          if (sourceModelID.equals(model.getId()))
          {
+            data.setExternalReference(null);
             AttributeUtil.setAttribute(data,
                   StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
+                  null);
          }
          else
          {
@@ -719,8 +722,11 @@ public class ModelBuilderFacade
 
          if (sourceModelID.equals(model.getId()))
          {
+            data.setExternalReference(null);
             AttributeUtil.setAttribute(data, "carnot:engine:dms:resourceMetadataSchema",
                   declarationID);
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
+                  null);
          }
          else
          {
@@ -917,7 +923,7 @@ public class ModelBuilderFacade
     *           width
     * @param heightProperty
     *           height
-    * @param parentSymbol 
+    * @param parentSymbol
     * @return lane created
     */
    public LaneSymbol createLane(ModelType model, ProcessDefinitionType processDefinition,
@@ -927,14 +933,14 @@ public class ModelBuilderFacade
       long maxOid = XpdlModelUtils.getMaxUsedOid(model);
 
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
-      laneSymbol.setName(laneName);      
-      
+      laneSymbol.setName(laneName);
+
       if(StringUtils.isEmpty(laneID))
       {
          laneID = NameIdUtils.createIdFromName(null, laneSymbol);
       }
-      laneSymbol.setId(laneID);         
-      
+      laneSymbol.setId(laneID);
+
       parentSymbol.getLanes().add(laneSymbol);
       laneSymbol.setParentPool(parentSymbol);
 
@@ -991,8 +997,8 @@ public class ModelBuilderFacade
                   participantModelID + ".xpdl");
             IModelParticipant participantCopy = findParticipant(loadModel,
                   stripFullId(participantFullID));
-            
-            
+
+
             if (participantCopy == null)
             {
                ElementCopier copier = new ElementCopier(loadModel, null);
@@ -1005,10 +1011,10 @@ public class ModelBuilderFacade
             descriptor.importElements(iconFactory, model, true);
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
-         
-         LaneParticipantUtil.setParticipant(laneSymbol, modelParticipant);      
-         
-         
+
+         LaneParticipantUtil.setParticipant(laneSymbol, modelParticipant);
+
+
       }
       return laneSymbol;
    }
@@ -2915,6 +2921,24 @@ public class ModelBuilderFacade
    {
       if (modelElement != null)
       {
+         if (modelElement instanceof DataType) {
+            DataType dataType = (DataType) modelElement;
+            if (dataType.getType()
+                  .getId()
+                  .equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA))
+            {
+               return false;
+            }
+            if (dataType.getName().indexOf("Loca") > -1) {
+               System.out.println();
+            }
+             if (dataType.getType()
+                  .getId()
+                  .equalsIgnoreCase(PredefinedConstants.STRUCTURED_DATA))
+            {
+               return false;
+            }
+         }
          if (modelElement instanceof IExtensibleElement)
          {
             if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
@@ -3055,18 +3079,18 @@ public class ModelBuilderFacade
    public ModelType createModel(String modelID, String modelName)
    {
       Map<String, ModelType> models = this.modelManagementStrategy.getModels(true);
-      List<EObject> ids = new ArrayList<EObject>(models.values()); 
-      
+      List<EObject> ids = new ArrayList<EObject>(models.values());
+
       ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
       model.setConnectionManager(new WebModelerConnectionManager(model,
             this.modelManagementStrategy));
-      
+
       if(StringUtils.isEmpty(modelID))
       {
          modelID = NameIdUtils.createIdFromName(modelName, ids);
       }
       model.setId(modelID);
-      
+
       return model;
    }
 
