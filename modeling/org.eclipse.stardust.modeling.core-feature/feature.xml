@@ -97,6 +97,14 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.audittrail.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.common"
          download-size="0"
          install-size="0"
@@ -111,10 +119,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.authorization.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.data.structured"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.data.structured.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -124,10 +148,26 @@
          version="0.0.0"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.integration.dms.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.model.i18n"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.model.i18n.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -138,10 +178,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.project.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.repository.common"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.repository.common.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -152,10 +208,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.repository.file.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.common.platform"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.common.platform.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -180,10 +252,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.debug.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.deploy"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.deploy.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -194,10 +282,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.core.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.modelexport"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.modelexport.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -208,10 +312,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.modelimport.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.refactoring"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.refactoring.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -222,10 +342,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.validation.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.common.projectnature"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.common.projectnature.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -236,12 +372,28 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.integration.mail.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.integration.spring"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
+   <plugin
+         id="org.eclipse.stardust.modeling.integration.spring.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
    <plugin
          id="org.eclipse.stardust.modeling.integration.webservices"
          download-size="0"
@@ -250,10 +402,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.integration.webservices.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.common.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.common.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
@@ -271,6 +439,14 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.integration.ejb30.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.templates"
          download-size="0"
          install-size="0"
@@ -278,10 +454,26 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.stardust.modeling.templates.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.modeling.templates.basic"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.modeling.templates.basic.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
 </feature>
