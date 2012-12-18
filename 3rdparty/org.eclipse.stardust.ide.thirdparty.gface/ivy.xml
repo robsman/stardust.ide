@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="net.sf.gface" name="gface" rev="0.9.1" transitive="false" conf="bom->default" />
+      <dependency org="net.sf.gface" name="gface" rev="${gface.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

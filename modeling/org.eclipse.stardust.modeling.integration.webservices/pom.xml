@@ -32,7 +32,7 @@
      <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
-        <version>1.1.1</version>
+        <version>${commons-logging.version}</version>
      </dependency>
   </dependencies>
   
@@ -45,13 +45,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>stardust-engine-ws-cxf</includeArtifactIds>
-            </configuration>
-          </execution>
-          <execution>
-            <id>embed-jars</id>
-            <configuration>
-              <includeArtifactIds>commons-logging</includeArtifactIds>
+              <includeArtifactIds>stardust-engine-ws-cxf,commons-logging</includeArtifactIds>
             </configuration>
           </execution>
         </executions>

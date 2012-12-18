@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="javax.activation" name="activation" transitive="false" rev="1.1" conf="bom->default" />
+      <dependency org="javax.activation" name="activation" transitive="false" rev="${activation.version}" conf="bom->default" />
    </dependencies>
 </ivy-module>

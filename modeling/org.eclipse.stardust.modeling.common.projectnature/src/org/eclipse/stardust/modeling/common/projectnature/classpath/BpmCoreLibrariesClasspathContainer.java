@@ -52,31 +52,31 @@ public class BpmCoreLibrariesClasspathContainer implements IClasspathContainer
 //            "etc"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.j2ee", //$NON-NLS-1$
-            "lib/geronimo-jms_1.1_spec-1.1.1.jar"); //$NON-NLS-1$
+            "lib/geronimo-jms_1.1_spec.jar"); //$NON-NLS-1$
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.j2ee", //$NON-NLS-1$
-            "lib/geronimo-ejb_2.1_spec-1.1.jar"); //$NON-NLS-1$
+            "lib/geronimo-ejb_2.1_spec.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
             "xml-apis.jar"); //$NON-NLS-1$
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
-            "lib/commons-jxpath-1.3.jar"); //$NON-NLS-1$
+            "lib/commons-jxpath.jar"); //$NON-NLS-1$
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
-            "lib/xercesImpl-2.9.0.jar"); //$NON-NLS-1$
+            "lib/xercesImpl.jar"); //$NON-NLS-1$
       // xalan is needed, see CRNT-10809
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.runtime.xml", //$NON-NLS-1$
-            "lib/xalan-2.6.0.jar"); //$NON-NLS-1$
+            "lib/xalan.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.javax.activation", //$NON-NLS-1$
-            "lib/activation-1.1.jar"); //$NON-NLS-1$
+            "lib/activation.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.javax.mail", //$NON-NLS-1$
-            "lib/mail-1.4.jar"); //$NON-NLS-1$
+            "lib/mail.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.cxf", //$NON-NLS-1$
-            "lib/cxf-api-2.6.1-stardust01.jar"); //$NON-NLS-1$
+            "lib/cxf-api.jar"); //$NON-NLS-1$
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.javax.jcr", //$NON-NLS-1$
-            "lib/jcr-2.0.jar"); //$NON-NLS-1$
+            "lib/jcr.jar"); //$NON-NLS-1$
 
       return entries.toArray(NO_CLASSPATH_ENTRIES);
    }

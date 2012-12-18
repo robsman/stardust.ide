@@ -26,7 +26,7 @@
    </publications>
 
    <dependencies>
-      <dependency org="commons-logging" name="commons-logging-api" rev="1.1" transitive="false" conf="bom->default" />
-      <dependency org="commons-logging" name="commons-logging-adapters" rev="1.1" transitive="false" conf="bom->default" />
+      <dependency org="commons-logging" name="commons-logging-api" rev="${commons-logging-api.version}" transitive="false" conf="bom->default" />
+      <dependency org="commons-logging" name="commons-logging-adapters" rev="${commons-logging-adapters.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

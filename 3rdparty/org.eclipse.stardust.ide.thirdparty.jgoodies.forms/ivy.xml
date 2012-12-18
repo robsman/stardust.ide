@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="jgoodies" name="forms" rev="1.0.2" transitive="false" conf="bom->default" />
+      <dependency org="jgoodies" name="forms" rev="${forms.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

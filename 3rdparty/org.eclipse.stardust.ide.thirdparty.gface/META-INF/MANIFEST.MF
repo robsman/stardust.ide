@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.gface;singleton:=true
 Bundle-Version: 0.9.1
-Bundle-ClassPath: lib/gface-0.9.1.jar
+Bundle-ClassPath: lib/gface.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: com.gface.custom,

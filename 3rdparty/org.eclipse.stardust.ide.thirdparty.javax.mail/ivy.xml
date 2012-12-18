@@ -26,7 +26,7 @@
    </publications>
 
    <dependencies>
-      <dependency org="javax.mail" name="mail" transitive="false" rev="1.4" conf="bom->default">
+      <dependency org="javax.mail" name="mail" transitive="false" rev="${mail.version}" conf="bom->default">
          <!--
          <exclude org="javax.activation" module="activation"/>
          -->

@@ -39,29 +39,29 @@
       <dependency org="org.eclipse.stardust.modeling.core" name="ipp-bpm-repository" rev="${ipp.version.full}" conf="ipp-bpm-model-builder-compile->ipp-bpm-repository-runtime"/>
       
       <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="2.6.0.v20100914-1218" conf="ipp-bpm-model-builder-compile->default"/>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="2.6.1.v20100914-1218" conf="ipp-bpm-model-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="${org.eclipse.emf.common.version}" conf="ipp-bpm-model-builder-compile->default"/>
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="${org.eclipse.emf.ecore.version}" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.common" />
       </dependency>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="2.5.0.v20100521-1846" conf="ipp-bpm-model-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.xmi" rev="${org.eclipse.emf.ecore.xmi.version}" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
       </dependency>
-      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.change" rev="2.5.1.v20100907-1643" conf="ipp-bpm-model-builder-compile->default">
+      <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore.change" rev="${org.eclipse.emf.ecore.change.version}" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.ecore" />
       </dependency>
-      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="2.6.0.v20100914-1218" conf="ipp-bpm-model-builder-compile->default"/>
+      <dependency org="org.eclipse.xsd" name="org.eclipse.xsd" rev="${org.eclipse.xsd.version}" conf="ipp-bpm-model-builder-compile->default"/>
 
-      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="3.6.0.v20100517" conf="ipp-bpm-model-builder-runtime->default"/>
-      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="3.6.0.v20100505" transitive="false" conf="ipp-bpm-model-builder-runtime->default">
+      <dependency org="org.eclipse.osgi" name="org.eclipse.osgi" rev="${org.eclipse.osgi.version}" conf="ipp-bpm-model-builder-runtime->default"/>
+      <dependency org="org.eclipse.core" name="org.eclipse.core.runtime" rev="${org.eclipse.core.runtime.version}" transitive="false" conf="ipp-bpm-model-builder-runtime->default">
          <exclude org="org.eclipse.core" module="org.eclipse.core.contenttype" />
          <exclude org="org.eclipse.equinox" module="org.eclipse.equinox.app" />
       </dependency>
-      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.common" rev="3.6.0.v20100503" conf="ipp-bpm-model-builder-compile->default"/>
-      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.registry" rev="3.5.0.v20100503" conf="ipp-bpm-model-builder-compile->default">
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.common" rev="${org.eclipse.equinox.common.version}" conf="ipp-bpm-model-builder-compile->default"/>
+      <dependency org="org.eclipse.equinox" name="org.eclipse.equinox.registry" rev="${org.eclipse.equinox.registry.version}" conf="ipp-bpm-model-builder-compile->default">
          <exclude org="org.eclipse.core" module="org.eclipse.core.jobs" />
       </dependency>
       
-      <dependency org="junit" name="junit" rev="4.10" conf="test->default"/>
+      <dependency org="junit" name="junit" rev="${junit.version}" conf="test->default"/>
 
    </dependencies>
 </ivy-module>

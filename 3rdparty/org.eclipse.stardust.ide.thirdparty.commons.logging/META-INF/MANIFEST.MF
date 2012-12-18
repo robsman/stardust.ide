@@ -6,6 +6,6 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.commons.logging
 Bundle-Version: 1.1.0
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/commons-logging-adapters-1.1.jar,
- lib/commons-logging-api-1.1.jar
+Bundle-ClassPath: lib/commons-logging-adapters.jar,
+ lib/commons-logging-api.jar
 Export-Package: org.apache.commons.logging

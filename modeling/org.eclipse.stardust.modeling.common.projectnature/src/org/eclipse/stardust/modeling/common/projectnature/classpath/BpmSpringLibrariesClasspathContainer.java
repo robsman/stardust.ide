@@ -47,10 +47,8 @@ public class BpmSpringLibrariesClasspathContainer implements IClasspathContainer
       addLibraryEntry(entries, "ag.carnot.workflow.modeling.hibernate", //$NON-NLS-1$
             "/lib/carnot-spring.jar"); //$NON-NLS-1$
 
-      addLibraryEntry(entries, "org.eclipse.stardust.modeling.integration.spring", //$NON-NLS-1$
-            "/lib/spring-2.5.6.jar"); //$NON-NLS-1$
-      addLibraryEntry(entries, "org.eclipse.stardust.modeling.integration.spring", //$NON-NLS-1$
-            "/lib/commons-logging-1.1.jar"); //$NON-NLS-1$
+      addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.springframework", //$NON-NLS-1$
+            "/lib/spring-core.jar"); //$NON-NLS-1$
 
       return (IClasspathEntry[]) entries.toArray(NO_CLASSPATH_ENTRIES);
    }

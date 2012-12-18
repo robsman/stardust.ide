@@ -27,12 +27,12 @@
     <dependency>      
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>    
-      <version>3.0</version>
+      <version>${ejb-api.version}</version>
     </dependency>
     <dependency>      
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>    
-      <version>1.0</version>      
+      <version>${persistence-api.version}</version>      
     </dependency>    
   </dependencies>
 
@@ -43,7 +43,7 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>embed-jars</id>
+            <id>embed-jars-no-version</id>
             <configuration>
               <includeArtifactIds>ejb-api,persistence-api</includeArtifactIds>
             </configuration>

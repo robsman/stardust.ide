@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="javax.jcr" name="jcr" rev="2.0" transitive="false" conf="bom->default" />
+      <dependency org="javax.jcr" name="jcr" rev="${jcr.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

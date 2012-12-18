@@ -26,6 +26,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="org.apache.derby" name="derbyclient" rev="10.2.2.0" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.derby" name="derbyclient" rev="${derbyclient.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>
