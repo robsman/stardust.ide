@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
     Copyright (c) 2011, 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
@@ -44,12 +45,35 @@
    </requires>
 
    <plugin
+         id="org.eclipse.stardust.model.xpdl.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.model.xpdl.api.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.stardust.model.xpdl"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-   <plugin         id="org.eclipse.stardust.model.xpdl.nl"         download-size="0"         install-size="0"         version="0.0.0"         fragment="true"         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.stardust.model.xpdl.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
    <plugin
          id="org.eclipse.stardust.model.xpdl.edit"
          download-size="0"
