@@ -2923,18 +2923,15 @@ public class ModelBuilderFacade
       {
          if (modelElement instanceof DataType) {
             DataType dataType = (DataType) modelElement;
-            if (dataType.getType()
+            if ((dataType.getType() != null) && (dataType.getType()
                   .getId()
-                  .equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA))
+                  .equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA)))
             {
                return false;
             }
-            if (dataType.getName().indexOf("Loca") > -1) {
-               System.out.println();
-            }
-             if (dataType.getType()
+            if ((dataType.getType() != null) && (dataType.getType()
                   .getId()
-                  .equalsIgnoreCase(PredefinedConstants.STRUCTURED_DATA))
+                  .equalsIgnoreCase(PredefinedConstants.STRUCTURED_DATA)))
             {
                return false;
             }
