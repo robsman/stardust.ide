@@ -209,7 +209,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
 
 	/**
      * Simple caching mechanism to speed up the external schema retrieval
-     * and to prohibit the existence of multiple instances of the same schema 
+     * and to prohibit the existence of multiple instances of the same schema
 	 * @generated NOT
 	 */
 	public XSDSchema getSchema() {
@@ -249,7 +249,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
 	   }
 	   return null;
 	}
-	   
+
     /**
      * TODO: describe
      * We must synchronize that method entirely to ensure cache consistency.
@@ -300,22 +300,28 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
           url = location;
        }
        if (!url.toLowerCase().startsWith("http://")) //$NON-NLS-1$
-      {
-         IProject project = ModelUtils.getProjectFromEObject(declaration);
-         if (project != null)
+       {
+         try
          {
-            url = getFileUrl(project, url);
-         }
-         else
-         {
-            IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-            for (int i = 0; i < projects.length; i++)
+            IProject project = ModelUtils.getProjectFromEObject(declaration);
+            if (project != null)
             {
-               IProject proj = projects[i];
-               url = getFileUrl(proj, url);
+               url = getFileUrl(project, url);
             }
+            else
+            {
+               IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+               for (int i = 0; i < projects.length; i++)
+               {
+                  IProject proj = projects[i];
+                  url = getFileUrl(proj, url);
+               }
+            }
+         } catch (Throwable t)
+         {
+            return url;
          }
-      }
+       }
        return url;
     }
 
