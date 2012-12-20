@@ -18,39 +18,66 @@
 
     <module>org.eclipse.stardust.modeling.audittrail</module>
     <module>org.eclipse.stardust.modeling.audittrail.ui</module>
+    <module>org.eclipse.stardust.modeling.audittrail.ui.nl</module>
     <module>org.eclipse.stardust.modeling.authorization</module>
+    <module>org.eclipse.stardust.modeling.authorization.nl</module>
     <module>org.eclipse.stardust.modeling.common</module>
     <module>org.eclipse.stardust.modeling.common.platform</module>
+    <module>org.eclipse.stardust.modeling.common.platform.nl</module>
     <module>org.eclipse.stardust.modeling.common.projectnature</module>
+    <module>org.eclipse.stardust.modeling.common.projectnature.nl</module>
     <module>org.eclipse.stardust.modeling.common.ui</module>
+    <module>org.eclipse.stardust.modeling.common.ui.nl</module>
     <module>org.eclipse.stardust.modeling.common.ui.jface</module>
     <module>org.eclipse.stardust.modeling.common.ui.swt</module>
     <module>org.eclipse.stardust.modeling.core</module>
+    <module>org.eclipse.stardust.modeling.core.nl</module>
     <module>org.eclipse.stardust.modeling.data.structured</module>
+    <module>org.eclipse.stardust.modeling.data.structured.nl</module>
     <module>org.eclipse.stardust.modeling.debug</module>
+    <module>org.eclipse.stardust.modeling.debug.nl</module>
     <module>org.eclipse.stardust.modeling.deploy</module>
+    <module>org.eclipse.stardust.modeling.deploy.nl</module>
     <module>org.eclipse.stardust.modeling.integration.dms</module>
+    <module>org.eclipse.stardust.modeling.integration.dms.nl</module>
     <module>org.eclipse.stardust.modeling.integration.ejb30</module>
+    <module>org.eclipse.stardust.modeling.integration.ejb30.nl</module>
     <module>org.eclipse.stardust.modeling.integration.mail</module>
+    <module>org.eclipse.stardust.modeling.integration.mail.nl</module>
+    <module>org.eclipse.stardust.modeling.integration.spring.nl</module>
     <module>org.eclipse.stardust.modeling.integration.spring</module>
     <module>org.eclipse.stardust.modeling.integration.webservices</module>
+    <module>org.eclipse.stardust.modeling.integration.webservices.nl</module>
     <module>org.eclipse.stardust.modeling.javascript</module>
     <module>org.eclipse.stardust.modeling.javascript.editor</module>
     <module>org.eclipse.stardust.modeling.model.i18n</module>
+    <module>org.eclipse.stardust.modeling.model.i18n.nl</module>
     <module>org.eclipse.stardust.modeling.modelexport</module>
+    <module>org.eclipse.stardust.modeling.modelexport.nl</module>
     <module>org.eclipse.stardust.modeling.modelimport</module>
+    <module>org.eclipse.stardust.modeling.modelimport.nl</module>
     <module>org.eclipse.stardust.modeling.project</module>
+    <module>org.eclipse.stardust.modeling.project.nl</module>
     <module>org.eclipse.stardust.modeling.refactoring</module>
+    <module>org.eclipse.stardust.modeling.refactoring.nl</module>
     <module>org.eclipse.stardust.modeling.repository.common</module>
+    <module>org.eclipse.stardust.modeling.repository.common.nl</module>
     <module>org.eclipse.stardust.modeling.repository.file</module>
+    <module>org.eclipse.stardust.modeling.repository.file.nl</module>
     <module>org.eclipse.stardust.modeling.templates</module>
+    <module>org.eclipse.stardust.modeling.templates.nl</module>
     <module>org.eclipse.stardust.modeling.templates.basic</module>
+    <module>org.eclipse.stardust.modeling.templates.basic.nl</module>
     <module>org.eclipse.stardust.modeling.validation</module>
+    <module>org.eclipse.stardust.modeling.validation.nl</module>
 
     <module>org.eclipse.stardust.modeling.transformation</module>
+    <module>org.eclipse.stardust.modeling.transformation.nl</module>
     <module>org.eclipse.stardust.modeling.transformation.debug</module>
+    <module>org.eclipse.stardust.modeling.transformation.debug.nl</module>
 
     <module>org.eclipse.stardust.modeling.diagramexport.servlet</module>
+    <module>org.eclipse.stardust.modeling.diagramexport.servlet.nl</module>
 
     <module>org.eclipse.stardust.modeling.core-feature</module>
     <module>org.eclipse.stardust.modeling.messages-feature</module>
