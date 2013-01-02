@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -285,9 +285,19 @@ public class TypeDeclarationUtils
       HashMap options = new HashMap();
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
-      URI uri = !location.toLowerCase().startsWith("http://")  //$NON-NLS-1$
-            ? URI.createPlatformResourceURI(location, true)
-            : URI.createURI(location);
+      URI uri = null;
+
+      if (Platform.isRunning())
+      {
+         uri = !location.toLowerCase().startsWith("http://") //$NON-NLS-1$
+               ? URI.createPlatformResourceURI(location, true)
+               : URI.createURI(location);
+      }
+      else
+      {
+         uri = URI.createURI(location);
+      }
+
       XSDResourceImpl resource = new XSDResourceImpl(uri);
       ResourceSetImpl resourceSet = new ResourceSetImpl();
       resourceSet.getResources().add(resource);
