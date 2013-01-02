@@ -45,7 +45,7 @@ public class BpmToolLibrariesClasspathContainer implements IClasspathContainer
       List entries = new ArrayList();
 
       addLibraryEntry(entries, "org.eclipse.stardust.ide.thirdparty.jgoodies.forms", //$NON-NLS-1$
-            "lib/forms-1.0.2.jar"); //$NON-NLS-1$
+            "lib/forms.jar"); //$NON-NLS-1$
 
       return (IClasspathEntry[]) entries.toArray(NO_CLASSPATH_ENTRIES);
    }

@@ -42,15 +42,15 @@ public class RuntimeClasspathEntryResolver implements IRuntimeClasspathEntryReso
       {"org.eclipse.equinox.common", "/"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.debug.core", "/"}, //$NON-NLS-1$ //$NON-NLS-2$
       
-      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/commons-jxpath-1.3.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl-2.9.0.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-//      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan-2.6.0.jar"},
+      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/commons-jxpath.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xercesImpl.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+//      {"org.eclipse.stardust.ide.thirdparty.runtime.xml", "lib/xalan.jar"},
       
       // TODO which cxf jars are needed?
-      {"org.eclipse.stardust.ide.thirdparty.cxf", "lib/cxf-api-2.6.1-stardust01.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.cxf", "lib/cxf-api.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
      
-      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-ejb_2.1_spec-1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
-      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-jms_1.1_spec-1.1.1.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-ejb_2.1_spec.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
+      {"org.eclipse.stardust.ide.thirdparty.runtime.j2ee", "lib/geronimo-jms_1.1_spec.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-engine.jar"}, //$NON-NLS-1$ //$NON-NLS-2$
       {"org.eclipse.stardust.ide.engine.core", "lib/carnot-emf-xsd-integration.jar"}, //$NON-NLS-1$ //$NON-NLS-2$

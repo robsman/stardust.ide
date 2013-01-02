@@ -19,7 +19,6 @@
    </publications>
 
    <dependencies>
-      <dependency org="commons-logging" name="commons-logging" rev="1.1.1" transitive="false" conf="bom->default"/>
-      <dependency org="wsdl4j" name="wsdl4j" rev="1.6.2" transitive="false" conf="bom->default"/>
+      <dependency org="commons-logging" name="commons-logging" rev="${commons-logging.version}" transitive="false" conf="bom->default"/>
    </dependencies>
 </ivy-module>

@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.validation
 Bundle-ClassPath: .,
- lib/persistence-api-1.0.jar,
- lib/ejb-api-3.0.jar
+ lib/persistence-api.jar,
+ lib/ejb-api.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
