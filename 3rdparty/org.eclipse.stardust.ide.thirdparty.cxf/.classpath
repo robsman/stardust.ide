@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-api-2.6.1-stardust01.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl-2.1.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc-2.1.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-bindings-soap-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-core-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-validator-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xmlschema-core-2.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-databinding-jaxb-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/velocity-1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-frontend-jaxws-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-common-2.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-core-2.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-bindings-soap.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-validator.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xmlschema-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-databinding-jaxb.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-lang.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-collections.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/velocity.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-frontend-jaxws.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-common.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-wsdlto-core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
