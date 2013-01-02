@@ -22,11 +22,11 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.log4j" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.log4j" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>
-      <dependency org="log4j" name="log4j" rev="1.2.15" transitive="false" conf="bom->default">
+      <dependency org="log4j" name="log4j" rev="${log4j.version}" transitive="false" conf="bom->default">
          <!--
          <exclude org="com.sun.jmx" module="jmxri"/>
          <exclude org="com.sun.jdmk" module="jmxtools"/>

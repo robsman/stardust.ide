@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.log4j
 Bundle-Version: 1.2.15
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
-Bundle-ClassPath: lib/log4j-1.2.15.jar,
+Bundle-ClassPath: lib/log4j.jar,
  ./
 Export-Package: org.apache.log4j,
  org.apache.log4j.config,

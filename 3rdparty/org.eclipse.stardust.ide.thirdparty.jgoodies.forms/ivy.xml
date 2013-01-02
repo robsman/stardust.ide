@@ -22,10 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.jgoodies.forms" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.jgoodies.forms" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>
-      <dependency org="jgoodies" name="forms" rev="1.0.2" transitive="false" conf="bom->default" />
+      <dependency org="jgoodies" name="forms" rev="${forms.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

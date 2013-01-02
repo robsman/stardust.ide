@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
     Copyright (c) 2011, 2012 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
@@ -29,7 +30,21 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>${project.version}</version>      <exclusions>         <exclusion>            <groupId>javax.jms</groupId>            <artifactId>jms</artifactId>         </exclusion>         <exclusion>            <groupId>com.sun.jmx</groupId>            <artifactId>jmxri</artifactId>         </exclusion>         <exclusion>            <groupId>com.sun.jdmk</groupId>            <artifactId>jmxtools</artifactId>         </exclusion>      </exclusions>
+      <version>${log4j.version}</version>
+      <exclusions>
+         <exclusion>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+         </exclusion>
+         <exclusion>
+            <groupId>com.sun.jmx</groupId>
+            <artifactId>jmxri</artifactId>
+         </exclusion>
+         <exclusion>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+         </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -37,9 +52,23 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>        <executions>          <execution>            <id>embed-jars</id>            <configuration>              <includeArtifactIds>log4j</includeArtifactIds>            </configuration>          </execution>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>embed-jars-no-version</id>
+            <configuration>
+              <includeArtifactIds>log4j</includeArtifactIds>
+            </configuration>
+          </execution>
         </executions>
-      </plugin>      <plugin>         <artifactId>maven-install-plugin</artifactId>         <configuration>            <!-- artifact is needed during compile time of reporting.app.web -->            <skip>false</skip>         </configuration>      </plugin>
+      </plugin>
+      <plugin>
+         <artifactId>maven-install-plugin</artifactId>
+         <configuration>
+            <!-- artifact is needed during compile time of reporting.app.web -->
+            <skip>false</skip>
+         </configuration>
+      </plugin>
     </plugins>
   </build>
 

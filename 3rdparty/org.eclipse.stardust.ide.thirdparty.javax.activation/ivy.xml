@@ -22,10 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.javax.activation" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.javax.activation" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>
-      <dependency org="javax.activation" name="activation" transitive="false" rev="1.1" conf="bom->default" />
+      <dependency org="javax.activation" name="activation" transitive="false" rev="${activation.version}" conf="bom->default" />
    </dependencies>
 </ivy-module>

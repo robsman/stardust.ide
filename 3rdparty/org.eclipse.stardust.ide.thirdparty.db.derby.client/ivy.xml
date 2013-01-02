@@ -22,10 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.db.derby.client" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.db.derby.client" type="jar" conf="bom" />
    </publications>
 
    <dependencies>
-      <dependency org="org.apache.derby" name="derbyclient" rev="10.2.2.0" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.derby" name="derbyclient" rev="${derbyclient.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>

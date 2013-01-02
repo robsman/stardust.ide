@@ -3,9 +3,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache Derby DBMS Client Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.db.derby.client
-Bundle-Version: 10.2.2.0
+Bundle-Version: 10.8.2.2
 Bundle-Vendor: SunGard CSA LLC
-Bundle-ClassPath: lib/derbyclient-10.2.2.0.jar
+Bundle-ClassPath: lib/derbyclient.jar
 Export-Package: org.apache.derby.client,
  org.apache.derby.client.am,
  org.apache.derby.client.net,

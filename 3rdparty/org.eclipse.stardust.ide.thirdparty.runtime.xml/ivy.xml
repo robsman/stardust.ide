@@ -26,9 +26,9 @@
    </publications>
 
    <dependencies>
-      <dependency org="xalan" name="xalan" rev="2.7.1" transitive="false" conf="bom->default"/>
-      <dependency org="commons-jxpath" name="commons-jxpath" rev="1.3" transitive="false" conf="bom->default"/>
-      <dependency org="jdom" name="jdom" rev="1.0" transitive="false" conf="bom->default"/>
-      <dependency org="xerces" name="xercesImpl" rev="2.9.0" transitive="false" conf="bom->default"/>
+      <dependency org="xalan" name="xalan" rev="${xalan.version}" transitive="false" conf="bom->default"/>
+      <dependency org="commons-jxpath" name="commons-jxpath" rev="${commons-jxpath.version}" transitive="false" conf="bom->default"/>
+      <dependency org="jdom" name="jdom" rev="${jdom.version}" transitive="false" conf="bom->default"/>
+      <dependency org="xerces" name="xercesImpl" rev="${xercesImpl.version}" transitive="false" conf="bom->default"/>
    </dependencies>
 </ivy-module>
