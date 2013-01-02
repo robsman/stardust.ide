@@ -22,7 +22,7 @@
   </parent>
 
   <artifactId>org.eclipse.stardust.ide.thirdparty.commons.logging</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 
   <packaging>eclipse-plugin</packaging>
 
@@ -30,14 +30,8 @@
   <dependencies>
     <dependency>
       <groupId>commons-logging</groupId>
-      <artifactId>commons-logging-api</artifactId>
-      <version>${commons-logging-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging-adapters</artifactId>
-      <version>${commons-logging-adapters.version}</version>
-      <type>jar</type>
+      <artifactId>commons-logging</artifactId>
+      <version>${commons-logging.version}</version>
     </dependency>
   </dependencies>
 
@@ -50,7 +44,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>commons-logging-api,commons-logging-adapters</includeArtifactIds>
+              <includeArtifactIds>commons-logging</includeArtifactIds>
             </configuration>
           </execution>
         </executions>

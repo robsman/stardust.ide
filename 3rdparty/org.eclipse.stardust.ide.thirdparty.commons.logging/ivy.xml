@@ -22,11 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.commons.logging" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.3rdparty.commons.logging" type="jar" conf="bom" />
    </publications>
 
    <dependencies>
-      <dependency org="commons-logging" name="commons-logging-api" rev="${commons-logging-api.version}" transitive="false" conf="bom->default" />
-      <dependency org="commons-logging" name="commons-logging-adapters" rev="${commons-logging-adapters.version}" transitive="false" conf="bom->default" />
+      <dependency org="commons-logging" name="commons-logging" rev="${commons-logging.version}" transitive="false" conf="bom->default" />
    </dependencies>
 </ivy-module>
