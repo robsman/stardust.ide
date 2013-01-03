@@ -210,4 +210,15 @@ public class ModelerConstants
    public static final String MESSAGE_EVENT_CLASS_KEY = "message";
    public static final String ERROR_EVENT_CLASS_KEY = "error";
    public static final String NONE_EVENT_CLASS_KEY = "none";
+   public static final String TASK_TYPE = "taskType";
+   public static final String NONE_TASK_KEY = "none";
+   public static final String SCRIPT_TASK_KEY = "script";
+   public static final String SERVICE_TASK_KEY = "service";
+   public static final String MANUAL_TASK_KEY = "manual";
+   public static final String USER_TASK_KEY = "user";
+   public static final String RULE_TASK_KEY = "rule";
+   public static final String SEND_TASK_KEY = "send";
+   public static final String RECEIVE_TASK_KEY = "receive";
+   public static final String SUBPROCESS_TASK_KEY = "subprocess";
+   public static final String TASK_ACTIVITY = "Task";
 }
