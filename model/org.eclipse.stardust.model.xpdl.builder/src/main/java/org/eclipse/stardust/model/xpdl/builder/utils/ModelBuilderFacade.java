@@ -41,6 +41,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
@@ -80,6 +81,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
@@ -92,9 +94,14 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
+import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
@@ -139,6 +146,8 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class ModelBuilderFacade
 {
+   private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
+
    private ModelManagementStrategy modelManagementStrategy;
 
    public ModelBuilderFacade(ModelManagementStrategy modelManagementStrategy)
@@ -2050,16 +2059,10 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public StartEventSymbol findStartEventSymbol(DiagramType diagram, long oid)
+   public static StartEventSymbol findStartEventSymbol(DiagramType diagram, long oid)
    {
-      LaneSymbol laneSymbol = findLaneContainingStartEventSymbol(diagram, oid);
-
-      if (laneSymbol != null)
-      {
-         return findStartEventSymbol(laneSymbol, oid);
-      }
-
-      return null;
+      return findSymbolRecursively(oid, StartEventSymbol.class, diagram,
+            PKG_CWM.getISymbolContainer_StartEventSymbols());
    }
 
    /**
@@ -2068,13 +2071,82 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public StartEventSymbol findStartEventSymbol(LaneSymbol laneSymbol, long oid)
+   public static StartEventSymbol findStartEventSymbol(LaneSymbol laneSymbol, long oid)
    {
-      for (StartEventSymbol startEventSymbol : laneSymbol.getStartEventSymbols())
+      return findSymbol(oid, StartEventSymbol.class, laneSymbol,
+            PKG_CWM.getISymbolContainer_StartEventSymbols());
+   }
+
+   /**
+   *
+   * @param diagram
+   * @param oid
+   * @return
+   */
+  public static IntermediateEventSymbol findIntermediateEventSymbol(DiagramType diagram, long oid)
+  {
+     return findSymbolRecursively(oid, IntermediateEventSymbol.class, diagram,
+           PKG_CWM.getISymbolContainer_IntermediateEventSymbols());
+  }
+
+  /**
+   *
+   * @param laneSymbol
+   * @param oid
+   * @return
+   */
+  public static IntermediateEventSymbol findIntermediateEventSymbol(LaneSymbol laneSymbol, long oid)
+  {
+     return findSymbol(oid, IntermediateEventSymbol.class, laneSymbol,
+           PKG_CWM.getISymbolContainer_IntermediateEventSymbols());
+  }
+
+   /**
+    *
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   public static EndEventSymbol findEndEventSymbol(DiagramType diagram, long oid)
+   {
+      return findSymbolRecursively(oid, EndEventSymbol.class, diagram,
+            PKG_CWM.getISymbolContainer_EndEventSymbols());
+   }
+
+   /**
+    *
+    * @param container
+    * @param oid
+    * @return
+    */
+   public static EndEventSymbol findEndEventSymbol(ISymbolContainer container, long oid)
+   {
+      return findSymbol(oid, EndEventSymbol.class, container,
+            PKG_CWM.getISymbolContainer_EndEventSymbols());
+   }
+
+   /**
+    *
+    * @param oid
+    * @param diagram
+    * @return
+    */
+   public static <S extends IGraphicalObject> S findSymbolRecursively(long oid,
+         Class<S> symbolType, DiagramType diagram, EReference containmentFeature)
+   {
+      S symbol = findSymbol(oid, symbolType, (ISymbolContainer) diagram,
+            containmentFeature);
+      if (null != symbol)
       {
-         if (startEventSymbol.getElementOid() == oid)
+         return symbol;
+      }
+
+      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
+      {
+         symbol = findSymbolRecursively(oid, symbolType, poolSymbol, containmentFeature);
+         if (null != symbol)
          {
-            return startEventSymbol;
+            return symbol;
          }
       }
 
@@ -2083,147 +2155,57 @@ public class ModelBuilderFacade
 
    /**
     *
-    * @param diagram
     * @param oid
+    * @param container
     * @return
     */
-   public LaneSymbol findLaneContainingStartEventSymbol(DiagramType diagram, long oid)
+   public static <S extends IGraphicalObject, C extends ISymbolContainer & ISwimlaneSymbol> S findSymbolRecursively(
+         long oid, Class<S> symbolType, C container, EReference containmentFeature)
    {
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
+      S symbol = findSymbol(oid, symbolType, (ISymbolContainer) container,
+            containmentFeature);
+      if (null != symbol)
       {
-         for (LaneSymbol childLaneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol containingLaneSymbol = findLaneContainingStartEventSymbolRecursively(
-                  childLaneSymbol, oid);
+         return symbol;
+      }
 
-            if (containingLaneSymbol != null)
+      if (INodeSymbol.class.isAssignableFrom(symbolType))
+      {
+         // only node symbols will be stored at lane level
+         for (LaneSymbol childLaneSymbol : container.getChildLanes())
+         {
+            symbol = findSymbolRecursively(oid, symbolType, childLaneSymbol,
+                  containmentFeature);
+            if (null != symbol)
             {
-               return containingLaneSymbol;
+               return symbol;
             }
          }
       }
-
       return null;
    }
 
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public LaneSymbol findLaneContainingStartEventSymbolRecursively(LaneSymbol laneSymbol,
-         long oid)
+   public static <S extends IGraphicalObject> S findSymbol(long oid, Class<S> symbolType,
+         ISymbolContainer container, EReference containmentFeature)
    {
-      for (StartEventSymbol startEventSymbol : laneSymbol.getStartEventSymbols())
+      if (containmentFeature.isMany())
       {
-         if (startEventSymbol.getElementOid() == oid)
+         @SuppressWarnings("unchecked")
+         List<? extends IGraphicalObject> containedSymbols = (List<? extends IGraphicalObject>) container.eGet(containmentFeature);
+         for (IGraphicalObject symbol : containedSymbols)
          {
-            return laneSymbol;
-         }
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol containingLaneSymbol = findLaneContainingStartEventSymbolRecursively(
-               childLaneSymbol, oid);
-
-         if (containingLaneSymbol != null)
-         {
-            return containingLaneSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public EndEventSymbol findEndEventSymbol(DiagramType diagram, long oid)
-   {
-      LaneSymbol laneSymbol = findLaneContainingEndEventSymbol(diagram, oid);
-
-      if (laneSymbol != null)
-      {
-         return findEndEventSymbol(laneSymbol, oid);
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public EndEventSymbol findEndEventSymbol(LaneSymbol laneSymbol, long oid)
-   {
-      for (EndEventSymbol endEventSymbol : laneSymbol.getEndEventSymbols())
-      {
-         if (endEventSymbol.getElementOid() == oid)
-         {
-            return endEventSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public LaneSymbol findLaneContainingEndEventSymbol(DiagramType diagram, long oid)
-   {
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
-      {
-         for (LaneSymbol childLaneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol containingLaneSymbol = findLaneContainingEndEventSymbolRecursively(
-                  childLaneSymbol, oid);
-
-            if (containingLaneSymbol != null)
+            if (symbol.getElementOid() == oid)
             {
-               return containingLaneSymbol;
+               return symbolType.cast(symbol);
             }
          }
       }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public LaneSymbol findLaneContainingEndEventSymbolRecursively(LaneSymbol laneSymbol,
-         long oid)
-   {
-      for (EndEventSymbol endEventSymbol : laneSymbol.getEndEventSymbols())
+      else
       {
-         if (endEventSymbol.getElementOid() == oid)
+         IGraphicalObject containedSymbol = (IGraphicalObject) container.eGet(containmentFeature);
+         if ((null != containedSymbol) && (containedSymbol.getElementOid() == oid))
          {
-            return laneSymbol;
-         }
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol containingLaneSymbol = findLaneContainingEndEventSymbolRecursively(
-               childLaneSymbol, oid);
-
-         if (containingLaneSymbol != null)
-         {
-            return containingLaneSymbol;
+            return symbolType.cast(containedSymbol);
          }
       }
 
@@ -2318,33 +2300,17 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public TransitionConnectionType findTransitionConnectionByModelOid(
+   public static TransitionConnectionType findTransitionConnectionByModelOid(
          ProcessDefinitionType processDefinition, long oid)
    {
-      for (TransitionConnectionType transitionConnection : processDefinition.getDiagram()
-            .get(0)
-            .getTransitionConnection())
+      DiagramType diagram = processDefinition.getDiagram().get(0);
+
+      TransitionConnectionType connection = findSymbolRecursively(oid,
+            TransitionConnectionType.class, diagram,
+            PKG_CWM.getISymbolContainer_TransitionConnection());
+      if (null != connection)
       {
-         if (transitionConnection.getElementOid() == oid)
-         {
-            return transitionConnection;
-         }
-      }
-
-      // Lookup transition in first/default pool
-
-      // TODO Support multiple pools
-
-      for (TransitionConnectionType transitionConnection : processDefinition.getDiagram()
-            .get(0)
-            .getPoolSymbols()
-            .get(0)
-            .getTransitionConnection())
-      {
-         if (transitionConnection.getElementOid() == oid)
-         {
-            return transitionConnection;
-         }
+         return connection;
       }
 
       throw new ObjectNotFoundException("Could not find Transition " + oid + ".");
