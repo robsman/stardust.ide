@@ -24,7 +24,7 @@ public class NameIdUtils
 {
    /**
     * TODO Replace by Eclipse modeler logic
-    * @param activity 
+    * @param activity
     *
     * @param name
     * @return
@@ -35,25 +35,25 @@ public class NameIdUtils
       {
          return element.getId();
       }
-      
+
       if(container == null)
       {
          container = findContainer(element);
-      }      
-      
+      }
+
       String base = element.getName();
       if(StringUtils.isEmpty(base))
       {
          return "";
       }
-      
+
       IdFactory factory = new IdFactory(base, base);
-      
+
       List list = null;
-      if(container instanceof EObject 
+      if(container instanceof EObject
             && !(element instanceof AccessPointType)
             && !(element instanceof ModelType))
-      {      
+      {
          list = (List) computeIdNames(element.eClass(), (EObject) container);
       }
       else if(container instanceof EList)
@@ -62,12 +62,12 @@ public class NameIdUtils
       }
       if(list != null)
       {
-         factory.computeNames(list);      
+         factory.computeNames(list);
       }
-      
+
       return factory.getId();
    }
-   
+
    private static EObject findContainer(IIdentifiableElement element)
    {
       return element.eContainer();
@@ -78,22 +78,22 @@ public class NameIdUtils
       if(StringUtils.isEmpty(name))
       {
          return "";
-      }      
-      
+      }
+
       IdFactory factory = new IdFactory(name, name);
       return factory.getId();
-   }   
-   
+   }
+
    private static List computeIdNames(EClass eClass, EObject container)
-   {      
+   {
       return (List) container.eGet(getContainingFeature(eClass, container));
    }
-   
+
    private static EStructuralFeature getContainingFeature(EClass eClass, EObject container)
    {
-      List containingFeatureList = container.eClass().getEStructuralFeatures();
-      return findContainmentFeature(containingFeatureList, eClass);   
-   }   
+      List containingFeatureList = container.eClass().getEAllStructuralFeatures();
+      return findContainmentFeature(containingFeatureList, eClass);
+   }
 
    private static EStructuralFeature findContainmentFeature(List containingFeatures,
          EClass eClass)
@@ -103,7 +103,7 @@ public class NameIdUtils
       for (Iterator i = containingFeatures.iterator(); i.hasNext();)
       {
          EStructuralFeature feature = (EStructuralFeature) i.next();
-         if ((!feature.isTransient() 
+         if ((!feature.isTransient()
             || feature.getEContainingClass().equals(CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer())
             || feature.getEContainingClass().equals(XpdlPackage.eINSTANCE.getTypeDeclarationsType()))
             && feature.getEType().equals(eClass))
@@ -124,14 +124,14 @@ public class NameIdUtils
       if(StringUtils.isEmpty(name))
       {
          return "";
-      }      
-      
+      }
+
       IdFactory factory = new IdFactory(name, name);
       if(!ids.isEmpty())
       {
-         factory.computeNames(ids);      
+         factory.computeNames(ids);
       }
-      
+
       return factory.getId();
    }
 }
