@@ -76,7 +76,7 @@ public class ConvertGatewayAction extends SelectionAction
                ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);  
                return;
             }    
-            if(!process_.getActivity().isEmpty() && ConvertGatewayUtil.findStartActivity(process) == null)
+            if(!process_.getActivity().isEmpty() && ConvertGatewayUtil.findStartActivity(process_) == null)
             {
                ModelServerUtils.showMessageBox(Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK);  
                return;               
