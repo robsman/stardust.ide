@@ -155,7 +155,10 @@ public class ConvertGatewayUtil
          removeGatewaySymbols(activity, newActivity, isSplit);
                   
          EList<TransitionType> inTransitions = activity.getInTransitions();
-         for(TransitionType transition : inTransitions)
+         List<TransitionType> transitions = new ArrayList<TransitionType>();
+         transitions.addAll(inTransitions);
+                  
+         for(TransitionType transition : transitions)
          {
             transition.setTo(newActivity);
          }
