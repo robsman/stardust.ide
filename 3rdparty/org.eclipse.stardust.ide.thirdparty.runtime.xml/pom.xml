@@ -28,11 +28,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>xalan</groupId>
-      <artifactId>xalan</artifactId>
-      <version>${xalan.version}</version>
-    </dependency>
-    <dependency>
       <groupId>commons-jxpath</groupId>
       <artifactId>commons-jxpath</artifactId>
       <version>${commons-jxpath.version}</version>
@@ -92,7 +87,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>xalan,commons-jxpath,jdom,xercesImpl</includeArtifactIds>
+              <includeArtifactIds>commons-jxpath,jdom,xercesImpl</includeArtifactIds>
             </configuration>
           </execution>
         </executions>
