@@ -1353,8 +1353,7 @@ public class ModelBuilderFacade
                   activityName).build();
          }
       }
-      else if (ModelerConstants.APPLICATION_ACTIVITY.equals(activityTypeID))
-
+      else if (ModelerConstants.APPLICATION_ACTIVITY.equals(activityTypeID) || ModelerConstants.TASK_ACTIVITY.equals(activityTypeID))
       {
 
          String stripFullId_ = getModelId(applicationFullID);
