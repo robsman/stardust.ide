@@ -162,8 +162,8 @@ public class CrossModelSupportModelBuilderTest
       facade.createStructuredAccessPoint(consumedExtWebApp, "NewStruct", "NewStruct", "ProviderModel:ProvidedComposite", "IN");
 
       //Activities
-      ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Manual", "ManualActivity1", "ManualActivity1", "ProviderModel:Administrator", null, null);
-      facade.createActivity(consumerModel, consumerProcess, "Subprocess", "ProvidedProcess1", "ProvidedProcess1", null, null, "ProviderModel:ProvidedProcess");
+      ActivityType activity1 = facade.createActivity(providerModel, providedProcess2, "Task", "Manual", "ManualActivity1", "ManualActivity1", "ProviderModel:Administrator", null, null);
+      facade.createActivity(consumerModel, consumerProcess, "Subprocess", null, "ProvidedProcess1", "ProvidedProcess1", null, null, "ProviderModel:ProvidedProcess");
 
       //Symbols
       LaneSymbol laneSymbol = facade.findLaneSymbolById(providedProcess2, "DefaultLane");
