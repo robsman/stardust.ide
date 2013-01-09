@@ -770,37 +770,6 @@ public class XpdlModelUtils
       return method.invoke(model, args);
    }
 
-   public static String computeId(String name)
-   {
-      name = StringUtils.replace(name, "\u00c4", "Ae"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00d6", "Oe"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00dc", "Ue"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00e4", "ae"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00f6", "oe"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00fc", "ue"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00df", "ss"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u002d", "_"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u0026", ""); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u002e", ""); //$NON-NLS-1$ //$NON-NLS-2$
-
-      StringBuffer sb = new StringBuffer();
-      StringTokenizer st = new StringTokenizer(name);
-      while (st.hasMoreTokens())
-      {
-         String nextToken = st.nextToken();
-         if (0 < nextToken.length())
-         {
-            String firstChar = nextToken.substring(0, 1);
-            sb.append(Character.toTitleCase(firstChar.charAt(0)));
-            if (1 < nextToken.length())
-            {
-               sb.append(nextToken.substring(1));
-            }
-         }
-      }
-      return sb.toString();
-   }
-
    public static void resolve(ModelType model, IExtensibleElement extensible)
    {
       // resolve internal type declarations
