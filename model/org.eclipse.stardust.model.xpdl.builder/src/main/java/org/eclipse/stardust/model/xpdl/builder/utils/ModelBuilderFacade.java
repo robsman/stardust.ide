@@ -116,6 +116,7 @@ import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
@@ -1618,6 +1619,25 @@ public class ModelBuilderFacade
       }
 
       throw new ObjectNotFoundException("Application type " + id + " does not exist.");
+   }
+
+   /**
+    * 
+    * @param diagram
+    * @param oid
+    * @return
+    */
+   public static TriggerTypeType findTriggerType(ModelType model, String id)
+   {
+      for (TriggerTypeType triggerType : model.getTriggerType())
+      {
+         if (triggerType.getId().equals(id))
+         {
+            return triggerType;
+         }
+      }
+
+      throw new ObjectNotFoundException("Trigger type " + id + " does not exist.");
    }
 
    /**
