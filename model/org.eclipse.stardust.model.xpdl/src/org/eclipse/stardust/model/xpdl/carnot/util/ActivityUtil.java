@@ -219,38 +219,42 @@ public class ActivityUtil
 
       if (PredefinedConstants.ENGINE_CONTEXT.equals(contextId))
       {
-         List<DataType> dataList = ModelUtils.findContainingModel(activity).getData();
-         if (isIn)
+         ModelType containingModel = ModelUtils.findContainingModel(activity);
+         if(containingModel != null)
          {
-            if (isSubprocessActivity(activity))
+            List<DataType> dataList = containingModel.getData();
+            if (isIn)
             {
-               for (DataType data : dataList)
+               if (isSubprocessActivity(activity))
                {
-                  if (!data.isPredefined())
+                  for (DataType data : dataList)
+                  {
+                     if (!data.isPredefined())
+                     {
+                        accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
+                              data.getId(), data.getName(),
+                              AttributeUtil.getAttributeValue(data, getClassNameAtt(data)),
+                              DirectionType.IN_LITERAL, true, null, data.getType()));
+                     }
+                  }
+               }
+            }
+            else
+            {
+               accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
+                     CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_ID,
+                     CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_NAME,
+                     "org.eclipse.stardust.engine.api.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
+                     true, null, ModelUtils.getDataType(activity, CarnotConstants.SERIALIZABLE_DATA_ID)));
+               if (isSubprocessActivity(activity))
+               {
+                  for (DataType data : dataList)
                   {
                      accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
                            data.getId(), data.getName(),
                            AttributeUtil.getAttributeValue(data, getClassNameAtt(data)),
-                           DirectionType.IN_LITERAL, true, null, data.getType()));
+                           DirectionType.OUT_LITERAL, true, null, data.getType()));
                   }
-               }
-            }
-         }
-         else
-         {
-            accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
-                  CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_ID,
-                  CarnotConstants.ACTIVITY_INSTANCE_ACCESSPOINT_NAME,
-                  "org.eclipse.stardust.engine.api.runtime.ActivityInstance", DirectionType.OUT_LITERAL, //$NON-NLS-1$
-                  true, null, ModelUtils.getDataType(activity, CarnotConstants.SERIALIZABLE_DATA_ID)));
-            if (isSubprocessActivity(activity))
-            {
-               for (DataType data : dataList)
-               {
-                  accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
-                        data.getId(), data.getName(),
-                        AttributeUtil.getAttributeValue(data, getClassNameAtt(data)),
-                        DirectionType.OUT_LITERAL, true, null, data.getType()));
                }
             }
          }
