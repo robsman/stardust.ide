@@ -61,7 +61,7 @@ public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelT
       element.getScript().setType("text/ecmascript");
       element.setTypeDeclarations(XpdlFactory.eINSTANCE.createTypeDeclarationsType());
 
-      element.setCreated(DateFormat.getDateTimeInstance().format(new Date()));
+      element.setCreated(new Date().toString());
 
       element.setAuthor(System.getProperty("user.name"));
 
