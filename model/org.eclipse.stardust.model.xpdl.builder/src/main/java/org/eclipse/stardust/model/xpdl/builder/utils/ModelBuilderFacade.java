@@ -3064,7 +3064,7 @@ public class ModelBuilderFacade
       final String MODIFIED_DATE_FORMAT = "dd MMM; yyyy KK:mm:ss a";
       DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
       AttributeUtil.setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED,
-            format.format(modified));
+            new Date().toString());
    }
 
    public String getModified(ModelType modelType)
