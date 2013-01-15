@@ -149,6 +149,7 @@ public class ModelerConstants
    public static final String CONDITIONAL_PERFORMER_PARTICIPANT_TYPE_KEY = "conditionalPerformerParticipant";
    public static final String TO_BE_DEFINED = "TO_BE_DEFINED";
    public static final String CARDINALITY = "cardinality";
+   public static final int POOL_SWIMLANE_MARGIN = 12;
    // @deprecated
    public static final int POOL_LANE_MARGIN = 5;
    // @deprecated
