@@ -25,6 +25,8 @@ public class ModelerConstants
    public static final String BOOLEAN_PRIMITIVE_DATA_TYPE = "boolean";
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
    public static final String DECIMAL_PRIMITIVE_DATA_TYPE = "decimal";
+   public static final String LONG_PRIMITIVE_DATA_TYPE = "long"; 
+   public static final String CALENDAR_PRIMITIVE_DATA_TYPE = "Calendar";    
    public static final String STRUCTURED_DATA_TYPE_KEY = "struct";
    public static final String DOCUMENT_DATA_TYPE_KEY = "dmsDocument";
    public static final String MANUAL_ACTIVITY = "Manual";
