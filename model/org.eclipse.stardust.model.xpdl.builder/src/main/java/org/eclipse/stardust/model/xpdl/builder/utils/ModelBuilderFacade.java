@@ -30,12 +30,14 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProc
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -3060,9 +3062,6 @@ public class ModelBuilderFacade
 
    public void setModified(ModelType modelType, Date modified)
    {
-      // TODO I18N
-      final String MODIFIED_DATE_FORMAT = "dd MMM; yyyy KK:mm:ss a";
-      DateFormat format = new SimpleDateFormat(MODIFIED_DATE_FORMAT);
       AttributeUtil.setAttribute(modelType, ModelerConstants.ATTRIBUTE_MODIFIED,
             new Date().toString());
    }
@@ -3073,7 +3072,7 @@ public class ModelBuilderFacade
             ModelerConstants.ATTRIBUTE_MODIFIED);
       if (attribute != null)
       {
-         return attribute.getValue();
+         return convertDate(attribute.getValue());
       }
       return "unknown";
    }
@@ -3129,5 +3128,27 @@ public class ModelBuilderFacade
       mappingType.setElementOid(++maxOID);
       trigger.getParameterMapping().add(mappingType);
       return mappingType;
+   }
+   
+   public String convertDate(String date)
+   {
+      // TODO read property
+      String format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
+      
+      String pattern = "E MMM dd HH:mm:ss zzz yyyy"; //$NON-NLS-1$
+      SimpleDateFormat instance = new SimpleDateFormat(pattern, Locale.ROOT);
+
+      try
+      {
+         Date parse = instance.parse(date);
+         SimpleDateFormat sdf = new SimpleDateFormat();
+         sdf.applyPattern(format);
+         date = sdf.format(parse);
+      }
+      catch (ParseException e)
+      {
+      }
+      
+      return date;
    }
 }
