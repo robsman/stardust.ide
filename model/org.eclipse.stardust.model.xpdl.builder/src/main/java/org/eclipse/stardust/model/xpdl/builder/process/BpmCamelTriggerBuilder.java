@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.process;
 
-import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -28,15 +27,17 @@ public class BpmCamelTriggerBuilder
             model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
       if (null == triggerMetaType)
       {
-         triggerMetaType = AbstractElementBuilder.F_CWM.createTriggerTypeType();
+         triggerMetaType = F_CWM.createTriggerTypeType();
+         
+         triggerMetaType.setElementOid(XpdlModelUtils.getMaxUsedOid(model) + 1);
          triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
          triggerMetaType.setName("Camel Trigger");
          triggerMetaType.setIsPredefined(true);
          triggerMetaType.setPullTrigger(false);
+         
          AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
          AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         triggerMetaType.setElementOid(++maxElementOid);
+
          model.getTriggerType().add(triggerMetaType);
       }
       element.setType(triggerMetaType);
