@@ -28,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.participant.BpmConditionalPerformerBuilder;
 import org.eclipse.stardust.model.xpdl.builder.participant.BpmOrganizationBuilder;
 import org.eclipse.stardust.model.xpdl.builder.participant.BpmRoleBuilder;
+import org.eclipse.stardust.model.xpdl.builder.process.BpmCamelTriggerBuilder;
 import org.eclipse.stardust.model.xpdl.builder.process.BpmDataPathBuilder;
 import org.eclipse.stardust.model.xpdl.builder.process.BpmManualTriggerBuilder;
 import org.eclipse.stardust.model.xpdl.builder.process.BpmProcessDefinitionBuilder;
@@ -36,15 +37,7 @@ import org.eclipse.stardust.model.xpdl.builder.transition.BpmActivitySequenceBui
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmConditionalTransitionBuilder;
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmOtherwiseTransitionBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmPrimitiveVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.CamelApplicationBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.ExternalWebApplicationApplicationBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.MessageTransformationApplicationBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.PrimitiveAccessPointBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.StructAccessPointBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.WebserviceApplicationBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.*;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
@@ -165,6 +158,11 @@ public abstract class BpmModelBuilder
    public static BpmManualTriggerBuilder newManualTrigger(ProcessDefinitionType process)
    {
       return BpmManualTriggerBuilder.newManualTrigger(process);
+   }
+
+   public static BpmCamelTriggerBuilder newCamelTrigger(ProcessDefinitionType process)
+   {
+      return BpmCamelTriggerBuilder.newCamelTrigger(process);
    }
 
    public static BpmDataPathBuilder newDataPath(ProcessDefinitionType process)
