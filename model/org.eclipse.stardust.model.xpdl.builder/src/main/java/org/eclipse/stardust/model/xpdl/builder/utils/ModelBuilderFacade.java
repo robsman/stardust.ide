@@ -29,7 +29,6 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructu
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2565,7 +2564,7 @@ public class ModelBuilderFacade
       {
          type = TypeType.DATETIME_LITERAL;
       }
-      else if (primitiveTypeID.equals(ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE))
+      else if (primitiveTypeID.equals("int"))
       {
          type = TypeType.INTEGER_LITERAL;
       }
@@ -2581,6 +2580,15 @@ public class ModelBuilderFacade
       {
          type = TypeType.BOOLEAN_LITERAL;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))         
+      {
+         type = TypeType.DATETIME_LITERAL;
+      }
+      else if (primitiveTypeID.equals(ModelerConstants.LONG_PRIMITIVE_DATA_TYPE))
+      {
+         type = TypeType.INTEGER_LITERAL;
+      }
+      
       return type;
    }
 
