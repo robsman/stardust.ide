@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -122,6 +123,7 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
+import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -1638,7 +1640,18 @@ public class ModelBuilderFacade
          }
       }
 
-      throw new ObjectNotFoundException("Trigger type " + id + " does not exist.");
+      // Create the trigger type
+      
+//      Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
+//            CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
+//       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
+//       CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
+//             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
+//             new EStructuralFeature[] {});
+//       metaCommand.setParent(targetModel);
+//       metaCommand.execute();
+       
+       return null;
    }
 
    /**
