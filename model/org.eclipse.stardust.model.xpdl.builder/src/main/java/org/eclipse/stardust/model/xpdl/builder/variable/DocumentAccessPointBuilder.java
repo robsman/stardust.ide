@@ -10,11 +10,12 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -22,8 +23,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 public class DocumentAccessPointBuilder
       extends AbstractModelElementBuilder<AccessPointType, DocumentAccessPointBuilder>
 {
-   private ModelBuilderFacade facade;
-
    private IAccessPointOwner owner;
 
    public DocumentAccessPointBuilder()
@@ -37,8 +36,17 @@ public class DocumentAccessPointBuilder
       this.owner = anOwner;
       forModel(ModelUtils.findContainingModel(anOwner));
       long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-      element.setElementOid(++maxElementOid);      
+      element.setElementOid(++maxElementOid);
+      
+      DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
+            PredefinedConstants.DOCUMENT_DATA);
+      
+      if(dataTypeType != null)
+      {
+         element.setType(dataTypeType);
+      }
    }
+
 
    private void createDefaultAccessPoint(IAccessPointOwner owner2)
    {
@@ -77,25 +85,5 @@ public class DocumentAccessPointBuilder
       }
       element.setDirection(directionType);
       return self();
-   }
-
-   public DocumentAccessPointBuilder withType(String dataID)
-   {
-      DataType dataType = getModelBuilderFacade().findData(model, dataID);
-      
-      if(dataType != null)
-      {
-         element.setType(dataType.getType());      
-      }
-      return self();
-   }
-
-   private ModelBuilderFacade getModelBuilderFacade()
-   {
-      if (facade == null)
-      {
-         facade = new ModelBuilderFacade();
-      }
-      return facade;
    }
 }
