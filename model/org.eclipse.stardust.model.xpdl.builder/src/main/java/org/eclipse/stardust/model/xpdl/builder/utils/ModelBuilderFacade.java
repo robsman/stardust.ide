@@ -1655,6 +1655,7 @@ public class ModelBuilderFacade
          long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
+      
          if (null == triggerMetaType)
          {
             CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
