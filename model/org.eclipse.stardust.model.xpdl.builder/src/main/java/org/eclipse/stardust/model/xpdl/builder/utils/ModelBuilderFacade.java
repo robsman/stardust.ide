@@ -26,6 +26,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
 
@@ -508,11 +509,12 @@ public class ModelBuilderFacade
    }
 
    public AccessPointType createDocumentAccessPoint(IAccessPointOwner application,
-         String id, String name, String structTypeFullID, String direction)
+         String id, String name, String dataID, String direction)
    {
-      // TODO Implement
-      
-      return null;
+      return newDocumentAccessPoint(application).withIdAndName(id, name)
+         .withType(dataID)
+         .withDirection(direction)
+         .build();
    }
 
    public void setProcessImplementation(ProcessDefinitionType processInterface,
