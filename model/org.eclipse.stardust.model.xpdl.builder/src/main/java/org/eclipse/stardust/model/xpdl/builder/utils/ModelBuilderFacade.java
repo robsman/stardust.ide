@@ -507,6 +507,14 @@ public class ModelBuilderFacade
             .build();
    }
 
+   public AccessPointType createDocumentAccessPoint(IAccessPointOwner application,
+         String id, String name, String structTypeFullID, String direction)
+   {
+      // TODO Implement
+      
+      return null;
+   }
+
    public void setProcessImplementation(ProcessDefinitionType processInterface,
          ProcessDefinitionType processImplementation)
    {
@@ -1640,6 +1648,32 @@ public class ModelBuilderFacade
          }
       }
 
+      // TODO Temporary
+      
+      if (id.equals("camel"))
+      {
+         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
+         TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+               model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
+         if (null == triggerMetaType)
+         {
+            CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
+
+            triggerMetaType = F_CWM.createTriggerTypeType();
+            
+            triggerMetaType.setElementOid(++maxUsedOid);
+            triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
+            triggerMetaType.setName("Camel Trigger");
+            triggerMetaType.setIsPredefined(true);
+            triggerMetaType.setPullTrigger(false);
+            
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+
+            model.getTriggerType().add(triggerMetaType);
+         }
+      }
+      
       // Create the trigger type
       
 //      Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
@@ -3139,11 +3173,12 @@ public class ModelBuilderFacade
    }
 
    public ParameterMappingType createParameterMapping(TriggerType trigger,
-         String dataFullID, String dataPath)
+         String parameter, String dataFullID, String dataPath)
    {
       ModelType model = ModelUtils.findContainingModel(trigger);
       long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
+      mappingType.setParameter(parameter);
       mappingType.setData(findData(dataFullID));
       mappingType.setDataPath(dataPath);
       mappingType.setElementOid(++maxOID);
