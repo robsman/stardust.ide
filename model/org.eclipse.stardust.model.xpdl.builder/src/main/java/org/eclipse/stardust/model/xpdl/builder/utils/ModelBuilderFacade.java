@@ -41,7 +41,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -125,7 +124,6 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
-import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -346,7 +344,10 @@ public class ModelBuilderFacade
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      basicType.setType(getPrimitiveType(primitiveTypeID));
+      if(!StringUtils.isEmpty(primitiveTypeID))
+      {
+         basicType.setType(getPrimitiveType(primitiveTypeID));
+      }
       dataTypeType.setBasicType(basicType);
       parameterType.setDataType(dataTypeType);
       String typeId = PredefinedConstants.PRIMITIVE_DATA;
