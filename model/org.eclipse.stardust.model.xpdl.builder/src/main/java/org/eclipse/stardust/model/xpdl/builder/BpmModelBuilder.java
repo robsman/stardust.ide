@@ -74,7 +74,6 @@ public abstract class BpmModelBuilder
       return BpmPackageBuilder.newModel();
    }
 
-
    public static PrimitiveAccessPointBuilder newPrimitiveAccessPoint(IAccessPointOwner anOwner)
    {
       return PrimitiveAccessPointBuilder.newAccessPoint(anOwner);
@@ -85,6 +84,11 @@ public abstract class BpmModelBuilder
       return StructAccessPointBuilder.newAccessPoint(anOwner);
    }
 
+   public static DocumentAccessPointBuilder newDocumentAccessPoint(IAccessPointOwner anOwner)
+   {
+      return DocumentAccessPointBuilder.newAccessPoint(anOwner);
+   }
+      
    public static CamelApplicationBuilder newCamelApplication(ModelType model)
    {
       return CamelApplicationBuilder.newCamelApplication(model);
@@ -288,5 +292,4 @@ public abstract class BpmModelBuilder
    {
       return BpmDiagramBuilder.newModelDiagram(model);
    }
-
 }
