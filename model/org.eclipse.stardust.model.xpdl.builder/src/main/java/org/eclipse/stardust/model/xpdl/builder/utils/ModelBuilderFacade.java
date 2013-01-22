@@ -509,10 +509,9 @@ public class ModelBuilderFacade
    }
 
    public AccessPointType createDocumentAccessPoint(IAccessPointOwner application,
-         String id, String name, String dataID, String direction)
+         String id, String name, String direction)
    {
       return newDocumentAccessPoint(application).withIdAndName(id, name)
-         .withType(dataID)
          .withDirection(direction)
          .build();
    }
