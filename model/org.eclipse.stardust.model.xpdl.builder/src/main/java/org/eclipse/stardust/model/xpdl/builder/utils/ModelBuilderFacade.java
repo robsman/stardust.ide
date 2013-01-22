@@ -39,6 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.EList;
@@ -3190,8 +3191,14 @@ public class ModelBuilderFacade
    
    public String convertDate(String date)
    {
-      // TODO read property
-      String format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
+      
+      ResourceBundle rb = ResourceBundle.getBundle("portal-common-messages"); //$NON-NLS-1$
+      String format = rb.getString("portalFramework.formats.defaultDateTimeFormat"); //$NON-NLS-1$
+      
+      if(format == null)
+      {
+         format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
+      }
       
       String pattern = "E MMM dd HH:mm:ss zzz yyyy"; //$NON-NLS-1$
       SimpleDateFormat instance = new SimpleDateFormat(pattern, Locale.ROOT);
