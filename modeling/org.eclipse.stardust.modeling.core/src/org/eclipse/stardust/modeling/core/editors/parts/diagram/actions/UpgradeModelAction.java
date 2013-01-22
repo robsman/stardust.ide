@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.gef.commands.Command;
@@ -27,6 +29,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.Version;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -39,7 +42,9 @@ import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -50,6 +55,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateMetaTypeCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetMapValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
@@ -134,6 +140,7 @@ public class UpgradeModelAction extends SelectionAction
          createUpdateControllingAttributes(command, editor.getWorkflowModel());
       }
       createMissingDataCmd(command);
+      createMissingDataTypes(command);
       createModifiedValidatorsCmds(command);
       createChangeStructuredDataCmd(command);
       createModifiedDataMappingCmd(command);
@@ -582,6 +589,35 @@ public class UpgradeModelAction extends SelectionAction
       }
    }
 
+   private void createMissingDataTypes(CompoundCommand command)
+   {
+      String[] dmsDataTypeKeys = {
+            DmsConstants.DATA_TYPE_DMS_DOCUMENT,
+            DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST, 
+            DmsConstants.DATA_TYPE_DMS_FOLDER,
+            DmsConstants.DATA_TYPE_DMS_FOLDER_LIST,
+      };
+      
+      Map<String, IConfigurationElement> dataTypesConfig 
+         = SpiExtensionRegistry.instance().getExtensions(CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
+      ModelType model = editor.getWorkflowModel();
+
+      EList<DataTypeType> modelDataTypes = model.getDataType();
+      for(String dmsDataTypeKey: dmsDataTypeKeys)
+      {
+         DataTypeType dmsDataType = ModelUtils.findIdentifiableElement(modelDataTypes, dmsDataTypeKey); //$NON-NLS-1$
+         if(dmsDataType == null)
+         {
+            IConfigurationElement dataConfig = dataTypesConfig.get(dmsDataTypeKey);
+            CreateMetaTypeCommand createDataTypeCommand = new CreateMetaTypeCommand(
+                  dataConfig, CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
+                  new EStructuralFeature[] {});
+            createDataTypeCommand.setParent(model);
+            command.add(createDataTypeCommand);
+         }  
+      }      
+   }
+   
    private void createModifiedValidatorsCmds(CompoundCommand command)
    {
       ModelType model = editor.getWorkflowModel();
