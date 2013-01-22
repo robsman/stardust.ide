@@ -48,6 +48,7 @@ import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -478,6 +479,10 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private static final String[] defaultDataTypes = {
          PredefinedConstants.PRIMITIVE_DATA, PredefinedConstants.SERIALIZABLE_DATA,
          PredefinedConstants.ENTITY_BEAN_DATA, PredefinedConstants.PLAIN_XML_DATA,
+         DmsConstants.DATA_TYPE_DMS_DOCUMENT,
+         DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST,
+         DmsConstants.DATA_TYPE_DMS_FOLDER,
+         DmsConstants.DATA_TYPE_DMS_FOLDER_LIST, 
          StructuredDataConstants.STRUCTURED_DATA};
 
    private static final String[] defaultApplicationTypes = {
@@ -521,6 +526,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
             CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID,
             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
             new EStructuralFeature[] {});
+      
       addMetaTypes(model, defaultApplicationTypes,
             CarnotConstants.APPLICATION_TYPES_EXTENSION_POINT_ID,
             CarnotWorkflowModelPackage.eINSTANCE.getApplicationTypeType(),
