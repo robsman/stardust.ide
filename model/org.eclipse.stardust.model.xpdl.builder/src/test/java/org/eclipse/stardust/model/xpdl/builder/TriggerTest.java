@@ -47,6 +47,7 @@ public class TriggerTest
       ProcessDefinitionType testProcess = newProcessDefinition(model).withIdAndName(
             "TEST_PROCESS", "Test Process").build();
 
+      // TODO: replace by scan trigger 
       TriggerType trigger = newManualTrigger(testProcess).accessibleTo(ADMINISTRATOR_ROLE).build();
       AccessPointType aPoint = newDocumentAccessPoint(trigger).withIdAndName("aPoint", "aPoint")
          .withDirection(DirectionType.IN_LITERAL.getName())
