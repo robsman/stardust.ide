@@ -1675,6 +1675,34 @@ public class ModelBuilderFacade
             AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
 
             model.getTriggerType().add(triggerMetaType);
+            
+            return triggerMetaType;
+         }
+      }
+      else if (id.equals("scan"))
+      {
+         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
+         TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+               model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
+      
+         if (null == triggerMetaType)
+         {
+            CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
+
+            triggerMetaType = F_CWM.createTriggerTypeType();
+            
+            triggerMetaType.setElementOid(++maxUsedOid);
+            triggerMetaType.setId(ModelerConstants.SCAN_TRIGGER_TYPE_ID);
+            triggerMetaType.setName("Scan Trigger");
+            triggerMetaType.setIsPredefined(true);
+            triggerMetaType.setPullTrigger(false);
+            
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+
+            model.getTriggerType().add(triggerMetaType);
+            
+            return triggerMetaType;
          }
       }
       

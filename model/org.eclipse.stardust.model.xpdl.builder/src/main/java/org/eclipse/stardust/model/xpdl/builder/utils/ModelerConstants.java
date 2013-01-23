@@ -226,4 +226,5 @@ public class ModelerConstants
    public static final String SUBPROCESS_TASK_KEY = "subprocess";
    public static final String TASK_ACTIVITY = "Task";
    public static final String IMPLEMENTATION_PROPERTY = "implementation";
+   public static final String SCAN_TRIGGER_TYPE_ID = "scan";
 }
