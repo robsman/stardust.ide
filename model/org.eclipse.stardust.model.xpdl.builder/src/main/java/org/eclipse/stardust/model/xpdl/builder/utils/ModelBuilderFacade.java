@@ -3019,6 +3019,11 @@ public class ModelBuilderFacade
          if (modelElement instanceof DataType)
          {
             DataType dataType = (DataType) modelElement;
+            if(dataType.eIsProxy())
+            {
+               return true;
+            }            
+            
             if ((dataType.getType() != null)
                   && (dataType.getType().getId().equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA)))
             {
