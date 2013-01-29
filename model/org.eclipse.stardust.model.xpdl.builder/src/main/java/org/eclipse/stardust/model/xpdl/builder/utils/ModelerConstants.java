@@ -25,8 +25,8 @@ public class ModelerConstants
    public static final String BOOLEAN_PRIMITIVE_DATA_TYPE = "boolean";
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
    public static final String DECIMAL_PRIMITIVE_DATA_TYPE = "decimal";
-   public static final String LONG_PRIMITIVE_DATA_TYPE = "long"; 
-   public static final String CALENDAR_PRIMITIVE_DATA_TYPE = "Calendar";    
+   public static final String LONG_PRIMITIVE_DATA_TYPE = "long";
+   public static final String CALENDAR_PRIMITIVE_DATA_TYPE = "Calendar";
    public static final String STRUCTURED_DATA_TYPE_KEY = "struct";
    public static final String DOCUMENT_DATA_TYPE_KEY = "dmsDocument";
    public static final String MANUAL_ACTIVITY = "Manual";
@@ -227,4 +227,13 @@ public class ModelerConstants
    public static final String TASK_ACTIVITY = "Task";
    public static final String IMPLEMENTATION_PROPERTY = "implementation";
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
+
+   //Web Modeler default size parameters
+   public static final int ACTIVITY_SYMBOL_DEFAULT_WIDTH = 180;
+   public static final int ACTIVITY_SYMBOL_DEFAULT_HEIGHT = 50;
+   public static final int GATEWAY_SYMBOL_DEFAULT_WIDTH = 40;
+   public static final int GATEWAY_SYMBOL_DEFAULT_HEIGHT = 40;
+   public static final int EVENT_ICON_WIDTH = 26;
+   public static final int ANNOTATION_SYMBOL_DEFAULT_WIDTH = 80;
+   public static final int ANNOTATION_SYMBOL_DEFAULT_HEIGHT = 30;
 }
