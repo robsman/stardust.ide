@@ -151,6 +151,7 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class ModelBuilderFacade
 {
+   private static final String TIMESTAMP_TYPE = "Timestamp"; //$NON-NLS-1$   
    private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
    private ModelManagementStrategy modelManagementStrategy;
@@ -2877,6 +2878,29 @@ public class ModelBuilderFacade
       }
    }
 
+   public void setTimestampAttribute(IExtensibleElement element, String name, String value)
+   {
+      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE, value);
+   }
+
+   public Date getTimestampAttribute(IExtensibleElement element, String name)
+   {
+      Date date = null;
+      String attributeValue = AttributeUtil.getAttributeValue(element, name);
+      if (attributeValue != null)
+      {
+         try
+         {
+            date = DateUtils.getNonInteractiveDateFormat().parse(attributeValue);
+         }
+         catch (ParseException e)
+         {
+         }
+      }      
+      
+      return date;
+   }
+   
    public void setBooleanAttribute(Object element, String name, boolean value)
    {
       if (element instanceof Extensible)
