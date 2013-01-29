@@ -1,1 +1,1 @@
-jarprocessor.exclude.children.sign=true
+jarprocessor.exclude.children=true
