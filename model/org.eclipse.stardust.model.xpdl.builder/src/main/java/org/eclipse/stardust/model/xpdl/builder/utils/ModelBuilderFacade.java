@@ -345,7 +345,7 @@ public class ModelBuilderFacade
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      if(!StringUtils.isEmpty(primitiveTypeID))
+      if ( !StringUtils.isEmpty(primitiveTypeID))
       {
          basicType.setType(getPrimitiveType(primitiveTypeID));
       }
@@ -515,8 +515,8 @@ public class ModelBuilderFacade
          String id, String name, String direction)
    {
       return newDocumentAccessPoint(application).withIdAndName(id, name)
-         .withDirection(direction)
-         .build();
+            .withDirection(direction)
+            .build();
    }
 
    public void setProcessImplementation(ProcessDefinitionType processInterface,
@@ -1653,30 +1653,32 @@ public class ModelBuilderFacade
       }
 
       // TODO Temporary
-      
+
       if (id.equals("camel"))
       {
          long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
-      
+
          if (null == triggerMetaType)
          {
             CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
 
             triggerMetaType = F_CWM.createTriggerTypeType();
-            
+
             triggerMetaType.setElementOid(++maxUsedOid);
             triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
             triggerMetaType.setName("Camel Trigger");
             triggerMetaType.setIsPredefined(true);
             triggerMetaType.setPullTrigger(false);
-            
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
+                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator",
+                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
 
             model.getTriggerType().add(triggerMetaType);
-            
+
             return triggerMetaType;
          }
       }
@@ -1685,40 +1687,41 @@ public class ModelBuilderFacade
          long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
-      
+
          if (null == triggerMetaType)
          {
             CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
 
             triggerMetaType = F_CWM.createTriggerTypeType();
-            
+
             triggerMetaType.setElementOid(++maxUsedOid);
             triggerMetaType.setId(ModelerConstants.SCAN_TRIGGER_TYPE_ID);
             triggerMetaType.setName("Scan Trigger");
             triggerMetaType.setIsPredefined(true);
             triggerMetaType.setPullTrigger(false);
-            
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
+                  "org.eclipse.stardust.engine.core.extensions.triggers.manual.ManualTriggerValidator");
 
             model.getTriggerType().add(triggerMetaType);
-            
+
             return triggerMetaType;
          }
       }
-      
+
       // Create the trigger type
-      
-//      Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
-//            CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
-//       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
-//       CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
-//             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
-//             new EStructuralFeature[] {});
-//       metaCommand.setParent(targetModel);
-//       metaCommand.execute();
-       
-       return null;
+
+      // Map<String, IConfigurationElement> dataExtensions =
+      // SpiExtensionRegistry.instance().getExtensions(
+      // CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
+      //       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
+      // CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
+      // CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
+      // new EStructuralFeature[] {});
+      // metaCommand.setParent(targetModel);
+      // metaCommand.execute();
+
+      return null;
    }
 
    /**
@@ -2660,7 +2663,7 @@ public class ModelBuilderFacade
       {
          type = TypeType.BOOLEAN_LITERAL;
       }
-      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))         
+      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))
       {
          type = TypeType.DATETIME_LITERAL;
       }
@@ -2668,7 +2671,7 @@ public class ModelBuilderFacade
       {
          type = TypeType.INTEGER_LITERAL;
       }
-      
+
       return type;
    }
 
@@ -3043,11 +3046,11 @@ public class ModelBuilderFacade
          if (modelElement instanceof DataType)
          {
             DataType dataType = (DataType) modelElement;
-            if(dataType.eIsProxy())
+            if (dataType.eIsProxy())
             {
                return true;
-            }            
-            
+            }
+
             if ((dataType.getType() != null)
                   && (dataType.getType().getId().equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA)))
             {
@@ -3246,18 +3249,18 @@ public class ModelBuilderFacade
       trigger.getParameterMapping().add(mappingType);
       return mappingType;
    }
-   
+
    public String convertDate(String date)
    {
-      
+
       ResourceBundle rb = ResourceBundle.getBundle("portal-common-messages"); //$NON-NLS-1$
       String format = rb.getString("portalFramework.formats.defaultDateTimeFormat"); //$NON-NLS-1$
-      
-      if(format == null)
+
+      if (format == null)
       {
          format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
       }
-      
+
       String pattern = "E MMM dd HH:mm:ss zzz yyyy"; //$NON-NLS-1$
       SimpleDateFormat instance = new SimpleDateFormat(pattern, Locale.ROOT);
 
@@ -3271,7 +3274,7 @@ public class ModelBuilderFacade
       catch (ParseException e)
       {
       }
-      
+
       return date;
    }
 }
