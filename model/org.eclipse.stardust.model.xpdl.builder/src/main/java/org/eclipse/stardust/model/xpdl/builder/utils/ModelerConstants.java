@@ -146,6 +146,7 @@ public class ModelerConstants
    public static final String EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY = "externalWebApp";
    public static final String PARTICIPANT_TYPE_PROPERTY = "participantType";
    public static final String ROLE_PARTICIPANT_TYPE_KEY = "roleParticipant";
+   public static final String NONE_LITERAL = "NONE";
    public static final String TEAM_LEADER_TYPE_KEY = "teamLeader";
    public static final String CHILD_PARTICIPANTS_KEY = "childParticipants";
    public static final String ORGANIZATION_PARTICIPANT_TYPE_KEY = "organizationParticipant";
