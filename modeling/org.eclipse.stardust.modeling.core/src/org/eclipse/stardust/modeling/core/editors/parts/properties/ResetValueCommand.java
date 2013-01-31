@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.core.editors.parts.properties;
 
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gef.internal.GEFMessages;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySource2;
 
@@ -37,7 +36,7 @@ class ResetValueCommand extends Command
     */
    public ResetValueCommand()
    {
-      super(GEFMessages.RestoreDefaultValueCommand_Label);
+      super("Restore Default Value"); //GEFMessages.RestoreDefaultValueCommand_Label no longer exists
    }
 
    /**
