@@ -15,7 +15,10 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.struct.StructuredDataXPathUtils;
+import org.eclipse.stardust.engine.extensions.dms.data.AuditTrailUtils;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.emfxsd.DmsSchemaProvider;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -26,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -135,11 +139,25 @@ public abstract class AbstractDmsItemValidator
                   DmsTypeUtils.findModelFromContext(accessPoint), null, direction), null,
                   direction);
          }
-         else
+         else if(entry.isSingle() && AuditTrailUtils.DOCS_DOCUMENTS.equals(typeNames[0]) && accessPoint instanceof DataType)
          {
-            return new DocumentBridgeObjectProvider().getBridgeObject(accessPoint,
-                  accessPath, direction);
+            DataType dataType = (DataType) accessPoint;
+            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataType);
+            String pathWithoutIndexes = StructuredDataXPathUtils.getXPathWithoutIndexes(accessPath);
+            if (xPathMap.containsXPath(pathWithoutIndexes))
+            {
+               if (pathWithoutIndexes.equals(AuditTrailUtils.DOCS_DOCUMENTS) 
+                     && !StructuredDataXPathUtils.canReturnList(accessPath, xPathMap))
+               {
+                  return new DmsDocumentValidator().getBridgeObject(DmsTypeUtils.newDmsDocumentAccessPoint(
+                        DmsTypeUtils.findModelFromContext(accessPoint), direction), null,
+                        direction);
+               }
+            }
          }
+         
+         return new DocumentBridgeObjectProvider().getBridgeObject(accessPoint,
+               accessPath, direction);
       }
    }
 }
