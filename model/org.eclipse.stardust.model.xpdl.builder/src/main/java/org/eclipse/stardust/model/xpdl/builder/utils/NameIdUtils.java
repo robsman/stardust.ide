@@ -62,7 +62,7 @@ public class NameIdUtils
       }
       if(list != null)
       {
-         factory.computeNames(list);
+         factory.computeNames(list, false);
       }
 
       return factory.getId();
