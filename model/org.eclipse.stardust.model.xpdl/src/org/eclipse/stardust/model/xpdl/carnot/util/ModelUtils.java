@@ -881,33 +881,46 @@ public class ModelUtils
 
    public static String computeId(String name)
    {
-      name = StringUtils.replace(name, "\u00c4", "Ae"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00d6", "Oe"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00dc", "Ue"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00e4", "ae"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00f6", "oe"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00fc", "ue"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u00df", "ss"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u002d", "_"); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u0026", ""); //$NON-NLS-1$ //$NON-NLS-2$
-      name = StringUtils.replace(name, "\u002e", ""); //$NON-NLS-1$ //$NON-NLS-2$
-
-      StringBuffer sb = new StringBuffer();
-      StringTokenizer st = new StringTokenizer(name);
-      while (st.hasMoreTokens())
+      if (name == null) 
       {
-         String nextToken = st.nextToken();
-         if (0 < nextToken.length())
+         return ""; //$NON-NLS-1$
+      }
+            
+      StringBuffer sb = new StringBuffer();
+      name = name.trim();
+      
+      if (name.equals("")) //$NON-NLS-1$
+      {
+         return ""; //$NON-NLS-1$
+      }
+      
+      for (int i = 0; i < name.length(); i++)
+      {
+         char charAt = name.charAt(i);
+         if(i == 0)
          {
-            String firstChar = nextToken.substring(0, 1);
-            sb.append(Character.toTitleCase(firstChar.charAt(0)));
-            if (1 < nextToken.length())
+            if (!Character.isJavaIdentifierStart(charAt))
             {
-               sb.append(nextToken.substring(1));
+               charAt = '_'; //$NON-NLS-1$
+            }            
+         }
+         else
+         {          
+            if (!Character.isJavaIdentifierPart(charAt))
+            {
+               if (!Character.isWhitespace(charAt))
+               {
+                  charAt = '_'; //$NON-NLS-1$
+               }
             }
          }
+         if (!Character.isWhitespace(charAt))
+         {
+            sb.append(charAt);
+         }
       }
-      return sb.toString();
+      
+      return sb.toString();      
    }
 
    public static void resolve(ModelType model, IExtensibleElement extensible)
