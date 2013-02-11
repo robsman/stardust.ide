@@ -125,7 +125,11 @@ public class IdFactory
       if(autoId && searchName != null)
       {
          searchId = ModelUtils.computeId(searchName);         
-      }      
+      } 
+      else
+      {
+         searchId = ModelUtils.computeId(searchId);                  
+      }
       
       for (EObject o : list)
       {
