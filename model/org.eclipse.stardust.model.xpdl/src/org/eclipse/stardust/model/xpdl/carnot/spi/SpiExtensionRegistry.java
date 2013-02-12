@@ -62,6 +62,27 @@ public class SpiExtensionRegistry
 	  return getExtensions(CarnotConstants.DIAGRAM_PLUGIN_ID, extensionPointId);
    }
 
+   public void addExtensions(List<IConfigurationElement> result)
+   {
+      for(IConfigurationElement element : result)
+      {
+         String expandedId = element.getAttribute("point"); //$NON-NLS-1$
+         Map<String, IConfigurationElement> extensions = registry.get(expandedId);
+         if (extensions == null)
+         {
+            extensions = new TreeMap<String, IConfigurationElement>();
+            registry.put(expandedId, extensions);
+            
+            IConfigurationElement[] configuration = element.getChildren();
+            for (int j = 0; j < configuration.length; j++)
+            {
+               String id = configuration[j].getAttribute(SpiConstants.ID);
+               extensions.put(id, configuration[j]);
+            }
+         }
+      }      
+   }
+      
    public Map<String, IConfigurationElement> getExtensions(String packageName, String extensionPointId)
    {
       String expandedId = packageName + "." + extensionPointId; //$NON-NLS-1$
