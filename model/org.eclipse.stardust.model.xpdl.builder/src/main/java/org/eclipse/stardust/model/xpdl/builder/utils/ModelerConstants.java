@@ -231,6 +231,7 @@ public class ModelerConstants
    public static final String DATA_TYPE = "carnot:engine:dataType";
 
    //Web Modeler default size parameters
+   public static final int DEFAULT_SWIMLANE_WIDTH = 375;
    public static final int ACTIVITY_SYMBOL_DEFAULT_WIDTH = 180;
    public static final int ACTIVITY_SYMBOL_DEFAULT_HEIGHT = 50;
    public static final int GATEWAY_SYMBOL_DEFAULT_WIDTH = 40;
