@@ -228,6 +228,7 @@ public class ModelerConstants
    public static final String TASK_ACTIVITY = "Task";
    public static final String IMPLEMENTATION_PROPERTY = "implementation";
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
+   public static final String DATA_TYPE = "carnot:engine:dataType";
 
    //Web Modeler default size parameters
    public static final int ACTIVITY_SYMBOL_DEFAULT_WIDTH = 180;
