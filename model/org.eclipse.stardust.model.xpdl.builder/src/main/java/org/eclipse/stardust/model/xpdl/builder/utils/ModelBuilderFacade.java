@@ -696,8 +696,9 @@ public class ModelBuilderFacade
          if (sourceModelID.equals(model.getId()))
          {
             data.setExternalReference(null);
-            AttributeUtil.setAttribute(data,
-                  StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);
+            AttributeType attribute = AttributeUtil.setAttribute(data,
+                  StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);            
+            ModelUtils.setReference(attribute, model, "struct");
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
          else
@@ -746,8 +747,9 @@ public class ModelBuilderFacade
          if (sourceModelID.equals(model.getId()))
          {
             data.setExternalReference(null);
-            AttributeUtil.setAttribute(data, "carnot:engine:dms:resourceMetadataSchema",
+            AttributeType attribute = AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT,
                   declarationID);
+            ModelUtils.setReference(attribute, model, "struct");            
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
          else
