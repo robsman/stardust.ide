@@ -996,6 +996,15 @@ public class ModelUtils
             setReference(attribute, model, "role+organization"); //$NON-NLS-1$
          }
       }
+      if (config == null && extensible instanceof DataType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute(extensible,
+               StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if (attribute != null)
+         {
+            setReference(attribute, model, "struct"); //$NON-NLS-1$
+         }
+      }
 
       // resolve permissions
       // TODO: make permissions a first class element
