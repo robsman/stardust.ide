@@ -56,6 +56,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -972,6 +973,16 @@ public class ModelUtils
          if (attribute != null)
          {
             setReference(attribute, model, "data"); //$NON-NLS-1$
+         }
+      }
+
+      if (extensible instanceof DataType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute(extensible,
+               DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
+         if (attribute != null)
+         {
+            setReference(attribute, model, "struct"); //$NON-NLS-1$
          }
       }
 
