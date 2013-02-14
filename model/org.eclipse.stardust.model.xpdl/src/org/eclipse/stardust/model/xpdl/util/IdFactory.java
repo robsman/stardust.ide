@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
 /**
  * @author fherinean
@@ -58,6 +59,14 @@ public class IdFactory
       this.uniquenessKey = uniquenessKey;
    }
 
+   public IdFactory(String baseName)
+   {
+      this(baseName, baseName,
+            XpdlPackage.eINSTANCE.getTypeDeclarationType(),
+            XpdlPackage.eINSTANCE.getTypeDeclarationType_Id(),
+            XpdlPackage.eINSTANCE.getTypeDeclarationType_Name());
+   }
+
    public IdFactory(String baseId, String baseName)
    {
       this(baseId, baseName,
@@ -65,7 +74,7 @@ public class IdFactory
             CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id(),
             CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
    }
-
+      
    public IdFactory(String baseId, String baseName, EClass targetType,
          EStructuralFeature eFtrId, EStructuralFeature eFtrName)
    {
