@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,7 +111,7 @@ public class TransformationControl {
         log = Logger.getLogger(this.getClass());
     }
 
-    public String transformToTarget(Definitions definitions, String outputFile) {
+    public String transformToTarget(Definitions definitions, OutputStream target) {
         tasksWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
         throwEventsWithDataflow = new HashMap<FlowElementsContainer, List<ThrowEvent>>();
         catchEventsWithDataflow = new HashMap<FlowElementsContainer, List<CatchEvent>>();
@@ -121,7 +122,7 @@ public class TransformationControl {
         processBpmn(definitions, transf);
         transf.postTransformProcessStarts(startEventsPerContainer, potentialStartNodesPerContainer);
         transf.finalizeTransformation(definitions);
-        transf.serializeTargetModel(outputFile);
+        transf.serializeTargetModel(target);
 
         for (String msg : transf.getTransformationMessages()) {
             log.info(msg);

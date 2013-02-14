@@ -14,10 +14,9 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmMode
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -221,13 +220,11 @@ public class Bpmn2StardustXPDL implements Transformator {
         return failures;
     }
 
-    public void serializeTargetModel(String outputPath) {
-        logger.debug("serializeTargetModel " + outputPath);
-        FileOutputStream fis;
+    public void serializeTargetModel(OutputStream target) {
+        logger.debug("serializeTargetModel");
         try {
-            fis = new FileOutputStream(new File(outputPath));
-            fis.write(XpdlModelIoUtils.saveModel(carnotModel));
-            fis.close();
+            target.write(XpdlModelIoUtils.saveModel(carnotModel));
+            target.flush();
         } catch (FileNotFoundException e) {
             logger.error(e.getMessage());
         } catch (IOException e) {
