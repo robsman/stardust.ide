@@ -18,6 +18,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
 public class NameIdUtils
@@ -29,25 +30,44 @@ public class NameIdUtils
     * @param name
     * @return
     */
-   public static String createIdFromName(Object container, IIdentifiableElement element)
+   public static String createIdFromName(Object container, EObject element)
    {
-      if(element instanceof ModelType && !StringUtils.isEmpty(element.getId()))
-      {
-         return element.getId();
+      if(element instanceof IIdentifiableElement)
+      {      
+         if(element instanceof ModelType && !StringUtils.isEmpty(((IIdentifiableElement) element).getId()))
+         {
+            return ((IIdentifiableElement) element).getId();
+         }
       }
-
       if(container == null)
       {
          container = findContainer(element);
       }
-
-      String base = element.getName();
+      
+      String base = null;
+      if(element instanceof IIdentifiableElement)
+      {            
+         base = ((IIdentifiableElement) element).getName();
+      }
+      else if(element instanceof TypeDeclarationType)
+      {
+         base = ((TypeDeclarationType) element).getName();         
+      }
+         
       if(StringUtils.isEmpty(base))
       {
          return "";
       }
 
-      IdFactory factory = new IdFactory(base, base);
+      IdFactory factory = null;
+      if(element instanceof IIdentifiableElement)
+      {            
+         factory = new IdFactory(base, base);
+      }
+      else if(element instanceof TypeDeclarationType)
+      {
+         factory = new IdFactory(base);
+      }
 
       List list = null;
       if(container instanceof EObject
@@ -68,7 +88,7 @@ public class NameIdUtils
       return factory.getId();
    }
 
-   private static EObject findContainer(IIdentifiableElement element)
+   private static EObject findContainer(EObject element)
    {
       return element.eContainer();
    }
