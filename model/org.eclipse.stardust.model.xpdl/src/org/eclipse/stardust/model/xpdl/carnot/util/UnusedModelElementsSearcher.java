@@ -59,6 +59,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -178,8 +179,9 @@ public class UnusedModelElementsSearcher
       {
          TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();    
          if(!isTypeDeclarationUsedInDatas(typeDeclaration)
-            && !isTypeDeclarationUsedInTypeDeclarations(typeDeclaration)
-            && !isElementUsedinApplications(typeDeclaration))
+               && !isTypeDeclarationUsedInTypeDeclarations(typeDeclaration)
+               && !isTypeDeclarationUsedInProcesses(typeDeclaration)
+               && !isElementUsedinApplications(typeDeclaration))
          {
             elements.add(typeDeclaration);
          }
@@ -457,6 +459,30 @@ public class UnusedModelElementsSearcher
       }
       return false;
    }
+   
+   // maybe not necessary, because can be bound only if a data is selected also
+   private boolean isTypeDeclarationUsedInProcesses(TypeDeclarationType element)
+   {
+      for (ProcessDefinitionType process : model.getProcessDefinition())
+      {
+         FormalParametersType parametersType = process.getFormalParameters();
+         if (parametersType != null)
+         {
+            for (FormalParameterType type : parametersType.getFormalParameter())
+            {
+               org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataType = type.getDataType();
+               DeclaredTypeType declaredType = dataType.getDeclaredType();
+               String declaredTypeId = declaredType.getId();
+               if ( !StringUtils.isEmpty(declaredTypeId)
+                     && declaredTypeId.equals(element.getId()))
+               {
+                  return true;
+               }
+            }
+         }
+      }
+      return false;
+   }   
    
    private boolean isParticipantUsedInOrganizations(IModelParticipant element)
    {
