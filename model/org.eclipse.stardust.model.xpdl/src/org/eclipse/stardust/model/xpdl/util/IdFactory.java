@@ -15,6 +15,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -35,10 +36,15 @@ public class IdFactory
    private String id;
    private String name;
    private IIdentifiableModelElement referingElement;
+   private IPreferenceStore preferenceStore;
+
+   public void setPreferenceStore(IPreferenceStore preferenceStore)
+   {
+      this.preferenceStore = preferenceStore;
+   }
 
    private String uniquenessKey;   
    private Integer sharedID = null;
-   private boolean autoId = true;
    
    public void setSharedID(Integer sharedID)
    {
@@ -89,7 +95,7 @@ public class IdFactory
    public String getId()
    {
       String useId = id == null ? baseId : id;
-      if(autoId)
+      if(getAutoId())
       {
          String name_ = getName();
          if(name_ != null)
@@ -131,7 +137,7 @@ public class IdFactory
       String searchName = baseName != null ? baseName + " " : null; //$NON-NLS-1$
       int counter = 1;
             
-      if(autoId && searchName != null)
+      if(getAutoId() && searchName != null)
       {
          searchId = ModelUtils.computeId(searchName);         
       } 
@@ -203,9 +209,14 @@ public class IdFactory
       }
    }
 
-   public void setAutoId(boolean autoId)
+   public boolean getAutoId()
    {
-      this.autoId = autoId;
+      if(preferenceStore != null)
+      {
+         return preferenceStore.getAutoId();
+      }          
+      
+      return true;
    }
 
    // carefull, it compares only the base id, base name and refering id
