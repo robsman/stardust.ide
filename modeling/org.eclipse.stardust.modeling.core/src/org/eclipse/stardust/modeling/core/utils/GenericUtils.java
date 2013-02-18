@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -27,6 +31,7 @@ import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -205,16 +210,15 @@ public class GenericUtils
       return isValidTargetEditPart(targetEP);
    }
    
-   // check if xsd file exists
-   public static IFile getFile(IProject targetProject, String url)
+   
+   public static IFile getFile(List<IJavaProject> projectsToScan, String url)
    {
       IFile file = null;
       try
       {         
-         if (targetProject.hasNature(JavaCore.NATURE_ID))
+         for(IJavaProject projectToScan: projectsToScan)
          {
-            IJavaProject javaProject = JavaCore.create(targetProject);
-            IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+            IPackageFragmentRoot[] roots = projectToScan.getPackageFragmentRoots();
             for (int i = 0; i < roots.length; i++)
             {
                IResource resource = roots[i].getCorrespondingResource();
@@ -229,6 +233,37 @@ public class GenericUtils
                   file = null;
                }
             }
+         }         
+      }
+      catch(Exception e)
+      {
+         file = null;         
+      }
+      return file;
+   }
+   
+   public static IFile getFile(IJavaProject javaProject, String url, boolean scanRequiredProjects)
+   {
+      List<IJavaProject> projectsToScan = new ArrayList<IJavaProject>();
+      projectsToScan.add(javaProject);
+      if(scanRequiredProjects)
+      {
+         projectsToScan.addAll(getRequiredProjects(javaProject));
+      }
+      
+      return getFile(projectsToScan, url);
+   }
+   
+   // check if xsd file exists
+   public static IFile getFile(IProject targetProject, String url)
+   {
+      IFile file = null;
+      try
+      {         
+         if (targetProject.hasNature(JavaCore.NATURE_ID))
+         {
+            IJavaProject javaProject = JavaCore.create(targetProject);
+            return getFile(javaProject, url, false);
          }
       }
       catch(Exception e)
@@ -436,6 +471,37 @@ public class GenericUtils
       }         
    }
 
+   
+   public static List<IJavaProject> getRequiredProjects(IJavaProject javaProject)
+   {
+      List<IJavaProject> requiredProjects = new ArrayList<IJavaProject>();
+      try
+      {
+         String[] requiredProjectNames = javaProject.getRequiredProjectNames();
+         IWorkspace workSpace = ResourcesPlugin.getWorkspace();
+         IWorkspaceRoot workSpaceRoot = workSpace.getRoot();
+         for(String requiredProjectName: requiredProjectNames)
+         {
+            IProject project = workSpaceRoot.getProject(requiredProjectName);
+            if(project.hasNature(JavaCore.NATURE_ID) && project.exists())
+            {
+               IJavaProject requiredProject = JavaCore.create(project);
+               requiredProjects.add(requiredProject);
+            }
+         }         
+      }
+      catch(JavaModelException e1)
+      {
+         
+      }
+      catch(CoreException e2)
+      {
+         
+      }
+      
+      return requiredProjects;
+   }
+      
    public static boolean getAutoIdValue(EObject modelElement)
    {
       boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
