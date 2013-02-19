@@ -97,6 +97,11 @@
     </dependency>
     <dependency>
       <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${cxf-rt-frontend-jaxrs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-simple</artifactId>
       <version>${cxf-rt-frontend-simple.version}</version>
     </dependency>
@@ -188,7 +193,7 @@
             <id>embed-jars-no-version</id>
             <configuration>
               <includeArtifactIds>
-                asm,commons-collections,commons-lang,cxf-api,cxf-rt-bindings-soap,
+                asm,commons-collections,commons-lang,cxf-api,cxf-rt-bindings-soap,cxf-rt-frontend-jaxrs,
                 cxf-rt-bindings-xml,cxf-rt-core,cxf-rt-databinding-jaxb,cxf-rt-frontend-jaxws,
                 cxf-rt-frontend-simple,cxf-rt-transports-http,cxf-rt-ws-addr,cxf-rt-ws-policy,
                 cxf-rt-ws-security,cxf-tools-common,cxf-tools-validator,cxf-tools-wsdlto-core,
