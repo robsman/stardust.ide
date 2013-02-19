@@ -7,6 +7,7 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -15,8 +16,13 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
@@ -69,8 +75,18 @@ public class NameIdUtils
          factory = new IdFactory(base);
       }
 
-      List list = null;
-      if(container instanceof EObject
+      List list = null;      
+      if(element instanceof RoleType
+            || element instanceof OrganizationType
+            || element instanceof ConditionalPerformerType)
+      {
+         ModelType containingModel = ModelUtils.findContainingModel(element);
+         list = new BasicEList<IModelParticipant>();
+         list.addAll(containingModel.getRole());
+         list.addAll(containingModel.getOrganization());
+         list.addAll(containingModel.getConditionalPerformer());
+      }      
+      else if(container instanceof EObject
             && !(element instanceof AccessPointType)
             && !(element instanceof ModelType))
       {
