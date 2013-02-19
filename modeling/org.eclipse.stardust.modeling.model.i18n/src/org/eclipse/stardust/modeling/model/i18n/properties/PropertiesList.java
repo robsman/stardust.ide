@@ -25,7 +25,7 @@ public class PropertiesList implements IPropertyModelListener
 {
    private static final String[] columnProperties = new String[] {
       I18N_Messages.PropertiesList_PropertyName};
-   
+
    private TableViewer viewer;
    private ScopedPropertyModel model;
 
@@ -43,15 +43,31 @@ public class PropertiesList implements IPropertyModelListener
             columnProperties, new int[] {100}, span);
       viewer = new TableViewer(table);
       viewer.setContentProvider(new ArrayContentProvider());
-      viewer.setLabelProvider(new LabelProvider());
+      viewer.setLabelProvider(new LabelProvider() {
+
+         @Override
+         public String getText(Object element)
+         {
+            if (element.toString().equals(PropertyModel.NAME))
+            {
+               return I18N_Messages.Property_Name;
+            }
+            if (element.toString().equals(PropertyModel.DESCRIPTION))
+            {
+               return I18N_Messages.Property_Description;
+            }
+            return super.getText(element);
+         }
+
+      });
       viewer.setColumnProperties(columnProperties);
    }
-   
+
    public TableViewer getViewer()
    {
       return viewer;
    }
-   
+
    public void localesChanged()
    {
       viewer.setInput(model.getProperties());
