@@ -2150,9 +2150,11 @@ public class Diagram_Messages extends NLS {
 
    public static String WebServicePropertyPage_Retrieving_WSDL;
 
-   public static String LB_Convert_Gateways;   
+   public static String LB_Convert_Gateways;
 
    public static String LBL_Formula;
-   
-   public static String MSG_INVALID_ACTIVITY_NETWORK;   
+
+   public static String MSG_INVALID_ACTIVITY_NETWORK;
+
+   public static String LBL_Properties;
 }
