@@ -104,8 +104,8 @@ public class ShowPropertiesAction extends PropertyDialogAction
          {
             return false;
          }
-      }      
-      
+      }
+
       if (!(object instanceof IAdaptable))
       {
          return false;
@@ -143,16 +143,21 @@ public class ShowPropertiesAction extends PropertyDialogAction
             adaptable = linkEP;
          }
       }
-            
+
       CarnotPropertyPageContributor.instance().contributePropertyPages(pageManager, adaptable);
       return pageManager.getElements(PreferenceManager.PRE_ORDER).iterator();
+   }
+
+   public String getText()
+   {
+      return Diagram_Messages.LBL_Properties;
    }
 
    public PreferenceDialog createDialog()
    {
       return createDialog(null);
    }
-   
+
    public PreferenceDialog createDialog(ChangeRecorder recorder)
    {
       if (!isApplicableForSelection(getStructuredSelection()))
@@ -160,11 +165,11 @@ public class ShowPropertiesAction extends PropertyDialogAction
          return null;
       }
       IAdaptable element = (IAdaptable) getStructuredSelection().getFirstElement();
-      
+
       PreferenceManager pageManager = new PreferenceManager(ModelElementPropertyDialog.NODE_PATH_SEPARATOR);
       Shell shell = editor.getSite().getShell();
       String name = getName(element);
-      
+
       Iterator<?> pages = getPages(pageManager, element);
       if (!pages.hasNext())
       {
@@ -172,15 +177,15 @@ public class ShowPropertiesAction extends PropertyDialogAction
          String informationMessage = NLS.bind(Diagram_Messages.BIND_NoPropertyPages, name);
          if(element instanceof PartOfConnectionEditPart)
          {
-            informationMessage = Diagram_Messages.BIND_NoPropertyPagesConnectionPartOf;         
-         } 
+            informationMessage = Diagram_Messages.BIND_NoPropertyPagesConnectionPartOf;
+         }
          else if(element instanceof PerformsConnectionEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesConnectionPerformedBy;
          }
          else if(element instanceof SubProcessOfConnectionEditPart)
          {
-            informationMessage = Diagram_Messages.BIND_NoPropertyPagesSubprocessOf;            
+            informationMessage = Diagram_Messages.BIND_NoPropertyPagesSubprocessOf;
          }
          else if(element instanceof GenericLinkConnectionEditPart)
          {
@@ -193,7 +198,7 @@ public class ShowPropertiesAction extends PropertyDialogAction
          else if(element instanceof WorksForConnectionEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesWorksFor;
-         }         
+         }
          else if(element instanceof TeamLeadConnectionEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesTeamLead;
@@ -201,11 +206,11 @@ public class ShowPropertiesAction extends PropertyDialogAction
          else if(element instanceof TriggersConnectionEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesTriggersConnection;
-         }         
+         }
          else if(element instanceof RefersToConnectionEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesRefersToConnection;
-         }         
+         }
          else if(element instanceof AnnotationSymbolEditPart)
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesAnnotationSymbol;
@@ -218,7 +223,7 @@ public class ShowPropertiesAction extends PropertyDialogAction
          {
             informationMessage = Diagram_Messages.BIND_NoPropertyPagesSymbolGroup;
          }
-         
+
          MessageDialog.openInformation(shell, Diagram_Messages.MSG_PropertyPages, informationMessage);
          return null;
       }
@@ -226,7 +231,7 @@ public class ShowPropertiesAction extends PropertyDialogAction
       ModelElementPropertyDialog preferenceDialog = new ModelElementPropertyDialog(
             editor, shell, pageManager, element, recorder);
       editor.getModelServer().setCachedModelElement(ModelUtils.getEObject(element));
-      
+
       preferenceDialog.create();
       preferenceDialog.getShell()
             .setText(NLS.bind(Diagram_Messages.BIND_Properties, name));
@@ -260,7 +265,7 @@ public class ShowPropertiesAction extends PropertyDialogAction
          if (model instanceof TransitionConnectionType)
          {
             return ((TransitionConnectionType) model).getTransition().getName();
-         }         
+         }
          // special case for Gateways
          if (model instanceof GatewaySymbol)
          {
@@ -282,19 +287,19 @@ public class ShowPropertiesAction extends PropertyDialogAction
          if (model instanceof TypeDeclarationType)
          {
             return ((TypeDeclarationType) model).getName();
-         }         
+         }
          if (model instanceof DataMappingConnectionType)
          {
             return Diagram_Messages.BIND_PropertyPagesDataMappingConnection;
-         }    
+         }
          if (model instanceof IObjectDescriptor)
-         {            
+         {
             return ((IObjectDescriptor)model).getLabel();
-         }   
+         }
          if (model instanceof Connection)
-         {            
+         {
             return ((Connection)model).getName();
-         }   
+         }
          if (model instanceof ExternalPackage)
          {
             return ((ExternalPackage) model).getName();
