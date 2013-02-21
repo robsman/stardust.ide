@@ -19,40 +19,16 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.CompareHelper;
-import org.eclipse.stardust.common.config.Parameters;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.engine.core.struct.StructuredTypeRtUtils;
-import org.eclipse.stardust.engine.core.struct.emfxsd.ClasspathUriConverter;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
-import org.eclipse.xsd.XSDComplexTypeContent;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDModelGroupDefinition;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDParticleContent;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaContent;
-import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTerm;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
+import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
-import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
 
 public class TypeDeclarationUtils
@@ -60,6 +36,8 @@ public class TypeDeclarationUtils
    public static final int XPDL_TYPE = 0;
    public static final int SIMPLE_TYPE = 1;
    public static final int COMPLEX_TYPE = 2;
+   
+   public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -223,14 +201,13 @@ public class TypeDeclarationUtils
          return null;
       }
       XSDNamedComponent decl = null;
-      List elements = schema.getElementDeclarations();
-      List types = schema.getTypeDefinitions();
+      List<XSDElementDeclaration> elements = schema.getElementDeclarations();
+      List<XSDTypeDefinition> types = schema.getTypeDefinitions();
       if (localName != null)
       {
          // scan all elements to find the one with the name matching the id.
-         for (int i = 0; i < elements.size(); i++)
+         for (XSDElementDeclaration element : elements)
          {
-            XSDElementDeclaration element = (XSDElementDeclaration) elements.get(i);
             if (localName.equals(element.getName()) && CompareHelper.areEqual(namespace, element.getTargetNamespace()))
             {
                decl = element;
@@ -240,9 +217,8 @@ public class TypeDeclarationUtils
          if (decl == null)
          {
             // scan all types now
-            for (int i = 0; i < types.size(); i++)
+            for (XSDTypeDefinition type : types)
             {
-               XSDTypeDefinition type = (XSDTypeDefinition) types.get(i);
                if (localName.equals(type.getName()) && CompareHelper.areEqual(namespace, type.getTargetNamespace()))
                {
                   decl = type;
@@ -255,11 +231,11 @@ public class TypeDeclarationUtils
       {
          if (elements.size() == 1)
          {
-            decl = (XSDElementDeclaration) elements.get(0);
+            decl = elements.get(0);
          }
          else if (elements.isEmpty() && types.size() == 1)
          {
-            decl = (XSDTypeDefinition) types.get(0);
+            decl = types.get(0);
          }
       }
       return decl;
@@ -282,7 +258,7 @@ public class TypeDeclarationUtils
 
    public static XSDSchema getSchema(String location, String namespaceURI) throws IOException
    {
-      HashMap options = new HashMap();
+      HashMap<Object, Object> options = new HashMap<Object, Object>();
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
 
       URI uri = null;
@@ -300,6 +276,11 @@ public class TypeDeclarationUtils
 
       XSDResourceImpl resource = new XSDResourceImpl(uri);
       ResourceSetImpl resourceSet = new ResourceSetImpl();
+      URIConverter converter = defaultURIConverter.get();
+      if (converter != null)
+      {
+         resourceSet.setURIConverter(converter);
+      }
       resourceSet.getResources().add(resource);
       resource.load(options);
 
