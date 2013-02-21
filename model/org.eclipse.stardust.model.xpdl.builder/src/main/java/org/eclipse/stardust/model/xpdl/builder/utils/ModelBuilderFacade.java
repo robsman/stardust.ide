@@ -29,6 +29,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructu
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
+import static org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants.ID_PROPERTY;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,6 +69,7 @@ import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
@@ -1452,7 +1454,9 @@ public class ModelBuilderFacade
 
    /**
     * Creates a process.
-    *
+    * 
+    * @deprecated
+    * 
     * @param model
     *           model to create the process in
     * @param processID
@@ -1506,6 +1510,64 @@ public class ModelBuilderFacade
 
       processDefinition.getDiagram().add(diagram);
 
+      return processDefinition;
+   }
+
+   /**
+    * 
+    * @param model
+    * @param id
+    * @param name
+    * @param defaultLaneName
+    * @param defaultPoolName
+    */
+   public ProcessDefinitionType createProcess(ModelType model, String id, String name, String defaultLaneName, String defaultPoolName)
+   {
+      ProcessDefinitionType processDefinition = newProcessDefinition(model).withIdAndName(id, name).build();
+      
+      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
+      processDefinition.setElementOid(++maxOid);
+      // Create diagram bits too
+
+      DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
+
+      diagram.setMode(DiagramModeType.MODE_450_LITERAL);
+      diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
+      diagram.setElementOid(++maxOid);
+      diagram.setName("Diagram 1");
+
+      PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
+
+      diagram.getPoolSymbols().add(poolSymbol);
+
+      poolSymbol.setElementOid(++maxOid);
+      poolSymbol.setXPos(0);
+      poolSymbol.setYPos(0);
+      poolSymbol.setWidth(ModelerConstants.DEFAULT_SWIMLANE_WIDTH + 34);
+      poolSymbol.setHeight(670);
+      poolSymbol.setName(defaultPoolName);
+      poolSymbol.setId("_default_pool__1");
+      poolSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+
+      poolSymbol.getChildLanes().add(laneSymbol);
+      laneSymbol.setParentPool(poolSymbol);
+
+      laneSymbol.setElementOid(++maxOid);
+      laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
+      laneSymbol.setName(defaultLaneName);
+
+      // Setting the x,y for default swimlane
+      //TODO - Move this code to javascript
+      laneSymbol.setXPos(12);
+      laneSymbol.setYPos(32);
+      laneSymbol.setWidth(ModelerConstants.DEFAULT_SWIMLANE_WIDTH);
+      laneSymbol.setHeight(poolSymbol.getHeight() - 70);
+      laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      processDefinition.getDiagram().add(diagram);
+      
       return processDefinition;
    }
 
