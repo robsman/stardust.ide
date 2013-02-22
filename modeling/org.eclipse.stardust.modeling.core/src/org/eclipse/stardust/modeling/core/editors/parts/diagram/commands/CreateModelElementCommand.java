@@ -105,26 +105,7 @@ public class CreateModelElementCommand extends ContainedElementCommand
          EList list = (EList) getContainer().eGet(getContainingFeature());
          list.add(modelElement);
 
-         // Workaround to quickly fix OID assignment of child elements
-         if (modelElement instanceof ProcessDefinitionType)
-         {
-            for (Iterator i = ((ProcessDefinitionType) modelElement).getDiagram()
-                  .iterator(); i.hasNext();)
-            {
-               DiagramType diagram = (DiagramType) i.next();
-               diagram.setElementOid(ModelUtils.getElementOid(diagram, getModel()));
-            }
-         }
-         else if (modelElement instanceof ApplicationType)
-         {
-            for (Iterator i = ((ApplicationType) modelElement).getContext().iterator(); i
-                  .hasNext();)
-            {
-               ContextType context = (ContextType) i.next();
-               context.setElementOid(ModelUtils.getElementOid(context, getModel()));
-            }
-         }
-         else if (modelElement instanceof ActivityType)
+         if (modelElement instanceof ActivityType)
          {
             AttributeUtil.setBooleanAttribute((IExtensibleElement) modelElement,
                   "carnot:pwh:" + "includeTime", ActivityUtil //$NON-NLS-1$ //$NON-NLS-2$

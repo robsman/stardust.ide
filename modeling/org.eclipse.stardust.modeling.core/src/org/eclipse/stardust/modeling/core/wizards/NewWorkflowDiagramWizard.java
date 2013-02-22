@@ -202,14 +202,12 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       ProcessDefinitionType process = factory.createProcessDefinitionType();
       IdFactory idFactory = new IdFactory(
             "ProcessDefinition", Diagram_Messages.BASENAME_ProcessDefinition); //$NON-NLS-1$
-      process.setElementOid(ModelUtils.getElementOid(process, model));
       idFactory.computeNames(model.getProcessDefinition());
       process.setId(idFactory.getId());
       process.setName(idFactory.getName());
       model.getProcessDefinition().add(process);
       DiagramType diagram = factory.createDiagramType();
       diagram.setName(Diagram_Messages.DIAGRAM_NAME_Default);
-      diagram.setElementOid(ModelUtils.getElementOid(diagram, model));
 
       String modelingDirection;
       // in case the PreferenceStore is not initialized
@@ -263,7 +261,6 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       model.getModeler().add(modeler);
 */
       RoleType administrator = factory.createRoleType();
-      administrator.setElementOid(ModelUtils.getElementOid(administrator, model));
       administrator.setId("Administrator"); //$NON-NLS-1$
       administrator.setName(Diagram_Messages.BASENAME_Administrator);
       administrator.setDescription(ModelUtils
@@ -466,7 +463,6 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    {
       CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
       DataType data = factory.createDataType();
-      data.setElementOid(ModelUtils.getElementOid(data, model));
       data.setId(id);
       data.setName(name);
       data.setType(type);
@@ -621,10 +617,6 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          defaultMode = DiagramModeType.MODE_450_LITERAL;
       }
       diagram.setMode(defaultMode);
-
-      // emulate old DefDesk behavior, starting default element OIDs at 10001
-      diagram.setElementOid(Math.max(ModelUtils.getElementOid(diagram, model), 10001));
-
       model.getDiagram().add(diagram);
    }
 
@@ -639,7 +631,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       {
          model.setDescription(ModelUtils.createDescription(description));
       }
-      model.setOid(1);
+      model.setOid(0);
       model.setAuthor(author);
       model.setCreated(new Date().toString());
       model.setCarnotVersion(CurrentVersion.getVersionName());

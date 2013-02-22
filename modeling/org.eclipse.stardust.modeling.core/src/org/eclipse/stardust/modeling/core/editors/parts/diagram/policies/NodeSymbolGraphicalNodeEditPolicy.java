@@ -911,8 +911,6 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
       // new ModelElement
       TransitionType transitionModelElement = factory.createTransitionType();
       ModelType model = ModelUtils.findContainingModel(connection);
-      transitionModelElement.setElementOid(ModelUtils.getElementOid(
-            transitionModelElement, model));
 
       IdFactory idFactory = new IdFactory("Transition", //$NON-NLS-1$
             Diagram_Messages.BASENAME_Transition);

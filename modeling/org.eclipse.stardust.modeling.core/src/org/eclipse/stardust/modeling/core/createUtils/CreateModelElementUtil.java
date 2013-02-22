@@ -44,7 +44,6 @@ public class CreateModelElementUtil
          EObject container, ModelType model)
    {
       IModelElement modelElement = (IModelElement) factory.create(eClass);
-      modelElement.setElementOid(ModelUtils.getElementOid(modelElement, model));
       if (modelElement instanceof IIdentifiableModelElement && idFactory != null)
       {
          List list = (List) container.eGet(getContainingFeature(eClass, container));
@@ -83,10 +82,6 @@ public class CreateModelElementUtil
       EStructuralFeature feature = CommandUtils.findContainmentFeature(
             ((ISymbolContainer) container).getNodeContainingFeatures(), symbol);
       EList symbolContainment = (EList) container.eGet(feature);
-      if (!symbol.isSetElementOid())
-      {
-         symbol.setElementOid(ModelUtils.getElementOid(symbol, model));         
-      }
       symbolContainment.add(symbol);      
    }
 

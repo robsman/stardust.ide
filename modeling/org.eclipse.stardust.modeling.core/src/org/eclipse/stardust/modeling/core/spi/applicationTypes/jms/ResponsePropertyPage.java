@@ -193,8 +193,6 @@ public class ResponsePropertyPage extends AbstractModelElementPropertyPage
                   "content", Diagram_Messages.BASENAME_Content, classname, DirectionType.OUT_LITERAL, true, null, //$NON-NLS-1$
                   ModelUtils.getDataType(getApplication(),
                         CarnotConstants.SERIALIZABLE_DATA_ID));
-      ap.setElementOid(ModelUtils.getElementOid(ap, ModelUtils
-            .findContainingModel(getApplication())));
       AttributeUtil.setAttribute(ap, CarnotConstants.JMS_LOCATION_ATT, JMSLocation.class
             .getName(), JMSLocation.BODY.getId());
       return ap;

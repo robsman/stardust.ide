@@ -571,7 +571,6 @@ public class UpgradeModelAction extends SelectionAction
          {
             CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
             data = factory.createDataType();
-            data.setElementOid(ModelUtils.getElementOid(data, model));
             data.setId(PredefinedConstants.PROCESS_PRIORITY);
             data.setName("Process Priority"); //$NON-NLS-1$
             data.setDescription(ModelUtils.createDescription("Priority assigned to the current process.")); //$NON-NLS-1$

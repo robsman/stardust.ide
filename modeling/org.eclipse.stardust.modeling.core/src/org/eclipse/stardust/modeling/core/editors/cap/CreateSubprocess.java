@@ -182,7 +182,6 @@ public class CreateSubprocess
       diagram.setMode(defaultMode);            
       
       pool = DiagramUtil.createDefaultPool(null);
-      pool.setElementOid(ModelUtils.getElementOid(pool, model));
       diagram.getPoolSymbols().add(pool);
       CreateModelElementUtil.addModelElement(CreateModelElementUtil.getContainingFeature(eClass, container), diagram, container);
    }

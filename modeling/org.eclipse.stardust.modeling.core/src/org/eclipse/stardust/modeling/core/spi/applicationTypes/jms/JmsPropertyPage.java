@@ -466,9 +466,6 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
       AttributeUtil.setAttribute(ap, CarnotConstants.BROWSABLE_ATT, BOOLEAN_TYPE,
             Boolean.FALSE.toString());
 
-      ap.setElementOid(ModelUtils.getElementOid(ap,
-            ModelUtils.findContainingModel(application)));
-
       application.getAccessPoint().add(ap);
       if (preselect)
       {

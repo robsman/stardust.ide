@@ -79,11 +79,6 @@ public class AddNodeSymbolCommand extends Command
             }
 
             EList modelContainment = (EList) modelContainer.eGet(modelContainmentFeature);
-            if ( !nodeModel.isSetElementOid())
-            {
-               nodeModel.setElementOid(ModelUtils.getElementOid(nodeModel,
-                     ModelUtils.findContainingModel(modelContainer)));
-            }
             modelContainment.add(nodeModel);
          }
 

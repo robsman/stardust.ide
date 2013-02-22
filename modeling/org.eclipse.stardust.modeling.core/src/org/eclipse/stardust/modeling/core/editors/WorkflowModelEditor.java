@@ -1258,8 +1258,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
             t.printStackTrace();
          }
 
-         fixMissingOids();
-
          modelManager.save(URI.createPlatformResourceURI(file.getFullPath().toString(), false));
          progressMonitor.worked(1);
 
@@ -1292,23 +1290,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       }
 
       getEditorInputTracker().addChangeVisitor(editorChangeTracker);
-   }
-
-   private void fixMissingOids()
-   {
-      EObject root = getWorkflowModel().eContainer();
-      for (Iterator<EObject> i = root.eAllContents(); i.hasNext();)
-      {
-         EObject element = i.next();
-         if (element instanceof IModelElement)
-         {
-            if (!((IModelElement) element).isSetElementOid())
-            {
-               ((IModelElement) element).setElementOid(ModelUtils.getElementOid(
-                     (IModelElement) element, getWorkflowModel()));
-            }
-         }
-      }
    }
 
    public EditPart findEditPart(Object model)

@@ -157,8 +157,6 @@ public class ScanTriggerPropertyPage extends AbstractModelElementPropertyPage
 
                ParameterMappingType parameterMappingType = CarnotWorkflowModelFactory.eINSTANCE
                      .createParameterMappingType();
-               parameterMappingType.setElementOid(ModelUtils.getElementOid(
-                     parameterMappingType, ModelUtils.findContainingModel(getModelElement())));
                TriggerType trigger = (TriggerType) getModelElement();
                trigger.getParameterMapping().clear();
                trigger.getParameterMapping().add(parameterMappingType);

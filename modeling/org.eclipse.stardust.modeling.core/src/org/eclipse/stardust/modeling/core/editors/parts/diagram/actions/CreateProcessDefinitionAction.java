@@ -74,7 +74,6 @@ public class CreateProcessDefinitionAction extends SelectionAction
                   .createModelElement();
             DiagramType diagram = CarnotWorkflowModelFactory.eINSTANCE
                   .createDiagramType();
-            diagram.setElementOid(ModelUtils.getElementOid(diagram, getModel()) + 1);
             diagram.setName(Diagram_Messages.DIAGRAM_NAME_Default);
             diagram.setOrientation(OrientationType.VERTICAL_LITERAL.toString().equals(
                   PlatformUI.getPreferenceStore().getString(
@@ -96,7 +95,6 @@ public class CreateProcessDefinitionAction extends SelectionAction
             process.getDiagram().add(diagram);
             newDiagram[0] = diagram;
             PoolSymbol pool = DiagramUtil.createDefaultPool(null);
-            pool.setElementOid(ModelUtils.getElementOid(pool, getModel()) + 2);
             diagram.getPoolSymbols().add(pool);
             return process;
          }

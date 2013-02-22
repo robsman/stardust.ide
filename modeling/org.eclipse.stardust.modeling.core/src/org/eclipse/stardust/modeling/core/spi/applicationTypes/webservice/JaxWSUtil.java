@@ -44,7 +44,6 @@ public final class JaxWSUtil
       if (ap == null)
       {
          ap = AccessPointUtil.createAccessPoint(id, name, direction, type);
-         ap.setElementOid(ModelUtils.getElementOid(ap, (ModelType) application.eContainer()));
          application.getAccessPoint().add(ap);
       }
       else
@@ -185,7 +184,6 @@ public final class JaxWSUtil
       {
          ap = AccessPointUtil.createAccessPoint(id, name, direction,
                dataType);
-         ap.setElementOid(ModelUtils.getElementOid(ap, (ModelType) application.eContainer()));
          application.getAccessPoint().add(ap);
          StructuredTypeUtils.setStructuredAccessPointAttributes(ap, typeDeclaration, transformationType);
       }

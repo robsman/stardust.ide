@@ -411,10 +411,6 @@ public abstract class AbstractMerger
       
       if (!copyEntry)
       {
-         if (copy instanceof IModelElement)
-         {
-            ((IModelElement) copy).setElementOid(++highestOid);         
-         }
          if (ShareUtils.isLockableElement((EObject) copy))
          {
             if (!isCollision)
@@ -933,7 +929,6 @@ public abstract class AbstractMerger
          for(int i = 0; i < accessPoints.size();i++)
          {
             AccessPointType accessPoint = (AccessPointType) accessPoints.get(i);
-            ((IModelElement) accessPoint).setElementOid(++highestOid);
             if(accessPoint.getType().getId().equals(PredefinedConstants.STRUCTURED_DATA))
             {
                accessPoint.setType(structuredDataType);
