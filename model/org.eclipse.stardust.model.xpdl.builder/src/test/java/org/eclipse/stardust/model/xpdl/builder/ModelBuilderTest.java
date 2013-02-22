@@ -29,8 +29,12 @@ import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,7 +70,7 @@ public class ModelBuilderTest
             .fromVariable(aString)
             .build();
 
-      BpmModelBuilder.assignMissingElementOids(model);
+      ModelBuilderTest.assignMissingElementOids(model);
    }
 
    @Test
@@ -78,4 +82,23 @@ public class ModelBuilderTest
       assertTrue(aString.isSetElementOid());
    }
 
+   public static void assignMissingElementOids(ModelType model)
+   {
+      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+
+      if ( !model.isSetOid())
+      {
+         model.setOid(++maxElementOid);
+      }
+
+      for (TreeIterator<EObject> modelContents = model.eAllContents(); modelContents.hasNext(); )
+      {
+         EObject element = modelContents.next();
+         if ((element instanceof IModelElement)
+               && !((IModelElement) element).isSetElementOid())
+         {
+            ((IModelElement) element).setElementOid(++maxElementOid);
+         }
+      }
+   }
 }

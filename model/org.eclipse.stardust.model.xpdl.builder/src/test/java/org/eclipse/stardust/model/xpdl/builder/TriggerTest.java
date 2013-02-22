@@ -53,7 +53,7 @@ public class TriggerTest
          .withDirection(DirectionType.IN_LITERAL.getName())
          .build();
 
-      BpmModelBuilder.assignMissingElementOids(model);
+      ModelBuilderTest.assignMissingElementOids(model);
    }
 
    @Test
