@@ -256,9 +256,6 @@ public class DefaultTypesInitializer implements ModelInitializer
          typeDef.setHasApplicationPath(hasApplicationPath);
          typeDef.setHasMappingId(hasMappingId);
 
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         typeDef.setElementOid(++maxElementOid);
-
          model.getApplicationContextType().add(typeDef);
       }
    }

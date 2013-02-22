@@ -38,14 +38,12 @@ public class BpmCamelTriggerBuilder
 
    protected TriggerType finalizeElement()
    {
-      long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
       TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
             model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
       if (null == triggerMetaType)
       {
          triggerMetaType = F_CWM.createTriggerTypeType();
          
-         triggerMetaType.setElementOid(++maxUsedOid);
          triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
          triggerMetaType.setName("Camel Trigger");
          triggerMetaType.setIsPredefined(true);
@@ -58,7 +56,6 @@ public class BpmCamelTriggerBuilder
       }
       
       super.finalizeElement();
-      element.setElementOid(++maxUsedOid);
       element.setType(triggerMetaType);
       return element;
    }

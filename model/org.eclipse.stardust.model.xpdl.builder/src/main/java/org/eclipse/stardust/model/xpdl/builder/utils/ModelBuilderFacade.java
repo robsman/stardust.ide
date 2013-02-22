@@ -817,7 +817,6 @@ public class ModelBuilderFacade
          String primitiveTypeID)
    {
       DataType data;
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       Type type = null;
 
       if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
@@ -844,7 +843,6 @@ public class ModelBuilderFacade
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
             .ofType(type)
             .build();
-      data.setElementOid(++maxOID);
 
       return data;
    }
@@ -958,8 +956,6 @@ public class ModelBuilderFacade
          int xProperty, int yProperty, int widthProperty, int heightProperty,
          PoolSymbol parentSymbol)
    {
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
       laneSymbol.setName(laneName);
 
@@ -978,8 +974,6 @@ public class ModelBuilderFacade
             .get(0)
             .getChildLanes()
             .add(laneSymbol);
-
-      laneSymbol.setElementOid(++maxOid);
 
       laneSymbol.setXPos(xProperty);
       laneSymbol.setYPos(yProperty);
@@ -1073,12 +1067,9 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM.createActivitySymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
-      activitySymbol.setElementOid(++maxOID);
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       activitySymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       activitySymbol.setWidth(widthProperty);
@@ -1108,12 +1099,9 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty, String content)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM.createAnnotationSymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
-      annotationSymbol.setElementOid(++maxOID);
       annotationSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       annotationSymbol.setWidth(widthProperty);
@@ -1179,12 +1167,8 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
-
-      dataSymbol.setElementOid(++maxOID);
 
       dataSymbol.setData(data);
 
@@ -1354,8 +1338,6 @@ public class ModelBuilderFacade
          String activityID, String activityName, String participantFullID,
          String applicationFullID, String subProcessFullID)
    {
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model) + 1;
-
       ActivityType activity = null;
 
       if (ModelerConstants.TASK_ACTIVITY.equals(activityType))
@@ -1447,8 +1429,6 @@ public class ModelBuilderFacade
                .build();
       }
 
-      activity.setElementOid(maxOid + 1);
-
       return activity;
    }
 
@@ -1477,15 +1457,12 @@ public class ModelBuilderFacade
       DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
       diagram.setMode(DiagramModeType.MODE_450_LITERAL);
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-      diagram.setElementOid(++maxOid);
       diagram.setName("Diagram 1");
 
       PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
 
       diagram.getPoolSymbols().add(poolSymbol);
 
-      poolSymbol.setElementOid(++maxOid);
       poolSymbol.setXPos(0);
       poolSymbol.setYPos(0);
       poolSymbol.setWidth(500);
@@ -1499,7 +1476,6 @@ public class ModelBuilderFacade
       poolSymbol.getChildLanes().add(laneSymbol);
       laneSymbol.setParentPool(poolSymbol);
 
-      laneSymbol.setElementOid(++maxOid);
       laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
       laneSymbol.setName(ModelerConstants.DEF_LANE_NAME);
       laneSymbol.setXPos(10);
@@ -1525,22 +1501,17 @@ public class ModelBuilderFacade
    {
       ProcessDefinitionType processDefinition = newProcessDefinition(model).withIdAndName(id, name).build();
       
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-      processDefinition.setElementOid(++maxOid);
       // Create diagram bits too
 
       DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
 
       diagram.setMode(DiagramModeType.MODE_450_LITERAL);
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
-      diagram.setElementOid(++maxOid);
       diagram.setName("Diagram 1");
 
       PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
 
       diagram.getPoolSymbols().add(poolSymbol);
-
-      poolSymbol.setElementOid(++maxOid);
       poolSymbol.setXPos(0);
       poolSymbol.setYPos(0);
       poolSymbol.setWidth(ModelerConstants.DEFAULT_SWIMLANE_WIDTH + 34);
@@ -1554,7 +1525,6 @@ public class ModelBuilderFacade
       poolSymbol.getChildLanes().add(laneSymbol);
       laneSymbol.setParentPool(poolSymbol);
 
-      laneSymbol.setElementOid(++maxOid);
       laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
       laneSymbol.setName(defaultLaneName);
 
@@ -1723,7 +1693,6 @@ public class ModelBuilderFacade
 
       if (id.equals("camel"))
       {
-         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
 
@@ -1732,8 +1701,6 @@ public class ModelBuilderFacade
             CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
 
             triggerMetaType = F_CWM.createTriggerTypeType();
-
-            triggerMetaType.setElementOid(++maxUsedOid);
             triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
             triggerMetaType.setName("Camel Trigger");
             triggerMetaType.setIsPredefined(true);
@@ -1751,7 +1718,6 @@ public class ModelBuilderFacade
       }
       else if (id.equals("scan"))
       {
-         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
 
@@ -1761,7 +1727,6 @@ public class ModelBuilderFacade
 
             triggerMetaType = F_CWM.createTriggerTypeType();
 
-            triggerMetaType.setElementOid(++maxUsedOid);
             triggerMetaType.setId(ModelerConstants.SCAN_TRIGGER_TYPE_ID);
             triggerMetaType.setName("Scan Trigger");
             triggerMetaType.setIsPredefined(true);
@@ -2781,8 +2746,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("External Web Application");
             contextTypeType.setId(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2790,8 +2753,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Noninteractive Application Context");
             contextTypeType.setId(ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.ENGINE_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2799,8 +2760,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Engine Context");
             contextTypeType.setId(ModelerConstants.ENGINE_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2808,8 +2767,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Default Context");
             contextTypeType.setId(ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
       }
@@ -3288,12 +3245,9 @@ public class ModelBuilderFacade
       DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
             model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
       DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
       data.setName("Process Attachments"); //$NON-NLS-1$
       data.setType(dataTypeType);
-      // data.setElementOid(ModelUtils.getElementOid(data, model));
-      data.setElementOid(++maxOID);
       model.getData().add(data);
 
       AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT,
@@ -3308,13 +3262,10 @@ public class ModelBuilderFacade
    public ParameterMappingType createParameterMapping(TriggerType trigger,
          String parameter, String dataFullID, String dataPath)
    {
-      ModelType model = ModelUtils.findContainingModel(trigger);
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
       mappingType.setParameter(parameter);
       mappingType.setData(findData(dataFullID));
       mappingType.setDataPath(dataPath);
-      mappingType.setElementOid(++maxOID);
       trigger.getParameterMapping().add(mappingType);
       return mappingType;
    }

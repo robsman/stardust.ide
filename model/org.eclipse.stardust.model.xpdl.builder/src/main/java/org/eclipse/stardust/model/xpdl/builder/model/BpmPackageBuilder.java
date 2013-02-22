@@ -10,22 +10,20 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.model;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.ExtensionProviderUtils;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelDef;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractIdentifiableElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultElementsInitializer;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-
 
 public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelType, BpmPackageBuilder>
 {
@@ -33,9 +31,19 @@ public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelT
 
    public BpmPackageBuilder()
    {
-      super(F_CWM.createModelType());
+      super(doCreate());
 
       withName("New Workflow Model");
+   }
+
+   private static ModelType doCreate()
+   {
+      ModelType model = F_CWM.createModelType();      
+      model.setOid(0);
+      
+      ModelOidUtil.register(model);      
+      
+      return model;
    }
 
    @Override
@@ -83,8 +91,6 @@ public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelT
       {
          definition.build(element);
       }
-
-      BpmModelBuilder.assignMissingElementOids(element);
 
       return element;
    }

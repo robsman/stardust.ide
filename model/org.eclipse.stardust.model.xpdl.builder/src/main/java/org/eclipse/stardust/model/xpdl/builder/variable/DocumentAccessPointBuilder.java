@@ -34,10 +34,7 @@ public class DocumentAccessPointBuilder
    {
       super(F_CWM.createAccessPointType());
       this.owner = anOwner;
-      forModel(ModelUtils.findContainingModel(anOwner));
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-      element.setElementOid(++maxElementOid);
-      
+      forModel(ModelUtils.findContainingModel(anOwner));      
       DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
             PredefinedConstants.DOCUMENT_DATA);
       

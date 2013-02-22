@@ -37,8 +37,6 @@ public class ExternalWebApplicationApplicationBuilder extends AbstractModelEleme
          contextTypeType.setName("External Web Application");
          contextTypeType.setId("externalWebApp");
          contextTypeType.setIsPredefined(true);
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         contextTypeType.setElementOid(++maxElementOid);
          model.getApplicationContextType().add(contextTypeType);
       }
       context.setType(contextTypeType); // TODO Add this context type to the model

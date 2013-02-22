@@ -43,8 +43,6 @@ public class MessageTransformationApplicationBuilder extends AbstractModelElemen
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageTransformationApplicationInstance");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.transformation.runtime.transformation.MessageProcessingValidator");
 
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         applicationMetaType.setElementOid(++maxElementOid);
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);

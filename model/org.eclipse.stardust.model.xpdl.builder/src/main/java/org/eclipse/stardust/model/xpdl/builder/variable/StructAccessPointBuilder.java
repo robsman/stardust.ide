@@ -46,8 +46,6 @@ public class StructAccessPointBuilder
       super(F_CWM.createAccessPointType());
       this.owner = anOwner;
       forModel(ModelUtils.findContainingModel(anOwner));
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-      element.setElementOid(++maxElementOid);
    }
 
    private void createApplicationAccessPoint(IAccessPointOwner anOwner)

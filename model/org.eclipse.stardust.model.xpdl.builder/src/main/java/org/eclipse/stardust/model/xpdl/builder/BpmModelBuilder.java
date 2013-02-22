@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder;
 
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.xpdl.builder.activity.AbstractActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmInteractiveApplicationActivityBuilder;
@@ -36,39 +34,15 @@ import org.eclipse.stardust.model.xpdl.builder.transition.AbstractTransitionBuil
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmActivitySequenceBuilder;
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmConditionalTransitionBuilder;
 import org.eclipse.stardust.model.xpdl.builder.transition.BpmOtherwiseTransitionBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.builder.variable.*;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
-
-
 public abstract class BpmModelBuilder
 {
-   public static void assignMissingElementOids(ModelType model)
-   {
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-
-      if ( !model.isSetOid())
-      {
-         model.setOid(++maxElementOid);
-      }
-
-      for (TreeIterator<EObject> modelContents = model.eAllContents(); modelContents.hasNext(); )
-      {
-         EObject element = modelContents.next();
-         if ((element instanceof IModelElement)
-               && !((IModelElement) element).isSetElementOid())
-         {
-            ((IModelElement) element).setElementOid(++maxElementOid);
-         }
-      }
-   }
-
    public static BpmPackageBuilder newBpmModel()
    {
       return BpmPackageBuilder.newModel();
