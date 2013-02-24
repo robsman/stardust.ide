@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
@@ -41,6 +42,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -77,6 +79,7 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataIniti
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -91,15 +94,18 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IFlowObjectSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -120,8 +126,10 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
@@ -647,11 +655,11 @@ public class ModelBuilderFacade
       {
          return;
       }
+
       ModelType model = ModelUtils.findContainingModel(data);
       data.setType(ModelUtils.findIdentifiableElement(model.getDataType(), targetTypeID));
       IDataInitializer init = getInitializer(targetTypeID);
       init.initialize(data, data.getAttribute());
-
    }
 
    /**
@@ -1718,6 +1726,7 @@ public class ModelBuilderFacade
       }
       else if (id.equals("scan"))
       {
+         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
 
@@ -3272,7 +3281,6 @@ public class ModelBuilderFacade
 
    public String convertDate(String date)
    {
-
       ResourceBundle rb = ResourceBundle.getBundle("portal-common-messages"); //$NON-NLS-1$
       String format = rb.getString("portalFramework.formats.defaultDateTimeFormat"); //$NON-NLS-1$
 
@@ -3296,5 +3304,241 @@ public class ModelBuilderFacade
       }
 
       return date;
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param sourceActivity
+    * @param targetActivity
+    * @param controlFlowJson
+    * @param transitionOid
+    * @return
+    */
+   public TransitionType createTransition(ProcessDefinitionType processDefinition,
+         ActivityType sourceActivity, ActivityType targetActivity,
+         String id, String name, String description, boolean otherwise, String condition)
+   {
+      TransitionType transition = AbstractElementBuilder.F_CWM.createTransitionType();
+
+      processDefinition.getTransition().add(transition);
+
+      transition.setFrom(sourceActivity);
+      transition.setTo(targetActivity);
+      
+      if (isEmpty(id))
+      {
+         id = UUID.randomUUID().toString();
+      }
+      
+      transition.setId(id);
+      transition.setName(name);
+
+      if (otherwise)
+      {
+         transition.setCondition(ModelerConstants.OTHERWISE_KEY);
+      }
+      else
+      {
+         transition.setCondition(ModelerConstants.CONDITION_KEY);
+
+         XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
+         ModelUtils.setCDataString(expression.getMixed(), condition, true);
+         transition.setExpression(expression);
+      }
+
+      // TODO Implement
+      
+      //setDescription(transition, description);
+      
+      return transition;
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param sourceActivitySymbol
+    * @param targetActivitySymbol
+    * @param transition
+    * @param connectionOid
+    * @param fromAnchorOrientation
+    * @param toAnchorOrientation
+    * @return
+    */
+   public TransitionConnectionType createTransitionSymbol(
+         ProcessDefinitionType processDefinition, IFlowObjectSymbol sourceActivitySymbol,
+         IFlowObjectSymbol targetActivitySymbol, TransitionType transition, String fromAnchorOrientation, String toAnchorOrientation)
+   {
+      TransitionConnectionType transitionConnection = AbstractElementBuilder.F_CWM.createTransitionConnectionType();
+
+      if (null != transition)
+      {
+         transition.getTransitionConnections().add(transitionConnection);
+         transitionConnection.setTransition(transition);
+      }
+
+      transitionConnection.setSourceNode(sourceActivitySymbol);
+      transitionConnection.setTargetNode(targetActivitySymbol);
+      transitionConnection.setSourceAnchor(fromAnchorOrientation);
+      transitionConnection.setTargetAnchor(toAnchorOrientation);
+
+      // TODO Obtain pool from call
+
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getTransitionConnection()
+            .add(transitionConnection);
+
+      return transitionConnection;
+   }
+   
+   /**
+    * 
+    * @param sourceOid
+    * @param targetOid
+    * @param processDefinition
+    */
+   private void deleteDuplicateConnections(long sourceOid, long targetOid,
+         ProcessDefinitionType processDefinition)
+   {
+      List<TransitionConnectionType> tobeRemoved = new ArrayList<TransitionConnectionType>();
+
+      EList<TransitionConnectionType> transitionConnections = processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getTransitionConnection();
+
+      for (TransitionConnectionType transitionConnectionType : transitionConnections)
+      {
+         if (transitionConnectionType.getSourceActivitySymbol().getElementOid() == sourceOid
+               && transitionConnectionType.getTargetActivitySymbol().getElementOid() == targetOid)
+         {
+            tobeRemoved.add(transitionConnectionType);
+         }
+      }
+
+      for (TransitionConnectionType transitionConnectionType : tobeRemoved)
+      {
+         transitionConnections.remove(transitionConnectionType);
+         processDefinition.getTransition().remove(
+               transitionConnectionType.getTransition());
+      }
+   }
+
+   /**
+    * 
+    * @param sourceActivitySymbol
+    * @param targetActivitySymbol
+    * @throws JSONException
+    */
+   public void createControlFlowConnection(ProcessDefinitionType processDefinition,
+         ActivitySymbolType sourceActivitySymbol,
+         ActivitySymbolType targetActivitySymbol, String id, String name, String description, boolean otherwise, String condition, String fromAnchor, String toAnchor)
+   {
+      // Remove duplicate transition connections
+
+      deleteDuplicateConnections(sourceActivitySymbol.getElementOid(),
+            targetActivitySymbol.getElementOid(), processDefinition);
+
+      TransitionType transition = createTransition(
+            processDefinition,
+            sourceActivitySymbol.getActivity(),
+            targetActivitySymbol.getActivity(),
+            id,
+            name,
+            description,
+            otherwise,
+            condition);
+
+      createTransitionSymbol(
+            processDefinition,
+            sourceActivitySymbol,
+            targetActivitySymbol,
+            transition,
+            fromAnchor,
+            toAnchor);
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param activitySymbol
+    * @param dataSymbol
+    * @param direction
+    * @param fromAnchor
+    * @param toAnchor
+    */
+   public void createDataFlowConnection(ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol,
+         DataSymbolType dataSymbol, DirectionType direction, String fromAnchor, String toAnchor)
+   {
+      DataType data = dataSymbol.getData();
+      ActivityType activity = activitySymbol.getActivity();
+
+      DataMappingType dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
+      DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
+
+      dataMapping.setId(data.getId());
+      dataMapping.setName(data.getName());
+
+         dataMapping.setDirection(direction);
+
+         dataMapping.setData(data);
+      dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+
+      if (activity.getImplementation().getLiteral().equals("Application"))
+      {
+         dataMapping.setContext(PredefinedConstants.APPLICATION_CONTEXT);
+
+         String dataId = null;
+         if (activity.getApplication() != null
+               && activity.getApplication().getAccessPoint() != null)
+         {
+            for (AccessPointType accPoints : activity.getApplication().getAccessPoint())
+            {
+               if (accPoints.getDirection().getValue() == DirectionType.OUT)
+               {
+                  if (accPoints.getType().equals(data.getType()))
+                  {
+                     dataId = accPoints.getId();
+                     break;
+                  }
+               }
+            }
+         }
+
+         if (null != dataId)
+         {
+            dataMapping.setApplicationAccessPoint(dataId);
+         }
+      }
+      else if (activity.getImplementation().getLiteral().equals("Subprocess"))
+      {
+         dataMapping.setContext(PredefinedConstants.ENGINE_CONTEXT);
+      }
+      else
+      {
+         dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+      }
+
+      activity.getDataMapping().add(dataMapping);
+
+      // TODO Obtain pool from call
+
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getDataMappingConnection()
+            .add(dataMappingConnection);
+
+      dataMappingConnection.setActivitySymbol(activitySymbol);
+      dataMappingConnection.setDataSymbol(dataSymbol);
+      activitySymbol.getDataMappings().add(dataMappingConnection);
+      dataSymbol.getDataMappings().add(dataMappingConnection);
+      dataMappingConnection.setSourceAnchor(fromAnchor);
+      dataMappingConnection.setTargetAnchor(toAnchor);
    }
 }
