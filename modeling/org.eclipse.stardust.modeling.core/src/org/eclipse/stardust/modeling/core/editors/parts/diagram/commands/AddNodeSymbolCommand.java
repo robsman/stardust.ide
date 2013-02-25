@@ -88,11 +88,6 @@ public class AddNodeSymbolCommand extends Command
          }
 
          EList symbolContainment = (EList) diagram.eGet(symbolContainmentFeature);
-         if ( !nodeSymbol.isSetElementOid())
-         {
-            nodeSymbol.setElementOid(ModelUtils.getElementOid(nodeSymbol,
-                  ModelUtils.findContainingModel(diagram)));
-         }
          symbolContainment.add(nodeSymbol);
       }
    }

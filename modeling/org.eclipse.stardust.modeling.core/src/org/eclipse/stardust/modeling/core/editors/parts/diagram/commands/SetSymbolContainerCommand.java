@@ -116,11 +116,6 @@ public class SetSymbolContainerCommand extends Command
          }
 
          EList symbolContainment = (EList) symbolContainer.eGet(symbolContainmentFeature);
-         if (!symbol.isSetElementOid())
-         {
-            symbol.setElementOid(ModelUtils.getElementOid(symbol, ModelUtils
-                  .findContainingModel(symbolContainer)));
-         }
          if (dependentCmd == null)
          {
             dependentCmd = checkActivityPerformer(symbolContainer);
