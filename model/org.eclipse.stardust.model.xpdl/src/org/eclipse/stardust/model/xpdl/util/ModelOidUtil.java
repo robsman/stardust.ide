@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
@@ -26,13 +27,36 @@ public class ModelOidUtil extends EContentAdapter
    private long lastOID = 0;
    private HashMap<Long, IModelElement> unsets = new HashMap<Long, IModelElement>();
    private Set<Long> oids = new HashSet<Long>();
+   private boolean valid = false;
    
+   public void setValid(boolean valid)
+   {
+      this.valid = valid;
+   }
+
+   @Override
+   public void notifyChanged(Notification notification)
+   {      
+      Object notifier = notification.getNotifier();
+      if (notifier instanceof IModelElement 
+            && notification.getEventType() == Notification.SET
+            && notification.getFeature().equals(CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()))
+      {
+         if(valid == false)
+         {
+            throw new DuplicateOidException("invalid setting of oid!");
+         }         
+      }
+      super.notifyChanged(notification);
+   }
+
    @Override
    protected synchronized void addAdapter(Notifier notifier)
    {      
       super.addAdapter(notifier);
       if (notifier instanceof IModelElement)
       {
+         valid = true;         
          if (((IModelElement) notifier).eIsSet(CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()))
          {
             // check for duplicates.
@@ -79,14 +103,17 @@ public class ModelOidUtil extends EContentAdapter
                oids.add(lastOID);                                                
             }
          }
+         valid = false;
       }
    }
 
-   public static void register(ModelType model)
+   public static ModelOidUtil register(ModelType model)
    {
       ModelOidUtil m = new ModelOidUtil();
       model.eAdapters().add(m);
       m.unsets = null;
       m.oids = null;
+      
+      return m;
    }
 }
