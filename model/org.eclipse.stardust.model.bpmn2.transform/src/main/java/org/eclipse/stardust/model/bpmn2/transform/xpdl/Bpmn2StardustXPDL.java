@@ -53,6 +53,9 @@ import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
@@ -78,7 +81,6 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Subproce
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service.Interface2StardustApplication;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
@@ -89,6 +91,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -212,7 +215,8 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public ModelType getTargetModel() {
-        BpmModelBuilder.assignMissingElementOids(carnotModel);
+        // TODO review alternative use of ModelOidUtil
+        assignMissingElementOids(carnotModel);
         return carnotModel;
     }
 
@@ -396,5 +400,24 @@ public class Bpmn2StardustXPDL implements Transformator {
 		new BoundaryEvent2Stardust(carnotModel, failures).addBoundaryEvent(event, container);
 	}
 
+    /**
+     * @param model the model to be tweaked
+     * @deprecated review alternative use of ModelOidUtil
+     */
+    @Deprecated
+    private static void assignMissingElementOids(ModelType model) {
+        long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+
+        if (!model.isSetOid()) {
+            model.setOid(++maxElementOid);
+        }
+
+        for (TreeIterator<EObject> modelContents = model.eAllContents(); modelContents.hasNext();) {
+            EObject element = modelContents.next();
+            if ((element instanceof IModelElement) && !((IModelElement) element).isSetElementOid()) {
+                ((IModelElement) element).setElementOid(++maxElementOid);
+            }
+        }
+    }
 
 }
