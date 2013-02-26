@@ -17,7 +17,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 
-
 public class OrphanSymbolCommand extends Command
 {
    private ISymbolContainer symbolContainer;
@@ -57,14 +56,6 @@ public class OrphanSymbolCommand extends Command
 
          EList symbolContainment = (EList) symbolContainer.eGet(symbolContainmentFeature);
          symbolContainment.remove(symbol);
-         if (null != symbolElementOidBackup)
-         {
-            symbol.setElementOid(symbolElementOidBackup.longValue());
-         }
-         else
-         {
-            symbol.unsetElementOid();
-         }
       }
    }
 

@@ -17,9 +17,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-
 
 public class AddNodeSymbolCommand extends Command
 {
@@ -103,14 +101,6 @@ public class AddNodeSymbolCommand extends Command
 
          EList symbolContainment = (EList) diagram.eGet(symbolContainmentFeature);
          symbolContainment.remove(nodeSymbol);
-         if (null != symbolElementOidBackup)
-         {
-            nodeSymbol.setElementOid(symbolElementOidBackup.longValue());
-         }
-         else
-         {
-            nodeSymbol.unsetElementOid();
-         }
 
          if (null != nodeModel)
          {
@@ -121,14 +111,6 @@ public class AddNodeSymbolCommand extends Command
 
             EList modelContainment = (EList) modelContainer.eGet(modelContainmentFeature);
             modelContainment.remove(nodeModel);
-            if (null != modelElementOidBackup)
-            {
-               nodeModel.setElementOid(modelElementOidBackup.longValue());
-            }
-            else
-            {
-               nodeModel.unsetElementOid();
-            }
          }
       }
    }

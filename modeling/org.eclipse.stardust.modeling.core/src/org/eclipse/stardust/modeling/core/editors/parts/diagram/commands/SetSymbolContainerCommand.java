@@ -35,7 +35,6 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
 
@@ -144,15 +143,6 @@ public class SetSymbolContainerCommand extends Command
          dependentCmd.undo();
          EList symbolContainment = (EList) symbolContainer.eGet(symbolContainmentFeature);
          symbolContainment.remove(symbol);
-         if (null != symbolElementOidBackup)
-         {
-            symbol.setElementOid(symbolElementOidBackup.longValue());
-         }
-         else
-         {
-            symbol.unsetElementOid();
-         }
-
          CommandUtils.redoContainment(containmentBackup);
       }
    }
