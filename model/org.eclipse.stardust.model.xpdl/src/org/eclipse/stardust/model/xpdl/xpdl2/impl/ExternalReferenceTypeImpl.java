@@ -299,29 +299,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        {
           url = location;
        }
-       if (!url.toLowerCase().startsWith("http://")) //$NON-NLS-1$
-       {
-         try
-         {
-            IProject project = ModelUtils.getProjectFromEObject(declaration);
-            if (project != null)
-            {
-               url = getFileUrl(project, url);
-            }
-            else
-            {
-               IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-               for (int i = 0; i < projects.length; i++)
-               {
-                  IProject proj = projects[i];
-                  url = getFileUrl(proj, url);
-               }
-            }
-         } catch (Throwable t)
-         {
-            return url;
-         }
-       }
+       
        return url;
     }
 
