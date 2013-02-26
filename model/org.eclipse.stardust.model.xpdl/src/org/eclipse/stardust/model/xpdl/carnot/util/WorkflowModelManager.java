@@ -64,7 +64,14 @@ public class WorkflowModelManager
    private static CarnotWorkflowModelFactory cwmFactory = null;
 
    protected ModelType model = null;
+
+   private ModelOidUtil modelOidUtil;
    
+   public ModelOidUtil getModelOidUtil()
+   {
+      return modelOidUtil;
+   }
+
    public WorkflowModelManager()
    {
    }
@@ -385,7 +392,7 @@ public class WorkflowModelManager
    
    public void resolve(ModelType model)
    {
-      ModelOidUtil.register(model);
+      modelOidUtil = ModelOidUtil.register(model);
       // resolve string-id references in attributes
       ModelUtils.resolve(model, model);      
    }
