@@ -707,7 +707,7 @@ public class ModelBuilderFacade
          {
             data.setExternalReference(null);
             AttributeType attribute = AttributeUtil.setAttribute(data,
-                  StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);            
+                  StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);
             ModelUtils.setReference(attribute, model, "struct");
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
@@ -759,7 +759,7 @@ public class ModelBuilderFacade
             data.setExternalReference(null);
             AttributeType attribute = AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT,
                   declarationID);
-            ModelUtils.setReference(attribute, model, "struct");            
+            ModelUtils.setReference(attribute, model, "struct");
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
          else
@@ -1442,9 +1442,9 @@ public class ModelBuilderFacade
 
    /**
     * Creates a process.
-    * 
+    *
     * @deprecated
-    * 
+    *
     * @param model
     *           model to create the process in
     * @param processID
@@ -1498,7 +1498,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param model
     * @param id
     * @param name
@@ -1508,7 +1508,7 @@ public class ModelBuilderFacade
    public ProcessDefinitionType createProcess(ModelType model, String id, String name, String defaultLaneName, String defaultPoolName)
    {
       ProcessDefinitionType processDefinition = newProcessDefinition(model).withIdAndName(id, name).build();
-      
+
       // Create diagram bits too
 
       DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
@@ -1545,7 +1545,7 @@ public class ModelBuilderFacade
       laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
 
       processDefinition.getDiagram().add(diagram);
-      
+
       return processDefinition;
    }
 
@@ -3307,7 +3307,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param sourceActivity
     * @param targetActivity
@@ -3325,12 +3325,12 @@ public class ModelBuilderFacade
 
       transition.setFrom(sourceActivity);
       transition.setTo(targetActivity);
-      
+
       if (isEmpty(id))
       {
          id = UUID.randomUUID().toString();
       }
-      
+
       transition.setId(id);
       transition.setName(name);
 
@@ -3342,20 +3342,23 @@ public class ModelBuilderFacade
       {
          transition.setCondition(ModelerConstants.CONDITION_KEY);
 
+         if (StringUtils.isEmpty(condition)) {
+            condition = "true";
+         }
          XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
          ModelUtils.setCDataString(expression.getMixed(), condition, true);
          transition.setExpression(expression);
       }
 
       // TODO Implement
-      
+
       //setDescription(transition, description);
-      
+
       return transition;
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param sourceActivitySymbol
     * @param targetActivitySymbol
@@ -3393,9 +3396,9 @@ public class ModelBuilderFacade
 
       return transitionConnection;
    }
-   
+
    /**
-    * 
+    *
     * @param sourceOid
     * @param targetOid
     * @param processDefinition
@@ -3429,7 +3432,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param sourceActivitySymbol
     * @param targetActivitySymbol
     * @throws JSONException
@@ -3463,7 +3466,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param processDefinition
     * @param activitySymbol
     * @param dataSymbol
