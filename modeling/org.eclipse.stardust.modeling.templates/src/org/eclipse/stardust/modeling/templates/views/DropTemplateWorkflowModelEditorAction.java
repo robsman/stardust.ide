@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramEditorPage;
 import org.eclipse.stardust.modeling.core.editors.IDiagramChangeListener;
@@ -172,8 +173,11 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
             TemplateContentAdapter contentAdapter = new TemplateContentAdapter(targetModel, template);
             targetModel.eAdapters().add(contentAdapter);
             ChangeRecorder recorder = new ChangeRecorder(targetModel);            
+            ModelOidUtil modelOidUtil = editor.getModelManager().getModelOidUtil();
+            
             try
-            {               
+            {                  
+               modelOidUtil.setEnabled(false);
                template.applyTemplate(editor, targetModel, targetDiagram, editPart, event.x - location.x, event.y - location.y);
                ApplyUpdatesCommand command = new ApplyUpdatesCommand(recorder.endRecording());
                editor.getEditDomain().getCommandStack().execute(command);
@@ -228,8 +232,10 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
             }            
             finally
             {               
+               modelOidUtil.setEnabled(true);               
                targetModel.eAdapters().remove(contentAdapter);
                recorder.dispose();
+               
             }
          }        
          
