@@ -41,6 +41,7 @@
       <dependency org="org.apache.cxf" name="cxf-rt-bindings-xml" rev="${cxf-rt-bindings-xml.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.cxf" name="cxf-rt-databinding-jaxb" rev="${cxf-rt-databinding-jaxb.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="${cxf-rt-frontend-jaxws.version}" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxrs" rev="${cxf-rt-frontend-jaxrs.version}" transitive="false" conf="bom->default" />              
       <dependency org="org.apache.cxf" name="cxf-rt-frontend-simple" rev="${cxf-rt-frontend-simple.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.cxf" name="cxf-rt-transports-http" rev="${cxf-rt-transports-http.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.cxf" name="cxf-rt-ws-addr" rev="${cxf-rt-ws-addr.version}" transitive="false" conf="bom->default" />
