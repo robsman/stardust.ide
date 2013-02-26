@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache CXF Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.cxf
-Bundle-Version: 2.6.1
+Bundle-Version: 2.6.1.1
 Bundle-Vendor: SunGard CSA LLC
 Bundle-BuddyPolicy: registered
 Require-Bundle: javax.wsdl
