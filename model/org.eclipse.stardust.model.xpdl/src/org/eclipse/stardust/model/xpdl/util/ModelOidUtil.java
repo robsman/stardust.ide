@@ -27,11 +27,12 @@ public class ModelOidUtil extends EContentAdapter
    private long lastOID = 0;
    private HashMap<Long, IModelElement> unsets = new HashMap<Long, IModelElement>();
    private Set<Long> oids = new HashSet<Long>();
+   private boolean enabled = true;   
    private boolean valid = false;
    
-   public void setValid(boolean valid)
+   public void setEnabled(boolean enabled)
    {
-      this.valid = valid;
+      this.enabled = enabled;
    }
 
    @Override
@@ -42,7 +43,7 @@ public class ModelOidUtil extends EContentAdapter
             && notification.getEventType() == Notification.SET
             && notification.getFeature().equals(CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()))
       {
-         if(valid == false)
+         if(valid == false && enabled == true)
          {
             throw new DuplicateOidException("invalid setting of oid!");
          }         
