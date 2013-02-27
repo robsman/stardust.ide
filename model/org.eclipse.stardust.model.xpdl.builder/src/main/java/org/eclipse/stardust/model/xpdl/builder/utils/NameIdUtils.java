@@ -30,13 +30,17 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 public class NameIdUtils
 {
    /**
-    * TODO Replace by Eclipse modeler logic
-    * @param activity
-    *
-    * @param name
     * @return
     */
    public static String createIdFromName(Object container, EObject element)
+   {
+      return createIdFromName(container, element, null);
+   }
+   
+   /**
+    * @return
+    */
+   public static String createIdFromName(Object container, EObject element, String base)
    {
       if(element instanceof IIdentifiableElement)
       {      
@@ -50,14 +54,16 @@ public class NameIdUtils
          container = findContainer(element);
       }
       
-      String base = null;
-      if(element instanceof IIdentifiableElement)
-      {            
-         base = ((IIdentifiableElement) element).getName();
-      }
-      else if(element instanceof TypeDeclarationType)
+      if(base == null)
       {
-         base = ((TypeDeclarationType) element).getName();         
+         if(element instanceof IIdentifiableElement)
+         {            
+            base = ((IIdentifiableElement) element).getName();
+         }
+         else if(element instanceof TypeDeclarationType)
+         {
+            base = ((TypeDeclarationType) element).getName();         
+         }
       }
          
       if(StringUtils.isEmpty(base))
