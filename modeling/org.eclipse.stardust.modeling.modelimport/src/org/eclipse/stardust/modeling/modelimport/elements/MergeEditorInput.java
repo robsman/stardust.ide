@@ -112,7 +112,17 @@ public class MergeEditorInput extends CompareEditorInput
       }.schedule();
 
       monitor.subTask(Import_Messages.MergeEditorInput_CheckingDuplicateOidsTaskName);
-      returnCode = MergeUtil.initialize(sourceRoot.getModel(), targetRoot.getModel(), this);
+      
+      try
+      {
+         source.getModelOidUtil().setEnabled(false);      
+         returnCode = MergeUtil.initialize(sourceRoot.getModel(), targetRoot.getModel(), this);
+      }
+      finally
+      {
+         source.getModelOidUtil().setEnabled(true);
+      }
+      
       if (returnCode == true)
       {
          monitor.setCanceled(true);
