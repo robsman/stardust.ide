@@ -22,7 +22,13 @@ import org.eclipse.ui.actions.ActionFactory;
 public class ForwardDeleteAction extends SelectionAction
 {
 
-   private final ActionRegistry registry;
+   private ActionRegistry registry;
+
+   public void dispose()
+   {
+      registry = null;
+      super.dispose();
+   }
 
    public ForwardDeleteAction(IWorkbenchPart part, ActionRegistry registry)
    {

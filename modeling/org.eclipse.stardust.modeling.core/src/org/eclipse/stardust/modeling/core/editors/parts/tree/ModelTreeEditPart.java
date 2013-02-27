@@ -47,6 +47,13 @@ import org.eclipse.ui.PartInitException;
 
 public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
 {
+   @Override
+   protected void finalize() throws Throwable
+   {
+      // TODO Auto-generated method stub
+      super.finalize();
+   }
+
    private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
    private ChildCategoryNode.Spec catApplications;
@@ -63,21 +70,21 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
 
       IIdentifiableModelElement parent = ModelUtils.getIdentifiableModelProxy(model, ModelType.class);
       ValidationIssueManager manager = ((WorkflowModelEditor) getEditor()).getIssueManager();
-      
+
       catApplications = new ChildCategoryNode.Spec(parent,
             Diagram_Messages.LB_Applications, editor.getIconFactory().getIconFor(PKG_CWM.getApplicationType()),
             new EStructuralFeature[] {PKG_CWM.getModelType_Application()});
       catData = new ChildCategoryNode.Spec(parent,
             Diagram_Messages.DATA_LABEL, editor.getIconFactory().getIconFor(PKG_CWM.getDataType()),
-            new EStructuralFeature[] {PKG_CWM.getModelType_Data()});      
+            new EStructuralFeature[] {PKG_CWM.getModelType_Data()});
       catParticipants = new ChildCategoryNode.Spec(parent,
             Diagram_Messages.LB_Participants, editor.getIconFactory().getIconFor(PKG_CWM.getIModelParticipant()),
             new EStructuralFeature[] {
                   PKG_CWM.getModelType_Organization(), PKG_CWM.getModelType_Role(),
                   PKG_CWM.getModelType_ConditionalPerformer(),
                   PKG_CWM.getModelType_Modeler()});
-      manager.addValidationEventListener(catApplications);      
-      manager.addValidationEventListener(catData);      
+      manager.addValidationEventListener(catApplications);
+      manager.addValidationEventListener(catData);
       manager.addValidationEventListener(catParticipants);
       if (hasConnectionExtensions())
       {
@@ -110,8 +117,8 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
 
          protected void showCurrentEditValue(DirectEditRequest request)
          {
-         }         
-      });            
+         }
+      });
    }
 
    public void performRequest(Request req)
@@ -132,7 +139,7 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
       }
       super.performRequest(req);
    }
-   
+
    public String getLabel()
    {
       return ((ModelType) getModel()).getName();
@@ -175,8 +182,8 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
    public void handleNotification(Notification n)
    {
       super.handleNotification(n);
-      // when replacing Objects via Collision merge 
-      // we must close all affected Diagrams 
+      // when replacing Objects via Collision merge
+      // we must close all affected Diagrams
       if (n != null && PKG_CWM.getModelType_ProcessDefinition().equals(n.getFeature()))
       {
          if(n.getEventType() == Notification.SET)
@@ -185,18 +192,18 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
             EList<DiagramType> diagrams = process.getDiagram();
             for (DiagramType diagramType : diagrams)
             {
-               getEditor().closeDiagramPage(diagramType);            
+               getEditor().closeDiagramPage(diagramType);
             }
          }
-      }      
+      }
       else if (n != null && PKG_CWM.getModelType_Diagram().equals(n.getFeature()))
       {
          if(n.getEventType() == Notification.SET)
          {
             DiagramType diagram = (DiagramType) n.getOldValue();
             DiagramType activeDiagram = getEditor().getActiveDiagram();
-            getEditor().closeDiagramPage(diagram);            
-            
+            getEditor().closeDiagramPage(diagram);
+
             if(activeDiagram != null && activeDiagram.equals(diagram))
             {
                try
@@ -206,9 +213,9 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
                catch (PartInitException e)
                {
                   // do nothing
-               }               
+               }
             }
-         }         
+         }
       }
    }
 }

@@ -19,20 +19,33 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.gef.*;
+import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditDomain;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.KeyHandler;
+import org.eclipse.gef.KeyStroke;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ScalableRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.ui.actions.*;
+import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.gef.ui.actions.AlignmentAction;
+import org.eclipse.gef.ui.actions.DirectEditAction;
+import org.eclipse.gef.ui.actions.EditorPartAction;
+import org.eclipse.gef.ui.actions.GEFActionConstants;
+import org.eclipse.gef.ui.actions.RedoAction;
+import org.eclipse.gef.ui.actions.SaveAction;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gef.ui.actions.StackAction;
+import org.eclipse.gef.ui.actions.UndoAction;
+import org.eclipse.gef.ui.actions.UpdateAction;
+import org.eclipse.gef.ui.actions.ZoomInAction;
+import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.SelectionSynchronizer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.*;
-import org.eclipse.stardust.modeling.core.editors.parts.properties.UndoablePropSheetEntry;
-import org.eclipse.stardust.modeling.core.utils.FileEditorInputTracker;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -44,6 +57,26 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheetPage;
+
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.AlignmentSnapToGridAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CleanupModelAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CopySymbolAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CreateSubprocessFromSelectionAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CutAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DeleteAllAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DiagramPrintAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.DistributeAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.GroupSymbolsAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.PasteSymbolAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SetDefaultSizeAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowInDiagramAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowInOutlineAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShrinkToFitAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SnapToGridAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UngroupSymbolsAction;
+import org.eclipse.stardust.modeling.core.editors.parts.properties.UndoablePropSheetEntry;
+import org.eclipse.stardust.modeling.core.utils.FileEditorInputTracker;
 
 public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPart
       implements IAdaptable
@@ -144,7 +177,7 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
       addStackAction(new RedoAction(this));
 
       addEditPartAction(new CleanupModelAction(this));
-      
+
       addEditPartAction(new ShrinkToFitAction(this));
       addEditPartAction(new DeleteAllAction(this));
       addEditPartAction(new DirectEditAction((IWorkbenchPart) this));
@@ -175,12 +208,12 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
       addEditorAction(new SaveAction(this));
       addAction(new DiagramPrintAction(this));
 
-      addEditPartAction(new CutAction(this));      
+      addEditPartAction(new CutAction(this));
       addEditPartAction(new CopySymbolAction(this));
       addEditPartAction(new PasteSymbolAction(this));
       addEditPartAction(new CreateSubprocessFromSelectionAction(this));
-      addEditPartAction(new ShowInDiagramAction(this));      
-      addEditPartAction(new ShowInOutlineAction(this));      
+      addEditPartAction(new ShowInDiagramAction(this));
+      addEditPartAction(new ShowInOutlineAction(this));
 
       IAction zoomIn = new ZoomInAction(getDelegatingZoomManager());
       IAction zoomOut = new ZoomOutAction(getDelegatingZoomManager());
@@ -421,7 +454,13 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
       // disposy the ActionRegistry (will unbind all actions)
       getActionRegistry().dispose();
-
+      actionRegistry = null;
+      editorInputTracker = null;
+      if (outlinePage != null)
+      {
+         outlinePage.dispose();
+         outlinePage = null;
+      }
       // important: always call super implementation of unbind
       super.dispose();
    }
@@ -440,8 +479,8 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
          sharedKeyHandler.put(KeyStroke.getPressed(
                'c', 'c', 0), getActionRegistry()
                .getAction(DiagramActionConstants.CONNECT));
-         
-         // copy, cut, paste added 
+
+         // copy, cut, paste added
          sharedKeyHandler.put(KeyStroke.getPressed('c', SWT.CTRL, 0), getActionRegistry()
                .getAction(ActionFactory.COPY.getId()));
          sharedKeyHandler.put(KeyStroke.getPressed('x', SWT.CTRL, 0), getActionRegistry()
@@ -469,19 +508,19 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
    /*
     * class MultiPageCommandStackListener implements CommandStackListener { private List
     * commandStacks = new ArrayList(2);
-    * 
+    *
     * public void addCommandStack(CommandStack commandStack) {
     * commandStacks.add(commandStack); commandStack.addCommandStackListener(this); }
-    * 
+    *
     * public void commandStackChanged(EventObject event) { if (((CommandStack)
     * event.getSource()).isDirty()) { setDirty(true); } else { boolean oneIsDirty = false;
     * for (Iterator i = commandStacks.iterator(); i.hasNext();) { CommandStack stack =
     * (CommandStack) i.next(); if (stack.isDirty()) { oneIsDirty = true; break; } }
     * setDirty(oneIsDirty); } }
-    * 
+    *
     * public void dispose() { for (Iterator i = commandStacks.iterator(); i.hasNext();) {
     * ((CommandStack) i.next()).removeCommandStackListener(this); } commandStacks.clear(); }
-    * 
+    *
     * public void markSaveLocations() { for (Iterator i = commandStacks.iterator();
     * i.hasNext();) { ((CommandStack) i.next()).markSaveLocation(); } } }
     */

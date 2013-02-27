@@ -89,7 +89,7 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
    private ActionRegistry actionRegistry;
 
    private ISelectionListener selectionListener;
-   
+
    private OutlineTreeEditor outlineTreeEditor;
 
    AbstractMultiPageGraphicalEditorOutlinePage(WorkflowModelEditor editor,
@@ -144,10 +144,10 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
       bars.setGlobalActionHandler(id, registry.getAction(id));
       id = ActionFactory.COPY.getId();
       bars.setGlobalActionHandler(id, registry.getAction(id));
-      id = ActionFactory.PASTE.getId();      
+      id = ActionFactory.PASTE.getId();
       bars.setGlobalActionHandler(id, registry.getAction(id));
-      id = ActionFactory.CUT.getId();      
-      bars.setGlobalActionHandler(id, registry.getAction(id));      
+      id = ActionFactory.CUT.getId();
+      bars.setGlobalActionHandler(id, registry.getAction(id));
       // id = IncrementDecrementAction.INCREMENT;
       // bars.setGlobalActionHandler(id, registry.getAction(id));
       // id = IncrementDecrementAction.DECREMENT;
@@ -202,8 +202,8 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
    public OutlineTreeEditor getOutlineTreeEditor()
    {
       return outlineTreeEditor;
-   }   
-   
+   }
+
    public Control getControl()
    {
       return pageBook;
@@ -218,7 +218,20 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
          getCanvas().removeDisposeListener(disposeListener);
       }
 
+      if (outlineTreeEditor != null)
+      {
+         outlineTreeEditor.dispose();
+         outlineTreeEditor = null;
+      }
+
       editor.resetOutlinePage();
+
+      if (actionRegistry != null)
+      {
+         actionRegistry.dispose();
+         actionRegistry = null;
+      }
+
 
       super.dispose();
    }
@@ -412,7 +425,7 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
                IAction action = null;
                // selection.getModel is ConnectionImpl
                Object model = selection.getModel();
-               if(model instanceof DiagramType)   
+               if(model instanceof DiagramType)
                {
                   action = getActionRegistry().getAction(DiagramActionConstants.DIAGRAM_OPEN);
                }

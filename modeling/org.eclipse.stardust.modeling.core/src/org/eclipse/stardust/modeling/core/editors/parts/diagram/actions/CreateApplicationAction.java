@@ -50,6 +50,12 @@ public class CreateApplicationAction extends SelectionAction
 
    private ApplicationType application;
 
+   public void dispose()
+   {
+      this.setWorkbenchPart(null);
+      super.dispose();
+   }
+
    public CreateApplicationAction(IConfigurationElement config, WorkflowModelEditor part)
    {
       super(part);
