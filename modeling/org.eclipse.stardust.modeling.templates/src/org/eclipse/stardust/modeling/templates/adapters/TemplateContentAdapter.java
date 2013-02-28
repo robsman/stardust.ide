@@ -23,9 +23,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
@@ -51,10 +50,10 @@ import org.eclipse.stardust.modeling.templates.spi.ITemplate;
 
 
 
-public class TemplateContentAdapter extends EContentAdapter 
+public class TemplateContentAdapter extends EContentAdapter
 {
-   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;  
-   
+   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
+
    private ModelType targetModel;
    private Map nameIdCache = new HashMap();
    private Map changedCache = new HashMap();
@@ -65,79 +64,57 @@ public class TemplateContentAdapter extends EContentAdapter
    public TemplateContentAdapter(ModelType targetModel, ITemplate template)
    {
       super();
-      
+
       this.targetModel = targetModel;
       templateID = template.getId() + "-" + ModelUtils.getMaxUsedOid(targetModel);       //$NON-NLS-1$
       collectTargetData(this.targetModel);
    }
 
    public void notifyChanged(Notification notification)
-   {      
+   {
       super.notifyChanged(notification);
       EObject container = (EObject)notification.getNotifier();
-      if (notification.getEventType() == 5) 
-      {         
+      if (notification.getEventType() == 5)
+      {
          List list = (List) notification.getNewValue();
-         for (Iterator i = list.iterator(); i.hasNext();) {            
+         for (Iterator i = list.iterator(); i.hasNext();) {
             performConsistencyCheck((EObject)i.next(), container);
          }
-      }      
-      if (notification.getEventType() == 3) 
-      {         
+      }
+      if (notification.getEventType() == 3)
+      {
          if (notification.getNewValue() instanceof EObject) {
-            EObject element = (EObject)notification.getNewValue();            
+            EObject element = (EObject)notification.getNewValue();
             performConsistencyCheck(element, container);
-         } 
+         }
       }
    }
 
    private void performConsistencyCheck(EObject element, EObject container)
-   {   
+   {
       if (element instanceof INodeSymbol && !(container instanceof RoleType)) {
          if (element.eContainer() != null) {
-            symbols.add(element);            
+            symbols.add(element);
          }
       }
-      if (element instanceof ActivityType) 
-      {       
+      if (element instanceof ActivityType)
+      {
          ActivityType activityType = (ActivityType)element;
          IModelParticipant performer = activityType.getPerformer();
-         if (performer != null) 
+         if (performer != null)
          {
             RoleType roleType = (RoleType) ModelUtils.findElementById(targetModel.getRole(), performer.getId());
-            if (roleType != null) 
+            if (roleType != null)
             {
                activityType.setPerformer(roleType);
             }
          }
       }
-      if (element instanceof IIdentifiableModelElement) 
+      if (checkElementInModel(container, element))
       {
-         long maxOID = ModelUtils.getMaxUsedOid(targetModel);
-         maxOID++;
-         ((IIdentifiableModelElement)element).setElementOid(maxOID);
-         if (element instanceof ApplicationType)
+         if (element instanceof TransitionType)
          {
-            ApplicationType appType = (ApplicationType) element;
-            List<AccessPointType> accessPointTypes = appType.getAccessPoint();
-            if (accessPointTypes != null)
-            {
-               for (Iterator<AccessPointType> i = accessPointTypes.iterator(); i
-                     .hasNext();)
-               {
-                  AccessPointType apt = i.next();
-                  maxOID = ModelUtils.getMaxUsedOid(targetModel);
-                  maxOID++;
-                  apt.setElementOid(maxOID);
-               }
-            }
-         }
-      }
-      if (checkElementInModel(container, element)) 
-      {
-         if (element instanceof TransitionType) 
-         {
-            EClass eClass = PKG.getTransitionType();   
+            EClass eClass = PKG.getTransitionType();
             IdFactory idFactory = new IdFactory(Diagram_Messages.ID_TransitionConnection, Diagram_Messages.BASENAME_Transition);
             List list = (List) container.eGet(getContainingFeature(eClass, container));
             idFactory.computeNames(list);
@@ -148,8 +125,8 @@ public class TemplateContentAdapter extends EContentAdapter
                idFactory.setReferingElement((IIdentifiableModelElement) element);
             }
             return;
-         }         
-         if (element instanceof TypeDeclarationType) 
+         }
+         if (element instanceof TypeDeclarationType)
          {
             String orgName = ((TypeDeclarationType)element).getName();
             ((TypeDeclarationType)element).setName(MessageFormat.format(Templates_Messages.TXT_COPY_OF, new Object[]{orgName}));
@@ -162,25 +139,25 @@ public class TemplateContentAdapter extends EContentAdapter
                String newType = (String) dataRefCache.get(type);
                AttributeUtil.setAttribute((IExtensibleElement)element, "carnot:engine:dataType", newType); //$NON-NLS-1$
             }
-         }               
+         }
       }
    }
-     
+
    private void collectTargetData(ModelType model)
    {
       String id;
-      String name;      
-      // here we scan all children and children of those children 
+      String name;
+      // here we scan all children and children of those children
       for (Iterator i = model.eAllContents(); i.hasNext();)
       {
          EObject child = (EObject) i.next();
-                  
+
          EClass eClass = child.eClass();
          EObject parent = child.eContainer();
-     
+
          Map eClassNameIdCache = new HashMap();
          Object localNameIdCache = null;
-         
+
          if(nameIdCache.containsKey(parent))
          {
             eClassNameIdCache = (HashMap) nameIdCache.get(parent);
@@ -188,11 +165,11 @@ public class TemplateContentAdapter extends EContentAdapter
             {
                if (child instanceof DiagramType)
                {
-                  localNameIdCache = (List) eClassNameIdCache.get(eClass);                  
+                  localNameIdCache = (List) eClassNameIdCache.get(eClass);
                }
                else
                {
-                  localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
+                  localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
                }
             }
          }
@@ -200,57 +177,57 @@ public class TemplateContentAdapter extends EContentAdapter
          {
             if (child instanceof DiagramType)
             {
-               localNameIdCache = new ArrayList();            
-            }    
+               localNameIdCache = new ArrayList();
+            }
             else
             {
-               localNameIdCache = new HashMap();            
-            }            
-         }         
+               localNameIdCache = new HashMap();
+            }
+         }
          if (child instanceof IIdentifiableElement)
          {
             id = ((IIdentifiableElement) child).getId();
             name = ((IIdentifiableElement) child).getName();
-            ((HashMap) localNameIdCache).put(id, name);            
+            ((HashMap) localNameIdCache).put(id, name);
             eClassNameIdCache.put(eClass, localNameIdCache);
          }
          else if (child instanceof IModelElement)
          {
             if (child instanceof DiagramType)
             {
-               name = ((DiagramType) child).getName();               
+               name = ((DiagramType) child).getName();
                ((ArrayList) localNameIdCache).add(name);
-               eClassNameIdCache.put(eClass, localNameIdCache);            
+               eClassNameIdCache.put(eClass, localNameIdCache);
             }
          }
          else if (child instanceof TypeDeclarationType)
          {
             id = ((TypeDeclarationType) child).getId();
             name = ((TypeDeclarationType) child).getName();
-            ((HashMap) localNameIdCache).put(id, name);            
+            ((HashMap) localNameIdCache).put(id, name);
             eClassNameIdCache.put(eClass, localNameIdCache);
          }
          nameIdCache.put(parent, eClassNameIdCache);
       }
-   }   
-   
+   }
+
    private boolean checkElementInModel(EObject targetContainer, EObject element)
-   {      
+   {
       EClass eClass = element.eClass();
-      
+
       EObject parent = targetContainer;
       EObject checkParent = (EObject) changedCache.get(parent);
       if(checkParent != null)
       {
          parent = checkParent;
-      }      
-      
+      }
+
       String id;
       String name;
-      
+
       Map eClassNameIdCache = new HashMap();
       Object localNameIdCache = null;
-      
+
       if(nameIdCache.containsKey(parent))
       {
          eClassNameIdCache = (HashMap) nameIdCache.get(parent);
@@ -259,13 +236,13 @@ public class TemplateContentAdapter extends EContentAdapter
             if (element instanceof IIdentifiableElement)
             {
                id = ((IIdentifiableElement) element).getId();
-               name = ((IIdentifiableElement) element).getName();               
-               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
+               name = ((IIdentifiableElement) element).getName();
+               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
                if(((HashMap) localNameIdCache).containsKey(id)
                      || ((HashMap) localNameIdCache).containsValue(name))
                {
                   return true;
-               }               
+               }
             } else if (element instanceof TypeDeclarationType) {
                id = ((TypeDeclarationType) element).getId();
                name = ((TypeDeclarationType) element).getName();
@@ -274,53 +251,53 @@ public class TemplateContentAdapter extends EContentAdapter
                      || ((HashMap) localNameIdCache).containsValue(name))
                {
                   return true;
-               } 
+               }
             }
          }
       }
-      return false;      
-      
+      return false;
+
    }
-          
+
    private boolean openDialog(EObject parent, EObject element)
    {
       EClass eClass = element.eClass();
- 
+
       String id;
       String name;
-            
+
       Map eClassNameIdCache = new HashMap();
       Object localNameIdCache = null;
-      
+
       eClassNameIdCache = (HashMap) nameIdCache.get(parent);
 
       id = ((IIdentifiableElement) element).getId();
-      name = ((IIdentifiableElement) element).getName();               
-      localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
-         
+      name = ((IIdentifiableElement) element).getName();
+      localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
+
       NameIdDialog nameIdDialog = new NameIdDialog(null, id, name, (HashMap) localNameIdCache);
       // add modified EObjects to newElements
       if (Dialog.OK == nameIdDialog.open())
       {
         ((IIdentifiableElement) element).setId(nameIdDialog.getId());
-        ((IIdentifiableElement) element).setName(nameIdDialog.getName());            
+        ((IIdentifiableElement) element).setName(nameIdDialog.getName());
         ((HashMap) localNameIdCache).put(nameIdDialog.getId(), nameIdDialog.getName());
         eClassNameIdCache.put(eClass, localNameIdCache);
-        nameIdCache.put(parent, eClassNameIdCache);            
+        nameIdCache.put(parent, eClassNameIdCache);
         return true;
       } else {
-        throw new ImportCancelledException(); 
+        throw new ImportCancelledException();
       }
-   } 
-   
+   }
+
    private EStructuralFeature getContainingFeature(EClass eClass, EObject container)
    {
       List containingFeatureList = container.eClass().getEStructuralFeatures();
-      return CommandUtils.findContainmentFeature(containingFeatureList, eClass);   
+      return CommandUtils.findContainmentFeature(containingFeatureList, eClass);
    }
 
    public List getAddedSymbols()
    {
       return symbols;
-   }    
+   }
 }
