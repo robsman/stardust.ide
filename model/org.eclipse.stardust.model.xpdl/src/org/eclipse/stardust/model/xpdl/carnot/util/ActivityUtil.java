@@ -46,6 +46,7 @@ import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
@@ -533,7 +534,8 @@ public class ActivityUtil
                      .createDataMappingConnectionType();
                connection.setActivitySymbol(activitySymbol);
                connection.setDataSymbol(dataSymbol);
-               diagram.getDataMappingConnection().add(connection);
+               PoolSymbol defaultPool = DiagramUtil.getDefaultPool(diagram);               
+               defaultPool.getDataMappingConnection().add(connection);
             }
          }
       }
