@@ -70,6 +70,44 @@ import org.eclipse.ui.PlatformUI;
 
 public class GenericUtils
 {    
+   public static String getLocationRelativeToClasspath(IFile file)
+   {
+      String fileName = file.toString().substring(1); // strip resource type identifier
+      try
+      {
+         IProject project = file.getProject();
+         if (project != null && project.hasNature(JavaCore.NATURE_ID))
+         {
+            IJavaProject rootJavaProject = JavaCore.create(project);
+            //also search in required project of the javaproject
+            List<IJavaProject> javaProjectsToScan = new ArrayList<IJavaProject>();
+            javaProjectsToScan.add(rootJavaProject);
+            javaProjectsToScan.addAll(GenericUtils.getRequiredProjects(rootJavaProject));
+            
+            for(IJavaProject javaProject: javaProjectsToScan)
+            {
+               IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
+               for (int i = 0; i < roots.length; i++)
+               {
+                  IResource resource = roots[i].getCorrespondingResource();
+                  if (resource instanceof IFolder)
+                  {
+                     String parent = resource.toString().substring(1); // strip resource type identifier
+                     if (fileName.startsWith(parent))
+                     {
+                        return fileName.substring(parent.length());
+                     }
+                  }
+               }
+            }
+         }
+      }
+      catch(Exception e)
+      {}
+      
+      return fileName;
+   }
+   
    public static IFile cleanFileStructure(EObject modelElement, String filename)
    {
       ModelType model = ModelUtils.findContainingModel(modelElement);

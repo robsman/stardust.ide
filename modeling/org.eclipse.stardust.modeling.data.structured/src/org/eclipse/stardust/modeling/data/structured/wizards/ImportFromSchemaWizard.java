@@ -76,15 +76,11 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
    private List<XSDSchema> externalSchemaList = new ArrayList<XSDSchema>();
 
    private SchemaLocationPage choicePage;
-
    private XSDSelectSingleFilePage filePage;
-
    private XSDURLPage urlPage;
-
    private XSDTypesSelectionPage typesPage;
 
    private IFile resultFile;
-
    private String resultURL;
 
    private TypeDeclarationsType typeDeclarations;
@@ -109,7 +105,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
    {
       this.typeDeclarations = typeDeclarations;
       this.resource = resource;
-
+      
       String title = Structured_Messages.ImportFromSchemaWizardTitle;
       setWindowTitle(title);
       setDefaultPageImageDescriptor(DiagramPlugin.imageDescriptorFromPlugin(
@@ -130,7 +126,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       urlPage = new XSDURLPage(this, location);
       urlPage.setTitle(title);
       urlPage.setDescription(Structured_Messages.URLPageDescription);
-
+      
       // Types Page
       typesPage = new XSDTypesSelectionPage(this, true, hasCreateParserButton);
       typesPage.setTitle(title);
@@ -167,7 +163,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       {
          nextPage = typesPage;
       }
-
+      
       return nextPage;
    }
 
@@ -182,11 +178,11 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       List<String> idCache = CollectionUtils.newList();
       for (int i = 0; i < typeDeclarations.getTypeDeclaration().size(); i++)
       {
-         TypeDeclarationType declaration = (TypeDeclarationType) typeDeclarations
-               .getTypeDeclaration().get(i);
+         TypeDeclarationType declaration = (TypeDeclarationType) typeDeclarations.getTypeDeclaration().get(i);
          idCache.add(declaration.getId());
-      }
-
+      }      
+      
+      IFile xsdFileInWorkspace = null;
       if (isURL())
       {
          resultURL = urlPage.getURL();
@@ -194,18 +190,20 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       else
       {
          resultFile = filePage.getFile();
+         xsdFileInWorkspace = resultFile;
       }
-      
+      IFile file = null;
       if (isURL() && urlPage.saveToWorkspace && !externalSchemaList.isEmpty())
       {
-         resultFile = doSaveExternalModel();
+         file = doSaveExternalModel();
+         xsdFileInWorkspace = file;
       }
       declarations = CollectionUtils.newList();
       Map<XSDSchema, String> schema2location = CollectionUtils.newMap();
       IStructuredSelection selection = typesPage.getSelection();
-      HashMap<String, String> name2id = new HashMap<String, String>();
-
-      for (Iterator< ? > i = selection.iterator(); i.hasNext();)
+      HashMap<String, String> name2id = new HashMap<String, String>();      
+      
+      for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
          if (item instanceof XSDTypeDefinition || item instanceof XSDElementDeclaration)
@@ -214,7 +212,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             if (component.getContainer() == component.getSchema())
             {
                String id = component.getName();
-               if (idCache.contains(id))
+               if(idCache.contains(id))
                {
                   ImportIdDialog importIdDialog = new ImportIdDialog(null, id, idCache);
                   if (Dialog.OK == importIdDialog.open())
@@ -226,13 +224,13 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                   else
                   {
                      return false;
-                  }
+                  }                  
                }
             }
          }
       }
-
-      for (Iterator< ? > i = selection.iterator(); i.hasNext();)
+      
+      for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
          if (item instanceof XSDTypeDefinition || item instanceof XSDElementDeclaration)
@@ -241,58 +239,55 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             if (component.getContainer() == component.getSchema())
             {
                XSDSchema schema = component.getSchema();
-               TypeDeclarationType declaration = XpdlFactory.eINSTANCE
-                     .createTypeDeclarationType();
+               TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
                declarations.add(declaration);
                String id = component.getName();
                declaration.setId(id);
                declaration.setName(id);
                if (typesPage.mustSaveSchema() && !schema2location.containsKey(schema))
                {
-                  ((InternalEObject) schema).eSetResource(
-                        (Resource.Internal) typeDeclarations.eResource(), null);
+                  ((InternalEObject) schema).eSetResource((Resource.Internal) typeDeclarations.eResource(), null);
                   String location = StructuredDataConstants.URN_INTERNAL_PREFIX + id;
-                  List<XSDSchemaDirective> referencingDirectives = schema
-                        .getReferencingDirectives();
+                  List<XSDSchemaDirective> referencingDirectives = schema.getReferencingDirectives();
                   for (int j = 0; j < referencingDirectives.size(); j++)
                   {
-                     XSDSchemaDirective directive = (XSDSchemaDirective) referencingDirectives
-                           .get(j);
+                     XSDSchemaDirective directive = (XSDSchemaDirective) referencingDirectives.get(j);
                      directive.setSchemaLocation(location);
                   }
                   schema2location.put(schema, location);
-                  SchemaTypeType schemaType = XpdlFactory.eINSTANCE
-                        .createSchemaTypeType();
+                  SchemaTypeType schemaType = XpdlFactory.eINSTANCE.createSchemaTypeType();
                   declaration.setSchemaType(schemaType);
                   schemaType.setSchema(schema);
                }
                else
                {
-                  ExternalReferenceType reference = XpdlFactory.eINSTANCE
-                        .createExternalReferenceType();
+                  ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
                   String useId = name2id.get(id);
-                  if (StringUtils.isEmpty(useId))
+                  if(StringUtils.isEmpty(useId))
                   {
                      useId = id;
-                  }
-
-                  reference
-                        .setXref(QNameUtil.toString(schema.getTargetNamespace(), useId));
-                  reference.setLocation(typesPage.mustSaveSchema()
-                        ? ((String) schema2location.get(schema))
-                        : isURL() ? resultURL : urlPage
-                              .getClasspathResourceName(resultFile));
+                  }                  
+                  
+                  reference.setXref(QNameUtil.toString(schema.getTargetNamespace(), useId));
+                  reference.setLocation(typesPage.mustSaveSchema() ? ((String) schema2location.get(schema))
+                        : isURL() ? resultURL : urlPage.getClasspathResourceName(resultFile));
                   declaration.setExternalReference(reference);
                }
-
-               // write workspace relative path for resolving within eclipse environment
-               if (resultFile != null)
+               if (isURL() && urlPage.saveToWorkspace)
                {
                   ExtendedAttributeUtil.setAttribute(declaration,
                         StructuredDataConstants.RESOURCE_MAPPING_LOCAL_FILE,
-                        resultFile.getFullPath().toString());
+                        urlPage.getClasspathResourceName(file));
                }
-
+               
+               // write workspace relative path for resolving within eclipse environment
+               if(xsdFileInWorkspace != null)
+               {
+                  ExtendedAttributeUtil.setAttribute(declaration,
+                        StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE,
+                        xsdFileInWorkspace.getFullPath().toString());                  
+               }
+               
             }
          }
       }
@@ -301,8 +296,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       for (int i = 0; i < declarations.size(); i++)
       {
          TypeDeclarationType declaration = (TypeDeclarationType) declarations.get(i);
-         TypeDeclarationType oldDeclaration = typeDeclarations
-               .getTypeDeclaration(declaration.getId());
+         TypeDeclarationType oldDeclaration = typeDeclarations.getTypeDeclaration(declaration.getId());
          if (oldDeclaration != null)
          {
             typeDeclarations.getTypeDeclaration().remove(oldDeclaration);
@@ -317,7 +311,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          schema.setSchemaLocation(entry.getValue());
          schema.reset();
       }
-
+      
       for (XSDSchema schema : schema2location.keySet())
       {
          Map<String, String> prefixes = schema.getQNamePrefixToNamespaceMap();
@@ -368,13 +362,13 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          if (file.exists())
          {
             String[] buttons = new String[] {
-                  IDialogConstants.YES_LABEL, IDialogConstants.SKIP_LABEL};
-            String question = NLS.bind(
-                  IDEWorkbenchMessages.SaveAsDialog_overwriteQuestion, file.getFullPath()
-                        .toOSString());
+                  IDialogConstants.YES_LABEL,
+                  IDialogConstants.SKIP_LABEL};
+            String question = NLS.bind(IDEWorkbenchMessages.SaveAsDialog_overwriteQuestion,
+                  file.getFullPath().toOSString());
             MessageDialog dialog = new MessageDialog(getShell(),
-                  IDEWorkbenchMessages.Question, null, question, MessageDialog.QUESTION,
-                  buttons, 0);
+                  IDEWorkbenchMessages.Question, null, question,
+                  MessageDialog.QUESTION, buttons, 0);
             if (dialog.open() != 0) // 0 == yes
             {
                return file;
@@ -385,8 +379,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             XSDSchema schema = (XSDSchema) externalSchemaList.get(0);
             XSDResourceImpl.serialize(outputStream, schema.getDocument(), "UTF-8"); //$NON-NLS-1$
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(
-                  outputStream.toByteArray());
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
             if (file.exists())
             {
                file.setContents(inputStream, IResource.KEEP_HISTORY, null);
@@ -425,8 +418,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
 
    /**
     * Create a MOF model for the imported file
-    * 
-    * @throws IOException
+    * @throws IOException 
     */
    protected String doLoadExternalModel(IProgressMonitor monitor, String xsdModelFile,
          String xsdFileName)
@@ -435,7 +427,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
 
       monitor.beginTask(Structured_Messages.LoadingSchemaTaskName, 100);
       monitor.worked(50);
-
+      
       emfResource = new XSDResourceImpl(URI.createURI(xsdModelFile));
       emfResource.eAdapters().add(new SchemaLocatorAdapter());
       ResourceSetImpl resourceSet = new ResourceSetImpl();
@@ -447,10 +439,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       }
       try
       {
-         /*
-          * Map options = CollectionUtils.newMap(); options.put("XSD_PROGRESS_MONITOR",
-          * monitor);
-          */
+         /*Map options = CollectionUtils.newMap();
+         options.put("XSD_PROGRESS_MONITOR", monitor);*/
          emfResource.load(is, CollectionUtils.newMap());
          externalSchemaList.clear();
          List<EObject> resourceContents = emfResource.getContents();
@@ -461,8 +451,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             {
                XSDSchema externalSchema = (XSDSchema) eObject;
                if (externalSchema.getElement() != null
-                     && (externalSchema.getDiagnostics() == null || externalSchema
-                           .getDiagnostics().isEmpty()))
+                     && (externalSchema.getDiagnostics() == null
+                     || externalSchema.getDiagnostics().isEmpty()))
                {
                   externalSchemaList.add(externalSchema);
                }
@@ -481,13 +471,12 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       {
          errorMessage = e.getMessage();
       }
-
+      
       for (int i = 0; i < externalSchemaList.size(); i++)
       {
          XSDSchema schema = (XSDSchema) externalSchemaList.get(i);
          TypeDeclarationUtils.resolveImports(schema);
-         XSDTypesSelectionPage.checkNamespaceDeclaration(schema,
-               schema.getSchemaForSchemaNamespace(), "xsd"); //$NON-NLS-1$
+         XSDTypesSelectionPage.checkNamespaceDeclaration(schema, schema.getSchemaForSchemaNamespace(), "xsd"); //$NON-NLS-1$
       }
 
       monitor.subTask(Structured_Messages.FinishLoadingTaskName);
@@ -527,15 +516,14 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
    {
       return declarations;
    }
-
+   
    private static final class IDEWorkbenchMessages extends NLS
    {
       private static final String BUNDLE_NAME = "org.eclipse.ui.internal.ide.messages";//$NON-NLS-1$
-
+      
       public static String SaveAsDialog_overwriteQuestion;
-
       public static String Question;
-
+      
       static
       {
          // load message values from bundle file

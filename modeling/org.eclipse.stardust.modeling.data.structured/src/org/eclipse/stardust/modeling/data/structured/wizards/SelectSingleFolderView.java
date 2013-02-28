@@ -282,35 +282,6 @@ public class SelectSingleFolderView
 
    public String getClasspathResourceName(IFile file)
    {
-      String fileName = file.toString().substring(1); // strip resource type identifier
-      try
-      {
-         //also search in required project of the javaproject
-         List<IJavaProject> javaProjectsToScan = new ArrayList<IJavaProject>();
-         javaProjectsToScan.add(javaProject);
-         javaProjectsToScan.addAll(GenericUtils.getRequiredProjects(javaProject));
-         
-         for(IJavaProject javaProject: javaProjectsToScan)
-         {
-            IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
-            for (int i = 0; i < roots.length; i++)
-            {
-               IResource resource = roots[i].getCorrespondingResource();
-               if (resource instanceof IFolder)
-               {
-                  String parent = resource.toString().substring(1); // strip resource type identifier
-                  if (fileName.startsWith(parent))
-                  {
-                     return fileName.substring(parent.length());
-                  }
-               }
-            }
-         }
-      }
-      catch (JavaModelException e)
-      {
-         e.printStackTrace();
-      }
-      return fileName;
+      return GenericUtils.getLocationRelativeToClasspath(file);
    }
 }
