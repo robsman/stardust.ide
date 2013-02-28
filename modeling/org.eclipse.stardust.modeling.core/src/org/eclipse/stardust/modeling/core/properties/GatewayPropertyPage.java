@@ -41,7 +41,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 
-
 public class GatewayPropertyPage extends AbstractModelElementPropertyPage
 {
    protected void performDefaults()
@@ -209,7 +208,10 @@ public class GatewayPropertyPage extends AbstractModelElementPropertyPage
                      .getCDataString(transition.getExpression().getMixed());
                if (expression == null || expression.trim().length() == 0)
                {
-                  expression = transition.getCondition().trim();
+                  if(transition.getCondition() != null)
+                  {
+                     expression = transition.getCondition().trim();
+                  }
                }
                return expression;
             }
