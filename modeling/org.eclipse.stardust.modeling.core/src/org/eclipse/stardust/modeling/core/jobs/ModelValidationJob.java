@@ -189,7 +189,10 @@ public class ModelValidationJob extends WorkspaceJob
          {
             ValidatorRegistry.setFilters(null);
             vs.setProgressMonitor(null);
-            editor.getEditorChangeTracker().setEnabled(true);
+            if(editor != null)
+            {
+               editor.getEditorChangeTracker().setEnabled(true);
+            }
          }
       }
 
