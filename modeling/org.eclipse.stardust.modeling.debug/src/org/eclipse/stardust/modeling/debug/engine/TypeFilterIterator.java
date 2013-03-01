@@ -141,4 +141,10 @@ public class TypeFilterIterator implements ResultIterator
       // TODO implement
       throw new UnsupportedOperationException(Internal_Debugger_Messages.getString("EXP_DebugModeLimitation")); //$NON-NLS-1$
    }
+   
+   @Override
+   public long getTotalCountThreshold()
+   {
+      return Long.MAX_VALUE;
+   }
 }

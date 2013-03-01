@@ -116,6 +116,13 @@ public class DebugSession implements Session, Session.NotJoinEnabled
    public long getCount(Class type, QueryExtension queryExtension,
          FetchPredicate fetchPredicate, int timeout)
    {
+      return getCount(type, queryExtension, fetchPredicate, timeout, Long.MAX_VALUE);
+   }
+   
+   @Override
+   public long getCount(Class type, QueryExtension queryExtension,
+         FetchPredicate fetchPredicate, int timeout, long totalCountThreshold)
+   {
       if (!queryExtension.getJoins().isEmpty())
       {
          throw new UnsupportedOperationException(debugModeLimitation);
@@ -515,6 +522,11 @@ public class DebugSession implements Session, Session.NotJoinEnabled
          return source.getTotalCount();
       }
       
+      @Override
+      public long getTotalCountThreshold()
+      {
+         return source.getTotalCountThreshold();
+      }
       
    }
 
