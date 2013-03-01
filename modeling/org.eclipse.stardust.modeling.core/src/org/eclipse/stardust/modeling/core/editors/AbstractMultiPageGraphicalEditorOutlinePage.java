@@ -226,11 +226,11 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
 
       editor.resetOutlinePage();
 
-      if (actionRegistry != null)
+      /*if (actionRegistry != null)
       {
          actionRegistry.dispose();
          actionRegistry = null;
-      }
+      }*/
 
 
       super.dispose();
