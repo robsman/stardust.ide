@@ -218,20 +218,7 @@ public abstract class AbstractMultiPageGraphicalEditorOutlinePage
          getCanvas().removeDisposeListener(disposeListener);
       }
 
-      if (outlineTreeEditor != null)
-      {
-         outlineTreeEditor.dispose();
-         outlineTreeEditor = null;
-      }
-
       editor.resetOutlinePage();
-
-      /*if (actionRegistry != null)
-      {
-         actionRegistry.dispose();
-         actionRegistry = null;
-      }*/
-
 
       super.dispose();
    }

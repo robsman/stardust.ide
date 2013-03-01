@@ -26,6 +26,7 @@ public class ForwardDeleteAction extends SelectionAction
 
    public void dispose()
    {
+      registry = null;
       super.dispose();
    }
 

@@ -47,13 +47,6 @@ import org.eclipse.ui.PartInitException;
 
 public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
 {
-   @Override
-   protected void finalize() throws Throwable
-   {
-      // TODO Auto-generated method stub
-      super.finalize();
-   }
-
    private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
    private ChildCategoryNode.Spec catApplications;

@@ -83,6 +83,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -182,12 +183,12 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
 
    private ModelServer modelServer;
 
-   private ValidationIssueManager validationIssueManager = new ValidationIssueManager();
+   private final ValidationIssueManager validationIssueManager = new ValidationIssueManager();
 
-   private ModelResourceIssueSynchronizer issueSynchronizer = new ModelResourceIssueSynchronizer(
+   private final ModelResourceIssueSynchronizer issueSynchronizer = new ModelResourceIssueSynchronizer(
          validationIssueManager);
 
-   private EditorChangeTracker editorChangeTracker = new EditorChangeTracker();
+   private final EditorChangeTracker editorChangeTracker = new EditorChangeTracker();
 
    public EditorChangeTracker getEditorChangeTracker()
    {
@@ -249,11 +250,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          modelServer.dispose();
       }
       variableContextHelper.removeContext(this.getWorkflowModel());
-      validationIssueManager = null;
-      issueSynchronizer = null;
-      cwmModel = null;
-      modelManager = null;
-      editorChangeTracker = null;
       super.dispose();
    }
 

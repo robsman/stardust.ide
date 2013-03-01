@@ -101,10 +101,9 @@ import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 
 public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider {
+	private final ActionRegistry registry;
 
-   private ActionRegistry registry;
-
-	private ActionRegistry localRegistry;
+	private final ActionRegistry localRegistry;
 
 	private WorkflowModelEditor editor;
 
@@ -1084,19 +1083,4 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 			command.execute();
 		}
 	}
-
-   public void dispose()
-   {
-      if (registry != null)
-      {
-         registry.dispose();
-         registry = null;
-      }
-      if (localRegistry != null)
-      {
-         localRegistry.dispose();
-         localRegistry = null;
-      }
-      super.dispose();
-   }
 }
