@@ -454,7 +454,7 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
 
       // disposy the ActionRegistry (will unbind all actions)
       getActionRegistry().dispose();
-      actionRegistry = null;
+      //actionRegistry = null;
       editorInputTracker = null;
       if (outlinePage != null)
       {
