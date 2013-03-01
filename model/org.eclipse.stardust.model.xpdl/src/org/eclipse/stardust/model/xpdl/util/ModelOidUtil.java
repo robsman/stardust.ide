@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.util;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -25,8 +24,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 public class ModelOidUtil extends EContentAdapter
 {
    private long lastOID = 0;
-   private HashMap<Long, IModelElement> unsets = new HashMap<Long, IModelElement>();
-   private Set<Long> oids = new HashSet<Long>();
+   private Map<Long, IModelElement> unsets = CollectionUtils.newMap();
+   private Set<Long> oids = CollectionUtils.newSet();
    private boolean enabled = true;   
    private boolean valid = false;
    
@@ -43,10 +42,15 @@ public class ModelOidUtil extends EContentAdapter
             && notification.getEventType() == Notification.SET
             && notification.getFeature().equals(CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()))
       {
-         if(valid == false && enabled == true)
+         if (!valid && enabled)
          {
             throw new DuplicateOidException("invalid setting of oid!");
          }         
+         else
+         {
+            oids.remove(notification.getOldLongValue());
+            oids.add(notification.getNewLongValue());
+         }
       }
       super.notifyChanged(notification);
    }
@@ -58,54 +62,55 @@ public class ModelOidUtil extends EContentAdapter
       if (notifier instanceof IModelElement)
       {
          valid = true;         
-         if (((IModelElement) notifier).eIsSet(CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()))
+         IModelElement element = (IModelElement) notifier;
+         if (element.isSetElementOid())
          {
             // check for duplicates.
-            long elementOid = ((IModelElement) notifier).getElementOid();
-            if(unsets == null)
+            final long elementOid = element.getElementOid();
+            if (unsets != null && unsets.containsKey(elementOid))
             {
-               if(elementOid <= lastOID && elementOid > 0)
-               {
-                  ((IModelElement) notifier).setElementOid(++lastOID);                  
-                  elementOid = ((IModelElement) notifier).getElementOid(); 
-               }            
-            }   
+               setElementOid(unsets.remove(elementOid));
+            }
             else
             {
-               if (unsets.containsKey(elementOid))
+               if (oids.contains(elementOid))
                {
-                  IModelElement me = unsets.remove(elementOid);
-                  me.setElementOid(++lastOID);
-                  unsets.put(lastOID, me);
-                  oids.add(lastOID);                                 
+                  element.setElementOid(++lastOID);
+                  oids.add(lastOID);               
                }
                else
-               {
-                  if(!oids.contains(elementOid))
-                  {
-                     oids.add(elementOid);
-                     lastOID = Math.max(lastOID, elementOid);                     
-                  }
-                  else
-                  {               
-                     ((IModelElement) notifier).setElementOid(++lastOID);
-                     elementOid = ((IModelElement) notifier).getElementOid(); 
-                     oids.add(elementOid);               
-                  }
+               {               
+                  lastOID = Math.max(lastOID, elementOid);                     
+                  oids.add(elementOid);
                }
             }
          }
          else
          {
-            ((IModelElement) notifier).setElementOid(++lastOID);
-            if(unsets != null)
-            {
-               unsets.put(lastOID, (IModelElement) notifier);
-               oids.add(lastOID);                                                
-            }
+            setElementOid(element);                                                
          }
          valid = false;
       }
+   }
+
+   @Override
+   protected synchronized void removeAdapter(Notifier notifier)
+   {
+      super.removeAdapter(notifier);
+      if (notifier instanceof IModelElement)
+      {
+         oids.remove(((IModelElement) notifier).getElementOid());
+      }
+   }
+
+   private void setElementOid(IModelElement element)
+   {
+      element.setElementOid(++lastOID);
+      if (unsets != null)
+      {
+         unsets.put(lastOID, element);
+      }
+      oids.add(lastOID);
    }
 
    public static ModelOidUtil register(ModelType model)
@@ -113,8 +118,6 @@ public class ModelOidUtil extends EContentAdapter
       ModelOidUtil m = new ModelOidUtil();
       model.eAdapters().add(m);
       m.unsets = null;
-      m.oids = null;
-      
       return m;
    }
 }
