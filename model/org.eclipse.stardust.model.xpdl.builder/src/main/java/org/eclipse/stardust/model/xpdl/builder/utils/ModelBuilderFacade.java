@@ -3279,7 +3279,10 @@ public class ModelBuilderFacade
       ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
       mappingType.setParameter(parameter);
       mappingType.setData(findData(dataFullID));
-      mappingType.setDataPath(dataPath);
+      if(dataPath != null)
+      {
+         mappingType.setDataPath(dataPath);
+      }
       trigger.getParameterMapping().add(mappingType);
       return mappingType;
    }
