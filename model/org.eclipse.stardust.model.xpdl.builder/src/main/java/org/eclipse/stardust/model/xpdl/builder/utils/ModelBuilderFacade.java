@@ -1387,8 +1387,6 @@ public class ModelBuilderFacade
                || ModelerConstants.RECEIVE_TASK_KEY.equals(taskType)
                || ModelerConstants.RULE_TASK_KEY.equals(taskType))
          {
-            // TODO Add participant for User Tasks
-
             String stripFullId_ = getModelId(applicationFullID);
 
             if (StringUtils.isEmpty(stripFullId_))
@@ -1407,6 +1405,13 @@ public class ModelBuilderFacade
                         getApplication(applicationModel.getId(),
                               stripFullId(applicationFullID)))
                   .build();
+
+            if (ModelerConstants.USER_TASK_KEY.equals(taskType) &&
+                  participantFullID != null)
+            {
+               activity.setPerformer(findParticipant(
+                     participantFullID));
+            }
 
             // TODO Redundant?
 
