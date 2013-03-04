@@ -59,7 +59,10 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
@@ -468,11 +471,11 @@ public class UnusedModelElementsSearcher
             for (FormalParameterType type : parametersType.getFormalParameter())
             {
                org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataType = type.getDataType();
-               XpdlTypeType xpdlType = dataType.getDataType();
-               if (xpdlType instanceof DeclaredTypeType)
+               DeclaredTypeType declaredType = dataType.getDeclaredType();
+               if(declaredType != null)
                {
-                  String declaredTypeId = ((DeclaredTypeType) xpdlType).getId();
-                  if (!StringUtils.isEmpty(declaredTypeId)
+                  String declaredTypeId = declaredType.getId();
+                  if ( !StringUtils.isEmpty(declaredTypeId)
                         && declaredTypeId.equals(element.getId()))
                   {
                      return true;
@@ -486,20 +489,21 @@ public class UnusedModelElementsSearcher
    
    private boolean isParticipantUsedInOrganizations(IModelParticipant element)
    {
-      List<OrganizationType> organizations = model.getOrganization();
-      for (OrganizationType organization : organizations)
+      List organizations = model.getOrganization();
+      for (Iterator i = organizations.iterator(); i.hasNext();)
       {
-         List<ParticipantType> participants = organization.getParticipant();
-         for (ParticipantType participantType : participants)
+         OrganizationType organization = (OrganizationType) i.next();   
+         List participants = organization.getParticipant();
+         for(int cnt = 0; cnt < participants.size(); cnt++)
          {
-            IModelParticipant participant = participantType.getParticipant();
-            if (participant.equals(element))
+            IModelParticipant participant = ((ParticipantType) participants.get(cnt)).getParticipant();
+            if(participant.equals(element))
             {
                return true;
             }            
          }         
          RoleType role = organization.getTeamLead();
-         if (role != null && role.equals(element))
+         if(role != null && role.equals(element))
          {
             return true;
          }
@@ -512,13 +516,13 @@ public class UnusedModelElementsSearcher
       List<OrganizationType> organizations = model.getOrganization();
       for (OrganizationType organization : organizations)
       {
-         if (AttributeUtil.getBooleanValue((IExtensibleElement) organization, PredefinedConstants.BINDING_ATT))
+         if(AttributeUtil.getBooleanValue((IExtensibleElement) organization, PredefinedConstants.BINDING_ATT))
          {
             String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) organization, PredefinedConstants.BINDING_DATA_ID_ATT);               
-            if (!StringUtils.isEmpty(dataId))
+            if(!StringUtils.isEmpty(dataId))
             {
                DataType data = (DataType) ModelUtils.findElementById(model.getData(), dataId);
-               if (data != null && data.equals(element))
+               if(data != null && data.equals(element))
                {
                   return true;
                }
