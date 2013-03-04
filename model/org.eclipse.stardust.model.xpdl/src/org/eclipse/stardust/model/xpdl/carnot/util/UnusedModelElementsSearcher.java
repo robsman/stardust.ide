@@ -472,11 +472,14 @@ public class UnusedModelElementsSearcher
             {
                org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataType = type.getDataType();
                DeclaredTypeType declaredType = dataType.getDeclaredType();
-               String declaredTypeId = declaredType.getId();
-               if ( !StringUtils.isEmpty(declaredTypeId)
-                     && declaredTypeId.equals(element.getId()))
+               if(declaredType != null)
                {
-                  return true;
+                  String declaredTypeId = declaredType.getId();
+                  if ( !StringUtils.isEmpty(declaredTypeId)
+                        && declaredTypeId.equals(element.getId()))
+                  {
+                     return true;
+                  }
                }
             }
          }
