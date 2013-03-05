@@ -155,7 +155,7 @@
       <copy file="${xpdl.builder.src-jar}" todir="${stardust.dir}/ide/engine/org.eclipse.stardust.ide.engine.base/lib" / -->
    </target>
 
-   <target name="deploy" depends="build" />
+   <target name="deploy" depends="build, dependencies:report" />
 
    <target name="install" if="maven.localRepository" depends="initBuild"
       description="installs the artifacts into a local Maven repository">
@@ -169,6 +169,11 @@
 
       <ipp:init-mvn />
    	<ipp:mvn-deploy file="${xpdl.builder.jar}" pomFile="${build.lib}/${artifactId}.pom" />
+   </target>
+
+   <target name="dependencies:report" depends="init,initIvy">
+      <property name="build.report" location="${build.dir}/report" />
+      <ivy-report ivyFile="${project.dir}/ivy.xml" outputDir="${build.report}" />
    </target>
    
 </project>

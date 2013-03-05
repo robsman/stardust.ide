@@ -20,9 +20,13 @@
       <conf name="ipp-bpm-model-builder-compile" description="XPDL Builder - Compile Scope" />
       <conf name="ipp-bpm-model-builder-runtime" description="XPDL Builder - Runtime Scope" />
       
-      <conf name="compile" extends="ipp-bpm-model-builder-compile" visibility="private" description="Compile Time Dependencies" />
-      
       <conf name="test" visibility="private" description="Test dependencies" />
+
+      <!-- compound configurations which encapsulates the above mentioned configs -->
+      <conf name="compile" extends="ipp-bpm-model-builder-compile" visibility="private" />
+      <conf name="runtime" extends="ipp-bpm-model-builder-runtime" visibility="private" />
+
+      <conf name="all" extends="compile, runtime, test" visibility="private" />
 
       <conf name="pom" description="PDL Modeler - POMs" />
    </configurations>
@@ -61,7 +65,10 @@
          <exclude org="org.eclipse.core" module="org.eclipse.core.jobs" />
       </dependency>
       
-      <dependency org="junit" name="junit" rev="${junit.version}" conf="test->default"/>
+      <dependency org="junit" name="junit" rev="${junit.version}" conf="test->default">
+         <exclude org="org.hamcrest" module="hamcrest-core" />
+      </dependency>
+      <dependency org="org.hamcrest" name="hamcrest-core" rev="${hamcrest-core.version}" conf="test->default" />
 
    </dependencies>
 </ivy-module>
