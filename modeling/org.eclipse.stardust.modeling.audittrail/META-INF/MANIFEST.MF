@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Infinity Audit Trail
+Bundle-Name: Audit Trail
 Bundle-SymbolicName: org.eclipse.stardust.modeling.audittrail
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Bundle-Activator: org.eclipse.stardust.modeling.audittrail.AuditTrailActivator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,

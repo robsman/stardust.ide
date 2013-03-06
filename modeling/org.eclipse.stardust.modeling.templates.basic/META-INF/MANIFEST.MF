@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Basic Modeling Templates Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.modeling.templates.basic;singleton:=true
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface,

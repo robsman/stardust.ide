@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Apache Derby DBMS Client Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.db.derby.client
 Bundle-Version: 10.8.2.2
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Bundle-ClassPath: lib/derbyclient.jar
 Export-Package: org.apache.derby.client,
  org.apache.derby.client.am,

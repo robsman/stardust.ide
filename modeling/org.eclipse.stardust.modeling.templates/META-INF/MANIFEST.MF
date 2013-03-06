@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Templates Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.templates;singleton:=true
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.core.resources,

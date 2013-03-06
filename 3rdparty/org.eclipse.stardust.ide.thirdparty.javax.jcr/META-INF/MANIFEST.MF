@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: javax.jcr Plugin
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.jcr
 Bundle-Version: 2.0.0
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Bundle-ClassPath: lib/jcr.jar
 Export-Package: javax.jcr,
  javax.jcr.lock,

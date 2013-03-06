@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: javax.activation Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.activation
 Bundle-Version: 1.1.0
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Bundle-ClassPath: lib/activation.jar
 Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws
 Export-Package: com.sun.activation.registries,
