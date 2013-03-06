@@ -3238,7 +3238,7 @@ public class ModelBuilderFacade
 
    public ModelType createModel(String modelID, String modelName)
    {
-      Map<String, ModelType> models = this.modelManagementStrategy.getModels(true);
+      Map<String, ModelType> models = this.modelManagementStrategy.getModels(false);
       List<EObject> ids = new ArrayList<EObject>(models.values());
 
       ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
