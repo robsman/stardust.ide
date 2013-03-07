@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Antlr Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.antlr
 Bundle-Version: 3.2.0
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: Eclipse Process Manager
 Export-Package: org.antlr.runtime,
  org.antlr.runtime.debug,
  org.antlr.runtime.misc,
