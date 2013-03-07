@@ -102,16 +102,16 @@ public class FormalParameterMappingsTypeImpl extends EObjectImpl implements Form
     */
    public DataType getMappedData(FormalParameterType formalParameter)
    {
-      if (formalParameter == null)
+      if (formalParameter != null && formalParameter.getId() != null)
       {
-         return null;
-      }
-      for (FormalParameterMappingType parameterMapping : getMapping())
-      {
-         if (formalParameter.getId().equals(parameterMapping.getParameter().getId()))
+         for (FormalParameterMappingType parameterMapping : getMapping())
          {
-             return parameterMapping.getData(); 
-         }       
+            FormalParameterType parameter = parameterMapping.getParameter();
+            if (parameter != null && formalParameter.getId().equals(parameter.getId()))
+            {
+                return parameterMapping.getData(); 
+            }       
+         }
       }
       return null;
    }
