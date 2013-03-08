@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: Apache CXF Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.cxf
 Bundle-Version: 2.6.1
-Bundle-Vendor: Eclipse Process Manager
+Bundle-Vendor: %ProviderName
+Bundle-Localization: plugin
 Bundle-BuddyPolicy: registered
 Require-Bundle: javax.wsdl
 Export-Package: org.apache.cxf.tools.wsdlto

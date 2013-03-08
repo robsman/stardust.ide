@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: javax.mail Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.mail
 Bundle-Version: 1.4.0
-Bundle-Vendor: Eclipse Process Manager
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-ClassPath: lib/mail.jar
 Export-Package: com.sun.mail.handlers,
  com.sun.mail.iap,

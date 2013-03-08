@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: Apache Derby DBMS Client Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.db.derby.client
 Bundle-Version: 10.8.2.2
-Bundle-Vendor: Eclipse Process Manager
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-ClassPath: lib/derbyclient.jar
 Export-Package: org.apache.derby.client,
  org.apache.derby.client.am,
