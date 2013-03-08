@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Audit Trail - User Interface
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.audittrail.ui;singleton:=true
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: Eclipse Process Manager
+Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,

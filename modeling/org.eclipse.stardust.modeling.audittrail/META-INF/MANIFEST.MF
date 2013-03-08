@@ -1,9 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Audit Trail
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.audittrail
 Bundle-Version: 9.9.9.qualifier
-Bundle-Vendor: Eclipse Process Manager
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-Activator: org.eclipse.stardust.modeling.audittrail.AuditTrailActivator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
