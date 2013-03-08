@@ -5,6 +5,7 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.engine.spring
 Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: %providerName
 Bundle-ClassPath: lib/carnot-spring.jar
+Bundle-Localization: plugin
 Export-Package: org.eclipse.stardust.engine.api.spring,
  org.eclipse.stardust.engine.spring.extensions.app,
  org.eclipse.stardust.engine.spring.integration.jms,
