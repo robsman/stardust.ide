@@ -38,8 +38,6 @@ public class WebserviceApplicationBuilder extends AbstractModelElementBuilder<Ap
          applicationMetaType.setIsPredefined(true);
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationInstance");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.jaxws.app.WebserviceApplicationValidator");
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         applicationMetaType.setElementOid(++maxElementOid);
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);

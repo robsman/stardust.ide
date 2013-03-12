@@ -11,45 +11,24 @@
 package org.eclipse.stardust.modeling.core.jobs;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.resources.WorkspaceJob;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor.EditorChangeTracker;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
@@ -63,13 +42,13 @@ public class ModelValidationJob extends WorkspaceJob
 
    private final IResource modelFile;
 
-   private Map filters;
+   private Map<String, String> filters;
    
    private static final String LOCK = "ModelValidationJob.LOCK"; //$NON-NLS-1$
    
    private final WorkflowModelEditor editor;
 
-   public ModelValidationJob(WorkflowModelEditor workflowModelEditor, ModelType model, Map filters)
+   public ModelValidationJob(WorkflowModelEditor workflowModelEditor, ModelType model, Map<String, String> filters)
    {
       super(Diagram_Messages.TXT_WorkflowModelValidation); 
 
@@ -132,7 +111,7 @@ public class ModelValidationJob extends WorkspaceJob
                   }
                   vs.removeMappings(modelFile);
       
-                  Map attr = new HashMap();
+                  Map<String, Object> attr = CollectionUtils.newMap();
                   for (int i = 0; i < issues.length; i++)
                   {
                      attr.clear();
@@ -189,7 +168,14 @@ public class ModelValidationJob extends WorkspaceJob
          {
             ValidatorRegistry.setFilters(null);
             vs.setProgressMonitor(null);
-            editor.getEditorChangeTracker().setEnabled(true);
+            if (editor != null)
+            {
+               EditorChangeTracker tracker = editor.getEditorChangeTracker();
+               if (tracker != null)
+               {
+                  tracker.setEnabled(true);
+               }
+            }
          }
       }
 
@@ -198,7 +184,7 @@ public class ModelValidationJob extends WorkspaceJob
 
    private String getLocation(EObject modelElement)
    {
-      ArrayList path = new ArrayList();
+      List<String> path = CollectionUtils.newList();
       while (modelElement != null)
       {
          if (modelElement instanceof IIdentifiableElement

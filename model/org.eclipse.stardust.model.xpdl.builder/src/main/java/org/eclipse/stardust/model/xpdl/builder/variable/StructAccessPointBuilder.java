@@ -46,8 +46,6 @@ public class StructAccessPointBuilder
       super(F_CWM.createAccessPointType());
       this.owner = anOwner;
       forModel(ModelUtils.findContainingModel(anOwner));
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-      element.setElementOid(++maxElementOid);
    }
 
    private void createApplicationAccessPoint(IAccessPointOwner anOwner)
@@ -196,7 +194,7 @@ public class StructAccessPointBuilder
                + getModelBuilderFacade().getModelId(structTypeFullID) + "}"
                + getModelBuilderFacade().stripFullId(structTypeFullID);
       }
-      AttributeUtil.setAttribute(element, "carnot:engine:dataType", declaredTypeID);
+      AttributeUtil.setAttribute(element, ModelerConstants.DATA_TYPE, declaredTypeID);
       DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
             PredefinedConstants.STRUCTURED_DATA);
       element.setType(dataTypeType);

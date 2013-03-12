@@ -141,7 +141,8 @@ public class ModelContainingGatewaysTest
             .fromRightOf(symGatewaySplit).toTopOf(symStep2b)
             .build();
 
-      BpmModelBuilder.assignMissingElementOids(gatewaysModel);
+      
+      ModelBuilderTest.assignMissingElementOids(gatewaysModel);
 
       byte[] modelXml = XpdlModelIoUtils.saveModel(gatewaysModel);
       System.out.println(new String(modelXml));

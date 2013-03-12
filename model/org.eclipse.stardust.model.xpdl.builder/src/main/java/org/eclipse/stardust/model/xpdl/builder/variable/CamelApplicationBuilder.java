@@ -40,8 +40,6 @@ public class CamelApplicationBuilder extends AbstractModelElementBuilder<Applica
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider");
          AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance");
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         applicationMetaType.setElementOid(++maxElementOid);
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);

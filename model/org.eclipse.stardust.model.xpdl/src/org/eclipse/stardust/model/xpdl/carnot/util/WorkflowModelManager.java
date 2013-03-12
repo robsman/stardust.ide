@@ -47,6 +47,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl;
+import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.w3c.dom.Document;
 
@@ -63,7 +64,14 @@ public class WorkflowModelManager
    private static CarnotWorkflowModelFactory cwmFactory = null;
 
    protected ModelType model = null;
+
+   private ModelOidUtil modelOidUtil;
    
+   public ModelOidUtil getModelOidUtil()
+   {
+      return modelOidUtil;
+   }
+
    public WorkflowModelManager()
    {
    }
@@ -381,10 +389,11 @@ public class WorkflowModelManager
       }
       return model;
    }
-
+   
    public void resolve(ModelType model)
    {
+      modelOidUtil = ModelOidUtil.register(model);
       // resolve string-id references in attributes
-      ModelUtils.resolve(model, model);
+      ModelUtils.resolve(model, model);      
    }
 }

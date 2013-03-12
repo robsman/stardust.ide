@@ -7,6 +7,7 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -15,42 +16,83 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
+import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
 public class NameIdUtils
 {
    /**
-    * TODO Replace by Eclipse modeler logic
-    * @param activity
-    *
-    * @param name
     * @return
     */
-   public static String createIdFromName(Object container, IIdentifiableElement element)
+   public static String createIdFromName(Object container, EObject element)
    {
-      if(element instanceof ModelType && !StringUtils.isEmpty(element.getId()))
-      {
-         return element.getId();
+      return createIdFromName(container, element, null);
+   }
+   
+   /**
+    * @return
+    */
+   public static String createIdFromName(Object container, EObject element, String base)
+   {
+      if(element instanceof IIdentifiableElement)
+      {      
+         if(element instanceof ModelType && !StringUtils.isEmpty(((IIdentifiableElement) element).getId()))
+         {
+            return ((IIdentifiableElement) element).getId();
+         }
       }
-
       if(container == null)
       {
          container = findContainer(element);
       }
-
-      String base = element.getName();
+      
+      if(base == null)
+      {
+         if(element instanceof IIdentifiableElement)
+         {            
+            base = ((IIdentifiableElement) element).getName();
+         }
+         else if(element instanceof TypeDeclarationType)
+         {
+            base = ((TypeDeclarationType) element).getName();         
+         }
+      }
+         
       if(StringUtils.isEmpty(base))
       {
          return "";
       }
 
-      IdFactory factory = new IdFactory(base, base);
+      IdFactory factory = null;
+      if(element instanceof IIdentifiableElement)
+      {            
+         factory = new IdFactory(base, base);
+      }
+      else if(element instanceof TypeDeclarationType)
+      {
+         factory = new IdFactory(base);
+      }
 
-      List list = null;
-      if(container instanceof EObject
+      List list = null;      
+      if(element instanceof RoleType
+            || element instanceof OrganizationType
+            || element instanceof ConditionalPerformerType)
+      {
+         ModelType containingModel = ModelUtils.findContainingModel(element);
+         list = new BasicEList<IModelParticipant>();
+         list.addAll(containingModel.getRole());
+         list.addAll(containingModel.getOrganization());
+         list.addAll(containingModel.getConditionalPerformer());
+      }      
+      else if(container instanceof EObject
             && !(element instanceof AccessPointType)
             && !(element instanceof ModelType))
       {
@@ -62,13 +104,13 @@ public class NameIdUtils
       }
       if(list != null)
       {
-         factory.computeNames(list);
+         factory.computeNames(list, false);
       }
 
       return factory.getId();
    }
 
-   private static EObject findContainer(IIdentifiableElement element)
+   private static EObject findContainer(EObject element)
    {
       return element.eContainer();
    }

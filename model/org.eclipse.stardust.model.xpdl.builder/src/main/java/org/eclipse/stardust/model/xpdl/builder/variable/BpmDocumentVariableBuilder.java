@@ -128,9 +128,6 @@ public class BpmDocumentVariableBuilder
             AttributeUtil.setAttribute(documentMetaType,
                   PredefinedConstants.DATA_LOADER_ATT, dataLoader.getName());
 
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            documentMetaType.setElementOid(++maxElementOid);
-            
             model.getDataType().add(documentMetaType);
          }
          

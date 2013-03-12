@@ -16,6 +16,9 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -37,13 +40,43 @@ import org.eclipse.xsd.XSDSchema;
 public class ModelValidator implements IModelValidator
 {
    private static final Issue[] ISSUE_ARRAY = new Issue[0];
-
+   
+   private boolean canResolveExternalReference(String location, IProject project)
+   {
+      try
+      {
+         new URL(location);
+         // if it's a real url do nothing
+      }
+      catch (MalformedURLException e)
+      {
+         //try to find in project itself and in all required projects
+         try
+         {
+            if (project.hasNature(JavaCore.NATURE_ID))
+            {
+               IJavaProject javaProject = JavaCore.create(project);
+               if (GenericUtils.getFile(javaProject, location, true) != null)
+               {
+                  return true;
+               }
+            }
+         }
+         catch (CoreException e1)
+         {
+            e1.printStackTrace();
+         }
+      }
+      
+      return false;
+   }
+   
    // validate references
    public Issue[] validate(ModelType model) throws ValidationException
    {
       IProject project = ModelUtils.getProjectFromEObject(model);
-      List<Issue> result = CollectionUtils.newList();
 
+      List<Issue> result = CollectionUtils.newList();
       TypeDeclarationsType declarations = model.getTypeDeclarations();
       List<TypeDeclarationType> allDeclarations = declarations.getTypeDeclaration();
       for (TypeDeclarationType declaration : allDeclarations)
@@ -62,19 +95,13 @@ public class ModelValidator implements IModelValidator
                String location = ((ExternalReferenceType) dataType).getLocation();
                if (location != null && !location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
                {
-                  try
+                  boolean canResolveExternalReference = canResolveExternalReference(
+                        location, project);
+                  if (!canResolveExternalReference)
                   {
-                     new URL(location);
-                     // if it's a real url do nothing
-                  }
-                  catch (MalformedURLException e)
-                  {
-                     if (GenericUtils.getFile(project, location) == null)
-                     {
-                        result.add(Issue.error(declaration,
-                              MessageFormat.format("TypeDeclaration ''{0}'': imported file ''{1}'' not found.", //$NON-NLS-1$
-                                    declaration.getId(), location)));
-                     }
+                     result.add(Issue.error(declaration, MessageFormat.format(
+                           "TypeDeclaration ''{0}'': imported file ''{1}'' not found.", //$NON-NLS-1$
+                           declaration.getId(), location)));
                   }
                }
             }

@@ -572,7 +572,6 @@ public class DiagramMerger extends AbstractMerger
             if(feature != null)            
             {
                List list = (List) container.eGet(feature);
-               ((IModelElement) copy).setElementOid(++highestOid);                
                // add element
                list.add(copy);               
             }
@@ -778,7 +777,6 @@ public class DiagramMerger extends AbstractMerger
       // symbol has already container and position
       if(onlyChange)
       {
-         ((IModelElement) modelSymbol).setElementOid(++highestOid);                     
          return;
       }
 
@@ -801,7 +799,6 @@ public class DiagramMerger extends AbstractMerger
          if (feature.getEType().equals(modelSymbol.eClass()))
          {
             List list = (List) container.eGet(feature);
-            ((IModelElement) modelSymbol).setElementOid(++highestOid);            
             list.add(modelSymbol);
             modelChanged = true;            
          }

@@ -164,8 +164,6 @@ public class DiagramUtil
       pool.setHeight(-1);
       if (diagram != null)
       {
-         pool.setElementOid(ModelUtils.getElementOid(pool,
-            ModelUtils.findContainingModel(diagram)));
          diagram.getPoolSymbols().add(pool);
       }
       return pool;

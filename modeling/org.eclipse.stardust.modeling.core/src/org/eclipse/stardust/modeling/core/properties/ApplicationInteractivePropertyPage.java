@@ -168,7 +168,6 @@ public class ApplicationInteractivePropertyPage extends AbstractModelElementProp
             ContextType ctx = (ContextType) newContexts.get(type);
             if (ctx != null)
             {
-               ctx.setElementOid(ModelUtils.getElementOid(ctx, ModelUtils.findContainingModel(application)));
                contexts.add(ctx);
                if (!types.containsKey(type))
                {

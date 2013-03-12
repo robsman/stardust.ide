@@ -302,9 +302,6 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
             MAIL_CLASS_ATT, DirectionType.OUT_LITERAL, true, null,
             ModelUtils.getDataType(getTrigger(), CarnotConstants.SERIALIZABLE_DATA_ID));
       
-      ap.setElementOid(ModelUtils.getElementOid(ap,
-            ModelUtils.findContainingModel(getTrigger())));
-      
       return ap;
    }
 }

@@ -139,19 +139,6 @@ public class MergeUtils
          }
       }
       
-      // compute boundary oids required for oid realocation
-      long maxOid = ModelUtils.getMaxUsedOid(targetModel);
-      // next max oid of source model
-      long nextOid = maxOid;
-      for (ModelType model : roots)
-      {
-         if (model != null && model != targetModel)
-         {
-            nextOid = Math.max(nextOid, ModelUtils.getMaxUsedOid(model));
-         }
-      }
-      nextOid++;
-      
       // collect all references by id and replace them with nulls.
       // this is mandatory since references by id are lost during transfer
       // as a consequence of the target objects being removed from their container.
@@ -252,7 +239,6 @@ public class MergeUtils
       {
          EObject element = entry.getKey();
          EObject original = entry.getValue();
-         nextOid = updateOids(element, maxOid, nextOid);
          if(linkAttribute != null)
          {
             linkAttribute.setLinkInfo(element, element != eObject);
@@ -272,7 +258,6 @@ public class MergeUtils
       for (int i = 0; i < add.size(); i++)
       {
          EObject element = (EObject) add.get(i);
-         nextOid = updateOids(element, maxOid, nextOid);
          if(linkAttribute != null)
          {
             linkAttribute.setLinkInfo(element, element != eObject);
@@ -321,24 +306,6 @@ public class MergeUtils
          {
          }
       }
-   }
-
-   private static long updateOids(EObject element, long maxOid, long nextOid)
-   {
-      if (element instanceof IModelElement)
-      {
-         IModelElement ime = (IModelElement) element;
-         if (!ime.isSetElementOid() || ime.getElementOid() <= maxOid)
-         {
-            ime.setElementOid(nextOid++);
-         }
-         for (Iterator<EObject> i = element.eAllContents(); i.hasNext();)
-         {
-            EObject child = i.next();
-            nextOid = updateOids(child, maxOid, nextOid);
-         }
-      }
-      return nextOid;
    }
 
    public static void replace(EObject object, EObject replacementObject, boolean preserveContainer)

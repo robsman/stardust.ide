@@ -107,7 +107,11 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
       {
          TreeColumn column = new TreeColumn(tree, SWT.LEFT);
          column.setText(StructLabelProvider.COMPLEX_TYPE_COLUMNS[i]);
-         column.setWidth(100);
+         if(i == 0)
+         {
+            column.setWidth(200);
+         }
+         
       }
       detailsViewer.setUseHashlookup(true);
       detailsViewer.setContentProvider(new StructContentProvider(false));

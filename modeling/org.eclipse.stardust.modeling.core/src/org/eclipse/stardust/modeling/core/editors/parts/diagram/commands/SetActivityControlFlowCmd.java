@@ -270,7 +270,6 @@ public class SetActivityControlFlowCmd extends Command
          
          cmds.add(new SetValueCmd(container, PKG_CWM
                .getISymbolContainer_GatewaySymbol(), gateway));
-         cmds.add(new SetElementOidCmd(gateway));
 
          cmds.add(new SetValueCmd(gateway, PKG_CWM.getGatewaySymbol_ActivitySymbol(),
                activitySymbol));
@@ -403,7 +402,6 @@ public class SetActivityControlFlowCmd extends Command
 
       cmds.add(new SetValueCmd(diagram, PKG_CWM
             .getISymbolContainer_TransitionConnection(), newTS));
-      cmds.add(new SetElementOidCmd(newTS));
       cmds.add(new SetValueCmd(newTS, PKG_CWM
             .getTransitionConnectionType_SourceActivitySymbol(), source));
       cmds.add(new SetValueCmd(newTS, PKG_CWM

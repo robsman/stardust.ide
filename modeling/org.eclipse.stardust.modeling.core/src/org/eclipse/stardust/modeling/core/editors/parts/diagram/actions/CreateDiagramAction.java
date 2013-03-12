@@ -114,8 +114,6 @@ public class CreateDiagramAction extends SelectionAction
             
             newObject[0] = diagram;
             PoolSymbol pool = DiagramUtil.createDefaultPool(null);
-            pool.setElementOid(ModelUtils.getElementOid(pool,
-                  (ModelType) getProcess().eContainer()));
             diagram.getPoolSymbols().add(pool);
 
             return diagram;

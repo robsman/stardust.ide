@@ -98,7 +98,7 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
       declaredTypesViewer.setSorter(refSorter);
       declaredTypesViewer.setInput(types);
       typesViewerLabelProvider.setModel(model);
-      
+
       wBndMgr.bind(wrapper, BindingManager.createWidgetAdapter(declaredTypesViewer),
             (IExtensibleElement) node, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT,
             new ExtensibleElementValueAdapter()
@@ -156,7 +156,7 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
-      
+
       LabelWithStatus typesLabel = FormBuilder.createLabelWithLeftAlignedStatus(composite,
             org.eclipse.stardust.modeling.data.structured.Structured_Messages.DataStructPropertyPage_DeclaredTypesLabel);
       FormBuilder.createLabel(composite,
@@ -177,7 +177,7 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
          }
       });*/
       wrapper = new LabeledWidget(declaredTypesList, typesLabel);
-      
+
       final Tree tree = FormBuilder.createTree(composite, SWT.SINGLE | SWT.FULL_SELECTION
             | SWT.BORDER);
       tree.setLayoutData(FormBuilder.createDefaultMultiLineWidgetGridData());
@@ -203,17 +203,17 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
             {
                selectedType = (TypeDeclarationType) selection.getFirstElement();
                viewer.setInput(selectedType);
-               
+
                if (TypeDeclarationUtils.getType(selectedType) == TypeDeclarationUtils.COMPLEX_TYPE)
                {
                   updateTableColumns(tree, StructLabelProvider.COMPLEX_TYPE_COLUMNS[0], true);
                }
-               else if (TypeDeclarationUtils.getType(selectedType) == TypeDeclarationUtils.SIMPLE_TYPE)                  
+               else if (TypeDeclarationUtils.getType(selectedType) == TypeDeclarationUtils.SIMPLE_TYPE)
                {
                   updateTableColumns(tree, StructLabelProvider.SIMPLE_TYPE_COLUMNS[0], false);
-               }    
+               }
                setMessage(null);
-               setValid(true);                  
+               setValid(true);
             }
          }
 
@@ -236,12 +236,12 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
             }
          }
       });
-      
-      groupingCheckbox = FormBuilder.createCheckBox(composite, DMS_Messages.DMS_PropertyPage_ShowTypes); 
+
+      groupingCheckbox = FormBuilder.createCheckBox(composite, DMS_Messages.DMS_PropertyPage_ShowTypes);
       groupingCheckbox.addSelectionListener(new SelectionListener(){
 
         public void widgetDefaultSelected(SelectionEvent e) {
-            
+
         }
 
         public void widgetSelected(SelectionEvent e) {
@@ -249,12 +249,12 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
             typesViewerLabelProvider.setShowGroupInfo(groupingCheckbox.getSelection());
             declaredTypesViewer.refresh(true);
         }
-                      
+
       });
 
       return composite;
    }
-   
+
    private void validate()
    {
       boolean isValid = true;
@@ -291,8 +291,8 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
          setMessage(null);
          setValid(true);
       }
-   }  
-   
+   }
+
    public void apply()
    {
       ExternalReferenceType ref = dataType.getExternalReference();
@@ -325,14 +325,17 @@ public class DmsResourcePropertyPage extends AbstractModelElementPropertyPage
       {
          AttributeUtil.setAttribute(dataType, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT,
                null);
-      } else {
+      }
+      else
+      {
          AttributeUtil.setAttribute(dataType, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT,
                selectedType.getId());
-         
+         AttributeUtil.setReference(dataType,
+               DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, selectedType);
       }
       super.apply();
    }
-     
+
 
    private List<TypeDeclarationType> collectTypeDeclarations(ModelType model)
    {

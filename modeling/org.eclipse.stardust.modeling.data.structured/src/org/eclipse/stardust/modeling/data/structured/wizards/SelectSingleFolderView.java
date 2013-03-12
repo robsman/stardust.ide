@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.data.structured.wizards;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -33,6 +34,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -280,28 +282,6 @@ public class SelectSingleFolderView
 
    public String getClasspathResourceName(IFile file)
    {
-      String fileName = file.toString().substring(1); // strip resource type identifier
-      try
-      {
-         IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
-         for (int i = 0; i < roots.length; i++)
-         {
-            IResource resource = roots[i].getCorrespondingResource();
-            if (resource instanceof IFolder)
-            {
-               String parent = resource.toString().substring(1); // strip resource type identifier
-               if (fileName.startsWith(parent))
-               {
-                  return fileName.substring(parent.length());
-               }
-            }
-         }
-      }
-      catch (JavaModelException e)
-      {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-      return fileName;
+      return GenericUtils.getLocationRelativeToClasspath(file);
    }
 }

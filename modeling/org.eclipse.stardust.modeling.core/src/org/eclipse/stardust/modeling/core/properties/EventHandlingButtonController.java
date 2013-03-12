@@ -363,8 +363,6 @@ public class EventHandlingButtonController implements IButtonManager
 
       actionType.setId(idFactory.getId());
       actionType.setName(idFactory.getName());
-      actionType.setElementOid(ModelUtils.getElementOid(actionType,
-            ModelUtils.findContainingModel(eventHandlerType)));
 
       ActionTypePropertyPage.setActionType(ModelUtils.findContainingModel(eventHandlerType),
     		actionType, ActionTypeUtil.findFirstActionType(eventHandlerType,
@@ -413,7 +411,6 @@ public class EventHandlingButtonController implements IButtonManager
       handler.setType(conditionType);
 
       getEventHandlers().add(handler);
-      handler.setElementOid(ModelUtils.getElementOid(handler, model));
 
       return handler;
    }

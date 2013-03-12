@@ -33,8 +33,12 @@ public class I18N_Messages extends NLS
    public static String PropertyValuesEditor_NLS;
 
    public static String PropertyValuesEditor_Value;
-   
+
    public static String PropertiesList_PropertyName;
+
+   public static String Property_Description;
+
+   public static String Property_Name;
 
    static
    {

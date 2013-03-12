@@ -201,8 +201,6 @@ public class ProcessAttachmentsPropertyPage extends AbstractModelElementProperty
          data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
          data.setName("Process Attachments"); //$NON-NLS-1$
          data.setType(findDocumentSetDataType(process));
-         data.setElementOid(ModelUtils.getElementOid(data,
-               ModelUtils.findContainingModel(process)));
 
          ModelUtils.findContainingModel(process).getData().add(data);
          
@@ -222,8 +220,6 @@ public class ProcessAttachmentsPropertyPage extends AbstractModelElementProperty
       path.setId(DmsConstants.PATH_ID_ATTACHMENTS);
       path.setName("Process Attachments"); //$NON-NLS-1$
       path.setDirection(direction);
-      path.setElementOid(ModelUtils.getElementOid(path,
-            ModelUtils.findContainingModel(process)));
       
       path.setData(attachments);
 

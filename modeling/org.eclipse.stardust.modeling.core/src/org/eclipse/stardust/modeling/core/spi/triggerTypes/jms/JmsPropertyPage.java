@@ -254,8 +254,6 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
             Diagram_Messages.NAME_ACCESSPOINT_Content, classname, DirectionType.OUT_LITERAL,
             true, null, ModelUtils.getDataType(getTrigger(),
                   CarnotConstants.SERIALIZABLE_DATA_ID));
-      ap.setElementOid(ModelUtils.getElementOid(ap, ModelUtils
-            .findContainingModel(getTrigger())));
       AttributeUtil.setAttribute(ap, CarnotConstants.JMS_LOCATION_ATT, JMSLocation.class
             .getName(), JMSLocation.BODY.getId());
       return ap;
@@ -463,9 +461,6 @@ public class JmsPropertyPage extends AbstractModelElementPropertyPage
       AccessPointType ap = AccessPointUtil.createIntrinsicAccessPoint(factory.getId(),
             factory.getName(), null, DirectionType.OUT_LITERAL, true, null, ModelUtils
                   .getDataType(getTrigger(), CarnotConstants.SERIALIZABLE_DATA_ID));
-
-      ap.setElementOid(ModelUtils.getElementOid(ap, ModelUtils
-            .findContainingModel(triggerType)));
 
       triggerType.getAccessPoint().add(ap);
       if (preselect)

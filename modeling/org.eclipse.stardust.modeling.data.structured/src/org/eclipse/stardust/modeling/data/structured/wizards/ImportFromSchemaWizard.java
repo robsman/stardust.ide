@@ -182,6 +182,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          idCache.add(declaration.getId());
       }      
       
+      IFile xsdFileInWorkspace = null;
       if (isURL())
       {
          resultURL = urlPage.getURL();
@@ -189,11 +190,13 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       else
       {
          resultFile = filePage.getFile();
+         xsdFileInWorkspace = resultFile;
       }
       IFile file = null;
       if (isURL() && urlPage.saveToWorkspace && !externalSchemaList.isEmpty())
       {
          file = doSaveExternalModel();
+         xsdFileInWorkspace = file;
       }
       declarations = CollectionUtils.newList();
       Map<XSDSchema, String> schema2location = CollectionUtils.newMap();
@@ -276,6 +279,15 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                         StructuredDataConstants.RESOURCE_MAPPING_LOCAL_FILE,
                         urlPage.getClasspathResourceName(file));
                }
+               
+               // write workspace relative path for resolving within eclipse environment
+               if(xsdFileInWorkspace != null)
+               {
+                  ExtendedAttributeUtil.setAttribute(declaration,
+                        StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE,
+                        xsdFileInWorkspace.getFullPath().toString());                  
+               }
+               
             }
          }
       }

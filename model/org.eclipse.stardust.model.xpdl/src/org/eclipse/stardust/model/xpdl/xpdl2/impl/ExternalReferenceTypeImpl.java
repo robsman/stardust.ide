@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -52,12 +53,12 @@ import org.eclipse.xsd.XSDSchema;
  * @generated
  */
 public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalReferenceType {
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+    public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
     /**
      * The cached value of the '{@link #getSchema() <em>Schema</em>}' reference.
@@ -65,154 +66,154 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
      */
     private XSDSchema schema = null;
 
-	/**
+    /**
     * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getLocation()
     * @generated
     * @ordered
     */
-	protected static final String LOCATION_EDEFAULT = null;
+    protected static final String LOCATION_EDEFAULT = null;
 
-	/**
+    /**
     * The cached value of the '{@link #getLocation() <em>Location</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getLocation()
     * @generated
     * @ordered
     */
-	protected String location = LOCATION_EDEFAULT;
+    protected String location = LOCATION_EDEFAULT;
 
-	/**
+    /**
     * The default value of the '{@link #getNamespace() <em>Namespace</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getNamespace()
     * @generated
     * @ordered
     */
-	protected static final String NAMESPACE_EDEFAULT = null;
+    protected static final String NAMESPACE_EDEFAULT = null;
 
-	/**
+    /**
     * The cached value of the '{@link #getNamespace() <em>Namespace</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getNamespace()
     * @generated
     * @ordered
     */
-	protected String namespace = NAMESPACE_EDEFAULT;
+    protected String namespace = NAMESPACE_EDEFAULT;
 
-	/**
+    /**
     * The default value of the '{@link #getXref() <em>Xref</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getXref()
     * @generated
     * @ordered
     */
-	protected static final String XREF_EDEFAULT = null;
+    protected static final String XREF_EDEFAULT = null;
 
-	/**
+    /**
     * The cached value of the '{@link #getXref() <em>Xref</em>}' attribute.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @see #getXref()
     * @generated
     * @ordered
     */
-	protected String xref = XREF_EDEFAULT;
+    protected String xref = XREF_EDEFAULT;
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	protected ExternalReferenceTypeImpl() {
+    protected ExternalReferenceTypeImpl() {
       super();
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    protected EClass eStaticClass() {
       return XpdlPackage.Literals.EXTERNAL_REFERENCE_TYPE;
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public String getLocation() {
+    public String getLocation() {
       return location;
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public void setLocation(String newLocation) {
+    public void setLocation(String newLocation) {
       String oldLocation = location;
       location = newLocation;
       if (eNotificationRequired())
          eNotify(new ENotificationImpl(this, Notification.SET, XpdlPackage.EXTERNAL_REFERENCE_TYPE__LOCATION, oldLocation, location));
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public String getNamespace() {
+    public String getNamespace() {
       return namespace;
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public void setNamespace(String newNamespace) {
+    public void setNamespace(String newNamespace) {
       String oldNamespace = namespace;
       namespace = newNamespace;
       if (eNotificationRequired())
          eNotify(new ENotificationImpl(this, Notification.SET, XpdlPackage.EXTERNAL_REFERENCE_TYPE__NAMESPACE, oldNamespace, namespace));
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public String getXref() {
+    public String getXref() {
       return xref;
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	public void setXref(String newXref) {
+    public void setXref(String newXref) {
       String oldXref = xref;
       xref = newXref;
       if (eNotificationRequired())
          eNotify(new ENotificationImpl(this, Notification.SET, XpdlPackage.EXTERNAL_REFERENCE_TYPE__XREF, oldXref, xref));
    }
 
-	/**
+    /**
      * Simple caching mechanism to speed up the external schema retrieval
      * and to prohibit the existence of multiple instances of the same schema
-	 * @generated NOT
-	 */
-	public XSDSchema getSchema() {
+     * @generated NOT
+     */
+    public XSDSchema getSchema() {
        if (location != null)
        {
           if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
@@ -225,31 +226,54 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
           }
        }
        return null;
-	}
+    }
 
     /**
      * fixed NPE
      * @generated NOT
      */
-	private XSDSchema getInternalSchema()
-	{
-	   String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
-	   if (typeId.length() > 0)
-	   {
-	      TypeDeclarationsType declarations = (TypeDeclarationsType) eContainer().eContainer();
-	      TypeDeclarationType internalType = declarations.getTypeDeclaration(typeId);
-	      if (internalType != null)
-	      {
-      	      XpdlTypeType type = internalType.getDataType();
-      	      if (type instanceof SchemaTypeType)
-      	      {
-      	         return ((SchemaTypeType) type).getSchema();
-      	      }
-	      }
-	   }
-	   return null;
-	}
+    private XSDSchema getInternalSchema()
+    {
+       String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
+       if (typeId.length() > 0)
+       {
+          TypeDeclarationsType declarations = (TypeDeclarationsType) eContainer().eContainer();
+          TypeDeclarationType internalType = declarations.getTypeDeclaration(typeId);
+          if (internalType != null)
+          {
+              XpdlTypeType type = internalType.getDataType();
+              if (type instanceof SchemaTypeType)
+              {
+                 return ((SchemaTypeType) type).getSchema();
+              }
+          }
+       }
+       return null;
+    }
 
+    private String getWorkspaceRelativePath()
+    {
+       TypeDeclarationType declaration = (TypeDeclarationType) eContainer();
+       return ExtendedAttributeUtil.getAttributeValue(declaration,
+             StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
+    }
+    
+    
+    private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
+    {
+       if(StringUtils.isNotEmpty(schemaLocation))
+       {
+          try
+          {
+             return TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
+          }
+          catch (Exception e1)
+          {}          
+       }
+       
+       return null;
+    }
+    
     /**
      * TODO: describe
      * We must synchronize that method entirely to ensure cache consistency.
@@ -262,27 +286,24 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        if (schema == null)
        {
           String namespaceURI = QNameUtil.parseNamespaceURI(xref);
-          String url = getAlternateURL();
-          try
+          //try load xsd from eclipse workspace
+          String workspacePath = getWorkspaceRelativePath();
+          schema = loadSchema(workspacePath, namespaceURI);
+         
+          //try getting from alternate url attribute - for legacy reason
+          if(schema == null)
           {
-             schema = TypeDeclarationUtils.getSchema(url, namespaceURI);
+             String alternateUrl = getAlternateURL();
+             schema = loadSchema(alternateUrl, namespaceURI);
           }
-          catch (Exception e1)
+          
+          //fall back to default value
+          if(schema == null)
           {
-             if (!url.equals(location))
-             {
-                // try to load from external url
-                try
-                {
-                   schema = TypeDeclarationUtils.getSchema(location, namespaceURI);
-                }
-                catch (Exception e2)
-                {
-                   // TODO handle
-                }
-             }
+             schema = loadSchema(location, namespaceURI);
           }
        }
+
        return schema;
     }
 
@@ -357,12 +378,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       return url;
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    public Object eGet(int featureID, boolean resolve, boolean coreType) {
       switch (featureID)
       {
@@ -376,12 +397,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       return super.eGet(featureID, resolve, coreType);
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    public void eSet(int featureID, Object newValue) {
       switch (featureID)
       {
@@ -398,12 +419,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       super.eSet(featureID, newValue);
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    public void eUnset(int featureID) {
       switch (featureID)
       {
@@ -420,12 +441,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       super.eUnset(featureID);
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    public boolean eIsSet(int featureID) {
       switch (featureID)
       {
@@ -439,12 +460,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       return super.eIsSet(featureID);
    }
 
-	/**
+    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+     * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+    @Override
    public String toString() {
       if (eIsProxy()) return super.toString();
 

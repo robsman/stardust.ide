@@ -143,6 +143,9 @@ public class DefaultTypesInitializer implements ModelInitializer
       initializeInteractionContextType(model, PredefinedConstants.APPLICATION_CONTEXT,
             "Noninteractive Application Context", true, false);
 
+      initializeInteractionContextType(model, PredefinedConstants.PROCESSINTERFACE_CONTEXT,
+            "Process Interface Context", true, false);
+      
       // TODO
    }
 
@@ -253,9 +256,6 @@ public class DefaultTypesInitializer implements ModelInitializer
          typeDef.setHasApplicationPath(hasApplicationPath);
          typeDef.setHasMappingId(hasMappingId);
 
-         long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-         typeDef.setElementOid(++maxElementOid);
-
          model.getApplicationContextType().add(typeDef);
       }
    }
@@ -282,7 +282,7 @@ public class DefaultTypesInitializer implements ModelInitializer
    private static final String[] defaultContextTypes = {
          PredefinedConstants.DEFAULT_CONTEXT, PredefinedConstants.ENGINE_CONTEXT,
          PredefinedConstants.APPLICATION_CONTEXT, PredefinedConstants.JFC_CONTEXT,
-         PredefinedConstants.JSP_CONTEXT};
+         PredefinedConstants.JSP_CONTEXT, PredefinedConstants.PROCESSINTERFACE_CONTEXT};
 
    private static final String[] defaultTriggerTypes = {
          PredefinedConstants.MANUAL_TRIGGER, PredefinedConstants.JMS_TRIGGER,

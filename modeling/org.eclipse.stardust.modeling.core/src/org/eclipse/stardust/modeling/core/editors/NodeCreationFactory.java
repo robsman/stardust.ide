@@ -296,7 +296,6 @@ public class NodeCreationFactory
             CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
             DiagramType diagram = factory.createDiagramType();
             diagram.setName(Diagram_Messages.DIAGRAM_NAME_Default);
-            diagram.setElementOid(ModelUtils.getElementOid(diagram, getModel()) + 1);            
             diagram.setOrientation(OrientationType.VERTICAL_LITERAL.toString().equals(
                     PlatformUI.getPreferenceStore().getString(
                           BpmProjectNature.PREFERENCE_MODELING_DIRECTION)) ?
@@ -314,7 +313,6 @@ public class NodeCreationFactory
             diagram.setMode(defaultMode);            
             process.getDiagram().add(diagram);
             PoolSymbol pool = DiagramUtil.createDefaultPool(null);
-            pool.setElementOid(ModelUtils.getElementOid(pool, getModel()) + 2);
             diagram.getPoolSymbols().add(pool);
             return process;
          }

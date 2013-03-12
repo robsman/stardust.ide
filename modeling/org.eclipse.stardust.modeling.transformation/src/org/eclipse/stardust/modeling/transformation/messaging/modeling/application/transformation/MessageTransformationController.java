@@ -327,7 +327,7 @@ public class MessageTransformationController {
 				if (fm != null && fieldPathExists(fm.getFieldPath())) {
 					fieldMappings.put(fm.getFieldPath(), fm);
 				} else {
-				   System.out.println();
+
 				}
 			}
 			refreshJavaScriptContext();

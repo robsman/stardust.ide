@@ -17,8 +17,6 @@ import java.util.Map;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.requests.CreationFactory;
@@ -28,13 +26,11 @@ import org.eclipse.stardust.engine.core.compatibility.el.DataTypeResolver;
 import org.eclipse.stardust.engine.core.compatibility.el.JsConverter;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
@@ -42,13 +38,10 @@ import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
@@ -68,7 +61,6 @@ import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 
 public class UpdateProcessDiagramAction extends SelectionAction
 {
-   private static final String LANEPERFORMER = "compatibility.lanePerformer.";    
    private static final CarnotWorkflowModelPackage CWM_PKG = CarnotWorkflowModelPackage.eINSTANCE;  
    
    private WorkflowModelEditor editor;
@@ -307,11 +299,7 @@ public class UpdateProcessDiagramAction extends SelectionAction
          for (Iterator i = childLanes.listIterator(); i.hasNext();)
          {
             LaneSymbol lane = (LaneSymbol) i.next();
-            IModelParticipant participant = findParticipant(lane);
-            if(participant == null)
-            {            
-               participant = lane.getParticipant();               
-            }
+            IModelParticipant participant = lane.getParticipant();
             
             if(participant != null)
             {
@@ -323,54 +311,6 @@ public class UpdateProcessDiagramAction extends SelectionAction
          }
       }
    }
-   
-   private IModelParticipant findParticipant(LaneSymbol lane)
-   {
-      DiagramType diagram = ModelUtils.findContainingDiagram(lane);   
-      if(diagram == null)
-      {
-         EObject eContainer = lane.eContainer();
-         if (eContainer instanceof ChangeDescriptionImpl)
-         {
-            ChangeDescriptionImpl changeDescription = (ChangeDescriptionImpl) eContainer;
-            EObject container = changeDescription.getOldContainer(lane);
-            diagram = ModelUtils.findContainingDiagram((IGraphicalObject) container);
-         }
-      }      
-      
-      long elementOid = lane.getElementOid();
-      String attributeKey = LANEPERFORMER + elementOid;
-      String attributeValue = AttributeUtil.getAttributeValue(diagram, attributeKey);
-      AttributeUtil.setAttribute(diagram, attributeKey, null);
-      
-      if(!StringUtils.isEmpty(attributeValue))
-      {
-         ModelType containingModel = ModelUtils.findContainingModel(lane);
-         for(RoleType role : containingModel.getRole())
-         {
-            if(attributeValue.equals(role.getId()))
-            {
-               return role;
-            }
-         }
-         for(ConditionalPerformerType role : containingModel.getConditionalPerformer())
-         {
-            if(attributeValue.equals(role.getId()))
-            {
-               return role;
-            }
-         }
-         for(OrganizationType role : containingModel.getOrganization())
-         {
-            if(attributeValue.equals(role.getId()))
-            {
-               return role;
-            }
-         }         
-      }
-      
-      return null;
-   }   
    
    // check all lanes
    public void checkLaneActions(PoolSymbol pool, CompoundCommand cmd, boolean create)

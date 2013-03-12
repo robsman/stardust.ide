@@ -22,7 +22,7 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.commons.logging" type="jar" conf="bom" />
+      <artifact name="org.eclipse.stardust.ide.3rdparty.commons.logging" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>

@@ -477,9 +477,6 @@ class ActivityDataMappingsPropertyPage extends AbstractModelElementPropertyPage
 
       ActivityType activity = getActivity();
 
-      dataMapping.setElementOid(ModelUtils.getElementOid(dataMapping, ModelUtils
-            .findContainingModel(activity)));
-
       // todo: add in correct place
       activity.getDataMapping().add(dataMapping);
 

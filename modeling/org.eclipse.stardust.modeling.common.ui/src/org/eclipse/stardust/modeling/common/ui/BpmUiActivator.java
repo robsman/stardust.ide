@@ -273,31 +273,7 @@ public class BpmUiActivator extends Plugin
    public String getTraceFilePath()
    {
       IPreferenceStore store = PlatformUI.getPreferenceStore();
-      String path = store.getString("org.eclipse.stardust.model.xpdl.license.path"); //$NON-NLS-1$
-
-      if (StringUtils.isEmpty(path))
-      {
-         Bundle modeler = Platform.getBundle("ag.carnot.workflow.modeler"); //$NON-NLS-1$
-
-         if (null != modeler)
-         {
-            URL licenseUrl = modeler.getResource("carnot.license"); //$NON-NLS-1$
-            if (null != licenseUrl)
-            {
-               try
-               {
-                  path = /*Platform.asLocalURL*/FileLocator.toFileURL(licenseUrl).getPath();
-                  setTraceFilePath(path);
-               }
-               catch (IOException e)
-               {
-                  // ignore
-               }
-            }
-         }
-      }
-
-      return path;
+      return store.getString("org.eclipse.stardust.model.xpdl.license.path"); //$NON-NLS-1$
    }
 
    public void setTraceFilePath(String path)

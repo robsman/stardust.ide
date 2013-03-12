@@ -12,6 +12,7 @@ package org.eclipse.stardust.test.model.transformation.bpmn;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -21,7 +22,6 @@ import org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter;
 import org.eclipse.stardust.model.bpmn2.transform.TransformationControl;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.DialectStardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.TransitionUtil;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
@@ -104,7 +104,16 @@ public class Bpmn2StardustTestSuite {
 
     public static ModelType transformModel(Definitions definitions, String fileOutput) {
         TransformationControl transf = TransformationControl.getInstance(new DialectStardustXPDL());
-        transf.transformToTarget(definitions, fileOutput);
+        try {
+            FileOutputStream targetFile = new FileOutputStream(fileOutput);
+            try {
+                transf.transformToTarget(definitions, targetFile);
+            } finally {
+                targetFile.close();
+            }
+        } catch (IOException ioe) {
+            throw new RuntimeException("Failed transforming model.", ioe);
+        }
         return (ModelType)transf.getTargetModel();
     }
 

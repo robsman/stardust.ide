@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public interface Transformator {
 
     public void addEndEvent(EndEvent event, FlowElementsContainer container);
 
-    public void serializeTargetModel(String outputFile);
+    public void serializeTargetModel(OutputStream target);
 
     public void addIOBinding(List<InputOutputBinding> ioBinding, FlowElementsContainer container);
 

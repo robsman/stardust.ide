@@ -354,8 +354,8 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 				GEFActionConstants.GROUP_EDIT);
 
       addActionToMenu(manager, DiagramActionConstants.CONVERT_GATEWAYS,
-            GEFActionConstants.GROUP_EDIT);		
-		
+            GEFActionConstants.GROUP_EDIT);
+
 		if (!editor.requireLock(modelElement == null ? connectionSymbol
 				: modelElement)) {
 			addSubMenuToMenu(manager, createAlignSubmenu(),

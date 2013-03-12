@@ -45,8 +45,6 @@ public class PrimitiveAccessPointBuilder
       super(F_CWM.createAccessPointType());
       forModel(ModelUtils.findContainingModel(anOwner));
       this.owner = anOwner;
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-      element.setElementOid(++maxElementOid);
    }
 
    private void createApplicationAccessPoint(IAccessPointOwner anOwner)

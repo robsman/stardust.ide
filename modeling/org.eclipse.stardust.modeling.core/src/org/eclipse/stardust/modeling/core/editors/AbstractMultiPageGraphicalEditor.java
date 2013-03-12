@@ -144,7 +144,7 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
       addStackAction(new RedoAction(this));
 
       addEditPartAction(new CleanupModelAction(this));
-      
+
       addEditPartAction(new ShrinkToFitAction(this));
       addEditPartAction(new DeleteAllAction(this));
       addEditPartAction(new DirectEditAction((IWorkbenchPart) this));
@@ -175,12 +175,12 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
       addEditorAction(new SaveAction(this));
       addAction(new DiagramPrintAction(this));
 
-      addEditPartAction(new CutAction(this));      
+      addEditPartAction(new CutAction(this));
       addEditPartAction(new CopySymbolAction(this));
       addEditPartAction(new PasteSymbolAction(this));
       addEditPartAction(new CreateSubprocessFromSelectionAction(this));
-      addEditPartAction(new ShowInDiagramAction(this));      
-      addEditPartAction(new ShowInOutlineAction(this));      
+      addEditPartAction(new ShowInDiagramAction(this));
+      addEditPartAction(new ShowInOutlineAction(this));
 
       IAction zoomIn = new ZoomInAction(getDelegatingZoomManager());
       IAction zoomOut = new ZoomOutAction(getDelegatingZoomManager());
@@ -440,8 +440,8 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
          sharedKeyHandler.put(KeyStroke.getPressed(
                'c', 'c', 0), getActionRegistry()
                .getAction(DiagramActionConstants.CONNECT));
-         
-         // copy, cut, paste added 
+
+         // copy, cut, paste added
          sharedKeyHandler.put(KeyStroke.getPressed('c', SWT.CTRL, 0), getActionRegistry()
                .getAction(ActionFactory.COPY.getId()));
          sharedKeyHandler.put(KeyStroke.getPressed('x', SWT.CTRL, 0), getActionRegistry()
@@ -469,19 +469,19 @@ public abstract class AbstractMultiPageGraphicalEditor extends MultiPageEditorPa
    /*
     * class MultiPageCommandStackListener implements CommandStackListener { private List
     * commandStacks = new ArrayList(2);
-    * 
+    *
     * public void addCommandStack(CommandStack commandStack) {
     * commandStacks.add(commandStack); commandStack.addCommandStackListener(this); }
-    * 
+    *
     * public void commandStackChanged(EventObject event) { if (((CommandStack)
     * event.getSource()).isDirty()) { setDirty(true); } else { boolean oneIsDirty = false;
     * for (Iterator i = commandStacks.iterator(); i.hasNext();) { CommandStack stack =
     * (CommandStack) i.next(); if (stack.isDirty()) { oneIsDirty = true; break; } }
     * setDirty(oneIsDirty); } }
-    * 
+    *
     * public void dispose() { for (Iterator i = commandStacks.iterator(); i.hasNext();) {
     * ((CommandStack) i.next()).removeCommandStackListener(this); } commandStacks.clear(); }
-    * 
+    *
     * public void markSaveLocations() { for (Iterator i = commandStacks.iterator();
     * i.hasNext();) { ((CommandStack) i.next()).markSaveLocation(); } } }
     */

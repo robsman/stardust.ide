@@ -288,8 +288,6 @@ public class ProcessDefinitionDataPathsPropertyPage
       CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
       DataPathType dataPath = factory.createDataPathType();
       ProcessDefinitionType process = getProcess();
-      dataPath.setElementOid(ModelUtils.getElementOid(dataPath, ModelUtils
-            .findContainingModel(process)));
 
       IdFactory idFactory = new IdFactory(Diagram_Messages.ID_DataPath, Diagram_Messages.BASENAME_DataPath);
       idFactory.computeNames(process.getDataPath());

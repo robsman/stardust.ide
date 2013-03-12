@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramEditorPage;
 import org.eclipse.stardust.modeling.core.editors.IDiagramChangeListener;
@@ -54,7 +55,7 @@ import org.eclipse.swt.widgets.Control;
 public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAction implements IDiagramChangeListener
 {
    private Map dropListeners = new HashMap();
-   
+
    public static boolean isValidDndSelection(ISelection selection)
    {
       if (selection instanceof IStructuredSelection)
@@ -119,14 +120,14 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
             EditPart targetEditPart = GenericUtils.isValidTargetEditPart(editPart);
             if (targetEditPart == null) {
                return false;
-            }            
+            }
             ISelection selection = LocalSelectionTransfer.getTransfer().getSelection();
             boolean enabled = isValidDndSelection(selection);
             if (enabled)
             {
                event.detail = DND.DROP_COPY;
             }
-            DiagramType targetDiagram = page.getDiagram();            
+            DiagramType targetDiagram = page.getDiagram();
             if (targetDiagram == null || !(targetDiagram.eContainer() instanceof ProcessDefinitionType)) {
                return false;
             }
@@ -157,29 +158,31 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
          {
             WorkflowModelEditor editor = page.getWorkflowModelEditor();
             DiagramType targetDiagram = page.getDiagram();
-                        
+
             if (editor.getModelServer().requireLock(targetDiagram))
             {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
+               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
                return;
-            }            
-            
-            ISelection selection = LocalSelectionTransfer.getTransfer().getSelection();           
+            }
+
+            ISelection selection = LocalSelectionTransfer.getTransfer().getSelection();
             ITemplate template = (ITemplate) ((IStructuredSelection) selection).getFirstElement();
             Point location = getAbsoluteLocation(page.getGraphicalViewer().getControl());
             final EditPart editPart = page.getGraphicalViewer().findObjectAt(new org.eclipse.draw2d.geometry.Point(event.x - location.x,event.y - location.y));
             ModelType targetModel = editor.getWorkflowModel();
             TemplateContentAdapter contentAdapter = new TemplateContentAdapter(targetModel, template);
             targetModel.eAdapters().add(contentAdapter);
-            ChangeRecorder recorder = new ChangeRecorder(targetModel);            
+            ChangeRecorder recorder = new ChangeRecorder(targetModel);
+            ModelOidUtil modelOidUtil = editor.getModelManager().getModelOidUtil();
+
             try
-            {               
+            {
                template.applyTemplate(editor, targetModel, targetDiagram, editPart, event.x - location.x, event.y - location.y);
                ApplyUpdatesCommand command = new ApplyUpdatesCommand(recorder.endRecording());
                editor.getEditDomain().getCommandStack().execute(command);
                CompoundCommand reorderCmd = null;
                if (editPart instanceof AbstractSwimlaneEditPart) {
-                  
+
                   LaneEditPart laneEditPart = (LaneEditPart) editPart;
                   if (!laneEditPart.getLaneModel().getActivitySymbol().isEmpty())
                   {
@@ -198,41 +201,42 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
                      }
                   }
 
-                  reorderCmd = new CompoundCommand();                  
+                  reorderCmd = new CompoundCommand();
                   reorderCmd.add(new DelegatingCommand()
                   {
                      public Command createDelegate()
                      {
-                        return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) editPart);                     }               
+                        return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) editPart);                     }
                      });
                   reorderCmd.add(new DelegatingCommand()
                   {
                      public Command createDelegate()
                      {
                         return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) editPart, new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE));
-                     }               
-                  }); 
-                  editor.getEditDomain().getCommandStack().execute(reorderCmd);               
-               }               
+                     }
+                  });
+                  editor.getEditDomain().getCommandStack().execute(reorderCmd);
+               }
                editor.selectSymbols(contentAdapter.getAddedSymbols(), targetDiagram);
                DiagramEditorPage diagramEditorPage = (DiagramEditorPage) editor.getCurrentPage();
                diagramEditorPage.setFocus();
-               INodeSymbol lastSymbol = (INodeSymbol) contentAdapter.getAddedSymbols().get(0);               
+               INodeSymbol lastSymbol = (INodeSymbol) contentAdapter.getAddedSymbols().get(0);
                diagramEditorPage.setMouseLocation(new org.eclipse.draw2d.geometry.Point(lastSymbol.getXPos(), lastSymbol.getYPos()));
             }
             catch (ImportCancelledException ice)
-            {                                             
+            {
                ApplyUpdatesCommand command = new ApplyUpdatesCommand(recorder.endRecording());
                editor.getEditDomain().getCommandStack().execute(command);
-               editor.getEditDomain().getCommandStack().undo();                                                   
-            }            
+               editor.getEditDomain().getCommandStack().undo();
+            }
             finally
-            {               
+            {
                targetModel.eAdapters().remove(contentAdapter);
                recorder.dispose();
+
             }
-         }        
-         
+         }
+
          private Point getAbsoluteLocation(Control control)
          {
             Point location = control.getLocation();

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
@@ -26,8 +27,10 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
+import static org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants.ID_PROPERTY;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +41,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -67,6 +71,7 @@ import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
@@ -74,6 +79,7 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataIniti
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -88,15 +94,18 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IFlowObjectSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -117,13 +126,14 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TextType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
-import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -151,6 +161,8 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class ModelBuilderFacade
 {
+   private static final String TIMESTAMP_TYPE = "Timestamp"; //$NON-NLS-1$
+
    private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
    private ModelManagementStrategy modelManagementStrategy;
@@ -344,7 +356,10 @@ public class ModelBuilderFacade
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
+      if ( !StringUtils.isEmpty(primitiveTypeID))
+      {
       basicType.setType(getPrimitiveType(primitiveTypeID));
+      }
       dataTypeType.setBasicType(basicType);
       parameterType.setDataType(dataTypeType);
       String typeId = PredefinedConstants.PRIMITIVE_DATA;
@@ -508,11 +523,11 @@ public class ModelBuilderFacade
    }
 
    public AccessPointType createDocumentAccessPoint(IAccessPointOwner application,
-         String id, String name, String structTypeFullID, String direction)
+         String id, String name, String direction)
    {
-      // TODO Implement
-      
-      return null;
+      return newDocumentAccessPoint(application).withIdAndName(id, name)
+            .withDirection(direction)
+            .build();
    }
 
    public void setProcessImplementation(ProcessDefinitionType processInterface,
@@ -641,11 +656,11 @@ public class ModelBuilderFacade
       {
          return;
       }
+
       ModelType model = ModelUtils.findContainingModel(data);
       data.setType(ModelUtils.findIdentifiableElement(model.getDataType(), targetTypeID));
       IDataInitializer init = getInitializer(targetTypeID);
       init.initialize(data, data.getAttribute());
-
    }
 
    /**
@@ -692,8 +707,9 @@ public class ModelBuilderFacade
          if (sourceModelID.equals(model.getId()))
          {
             data.setExternalReference(null);
-            AttributeUtil.setAttribute(data,
+            AttributeType attribute = AttributeUtil.setAttribute(data,
                   StructuredDataConstants.TYPE_DECLARATION_ATT, declarationID);
+            ModelUtils.setReference(attribute, model, "struct");
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
          else
@@ -742,8 +758,9 @@ public class ModelBuilderFacade
          if (sourceModelID.equals(model.getId()))
          {
             data.setExternalReference(null);
-            AttributeUtil.setAttribute(data, "carnot:engine:dms:resourceMetadataSchema",
-                  declarationID);
+            AttributeType attribute = AttributeUtil.setAttribute(data,
+                  DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, declarationID);
+            ModelUtils.setReference(attribute, model, "struct");
             AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
          }
          else
@@ -809,7 +826,6 @@ public class ModelBuilderFacade
          String primitiveTypeID)
    {
       DataType data;
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       Type type = null;
 
       if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
@@ -836,7 +852,6 @@ public class ModelBuilderFacade
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
             .ofType(type)
             .build();
-      data.setElementOid(++maxOID);
 
       return data;
    }
@@ -888,12 +903,13 @@ public class ModelBuilderFacade
 
          ModelType loadModel = getModelManagementStrategy().loadModel(
                dataModelId + ".xpdl");
-         DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
-         if (dataCopy == null)
-         {
-            ElementCopier copier = new ElementCopier(loadModel, null);
+         // DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
+         DataType dataCopy = findData(dataModel, stripFullId(dataFullID));
+         // if (dataCopy == null)
+         // {
+         ElementCopier copier = new ElementCopier(dataModel, null);
             dataCopy = (DataType) copier.copy(data);
-         }
+         // }
 
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                uri, dataCopy, bundleId, null, true);
@@ -949,8 +965,6 @@ public class ModelBuilderFacade
          int xProperty, int yProperty, int widthProperty, int heightProperty,
          PoolSymbol parentSymbol)
    {
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-
       LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
       laneSymbol.setName(laneName);
 
@@ -969,8 +983,6 @@ public class ModelBuilderFacade
             .get(0)
             .getChildLanes()
             .add(laneSymbol);
-
-      laneSymbol.setElementOid(++maxOid);
 
       laneSymbol.setXPos(xProperty);
       laneSymbol.setYPos(yProperty);
@@ -1015,14 +1027,18 @@ public class ModelBuilderFacade
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
                   participantModelID + ".xpdl");
-            IModelParticipant participantCopy = findParticipant(loadModel,
+            /*
+             * IModelParticipant participantCopy = findParticipant(loadModel,
+             * stripFullId(participantFullID));
+             */
+            IModelParticipant participantCopy = findParticipant(participantModel,
                   stripFullId(participantFullID));
 
-            if (participantCopy == null)
-            {
-               ElementCopier copier = new ElementCopier(loadModel, null);
-               participantCopy = (IModelParticipant) copier.copy(modelParticipant);
-            }
+            // if (participantCopy == null)
+            // {
+            ElementCopier copier = new ElementCopier(participantModel, null);
+            participantCopy = (IModelParticipant) copier.copy(modelParticipant);
+            // }
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
@@ -1062,12 +1078,9 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM.createActivitySymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
-      activitySymbol.setElementOid(++maxOID);
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       activitySymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       activitySymbol.setWidth(widthProperty);
@@ -1097,12 +1110,9 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty, String content)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM.createAnnotationSymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
 
-      annotationSymbol.setElementOid(++maxOID);
       annotationSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       annotationSymbol.setWidth(widthProperty);
@@ -1168,12 +1178,8 @@ public class ModelBuilderFacade
          ProcessDefinitionType processDefinition, String parentLaneID, int xProperty,
          int yProperty, int widthProperty, int heightProperty)
    {
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
-
       DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
       LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
-
-      dataSymbol.setElementOid(++maxOID);
 
       dataSymbol.setData(data);
 
@@ -1343,8 +1349,6 @@ public class ModelBuilderFacade
          String activityID, String activityName, String participantFullID,
          String applicationFullID, String subProcessFullID)
    {
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model) + 1;
-
       ActivityType activity = null;
 
       if (ModelerConstants.TASK_ACTIVITY.equals(activityType))
@@ -1386,8 +1390,6 @@ public class ModelBuilderFacade
                || ModelerConstants.RECEIVE_TASK_KEY.equals(taskType)
                || ModelerConstants.RULE_TASK_KEY.equals(taskType))
          {
-            // TODO Add participant for User Tasks
-
             String stripFullId_ = getModelId(applicationFullID);
 
             if (StringUtils.isEmpty(stripFullId_))
@@ -1406,6 +1408,12 @@ public class ModelBuilderFacade
                         getApplication(applicationModel.getId(),
                               stripFullId(applicationFullID)))
                   .build();
+
+            if (ModelerConstants.USER_TASK_KEY.equals(taskType)
+                  && participantFullID != null)
+            {
+               activity.setPerformer(findParticipant(participantFullID));
+            }
 
             // TODO Redundant?
 
@@ -1436,13 +1444,13 @@ public class ModelBuilderFacade
                .build();
       }
 
-      activity.setElementOid(maxOid + 1);
-
       return activity;
    }
 
    /**
     * Creates a process.
+    * 
+    * @deprecated
     * 
     * @param model
     *           model to create the process in
@@ -1464,15 +1472,12 @@ public class ModelBuilderFacade
       DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
       diagram.setMode(DiagramModeType.MODE_450_LITERAL);
       diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
-      long maxOid = XpdlModelUtils.getMaxUsedOid(model);
-      diagram.setElementOid(++maxOid);
       diagram.setName("Diagram 1");
 
       PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
 
       diagram.getPoolSymbols().add(poolSymbol);
 
-      poolSymbol.setElementOid(++maxOid);
       poolSymbol.setXPos(0);
       poolSymbol.setYPos(0);
       poolSymbol.setWidth(500);
@@ -1486,13 +1491,67 @@ public class ModelBuilderFacade
       poolSymbol.getChildLanes().add(laneSymbol);
       laneSymbol.setParentPool(poolSymbol);
 
-      laneSymbol.setElementOid(++maxOid);
       laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
       laneSymbol.setName(ModelerConstants.DEF_LANE_NAME);
       laneSymbol.setXPos(10);
       laneSymbol.setYPos(10);
       laneSymbol.setWidth(480);
       laneSymbol.setHeight(580);
+      laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      processDefinition.getDiagram().add(diagram);
+
+      return processDefinition;
+   }
+
+   /**
+    * 
+    * @param model
+    * @param id
+    * @param name
+    * @param defaultLaneName
+    * @param defaultPoolName
+    */
+   public ProcessDefinitionType createProcess(ModelType model, String id, String name,
+         String defaultLaneName, String defaultPoolName)
+   {
+      ProcessDefinitionType processDefinition = newProcessDefinition(model).withIdAndName(
+            id, name)
+            .build();
+
+      // Create diagram bits too
+
+      DiagramType diagram = AbstractElementBuilder.F_CWM.createDiagramType();
+
+      diagram.setMode(DiagramModeType.MODE_450_LITERAL);
+      diagram.setOrientation(OrientationType.VERTICAL_LITERAL);
+      diagram.setName("Diagram 1");
+
+      PoolSymbol poolSymbol = AbstractElementBuilder.F_CWM.createPoolSymbol();
+
+      diagram.getPoolSymbols().add(poolSymbol);
+      poolSymbol.setXPos(0);
+      poolSymbol.setYPos(0);
+      poolSymbol.setWidth(ModelerConstants.DEFAULT_SWIMLANE_WIDTH + 34);
+      poolSymbol.setHeight(670);
+      poolSymbol.setName(defaultPoolName);
+      poolSymbol.setId("_default_pool__1");
+      poolSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
+
+      LaneSymbol laneSymbol = AbstractElementBuilder.F_CWM.createLaneSymbol();
+
+      poolSymbol.getChildLanes().add(laneSymbol);
+      laneSymbol.setParentPool(poolSymbol);
+
+      laneSymbol.setId(ModelerConstants.DEF_LANE_ID);
+      laneSymbol.setName(defaultLaneName);
+
+      // Setting the x,y for default swimlane
+      // TODO - Move this code to javascript
+      laneSymbol.setXPos(12);
+      laneSymbol.setYPos(32);
+      laneSymbol.setWidth(ModelerConstants.DEFAULT_SWIMLANE_WIDTH);
+      laneSymbol.setHeight(poolSymbol.getHeight() - 70);
       laneSymbol.setOrientation(OrientationType.VERTICAL_LITERAL);
 
       processDefinition.getDiagram().add(diagram);
@@ -1652,41 +1711,68 @@ public class ModelBuilderFacade
       
       if (id.equals("camel"))
       {
-         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
-      
+
          if (null == triggerMetaType)
          {
             CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
 
             triggerMetaType = F_CWM.createTriggerTypeType();
-            
-            triggerMetaType.setElementOid(++maxUsedOid);
             triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
             triggerMetaType.setName("Camel Trigger");
             triggerMetaType.setIsPredefined(true);
             triggerMetaType.setPullTrigger(false);
-            
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator", "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
+                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator",
+                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
 
             model.getTriggerType().add(triggerMetaType);
+
+            return triggerMetaType;
          }
       }
-      
+      else if (id.equals("scan"))
+      {
+         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
+         TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+               model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
+
+         if (null == triggerMetaType)
+         {
+            CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
+
+            triggerMetaType = F_CWM.createTriggerTypeType();
+
+            triggerMetaType.setId(ModelerConstants.SCAN_TRIGGER_TYPE_ID);
+            triggerMetaType.setName("Scan Trigger");
+            triggerMetaType.setIsPredefined(true);
+            triggerMetaType.setPullTrigger(false);
+
+            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
+                  "org.eclipse.stardust.engine.core.extensions.triggers.manual.ManualTriggerValidator");
+
+            model.getTriggerType().add(triggerMetaType);
+
+            return triggerMetaType;
+         }
+      }
+
       // Create the trigger type
       
-//      Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
-//            CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
-//       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
-//       CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
-//             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
-//             new EStructuralFeature[] {});
-//       metaCommand.setParent(targetModel);
-//       metaCommand.execute();
-       
-       return null;
+      // Map<String, IConfigurationElement> dataExtensions =
+      // SpiExtensionRegistry.instance().getExtensions(
+      // CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
+      //       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
+      // CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
+      // CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
+      // new EStructuralFeature[] {});
+      // metaCommand.setParent(targetModel);
+      // metaCommand.execute();
+
+      return null;
    }
 
    /**
@@ -2628,7 +2714,7 @@ public class ModelBuilderFacade
       {
          type = TypeType.BOOLEAN_LITERAL;
       }
-      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))         
+      else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))
       {
          type = TypeType.DATETIME_LITERAL;
       }
@@ -2636,7 +2722,7 @@ public class ModelBuilderFacade
       {
          type = TypeType.INTEGER_LITERAL;
       }
-      
+
       return type;
    }
 
@@ -2679,8 +2765,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("External Web Application");
             contextTypeType.setId(ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2688,8 +2772,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Noninteractive Application Context");
             contextTypeType.setId(ModelerConstants.APPLICATION_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.ENGINE_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2697,8 +2779,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Engine Context");
             contextTypeType.setId(ModelerConstants.ENGINE_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
          else if (ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY.equals(contextId))
@@ -2706,8 +2786,6 @@ public class ModelBuilderFacade
             contextTypeType.setName("Default Context");
             contextTypeType.setId(ModelerConstants.DEFAULT_CONTEXT_TYPE_KEY);
             contextTypeType.setIsPredefined(true);
-            long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
-            contextTypeType.setElementOid(++maxElementOid);
             model.getApplicationContextType().add(contextTypeType);
          }
       }
@@ -2844,6 +2922,30 @@ public class ModelBuilderFacade
       {
          AttributeUtil.setAttribute((IExtensibleElement) element, name, value);
       }
+   }
+
+   public void setTimestampAttribute(IExtensibleElement element, String name, String value)
+   {
+      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE,
+            value);
+   }
+
+   public Date getTimestampAttribute(IExtensibleElement element, String name)
+   {
+      Date date = null;
+      String attributeValue = AttributeUtil.getAttributeValue(element, name);
+      if (attributeValue != null)
+      {
+         try
+         {
+            date = DateUtils.getNonInteractiveDateFormat().parse(attributeValue);
+         }
+         catch (ParseException e)
+         {
+         }
+      }
+
+      return date;
    }
 
    public void setBooleanAttribute(Object element, String name, boolean value)
@@ -2988,6 +3090,11 @@ public class ModelBuilderFacade
          if (modelElement instanceof DataType)
          {
             DataType dataType = (DataType) modelElement;
+            if (dataType.eIsProxy())
+            {
+               return true;
+            }
+
             if ((dataType.getType() != null)
                   && (dataType.getType().getId().equalsIgnoreCase(PredefinedConstants.DOCUMENT_DATA)))
             {
@@ -3093,13 +3200,17 @@ public class ModelBuilderFacade
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
                   participantModelID + ".xpdl");
-            IModelParticipant participantCopy = findParticipant(loadModel,
+            /*
+             * IModelParticipant participantCopy = findParticipant(loadModel,
+             * stripFullId(participantFullID));
+             */
+            IModelParticipant participantCopy = findParticipant(participantModel,
                   stripFullId(participantFullID));
-            if (participantCopy == null)
-            {
-               ElementCopier copier = new ElementCopier(loadModel, null);
-               participantCopy = (IModelParticipant) copier.copy(modelParticipant);
-            }
+            // if (participantCopy == null)
+            // {
+            ElementCopier copier = new ElementCopier(participantModel, null);
+            participantCopy = (IModelParticipant) copier.copy(modelParticipant);
+            // }
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
@@ -3135,7 +3246,7 @@ public class ModelBuilderFacade
 
    public ModelType createModel(String modelID, String modelName)
    {
-      Map<String, ModelType> models = this.modelManagementStrategy.getModels(true);
+      Map<String, ModelType> models = this.modelManagementStrategy.getModels(false);
       List<EObject> ids = new ArrayList<EObject>(models.values());
 
       ModelType model = newBpmModel().withIdAndName(modelID, modelName).build();
@@ -3156,12 +3267,9 @@ public class ModelBuilderFacade
       DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(
             model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
       DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       data.setId(DmsConstants.DATA_ID_ATTACHMENTS);
       data.setName("Process Attachments"); //$NON-NLS-1$
       data.setType(dataTypeType);
-      // data.setElementOid(ModelUtils.getElementOid(data, model));
-      data.setElementOid(++maxOID);
       model.getData().add(data);
 
       AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT,
@@ -3176,22 +3284,27 @@ public class ModelBuilderFacade
    public ParameterMappingType createParameterMapping(TriggerType trigger,
          String parameter, String dataFullID, String dataPath)
    {
-      ModelType model = ModelUtils.findContainingModel(trigger);
-      long maxOID = XpdlModelUtils.getMaxUsedOid(model);
       ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
       mappingType.setParameter(parameter);
       mappingType.setData(findData(dataFullID));
-      mappingType.setDataPath(dataPath);
-      mappingType.setElementOid(++maxOID);
+      if (dataPath != null)
+      {
+         mappingType.setDataPath(dataPath);
+      }
       trigger.getParameterMapping().add(mappingType);
       return mappingType;
    }
-   
+
    public String convertDate(String date)
    {
-      // TODO read property
-      String format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
-      
+      ResourceBundle rb = ResourceBundle.getBundle("portal-common-messages"); //$NON-NLS-1$
+      String format = rb.getString("portalFramework.formats.defaultDateTimeFormat"); //$NON-NLS-1$
+
+      if (format == null)
+      {
+         format = "MM/dd/yy hh:mm a"; //$NON-NLS-1$
+      }
+
       String pattern = "E MMM dd HH:mm:ss zzz yyyy"; //$NON-NLS-1$
       SimpleDateFormat instance = new SimpleDateFormat(pattern, Locale.ROOT);
 
@@ -3205,7 +3318,343 @@ public class ModelBuilderFacade
       catch (ParseException e)
       {
       }
-      
+
       return date;
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param sourceActivity
+    * @param targetActivity
+    * @param controlFlowJson
+    * @param transitionOid
+    * @return
+    */
+   public TransitionType createTransition(ProcessDefinitionType processDefinition,
+         ActivityType sourceActivity, ActivityType targetActivity, String id,
+         String name, String description, boolean otherwise, String condition)
+   {
+      TransitionType transition = AbstractElementBuilder.F_CWM.createTransitionType();
+
+      processDefinition.getTransition().add(transition);
+
+      transition.setFrom(sourceActivity);
+      transition.setTo(targetActivity);
+
+      if (isEmpty(id))
+      {
+         id = UUID.randomUUID().toString();
+      }
+
+      transition.setId(id);
+      transition.setName(name);
+
+      if (otherwise)
+      {
+         transition.setCondition(ModelerConstants.OTHERWISE_KEY);
+      }
+      else
+      {
+         transition.setCondition(ModelerConstants.CONDITION_KEY);
+
+         if (StringUtils.isEmpty(condition))
+         {
+            condition = "true";
+         }
+         XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
+         ModelUtils.setCDataString(expression.getMixed(), condition, true);
+         transition.setExpression(expression);
+      }
+
+      // TODO Implement
+
+      // setDescription(transition, description);
+
+      return transition;
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param sourceActivitySymbol
+    * @param targetActivitySymbol
+    * @param transition
+    * @param connectionOid
+    * @param fromAnchorOrientation
+    * @param toAnchorOrientation
+    * @return
+    */
+   public TransitionConnectionType createTransitionSymbol(
+         ProcessDefinitionType processDefinition, IFlowObjectSymbol sourceActivitySymbol,
+         IFlowObjectSymbol targetActivitySymbol, TransitionType transition,
+         String fromAnchorOrientation, String toAnchorOrientation)
+   {
+      TransitionConnectionType transitionConnection = AbstractElementBuilder.F_CWM.createTransitionConnectionType();
+
+      if (null != transition)
+      {
+         transition.getTransitionConnections().add(transitionConnection);
+         transitionConnection.setTransition(transition);
+      }
+
+      transitionConnection.setSourceNode(sourceActivitySymbol);
+      transitionConnection.setTargetNode(targetActivitySymbol);
+      transitionConnection.setSourceAnchor(fromAnchorOrientation);
+      transitionConnection.setTargetAnchor(toAnchorOrientation);
+
+      // TODO Obtain pool from call
+
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getTransitionConnection()
+            .add(transitionConnection);
+
+      return transitionConnection;
+   }
+
+   /**
+    * 
+    * @param sourceOid
+    * @param targetOid
+    * @param processDefinition
+    */
+   private void deleteDuplicateConnections(long sourceOid, long targetOid,
+         ProcessDefinitionType processDefinition)
+   {
+      List<TransitionConnectionType> tobeRemoved = new ArrayList<TransitionConnectionType>();
+
+      EList<TransitionConnectionType> transitionConnections = processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getTransitionConnection();
+
+      for (TransitionConnectionType transitionConnectionType : transitionConnections)
+      {
+         if (transitionConnectionType.getSourceActivitySymbol().getElementOid() == sourceOid
+               && transitionConnectionType.getTargetActivitySymbol().getElementOid() == targetOid)
+         {
+            tobeRemoved.add(transitionConnectionType);
+         }
+      }
+
+      for (TransitionConnectionType transitionConnectionType : tobeRemoved)
+      {
+         transitionConnections.remove(transitionConnectionType);
+         processDefinition.getTransition().remove(
+               transitionConnectionType.getTransition());
+      }
+   }
+
+   /**
+    * 
+    * @param sourceActivitySymbol
+    * @param targetActivitySymbol
+    * @throws JSONException
+    */
+   public void createControlFlowConnection(ProcessDefinitionType processDefinition,
+         ActivitySymbolType sourceActivitySymbol,
+         ActivitySymbolType targetActivitySymbol, String id, String name,
+         String description, boolean otherwise, String condition, String fromAnchor,
+         String toAnchor)
+   {
+      // Remove duplicate transition connections
+
+      deleteDuplicateConnections(sourceActivitySymbol.getElementOid(),
+            targetActivitySymbol.getElementOid(), processDefinition);
+
+      TransitionType transition = createTransition(processDefinition,
+            sourceActivitySymbol.getActivity(), targetActivitySymbol.getActivity(), id,
+            name, description, otherwise, condition);
+
+      createTransitionSymbol(processDefinition, sourceActivitySymbol,
+            targetActivitySymbol, transition, fromAnchor, toAnchor);
+   }
+
+   /**
+    * 
+    * @param processDefinition
+    * @param activitySymbol
+    * @param dataSymbol
+    * @param direction
+    * @param fromAnchor
+    * @param toAnchor
+    */
+   public DataMappingConnectionType createDataFlowConnection(
+         ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol,
+         DataSymbolType dataSymbol, DirectionType direction, String fromAnchor,
+         String toAnchor)
+   {
+      DataType data = dataSymbol.getData();
+      ActivityType activity = activitySymbol.getActivity();
+
+      DataMappingType dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
+      DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
+
+      dataMapping.setId(data.getId());
+      dataMapping.setName(data.getName());
+      dataMapping.setDirection(direction);
+      dataMapping.setData(data);
+      dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+
+      if (activity.getImplementation().getLiteral().equals("Application"))
+      {
+         dataMapping.setContext(PredefinedConstants.APPLICATION_CONTEXT);
+
+         String dataId = null;
+         if (activity.getApplication() != null
+               && activity.getApplication().getAccessPoint() != null)
+         {
+            for (AccessPointType accPoints : activity.getApplication().getAccessPoint())
+            {
+               if (accPoints.getDirection().getValue() == DirectionType.OUT)
+               {
+                  if (accPoints.getType().equals(data.getType()))
+                  {
+                     dataId = accPoints.getId();
+                     break;
+                  }
+               }
+            }
+         }
+
+         if (null != dataId)
+         {
+            dataMapping.setApplicationAccessPoint(dataId);
+         }
+      }
+      else if (activity.getImplementation().getLiteral().equals("Subprocess"))
+      {
+         dataMapping.setContext(PredefinedConstants.ENGINE_CONTEXT);
+      }
+      else
+      {
+         dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+      }
+
+      activity.getDataMapping().add(dataMapping);
+
+      // TODO Obtain pool from call
+
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getDataMappingConnection()
+            .add(dataMappingConnection);
+
+      dataMappingConnection.setActivitySymbol(activitySymbol);
+      dataMappingConnection.setDataSymbol(dataSymbol);
+      activitySymbol.getDataMappings().add(dataMappingConnection);
+      dataSymbol.getDataMappings().add(dataMappingConnection);
+      dataMappingConnection.setSourceAnchor(fromAnchor);
+      dataMappingConnection.setTargetAnchor(toAnchor);
+
+      return dataMappingConnection;
+   }
+
+   /**
+    * Create a Data Mapping Connection with zero, one or two Data Mappings.
+    * 
+    * @param processDefinition
+    * @param activitySymbol
+    * @param dataSymbol
+    * @param inputContextId
+    * @param inputAccessPointId
+    * @param outputContextId
+    * @param outputAccessPointId
+    * @param fromAnchor
+    * @param toAnchor
+    * @return
+    */
+   public DataMappingConnectionType createDataFlowConnection(
+         ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol,
+         DataSymbolType dataSymbol, String inputContextId, String inputAccessPointId,
+         String outputContextId, String outputAccessPointId, String fromAnchor,
+         String toAnchor)
+   {
+//      return createDataFlowConnection(
+//            processDefinition, activitySymbol,
+//            dataSymbol, DirectionType.IN_LITERAL, fromAnchor,
+//            toAnchor);
+      
+      DataType data = dataSymbol.getData();
+      ActivityType activity = activitySymbol.getActivity();
+
+      DataMappingType dataMapping;
+
+      if (inputAccessPointId != null)
+      {
+         dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
+
+         dataMapping.setId(data.getId());
+         dataMapping.setName(data.getName());
+         dataMapping.setDirection(DirectionType.IN_LITERAL);
+         dataMapping.setData(data);
+         dataMapping.setContext(inputContextId);
+         dataMapping.setApplicationAccessPoint(inputAccessPointId);
+
+         activity.getDataMapping().add(dataMapping);
+//         data.getDataMappings().add(dataMapping);
+      }
+
+      if (outputAccessPointId != null)
+      {
+         dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
+
+         dataMapping.setId(data.getId());
+         dataMapping.setName(data.getName());
+         dataMapping.setDirection(DirectionType.OUT_LITERAL);
+         dataMapping.setData(data);
+         dataMapping.setContext(outputContextId);
+         dataMapping.setApplicationAccessPoint(outputAccessPointId);
+
+         activity.getDataMapping().add(dataMapping);
+//         data.getDataMappings().add(dataMapping);
+      }
+
+      DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
+
+      // TODO Obtain pool from call
+
+      processDefinition.getDiagram()
+            .get(0)
+            .getPoolSymbols()
+            .get(0)
+            .getDataMappingConnection()
+            .add(dataMappingConnection);
+
+      dataMappingConnection.setActivitySymbol(activitySymbol);
+      dataMappingConnection.setDataSymbol(dataSymbol);
+      activitySymbol.getDataMappings().add(dataMappingConnection);
+      dataSymbol.getDataMappings().add(dataMappingConnection);
+      dataMappingConnection.setSourceAnchor(fromAnchor);
+      dataMappingConnection.setTargetAnchor(toAnchor);
+
+      return dataMappingConnection;
+   }
+
+   /**
+    * 
+    * @param application
+    * @param context
+    * @param direction
+    * @return
+    */
+   public AccessPointType findFirstApplicationAccessPointForType(
+         ApplicationType application, DirectionType direction)
+   {
+      for (AccessPointType accessPoint : application.getAccessPoint())
+      {
+         if (accessPoint.getDirection().equals(direction))
+         {
+            return accessPoint;
+         }
+      }
+
+      return null;
    }
 }

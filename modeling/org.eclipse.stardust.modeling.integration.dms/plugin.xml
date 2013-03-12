@@ -36,6 +36,10 @@
                name="carnot:engine:dataFilterExtension"
                value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataFilterExtension">
          </attribute>
+         <reference
+               attributeName="carnot:engine:dms:resourceMetadataSchema"
+               scope="struct">
+         </reference>
       </dataType>
       <dataType
             accessPathEditorClass="org.eclipse.stardust.modeling.integration.dms.data.DmsDocumentListAccessPathEditor"
