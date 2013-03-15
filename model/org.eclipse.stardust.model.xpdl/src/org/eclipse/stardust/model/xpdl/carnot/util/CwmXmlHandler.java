@@ -12,42 +12,20 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 
 import java.io.StringReader;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
-import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.model.beans.ModelBean;
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.xsd.XSDSchema;
@@ -351,10 +329,16 @@ public class CwmXmlHandler extends SAXXMLHandler
    private boolean inSchema = false;
    private MyXSDParser xsdParser = new MyXSDParser();
    private Stack<Map<String, String>> namespaces = new Stack<Map<String, String>>();
+   private Map<String, String> current = null;
    private int schemaElementCount = 0;
 
    public void startPrefixMapping(String prefix, String uri)
    {
+      if (current == null)
+      {
+         current = new HashMap<String, String>();
+      }
+      current.put(prefix,  uri);
       if (!(objects.peek() instanceof SchemaTypeType))
       {
          super.startPrefixMapping(prefix, uri);
@@ -364,7 +348,7 @@ public class CwmXmlHandler extends SAXXMLHandler
    // TODO: optimize namespace handling
    public void startElement(String uri, String localName, String name)
    {
-      handleNamespaces();
+      namespaces.push(current == null ? Collections.<String, String>emptyMap() : current);
       String prefix = getPrefix(name);
       boolean hasNamespace = uri != null && uri.length() > 0;
       if (!hasNamespace)
@@ -379,12 +363,9 @@ public class CwmXmlHandler extends SAXXMLHandler
       {
          uri = XMLResource.XML_SCHEMA_URI;
       }
-      Map<String, String> current = namespaces.peek();
       if (!inSchema && isSchemaElement(uri, prefix))
       {
-         inSchema = true;
-         current.put(STOPPER, STOPPER);
-         xsdParser.startDocument();
+         startXsdDocument();
       }
       if (inSchema)
       {
@@ -393,6 +374,17 @@ public class CwmXmlHandler extends SAXXMLHandler
          try
          {
             xsdParser.startElement(uri, localName, name, attribs);
+            if (current != null)
+            {
+               for (Map.Entry<String, String> entry : current.entrySet())
+               {
+                  String key = entry.getKey();
+                  if (!key.equals(STOPPER))
+                  {
+                     xsdParser.declareNamespace(entry.getValue(), key);
+                  }
+               }
+            }
             if (hasNamespace)
             {
                String searchedUri = getURI(prefix, false);
@@ -400,7 +392,7 @@ public class CwmXmlHandler extends SAXXMLHandler
                {
                   xsdParser.declareNamespace(uri, prefix);
                }
-               current.put(prefix, uri);
+               namespaces.peek().put(prefix, uri);
             }
          }
          catch (Throwable e)
@@ -411,6 +403,14 @@ public class CwmXmlHandler extends SAXXMLHandler
          return;
       }
       super.startElement(uri, localName, name);
+      current = null;
+   }
+
+   private void startXsdDocument()
+   {
+      inSchema = true;
+      namespaces.peek().put(STOPPER, STOPPER);
+      xsdParser.startDocument();
    }
 
    private String getPrefix(String name)
@@ -442,7 +442,7 @@ public class CwmXmlHandler extends SAXXMLHandler
          if (current.get(STOPPER) == STOPPER)
          {
             break;
-      }
+         }
       }
       if (!askHelper)
       {
@@ -452,20 +452,13 @@ public class CwmXmlHandler extends SAXXMLHandler
       return uri == null ? "" : uri; //$NON-NLS-1$
    }
 
-   private void handleNamespaces()
+   @Override
+   public void endPrefixMapping(String prefix)
    {
-      Map<String, String> current = CollectionUtils.newMap();
-      for (int i = 0, size = attribs.getLength(); i < size; ++i)
+      if (!(objects.peek() instanceof SchemaTypeType))
       {
-        String attrib = attribs.getQName(i);
-        if (attrib.equals(XMLResource.XML_NS) || attrib.startsWith(XMLResource.XML_NS + ":")) //$NON-NLS-1$
-        {
-           int ix = attrib.indexOf(':');
-           String prefix = ix < 0 ? "" : attrib.substring(ix + 1); //$NON-NLS-1$
-           current.put(prefix, attribs.getValue(i));
-        }
+         super.endPrefixMapping(prefix);
       }
-      namespaces.push(current);
    }
 
    public void endElement(String uri, String localName, String name)
