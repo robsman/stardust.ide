@@ -392,8 +392,10 @@ public class WorkflowModelManager
    
    public void resolve(ModelType model)
    {
-      modelOidUtil = ModelOidUtil.register(model);
+      long maxUsedOid = ModelUtils.getMaxUsedOid(model);      
+      ModelOidUtil.register(model, maxUsedOid, resource);
+
       // resolve string-id references in attributes
-      ModelUtils.resolve(model, model);      
+      ModelUtils.resolve(model, model);            
    }
 }
