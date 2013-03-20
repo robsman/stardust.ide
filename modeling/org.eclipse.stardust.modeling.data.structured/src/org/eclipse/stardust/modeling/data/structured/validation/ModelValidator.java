@@ -47,6 +47,7 @@ public class ModelValidator implements IModelValidator
       {
          new URL(location);
          // if it's a real url do nothing
+         return true;
       }
       catch (MalformedURLException e)
       {
