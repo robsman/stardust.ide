@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: javax.activation Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.activation
-Bundle-Version: 1.1.0
+Bundle-Version: 1.1.0.01
 Bundle-Vendor: SunGard CSA LLC
 Bundle-ClassPath: lib/activation.jar
 Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws

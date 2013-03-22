@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: Antlr Plug-in
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.antlr
-Bundle-Version: 3.2.0
+Bundle-Version: 3.2.0.01
 Bundle-Vendor: SunGard CSA LLC
 Export-Package: org.antlr.runtime,
  org.antlr.runtime.debug,

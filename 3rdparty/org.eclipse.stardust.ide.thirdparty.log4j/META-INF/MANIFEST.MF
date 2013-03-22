@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.log4j
-Bundle-Version: 1.2.15
+Bundle-Version: 1.2.15.01
 Bundle-Localization: plugin
 Bundle-Vendor: %Bundle-Vendor
 Bundle-ClassPath: lib/log4j.jar,
