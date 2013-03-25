@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
+
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.model.beans.ModelBean;
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
@@ -41,12 +43,12 @@ public class CwmXmlHandler extends SAXXMLHandler
 
    private static final CarnotWorkflowModelPackage CWM_PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private static final XpdlPackage XPDL_PKG = XpdlPackage.eINSTANCE;
-   
+
    // MUST be kept in ascending order
    private static final String[] SCHEMA_KEYWORDS_45 = {
       "complexType", "element", "enumeration", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       "restriction", "schema", "sequence", "simpleType"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-   
+
    private boolean isSchemaKeyword45(String name)
    {
       return Arrays.binarySearch(SCHEMA_KEYWORDS_45, name) >= 0;
@@ -67,7 +69,7 @@ public class CwmXmlHandler extends SAXXMLHandler
 
    protected void setValueFromId(EObject object, EReference eReference, String ids)
    {
-      // overriding default behaviour to allow for IDs with spaces 
+      // overriding default behaviour to allow for IDs with spaces
       if ((eReference.getEType() instanceof EClass)
             && (CWM_PKG.getIIdentifiableElement().isSuperTypeOf((EClass) eReference.getEType()))
             && (null != eReference.getEAnnotation(ElementIdRefs.ANNOTATION_ID)))
@@ -130,7 +132,7 @@ public class CwmXmlHandler extends SAXXMLHandler
             }
          }
       }
-      
+
       forwardSingleReferences.clear();
 
       super.handleForwardReferences(isEndDocument);
@@ -318,7 +320,7 @@ public class CwmXmlHandler extends SAXXMLHandler
       if (obj instanceof IModelElement)
       {
          IModelElement element = (IModelElement) obj;
-         
+
          if (element.isSetElementOid())
          {
             xmlResource.setID(obj, Long.toString(element.getElementOid()));
@@ -348,7 +350,7 @@ public class CwmXmlHandler extends SAXXMLHandler
    // TODO: optimize namespace handling
    public void startElement(String uri, String localName, String name)
    {
-      namespaces.push(current == null ? Collections.<String, String>emptyMap() : current);
+      namespaces.push(current == null ? CollectionUtils.<String, String>newMap() : current);
       String prefix = getPrefix(name);
       boolean hasNamespace = uri != null && uri.length() > 0;
       if (!hasNamespace)
@@ -658,7 +660,7 @@ public class CwmXmlHandler extends SAXXMLHandler
       }
       super.characters(ch, start, length);
    }
-   
+
    class MyXSDParser extends XSDParser
    {
       public MyXSDParser()
@@ -678,7 +680,7 @@ public class CwmXmlHandler extends SAXXMLHandler
          element.setAttributeNS(attributeURI, attributeQName, attributeValue);
       }
    }
-   
+
    public ModelType getModel(Resource resource)
    {
       ModelType model = null;
