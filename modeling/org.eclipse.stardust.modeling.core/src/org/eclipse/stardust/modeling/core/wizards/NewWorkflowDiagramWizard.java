@@ -478,7 +478,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
          DmsConstants.DATA_TYPE_DMS_DOCUMENT,
          DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST,
          DmsConstants.DATA_TYPE_DMS_FOLDER,
-         DmsConstants.DATA_TYPE_DMS_FOLDER_LIST, 
+         DmsConstants.DATA_TYPE_DMS_FOLDER_LIST,
          StructuredDataConstants.STRUCTURED_DATA};
 
    private static final String[] defaultApplicationTypes = {
@@ -490,7 +490,8 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
    private static final String[] defaultContextTypes = {
          PredefinedConstants.DEFAULT_CONTEXT, PredefinedConstants.ENGINE_CONTEXT,
          PredefinedConstants.APPLICATION_CONTEXT, PredefinedConstants.JFC_CONTEXT,
-         PredefinedConstants.JSP_CONTEXT, PredefinedConstants.PROCESSINTERFACE_CONTEXT};
+         PredefinedConstants.JSP_CONTEXT, PredefinedConstants.PROCESSINTERFACE_CONTEXT,
+         PredefinedConstants.EXTERNALWEBAPP_CONTEXT};
 
    private static final String[] defaultTriggerTypes = {
          PredefinedConstants.MANUAL_TRIGGER, PredefinedConstants.JMS_TRIGGER,
@@ -522,7 +523,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
             CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID,
             CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
             new EStructuralFeature[] {});
-      
+
       addMetaTypes(model, defaultApplicationTypes,
             CarnotConstants.APPLICATION_TYPES_EXTENSION_POINT_ID,
             CarnotWorkflowModelPackage.eINSTANCE.getApplicationTypeType(),
