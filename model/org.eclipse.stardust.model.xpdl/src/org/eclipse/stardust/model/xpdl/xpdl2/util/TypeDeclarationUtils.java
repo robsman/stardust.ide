@@ -13,15 +13,14 @@ package org.eclipse.stardust.model.xpdl.xpdl2.util;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -29,14 +28,16 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
-import org.eclipse.xsd.util.XSDResourceImpl;
+import org.eclipse.xsd.impl.XSDSchemaImpl;
 
 public class TypeDeclarationUtils
 {
    public static final int XPDL_TYPE = 0;
+
    public static final int SIMPLE_TYPE = 1;
+
    public static final int COMPLEX_TYPE = 2;
-   
+
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
@@ -46,17 +47,16 @@ public class TypeDeclarationUtils
       Map<String, String> prefixes = clone.getQNamePrefixToNamespaceMap();
 
       List<String> addPrefixes = new ArrayList<String>();
-      Set<Entry<String, String>> set = new HashSet<Entry<String,String>>(prefixes.entrySet());
+      Set<Map.Entry<String, String>> set = new HashSet<Map.Entry<String, String>>(prefixes.entrySet());
 
-      for (Iterator itr = set.iterator(); itr.hasNext();)
+      for (Map.Entry<String, String> entry : set)
       {
-         Map.Entry entry = (Entry) itr.next();
          if (!entry.getKey().equals("xsd")) //$NON-NLS-1$
          {
             // elements that needs to be set with the new TypeDeclarationType
-            Set elements = new HashSet();
+            Set<XSDElementDeclaration> elements = CollectionUtils.newSet();
 
-            String value = (String) entry.getValue();
+            String value = entry.getValue();
             int idx = value.lastIndexOf("/") + 1; //$NON-NLS-1$
             // TypeDeclarationType
             String elementName = value.substring(idx, value.length());
@@ -64,13 +64,13 @@ public class TypeDeclarationUtils
             // we could use the key for the check
 
             // references to old TypeDeclarationType
-            if(elementName.equals(previousId))
+            if (elementName.equals(previousId))
             {
                // remove old namespace
                TypeDeclarationUtils.removeNameSpace(clone, elementName, model.getId());
 
                String prefix = TypeDeclarationUtils.computePrefix(newId, clone.getQNamePrefixToNamespaceMap().keySet());
-               if(!addPrefixes.contains(prefix))
+               if (!addPrefixes.contains(prefix))
                {
                   String nameSpace = computeTargetNamespace(model, newId);
                   addPrefixes.add(prefix);
@@ -79,20 +79,16 @@ public class TypeDeclarationUtils
 
                // search for elements
                TypeDeclarationUtils.findElementsForType(declaration, elements, previousId);
-               Iterator it = elements.iterator();
-               while (it.hasNext())
+               for (XSDElementDeclaration elementDeclaration : elements)
                {
-                  XSDElementDeclaration elementDeclaration = (XSDElementDeclaration) it.next();
                   elementDeclaration.setTypeDefinition(null);
                }
 
                XSDTypeDefinition definition = TypeDeclarationUtils.getTypeDefinition(model.getTypeDeclarations(), newId);
-               if(definition != null)
+               if (definition != null)
                {
-                  it = elements.iterator();
-                  while (it.hasNext())
+                  for (XSDElementDeclaration elementDeclaration : elements)
                   {
-                     XSDElementDeclaration elementDeclaration = (XSDElementDeclaration) it.next();
                      elementDeclaration.setTypeDefinition(definition);
                   }
                }
@@ -112,16 +108,18 @@ public class TypeDeclarationUtils
          XSDSchema schema = ((SchemaTypeType) type).getSchema();
 
          List<XSDImport> xsdImports = getImports(schema);
-         if(xsdImports != null)
+         if (xsdImports != null)
          {
-            for(XSDImport xsdImport : xsdImports)
+            for (XSDImport xsdImport : xsdImports)
             {
-               if(xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+               if (xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
                {
-                  int idx = xsdImport.getSchemaLocation().lastIndexOf(StructuredDataConstants.URN_INTERNAL_PREFIX) + StructuredDataConstants.URN_INTERNAL_PREFIX.length();
-                  String elementName = xsdImport.getSchemaLocation().substring(idx, xsdImport.getSchemaLocation().length());
+                  int idx = xsdImport.getSchemaLocation().lastIndexOf(StructuredDataConstants.URN_INTERNAL_PREFIX)
+                        + StructuredDataConstants.URN_INTERNAL_PREFIX.length();
+                  String elementName = xsdImport.getSchemaLocation().substring(idx,
+                        xsdImport.getSchemaLocation().length());
 
-                  if(elementName.equals(previousId))
+                  if (elementName.equals(previousId))
                   {
                      match = true;
                      xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + newId);
@@ -136,23 +134,24 @@ public class TypeDeclarationUtils
 
    public static String computeTargetNamespace(ModelType model, String id)
    {
-	      String modelId = model.getId();
-
-	      return computeTargetNamespace(modelId, id);
+      return computeTargetNamespace(model.getId(), id);
    }
 
    public static String computeTargetNamespace(String modelId, String id)
    {
+      return "http://www.infinity.com/bpm/model/" + encode(modelId) + "/" + encode(id); //$NON-NLS-1$ //$NON-NLS-2$
+   }
+
+   private static String encode(String id)
+   {
       try
       {
-         modelId = new java.net.URI(modelId).toASCIIString();
          id = new java.net.URI(id).toASCIIString();
       }
       catch (URISyntaxException e)
       {
       }
-
-      return "http://www.infinity.com/bpm/model/" + modelId + "/" + id; //$NON-NLS-1$ //$NON-NLS-2$
+      return id;
    }
 
    public static List<TypeDeclarationType> filterTypeDeclarations(List<TypeDeclarationType> declarations, int type)
@@ -160,7 +159,7 @@ public class TypeDeclarationUtils
       List<TypeDeclarationType> result = new ArrayList<TypeDeclarationType>();
       for (TypeDeclarationType declaration : declarations)
       {
-         if(type == getType(declaration))
+         if (type == getType(declaration))
          {
             result.add(declaration);
          }
@@ -187,14 +186,14 @@ public class TypeDeclarationUtils
          {
             ExternalReferenceType reference = (ExternalReferenceType) type;
             return findElementOrTypeDeclaration(schema, QNameUtil.parseLocalName(reference.getXref()),
-                  QNameUtil.parseNamespaceURI(reference.getXref())/*reference.getNamespace()*/, false);
+                  QNameUtil.parseNamespaceURI(reference.getXref())/* reference.getNamespace() */, false);
          }
       }
       return null;
    }
 
-   public static XSDNamedComponent findElementOrTypeDeclaration(XSDSchema schema, String localName,
-         String namespace, boolean returnFirstIfNoMatch)
+   public static XSDNamedComponent findElementOrTypeDeclaration(XSDSchema schema, String localName, String namespace,
+         boolean returnFirstIfNoMatch)
    {
       if (schema == null)
       {
@@ -241,8 +240,7 @@ public class TypeDeclarationUtils
       return decl;
    }
 
-   public static TypeDeclarationType findTypeDeclarationByLocation(TypeDeclarationsType declarations,
-         String location)
+   public static TypeDeclarationType findTypeDeclarationByLocation(TypeDeclarationsType declarations, String location)
    {
       if (declarations == null || location == null)
       {
@@ -274,19 +272,21 @@ public class TypeDeclarationUtils
          uri = URI.createURI(location);
       }
 
-      XSDResourceImpl resource = new XSDResourceImpl(uri);
-      ResourceSetImpl resourceSet = new ResourceSetImpl();
+      ResourceSet resourceSet = XSDSchemaImpl.createResourceSet();
+      // make sure we can load schemas in WSDL documents.
+      Map<String, Object> extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
+      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd"));
       URIConverter converter = defaultURIConverter.get();
       if (converter != null)
       {
          resourceSet.setURIConverter(converter);
       }
-      resourceSet.getResources().add(resource);
+      Resource resource = resourceSet.createResource(URI.createURI("*.xsd"));
+      resource.setURI(uri);
       resource.load(options);
 
       boolean hasSchema = false;
-      EList<EObject> contents = resource.getContents();
-      for (EObject eObject : contents)
+      for (Object eObject : resource.getContents())
       {
          if (eObject instanceof XSDSchema)
          {
@@ -299,11 +299,13 @@ public class TypeDeclarationUtils
             }
          }
       }
-      // no schema matching the namespaceURI found, so try a second round by searching through imports.
-      // this is indirect resolving, so it will return the first schema that has an import for the namespaceURI
+      // no schema matching the namespaceURI found, so try a second round by searching
+      // through imports.
+      // this is indirect resolving, so it will return the first schema that has an import
+      // for the namespaceURI
       if (hasSchema)
       {
-         for (EObject eObject : contents)
+         for (Object eObject : resource.getContents())
          {
             if (eObject instanceof XSDSchema)
             {
@@ -337,8 +339,7 @@ public class TypeDeclarationUtils
       if (type instanceof ExternalReferenceType)
       {
          String externalUrl = ((ExternalReferenceType) type).getLocation();
-         return externalUrl != null
-            && externalUrl.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX);
+         return externalUrl != null && externalUrl.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX);
       }
       return false;
    }
@@ -381,7 +382,7 @@ public class TypeDeclarationUtils
       return XPDL_TYPE;
    }
 
-   public static String computePrefix(String name, Set usedPrefixes)
+   public static String computePrefix(String name, Set<String> usedPrefixes)
    {
       String prefix;
       if (name != null)
@@ -390,7 +391,7 @@ public class TypeDeclarationUtils
       }
       if (name == null || name.length() == 0)
       {
-         prefix="p"; //$NON-NLS-1$
+         prefix = "p"; //$NON-NLS-1$
       }
       else
       {
@@ -421,44 +422,42 @@ public class TypeDeclarationUtils
 
    public static void updateImports(XSDSchema xsdSchema, String oldTargetNamespace, String oldId, String id)
    {
-      List directives = xsdSchema.getReferencingDirectives();
-      for (int i = 0; i < directives.size(); i++)
+      for (XSDSchemaDirective directive : xsdSchema.getReferencingDirectives())
       {
-         XSDSchemaDirective directive = (XSDSchemaDirective) directives.get(i);
          directive.setSchemaLocation(xsdSchema.getSchemaLocation());
          if (directive instanceof XSDImport)
          {
             ((XSDImport) directive).setNamespace(xsdSchema.getTargetNamespace());
          }
          XSDSchema referencingSchema = directive.getSchema();
-         ArrayList toRemove = new ArrayList();
-         Map prefixes = referencingSchema.getQNamePrefixToNamespaceMap();
+         List<String> toRemove = CollectionUtils.newList();
+         Map<String, String> prefixes = referencingSchema.getQNamePrefixToNamespaceMap();
          List<XSDImport> imports = TypeDeclarationUtils.getImports(referencingSchema);
-         if (imports != null && !imports.isEmpty()) {
-            for (Iterator<XSDImport> j = imports.iterator(); j.hasNext();) {
-               XSDImport xsdImport = j.next();
-               if (xsdImport.getSchemaLocation().endsWith(":" + oldId)) { //$NON-NLS-1$
+         if (imports != null && !imports.isEmpty())
+         {
+            for (XSDImport xsdImport : imports)
+            {
+               if (xsdImport.getSchemaLocation().endsWith(":" + oldId)) //$NON-NLS-1$
+               {
                   xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + id);
                }
             }
          }
-         //referencingSchema.getContents()
+         // referencingSchema.getContents()
          String newPrefix = computePrefix(id, prefixes.keySet());
          prefixes.put(newPrefix, xsdSchema.getTargetNamespace());
-         for (Iterator itr = prefixes.entrySet().iterator(); itr.hasNext();)
+         for (Map.Entry<String, String> entry : prefixes.entrySet())
          {
-            Map.Entry entry = (Entry) itr.next();
             if (!newPrefix.equals(entry.getKey()) && oldTargetNamespace.equals(entry.getValue()))
             {
                toRemove.add(entry.getKey());
             }
          }
-         for (int j = 0; j < toRemove.size(); j++)
+         for (String prefix : toRemove)
          {
-            prefixes.remove(toRemove.get(j));
+            prefixes.remove(prefix);
          }
       }
-      System.out.println();
    }
 
    // we can have more than one XSDImport
@@ -485,26 +484,23 @@ public class TypeDeclarationUtils
    public static void removeImport(XSDSchema schema, XSDTypeDefinition type)
    {
       XSDImport removeImport = null;
-      EList contents = schema.getContents();
-      Iterator it = contents.iterator();
-      while (it.hasNext())
+      for (XSDSchemaContent content : schema.getContents())
       {
-         XSDSchemaContent content = (XSDSchemaContent) it.next();
          if (content instanceof XSDImport)
          {
             String location = ((XSDImport) content).getSchemaLocation();
             if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
             {
-                String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
-                if(typeId.equals(type.getName()))
-                {
-                   removeImport = (XSDImport) content;
-                   break;
-                }
+               String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
+               if (typeId.equals(type.getName()))
+               {
+                  removeImport = (XSDImport) content;
+                  break;
+               }
             }
          }
       }
-      if(removeImport != null)
+      if (removeImport != null)
       {
          schema.getContents().remove(removeImport);
       }
@@ -513,17 +509,14 @@ public class TypeDeclarationUtils
    public static XSDTypeDefinition getTypeDefinition(TypeDeclarationsType declarations, String name)
    {
       TypeDeclarationType td = declarations.getTypeDeclaration(name);
-      if(td != null)
+      if (td != null)
       {
          XSDSchema schema = td.getSchema();
-         if(schema != null)
+         if (schema != null)
          {
-            EList typeDefinitions = schema.getTypeDefinitions();
-            Iterator it2 = typeDefinitions.iterator();
-            while (it2.hasNext())
+            for (XSDTypeDefinition definition : schema.getTypeDefinitions())
             {
-               XSDTypeDefinition definition = (XSDTypeDefinition) it2.next();
-               if(definition.getName().equals(name))
+               if (definition.getName().equals(name))
                {
                   return definition;
                }
@@ -533,17 +526,18 @@ public class TypeDeclarationUtils
       return null;
    }
 
-   public static List findElementsForType(TypeDeclarationType declaration, Set elements, String elementName)
+   public static void findElementsForType(TypeDeclarationType declaration, Set<XSDElementDeclaration> elements,
+         String elementName)
    {
       XSDComplexTypeDefinition complexType = getComplexType(declaration);
-      if(complexType != null)
+      if (complexType != null)
       {
          visit(complexType, elements, elementName);
       }
-      return null;
    }
 
-   public static void visit(XSDComplexTypeDefinition complexType, Set elements, String elementName)
+   public static void visit(XSDComplexTypeDefinition complexType, Set<XSDElementDeclaration> elements,
+         String elementName)
    {
       XSDComplexTypeContent content = complexType.getContent();
       if (content instanceof XSDParticle)
@@ -552,20 +546,20 @@ public class TypeDeclarationUtils
       }
    }
 
-   public static void visit(XSDParticle particle, Set elements, String elementName)
+   public static void visit(XSDParticle particle, Set<XSDElementDeclaration> elements, String elementName)
    {
       XSDParticleContent particleContent = particle.getContent();
       if (particleContent instanceof XSDModelGroupDefinition)
       {
          //
       }
-      else if(particleContent instanceof XSDTerm)
+      else if (particleContent instanceof XSDTerm)
       {
          visit((XSDTerm) particleContent, elements, elementName);
       }
    }
 
-   public static void visit(XSDTerm term, Set elements, String elementName)
+   public static void visit(XSDTerm term, Set<XSDElementDeclaration> elements, String elementName)
    {
       if (term instanceof XSDElementDeclaration)
       {
@@ -577,31 +571,28 @@ public class TypeDeclarationUtils
       }
    }
 
-   public static void visit(XSDModelGroup group, Set elements, String elementName)
+   public static void visit(XSDModelGroup group, Set<XSDElementDeclaration> elements, String elementName)
    {
-      EList xsdParticles = ((XSDModelGroup) group).getContents();
-      Iterator it = xsdParticles.iterator();
-      while (it.hasNext())
+      for (XSDParticle xsdParticle : group.getContents())
       {
-         XSDParticle xsdParticle = (XSDParticle) it.next();
-         visit((XSDParticle) xsdParticle, elements, elementName);
+         visit(xsdParticle, elements, elementName);
       }
    }
 
-   public static void visit(XSDElementDeclaration element, Set elements, String elementName)
+   public static void visit(XSDElementDeclaration element, Set<XSDElementDeclaration> elements, String elementName)
    {
-      XSDTypeDefinition type = ((XSDElementDeclaration) element).getAnonymousTypeDefinition();
+      XSDTypeDefinition type = element.getAnonymousTypeDefinition();
       if (type instanceof XSDComplexTypeDefinition)
       {
          visit((XSDComplexTypeDefinition) type, elements, elementName);
       }
-      else if(type == null)
+      else if (type == null)
       {
-         type = ((XSDElementDeclaration) element).getType();
-         if(type != null)
+         type = element.getType();
+         if (type != null)
          {
             String qName = type.getQName();
-            if(elementName.equals(qName))
+            if (elementName.equals(qName))
             {
                elements.add(element);
             }
@@ -611,10 +602,9 @@ public class TypeDeclarationUtils
 
    public static void resolveImports(XSDSchema schema)
    {
-      List contents = schema.getContents();
-      for (int i = 0; i < contents.size(); i++)
+      List<XSDSchemaContent> contents = schema.getContents();
+      for (XSDSchemaContent item : contents)
       {
-         Object item = contents.get(i);
          if (item instanceof XSDImportImpl)
          {
             // force schema resolving.
@@ -626,19 +616,18 @@ public class TypeDeclarationUtils
 
    public static void removeNameSpace(XSDSchema schema, String oldDefName, String modelId)
    {
-	     String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
+      String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
 
       String prefix = null;
-      for (Iterator i = schema.getQNamePrefixToNamespaceMap().entrySet().iterator(); i.hasNext();)
+      for (Map.Entry<String, String> entry : schema.getQNamePrefixToNamespaceMap().entrySet())
       {
-         Map.Entry entry = (Map.Entry) i.next();
-         if(entry.getValue().equals(targetNameSpace))
+         if (entry.getValue().equals(targetNameSpace))
          {
-            prefix = (String) entry.getKey();
+            prefix = entry.getKey();
             break;
          }
       }
-      if(prefix != null)
+      if (prefix != null)
       {
          schema.getQNamePrefixToNamespaceMap().remove(prefix);
       }
