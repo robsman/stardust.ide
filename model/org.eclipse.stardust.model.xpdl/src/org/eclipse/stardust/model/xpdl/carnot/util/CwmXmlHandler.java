@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.model.beans.ModelBean;
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
@@ -34,13 +33,12 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDConstants;
 import org.eclipse.xsd.util.XSDParser;
 import org.w3c.dom.Element;
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class CwmXmlHandler extends SAXXMLHandler
 {
-   private static final String STOPPER = "__stopper__"; //$NON-NLS-1$
-
    private static final CarnotWorkflowModelPackage CWM_PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private static final XpdlPackage XPDL_PKG = XpdlPackage.eINSTANCE;
 
@@ -61,12 +59,14 @@ public class CwmXmlHandler extends SAXXMLHandler
       xmiResource.eAdapters().add(new SchemaLocatorAdapter());
    }
 
+   @Override
    protected EPackage getPackageForURI(String uriString)
    {
       EPackage ePackage = super.getPackageForURI(uriString);
       return ePackage == null ? CarnotWorkflowModelPackage.eINSTANCE : ePackage;
    }
 
+   @Override
    protected void setValueFromId(EObject object, EReference eReference, String ids)
    {
       // overriding default behaviour to allow for IDs with spaces
@@ -118,6 +118,7 @@ public class CwmXmlHandler extends SAXXMLHandler
       }
    }
 
+   @Override
    protected void handleForwardReferences(boolean isEndDocument)
    {
       if (isEndDocument)
@@ -313,6 +314,7 @@ public class CwmXmlHandler extends SAXXMLHandler
       return id;
    }
 
+   @Override
    protected void handleObjectAttribs(EObject obj)
    {
       super.handleObjectAttribs(obj);
@@ -334,38 +336,40 @@ public class CwmXmlHandler extends SAXXMLHandler
    private Map<String, String> current = null;
    private int schemaElementCount = 0;
 
+   @Override
    public void startPrefixMapping(String prefix, String uri)
    {
+      // eat prefix mappings
       if (current == null)
       {
-         current = new HashMap<String, String>();
+         current = new TreeMap<String, String>();
       }
       current.put(prefix,  uri);
-      if (!(objects.peek() instanceof SchemaTypeType))
-      {
-         super.startPrefixMapping(prefix, uri);
-      }
    }
 
-   // TODO: optimize namespace handling
-   public void startElement(String uri, String localName, String name)
+   @Override
+   public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException
    {
-      namespaces.push(current == null ? CollectionUtils.<String, String>newMap() : current);
-      String prefix = getPrefix(name);
-      boolean hasNamespace = uri != null && uri.length() > 0;
-      if (!hasNamespace)
-      {
-         if (prefix.length() > 0)
-         {
-            localName = name.substring(prefix.length() + 1);
-         }
-         uri = getURI(prefix, true);
-      }
       if (isSchemaKeyword45(name) && isXpdlNamespace(uri))
       {
          uri = XMLResource.XML_SCHEMA_URI;
       }
-      if (!inSchema && isSchemaElement(uri, prefix))
+      if (current != null && !inSchema && !isSchemaElement(uri))
+      {
+         // fire start prefix mappings
+         for (Map.Entry<String, String> entry : current.entrySet())
+         {
+            super.startPrefixMapping(entry.getKey(), entry.getValue());
+         }
+      }
+      super.startElement(uri, localName, name, attributes);
+   }
+
+   @Override
+   public void startElement(String uri, String localName, String name)
+   {
+      namespaces.push(current == null ? CollectionUtils.<String, String>newMap() : current);
+      if (!inSchema && isSchemaElement(uri))
       {
          startXsdDocument();
       }
@@ -381,20 +385,14 @@ public class CwmXmlHandler extends SAXXMLHandler
                for (Map.Entry<String, String> entry : current.entrySet())
                {
                   String key = entry.getKey();
-                  if (!key.equals(STOPPER))
-                  {
-                     xsdParser.declareNamespace(entry.getValue(), key);
-                  }
+                  xsdParser.declareNamespace(entry.getValue(), key);
                }
             }
-            if (hasNamespace)
+            // declare all used namespaces that are not yet declared
+            declareNamespaceForQName(name, uri);
+            for (int i = 0, l = attribs.getLength(); i < l; i++)
             {
-               String searchedUri = getURI(prefix, false);
-               if (uri != null && (searchedUri == null || !searchedUri.equals(uri)))
-               {
-                  xsdParser.declareNamespace(uri, prefix);
-               }
-               namespaces.peek().put(prefix, uri);
+               declareNamespaceForQName(attribs.getQName(i), attribs.getURI(i));
             }
          }
          catch (Throwable e)
@@ -402,16 +400,37 @@ public class CwmXmlHandler extends SAXXMLHandler
             // TODO: propagate error
             e.printStackTrace();
          }
-         return;
       }
-      super.startElement(uri, localName, name);
+      else
+      {
+         super.startElement(uri, localName, name);
+      }
       current = null;
+   }
+
+   private void declareNamespaceForQName(String qname, String uri)
+   {
+      if (!uri.isEmpty())
+      {
+         String prefix = getPrefix(qname);
+         for (int i = namespaces.size() - 1, l = schemaElementCount; i >= 0; i--, l--)
+         {
+            Map<String, String> ns = namespaces.get(i);
+            if (ns.containsKey(prefix))
+            {
+               if (l <= 0)
+               {
+                  xsdParser.declareNamespace(uri, prefix);
+               }
+               break;
+            }
+         }
+      }
    }
 
    private void startXsdDocument()
    {
       inSchema = true;
-      namespaces.peek().put(STOPPER, STOPPER);
       xsdParser.startDocument();
    }
 
@@ -421,9 +440,9 @@ public class CwmXmlHandler extends SAXXMLHandler
       return ix < 0 ? "" : name.substring(0, ix); //$NON-NLS-1$
    }
 
-   private boolean isSchemaElement(String uri, String prefix)
+   private boolean isSchemaElement(String uri)
    {
-      return XMLResource.XML_SCHEMA_URI.equals(uri.length() == 0 ? getURI(prefix, true) : uri);
+      return XMLResource.XML_SCHEMA_URI.equals(uri);
    }
 
    private boolean isXpdlNamespace(String uri)
@@ -431,55 +450,20 @@ public class CwmXmlHandler extends SAXXMLHandler
       return XpdlPackage.eNS_URI.equals(uri);
    }
 
-   private String getURI(String prefix, boolean askHelper)
-   {
-      for (int i = namespaces.size() - 1; i >= 0; i--)
-      {
-         Map<String, String> current = namespaces.get(i);
-         String uri = current.get(prefix);
-         if (uri != null)
-         {
-            return uri;
-         }
-         if (current.get(STOPPER) == STOPPER)
-         {
-            break;
-         }
-      }
-      if (!askHelper)
-      {
-         return null;
-      }
-      String uri = helper.getURI(prefix);
-      return uri == null ? "" : uri; //$NON-NLS-1$
-   }
-
    @Override
    public void endPrefixMapping(String prefix)
    {
-      if (!(objects.peek() instanceof SchemaTypeType))
-      {
-         super.endPrefixMapping(prefix);
-      }
+      // do nothing, events are explicitly fired after endElement
    }
 
+   @Override
    public void endElement(String uri, String localName, String name)
    {
-      String prefix = getPrefix(name);
-      boolean hasNamespace = uri != null && uri.length() > 0;
-      if (!hasNamespace)
-      {
-         if (prefix.length() > 0)
-         {
-            localName = name.substring(prefix.length() + 1);
-         }
-         uri = getURI(prefix, true);
-      }
-      namespaces.pop();
       if (isSchemaKeyword45(name) && isXpdlNamespace(uri))
       {
          uri = XMLResource.XML_SCHEMA_URI;
       }
+      Map<String, String> expired = namespaces.pop();
       if (inSchema)
       {
          schemaElementCount--;
@@ -519,33 +503,51 @@ public class CwmXmlHandler extends SAXXMLHandler
             // TODO: propagate error
             e.printStackTrace();
          }
-         return;
       }
-      super.endElement(uri, localName, name);
+      else
+      {
+         super.endElement(uri, localName, name);
+         if (!inSchema)
+         {
+            // fire end prefix mappings
+            for (String entry : expired.keySet())
+            {
+               super.endPrefixMapping(entry);
+            }
+         }
+      }
    }
 
+   @Override
    public void startEntity(String name)
    {
       if (inSchema)
       {
          xsdParser.startEntity(name);
-         return;
       }
-      super.startEntity(name);
+      else
+      {
+         super.startEntity(name);
+      }
    }
 
+   @Override
    public void endEntity(String name)
    {
       if (inSchema)
       {
          xsdParser.endEntity(name);
-         return;
       }
-      super.endEntity(name);
+      else
+      {
+         super.endEntity(name);
+      }
    }
 
+   @Override
    public void comment(char[] ch, int start, int length)
    {
+      // (fh) should we ignore comments?
       if (inSchema)
       {
          try
@@ -557,31 +559,40 @@ public class CwmXmlHandler extends SAXXMLHandler
             // TODO: propagate error
             e.printStackTrace();
          }
-         return;
       }
-      super.comment(ch, start, length);
+      else
+      {
+         super.comment(ch, start, length);
+      }
    }
 
+   @Override
    public void startCDATA()
    {
       if (inSchema)
       {
          xsdParser.startCDATA();
-         return;
       }
-      super.startCDATA();
+      else
+      {
+         super.startCDATA();
+      }
    }
 
+   @Override
    public void endCDATA()
    {
       if (inSchema)
       {
          xsdParser.endCDATA();
-         return;
       }
-      super.endCDATA();
+      else
+      {
+         super.endCDATA();
+      }
    }
 
+   @Override
    public InputSource resolveEntity(String publicId, String systemId) throws SAXException
    {
       if (null != systemId)
@@ -610,28 +621,56 @@ public class CwmXmlHandler extends SAXXMLHandler
             }
          }
       }
-      if (inSchema)
-      {
-         return xsdParser.resolveEntity(publicId, systemId);
-      }
-      return super.resolveEntity(publicId, systemId);
+      return inSchema
+            ? xsdParser.resolveEntity(publicId, systemId)
+            : super.resolveEntity(publicId, systemId);
    }
 
+   @Override
    public void processingInstruction(String target, String data)
    {
       if (inSchema)
       {
          xsdParser.processingInstruction(target, data);
-         return;
       }
-      super.processingInstruction(target, data);
+      else
+      {
+         super.processingInstruction(target, data);
+      }
    }
 
+   @Override
    public void characters(char[] ch, int start, int length)
    {
       if (inSchema)
       {
-         // sanity size control
+         try
+         {
+            xsdParser.characters(ch, start, length);
+         }
+         catch (SAXException e)
+         {
+            // TODO: propagate error
+            e.printStackTrace();
+         }
+      }
+      else
+      {
+         super.characters(ch, start, length);
+      }
+   }
+
+   class MyXSDParser extends XSDParser
+   {
+      public MyXSDParser()
+      {
+         super(null);
+      }
+
+      @Override
+      public void characters(char[] ch, int start, int length) throws SAXException
+      {
+         // (fh) size control
          if (ch != null && start >= 0 && length > 0 && ch.length >= start + length)
          {
             try
@@ -647,7 +686,7 @@ public class CwmXmlHandler extends SAXXMLHandler
                }
                if (length > 0)
                {
-                  xsdParser.characters(ch, start, length);
+                  super.characters(ch, start, length);
                }
             }
             catch (Throwable e)
@@ -656,16 +695,6 @@ public class CwmXmlHandler extends SAXXMLHandler
                e.printStackTrace();
             }
          }
-         return;
-      }
-      super.characters(ch, start, length);
-   }
-
-   class MyXSDParser extends XSDParser
-   {
-      public MyXSDParser()
-      {
-         super(null);
       }
 
       public void declareNamespace(String uri, String prefix)
