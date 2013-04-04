@@ -3474,6 +3474,7 @@ public class ModelBuilderFacade
             targetActivitySymbol, transition, fromAnchor, toAnchor);
    }
 
+   // TODO Homogenize the next two methods
    /**
     * 
     * @param processDefinition
@@ -3486,7 +3487,7 @@ public class ModelBuilderFacade
    public DataMappingConnectionType createDataFlowConnection(
          ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol,
          DataSymbolType dataSymbol, DirectionType direction, String fromAnchor,
-         String toAnchor)
+         String toAnchor, String context, String activityAccessPointId)
    {
       DataType data = dataSymbol.getData();
       ActivityType activity = activitySymbol.getActivity();
@@ -3498,41 +3499,11 @@ public class ModelBuilderFacade
       dataMapping.setName(data.getName());
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
-      dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+      dataMapping.setContext(context);
 
-      if (activity.getImplementation().getLiteral().equals("Application"))
+      if (activityAccessPointId != null)
       {
-         dataMapping.setContext(PredefinedConstants.APPLICATION_CONTEXT);
-
-         String dataId = null;
-         if (activity.getApplication() != null
-               && activity.getApplication().getAccessPoint() != null)
-         {
-            for (AccessPointType accPoints : activity.getApplication().getAccessPoint())
-            {
-               if (accPoints.getDirection().getValue() == DirectionType.OUT)
-               {
-                  if (accPoints.getType().equals(data.getType()))
-                  {
-                     dataId = accPoints.getId();
-                     break;
-                  }
-               }
-            }
-         }
-
-         if (null != dataId)
-         {
-            dataMapping.setApplicationAccessPoint(dataId);
-         }
-      }
-      else if (activity.getImplementation().getLiteral().equals("Subprocess"))
-      {
-         dataMapping.setContext(PredefinedConstants.ENGINE_CONTEXT);
-      }
-      else
-      {
-         dataMapping.setContext(PredefinedConstants.DEFAULT_CONTEXT);
+         dataMapping.setApplicationAccessPoint(activityAccessPointId);
       }
 
       activity.getDataMapping().add(dataMapping);
@@ -3576,11 +3547,11 @@ public class ModelBuilderFacade
          String outputContextId, String outputAccessPointId, String fromAnchor,
          String toAnchor)
    {
-//      return createDataFlowConnection(
-//            processDefinition, activitySymbol,
-//            dataSymbol, DirectionType.IN_LITERAL, fromAnchor,
-//            toAnchor);
-      
+      // return createDataFlowConnection(
+      // processDefinition, activitySymbol,
+      // dataSymbol, DirectionType.IN_LITERAL, fromAnchor,
+      // toAnchor);
+
       DataType data = dataSymbol.getData();
       ActivityType activity = activitySymbol.getActivity();
 
@@ -3598,7 +3569,7 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(inputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-//         data.getDataMappings().add(dataMapping);
+         // data.getDataMappings().add(dataMapping);
       }
 
       if (outputAccessPointId != null)
@@ -3613,7 +3584,7 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(outputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-//         data.getDataMappings().add(dataMapping);
+         // data.getDataMappings().add(dataMapping);
       }
 
       DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
