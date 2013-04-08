@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.jgoodies.forms
-Bundle-Version: 1.0.2
+Bundle-Version: 1.0.2.qualifier
 Bundle-Vendor: %providerName
 Bundle-ClassPath: lib/forms.jar
 Export-Package: com.jgoodies.forms.builder,
