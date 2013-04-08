@@ -1299,10 +1299,13 @@ public class ModelUtils
    {
       EObject o = model.getConnectionManager().find(uri);
       ModelType refModel = null;
-      Object refObject = Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
-      if (refObject != null && refObject instanceof ModelType)
+      if(o != null)
       {
-         refModel = (ModelType) refObject;
+         Object refObject = Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
+         if (refObject != null && refObject instanceof ModelType)
+         {
+            refModel = (ModelType) refObject;
+         }
       }
       return refModel;
    }
