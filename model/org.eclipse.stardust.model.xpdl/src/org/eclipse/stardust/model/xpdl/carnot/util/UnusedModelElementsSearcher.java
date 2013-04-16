@@ -30,6 +30,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -356,6 +357,20 @@ public class UnusedModelElementsSearcher
                return true;
             }            
          }
+         for (ContextType context : application.getContext())
+         {
+            accessPoints = context.getAccessPoint();
+            for (Iterator i = accessPoints.iterator(); i.hasNext();)
+            {
+               AccessPointType accessPoint = (AccessPointType) i.next(); 
+               TypeDeclarationType declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
+                     accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               if(declaration != null && declaration.equals(element))
+               {
+                  return true;
+               }            
+            }            
+         }            
       }   
       return false;
    }

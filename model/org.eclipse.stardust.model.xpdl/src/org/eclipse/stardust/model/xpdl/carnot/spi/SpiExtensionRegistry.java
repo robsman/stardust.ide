@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.spi;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -43,9 +43,10 @@ public class SpiExtensionRegistry
    public static final String FEATURE_PREFIX = "feature:"; //$NON-NLS-1$
 
    private static SpiExtensionRegistry instance;
+   private IStardustExtensionRegistry extensionRegistry = StardustExtensionRegistry.instance();
 
-   private Map<String, Map<String, IConfigurationElement>> registry = CollectionUtils.newMap();
-   
+   private Map<String, Map<String, IConfigurationElement>> registry = CollectionUtils.newMap();      
+   private Map<String, List<IConfigurationElement>> registry_ = CollectionUtils.newMap();         
    private static Map<IConfigurationElement, Contributor> contributors = CollectionUtils.newMap();
 
    public static SpiExtensionRegistry instance()
@@ -57,6 +58,11 @@ public class SpiExtensionRegistry
       return instance;
    }
 
+   public void setExtensionRegistry(IStardustExtensionRegistry extensionRegistry)
+   {
+      this.extensionRegistry = extensionRegistry;
+   }
+      
    public Map<String, IConfigurationElement> getExtensions(String extensionPointId)
    {
 	  return getExtensions(CarnotConstants.DIAGRAM_PLUGIN_ID, extensionPointId);
@@ -83,18 +89,27 @@ public class SpiExtensionRegistry
    public List<IConfigurationElement> getExtensionList(String packageName, String extensionPointId)
    {
       String expandedId = packageName + "." + extensionPointId; //$NON-NLS-1$
-      List<IConfigurationElement> extensions = CollectionUtils.newList();
+      List<IConfigurationElement> extensions = null;
       try
       {
-         IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
-         IExtensionPoint extensionPoint = extensionRegistry.getExtensionPoint(expandedId);
-         IExtension[] extension = extensionPoint.getExtensions();
-         for (int i = 0; i < extension.length; i++)
+         extensions = registry_.get(expandedId);
+         if (extensions == null)
          {
-            IConfigurationElement[] configuration = extension[i].getConfigurationElements();
-            for (int j = 0; j < configuration.length; j++)
-            {
-               extensions.add(configuration[j]);
+            extensions = CollectionUtils.newList();
+            registry_.put(expandedId, extensions);
+            
+            if (extensionRegistry != null)
+            {               
+               IExtensionPoint extensionPoint = extensionRegistry.getExtensionPoint(expandedId);
+               IExtension[] extension = extensionPoint.getExtensions();
+               for (int i = 0; i < extension.length; i++)
+               {
+                  IConfigurationElement[] configuration = extension[i].getConfigurationElements();
+                  for (int j = 0; j < configuration.length; j++)
+                  {
+                     extensions.add(configuration[j]);
+                  }
+               }
             }
          }
       }
@@ -109,18 +124,20 @@ public class SpiExtensionRegistry
    {
       try
       {
-         IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
          if (extensionRegistry != null)
          {
             IExtensionPoint extensionPoint = extensionRegistry.getExtensionPoint(expandedId);
-            IExtension[] extension = extensionPoint.getExtensions();
-            for (int i = 0; i < extension.length; i++)
+            if(extensionPoint != null)
             {
-               IConfigurationElement[] configuration = extension[i].getConfigurationElements();
-               for (int j = 0; j < configuration.length; j++)
+               IExtension[] extension = extensionPoint.getExtensions();
+               for (int i = 0; i < extension.length; i++)
                {
-                  String id = configuration[j].getAttribute(SpiConstants.ID);
-                  extensions.put(id, configuration[j]);
+                  IConfigurationElement[] configuration = extension[i].getConfigurationElements();
+                  for (int j = 0; j < configuration.length; j++)
+                  {
+                     String id = configuration[j].getAttribute(SpiConstants.ID);
+                     extensions.put(id, configuration[j]);
+                  }
                }
             }
          }
@@ -213,6 +230,59 @@ public class SpiExtensionRegistry
                return (IConfigurationElement) extensions.get(type.getId());
             }
          }
+      }
+      return null;
+   }
+   
+   public static List<IConfigurationElement> getConfiguration(IExtensibleElement extensible, String id)
+   {
+      String typeId = null;
+      if (extensible instanceof ITypedElement)
+      {         
+         IMetaType type = ((ITypedElement) extensible).getMetaType();
+         if (type != null)
+         {
+            typeId = type.getId();
+         }
+      }               
+      
+      Class<? extends IExtensibleElement> extensibleClass = extensible.getClass();
+      
+      List<IConfigurationElement> extensions = instance().getExtensionList("org.eclipse.stardust.model.xpdl", id);
+      if (extensions != null)
+      {
+         List<IConfigurationElement> matching = new ArrayList<IConfigurationElement>();
+         for(IConfigurationElement element : extensions)
+         {               
+            String classValue = element.getAttribute("class");
+            String meta = element.getAttribute("meta");
+
+            try
+            {
+               Class<?> typeClass = Class.forName(classValue);                     
+               boolean isAssignable = typeClass.isAssignableFrom(extensibleClass);
+               
+               if(isAssignable)
+               {
+                  if(!StringUtils.isEmpty(meta))
+                  {
+                     if(!StringUtils.isEmpty(typeId) && typeId.equals(meta))
+                     {
+                        matching.add(element);
+                     }
+                  }
+                  else
+                  {
+                     matching.add(element);
+                  }
+               }
+            }
+            catch (ClassNotFoundException e)
+            {
+            }
+         }
+         
+         return matching; 
       }
       return null;
    }

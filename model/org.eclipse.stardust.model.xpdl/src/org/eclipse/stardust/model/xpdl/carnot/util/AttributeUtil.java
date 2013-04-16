@@ -283,15 +283,18 @@ public class AttributeUtil
 
    public static boolean isReference(IExtensibleElement element, String feature)
    {
-      IConfigurationElement config = SpiExtensionRegistry.getConfiguration(element);
-      if (config != null)
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(element, "elementReference");
+      if (configs != null)
       {
-         IConfigurationElement[] refs = config.getChildren("reference"); //$NON-NLS-1$
-         for (int k = 0; k < refs.length; k++)
-         {
-            if (feature.equals(refs[k].getAttribute("attributeName"))) //$NON-NLS-1$
+         for(IConfigurationElement config : configs)
+         {         
+            IConfigurationElement[] refs = config.getChildren("attribute"); //$NON-NLS-1$
+            for (int k = 0; k < refs.length; k++)
             {
-               return true;
+               if (feature.equals(refs[k].getAttribute("attributeName"))) //$NON-NLS-1$
+               {
+                  return true;
+               }
             }
          }
       }

@@ -56,8 +56,6 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.engine.core.upgrade.jobs.m30.ApplicationContextType;
-import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -91,7 +89,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
@@ -947,73 +944,25 @@ public class ModelUtils
                }
             }
          }
-      }
-
+      }      
+      
       // resolve declared references
-      IConfigurationElement config = SpiExtensionRegistry.getConfiguration(extensible);
-      if (config != null)
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
+      if (configs != null)
       {
-         IConfigurationElement[] refs = config.getChildren("reference"); //$NON-NLS-1$
-         for (IConfigurationElement ref : refs)
-         {
-            AttributeType attribute = AttributeUtil.getAttribute(extensible,
-                  ref.getAttribute("attributeName")); //$NON-NLS-1$
-            if (attribute != null)
+         for(IConfigurationElement config : configs)
+         {         
+            IConfigurationElement[] refs = config.getChildren("attribute"); //$NON-NLS-1$
+            for (IConfigurationElement ref : refs)
             {
-               String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
-               setReference(attribute, model, scopeList);
-            }
-         }
-      }
-
-      // resolve references for Organizations which are not part of ExtensionRegistry (see CRNT-16871)
-      if (extensible instanceof OrganizationType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               PredefinedConstants.BINDING_DATA_ID_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "data"); //$NON-NLS-1$
-         }
-      }
-
-      if (extensible instanceof DataType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
-         }
-      }
-
-      // This is for the WebModeler who does not have access to the extension mechanism
-      if (config == null && extensible instanceof TriggerType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "role+organization"); //$NON-NLS-1$
-         }
-      }
-      if (config == null && extensible instanceof DataType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               StructuredDataConstants.TYPE_DECLARATION_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
-         }
-      }
-
-      if (config == null && extensible instanceof AccessPointType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               StructuredDataConstants.TYPE_DECLARATION_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
+               AttributeType attribute = AttributeUtil.getAttribute(extensible,
+                     ref.getAttribute("attributeName")); //$NON-NLS-1$
+               if (attribute != null)
+               {
+                  String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
+                  setReference(attribute, model, scopeList);
+               }
+            }         
          }
       }
 
