@@ -214,10 +214,6 @@
                name="carnot:engine:dataLoader"
                value="ag.carnot.bpm.rt.data.structured.spi.StructuredDataLoader">
          </attribute>
-         <reference
-               attributeName="carnot:engine:dataType"
-               scope="struct">
-         </reference>
       </dataType>
    </extension>
    <extension
@@ -256,9 +252,6 @@
          <attribute
             name="carnot:exdesk:runtimePanel"
             value="ag.carnot.workflow.spi.providers.conditions.timer.TimerbasedRuntimeBindPanel"/>
-         <reference
-               attributeName="carnot:engine:data"
-               scope="data"/>
       </condition>
       <condition
             accessPointProvider="org.eclipse.stardust.modeling.core.spi.conditionTypes.exception.ExceptionAccessPointProvider"
@@ -332,9 +325,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.trigger.TriggerActionValidator"/>
-         <reference
-               attributeName="carnot:engine:processDefinition"
-               scope="processDefinition"/>
       </action>
       <action
             activityAction="true"
@@ -350,12 +340,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.mail.MailActionValidator"/>
-         <reference
-               attributeName="carnot:engine:receiver"
-               scope="role+organization+conditionalPerformer"/>
-         <reference
-               attributeName="carnot:engine:mailBodyData"
-               scope="data"/>
       </action>
       <action
             activityAction="true"
@@ -402,9 +386,6 @@
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionPanel"/>
          <attribute name="carnot:engine:action" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventAction"/>
          <attribute name="carnot:exdesk:runtimePanel" value="ag.carnot.workflow.spi.providers.actions.delegate.DelegateEventActionRuntimePanel"/>
-         <reference
-               attributeName="carnot:engine:target"
-               scope="role+organization+conditionalPerformer"/>
       </action>
       <action
             activityAction="true"
@@ -434,9 +415,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.excludeuser.ExcludeUserActionValidator"/>
-         <reference
-               attributeName="carnot:engine:excludedPerformerData"
-               scope="data"/>
       </action>
       <action
             activityAction="true"
@@ -452,9 +430,6 @@
          <attribute
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.actions.setdata.SetDataActionValidator"/>
-         <reference
-               attributeName="carnot:engine:dataId"
-               scope="data"/>
       </action>
       <action
             activityAction="true"
@@ -584,9 +559,6 @@
          <attribute name="carnot:defdesk:icon" value="/ag/carnot/workflow/spi/providers/triggers/manual/icon.gif"/>
          <attribute name="carnot:defdesk:panel" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerPanel"/>
          <attribute name="carnot:engine:validator" value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator"/>
-         <reference
-               attributeName="carnot:engine:participant"
-               scope="role+organization"/>
       </trigger>
       <trigger
             icon="icons/full/obj16/jms_trigger_icon.gif"
@@ -631,10 +603,6 @@
                name="carnot:engine:validator"
                value="ag.carnot.workflow.spi.providers.triggers.manual.ManualTriggerValidator">
          </attribute>
-         <reference
-               attributeName="carnot:engine:participant"
-               scope="role+organization">
-         </reference>
       </trigger>
    </extension>
    <extension
