@@ -163,15 +163,22 @@ public class StructAccessPointBuilder
    public StructAccessPointBuilder withDirection(String direction)
    {
       DirectionType directionType;
+      
       if (direction.equals(DirectionType.IN_LITERAL.getName()))
       {
          directionType = DirectionType.IN_LITERAL;
+      }
+      else if (direction.equals(DirectionType.INOUT_LITERAL.getName()))
+      {
+         directionType = DirectionType.INOUT_LITERAL;
       }
       else
       {
          directionType = DirectionType.OUT_LITERAL;
       }
+      
       element.setDirection(directionType);
+      
       return self();
    }
 
