@@ -618,6 +618,15 @@ public class TypeDeclarationUtils
    {
       String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
 
+      String prefix = getNamespacePrefix(schema, targetNameSpace);
+      if (prefix != null)
+      {
+         schema.getQNamePrefixToNamespaceMap().remove(prefix);
+      }
+   }
+
+   public static String getNamespacePrefix(XSDSchema schema, String targetNameSpace)
+   {
       String prefix = null;
       for (Map.Entry<String, String> entry : schema.getQNamePrefixToNamespaceMap().entrySet())
       {
@@ -627,9 +636,30 @@ public class TypeDeclarationUtils
             break;
          }
       }
-      if (prefix != null)
+      return prefix;
+   }
+   
+   public static void collectAllNamespaces(XSDSchema schema, Map<String, String> qNamePrefixToNamespaceMap)
+   {
+      List<XSDImport> imports = TypeDeclarationUtils.getImports(schema);
+      if(imports != null)
       {
-         schema.getQNamePrefixToNamespaceMap().remove(prefix);
-      }
+         for(XSDImport xsdImport : imports)
+         {
+            if (xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+            {
+            
+               XSDSchema importetSchema = xsdImport.getResolvedSchema();
+               String targetNamespace = importetSchema.getTargetNamespace();
+               String namespacePrefix = TypeDeclarationUtils.getNamespacePrefix(importetSchema, targetNamespace);
+               
+               if(!qNamePrefixToNamespaceMap.containsValue(targetNamespace))
+               {
+                  qNamePrefixToNamespaceMap.put(namespacePrefix, targetNamespace);
+                  collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);                                       
+               }
+            }               
+         }
+      }         
    }
 }
