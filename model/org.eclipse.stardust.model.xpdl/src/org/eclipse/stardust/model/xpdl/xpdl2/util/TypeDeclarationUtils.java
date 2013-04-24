@@ -647,16 +647,18 @@ public class TypeDeclarationUtils
          for(XSDImport xsdImport : imports)
          {
             if (xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
-            {
-            
+            {            
                XSDSchema importetSchema = xsdImport.getResolvedSchema();
-               String targetNamespace = importetSchema.getTargetNamespace();
-               String namespacePrefix = TypeDeclarationUtils.getNamespacePrefix(importetSchema, targetNamespace);
-               
-               if(!qNamePrefixToNamespaceMap.containsValue(targetNamespace))
+               if(importetSchema != null)
                {
-                  qNamePrefixToNamespaceMap.put(namespacePrefix, targetNamespace);
-                  collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);                                       
+                  String targetNamespace = importetSchema.getTargetNamespace();
+                  String namespacePrefix = TypeDeclarationUtils.getNamespacePrefix(importetSchema, targetNamespace);
+                  
+                  if(!qNamePrefixToNamespaceMap.containsValue(targetNamespace))
+                  {
+                     qNamePrefixToNamespaceMap.put(namespacePrefix, targetNamespace);
+                     collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);                                       
+                  }
                }
             }               
          }
