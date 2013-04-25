@@ -66,7 +66,7 @@ public class WorkflowModelManager
    protected ModelType model = null;
 
    private ModelOidUtil modelOidUtil;
-   
+
    public ModelOidUtil getModelOidUtil()
    {
       return modelOidUtil;
@@ -122,7 +122,7 @@ public class WorkflowModelManager
       // this will cascade the initialization of all dependent packages
       // and is a noop of the package was already initialized
       CarnotWorkflowModelPackageImpl.init();
-      
+
       Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
       Map<String, Object> extensionMap = reg.getExtensionToFactoryMap();
       if (!extensionMap.containsKey(EXT_CWM))
@@ -149,8 +149,8 @@ public class WorkflowModelManager
    static public CarnotWorkflowModelFactory getFactory()
    {
       if (cwmFactory == null)
-      {         
-         cwmFactory = CarnotWorkflowModelFactory.eINSTANCE;         
+      {
+         cwmFactory = CarnotWorkflowModelFactory.eINSTANCE;
       }
       return cwmFactory;
    }
@@ -175,7 +175,7 @@ public class WorkflowModelManager
 
    /**
     * Loads the content of the model from the file.
-    * 
+    *
     * @param uri
     */
    public void load(URI uri) throws IOException
@@ -186,7 +186,7 @@ public class WorkflowModelManager
 
    /**
     * Loads the content of the model from the file.
-    * 
+    *
     * @param path
     */
    public void load(File file) throws IOException
@@ -194,13 +194,13 @@ public class WorkflowModelManager
       getResource(URI.createFileURI(file.getAbsolutePath()), false);
       doLoad(null);
    }
-   
+
    public void load(URI uri, InputStream is) throws IOException
    {
       getResource(uri, false);
       doLoad(is);
    }
-   
+
    private void doLoad(InputStream is) throws IOException
    {
       Map<String, Object> options = CollectionUtils.newMap();
@@ -281,7 +281,7 @@ public class WorkflowModelManager
 
    /**
     * reloads the content of the model from the file.
-    * 
+    *
     * @param path
     */
    public void reload(URI uri) throws IOException
@@ -292,18 +292,18 @@ public class WorkflowModelManager
 
    /**
     * Saves the content of the model to the file.
-    * 
+    *
     * @param path
     */
    public void save(URI uri) throws IOException
    {
       getResource(uri, false);
-      
+
       if ((null != resource) && !CompareHelper.areEqual(resource.getURI(), uri))
       {
          resource.setURI(uri);
       }
-      
+
       Map<String, Object> options = CollectionUtils.newMap();
       // options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
       options.put(XMLResource.OPTION_ENCODING, XMLConstants.ENCODING_ISO_8859_1);
@@ -341,7 +341,7 @@ public class WorkflowModelManager
 
                StreamResult target = new StreamResult(
                      ((CarnotWorkflowModelResourceImpl) resource).getNewOutputStream());
-               
+
                TransformerFactory transformerFactory = XmlUtils.newTransformerFactory();
                Transformer xpdlTrans = transformerFactory.newTransformer(xsltSource);
 
@@ -389,11 +389,13 @@ public class WorkflowModelManager
       }
       return model;
    }
-   
+
    public void resolve(ModelType model)
    {
-      modelOidUtil = ModelOidUtil.register(model);
+      long maxUsedOid = ModelUtils.getMaxUsedOid(model);
+      modelOidUtil = ModelOidUtil.register(model, maxUsedOid, resource);
+
       // resolve string-id references in attributes
-      ModelUtils.resolve(model, model);      
+      ModelUtils.resolve(model, model);
    }
 }

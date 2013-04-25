@@ -56,6 +56,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.core.upgrade.jobs.m30.ApplicationContextType;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -882,19 +883,19 @@ public class ModelUtils
 
    public static String computeId(String name)
    {
-      if (name == null) 
+      if (name == null)
       {
          return ""; //$NON-NLS-1$
       }
-            
+
       StringBuffer sb = new StringBuffer();
       name = name.trim();
-      
+
       if (name.equals("")) //$NON-NLS-1$
       {
          return ""; //$NON-NLS-1$
       }
-      
+
       for (int i = 0; i < name.length(); i++)
       {
          char charAt = name.charAt(i);
@@ -903,10 +904,10 @@ public class ModelUtils
             if (!Character.isJavaIdentifierStart(charAt))
             {
                charAt = '_'; //$NON-NLS-1$
-            }            
+            }
          }
          else
-         {          
+         {
             if (!Character.isJavaIdentifierPart(charAt))
             {
                if (!Character.isWhitespace(charAt))
@@ -920,8 +921,8 @@ public class ModelUtils
             sb.append(charAt);
          }
       }
-      
-      return sb.toString();      
+
+      return sb.toString();
    }
 
    public static void resolve(ModelType model, IExtensibleElement extensible)
@@ -997,6 +998,16 @@ public class ModelUtils
          }
       }
       if (config == null && extensible instanceof DataType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute(extensible,
+               StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if (attribute != null)
+         {
+            setReference(attribute, model, "struct"); //$NON-NLS-1$
+         }
+      }
+
+      if (config == null && extensible instanceof AccessPointType)
       {
          AttributeType attribute = AttributeUtil.getAttribute(extensible,
                StructuredDataConstants.TYPE_DECLARATION_ATT);

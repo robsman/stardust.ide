@@ -15,7 +15,10 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -28,6 +31,7 @@ public class ModelOidUtil extends EContentAdapter
    private Set<Long> oids = CollectionUtils.newSet();
    private boolean enabled = true;   
    private boolean valid = false;
+   private XMLResource resource;
    
    public void setEnabled(boolean enabled)
    {
@@ -76,7 +80,11 @@ public class ModelOidUtil extends EContentAdapter
                if (oids.contains(elementOid))
                {
                   element.setElementOid(++lastOID);
-                  oids.add(lastOID);               
+                  oids.add(lastOID); 
+                  if(resource != null)
+                  {
+                     resource.setID(element, new Long(lastOID).toString());
+                  }                  
                }
                else
                {               
@@ -113,9 +121,14 @@ public class ModelOidUtil extends EContentAdapter
       oids.add(lastOID);
    }
 
-   public static ModelOidUtil register(ModelType model)
+   public static ModelOidUtil register(ModelType model, long maxUsedOid, Resource resource)
    {
       ModelOidUtil m = new ModelOidUtil();
+      m.lastOID = maxUsedOid;
+      if(resource != null && resource instanceof XMLResource)
+      {      
+         m.resource = (XMLResource) resource;
+      }      
       model.eAdapters().add(m);
       m.unsets = null;
       return m;

@@ -37,20 +37,10 @@ public class CwmXmlLoad extends XMLLoadImpl
 
    protected SAXParser makeParser() throws ParserConfigurationException, SAXException
    {
-      SAXParser parser = null;
-      
-      // TODO rsauer always going through XPDL transformation?
-      if (isXpdl())
-      {
-         // make parser getting fed from transformation result xpdl2carnot.xslt
-         SAXParserFactory f = XmlUtils.newSaxParserFactory(false);
-         parser = new XpdlSaxParser(f.newSAXParser());
-      }
-      else
-      {
-         parser = super.makeParser();
-      }
-      return parser;
+      SAXParserFactory factory = XmlUtils.newSaxParserFactory(false);
+      SAXParser parser = factory.newSAXParser();
+      // make parser getting fed from transformation result xpdl2carnot.xslt
+      return isXpdl() ? new XpdlSaxParser(parser) : parser;
    }
 
    private boolean isXpdl()

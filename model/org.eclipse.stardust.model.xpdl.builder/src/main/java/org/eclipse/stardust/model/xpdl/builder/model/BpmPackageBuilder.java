@@ -23,6 +23,7 @@ import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultElementsInitializ
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 
@@ -42,7 +43,8 @@ public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelT
       ModelType model = F_CWM.createModelType();      
       model.setOid(0);
       
-      ModelOidUtil.register(model);      
+      long maxUsedOid = ModelUtils.getMaxUsedOid(model);      
+      ModelOidUtil.register(model, maxUsedOid, null);
       
       return model;
    }

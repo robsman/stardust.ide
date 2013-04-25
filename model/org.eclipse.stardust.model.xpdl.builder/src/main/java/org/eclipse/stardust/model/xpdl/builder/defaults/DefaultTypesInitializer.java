@@ -39,6 +39,7 @@ import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXMLValidator;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXPathEvaluator;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEvaluator;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListAccessPathEvaluator;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListValidator;
@@ -66,11 +67,8 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 
-
-
 public class DefaultTypesInitializer implements ModelInitializer
 {
-
    public void initializeModel(ModelType model)
    {
       initializeDataTypes(model);
@@ -101,14 +99,21 @@ public class DefaultTypesInitializer implements ModelInitializer
             StructuredDataXPathEvaluator.class, StructuredDataXMLValidator.class,
             StructuredDataFilterExtension.class, StructuredDataLoader.class);
 
-      initializeDataType(model, PredefinedConstants.DOCUMENT_DATA, "Document",
+      initializeDataType(model, DmsConstants.DATA_TYPE_DMS_DOCUMENT, "Document",
             VfsDocumentAccessPathEvaluator.class, VfsDocumentValidator.class,
             StructuredDataFilterExtension.class, StructuredDataLoader.class);
 
-      initializeDataType(model, "dmsDocumentList", "Document List",
+      initializeDataType(model, DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST, "Document List",
             VfsDocumentListAccessPathEvaluator.class, VfsDocumentListValidator.class,
             StructuredDataFilterExtension.class, StructuredDataLoader.class);
+      
+      initializeDataType(model, DmsConstants.DATA_TYPE_DMS_FOLDER, "Folder",
+            VfsDocumentAccessPathEvaluator.class, VfsDocumentValidator.class,
+            StructuredDataFilterExtension.class, StructuredDataLoader.class);
 
+      initializeDataType(model, DmsConstants.DATA_TYPE_DMS_FOLDER_LIST, "Folder List",
+            VfsDocumentListAccessPathEvaluator.class, VfsDocumentListValidator.class,
+            StructuredDataFilterExtension.class, StructuredDataLoader.class);
    }
 
    public void initializeApplicationTypes(ModelType model)
