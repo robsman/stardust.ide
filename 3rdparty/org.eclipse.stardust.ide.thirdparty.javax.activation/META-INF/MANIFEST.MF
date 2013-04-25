@@ -8,6 +8,4 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-ClassPath: lib/activation.jar
 Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws
-Export-Package: com.sun.activation.registries,
- com.sun.activation.viewers,
- javax.activation
+Export-Package: javax.activation
