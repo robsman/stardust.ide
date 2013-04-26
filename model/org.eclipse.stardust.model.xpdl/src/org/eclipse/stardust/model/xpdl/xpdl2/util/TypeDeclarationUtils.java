@@ -481,6 +481,26 @@ public class TypeDeclarationUtils
       return null;
    }
 
+   public static boolean hasImport(XSDSchema schema, XSDTypeDefinition type)
+   {
+      for (XSDSchemaContent content : schema.getContents())
+      {
+         if (content instanceof XSDImport)
+         {
+            String location = ((XSDImport) content).getSchemaLocation();
+            if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+            {
+               String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
+               if (typeId.equals(type.getName()))
+               {
+                  return true;
+               }
+            }
+         }
+      }      
+      return false;
+   }   
+   
    public static void removeImport(XSDSchema schema, XSDTypeDefinition type)
    {
       XSDImport removeImport = null;

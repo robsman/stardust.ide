@@ -31,6 +31,7 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.XSDMapping;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XSDElementCheckForType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.XsdTextProvider;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.ComboBoxCellEditorViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
