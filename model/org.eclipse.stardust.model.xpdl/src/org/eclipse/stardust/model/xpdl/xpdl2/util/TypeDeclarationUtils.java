@@ -519,11 +519,11 @@ public class TypeDeclarationUtils
                }
             }
          }
-      }
+      }      
       if (removeImport != null)
       {
          schema.getContents().remove(removeImport);
-      }
+      }                        
    }
 
    public static XSDTypeDefinition getTypeDefinition(TypeDeclarationsType declarations, String name)
