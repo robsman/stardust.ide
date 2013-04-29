@@ -501,7 +501,7 @@ public class TypeDeclarationUtils
       return false;
    }   
    
-   public static void removeImport(XSDSchema schema, XSDTypeDefinition type)
+   public static XSDImport removeImport(XSDSchema schema, XSDTypeDefinition type)
    {
       XSDImport removeImport = null;
       for (XSDSchemaContent content : schema.getContents())
@@ -524,6 +524,8 @@ public class TypeDeclarationUtils
       {
          schema.getContents().remove(removeImport);
       }                        
+      
+      return removeImport;
    }
 
    public static XSDTypeDefinition getTypeDefinition(TypeDeclarationsType declarations, String name)
