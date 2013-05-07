@@ -33,6 +33,7 @@ import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.impl.DocumentRootImpl;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
@@ -140,21 +141,31 @@ public class XpdlModelIoUtils
       File tmpModel = null;
       try
       {
-         WebModelerModelManager modelMgr = new WebModelerModelManager();
-
          tmpModel = File.createTempFile("tmp-xpdl-model-", "." + XpdlUtils.EXT_XPDL);
          tmpModel.deleteOnExit();
 
          URI tmpModelUri = URI.createFileURI(tmpModel.getAbsolutePath());
 
+         WebModelerModelManager modelMgr = new WebModelerModelManager();
          modelMgr.createModel(tmpModelUri);
-
          ModelType emptyModel = modelMgr.getModel();
-         DocumentRootImpl xpdlRoot = (DocumentRootImpl) emptyModel.eContainer();
-         xpdlRoot.setModel(model);
-
-         modelMgr.setModel(model);
-         modelMgr.save(tmpModelUri);
+         DocumentRoot xpdlRoot = (DocumentRootImpl) emptyModel.eContainer();
+         
+         DocumentRoot originalRoot = (DocumentRoot) model.eContainer();
+         try
+         {
+            xpdlRoot.setModel(model);
+            modelMgr.setModel(model);
+            modelMgr.save(tmpModelUri);
+         }
+         finally
+         {
+            // restore original container
+            if (originalRoot != null)
+            {
+               originalRoot.setModel(model);
+            }
+         }
 
          FileInputStream fileInputStream = new FileInputStream(tmpModel);
          try
