@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.modelserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -64,6 +66,7 @@ public class ModelServerHelper
    protected long retryConnection;
    protected boolean retry = true;
    protected long lastRequest = 0;      
+   private long remoteModelTimeStamp = 0;      
    
    public void setCachedModelElement(EObject cachedModelElement)
    {
@@ -167,10 +170,29 @@ public class ModelServerHelper
    }
 
    private synchronized ModelType getCachedModel(IFile cacheFile) throws IOException
-   {
-      if(remoteModel != null)
+   {      
+      String fileName = "platform:" + cacheFile.getFullPath().toString(); //$NON-NLS-1$      
+      java.net.URI uri_ = java.net.URI.create(fileName);
+      File file = new File(uri_.getPath());
+      if (!file.isAbsolute())
       {
-         //return remoteModel;
+         file = new File(Platform.getLocation().toFile(), file.toString());
+      }
+    
+      if(file.exists() && remoteModelTimeStamp != 0)
+      {
+         if(file.lastModified() == remoteModelTimeStamp)
+         {
+            if(remoteModel != null)
+            {
+               return remoteModel;
+            }            
+         }
+      }      
+      
+      if(file.exists())
+      {
+         remoteModelTimeStamp = file.lastModified();         
       }
       
       ExtendedModelManager emm = new ExtendedModelManager();
