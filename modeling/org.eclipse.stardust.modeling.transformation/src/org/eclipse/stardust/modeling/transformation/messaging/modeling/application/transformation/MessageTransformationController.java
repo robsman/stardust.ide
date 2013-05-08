@@ -275,7 +275,8 @@ public class MessageTransformationController {
           TypeDeclarationType typeAdapter = j.next();
           if(TypeDeclarationUtils.getType(typeAdapter) == TypeDeclarationUtils.COMPLEX_TYPE)
           {
-              AccessPointType messageType = mtaUtils.createStructAccessPoint((EObject) typeAdapter, typeAdapter.getId(), DirectionType.INOUT_LITERAL);
+              AccessPointType messageType = mtaUtils.createStructAccessPoint((EObject) typeAdapter, typeAdapter.getId(),
+                    DirectionType.INOUT_LITERAL, false);
               availableMessageTypes.add(messageType);
           }
       }
@@ -1152,7 +1153,8 @@ public class MessageTransformationController {
 
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
-	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.IN_LITERAL);
+	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName,
+	              DirectionType.IN_LITERAL, true);
 	    } else {
 	       if (declaringType.getType() == null || declaringType.getType().getId().equalsIgnoreCase("serializable")) { //$NON-NLS-1$
 	    	  //String className = AttributeUtil.getAttributeValue(declaringType, PredefinedConstants.CLASS_NAME_ATT);
@@ -1196,7 +1198,8 @@ public class MessageTransformationController {
 
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
-	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.OUT_LITERAL);
+	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName,
+	              DirectionType.OUT_LITERAL, true);
 	    } else {
 	       if (declaringType.getType() == null || declaringType.getType().getId().equalsIgnoreCase("serializable")) { //$NON-NLS-1$
 	          //accessPoint = mtaUtils.createSerializableAccessPoint(declaringType, messageName, DirectionType.IN_LITERAL);
