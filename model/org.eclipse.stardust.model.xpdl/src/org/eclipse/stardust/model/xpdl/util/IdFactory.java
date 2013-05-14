@@ -88,22 +88,14 @@ public class IdFactory
       this.eFtrId = eFtrId;
       this.eFtrName = eFtrName;
       
-      this.baseId = baseId;
+      this.baseId = baseId == null || baseName != null && getAutoId()
+            ? ModelUtils.computeId(baseName) : baseId;
       this.baseName = baseName;
    }
 
    public String getId()
    {
-      String useId = id == null ? baseId : id;
-      if(getAutoId())
-      {
-         String name_ = getName();
-         if(name_ != null)
-         {
-            useId = ModelUtils.computeId(name_);
-         }
-      }
-      return useId;
+      return id == null ? baseId : id;
    }
 
    public String getName()
