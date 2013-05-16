@@ -239,4 +239,6 @@ public class ModelerConstants
    public static final int EVENT_ICON_WIDTH = 26;
    public static final int ANNOTATION_SYMBOL_DEFAULT_WIDTH = 80;
    public static final int ANNOTATION_SYMBOL_DEFAULT_HEIGHT = 30;
+
+   public static final String READ_ONLY_LITERAL = "readOnly";
 }
