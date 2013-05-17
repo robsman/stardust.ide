@@ -39,7 +39,7 @@ public class MappingModelUtil
           resource.save(stream, null);
           return stream.toString();
       } catch (IOException e) {
-         throw new RuntimeException("Could not save message transformation configuration", e);
+         throw new RuntimeException("Could not complete transformation", e);
       }
   }
 
