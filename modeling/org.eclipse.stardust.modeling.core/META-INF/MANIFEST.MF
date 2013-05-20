@@ -43,6 +43,7 @@ Export-Package: org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.core.spi.actionTypes.scheduleActivity,
  org.eclipse.stardust.modeling.core.spi.actionTypes.setData,
  org.eclipse.stardust.modeling.core.spi.actionTypes.trigger,
+ org.eclipse.stardust.modeling.core.spi.applicationTypes.camel,
  org.eclipse.stardust.modeling.core.spi.applicationTypes.jms,
  org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava,
  org.eclipse.stardust.modeling.core.spi.applicationTypes.sessionBean,
@@ -70,7 +71,8 @@ Export-Package: org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.core.views.bookmark,
  org.eclipse.stardust.modeling.core.views.repository,
  org.eclipse.stardust.modeling.core.views.traverse,
- org.eclipse.stardust.modeling.core.wizards
+ org.eclipse.stardust.modeling.core.wizards,
+ org.eclipse.stardust.modeling.integration.camel
 Require-Bundle: org.eclipse.xsd,
  org.eclipse.core.resources,
  org.eclipse.compare,
@@ -108,3 +110,4 @@ Require-Bundle: org.eclipse.xsd,
  org.eclipse.stardust.ide.thirdparty.cxf
 Eclipse-AutoStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
