@@ -1687,6 +1687,33 @@ public class ModelBuilderFacade
             return applicationType;
          }
       }
+      
+      // TODO Temporary
+      if (id.equals(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID))
+      {
+    	  ApplicationTypeType applicationMetaType = XpdlModelUtils.findIdentifiableElement(
+                  model.getApplicationType(), ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
+
+            if (null == applicationMetaType)
+            {
+               CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
+               
+               applicationMetaType = F_CWM.createApplicationTypeType();
+               applicationMetaType.setId(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
+               applicationMetaType.setName("Camel Consumer Application");
+               applicationMetaType.setIsPredefined(true);
+               applicationMetaType.setSynchronous(false);
+               
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider",
+                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider");
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance",
+                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance");
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator",
+               		"org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
+
+               model.getApplicationType().add(applicationMetaType);
+            }
+      }
 
       throw new ObjectNotFoundException("Application type " + id + " does not exist.");
    }
