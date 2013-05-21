@@ -178,4 +178,10 @@ public class EditingSession
       return change;
    }
 
+   public void clearUndoRedoStack()
+   {
+      undoableModifications.clear();
+      redoableModifications.clear();
+   }
+
 }
