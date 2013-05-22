@@ -18,9 +18,8 @@ import static junit.framework.Assert.assertTrue;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.process.BpmProcessDefinitionBuilder.newProcessDefinition;
 
-import org.eclipse.stardust.model.xpdl.builder.session.EditingSession;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Test;
 
 
@@ -53,31 +52,31 @@ public class TestChangeUndoRedo
       editSession.redoNext();
       assertEquals(1, model.getProcessDefinition().size());
 
-      assertNotNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNotNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
 
       editSession.beginEdit();
-      XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1").setId("My_Process");
+      ModelUtils.findElementById(model.getProcessDefinition(), "PD_1").setId("My_Process");
       editSession.endEdit();
 
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNotNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNotNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
 
       editSession.undoLast();
-      assertNotNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNotNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
 
       editSession.undoLast();
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
 
       editSession.redoNext();
-      assertNotNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNotNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
 
       editSession.redoNext();
-      assertNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
-      assertNotNull(XpdlModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
+      assertNull(ModelUtils.findElementById(model.getProcessDefinition(), "PD_1"));
+      assertNotNull(ModelUtils.findElementById(model.getProcessDefinition(), "My_Process"));
    }
 
 }

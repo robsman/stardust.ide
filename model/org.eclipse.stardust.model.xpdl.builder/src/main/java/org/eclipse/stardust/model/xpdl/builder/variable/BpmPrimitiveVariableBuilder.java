@@ -16,11 +16,11 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.Var;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -45,7 +45,7 @@ public class BpmPrimitiveVariableBuilder<P>
 
       if ((null == element.getType()) && (null != this.model))
       {
-         DataTypeType primitiveMetaType = XpdlModelUtils.findIdentifiableElement(
+         DataTypeType primitiveMetaType = ModelUtils.findIdentifiableElement(
                this.model.getDataType(), PredefinedConstants.PRIMITIVE_DATA);
          if (null != primitiveMetaType)
          {

@@ -13,10 +13,10 @@ package org.eclipse.stardust.model.xpdl.builder.common;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -93,15 +93,15 @@ public abstract class PropertySetter
 
          if (null == model)
          {
-            model = XpdlModelUtils.findContainingModel(builder.element);
+            model = ModelUtils.findContainingModel(builder.element);
          }
 
 
-         IModelParticipant participant = XpdlModelUtils.findElementById(model.getRole(),
+         IModelParticipant participant = ModelUtils.findElementById(model.getRole(),
                participantId);
          if (null == participant)
          {
-            participant = XpdlModelUtils.findElementById(model.getOrganization(), participantId);
+            participant = ModelUtils.findElementById(model.getOrganization(), participantId);
          }
 
          return participant;
@@ -136,10 +136,10 @@ public abstract class PropertySetter
 
             if (null == model)
             {
-               model = XpdlModelUtils.findContainingModel(builder.element);
+               model = ModelUtils.findContainingModel(builder.element);
             }
 
-            value = XpdlModelUtils.findElementById(model, elementDomain, elementId);
+            value = ModelUtils.findElementById(model, elementDomain, elementId);
          }
          else if (AbstractIdentifiableElementBuilder.PKG_CWM.getProcessDefinitionType() == elementDomain.getEContainingClass())
          {
@@ -151,10 +151,10 @@ public abstract class PropertySetter
 
             if (null == process)
             {
-               process = XpdlModelUtils.findContainingProcess(builder.element);
+               process = ModelUtils.findContainingProcess(builder.element);
             }
 
-            value = XpdlModelUtils.findElementById(process, elementDomain, elementId);
+            value = ModelUtils.findElementById(process, elementDomain, elementId);
          }
 
          return value;

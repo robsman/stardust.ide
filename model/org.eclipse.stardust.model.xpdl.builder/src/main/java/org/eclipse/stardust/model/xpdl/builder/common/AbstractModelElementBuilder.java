@@ -13,17 +13,11 @@ package org.eclipse.stardust.model.xpdl.builder.common;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ElementBuilderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement & IModelElement, B extends AbstractModelElementBuilder<T, B>>
       extends AbstractIdentifiableElementBuilder<T, B>
@@ -93,7 +87,7 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
       if ( !isEmpty(description))
       {
          DescriptionType descriptor = F_CWM.createDescriptionType();
-         XpdlModelUtils.setCDataString(descriptor.getMixed(), description, true);
+         ModelUtils.setCDataString(descriptor.getMixed(), description, true);
 
          if (element instanceof IIdentifiableModelElement)
          {

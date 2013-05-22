@@ -14,11 +14,11 @@ import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -54,12 +54,12 @@ public class BpmConditionalPerformerBuilder
 
    public BpmConditionalPerformerBuilder basedOnVariable(String dataId)
    {
-      return basedOnVariable(XpdlModelUtils.findElementById(model.getData(), dataId));
+      return basedOnVariable(ModelUtils.findElementById(model.getData(), dataId));
    }
 
    public BpmConditionalPerformerBuilder basedOnVariable(String dataId, String derefExpression)
    {
-      return basedOnVariable(XpdlModelUtils.findElementById(model.getData(), dataId), derefExpression);
+      return basedOnVariable(ModelUtils.findElementById(model.getData(), dataId), derefExpression);
    }
 
    public BpmConditionalPerformerBuilder basedOnVariable(DataType data)

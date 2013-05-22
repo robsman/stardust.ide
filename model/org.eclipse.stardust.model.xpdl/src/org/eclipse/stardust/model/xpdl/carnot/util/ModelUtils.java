@@ -47,7 +47,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.xsd.XSDSchema;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
@@ -160,156 +159,73 @@ public class ModelUtils
       }
    };
 
-   public static ModelType findContainingModel(EObject element)
+   private static <T extends EObject> T findContained(EObject object, Class<T> clz)
    {
-      if (element instanceof ModelType)
+      if (object != null)
       {
-         return (ModelType) element;
-      }
-      if (element != null)
-      {
-         while (null != element.eContainer())
+         for (EObject content : object.eContents())
          {
-            element = element.eContainer();
-            if (element instanceof ModelType)
+            if (clz.isInstance(content))
             {
-               return (ModelType) element;
-            }
-         }
-         for (EObject content : element.eContents())
-         {
-            if (content instanceof ModelType)
-            {
-               return (ModelType) content;
+               return clz.cast(object);
             }
          }
       }
       return null;
    }
 
+   private static <T extends EObject> T findContainer(EObject object, Class<T> clz)
+   {
+      while (object != null)
+      {
+         if (clz.isInstance(object))
+         {
+            return clz.cast(object);
+         }
+         object = object.eContainer();
+      }
+      return null;
+   }
+
+   public static ModelType findContainingModel(EObject element)
+   {
+      ModelType model = findContainer(element, ModelType.class);
+      return model == null ? findContained(element, ModelType.class) : model;
+   }
+   
    public static DiagramType findContainingDiagram(IGraphicalObject graphicalObject)
    {
-      EObject element = graphicalObject;
-      DiagramType diagram = (element instanceof DiagramType)
-            ? (DiagramType) element
-            : null;
-
-      while (null == diagram && null != element.eContainer())
-      {
-         element = element.eContainer();
-         if (element instanceof DiagramType)
-         {
-            diagram = (DiagramType) element;
-         }
-      }
-
-      return diagram;
+      return findContainer(graphicalObject, DiagramType.class);
    }
 
    public static ProcessDefinitionType findContainingProcess(EObject element)
    {
-      ProcessDefinitionType process = (element instanceof ProcessDefinitionType)
-            ? (ProcessDefinitionType) element
-            : null;
-
-      while ((null == process) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ProcessDefinitionType)
-         {
-            process = (ProcessDefinitionType) element;
-         }
-      }
-
-      return process;
+      return findContainer(element, ProcessDefinitionType.class);
    }
 
    public static PoolSymbol findContainingPool(EObject element)
    {
-      PoolSymbol pool = (element instanceof PoolSymbol)
-            ? (PoolSymbol) element
-            : null;
-
-      while ((null == pool) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof PoolSymbol)
-         {
-            pool = (PoolSymbol) element;
-         }
-      }
-
-      return pool;
+      return findContainer(element, PoolSymbol.class);
    }
 
    public static ApplicationType findContainingApplication(EObject element)
    {
-      ApplicationType application = (element instanceof ApplicationType)
-            ? (ApplicationType) element
-            : null;
-
-      while ((null == application) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ApplicationType)
-         {
-            application = (ApplicationType) element;
-         }
-      }
-
-      return application;
+      return findContainer(element, ApplicationType.class);
    }
 
    public static ActivityType findContainingActivity(EObject element)
    {
-      ActivityType activity = (element instanceof ActivityType)
-            ? (ActivityType) element
-            : null;
-      while ((null == activity) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ActivityType)
-         {
-            activity = (ActivityType) element;
-         }
-      }
-      return activity;
+      return findContainer(element, ActivityType.class);
    }
 
    public static EventHandlerType findContainingEventHandlerType(EObject element)
    {
-      EventHandlerType handler = (element instanceof EventHandlerType)
-            ? (EventHandlerType) element
-            : null;
-
-      while ((null == handler) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof EventHandlerType)
-         {
-            handler = (EventHandlerType) element;
-         }
-      }
-
-      return handler;
+      return findContainer(element, EventHandlerType.class);
    }
 
    public static TriggerType findContainingTriggerType(EObject element)
    {
-      TriggerType triggerType = (element instanceof TriggerType)
-            ? (TriggerType) element
-            : null;
-
-      while ((null == triggerType) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof TriggerType)
-         {
-            triggerType = (TriggerType) element;
-         }
-      }
-
-      return triggerType;
+      return findContainer(element, TriggerType.class);
    }
 
    public static long getElementOid(IModelElement element, ModelType model)

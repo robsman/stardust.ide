@@ -23,18 +23,11 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimiti
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransition;
 
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,7 +69,7 @@ public class ModelBuilderTest
    @Test
    public void verifyStringVariable()
    {
-      DataType aString = XpdlModelUtils.findElementById(model.getData(), "aString");
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
 
       assertNotNull(aString);
       assertTrue(aString.isSetElementOid());
@@ -84,7 +77,7 @@ public class ModelBuilderTest
 
    public static void assignMissingElementOids(ModelType model)
    {
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+      long maxElementOid = ModelUtils.getMaxUsedOid(model);
 
       if ( !model.isSetOid())
       {

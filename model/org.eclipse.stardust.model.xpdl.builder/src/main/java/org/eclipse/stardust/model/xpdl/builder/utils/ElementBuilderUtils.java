@@ -12,6 +12,8 @@ package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import java.util.List;
 
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 
 public class ElementBuilderUtils
 {
@@ -20,13 +22,13 @@ public class ElementBuilderUtils
          String baseId)
    {
       String id = baseId + (1 + domain.size());
-      if (null != XpdlModelUtils.findElementById(domain, id))
+      if (null != ModelUtils.findElementById(domain, id))
       {
          int counter = 1;
          while (true)
          {
             String paddedId = id + "_" + counter;
-            if (null == XpdlModelUtils.findElementById(domain, paddedId))
+            if (null == ModelUtils.findElementById(domain, paddedId))
             {
                id = paddedId;
                break;

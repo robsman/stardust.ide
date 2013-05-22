@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.common;
 
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 public abstract class AbstractActivityElementBuilder<T extends IModelElement & IIdentifiableElement, B extends AbstractActivityElementBuilder<T, B>>
@@ -60,7 +60,7 @@ public abstract class AbstractActivityElementBuilder<T extends IModelElement & I
          {
             this.activity = activity;
 
-            ProcessDefinitionType process = XpdlModelUtils.findContainingProcess(activity);
+            ProcessDefinitionType process = ModelUtils.findContainingProcess(activity);
             if (null != process)
             {
                setProcess(process);

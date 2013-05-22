@@ -11,9 +11,9 @@
 package org.eclipse.stardust.model.xpdl.builder.eventhandler;
 
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractActivityElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -43,7 +43,7 @@ public abstract class AbstractEventHandlerBuilder<B extends AbstractEventHandler
 
    protected B forConditionType(String conditionTypeId)
    {
-      return forConditionType(XpdlModelUtils.findElementById(model.getEventConditionType(),
+      return forConditionType(ModelUtils.findElementById(model.getEventConditionType(),
             conditionTypeId));
    }
 

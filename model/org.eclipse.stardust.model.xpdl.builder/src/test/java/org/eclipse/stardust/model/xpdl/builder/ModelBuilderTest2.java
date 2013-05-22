@@ -16,13 +16,9 @@ import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINIST
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.DEFAULT_CONTEXT;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 
-import org.eclipse.stardust.model.xpdl.builder.BpmActivityDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmActivitySequenceDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmProcessDef;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -86,7 +82,7 @@ public class ModelBuilderTest2
    @Test
    public void verifyStringVariable()
    {
-      DataType aString = XpdlModelUtils.findElementById(model.getData(), "aString");
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
 
       assertNotNull(aString);
       assertTrue(aString.isSetElementOid());

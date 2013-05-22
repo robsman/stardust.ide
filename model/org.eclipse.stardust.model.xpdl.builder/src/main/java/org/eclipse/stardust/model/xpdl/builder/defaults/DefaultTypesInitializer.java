@@ -14,7 +14,6 @@ import static org.eclipse.stardust.engine.api.model.PredefinedConstants.PRIMITIV
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.manual.ManualTriggerValidator;
 import org.eclipse.stardust.engine.core.pojo.app.PlainJavaAccessPointProvider;
@@ -24,26 +23,13 @@ import org.eclipse.stardust.engine.core.pojo.data.JavaBeanAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.pojo.data.PrimitiveAccessPathEvaluator;
 import org.eclipse.stardust.engine.core.pojo.data.PrimitiveValidator;
 import org.eclipse.stardust.engine.core.pojo.data.SerializableValidator;
-import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPointProvider;
-import org.eclipse.stardust.engine.core.spi.extensions.model.ApplicationValidator;
-import org.eclipse.stardust.engine.core.spi.extensions.model.DataValidator;
-import org.eclipse.stardust.engine.core.spi.extensions.model.ExtendedDataValidator;
-import org.eclipse.stardust.engine.core.spi.extensions.model.TriggerValidator;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.AccessPathEvaluator;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.ApplicationInstance;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.DataFilterExtension;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.DataLoader;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.ExtendedAccessPathEvaluator;
-import org.eclipse.stardust.engine.core.spi.extensions.runtime.StatelessApplicationInstance;
+import org.eclipse.stardust.engine.core.spi.extensions.model.*;
+import org.eclipse.stardust.engine.core.spi.extensions.runtime.*;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXMLValidator;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataXPathEvaluator;
-import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEvaluator;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListAccessPathEvaluator;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentListValidator;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentValidator;
+import org.eclipse.stardust.engine.extensions.dms.data.*;
 import org.eclipse.stardust.engine.extensions.ejb.SessionBeanValidator;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanAccessPointProvider;
 import org.eclipse.stardust.engine.extensions.ejb.app.SessionBeanApplicationInstance;
@@ -57,15 +43,10 @@ import org.eclipse.stardust.engine.extensions.xml.data.XMLValidator;
 import org.eclipse.stardust.engine.extensions.xml.data.XPathEvaluator;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class DefaultTypesInitializer implements ModelInitializer
 {
@@ -178,7 +159,7 @@ public class DefaultTypesInitializer implements ModelInitializer
                + clsValidator);
       }
 
-      if (null == XpdlModelUtils.findElementById(model.getDataType(), typeId))
+      if (null == ModelUtils.findElementById(model.getDataType(), typeId))
       {
          DataTypeType typeDef = BpmPackageBuilder.F_CWM.createDataTypeType();
          typeDef.setId(typeId);
@@ -227,7 +208,7 @@ public class DefaultTypesInitializer implements ModelInitializer
                + clsAppDriver);
       }
 
-      if (null == XpdlModelUtils.findElementById(model.getApplicationType(), typeId))
+      if (null == ModelUtils.findElementById(model.getApplicationType(), typeId))
       {
          ApplicationTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationTypeType();
          typeDef.setId(typeId);
@@ -251,7 +232,7 @@ public class DefaultTypesInitializer implements ModelInitializer
    private void initializeInteractionContextType(ModelType model, String typeId,
          String typeName, boolean hasApplicationPath, boolean hasMappingId)
    {
-      if (null == XpdlModelUtils.findElementById(model.getApplicationContextType(), typeId))
+      if (null == ModelUtils.findElementById(model.getApplicationContextType(), typeId))
       {
          ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
          typeDef.setId(typeId);
@@ -269,7 +250,7 @@ public class DefaultTypesInitializer implements ModelInitializer
    public void initializeTriggerType(ModelType model, String typeId, String typeName, boolean isPull,
          Class<? extends TriggerValidator> clsValidator)
    {
-      if (null == XpdlModelUtils.findElementById(model.getApplicationType(), typeId))
+      if (null == ModelUtils.findElementById(model.getApplicationType(), typeId))
       {
          TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
          typeDef.setId(typeId);
