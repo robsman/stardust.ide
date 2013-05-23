@@ -167,7 +167,7 @@ public class ModelUtils
          {
             if (clz.isInstance(content))
             {
-               return clz.cast(object);
+               return clz.cast(content);
             }
          }
       }
