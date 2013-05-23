@@ -84,6 +84,14 @@ public class MailAccessPointProvider implements IAccessPointProvider
 									JavaAccessPointType.class.getName() },
 						dataTypePrimitive));
 			
+         accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
+               PredefinedConstants.JNDI_SESSION, PredefinedConstants.JNDI_SESSION + ": " + String.class.getName(), //$NON-NLS-1$
+               String.class.getName(), DirectionType.IN_LITERAL, false,
+               new String[]
+               { JavaAccessPointType.PARAMETER.getId(),
+                        JavaAccessPointType.class.getName() },
+               dataTypePrimitive));			
+			
 			accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
                         PredefinedConstants.FROM_ADDRESS, PredefinedConstants.FROM_ADDRESS + ": " + String.class.getName(), //$NON-NLS-1$
 						String.class.getName(), DirectionType.IN_LITERAL, false,
@@ -156,7 +164,7 @@ public class MailAccessPointProvider implements IAccessPointProvider
 				accessPoints.add(AccessPointUtil.createIntrinsicAccessPoint(
                             PredefinedConstants.TEMPLATE_VARIABLE + i, PredefinedConstants.TEMPLATE_VARIABLE + i
 										+ ": " + java.lang.String.class.getName(), //$NON-NLS-1$
-							java.lang.String.class.getName(),
+							java.lang.Object.class.getName(),
 							DirectionType.IN_LITERAL, false, new String[]
 							{ JavaAccessPointType.PARAMETER.getId(),
 										JavaAccessPointType.class.getName() },
