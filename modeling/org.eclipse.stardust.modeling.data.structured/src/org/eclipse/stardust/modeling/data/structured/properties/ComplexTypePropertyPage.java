@@ -628,7 +628,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       {
          if(!XSDElementCheckForType.needsType(ComplexTypePropertyPage.this.declaration, oldDef))
          {
-            TypeDeclarationUtils.removeImport(schema, oldDef); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
          }
       }
@@ -1069,7 +1069,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          if (!XSDElementCheckForType.needsType(declaration, oldDef))
          {
             XSDSchema schema = type.getSchema();
-            TypeDeclarationUtils.removeImport(schema, oldDef); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
             schema.updateElement(true);
          }
@@ -1268,7 +1268,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          if (!XSDElementCheckForType.needsType(declaration, oldDef))
          {
             XSDSchema schema = type.getSchema();
-            TypeDeclarationUtils.removeImport(schema, (XSDTypeDefinition) oldDef); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
             schema.updateElement(true);
          }

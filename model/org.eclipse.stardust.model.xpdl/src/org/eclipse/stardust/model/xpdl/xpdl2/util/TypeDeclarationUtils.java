@@ -481,7 +481,7 @@ public class TypeDeclarationUtils
       return null;
    }
 
-   public static boolean hasImport(XSDSchema schema, XSDTypeDefinition type)
+   public static boolean hasImport(XSDSchema schema, TypeDeclarationType type)
    {
       for (XSDSchemaContent content : schema.getContents())
       {
@@ -491,7 +491,7 @@ public class TypeDeclarationUtils
             if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
             {
                String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
-               if (typeId.equals(type.getName()))
+               if (typeId.equals(type.getId()))
                {
                   return true;
                }
@@ -501,22 +501,19 @@ public class TypeDeclarationUtils
       return false;
    }   
    
-   public static XSDImport removeImport(XSDSchema schema, XSDTypeDefinition type)
+   public static XSDImport removeImport(XSDSchema schema, XSDSchema importedSchema)
    {
       XSDImport removeImport = null;
       for (XSDSchemaContent content : schema.getContents())
       {
          if (content instanceof XSDImport)
          {
-            String location = ((XSDImport) content).getSchemaLocation();
-            if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+            XSDImport xsdImport = (XSDImport) content;
+            if (xsdImport.getResolvedSchema() == importedSchema
+                  && xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
             {
-               String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
-               if (typeId.equals(type.getName()))
-               {
-                  removeImport = (XSDImport) content;
-                  break;
-               }
+               removeImport = xsdImport;
+               break;
             }
          }
       }      
