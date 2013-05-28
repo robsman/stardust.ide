@@ -190,9 +190,22 @@ public class ModelUtils
    public static ModelType findContainingModel(EObject element)
    {
       ModelType model = findContainer(element, ModelType.class);
-      return model == null ? findContained(element, ModelType.class) : model;
+      return model == null ? findContained(getTopContainer(element), ModelType.class) : model;
    }
    
+   private static EObject getTopContainer(EObject element)
+   {
+      while (null != element.eContainer())
+      {
+         element = element.eContainer();
+         if (element instanceof ModelType)
+         {
+            return (ModelType) element;
+         }
+      }
+      return element;
+   }
+
    public static DiagramType findContainingDiagram(IGraphicalObject graphicalObject)
    {
       return findContainer(graphicalObject, DiagramType.class);
