@@ -78,6 +78,7 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.Version;
 import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
@@ -1261,7 +1262,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
 
          // Model locked within web modeler --> unlock (CRNT-29022)
          AttributeType attribute = AttributeUtil.getAttribute(getWorkflowModel(),
-               "stardust:security:hash");
+               PredefinedConstants.READ_ONLY_HASH);
          if (attribute != null)
          {
             getWorkflowModel().getAttribute().remove(attribute);
