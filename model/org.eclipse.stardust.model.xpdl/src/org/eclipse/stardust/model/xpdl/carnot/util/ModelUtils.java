@@ -198,10 +198,6 @@ public class ModelUtils
       while (null != element.eContainer())
       {
          element = element.eContainer();
-         if (element instanceof ModelType)
-         {
-            return (ModelType) element;
-         }
       }
       return element;
    }
