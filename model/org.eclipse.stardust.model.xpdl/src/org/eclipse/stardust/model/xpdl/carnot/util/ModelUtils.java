@@ -192,7 +192,7 @@ public class ModelUtils
       ModelType model = findContainer(element, ModelType.class);
       return model == null ? findContained(getTopContainer(element), ModelType.class) : model;
    }
-   
+
    private static EObject getTopContainer(EObject element)
    {
       while (null != element.eContainer())
@@ -869,14 +869,14 @@ public class ModelUtils
                }
             }
          }
-      }      
-      
+      }
+
       // resolve declared references
       List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
       if (configs != null)
       {
          for(IConfigurationElement config : configs)
-         {         
+         {
             IConfigurationElement[] refs = config.getChildren("attribute"); //$NON-NLS-1$
             for (IConfigurationElement ref : refs)
             {
@@ -887,7 +887,7 @@ public class ModelUtils
                   String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
                   setReference(attribute, model, scopeList);
                }
-            }         
+            }
          }
       }
 
@@ -1595,6 +1595,22 @@ public class ModelUtils
          return Model_Messages.AUDITTRAIL_PERSISTENCE_TRANSIENT;
       }
       return null;
+   }
+
+   public static boolean isReadOnly(EObject element)
+   {
+      if (element != null && element instanceof ModelType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute((ModelType) element,
+               PredefinedConstants.READ_ONLY_HASH);
+         if ((attribute != null) && (attribute.getValue() != null)
+               && (attribute.getValue().length() > 0))
+         {
+            return true;
+         }
+
+      }
+      return false;
    }
 
 }
