@@ -13,20 +13,12 @@ package org.eclipse.stardust.modeling.modelimport;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 
 public class ThirdPartySourceGroupProvider
 {
    private Composite addtionalOptionsComposite;
-
-   private Button withDiagramButton;
-
-   private Button prototypeModeButton;
-
-   private Button productionModeButton;
 
    public Control createAdditionalOptionsGroup(Composite optionsGroup, boolean enabled)
    {
@@ -45,47 +37,6 @@ public class ThirdPartySourceGroupProvider
          addtionalOptionsComposite.setLayoutData(data);
       }
 
-      withDiagramButton = new Button(addtionalOptionsComposite, SWT.CHECK);
-      withDiagramButton.setEnabled(enabled);
-      Label withDiagramLabel = new Label(addtionalOptionsComposite, SWT.NONE);
-      {
-         GridData data = new GridData();
-         data.horizontalSpan = 3;
-         withDiagramLabel.setLayoutData(data);
-      }
-      withDiagramLabel.setText(Import_Messages.LB_IncludeDiagram); // TODO
-
-      prototypeModeButton = new Button(addtionalOptionsComposite, SWT.RADIO);
-      prototypeModeButton.setEnabled(enabled);
-      Label prototypeModeLabel = new Label(addtionalOptionsComposite, SWT.NONE);
-      prototypeModeLabel.setText(Import_Messages.LB_PrototypeMode); // TODO
-      if (enabled)
-      {
-         prototypeModeButton.setSelection(true);
-      }
-
-      productionModeButton = new Button(addtionalOptionsComposite, SWT.RADIO);
-      productionModeButton.setEnabled(enabled);
-      Label productionModeLabel = new Label(addtionalOptionsComposite, SWT.NONE);
-      productionModeLabel.setText(Import_Messages.LB_ProductionMode); // TODO
-
       return addtionalOptionsComposite;
-   }
-   
-   protected int getImportMode()
-   {
-      if (prototypeModeButton.getSelection())
-      {
-         return 0;
-      }
-      else
-      {
-         return 1;
-      }
-   }
-   
-   protected boolean includesDiagrams()
-   {
-      return withDiagramButton.getSelection();
-   }
+   }  
 }
