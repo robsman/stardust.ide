@@ -17,7 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -35,7 +35,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * @author fherinean
@@ -74,7 +73,7 @@ public class RequestAccessPointPropertyPage extends AbstractModelElementProperty
          if(selection)
          {
             idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             idText.getText().setText(computedId);            
          }
          else
@@ -88,17 +87,13 @@ public class RequestAccessPointPropertyPage extends AbstractModelElementProperty
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };
-   
-   
-   
    
    protected boolean includeDefaultValue()
    {

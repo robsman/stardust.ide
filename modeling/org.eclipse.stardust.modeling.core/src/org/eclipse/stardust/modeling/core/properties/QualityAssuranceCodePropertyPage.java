@@ -16,7 +16,7 @@ import java.lang.reflect.Proxy;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -109,7 +109,7 @@ public class QualityAssuranceCodePropertyPage extends AbstractModelElementProper
       if (autoFillEnabled)
       {
          txtId.getText().setEditable(false);
-         String computedId = ModelUtils.computeId(name);
+         String computedId = NameIdUtils.createIdFromName(null, getModelElement());
          txtId.getText().setText(computedId);            
       }
       else

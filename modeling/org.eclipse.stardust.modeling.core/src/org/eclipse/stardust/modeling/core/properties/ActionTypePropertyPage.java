@@ -37,6 +37,7 @@ import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActionTypeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -94,7 +95,7 @@ public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
          if(selection)
          {
             txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);            
          }
          else
@@ -112,7 +113,8 @@ public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
          String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            txtId.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement(), name);            
+            txtId.getText().setText(computedId);
          }
       }
    };

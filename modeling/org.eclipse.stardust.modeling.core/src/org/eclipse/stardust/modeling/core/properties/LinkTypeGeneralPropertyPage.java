@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LinkCardinality;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -30,8 +30,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-
 
 public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -75,7 +73,7 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
          if(selection)
          {
             txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);            
          }
          else
@@ -89,11 +87,9 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);
          }
       }

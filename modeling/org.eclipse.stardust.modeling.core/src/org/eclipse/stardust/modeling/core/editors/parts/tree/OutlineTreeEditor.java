@@ -28,7 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ElUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
@@ -148,8 +148,8 @@ public class OutlineTreeEditor extends ExtendedTreeEditor
          bringDown();
          return;         
       }
-            
-      String computedId = ModelUtils.computeId(newValue);
+      
+      String computedId = NameIdUtils.createIdFromName(null, model);
       
       EditDomain domain = viewer.getEditDomain();
       CompoundCommand command = new CompoundCommand();

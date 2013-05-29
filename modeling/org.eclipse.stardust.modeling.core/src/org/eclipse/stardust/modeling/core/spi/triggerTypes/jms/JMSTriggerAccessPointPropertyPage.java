@@ -23,7 +23,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -43,7 +43,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -77,7 +76,7 @@ public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPrope
          if(selection)
          {
             idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             idText.getText().setText(computedId);            
          }
          else
@@ -91,11 +90,10 @@ public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPrope
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };

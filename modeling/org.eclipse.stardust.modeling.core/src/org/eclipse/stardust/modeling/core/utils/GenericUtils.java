@@ -54,6 +54,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
@@ -452,6 +453,10 @@ public class GenericUtils
       
    public static void setAutoIdValue(EObject modelElement, boolean store)
    {
+      /*
+      boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
+            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);      
+      
       boolean save = false;               
       if (modelElement instanceof IIdentifiableElement)
       {     
@@ -460,7 +465,7 @@ public class GenericUtils
          
          if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, modelElement, true);
             if(id.equals(computedId))
             {
                save = true;
@@ -487,7 +492,7 @@ public class GenericUtils
          
          if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, modelElement, true);
             if(id.equals(computedId))
             {
                save = true;
@@ -506,9 +511,9 @@ public class GenericUtils
          {
             ExtendedAttributeUtil.setAttribute((TypeDeclarationType) modelElement, CarnotConstants.AUTO_ID_GENERATION, null);               
          }         
-      }         
+      }               
+      */
    }
-
    
    public static List<IJavaProject> getRequiredProjects(IJavaProject javaProject)
    {
@@ -545,6 +550,7 @@ public class GenericUtils
       boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
             BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);      
       
+      /*
       if (modelElement instanceof IExtensibleElement)
       {      
          String attributeValue = AttributeUtil.getAttributeValue((IExtensibleElement) modelElement, CarnotConstants.AUTO_ID_GENERATION);
@@ -559,8 +565,8 @@ public class GenericUtils
             String id = ((IIdentifiableElement) modelElement).getId();
             
             if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
-            {
-               String computedId = ModelUtils.computeId(name);
+            {               
+               String computedId = NameIdUtils.createIdFromName(null, modelElement, true);
                if(id.equals(computedId))
                {
                   autoIdButtonValue = true;
@@ -587,7 +593,7 @@ public class GenericUtils
             
             if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
             {
-               String computedId = ModelUtils.computeId(name);
+               String computedId = NameIdUtils.createIdFromName(null, modelElement, true);
                if(id.equals(computedId))
                {
                   autoIdButtonValue = true;
@@ -599,6 +605,7 @@ public class GenericUtils
             }
          }
       }
+      */
       
       return autoIdButtonValue;
    }

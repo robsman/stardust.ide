@@ -26,10 +26,9 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ElUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.figures.DataSymbolFigure;
-
 
 public class DataSymbolNodeEditEditPart extends AbstractModelElementNodeSymbolEditPart
 {
@@ -48,9 +47,9 @@ public class DataSymbolNodeEditEditPart extends AbstractModelElementNodeSymbolEd
       try {
          DirectEditRequest editRequest = (DirectEditRequest)request;
          String newValue = editRequest.getCellEditor().getValue().toString();
-         String computedId = ModelUtils.computeId(newValue);
          DataSymbolType dataSymbol = (DataSymbolType)this.getModel();
          DataType dataType = (DataType) dataSymbol.getModelElement();
+         String computedId = NameIdUtils.createIdFromName(null, dataType, newValue);
          ModelType model = (ModelType) this.getEditor().getModel();
          String oldValue = dataType.getId();        
          ChangeRecorder targetRecorder = new ChangeRecorder();

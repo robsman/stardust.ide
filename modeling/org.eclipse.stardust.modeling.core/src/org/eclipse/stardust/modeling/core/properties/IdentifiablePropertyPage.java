@@ -22,8 +22,8 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.EObjectInvocationHandler;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -89,7 +89,8 @@ public class IdentifiablePropertyPage extends AbstractModelElementPropertyPage
       if (autoFillEnabled)
       {
          txtId.getText().setEditable(false);
-         String computedId = ModelUtils.computeId(name);
+         
+         String computedId = NameIdUtils.createIdFromName(null, getModelElement());
          txtId.getText().setText(computedId);            
       }
       else

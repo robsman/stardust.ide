@@ -40,6 +40,7 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappings
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
@@ -70,7 +71,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 public class FormalParameterPropertyPage extends AbstractModelElementPropertyPage
@@ -122,7 +122,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
          if (selection)
          {
             idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             idText.getText().setText(computedId);
          }
          else
@@ -147,11 +147,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };

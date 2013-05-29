@@ -20,7 +20,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -37,7 +37,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 
 public class ConditionPropertyPage extends SpiPropertyPage
@@ -73,7 +72,7 @@ public class ConditionPropertyPage extends SpiPropertyPage
          if(selection)
          {
             txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);            
          }
          else
@@ -87,11 +86,10 @@ public class ConditionPropertyPage extends SpiPropertyPage
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            txtId.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            txtId.getText().setText(computedId);
          }
       }
    };

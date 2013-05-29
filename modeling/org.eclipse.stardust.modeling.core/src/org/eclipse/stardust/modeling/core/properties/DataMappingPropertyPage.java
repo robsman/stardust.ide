@@ -36,6 +36,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractWidgetAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EFeatureAdapter;
@@ -57,7 +58,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -102,7 +102,7 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
          if(selection)
          {
             txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);            
          }
          else
@@ -116,11 +116,9 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
          if (autoIdButton.getSelection())
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);
          }
       }
