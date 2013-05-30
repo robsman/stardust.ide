@@ -3647,14 +3647,18 @@ public class ModelBuilderFacade
       return null;
    }
 
-   public boolean isReadOnly(ModelType model)
+   public boolean isReadOnly(EObject element)
    {
-      AttributeType attribute = AttributeUtil.getAttribute(model,
-            "stardust:security:hash");
-      if ((attribute != null) && (attribute.getValue() != null)
-            && (attribute.getValue().length() > 0))
+      if (element != null && element instanceof ModelType)
       {
-         return true;
+         AttributeType attribute = AttributeUtil.getAttribute((ModelType) element,
+               "stardust:security:hash");
+         if ((attribute != null) && (attribute.getValue() != null)
+               && (attribute.getValue().length() > 0))
+         {
+            return true;
+         }
+
       }
       return false;
    }
