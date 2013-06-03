@@ -189,6 +189,10 @@ public class ModelUtils
 
    public static ModelType findContainingModel(EObject element)
    {
+      if (element == null)
+      {
+         return null;
+      }
       ModelType model = findContainer(element, ModelType.class);
       return model == null ? findContained(getTopContainer(element), ModelType.class) : model;
    }
