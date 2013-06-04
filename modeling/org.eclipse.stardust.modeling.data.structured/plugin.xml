@@ -83,6 +83,14 @@
 					<enumeration name="%yes" value="true"/>
 					<enumeration name="%no" value="false"/>
 				</element>
+                <element name="InputPreferences_label"
+                    empty="false"
+                    label="%label"
+                    type="string"/>
+                <element name="InputPreferences_labelKey"
+                    empty="false"
+                    label="%labelKey"
+                    type="string"/>
                 <element name="InputPreferences_style"
                     empty="false"
                     label="%cssStyle"
