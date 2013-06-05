@@ -27,12 +27,12 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.engine.api.runtime.Document;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
@@ -79,8 +79,12 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
    synchronized ModelType loadModel(String id)
    {
-
-      return strategy.loadModel(id);
+      ModelType model = strategy.getModels(false).get(id.split("\\.")[0]);
+      if (model == null)
+      {
+         model = strategy.loadModel(id);
+      }
+      return model;
    }
 
    public void importObject(ModelType model, IObjectDescriptor[] descriptors, boolean asLink)
