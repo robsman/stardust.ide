@@ -322,14 +322,37 @@ public class ModelBuilderFacade
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
-
-      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      // declaredType.setId(AttributeUtil.getAttributeValue(data,
-      // StructuredDataConstants.TYPE_DECLARATION_ATT));
-
-      declaredType.setId(stripFullId(structTypeFullID));
-
-      dataTypeType.setDeclaredType(declaredType);
+      
+      String refModelId = null;
+      String structTypeId = null;
+      String[] splittedIds = structTypeFullID.split(":");
+      if (splittedIds.length > 1)
+      {
+         refModelId = splittedIds[0];
+         structTypeId = splittedIds[1];
+      }
+      else
+      {
+         structTypeId = splittedIds[0];
+      }
+      
+      ModelType model = ModelUtils.findContainingModel(processInterface);
+      if (refModelId == null || model != null && refModelId.equals(model.getId()))
+      {
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
+      }
+      else if (model != null)
+      {
+         ModelType ref = findModel(refModelId);
+         updateReferences(model, ref);
+         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
+         extRef.setLocation(refModelId);
+         //extRef.setNamespace("TypeDeclarations");
+         extRef.setXref(structTypeId);
+         dataTypeType.setExternalReference(extRef);
+      }
 
       FormalParametersType parametersType = processInterface.getFormalParameters();
 
