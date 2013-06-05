@@ -50,7 +50,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
@@ -115,7 +114,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       {
          if (autoIdButton.getSelection())
          {
-            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
+            String computedId = NameIdUtils.createIdFromName(null, declaration);
             txtId.getText().setText(computedId);
          }
          validateInput();
