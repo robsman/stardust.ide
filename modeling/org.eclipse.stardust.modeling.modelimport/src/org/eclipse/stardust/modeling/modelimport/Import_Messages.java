@@ -145,8 +145,6 @@ public class Import_Messages extends NLS
 
    public static String STR_XpdlFiles;
 
-   public static String STR_ModFiles;
-
    public static String STR_AnyFile;
 
    public static String BTN_Browse;
