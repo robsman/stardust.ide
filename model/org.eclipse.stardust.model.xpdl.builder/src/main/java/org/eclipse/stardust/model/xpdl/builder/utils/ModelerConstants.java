@@ -230,6 +230,7 @@ public class ModelerConstants
    public static final String IMPLEMENTATION_PROPERTY = "implementation";
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
    public static final String DATA_TYPE = "carnot:engine:dataType";
+   public static final String DATA_TYPE_SIMPLENAME = "simpleName";
 
    //Web Modeler default size parameters
    public static final int DEFAULT_SWIMLANE_WIDTH = 375;
