@@ -419,6 +419,7 @@ public class WebModelerConnectionManager implements IConnectionManager
    {
       ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
       handler = createHandler(connection.getType());
+      EObjectDescriptor.setURIS(false);
       handler.open(connection);
       handlers.put(connection, handler);
    }
