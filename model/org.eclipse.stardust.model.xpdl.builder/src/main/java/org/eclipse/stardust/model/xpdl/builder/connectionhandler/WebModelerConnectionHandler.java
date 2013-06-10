@@ -79,8 +79,12 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
    synchronized ModelType loadModel(String id)
    {
-
-      return strategy.loadModel(id);
+      ModelType model = strategy.getModels(false).get(id.split("\\.")[0]);
+      if (model == null)
+      {
+         model = strategy.loadModel(id);
+      }
+      return model;
    }
 
    public void importObject(ModelType model, IObjectDescriptor[] descriptors, boolean asLink)
