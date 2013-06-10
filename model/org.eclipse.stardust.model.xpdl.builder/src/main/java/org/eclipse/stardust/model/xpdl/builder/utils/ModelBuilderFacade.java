@@ -207,6 +207,7 @@ public class ModelBuilderFacade
       structuredDataType.setSchemaType(schema);
 
       XSDSchema xsdSchema = XSDFactory.eINSTANCE.createXSDSchema();
+
       xsdSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX,
             XMLResource.XML_SCHEMA_URI);
       xsdSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
@@ -239,6 +240,7 @@ public class ModelBuilderFacade
       schema.getSchema().updateElement(true);
 
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
+      Object o = structuredDataType.getSchema().eResource();
 
       return structuredDataType;
    }
@@ -322,7 +324,7 @@ public class ModelBuilderFacade
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
-      
+
       String refModelId = null;
       String structTypeId = null;
       String[] splittedIds = structTypeFullID.split(":");
@@ -335,7 +337,7 @@ public class ModelBuilderFacade
       {
          structTypeId = splittedIds[0];
       }
-      
+
       ModelType model = ModelUtils.findContainingModel(processInterface);
       if (refModelId == null || model != null && refModelId.equals(model.getId()))
       {
@@ -3036,6 +3038,10 @@ public class ModelBuilderFacade
    {
       if (modelElement != null)
       {
+         if (modelElement.eIsProxy())
+         {
+            return true;
+         }
          if (modelElement instanceof DataType)
          {
             DataType dataType = (DataType) modelElement;
@@ -3597,7 +3603,7 @@ public class ModelBuilderFacade
    public void updateReferences(ModelType model, ModelType ref)
    {
       String connId = WebModelerConnectionManager.createFileConnection(model, ref);
-      
+
       ExternalPackages packs = model.getExternalPackages();
       if (packs == null)
       {
@@ -3610,9 +3616,9 @@ public class ModelBuilderFacade
          pack.setId(ref.getId());
          pack.setName(ref.getName());
          pack.setHref(ref.getId());
-         
+
          ExtendedAttributeUtil.setAttribute(pack, IConnectionManager.URI_ATTRIBUTE_NAME, "cnx://" + connId + "/");
-         
+
          List<ExternalPackage> packList = packs.getExternalPackage();
          packList.add(pack);
       }
