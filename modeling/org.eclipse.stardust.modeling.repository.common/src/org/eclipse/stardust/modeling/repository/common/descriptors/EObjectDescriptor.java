@@ -44,6 +44,8 @@ import org.eclipse.swt.graphics.Image;
 
 public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor, IObjectReference, ImportableDescriptor
 {
+   private static volatile boolean SET_URIS = true;
+
    protected boolean alwaysReplace = false;
    protected EObject eObject;
    private EClass classifier;
@@ -53,7 +55,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
    private String id;
    private String name;
    private String description = ""; //$NON-NLS-1$
-   
+
    public EObjectDescriptor(URI uri, EClass classifier, String id, String name,
          String description, String iconBundleId, String iconPath)
    {
@@ -71,14 +73,27 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
    {
       this(uri, eObject.eClass(), id, name, description, iconBundleId, iconPath);
       this.eObject = eObject;
-      if (this.eObject instanceof Extensible)
+      if (SET_URIS)
       {
-         ExtendedAttributeUtil.setAttribute((Extensible) this.eObject, IConnectionManager.URI_ATTRIBUTE_NAME, uri.toString());
+         if (this.eObject instanceof Extensible)
+         {
+            ExtendedAttributeUtil.setAttribute((Extensible) this.eObject, IConnectionManager.URI_ATTRIBUTE_NAME, uri.toString());
+         }
+         else if (this.eObject instanceof IExtensibleElement)
+         {
+            AttributeUtil.setAttribute((IExtensibleElement) this.eObject, IConnectionManager.URI_ATTRIBUTE_NAME, uri.toString());
+         }
       }
-      else if (this.eObject instanceof IExtensibleElement)
-      {
-         AttributeUtil.setAttribute((IExtensibleElement) this.eObject, IConnectionManager.URI_ATTRIBUTE_NAME, uri.toString());
-      }
+   }
+
+   public static boolean areUrisSet()
+   {
+      return SET_URIS;
+   }
+
+   public static void setURIS(boolean setUris)
+   {
+      SET_URIS = setUris;
    }
 
    public IObjectDescriptor[] getChildren()
@@ -154,7 +169,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
 
    public void importElements(IconFactory iconFactory, ModelType targetModel, boolean asLink)
    {
-      // compute all objects that are referenced by the source object      
+      // compute all objects that are referenced by the source object
       List<EObject> closure;
       if (asLink)
       {
@@ -173,14 +188,14 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
             }
          }
       }
-      
+
       Map<EObject, MergeAction> reuseReplace = Collections.emptyMap();
       Map<EObject, EObject> map = MergeUtils.createClosureMap(closure, targetModel);
       if (!map.isEmpty())
       {
          if(alwaysReplace)
          {
-            reuseReplace = ImportUtils.reuseReplaceMap(map);            
+            reuseReplace = ImportUtils.reuseReplaceMap(map);
          }
          else
          {
@@ -191,13 +206,13 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          {
             throw new ImportCancelledException();
          }
-         
+
          if(alwaysReplace)
          {
             reuseReplace = null;
-         }         
+         }
       }
-      
+
       LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), asLink, isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);
       if (asLink && !(eObject instanceof Extensible))
       {
@@ -219,7 +234,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
    {
       return uri.trimSegments(1);
    }
-   
+
    public EObject resolveElement(EObject eObject)
    {
       LinkAttribute.setLinkInfoAttr(eObject, getURI(), true, IConnectionManager.URI_ATTRIBUTE_NAME);
