@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.WebModelerConnectionHandler;
@@ -868,9 +869,12 @@ public class WebModelerConnectionManager implements IConnectionManager
       String id = null;
 
       WebModelerConnectionManager jcrConnectionManager = (WebModelerConnectionManager) model.getConnectionManager();
-      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(referencedModel.getId() + ".xpdl");
+      
+      Resource refRes = referencedModel.eResource();
+      String filename = refRes == null ? referencedModel.getId() + ".xpdl" : refRes.getURI().toString();
+      IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(filename);
 
-      if(findConnection == null)
+      if (findConnection == null)
       {
          try
          {
@@ -880,7 +884,7 @@ public class WebModelerConnectionManager implements IConnectionManager
 
             Attribute attribute = factory.createAttribute();
             attribute.setName("filename");
-            attribute.setValue("project:/" + referencedModel.getId() + ".xpdl"); //$NON-NLS-1$
+            attribute.setValue("project:/" + filename); //$NON-NLS-1$
             connection.getAttributes().add(attribute);
          }
          catch (CoreException e)
