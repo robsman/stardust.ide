@@ -23,7 +23,7 @@
 	1. From the Eclipse main menu choose <b>File &gt; New &gt; Other...</b><br/>
 	2. Click <b>Server &gt; Server</b>.<br/>
 	3. Click <b>Next</b>.<br/>
-	4. Select <b>Tomcat v6.0 Server</b>.<br/>
+	4. Select <b>Tomcat v7.0 Server</b>.<br/>
     5. Click <b>Finish</b> if you previously configured a Tomcat Server with your Eclipse 
       Workbench.<br/>
     6. Otherwise select <b>Next</b>.<br/>
