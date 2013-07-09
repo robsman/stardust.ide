@@ -199,7 +199,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(typeID))
       {
-         typeID = NameIdUtils.createIdFromName(typeName);
+         typeID = NameIdUtilsExtension.createIdFromName(typeName);
       }
       structuredDataType.setId(typeID);
 
@@ -312,7 +312,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(id))
       {
-         id = NameIdUtils.createIdFromName(name);
+         id = NameIdUtilsExtension.createIdFromName(name);
       }
 
       parameterType.setId(id);
@@ -911,7 +911,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(laneID))
       {
-         laneID = NameIdUtils.createIdFromName(null, laneSymbol);
+         laneID = NameIdUtilsExtension.createIdFromName(null, laneSymbol);
       }
       laneSymbol.setId(laneID);
 
@@ -3210,7 +3210,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(modelID))
       {
-         modelID = NameIdUtils.createIdFromName(modelName, ids);
+         modelID = NameIdUtilsExtension.createIdFromName(modelName, ids);
       }
       model.setId(modelID);
 

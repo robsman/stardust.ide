@@ -15,7 +15,7 @@ import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ElementBuilderUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtils;
+import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtilsExtension;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
@@ -144,7 +144,7 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
    {
       if(generatedID == null)
       {
-         generatedID = NameIdUtils.createIdFromName(getElementContainer(), element);
+         generatedID = NameIdUtilsExtension.createIdFromName(getElementContainer(), element);
          if(!StringUtils.isEmpty(element.getId()))
          {
             generatedID = element.getId();
