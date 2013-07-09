@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -76,7 +77,7 @@ public class ReferencedModelElementValidator implements IModelElementValidator
                      typeName) == null);
                if (!invalid)
                {
-                  if (!isPublic(type))
+                  if (Platform.isRunning() && !isPublic(type))
                   {
                      result.add(Issue.error(element, MessageFormat.format(
                            Validation_Messages.MODEL_ReferencedType_NotVisible,
@@ -112,7 +113,7 @@ public class ReferencedModelElementValidator implements IModelElementValidator
                   invalid = !found;
                   if (!invalid)
                   {
-                     if (!isPublic(refApp))
+                     if (Platform.isRunning() && !isPublic(refApp))
                      {
                         result.add(Issue.error(element, MessageFormat.format(
                               Validation_Messages.MODEL_ReferencedType_NotVisible,
