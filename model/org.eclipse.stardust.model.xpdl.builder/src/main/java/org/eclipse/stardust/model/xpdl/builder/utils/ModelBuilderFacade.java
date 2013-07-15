@@ -2001,7 +2001,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
+   public static ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
    {
       LaneSymbol laneSymbol = findLaneContainingActivitySymbol(diagram, oid);
 
@@ -2019,7 +2019,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
+   public static ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
       {
@@ -2038,7 +2038,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
+   public static LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
    {
       for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
       {
@@ -2057,7 +2057,7 @@ public class ModelBuilderFacade
       return null;
    }
 
-   public LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
+   public static LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
          long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
