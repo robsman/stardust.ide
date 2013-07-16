@@ -2863,7 +2863,7 @@ public class ModelBuilderFacade
       return application;
    }
 
-   public void setAttribute(Object element, String name, String value)
+   public static void setAttribute(Object element, String name, String value)
    {
       if (element instanceof Extensible)
       {
@@ -2875,10 +2875,9 @@ public class ModelBuilderFacade
       }
    }
 
-   public void setTimestampAttribute(IExtensibleElement element, String name, String value)
+   public static void setTimestampAttribute(IExtensibleElement element, String name, String value)
    {
-      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE,
-            value);
+      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE, value);
    }
 
    public Date getTimestampAttribute(IExtensibleElement element, String name)
@@ -2899,7 +2898,7 @@ public class ModelBuilderFacade
       return date;
    }
 
-   public void setBooleanAttribute(Object element, String name, boolean value)
+   public static void setBooleanAttribute(Object element, String name, boolean value)
    {
       if (element instanceof Extensible)
       {
