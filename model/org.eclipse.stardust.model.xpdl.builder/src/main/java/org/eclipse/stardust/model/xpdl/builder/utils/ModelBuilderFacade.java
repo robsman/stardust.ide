@@ -1344,11 +1344,13 @@ public class ModelBuilderFacade
             BpmApplicationActivityBuilder applicationActivity = newApplicationActivity(processDefinition);
             applicationActivity.setApplicationModel(applicationModel);
 
-            activity = applicationActivity.withIdAndName(activityID, activityName)
-                  .invokingApplication(
-                        getApplication(applicationModel.getId(),
-                              stripFullId(applicationFullID)))
-                  .build();
+            BpmApplicationActivityBuilder activityBuilder = applicationActivity.withIdAndName(
+                  activityID, activityName);
+            if (null != application)
+            {
+               activityBuilder.invokingApplication(application);
+            }
+            activity = activityBuilder.build();
 
             if (ModelerConstants.USER_TASK_KEY.equals(taskType)
                   && participantFullID != null)
