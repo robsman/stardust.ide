@@ -39,7 +39,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -59,38 +58,13 @@ public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPrope
    private LabelWithStatus lblTypeName;
 
    private TypeSelectionComposite classTypeBrowser;
-
-   private Button autoIdButton;
    private Button[] buttons;
 
-   
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            idText.getText().setEditable(false);
-            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
-            idText.getText().setText(computedId);            
-         }
-         else
-         {
-            idText.getText().setEditable(true);            
-         }         
-      }
-   };            
-   
    private ModifyListener idSyncListener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
             String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
             idText.getText().setText(computedId);
@@ -152,7 +126,6 @@ public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPrope
                PredefinedConstants.JMS_LOCATION_PROPERTY, JMSLocation.class.getName(),
                LOCATION[locationIndex][0]);
       }
-      GenericUtils.setAutoIdValue(getModelElement(), autoIdButton.getSelection());                              
    }
 
    private void bindParameterMapping()
@@ -212,15 +185,11 @@ public class JMSTriggerAccessPointPropertyPage extends AbstractModelElementPrope
       this.nameText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_Name);
       this.idText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
       
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue(getModelElement());
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          idText.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
       
       this.lblTypeName = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.LB_SPI_Type);
