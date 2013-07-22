@@ -52,15 +52,12 @@ import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-
 
 public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
 {
@@ -80,38 +77,14 @@ public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
    private IIdentifiableModelElement eventActionType;
 
    private Button[] buttons;
-   private Button autoIdButton;
 
-   
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            txtId.getText().setEditable(false);
-            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
-            txtId.getText().setText(computedId);            
-         }
-         else
-         {
-            txtId.getText().setEditable(true);            
-         }         
-      }
-   };         
-   
    private ModifyListener listener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
          Text text = (Text) e.widget;
          String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
             String computedId = NameIdUtils.createIdFromName(null, getModelElement(), name);            
             txtId.getText().setText(computedId);
@@ -149,7 +122,6 @@ public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
       {
          page.loadElementFromFields(symbol, element);
       }
-      GenericUtils.setAutoIdValue(getModelElement(), autoIdButton.getSelection());                  
    }
 
    public Control createBody(Composite content)
@@ -160,15 +132,11 @@ public class ActionTypePropertyPage extends AbstractModelElementPropertyPage
          .createLabeledText(composite, Diagram_Messages.LB_Name);
       this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
 
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue(getModelElement());
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          txtId.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
 
       FormBuilder.createLabel(composite, Diagram_Messages.LB_FORMBUILDER_ActionType);
       Combo combo = FormBuilder.createCombo(composite);

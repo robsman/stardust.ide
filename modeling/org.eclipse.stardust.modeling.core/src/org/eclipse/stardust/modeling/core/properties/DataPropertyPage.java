@@ -123,9 +123,7 @@ public class DataPropertyPage extends IdentifiablePropertyPage
       {
          txtId.getText().setEditable(!isPredefined);
          txtName.getText().setEditable(!isPredefined);
-         autoIdButton.setEnabled(false);
          txtDescription.getText().setEditable(!isPredefined);
       }
-   }  
-   
+   }     
 }
