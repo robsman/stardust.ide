@@ -44,6 +44,7 @@ public abstract class AbstractControllingPropertyPage
    private HashMap verifiers = new HashMap();
 
    private LabeledViewer combo;
+   protected boolean storeDefaultValues = true;
 
    public abstract ControllingAttribute[] getControllingAttributes();
 
@@ -92,12 +93,26 @@ public abstract class AbstractControllingPropertyPage
          {
             String value = fields[i].getText().trim();
             Verifier verifier = getVerifier(fields[i], attributes[i].type);
+            boolean modified = true;
+            String defaultValue = null;            
             if (verifier != null)
             {
+               defaultValue = verifier.getExternalValue(null);               
+               if(value.equals(defaultValue))
+               {
+                  modified = false;
+               }               
                value = verifier.getInternalValue(value);
             }
-            AttributeUtil.setAttribute((IExtensibleElement) element, PWH + attribute.id,
-                  value);
+            
+            if(modified || storeDefaultValues)
+            {
+               AttributeUtil.setAttribute((IExtensibleElement) element, PWH + attribute.id, value);
+            }
+            else
+            {
+               AttributeUtil.setAttribute((IExtensibleElement) element, PWH + attribute.id, null);
+            }
          }
       }
    }

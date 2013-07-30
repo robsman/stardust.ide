@@ -15,6 +15,11 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 
 public class ProcessDefinitionControllingPropertyPage extends AbstractControllingPropertyPage
 {
+   public ProcessDefinitionControllingPropertyPage()
+   {
+      storeDefaultValues = false;
+   }
+
    private ControllingAttribute[] controllingAttributes =
    {
       new ControllingAttribute(Diagram_Messages.LB_CostDriver, "costDriver", //$NON-NLS-1$
