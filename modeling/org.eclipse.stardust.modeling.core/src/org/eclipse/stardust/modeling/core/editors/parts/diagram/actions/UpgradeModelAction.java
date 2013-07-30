@@ -481,9 +481,6 @@ public class UpgradeModelAction extends SelectionAction
    private void createUpdateControllingAttributes(CompoundCommand command,
          ProcessDefinitionType process)
    {
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetProcessingTime"); //$NON-NLS-1$
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetExecutionTime"); //$NON-NLS-1$
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetIdleTime"); //$NON-NLS-1$
       List activities = process.getActivity();
       for (int i = 0; i < activities.size(); i++)
       {
