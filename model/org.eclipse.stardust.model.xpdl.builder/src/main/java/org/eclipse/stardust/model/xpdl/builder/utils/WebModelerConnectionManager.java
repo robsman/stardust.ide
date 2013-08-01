@@ -30,6 +30,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.WebModelerConnectionHandler;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
@@ -67,6 +69,7 @@ import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescri
 public class WebModelerConnectionManager implements IConnectionManager
 {
    private ModelManagementStrategy strategy;
+   private static final Logger trace = LogManager.getLogger(WebModelerConnectionManager.class);
 
    private static final IFilter BY_REF_FILTER = new IFilter()
    {
@@ -768,7 +771,18 @@ public class WebModelerConnectionManager implements IConnectionManager
                   }
                }
 
-               resolve(object, uri);
+               try
+               {
+                  resolve(object, uri);
+               }
+               catch (Throwable t)
+               {
+                  // Make sure that even if resolving reference fails, model is loaded
+                  trace.warn(
+                        "Failed to resolve a reference to another model. Model loaded with unsatisfied dependencies.",
+                        t);
+               }
+
             }
          }
          /*
@@ -869,7 +883,7 @@ public class WebModelerConnectionManager implements IConnectionManager
       String id = null;
 
       WebModelerConnectionManager jcrConnectionManager = (WebModelerConnectionManager) model.getConnectionManager();
-      
+
       Resource refRes = referencedModel.eResource();
       String filename = refRes == null ? referencedModel.getId() + ".xpdl" : refRes.getURI().toString();
       IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(filename);
