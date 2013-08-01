@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.xpdl.carnot.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
 
 
@@ -54,4 +55,22 @@ public class IntermediateEventSymbolImpl extends AbstractEventSymbolImpl impleme
       return CarnotWorkflowModelPackage.Literals.INTERMEDIATE_EVENT_SYMBOL;
    }
 
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated NOT
+    */
+   public void setModelElement(IIdentifiableModelElement element)
+   {
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated NOT
+    */
+   public IIdentifiableModelElement getModelElement()
+   {
+      return null;
+   }
 } //IntermediateEventSymbolImpl
