@@ -74,9 +74,9 @@ public class UnusedModelElementsSearcher
    private List processes;
    private List diagrams;
    private Set transitionDatas;
-   
+
    private Map matchedElements;
-   
+
    // search the model for all elements that are not used by other elements (also references)
    // the search should be enhanced if necessary
    public Map search(ModelType modelType)
@@ -86,7 +86,7 @@ public class UnusedModelElementsSearcher
       processes = model.getProcessDefinition();
       getTransitionDatas();
       getDiagrams();
-      
+
       checkTypeDeclarations();
       checkApplications();
       checkData();
@@ -95,13 +95,13 @@ public class UnusedModelElementsSearcher
       //checkProcesses();
       return matchedElements;
    }
-   
+
    private void getDiagrams()
    {
       diagrams = new ArrayList();
       for (Iterator i = processes.iterator(); i.hasNext();)
       {
-         ProcessDefinitionType process = (ProcessDefinitionType) i.next();   
+         ProcessDefinitionType process = (ProcessDefinitionType) i.next();
          List currentDiagrams = process.getDiagram();
          if(!currentDiagrams.isEmpty())
          {
@@ -112,9 +112,9 @@ public class UnusedModelElementsSearcher
       if(!currentDiagrams.isEmpty())
       {
          diagrams.addAll(currentDiagrams);
-      }      
+      }
    }
-   
+
    private void getTransitionDatas()
    {
       transitionDatas = new HashSet();
@@ -122,16 +122,16 @@ public class UnusedModelElementsSearcher
       List transitions = new ArrayList();
       for (Iterator i = processes.iterator(); i.hasNext();)
       {
-         ProcessDefinitionType process = (ProcessDefinitionType) i.next();   
+         ProcessDefinitionType process = (ProcessDefinitionType) i.next();
          List processTransitions = process.getTransition();
          if(!processTransitions.isEmpty())
          {
             transitions.addAll(processTransitions);
          }
-      }    
+      }
       for (Iterator it = transitions.iterator(); it.hasNext();)
       {
-         TransitionType transition = (TransitionType) it.next();   
+         TransitionType transition = (TransitionType) it.next();
          String condition = transition.getCondition();
          if(condition != null && condition.equals("CONDITION")) //$NON-NLS-1$
          {
@@ -143,18 +143,18 @@ public class UnusedModelElementsSearcher
             {
                for (Iterator i = datas.iterator(); i.hasNext();)
                {
-                  DataType data = (DataType) i.next();   
+                  DataType data = (DataType) i.next();
                   String dataId = data.getId();
                   if(expression.indexOf(dataId) != -1)
                   {
                      transitionDatas.add(data);
                   }
-               }      
+               }
             }
-         }         
-      }      
-   }   
-   
+         }
+      }
+   }
+
    private void addModelChildren(List elements)
    {
       List modelChildren = (List) matchedElements.get(model);
@@ -163,14 +163,14 @@ public class UnusedModelElementsSearcher
          modelChildren = new ArrayList();
       }
       modelChildren.addAll(elements);
-      matchedElements.put(model, modelChildren);      
-   }   
-   
+      matchedElements.put(model, modelChildren);
+   }
+
    // can be referenced only by other TypeDeclarations and data (and message applications?)
    private void checkTypeDeclarations()
    {
       List elements = new ArrayList();
-      
+
       List typeDeclarations = model.getTypeDeclarations().getTypeDeclaration();
       if(typeDeclarations.isEmpty())
       {
@@ -178,7 +178,7 @@ public class UnusedModelElementsSearcher
       }
       for (Iterator i = typeDeclarations.iterator(); i.hasNext();)
       {
-         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();    
+         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();
          if(!isTypeDeclarationUsedInDatas(typeDeclaration)
                && !isTypeDeclarationUsedInTypeDeclarations(typeDeclaration)
                && !isTypeDeclarationUsedInProcesses(typeDeclaration)
@@ -186,18 +186,18 @@ public class UnusedModelElementsSearcher
          {
             elements.add(typeDeclaration);
          }
-      }      
+      }
       if(!elements.isEmpty())
       {
          addModelChildren(elements);
       }
-   }   
+   }
 
    // can be referenced by activities
    private void checkApplications()
    {
       List elements = new ArrayList();
-      
+
       List applications = model.getApplication();
       if(applications.isEmpty())
       {
@@ -205,7 +205,7 @@ public class UnusedModelElementsSearcher
       }
       for (Iterator i = applications.iterator(); i.hasNext();)
       {
-         ApplicationType application = (ApplicationType) i.next();   
+         ApplicationType application = (ApplicationType) i.next();
          if(!isElementUsedInProcesses(application))
          {
             elements.add(application);
@@ -219,15 +219,15 @@ public class UnusedModelElementsSearcher
 
    private void checkData()
    {
-      List elements = new ArrayList();      
+      List elements = new ArrayList();
       List datas = model.getData();
       if(datas.isEmpty())
       {
          return;
-      }      
+      }
       for (Iterator i = datas.iterator(); i.hasNext();)
       {
-         DataType data = (DataType) i.next();   
+         DataType data = (DataType) i.next();
          // we will not check predefined data
          if(!data.isPredefined())
          {
@@ -237,21 +237,21 @@ public class UnusedModelElementsSearcher
                   && !transitionDatas.contains(data))
             {
                elements.add(data);
-            }            
+            }
          }
-      }      
+      }
       if(!elements.isEmpty())
       {
          addModelChildren(elements);
-      }      
+      }
    }
-   
+
    // lanes can also reference participants
    private void checkIModelParticipants()
    {
-      List elements = new ArrayList();  
+      List elements = new ArrayList();
       List participants = new ArrayList();
-      
+
       List roles = model.getRole();
       List conditionalPerformers = model.getConditionalPerformer();
       List organizations = model.getOrganization();
@@ -269,7 +269,7 @@ public class UnusedModelElementsSearcher
       }
       for (Iterator i = participants.iterator(); i.hasNext();)
       {
-         IModelParticipant element = (IModelParticipant) i.next();   
+         IModelParticipant element = (IModelParticipant) i.next();
          // we will not check Administrator role
          if(!element.getId().equals(PredefinedConstants.ADMINISTRATOR_ROLE))
          {
@@ -277,7 +277,7 @@ public class UnusedModelElementsSearcher
                   && !isElementUsedInProcesses(element))
             {
                elements.add(element);
-            }            
+            }
          }
       }
       if(!elements.isEmpty())
@@ -291,7 +291,7 @@ public class UnusedModelElementsSearcher
    private void checkProcesses()
    {
       List elements = new ArrayList();
-      
+
       List processes = model.getProcessDefinition();
       if(processes.isEmpty())
       {
@@ -302,7 +302,7 @@ public class UnusedModelElementsSearcher
       // if a child is unused, then the process is a container (do not delete container)
       for (Iterator i = processes.iterator(); i.hasNext();)
       {
-         ProcessDefinitionType process = (ProcessDefinitionType) i.next();   
+         ProcessDefinitionType process = (ProcessDefinitionType) i.next();
          if(process.getEventHandler().isEmpty()
                && process.getDataPath().isEmpty()
                && process.getExecutingActivities().isEmpty())
@@ -313,12 +313,12 @@ public class UnusedModelElementsSearcher
       if(!elements.isEmpty())
       {
          addModelChildren(elements);
-      }      
-   }   
-      
+      }
+   }
+
    private void checkLinkTypes()
    {
-      List elements = new ArrayList();      
+      List elements = new ArrayList();
       List linkTypes = model.getLinkType();
       if(linkTypes.isEmpty())
       {
@@ -326,10 +326,10 @@ public class UnusedModelElementsSearcher
       }
       for (Iterator i = linkTypes.iterator(); i.hasNext();)
       {
-         LinkTypeType linkType = (LinkTypeType) i.next();   
+         LinkTypeType linkType = (LinkTypeType) i.next();
          if(!isLinkTypeUsedinDiagrams(linkType))
          {
-            elements.add(linkType);            
+            elements.add(linkType);
          }
       }
       if(!elements.isEmpty())
@@ -337,53 +337,53 @@ public class UnusedModelElementsSearcher
          addModelChildren(elements);
       }
    }
-      
-   //////////////////////////////////////////////   
-   
+
+   //////////////////////////////////////////////
+
    private boolean isElementUsedinApplications(EObject element)
    {
       List applications = model.getApplication();
       for (Iterator it = applications.iterator(); it.hasNext();)
       {
-         ApplicationType application = (ApplicationType) it.next();   
+         ApplicationType application = (ApplicationType) it.next();
          List accessPoints = application.getAccessPoint();
          for (Iterator i = accessPoints.iterator(); i.hasNext();)
          {
-            AccessPointType accessPoint = (AccessPointType) i.next(); 
+            AccessPointType accessPoint = (AccessPointType) i.next();
             TypeDeclarationType declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                   accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if(declaration != null && declaration.equals(element))
             {
                return true;
-            }            
+            }
          }
          for (ContextType context : application.getContext())
          {
             accessPoints = context.getAccessPoint();
             for (Iterator i = accessPoints.iterator(); i.hasNext();)
             {
-               AccessPointType accessPoint = (AccessPointType) i.next(); 
+               AccessPointType accessPoint = (AccessPointType) i.next();
                TypeDeclarationType declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                      accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
                if(declaration != null && declaration.equals(element))
                {
                   return true;
-               }            
-            }            
-         }            
-      }   
+               }
+            }
+         }
+      }
       return false;
    }
-   
+
    private boolean isLinkTypeUsedinDiagrams(LinkTypeType link)
    {
       for (Iterator it = diagrams.iterator(); it.hasNext();)
       {
-         DiagramType diagram = (DiagramType) it.next();  
+         DiagramType diagram = (DiagramType) it.next();
          List pools = ((DiagramType) diagram).getPoolSymbols();
          for(int p = 0; p < pools.size(); p++)
          {
-            PoolSymbol pool = (PoolSymbol) pools.get(p);             
+            PoolSymbol pool = (PoolSymbol) pools.get(p);
             EList genericLinks = ((PoolSymbol) pool).getGenericLinkConnection();
             for (int i = 0; i < genericLinks.size(); i++)
             {
@@ -397,8 +397,8 @@ public class UnusedModelElementsSearcher
             if(isLinkTypeUsedinLanes(pool, link))
             {
                return true;
-            }            
-         }            
+            }
+         }
          EList genericLinks = diagram.getGenericLinkConnection();
          for (int i = 0; i < genericLinks.size(); i++)
          {
@@ -408,29 +408,29 @@ public class UnusedModelElementsSearcher
             {
                return true;
             }
-         }            
-      }      
+         }
+      }
       return false;
    }
-   
+
    private boolean isTypeDeclarationUsedInTypeDeclarations(TypeDeclarationType element)
    {
       List typeDeclarations = model.getTypeDeclarations().getTypeDeclaration();
       for (Iterator i = typeDeclarations.iterator(); i.hasNext();)
       {
-         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();    
+         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();
          XSDSchema schema = typeDeclaration.getSchema();
          if(schema != null)
          {
              List xsdImports = TypeDeclarationUtils.getImports(schema);
              if(xsdImports != null)
              {
-                 Iterator it = xsdImports.iterator(); 
-                 while (it.hasNext()) 
+                 Iterator it = xsdImports.iterator();
+                 while (it.hasNext())
                  {
                      XSDImport xsdImport = (XSDImport) it.next();
                      String schemaLocation = xsdImport.getSchemaLocation();
-                     if (schemaLocation != null)         
+                     if (schemaLocation != null)
                      {
                          if(schemaLocation.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
                          {
@@ -439,21 +439,21 @@ public class UnusedModelElementsSearcher
                              {
                                 return true;
                              }
-                         }           
-                     }           
+                         }
+                     }
                  }
-             }           
-         }       
+             }
+         }
       }
       return false;
    }
-   
+
    private boolean isTypeDeclarationUsedInDatas(TypeDeclarationType element)
    {
       List datas = model.getData();
       for (Iterator i = datas.iterator(); i.hasNext();)
       {
-         DataType data = (DataType) i.next();   
+         DataType data = (DataType) i.next();
          DataTypeType type = data.getType();
          if(type != null && type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
          {
@@ -470,11 +470,11 @@ public class UnusedModelElementsSearcher
             {
                return true;
             }
-         }               
+         }
       }
       return false;
    }
-   
+
    // maybe not necessary, because can be bound only if a data is selected also
    private boolean isTypeDeclarationUsedInProcesses(TypeDeclarationType element)
    {
@@ -500,14 +500,14 @@ public class UnusedModelElementsSearcher
          }
       }
       return false;
-   }   
-   
+   }
+
    private boolean isParticipantUsedInOrganizations(IModelParticipant element)
    {
       List organizations = model.getOrganization();
       for (Iterator i = organizations.iterator(); i.hasNext();)
       {
-         OrganizationType organization = (OrganizationType) i.next();   
+         OrganizationType organization = (OrganizationType) i.next();
          List participants = organization.getParticipant();
          for(int cnt = 0; cnt < participants.size(); cnt++)
          {
@@ -515,8 +515,8 @@ public class UnusedModelElementsSearcher
             if(participant.equals(element))
             {
                return true;
-            }            
-         }         
+            }
+         }
          RoleType role = organization.getTeamLead();
          if(role != null && role.equals(element))
          {
@@ -524,8 +524,8 @@ public class UnusedModelElementsSearcher
          }
       }
       return false;
-   }         
-   
+   }
+
    private boolean isDataUsedInOrganization(DataType element)
    {
       List<OrganizationType> organizations = model.getOrganization();
@@ -533,7 +533,7 @@ public class UnusedModelElementsSearcher
       {
          if(AttributeUtil.getBooleanValue((IExtensibleElement) organization, PredefinedConstants.BINDING_ATT))
          {
-            String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) organization, PredefinedConstants.BINDING_DATA_ID_ATT);               
+            String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) organization, PredefinedConstants.BINDING_DATA_ID_ATT);
             if(!StringUtils.isEmpty(dataId))
             {
                DataType data = (DataType) ModelUtils.findElementById(model.getData(), dataId);
@@ -541,21 +541,21 @@ public class UnusedModelElementsSearcher
                {
                   return true;
                }
-            }            
+            }
          }
       }
       return false;
-   }         
-   
+   }
+
    private boolean isDataUsedInConditionalPerformer(DataType element)
    {
       List conditionalPerformers = model.getConditionalPerformer();
       for (Iterator i = conditionalPerformers.iterator(); i.hasNext();)
       {
-         ConditionalPerformerType conditionalPerformer = (ConditionalPerformerType) i.next();   
+         ConditionalPerformerType conditionalPerformer = (ConditionalPerformerType) i.next();
          DataType dataType = conditionalPerformer.getData();
          if(dataType != null && dataType.equals(element))
-         {                  
+         {
             return true;
          }
          String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) conditionalPerformer, PredefinedConstants.CONDITIONAL_PERFORMER_REALM_DATA);
@@ -563,14 +563,14 @@ public class UnusedModelElementsSearcher
          {
             DataType realmData = (DataType) ModelUtils.findElementById(model.getData(), dataId);
             if(realmData != null && realmData.equals(element))
-            {                  
+            {
                return true;
             }
          }
       }
       return false;
-   }         
-   
+   }
+
    private boolean isElementUsedInProcesses(EObject element)
    {
       for (Iterator i = processes.iterator(); i.hasNext();)
@@ -578,28 +578,28 @@ public class UnusedModelElementsSearcher
          ProcessDefinitionType process = (ProcessDefinitionType) i.next();
          if(isElementUsedInEventHandlers(process.getEventHandler(), element))
          {
-            return true;            
-         }         
+            return true;
+         }
          if(isElementUsedInActivities(process, element))
          {
             return true;
          }
          if(isElementUsedInTriggers(process, element))
          {
-            return true;            
+            return true;
          }
          if(isParticipantUsedInProcessDiagrams(process, element))
          {
-            return true;            
-         }     
+            return true;
+         }
          if(isDataUsedInProcess(process, element))
          {
-            return true;            
-         }     
-         
+            return true;
+         }
+
          List dataPathList = process.getDataPath();
          for (Iterator it = dataPathList.iterator(); it.hasNext();)
-         {               
+         {
             DataPathType dataPath = (DataPathType) it.next();
             DataType data = dataPath.getData();
             if(data != null && data.equals(element))
@@ -614,7 +614,7 @@ public class UnusedModelElementsSearcher
    private boolean isDataUsedInProcess(ProcessDefinitionType process, EObject element)
    {
       if(element instanceof DataType)
-      {      
+      {
          FormalParameterMappingsType mappings = process.getFormalParameterMappings();
          FormalParametersType formalParameters = process.getFormalParameters();
          if(formalParameters != null && formalParameters.getFormalParameter() != null)
@@ -622,7 +622,7 @@ public class UnusedModelElementsSearcher
             for(FormalParameterType type : formalParameters.getFormalParameter())
             {
                DataType mappedData = null;
-               
+
                try
                {
                   mappedData = mappings.getMappedData(type);
@@ -630,15 +630,15 @@ public class UnusedModelElementsSearcher
                catch (NullPointerException e)
                {
                }
-               
+
                if(mappedData != null && mappedData.equals(element))
                {
                   return true;
-               }               
+               }
             }
          }
       }
-      
+
       return false;
    }
 
@@ -647,14 +647,14 @@ public class UnusedModelElementsSearcher
       List activities = process.getActivity();
       for (Iterator it = activities.iterator(); it.hasNext();)
       {
-         ActivityType activity = (ActivityType) it.next();   
+         ActivityType activity = (ActivityType) it.next();
          if(isElementUsedInDataMappings(activity, element))
          {
             return true;
          }
          if(isElementUsedInEventHandlers(activity.getEventHandler(), element))
          {
-            return true;            
+            return true;
          }
          ApplicationType activityApplication = activity.getApplication();
          if(activityApplication != null)
@@ -670,7 +670,7 @@ public class UnusedModelElementsSearcher
             if(activityProcess.equals(element))
             {
                return true;
-            }            
+            }
          }
          IModelParticipant activityParticipant = activity.getPerformer();
          if(activityParticipant != null)
@@ -678,12 +678,12 @@ public class UnusedModelElementsSearcher
             if(activityParticipant.equals(element))
             {
                return true;
-            }            
+            }
          }
-      }      
+      }
       return false;
    }
-   
+
    private boolean isElementUsedInDataMappings(ActivityType activity, EObject element)
    {
       List dataMappings = activity.getDataMapping();
@@ -694,26 +694,26 @@ public class UnusedModelElementsSearcher
          if(data != null && data.equals(element))
          {
             return true;
-         }         
-      }    
+         }
+      }
       return false;
    }
-   
+
    private boolean isElementUsedInEventHandlers(List eventHandlers, EObject element)
    {
       for (Iterator it = eventHandlers.iterator(); it.hasNext();)
       {
-         EventHandlerType eventHandler = (EventHandlerType) it.next();   
+         EventHandlerType eventHandler = (EventHandlerType) it.next();
          List eventActions = eventHandler.getEventAction();
          for (Iterator a = eventActions.iterator(); a.hasNext();)
          {
-            EventActionType actionType = (EventActionType) a.next();   
+            EventActionType actionType = (EventActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -722,22 +722,22 @@ public class UnusedModelElementsSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
+         }
          List bindActions = eventHandler.getBindAction();
          for (Iterator a = bindActions.iterator(); a.hasNext();)
          {
-            BindActionType actionType = (BindActionType) a.next();   
+            BindActionType actionType = (BindActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -746,22 +746,22 @@ public class UnusedModelElementsSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
+         }
          List unbindActions = eventHandler.getUnbindAction();
          for (Iterator a = unbindActions.iterator(); a.hasNext();)
          {
-            UnbindActionType actionType = (UnbindActionType) a.next();   
+            UnbindActionType actionType = (UnbindActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -770,22 +770,22 @@ public class UnusedModelElementsSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
-      }    
+         }
+      }
       return false;
-   }   
-   
+   }
+
    private boolean isElementUsedInTriggers(ProcessDefinitionType process, EObject element)
    {
       List triggers = process.getTrigger();
       for (Iterator it = triggers.iterator(); it.hasNext();)
       {
-         TriggerType trigger = (TriggerType) it.next();   
+         TriggerType trigger = (TriggerType) it.next();
          EList attributes = trigger.getAttribute();
          for(int a = 0; a < attributes.size(); a++)
          {
@@ -808,54 +808,54 @@ public class UnusedModelElementsSearcher
             if(data != null && data.equals(element))
             {
                return true;
-            }                     
-         }         
+            }
+         }
       }
       return false;
-   }   
-   
+   }
+
    private boolean isParticipantUsedInProcessDiagrams(ProcessDefinitionType process, EObject element)
    {
       if(element instanceof IModelParticipant)
-      {         
+      {
          List diagrams = process.getDiagram();
          for (Iterator it = diagrams.iterator(); it.hasNext();)
          {
-            DiagramType diagram = (DiagramType) it.next();   
+            DiagramType diagram = (DiagramType) it.next();
             List pools = ((DiagramType) diagram).getPoolSymbols();
             for (Iterator p = pools.iterator(); p.hasNext();)
             {
-               PoolSymbol pool = (PoolSymbol) p.next();   
+               PoolSymbol pool = (PoolSymbol) p.next();
                if(!pool.getLanes().isEmpty())
                {
                   return isParticipantUsedInLanes(pool, element);
                }
-            }            
+            }
          }
       }
       return false;
-   }  
+   }
 
    private boolean isParticipantUsedInLanes(ISwimlaneSymbol container, EObject element)
    {
       if(element instanceof IModelParticipant)
-      {                  
+      {
          for (LaneSymbol lane : container.getChildLanes())
          {
-            IModelParticipant participant = lane.getParticipantReference();                  
+            IModelParticipant participant = lane.getParticipantReference();
             if(participant != null && participant.equals(element))
             {
                return true;
-            }                  
+            }
             if(!lane.getChildLanes().isEmpty())
             {
                return isParticipantUsedInLanes(lane, element);
-            }            
+            }
          }
       }
       return false;
-   }  
-   
+   }
+
    private boolean isLinkTypeUsedinLanes(ISwimlaneSymbol container, LinkTypeType link)
    {
       for (LaneSymbol lane : container.getChildLanes())
@@ -873,24 +873,27 @@ public class UnusedModelElementsSearcher
          if(!lane.getChildLanes().isEmpty())
          {
             return isLinkTypeUsedinLanes(lane, link);
-         }            
-      }    
-      
+         }
+      }
+
       return false;
-   }   
-   
+   }
+
    private boolean isDMSDataType(DataType data)
    {
       // DMS
-      if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
-            || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
-            || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT)
-            || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST)
-            || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER)
-            || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER_LIST))
+      if (data.getType() != null)
       {
-         return true;         
-      }   
+         if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
+               || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
+               || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT)
+               || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST)
+               || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER)
+               || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER_LIST))
+         {
+            return true;
+         }
+      }
       return false;
-   }      
+   }
 }
