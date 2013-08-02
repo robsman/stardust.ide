@@ -11,11 +11,9 @@
 package org.eclipse.stardust.modeling.validation.util;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -27,19 +25,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jdt.core.CompletionProposal;
-import org.eclipse.jdt.core.CompletionRequestor;
-import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.common.StringUtils;
@@ -54,7 +44,7 @@ import org.osgi.framework.Bundle;
  */
 public class TypeFinder
 {
-   private static final Class[] PRIMITIVE_TYPES = new Class[] {
+   private static final Class<?>[] PRIMITIVE_TYPES = new Class[] {
          Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE,
          Float.TYPE, Double.TYPE};
 
@@ -174,7 +164,7 @@ public class TypeFinder
 
    public IType findExactType(String proto)
    {
-      Class primitiveWrapper = getPrimitiveWrapper(proto);
+      Class<?> primitiveWrapper = getPrimitiveWrapper(proto);
       if (null != primitiveWrapper)
       {
          proto = primitiveWrapper.getName();
@@ -216,25 +206,25 @@ public class TypeFinder
       return result[0];
    }
 
-   public List getMethods(IType type, String hint)
+   public List<MethodInfo> getMethods(IType type, String hint)
    {
       return codeComplete(type, hint.toCharArray());
    }
 
-   public List getMethods(IType type)
+   public List<MethodInfo> getMethods(IType type)
    {
       return codeComplete(type, new char[0]);
    }
 
-   public List getConstructors(IType type)
+   public List<MethodInfo> getConstructors(IType type)
    {
       return codeComplete(type,
             ("new " + type.getFullyQualifiedName() + "(").toCharArray()); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
-   private List codeComplete(IType type, final char[] snippet)
+   private List<MethodInfo> codeComplete(IType type, final char[] snippet)
    {
-      final List methods = new ArrayList();
+      final List<MethodInfo> methods = CollectionUtils.newList();
       try
       {
          type.codeComplete(snippet, -1, snippet.length, new char[0][0], new char[0][0],
@@ -397,7 +387,7 @@ public class TypeFinder
 
    public static String getClassFromAbbreviatedName(String className)
    {
-      Class resolvedClass = null;
+      Class<?> resolvedClass = null;
 
       if (StringUtils.isEmpty(className))
       {
@@ -480,9 +470,8 @@ public class TypeFinder
    {
       String compactCtorName = StringUtils.replace(ctorName, ", ", ","); //$NON-NLS-1$ //$NON-NLS-2$
 
-      for (Iterator i = getConstructors(type).iterator(); i.hasNext();)
+      for (MethodInfo candidate : getConstructors(type))
       {
-         MethodInfo candidate = (MethodInfo) i.next();
          if (compactCtorName.equals(candidate.getEncoded()))
          {
             return candidate;
@@ -498,9 +487,8 @@ public class TypeFinder
       int idxBrace = compactMethodName.indexOf('(');
       String baseName = compactMethodName.substring(0, idxBrace + 1);
 
-      for (Iterator i = getMethods(type, baseName).iterator(); i.hasNext();)
+      for (MethodInfo candidate : getMethods(type, baseName))
       {
-         MethodInfo candidate = (MethodInfo) i.next();
          if (compactMethodName.equals(StringUtils.replace(candidate.getEncoded(), ", ", //$NON-NLS-1$
                ","))) //$NON-NLS-1$
          {
@@ -515,9 +503,9 @@ public class TypeFinder
       return project;
    }
 
-   public static Class getPrimitiveWrapper(String primitiveType)
+   public static Class<?> getPrimitiveWrapper(String primitiveType)
    {
-      Class result = null;
+      Class<?> result = null;
 
       if (primitiveType.endsWith("[]")) //$NON-NLS-1$
       {
@@ -564,7 +552,7 @@ public class TypeFinder
       return result;
    }
 
-   public List getMethods(TypeInfo type, String fragmentName)
+   public List<MethodInfo> getMethods(TypeInfo type, String fragmentName)
    {
       try
       {
@@ -574,10 +562,10 @@ public class TypeFinder
       {
          log(e.getJavaModelStatus());
       }
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
    }
 
-   public List getConstructors(TypeInfo type)
+   public List<MethodInfo> getConstructors(TypeInfo type)
    {
       try
       {
@@ -587,7 +575,7 @@ public class TypeFinder
       {
          log(e.getJavaModelStatus());
       }
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
    }
    
    public EObject getModelElement()

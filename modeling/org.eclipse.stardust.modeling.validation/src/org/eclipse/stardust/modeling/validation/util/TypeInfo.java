@@ -11,22 +11,13 @@
 package org.eclipse.stardust.modeling.validation.util;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
-import org.eclipse.jdt.core.ITypeParameter;
-import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.internal.core.BinaryType;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.annotations.ParameterName;
+import org.eclipse.stardust.common.annotations.ParameterNames;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 
@@ -34,7 +25,7 @@ public class TypeInfo
 {
    private static final String EXTENDS = " extends "; //$NON-NLS-1$
    private IType type;
-   private Map parameterMapping = new HashMap();
+   private Map<String, String> parameterMapping = CollectionUtils.newMap();
    private TypeFinder finder;
 
    public TypeInfo(TypeFinder finder, IType type, String parameterString)
@@ -50,7 +41,7 @@ public class TypeInfo
    {
       if (parameterString != null)
       {
-         List parameters = split(strip(parameterString.trim()));
+         List<String> parameters = split(strip(parameterString.trim()));
          ITypeParameter[] types = type.getTypeParameters();
          for (int i = 0; i < types.length && i < parameters.size(); i++)
          {
@@ -59,40 +50,35 @@ public class TypeInfo
       }
    }
    
-   public List getConstructors() throws JavaModelException
+   public List<MethodInfo> getConstructors() throws JavaModelException
    {
-      Map methods = new HashMap();
-      fetchMethods(methods, true);
-      List result = new ArrayList();
-      result.addAll(methods.values());
-      return result;
+      Map<String, MethodInfo> constructorInfos = CollectionUtils.newMap();
+      fetchMethods(constructorInfos, true);
+      return CollectionUtils.newList(constructorInfos.values());
    }
    
-   public List getFields() throws JavaModelException
+   public List<FieldInfo> getFields() throws JavaModelException
    {
-      Map fields = new HashMap();
-      Set visitedFields = new HashSet();
-      fetchFields(fields, visitedFields);
-      List result = new ArrayList();
-      result.addAll(fields.values());
-      return result;
+      Map<String, FieldInfo> fieldInfos = CollectionUtils.newMap();
+      fetchFields(fieldInfos, CollectionUtils.<String>newSet());
+      return CollectionUtils.newList(fieldInfos.values());
    }
 
-   private void fetchFields(Map list, Set visitedFields) throws JavaModelException
+   private void fetchFields(Map<String, FieldInfo> fieldInfos, Set<String> visitedFields) throws JavaModelException
    {
-      fetchFields(list, false);
+      fetchFields(fieldInfos, false);
       if (!type.isInterface())
       {
-         fetchFields(list, visitedFields, type.getSuperclassTypeSignature());
+         fetchFields(fieldInfos, visitedFields, type.getSuperclassTypeSignature());
       }
       String[] interfaces = type.getSuperInterfaceTypeSignatures();
       for (int i = 0; i < interfaces.length; i++)
       {
-         fetchFields(list, visitedFields, interfaces[i]);
+         fetchFields(fieldInfos, visitedFields, interfaces[i]);
       }
    }
 
-   private void fetchFields(Map list, Set visitedFields,
+   private void fetchFields(Map<String, FieldInfo> fieldInfos, Set<String> visitedFields,
          String typeSignature) throws JavaModelException
    {
       String superType = typeSignature == null
@@ -109,12 +95,12 @@ public class TypeInfo
          }
          else
          {
-            descriptor.fetchFields(list, visitedFields);
+            descriptor.fetchFields(fieldInfos, visitedFields);
          }
       }
    }
 
-   private void fetchFields(Map list, boolean constructors)
+   private void fetchFields(Map<String, FieldInfo> fieldInfos, boolean constructors)
       throws JavaModelException
    {
       IField[] fields = type.getFields();
@@ -126,38 +112,35 @@ public class TypeInfo
          String fieldType = field.getTypeSignature();
          String parameterType = resolveSignature(fieldType);
          FieldInfo info = new FieldInfo(fieldName, parameterType, field.getFlags());            
-         if (!list.containsKey(fieldName))
+         if (!fieldInfos.containsKey(fieldName))
          {
-            list.put(fieldName, info);
+            fieldInfos.put(fieldName, info);
          }
       }
    }   
    
-   public List getMethods() throws JavaModelException
+   public List<MethodInfo> getMethods() throws JavaModelException
    {
-      Map methods = new HashMap();
-      Set visitedTypeNames = new HashSet();
-      fetchMethods(methods, visitedTypeNames);
-      List result = new ArrayList();
-      result.addAll(methods.values());
-      return result;
+      Map<String, MethodInfo> methodInfos = CollectionUtils.newMap();
+      fetchMethods(methodInfos, CollectionUtils.<String>newSet());
+      return CollectionUtils.newList(methodInfos.values());
    }
 
-   private void fetchMethods(Map list, Set visitedTypeNames) throws JavaModelException
+   private void fetchMethods(Map<String, MethodInfo> methodInfos, Set<String> visitedTypeNames) throws JavaModelException
    {
-      fetchMethods(list, false);
+      fetchMethods(methodInfos, false);
       if (!type.isInterface())
       {
-         fetchMethods(list, visitedTypeNames, type.getSuperclassTypeSignature());
+         fetchMethods(methodInfos, visitedTypeNames, type.getSuperclassTypeSignature());
       }
       String[] interfaces = type.getSuperInterfaceTypeSignatures();
       for (int i = 0; i < interfaces.length; i++)
       {
-         fetchMethods(list, visitedTypeNames, interfaces[i]);
+         fetchMethods(methodInfos, visitedTypeNames, interfaces[i]);
       }
    }
 
-   private void fetchMethods(Map list, Set visitedTypeNames,
+   private void fetchMethods(Map<String, MethodInfo> methodInfos, Set<String> visitedTypeNames,
          String typeSignature) throws JavaModelException
    {
       String superType = typeSignature == null
@@ -172,41 +155,121 @@ public class TypeInfo
          }
          else
          {
-            descriptor.fetchMethods(list, visitedTypeNames);
+            descriptor.fetchMethods(methodInfos, visitedTypeNames);
          }
       }
    }
 
-   private void fetchMethods(Map list, boolean constructors)
+   private void fetchMethods(Map<String, MethodInfo> methodInfos, boolean constructors)
       throws JavaModelException
    {
-      IMethod[] methods = type.getMethods();
-      for (int i = 0; i < methods.length; i++)
+      for (IMethod method : type.getMethods())
       {
-         IMethod mtd = methods[i];
-         if (constructors == mtd.isConstructor()
-               && !(mtd.getElementType() == IMethod.INITIALIZER))
+         if (constructors == method.isConstructor()
+               && !(method.getElementType() == IMethod.INITIALIZER))
          {
-            String methodName = mtd.getElementName();
-            String[] parameterSignatures = mtd.getParameterTypes();
+            String methodName = method.getElementName();
+            
+            String[] parameterNames = getParameterNames(method);
+            
+            String[] parameterSignatures = method.getParameterTypes();
             String[] parameterTypes = new String[parameterSignatures.length];
             for (int j = 0; j < parameterSignatures.length; j++)
             {
                parameterTypes[j] = resolveSignature(parameterSignatures[j]);
             }
-            String returnSignature = mtd.getReturnType();
+            String returnSignature = method.getReturnType();
             String returnType = resolveSignature(returnSignature);
-            boolean accessible = Flags.isPublic(mtd.getFlags());
-            MethodInfo info = new MethodInfo(constructors,
-                  methodName, parameterSignatures, parameterTypes,
+            boolean accessible = Flags.isPublic(method.getFlags());
+            MethodInfo info = new MethodInfo(constructors, methodName,
+                  parameterSignatures, parameterTypes, parameterNames,
                   returnSignature, returnType, accessible);
             String key = info.getEncoded();
-            if (!list.containsKey(key))
+            if (!methodInfos.containsKey(key))
             {
-               list.put(key, info);
+               methodInfos.put(key, info);
             }
          }
       }
+   }
+
+   private String[] getParameterNames(IMethod method) throws JavaModelException
+   {
+      String[] parameterNames = method.getParameterNames();
+      IAnnotation parameterNamesAnnotation = findParameterNames(method);
+      if (parameterNamesAnnotation != null)
+      {
+         IAnnotation[] names = getParameterNamesValues(parameterNamesAnnotation);
+         if (names != null)
+         {
+            for (int c = 0, i = 0; i < names.length && i < parameterNames.length; i++)
+            {
+               IAnnotation nameAnnotation = names[i];
+               if (matchAnnotation(ParameterName.class, nameAnnotation.getElementName()))
+               {
+                  parameterNames[c++] = getParameterName(nameAnnotation);
+               }
+            }
+         }
+      }
+      return parameterNames;
+   }
+
+   private String getParameterName(IAnnotation nameAnnotation) throws JavaModelException
+   {
+      IMemberValuePair[] values = nameAnnotation.getMemberValuePairs();
+      for (IMemberValuePair pair : values)
+      {
+         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_STRING)
+         {
+            Object value = pair.getValue();
+            if (!value.getClass().isArray())
+            {
+               return (String) value;
+            }
+         }
+      }
+      return null;
+   }
+
+   private IAnnotation[] getParameterNamesValues(IAnnotation parameterNamesAnnotation) throws JavaModelException
+   {
+      // (fh) this complex checking is required since we're not actually sure that
+      // the annotation is the one we're looking for.
+      IMemberValuePair[] values = parameterNamesAnnotation.getMemberValuePairs();
+      for (IMemberValuePair pair : values)
+      {
+         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_ANNOTATION)
+         {
+            Object value = pair.getValue();
+            if (value.getClass().isArray())
+            {
+               Object[] array = (Object[]) value;
+               IAnnotation[] annotations = new IAnnotation[array.length];
+               System.arraycopy(array, 0, annotations, 0, array.length);
+               return annotations;
+            }
+         }
+      }
+      return null;
+   }
+
+   private IAnnotation findParameterNames(IMethod method) throws JavaModelException
+   {
+      for (IAnnotation annotation : method.getAnnotations())
+      {
+         if (matchAnnotation(ParameterNames.class, annotation.getElementName()))
+         {
+            return annotation;
+         }
+      }
+      return null;
+   }
+
+   private boolean matchAnnotation(Class<?> clazz, String elementName)
+   {
+      return clazz.getSimpleName().equals(elementName)
+            || clazz.getName().equals(elementName);
    }
 
    private String resolveSignature(String signature) throws JavaModelException
@@ -233,7 +296,7 @@ public class TypeInfo
       {
          return ""; //$NON-NLS-1$
       }
-      List parameters = split(strip(parameterString.trim()));
+      List<String> parameters = split(strip(parameterString.trim()));
       StringBuffer builder = new StringBuffer();
       builder.append('<');
       for (int i = 0; i < parameters.size(); i++)
@@ -295,9 +358,9 @@ public class TypeInfo
       return value;
    }
 
-   private List split(String typeList)
+   private List<String> split(String typeList)
    {
-      List parameters = new ArrayList();
+      List<String> parameters = CollectionUtils.newList();
       if (typeList.length() > 0)
       {
          int start = 0;

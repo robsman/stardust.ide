@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.validation.util;
 
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.stardust.common.StringUtils;
 
 /**
  * @author fherinean
@@ -31,12 +32,13 @@ public class MethodInfo
    private boolean hasReturn;
    private boolean isPrimitiveReturn;
    private boolean isArrayReturn;
+   private String[] paramLabels;
 
    public MethodInfo(boolean constructor, char[] name, char[] signature,
          boolean isAccessible)
    {
       this(constructor, new String(name), getParameterSignatures(signature),
-            getParameterTypes(signature), getReturnSignature(signature),
+            getParameterTypes(signature), null, getReturnSignature(signature),
             getReturnType(signature), isAccessible);
    }
 
@@ -74,8 +76,9 @@ public class MethodInfo
       return signatures;
    }
 
-   public MethodInfo(boolean constructor, String name, String[] parameterSignatures,
-         String[] parameterTypes, String returnSignature, String returnType, boolean isAccessible)
+   public MethodInfo(boolean constructor, String name,
+         String[] parameterSignatures, String[] parameterTypes, String[] parameterLabels,
+         String returnSignature, String returnType, boolean isAccessible)
    {
       this.constructor = constructor;
       this.usedForObjectCreation = constructor;
@@ -100,6 +103,7 @@ public class MethodInfo
       this.label = nameBuffer.toString();
       encoded = encodedBuffer.toString();
       
+      paramLabels = parameterLabels;
       paramNames = new String[parameterSignatures.length];
       for (int i = 0; i < parameterSignatures.length; i++)
       {
@@ -178,6 +182,16 @@ public class MethodInfo
    public boolean isPrimitiveReturn()
    {
       return isPrimitiveReturn;
+   }
+
+   public String getParameterLabel(int index)
+   {
+      return hasLabel(index) ? paramLabels[index] : paramNames[index];
+   }
+
+   private boolean hasLabel(int index)
+   {
+      return paramLabels != null && index >= 0 && index < paramLabels.length && !StringUtils.isEmpty(paramLabels[index]);
    }
 
    public String getParameterName(int index)

@@ -540,29 +540,29 @@ public class JavaScriptInferenceEngine extends InferEngine
           String[] parameterTypes = {}; 
           List methods = typeInfo.getMethods();         
           if (className.endsWith("ActivityInstance")) { //$NON-NLS-1$
-             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, "J", "long", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, null, "J", "long", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
           }
           if (className.endsWith("Activity")) {             //$NON-NLS-1$
-             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, "Ljava.lang.String;", "java.lang.String", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, null, "Ljava.lang.String;", "java.lang.String", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, "J", "long", true);        //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, null, "J", "long", true);        //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, "I", "int", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, null, "I", "int", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, null, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
-             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, null, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi); 
-             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, "B", "boolean", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, null, "B", "boolean", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);    
           }
           for (int m = 0; m < methods.size(); m++)
