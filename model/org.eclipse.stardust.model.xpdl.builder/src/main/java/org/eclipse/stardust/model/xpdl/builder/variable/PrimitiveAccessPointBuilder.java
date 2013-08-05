@@ -149,6 +149,10 @@ public class PrimitiveAccessPointBuilder
       {
          directionType = DirectionType.IN_LITERAL;
       }
+      else if (direction.equals(DirectionType.INOUT_LITERAL.getName()))
+      {
+         directionType = DirectionType.INOUT_LITERAL;
+      }
       else
       {
          directionType = DirectionType.OUT_LITERAL;
