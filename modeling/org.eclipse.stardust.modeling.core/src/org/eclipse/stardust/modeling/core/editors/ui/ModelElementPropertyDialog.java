@@ -151,10 +151,26 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                {
                   String cat1 = ((CarnotPreferenceNode) e1).category;
                   String cat2 = ((CarnotPreferenceNode) e2).category;
+                  String id1 = ((CarnotPreferenceNode) e1).getId();
+                  String id2 = ((CarnotPreferenceNode) e2).getId();
                   
                   // if empty we compare by getSortOrder()
                   if (!StringUtils.isEmpty(cat2) && !StringUtils.isEmpty(cat1))
                   {
+                     if(id1.equals("_cwm_general_")) //$NON-NLS-1$
+                     {
+                        return -1;
+                     }               
+                     if(id2.equals("_cwm_general_")) //$NON-NLS-1$
+                     {
+                        return 1;
+                     }                     
+                                          
+                     if(cat1.equals(cat2))
+                     {                        
+                        return id1.compareTo(id2);               
+                     }            
+                     
                      for (int i = 0; i < CarnotPropertyPageContributor.CATEGORIES.length; i++)
                      {
                         if (CarnotPropertyPageContributor.CATEGORIES[i].equals(cat1))

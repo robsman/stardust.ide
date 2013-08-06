@@ -34,6 +34,7 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.Category;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
 import org.eclipse.stardust.modeling.core.spi.SpiPropertyPage;
+
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 import org.eclipse.ui.PlatformUI;
@@ -117,13 +118,16 @@ public class CarnotPropertyPageContributor
             sorted.add(cfg);
          }
       }
+      
       Collections.sort(sorted, new Comparator<IConfigurationElement>()
       {
          public int compare(IConfigurationElement c1, IConfigurationElement c2)
          {
             String cat1 = c1.getAttribute(SpiConstants.CATEGORY);
             String cat2 = c2.getAttribute(SpiConstants.CATEGORY);
-            
+            String id1 = c1.getAttribute(SpiConstants.ID);
+            String id2 = c2.getAttribute(SpiConstants.ID);
+
             if (StringUtils.isEmpty(cat2))
             {
                return -1;
@@ -132,7 +136,21 @@ public class CarnotPropertyPageContributor
             {
                return 1;
             }
-
+            
+            if(id1.equals("_cwm_general_")) //$NON-NLS-1$
+            {
+               return -1;
+            }
+            if(id2.equals("_cwm_general_")) //$NON-NLS-1$
+            {
+               return 1;
+            }
+            
+            if(cat1.equals(cat2))
+            {               
+               return id1.compareTo(id2);               
+            }            
+            
             for (int i = 0; i < CATEGORIES.length; i++)
             {
                if (CATEGORIES[i].equals(cat1))
@@ -184,7 +202,7 @@ public class CarnotPropertyPageContributor
       {
          sorted.removeAll(list);
       }
-
+      
       // add children nodes
       List<CarnotPreferenceNode> result = CollectionUtils.newList();
       for (int i = 0; i < sorted.size(); i++)
