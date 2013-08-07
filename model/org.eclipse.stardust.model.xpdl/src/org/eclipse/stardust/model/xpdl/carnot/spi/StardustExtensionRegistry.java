@@ -33,6 +33,11 @@ public class StardustExtensionRegistry implements IStardustExtensionRegistry
 
    public IExtensionPoint getExtensionPoint(String expandedId)
    {
+      if(extensionRegistry == null)
+      {
+         return null;
+      }
+      
       return extensionRegistry.getExtensionPoint(expandedId);
    }
 }
