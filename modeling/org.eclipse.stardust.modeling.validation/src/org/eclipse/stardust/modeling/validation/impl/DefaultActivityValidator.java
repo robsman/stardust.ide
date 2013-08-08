@@ -20,9 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.beans.TransitionBean;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -30,6 +33,7 @@ import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.LoopType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -42,7 +46,6 @@ import org.eclipse.stardust.modeling.validation.Validation_Messages;
 public class DefaultActivityValidator implements IModelElementValidator
 {
    private static final int JOIN = 0;
-
    private static final int SPLIT = 1;
 
    private Set checkedActivities;
@@ -313,7 +316,19 @@ public class DefaultActivityValidator implements IModelElementValidator
    {
       ProcessDefinitionType process = (ProcessDefinitionType) activity.eContainer();
       int count = 0;
-      List transitions = process.getTransition();
+      
+      List removeTransitions = new ArrayList<TransitionType>();
+      List transitions = process.getTransition();      
+      for(EventHandlerType eventHandler : activity.getEventHandler())
+      {
+         TransitionType exceptionTransition = getExceptionTransition(activity.getOutTransitions(), eventHandler.getId());
+         if(exceptionTransition != null)
+         {
+            removeTransitions.add(exceptionTransition);
+         }
+      }
+      transitions.removeAll(removeTransitions);
+      
       for (int i = 0; i < transitions.size(); i++)
       {
          TransitionType trans = (TransitionType) transitions.get(i);
@@ -352,5 +367,31 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
       }
       return false;
+   }
+   
+   private TransitionType getExceptionTransition(List<TransitionType> outTransitions, String eventHandlerId)
+   {
+      if (outTransitions == null || StringUtils.isEmpty(eventHandlerId))
+      {
+         return null;
+      }
+      
+      String condition = TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(" + eventHandlerId + ")";
+      for (TransitionType t : outTransitions)
+      {
+         String expression = getExpression(t);
+         if (expression != null && condition.equals(expression))
+         {
+            return t;
+         }
+      }
+      return null;
+   }   
+   
+   private String getExpression(TransitionType transition)
+   {
+      XmlTextNode type = transition.getExpression();
+      String expression = type == null ? null : ModelUtils.getCDataString(transition.getExpression().getMixed());
+      return expression;
    }
 }
