@@ -26,6 +26,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.source.IAnnotationModel;
@@ -1237,10 +1238,12 @@ public class MessageTransformationApplicationControlsManager
       {
          return;
       }
-      expressionsEditor.getAdaptedSourceViewer().getDocument().set(
-            controller.getMasterDocument());
-      controller.recalculateRegions(expressionsEditor.getAdaptedSourceViewer()
-            .getDocument());
+      IDocument document = expressionsEditor.getAdaptedSourceViewer().getDocument();
+      if (document != null)
+      {
+         document.set(controller.getMasterDocument());
+         controller.recalculateRegions(document);
+      }
       setVisibleRegion(expressionsEditor, controller.getExpressionRegion());
       targetMessageTreeViewer.refreshVisibleItems();
       sourceMessageTreeViewer.refreshVisibleItems();
@@ -1534,9 +1537,11 @@ public class MessageTransformationApplicationControlsManager
    private static void setVisibleRegion(JSCompilationUnitEditor editor,
          RegionWithLineOffset region)
    {
-      editor.getAdaptedSourceViewer().setVisibleRegion(region.getOffset(),
-            region.getLength());
-      editor.setLineOffset(region.getLineOffset());
+      if (region != null)
+      {
+         editor.getAdaptedSourceViewer().setVisibleRegion(region.getOffset(), region.getLength());
+         editor.setLineOffset(region.getLineOffset());
+      }
    }
 
    public void dispose()

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
     Copyright (c) 2011, 2013 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
@@ -8,12 +9,12 @@
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
-
 <feature
       id="org.eclipse.stardust.modeling.engine-feature"
       label="%featureName"
       version="9.9.9.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.stardust.ide.engine.base">
 
    <description url="http://www.eclipse.org/stardust/">
       %description

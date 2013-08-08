@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Infinity Javascript Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.javascript.editor;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Bundle-Activator: org.eclipse.stardust.modeling.javascript.editor.JavaScriptEditorPlugin
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Require-Bundle: org.eclipse.stardust.model.xpdl,
  org.eclipse.ui,
  org.eclipse.ui.ide,

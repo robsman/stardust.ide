@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2013 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,6 +47,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -636,7 +637,7 @@ public class NewWorkflowDiagramWizard extends Wizard implements INewWizard
       model.setAuthor(author);
       model.setCreated(new Date().toString());
       model.setCarnotVersion(CurrentVersion.getVersionName());
-      model.setVendor(Diagram_Messages.LBL_CARNOT_AG);
+      model.setVendor(XMLConstants.VENDOR_NAME);
 
       model.setModelOID(0);
 

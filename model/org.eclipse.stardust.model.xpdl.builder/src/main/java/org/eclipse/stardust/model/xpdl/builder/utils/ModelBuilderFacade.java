@@ -358,7 +358,7 @@ public class ModelBuilderFacade
       BasicTypeType basicType = xpdlFactory.createBasicTypeType();
       if ( !StringUtils.isEmpty(primitiveTypeID))
       {
-         basicType.setType(getPrimitiveType(primitiveTypeID));
+      basicType.setType(getPrimitiveType(primitiveTypeID));
       }
       dataTypeType.setBasicType(basicType);
       parameterType.setDataType(dataTypeType);
@@ -908,7 +908,7 @@ public class ModelBuilderFacade
          // if (dataCopy == null)
          // {
          ElementCopier copier = new ElementCopier(dataModel, null);
-         dataCopy = (DataType) copier.copy(data);
+            dataCopy = (DataType) copier.copy(data);
          // }
 
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
@@ -1708,7 +1708,7 @@ public class ModelBuilderFacade
       }
 
       // TODO Temporary
-
+      
       if (id.equals("camel"))
       {
          TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
@@ -1761,7 +1761,7 @@ public class ModelBuilderFacade
       }
 
       // Create the trigger type
-
+      
       // Map<String, IConfigurationElement> dataExtensions =
       // SpiExtensionRegistry.instance().getExtensions(
       // CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);

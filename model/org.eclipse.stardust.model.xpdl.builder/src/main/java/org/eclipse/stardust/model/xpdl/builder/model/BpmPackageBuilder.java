@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 SunGard CSA LLC and others.
+ * Copyright (c) 2012, 2013 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.ExtensionProviderUtils;
+import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelDef;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractIdentifiableElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultElementsInitializer;
@@ -64,7 +65,7 @@ public class BpmPackageBuilder extends AbstractIdentifiableElementBuilder<ModelT
    {
       super.finalizeElement();
 
-      element.setVendor("SunGard CSA LLC");
+      element.setVendor(XMLConstants.VENDOR_NAME);
       element.setCarnotVersion(CurrentVersion.getVersionName());
 
       element.setScript(XpdlFactory.eINSTANCE.createScriptType());

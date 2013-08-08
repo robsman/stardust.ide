@@ -1,19 +1,13 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: javax.mail Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.mail
-Bundle-Version: 1.4.0.01
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Version: 1.4.0.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-ClassPath: lib/mail.jar
-Export-Package: com.sun.mail.handlers,
- com.sun.mail.iap,
- com.sun.mail.imap,
- com.sun.mail.imap.protocol,
- com.sun.mail.pop3,
- com.sun.mail.smtp,
- com.sun.mail.util,
- javax.mail,
+Export-Package: javax.mail,
  javax.mail.event,
  javax.mail.internet,
  javax.mail.search,

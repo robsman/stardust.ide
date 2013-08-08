@@ -10,20 +10,27 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.javascript.editor;
 
+import java.util.Arrays;
+
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorActionBarContributor;
-import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IKeyBindingService;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.*;
 import org.eclipse.ui.internal.KeyBindingService;
 
 public class SandboxEditorSite implements IEditorSite
 {
+   /**
+    * The list of services required for the IEditorSite to be available.
+    * 
+    * (fh) must be sorted into ascending order according to the natural ordering
+    * since it is used with Arrays.binarySearch
+    */
+   private static final String[] requiredServices = {
+      "org.eclipse.e4.ui.services.EContextService",
+      "org.eclipse.ui.handlers.IHandlerService"
+   };
+   
    private IEditorSite delegate;
    private IKeyBindingService keyBindingService;
    private ISelectionProvider selectionProvider;
@@ -101,12 +108,25 @@ public class SandboxEditorSite implements IEditorSite
 
    public Object getService(Class api)
    {
+      if (isRequiredService(api))
+      {
+         return delegate.getService(api);
+      }
       return null;
    }
 
    public boolean hasService(Class api)
    {
+      if (isRequiredService(api))
+      {
+         return delegate.hasService(api);
+      }
       return false;
+   }
+   
+   private static boolean isRequiredService(Class<?> api)
+   {
+      return Arrays.binarySearch(requiredServices, api.getName()) >= 0;
    }
 
    public IEditorActionBarContributor getActionBarContributor()

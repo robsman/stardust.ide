@@ -1,6 +1,8 @@
 package org.eclipse.stardust.modeling.common.projectnature.classpath;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,23 +44,27 @@ public class DeployModelNLClasspathProvider extends CarnotToolClasspathProvider
       {
          for (int i = 0; i < fragments.length; i++)
          {
-            boolean hasSrcFolder = false;
-            if (fragments[i].getEntry(SRC_FOLDER) != null)
+            Bundle fragment = fragments[i];
+            URI location = null;
+            try
             {
-               hasSrcFolder = true;
+               location = FileLocator.toFileURL(fragment.getEntry("/")).toURI();
+               if (fragment.getEntry(SRC_FOLDER) != null)
+               {
+                  location = location.resolve(SRC_FOLDER);
+               }
+               Path path = new Path(URIUtil.toFile(location).getAbsolutePath());
+               IRuntimeClasspathEntry entry = JavaRuntime.newArchiveRuntimeClasspathEntry(path);
+               entries.add(entry);
             }
-            StringBuilder fragmentLocation = new StringBuilder();
-            fragmentLocation.append(fragments[i].getLocation());
-            if (hasSrcFolder)
+            catch (URISyntaxException e)
             {
-               fragmentLocation.append(SRC_FOLDER);
+               e.printStackTrace();
             }
-            URI location = URI.create(fragmentLocation.toString());
-            String schemeSpecificPart = location.getSchemeSpecificPart();
-            location = URI.create(schemeSpecificPart);
-            Path path = new Path(URIUtil.toFile(location).getAbsolutePath());
-            IRuntimeClasspathEntry entry = JavaRuntime.newArchiveRuntimeClasspathEntry(path);
-            entries.add(entry);
+            catch (IOException e)
+            {
+               e.printStackTrace();
+            }
          }
       }
       return (IRuntimeClasspathEntry[]) entries.toArray(new IRuntimeClasspathEntry[0]);

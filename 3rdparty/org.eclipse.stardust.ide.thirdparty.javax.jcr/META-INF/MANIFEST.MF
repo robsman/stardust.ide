@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: javax.jcr Plugin
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.jcr
-Bundle-Version: 2.0.0.01
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Version: 2.0.0.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-ClassPath: lib/jcr.jar
 Export-Package: javax.jcr,
  javax.jcr.lock,

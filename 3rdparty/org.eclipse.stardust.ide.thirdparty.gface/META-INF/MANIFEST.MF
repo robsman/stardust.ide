@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.gface;singleton:=true
-Bundle-Version: 0.9.1.01
+Bundle-Version: 0.9.1.qualifier
 Bundle-ClassPath: lib/gface.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin

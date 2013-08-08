@@ -1,12 +1,11 @@
 Manifest-Version: 1.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
-Bundle-Name: javax.activation Plug-in
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.activation
-Bundle-Version: 1.1.0.01
-Bundle-Vendor: SunGard CSA LLC
+Bundle-Version: 1.1.0.qualifier
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Bundle-ClassPath: lib/activation.jar
 Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws
-Export-Package: com.sun.activation.registries,
- com.sun.activation.viewers,
- javax.activation
+Export-Package: javax.activation
