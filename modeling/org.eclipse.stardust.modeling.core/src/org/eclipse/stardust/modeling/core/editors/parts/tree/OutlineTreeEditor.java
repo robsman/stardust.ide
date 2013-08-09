@@ -34,6 +34,8 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetTypeDeclarationIdCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
+
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Tree;
@@ -149,7 +151,7 @@ public class OutlineTreeEditor extends ExtendedTreeEditor
          return;         
       }
       
-      String computedId = NameIdUtils.createIdFromName(null, model);
+      String computedId = NameIdUtils.createIdFromName(null, model, newValue);
       
       EditDomain domain = viewer.getEditDomain();
       CompoundCommand command = new CompoundCommand();
@@ -184,9 +186,12 @@ public class OutlineTreeEditor extends ExtendedTreeEditor
     
          Command cmd = new SetValueCmd(model, CWM_PKG.getIIdentifiableElement_Name(), newValue);
          command.add(cmd);
-         
-         Command cmdId = new SetValueCmd(model, CWM_PKG.getIIdentifiableElement_Id(), computedId);
-         command.add(cmdId); 
+
+         if (GenericUtils.getAutoIdValue())
+         {         
+            Command cmdId = new SetValueCmd(model, CWM_PKG.getIIdentifiableElement_Id(), computedId);
+            command.add(cmdId); 
+         }         
       }
       else if(model instanceof DiagramType)
       {
@@ -197,12 +202,15 @@ public class OutlineTreeEditor extends ExtendedTreeEditor
       {
          Command cmd = new SetValueCmd(model, XPDL_PKG.getTypeDeclarationType_Name(), newValue);
          command.add(cmd);         
-         
-         Command cmdId = new SetValueCmd(model, XPDL_PKG.getTypeDeclarationType_Id(), computedId);
-         command.add(cmdId);
 
-         SetTypeDeclarationIdCommand tdCmd = new SetTypeDeclarationIdCommand((TypeDeclarationType) model, computedId);
-         command.add(tdCmd);
+         if (GenericUtils.getAutoIdValue())
+         {                  
+            Command cmdId = new SetValueCmd(model, XPDL_PKG.getTypeDeclarationType_Id(), computedId);
+            command.add(cmdId);
+   
+            SetTypeDeclarationIdCommand tdCmd = new SetTypeDeclarationIdCommand((TypeDeclarationType) model, computedId);
+            command.add(tdCmd);
+         }
       }
       else if (model instanceof ExternalPackage)
       {
