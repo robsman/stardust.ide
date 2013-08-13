@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -78,7 +80,10 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       {
          if (autoNamespaceButton.getSelection())
          {
-            namespaceLabel.setText(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), declaration.getId()));
+            if(!StringUtils.isEmpty(declaration.getId()))
+            {
+               namespaceLabel.setText(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), declaration.getId()));
+            }
          }
          validateInput();
       }
