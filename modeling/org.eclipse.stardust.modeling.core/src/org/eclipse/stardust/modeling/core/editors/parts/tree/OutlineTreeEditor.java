@@ -151,7 +151,11 @@ public class OutlineTreeEditor extends ExtendedTreeEditor
          return;         
       }
       
-      String computedId = NameIdUtils.createIdFromName(null, model, newValue);
+      String computedId = null;
+      if(!(model instanceof DiagramType))
+      {
+         computedId = NameIdUtils.createIdFromName(null, model, newValue);
+      }
       
       EditDomain domain = viewer.getEditDomain();
       CompoundCommand command = new CompoundCommand();
