@@ -39,13 +39,13 @@ public class DefaultDataValidator implements IModelElementValidator
 
       if (fullCheck())
       {
-         if (null == data.getType())
+         if (null == data.getType() && !data.eIsProxy())
          {
             result.add(Issue.error(data, Validation_Messages.MSG_DataHasNoType,
                   ValidationService.PKG_CWM.getDataType_Type()));
          }
       }
-      
+
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }
 
@@ -64,7 +64,7 @@ public class DefaultDataValidator implements IModelElementValidator
       }
       return false;
    }
-   
+
    protected boolean fullCheck()
    {
       return true;

@@ -41,10 +41,10 @@ public class IdentifiableModelElementValidator implements IModelElementValidator
                Validation_Messages.ERR_ELEMENT_EmptyId,
                ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
       }
-      else 
+      else
       {
          if (elementId.length() > MAX_ID_LENGTH)
-         {                  
+         {
             result.add(Issue.error((IModelElement) ((ie instanceof IModelElement)
                   ? ie
                   : null), //
@@ -58,16 +58,23 @@ public class IdentifiableModelElementValidator implements IModelElementValidator
             result.add(Issue.warning(
                   (IModelElement) ((ie instanceof IModelElement) ? ie : null), //
                   MessageFormat.format(Validation_Messages.ERR_ELEMENT_InvalidId,
-                  new Object[] {elementId}),      
+                  new Object[] {elementId}),
                   ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
          }
-      }      
-      if(StringUtils.isEmpty(ie.getName()))
+      }
+      if (StringUtils.isEmpty(ie.getName()))
       {
-         result.add(Issue.warning(
-               (IModelElement) ((ie instanceof IModelElement) ? ie : null), //
-               Validation_Messages.MSG_ELEMENT_EmptyName,
-               ValidationService.PKG_CWM.getIIdentifiableElement_Name()));
+         if (ie instanceof DataType)
+         {
+            if ( !ie.eIsProxy())
+            {
+               result.add(Issue.warning(
+                     (IModelElement) ((ie instanceof IModelElement) ? ie : null), //
+                     Validation_Messages.MSG_ELEMENT_EmptyName,
+                     ValidationService.PKG_CWM.getIIdentifiableElement_Name()));
+            }
+         }
+
       }
    }
 
