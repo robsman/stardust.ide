@@ -37,6 +37,7 @@ import org.eclipse.ui.PlatformUI;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.model.beans.TransitionBean;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -467,7 +468,8 @@ public class DynamicConnectionCommand extends Command
       if (targetSymbol instanceof ActivitySymbolType
             && !(sourceSymbol instanceof StartEventSymbol)
             && ((ActivitySymbolType) targetSymbol).getActivity().getInTransitions()
-                  .size() == 1)
+                  .size() == 1
+                  && !isBoundaryTransition(((ActivitySymbolType) targetSymbol).getActivity().getInTransitions().get(0)))
       {
          return getSetActivityControlFlowCmd(((ActivitySymbolType) targetSymbol)
                .getActivity(), FlowControlType.JOIN_LITERAL);
@@ -479,7 +481,8 @@ public class DynamicConnectionCommand extends Command
    {
       if (sourceSymbol instanceof ActivitySymbolType
             && ((ActivitySymbolType) sourceSymbol).getActivity().getOutTransitions()
-                  .size() == 1)
+                  .size() == 1
+                  && !isBoundaryTransition(((ActivitySymbolType) sourceSymbol).getActivity().getOutTransitions().get(0)))
       {
          return getSetActivityControlFlowCmd(((ActivitySymbolType) sourceSymbol)
                .getActivity(), FlowControlType.SPLIT_LITERAL);
@@ -487,6 +490,18 @@ public class DynamicConnectionCommand extends Command
       return null;
    }
 
+   private boolean isBoundaryTransition(TransitionType transition)
+   {
+      XmlTextNode type = transition.getExpression();
+      String expression = type == null ? null : ModelUtils.getCDataString(transition.getExpression().getMixed());
+      if (expression != null && expression.startsWith(TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "("))
+      {
+         return true;
+      }
+      
+      return false;
+   }
+      
    private Command getSetActivityControlFlowCmd(ActivityType activity,
          FlowControlType flow)
    {
