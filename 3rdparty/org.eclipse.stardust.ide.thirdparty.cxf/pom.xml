@@ -166,11 +166,6 @@
       <version>${jaxb-impl.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-      <version>${jaxb-xjc.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
       <version>${velocity.version}</version>
@@ -197,7 +192,7 @@
                 cxf-rt-frontend-simple,cxf-rt-transports-http,cxf-rt-ws-addr,cxf-rt-ws-policy,
                 cxf-rt-ws-security,cxf-tools-common,cxf-tools-validator,cxf-tools-wsdlto-core,
                 cxf-tools-wsdlto-databinding-jaxb,cxf-tools-wsdlto-frontend-jaxws,
-                ehcache-core,gson,jaxb-impl,jaxb-xjc,neethi,velocity,wsdl4j,wss4j,
+                ehcache-core,gson,jaxb-impl,neethi,velocity,wsdl4j,wss4j,
                 xmlschema-core,xmlsec
               </includeArtifactIds>
             </configuration>

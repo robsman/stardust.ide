@@ -20,6 +20,5 @@ Bundle-ClassPath: lib/commons-collections.jar,
  lib/cxf-tools-wsdlto-databinding-jaxb.jar,
  lib/cxf-tools-wsdlto-frontend-jaxws.jar,
  lib/jaxb-impl.jar,
- lib/jaxb-xjc.jar,
  lib/velocity.jar,
  lib/xmlschema-core.jar
