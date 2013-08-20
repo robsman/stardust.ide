@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.Code;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
@@ -48,6 +49,10 @@ public class NameIdUtils
       
       if(base == null)
       {
+         if(element instanceof Code)
+         {            
+            base = ((Code) element).getName();
+         }         
          if(element instanceof IIdentifiableElement)
          {            
             base = ((IIdentifiableElement) element).getName();
@@ -64,7 +69,14 @@ public class NameIdUtils
       }
 
       IdFactory factory = null;
-      if(element instanceof IIdentifiableElement)
+      if(element instanceof Code)
+      {            
+         factory = new IdFactory(base, base,
+                     CarnotWorkflowModelPackage.eINSTANCE.getCode(),
+                     CarnotWorkflowModelPackage.eINSTANCE.getCode_Code(),
+                     CarnotWorkflowModelPackage.eINSTANCE.getCode_Name());
+      }      
+      else if(element instanceof IIdentifiableElement)
       {            
          factory = new IdFactory(base, base);
       }
