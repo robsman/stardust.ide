@@ -768,8 +768,10 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
+      
       if (typeDeclarationModel != null)
       {
+         String qualifiedId = null;         
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
@@ -779,8 +781,9 @@ public class ModelBuilderFacade
             AttributeType attribute = AttributeUtil.setAttribute(data,
                   DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, declarationID);
             ModelUtils.setReference(attribute, model, "struct");
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
-         }
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);            
+            qualifiedId = typeDeclaration.getId();
+         }         
          else
          {
             String fileConnectionId = WebModelerConnectionManager.createFileConnection(
@@ -809,7 +812,10 @@ public class ModelBuilderFacade
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
+            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";            
          }
+         
+         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);               
       }
    }
 
