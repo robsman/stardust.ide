@@ -110,7 +110,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>aopalliance,spring-aop,spring-asm,spring-beans,
+              <includeArtifactIds>aopalliance,spring-aop,spring-beans,
                 spring-context,spring-context-support,spring-core,spring-expression,spring-jdbc,
                 spring-jms,spring-orm,spring-tx,spring-web,spring-webmvc
               </includeArtifactIds>
