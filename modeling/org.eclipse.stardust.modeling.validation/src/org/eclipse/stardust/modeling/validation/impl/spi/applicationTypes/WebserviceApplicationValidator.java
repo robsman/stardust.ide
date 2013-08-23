@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
@@ -137,10 +138,15 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          ClassLoader cclBackup = Thread.currentThread().getContextClassLoader();
          try
          {
-            IProject project = ModelUtils.getProjectFromEObject(element);
-            Thread.currentThread().setContextClassLoader(new ProjectClassLoader(
-                  XmlUtils.class.getClassLoader(), project, uri.startsWith("/") //$NON-NLS-1$
-                  ? uri.substring(1) : uri));
+            if (Platform.isRunning())
+            {
+               IProject project = ModelUtils.getProjectFromEObject(element);
+               Thread.currentThread().setContextClassLoader(
+                     new ProjectClassLoader(XmlUtils.class.getClassLoader(), project,
+                           uri.startsWith("/") //$NON-NLS-1$
+                                 ? uri.substring(1)
+                                 : uri));
+            }
             new URL(XmlUtils.resolveResourceUri(uri));
          }
          catch (Exception ex)
