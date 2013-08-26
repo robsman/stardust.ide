@@ -43,6 +43,7 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.SchemaLocatorAdapter;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -51,7 +52,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.parts.dialog.ApplyUpdatesCommand;
@@ -105,7 +105,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
    {
       this.typeDeclarations = typeDeclarations;
       this.resource = resource;
-      
+
       String title = Structured_Messages.ImportFromSchemaWizardTitle;
       setWindowTitle(title);
       setDefaultPageImageDescriptor(DiagramPlugin.imageDescriptorFromPlugin(
@@ -126,7 +126,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       urlPage = new XSDURLPage(this, location);
       urlPage.setTitle(title);
       urlPage.setDescription(Structured_Messages.URLPageDescription);
-      
+
       // Types Page
       typesPage = new XSDTypesSelectionPage(this, true, hasCreateParserButton);
       typesPage.setTitle(title);
@@ -163,7 +163,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       {
          nextPage = typesPage;
       }
-      
+
       return nextPage;
    }
 
@@ -180,8 +180,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       {
          TypeDeclarationType declaration = (TypeDeclarationType) typeDeclarations.getTypeDeclaration().get(i);
          idCache.add(declaration.getId());
-      }      
-      
+      }
+
       IFile xsdFileInWorkspace = null;
       if (isURL())
       {
@@ -201,8 +201,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       declarations = CollectionUtils.newList();
       Map<XSDSchema, String> schema2location = CollectionUtils.newMap();
       IStructuredSelection selection = typesPage.getSelection();
-      HashMap<String, String> name2id = new HashMap<String, String>();      
-      
+      HashMap<String, String> name2id = new HashMap<String, String>();
+
       for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
@@ -224,12 +224,12 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                   else
                   {
                      return false;
-                  }                  
+                  }
                }
             }
          }
       }
-      
+
       for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
@@ -266,8 +266,8 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                   if(StringUtils.isEmpty(useId))
                   {
                      useId = id;
-                  }                  
-                  
+                  }
+
                   reference.setXref(QNameUtil.toString(schema.getTargetNamespace(), useId));
                   reference.setLocation(typesPage.mustSaveSchema() ? ((String) schema2location.get(schema))
                         : isURL() ? resultURL : urlPage.getClasspathResourceName(resultFile));
@@ -279,15 +279,15 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                         StructuredDataConstants.RESOURCE_MAPPING_LOCAL_FILE,
                         urlPage.getClasspathResourceName(file));
                }
-               
+
                // write workspace relative path for resolving within eclipse environment
                if(xsdFileInWorkspace != null)
                {
                   ExtendedAttributeUtil.setAttribute(declaration,
                         StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE,
-                        xsdFileInWorkspace.getFullPath().toString());                  
+                        xsdFileInWorkspace.getFullPath().toString());
                }
-               
+
             }
          }
       }
@@ -311,7 +311,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          schema.setSchemaLocation(entry.getValue());
          schema.reset();
       }
-      
+
       for (XSDSchema schema : schema2location.keySet())
       {
          Map<String, String> prefixes = schema.getQNamePrefixToNamespaceMap();
@@ -418,7 +418,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
 
    /**
     * Create a MOF model for the imported file
-    * @throws IOException 
+    * @throws IOException
     */
    protected String doLoadExternalModel(IProgressMonitor monitor, String xsdModelFile,
          String xsdFileName)
@@ -427,7 +427,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
 
       monitor.beginTask(Structured_Messages.LoadingSchemaTaskName, 100);
       monitor.worked(50);
-      
+
       emfResource = new XSDResourceImpl(URI.createURI(xsdModelFile));
       emfResource.eAdapters().add(new SchemaLocatorAdapter());
       ResourceSetImpl resourceSet = new ResourceSetImpl();
@@ -471,7 +471,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       {
          errorMessage = e.getMessage();
       }
-      
+
       for (int i = 0; i < externalSchemaList.size(); i++)
       {
          XSDSchema schema = (XSDSchema) externalSchemaList.get(i);
@@ -516,14 +516,14 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
    {
       return declarations;
    }
-   
+
    private static final class IDEWorkbenchMessages extends NLS
    {
       private static final String BUNDLE_NAME = "org.eclipse.ui.internal.ide.messages";//$NON-NLS-1$
-      
+
       public static String SaveAsDialog_overwriteQuestion;
       public static String Question;
-      
+
       static
       {
          // load message values from bundle file
