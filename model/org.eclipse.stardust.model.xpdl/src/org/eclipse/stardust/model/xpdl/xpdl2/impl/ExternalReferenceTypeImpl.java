@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -33,7 +34,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDSchema;
 
@@ -257,8 +257,8 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        return ExtendedAttributeUtil.getAttributeValue(declaration,
              StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
     }
-    
-    
+
+
     private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
     {
        if(StringUtils.isNotEmpty(schemaLocation))
@@ -268,12 +268,12 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
              return TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
           }
           catch (Exception e1)
-          {}          
+          {}
        }
-       
+
        return null;
     }
-    
+
     /**
      * TODO: describe
      * We must synchronize that method entirely to ensure cache consistency.
@@ -289,14 +289,14 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
           //try load xsd from eclipse workspace
           String workspacePath = getWorkspaceRelativePath();
           schema = loadSchema(workspacePath, namespaceURI);
-         
+
           //try getting from alternate url attribute - for legacy reason
           if(schema == null)
           {
              String alternateUrl = getAlternateURL();
              schema = loadSchema(alternateUrl, namespaceURI);
           }
-          
+
           //fall back to default value
           if(schema == null)
           {

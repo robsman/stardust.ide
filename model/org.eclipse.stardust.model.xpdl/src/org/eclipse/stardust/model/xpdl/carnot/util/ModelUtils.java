@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
@@ -111,6 +112,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 
 public class ModelUtils
 {
@@ -1615,6 +1617,40 @@ public class ModelUtils
 
       }
       return false;
+   }
+
+   public static ModelType getModelByProxyURI(ModelType model, URI proxyUri)
+   {
+      ModelType referencedModel = null;
+      if (model != null && model.getConnectionManager() != null)
+      {
+         EObject connectionObject = model.getConnectionManager().find(
+               proxyUri.scheme() + "://" + proxyUri.authority() + "/");
+         if (connectionObject != null)
+         {
+            referencedModel = (ModelType) Reflect.getFieldValue(connectionObject,
+                  "eObject");
+         }
+      }
+      return referencedModel;
+   }
+
+   public static XSDImport getImportByNamespace(XSDSchema schema, String nameSpace)
+   {
+      List<XSDImport> xsdImports = TypeDeclarationUtils.getImports(schema);
+      if (xsdImports != null)
+      {
+         for (Iterator<XSDImport> i = xsdImports.iterator(); i.hasNext();)
+         {
+            XSDImport xsdImport = i.next();
+            String importNameSpace = xsdImport.getNamespace();
+            if (nameSpace.equals(importNameSpace))
+            {
+               return xsdImport;
+            }
+         }
+      }
+      return null;
    }
 
 }

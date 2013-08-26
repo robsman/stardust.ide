@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 
 public class TypeDeclarationUtils
 {
@@ -497,10 +498,10 @@ public class TypeDeclarationUtils
                }
             }
          }
-      }      
+      }
       return false;
-   }   
-   
+   }
+
    public static XSDImport removeImport(XSDSchema schema, XSDSchema importedSchema)
    {
       XSDImport removeImport = null;
@@ -516,12 +517,12 @@ public class TypeDeclarationUtils
                break;
             }
          }
-      }      
+      }
       if (removeImport != null)
       {
          schema.getContents().remove(removeImport);
-      }                        
-      
+      }
+
       return removeImport;
    }
 
@@ -657,7 +658,7 @@ public class TypeDeclarationUtils
       }
       return prefix;
    }
-   
+
    public static void collectAllNamespaces(XSDSchema schema, Map<String, String> qNamePrefixToNamespaceMap)
    {
       List<XSDImport> imports = TypeDeclarationUtils.getImports(schema);
@@ -666,21 +667,21 @@ public class TypeDeclarationUtils
          for(XSDImport xsdImport : imports)
          {
             if (xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
-            {            
+            {
                XSDSchema importetSchema = xsdImport.getResolvedSchema();
                if(importetSchema != null)
                {
                   String targetNamespace = importetSchema.getTargetNamespace();
                   String namespacePrefix = TypeDeclarationUtils.getNamespacePrefix(importetSchema, targetNamespace);
-                  
+
                   if(!qNamePrefixToNamespaceMap.containsValue(targetNamespace))
                   {
                      qNamePrefixToNamespaceMap.put(namespacePrefix, targetNamespace);
-                     collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);                                       
+                     collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);
                   }
                }
-            }               
+            }
          }
-      }         
+      }
    }
 }
