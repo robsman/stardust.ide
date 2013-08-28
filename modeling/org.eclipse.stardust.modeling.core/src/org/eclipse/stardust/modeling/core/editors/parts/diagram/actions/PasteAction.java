@@ -23,6 +23,7 @@ import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.cap.AbstractMerger;
@@ -34,6 +35,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
@@ -129,7 +131,32 @@ public class PasteAction extends AbstractPasteAction
          }
          util = new DiagramMerger(targetModel, copySet, storage, DiagramMerger.CREATE_ALL);      
       }
-      util.merge();
+      
+      WorkflowModelEditor targetEditor = GenericUtils.getWorkflowModelEditor(targetModel);
+      ModelOidUtil modelOidUtil = null;
+      if(targetEditor != null)
+      {
+         modelOidUtil = targetEditor.getModelManager().getModelOidUtil();            
+      }      
+      try
+      {
+         if(modelOidUtil != null)
+         {
+            modelOidUtil.setCopyPaste(true);
+         }
+         util.merge();
+      }
+      catch (Exception e)
+      {
+      }
+      finally
+      {
+         if(modelOidUtil != null)
+         {
+            modelOidUtil.setCopyPaste(false);
+         }         
+      }
+      
       // execute command only if there are changes
       if (util.modelChanged())
       {
