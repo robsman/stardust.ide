@@ -45,8 +45,10 @@ import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.Direction;
@@ -127,6 +129,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
@@ -327,7 +330,22 @@ public class ModelBuilderFacade
          String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
+
+      FormalParameterType parameterType = processInterface.getFormalParameters()
+            .getFormalParameter(id);
+      if (parameterType == null)
+      {
+         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
+                                                XpdlPackage.eINSTANCE.getFormalParameterType(),
+                                                XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+                                                XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+
+         parameterType = xpdlFactory.createFormalParameterType();
+         idFactory.computeNames(processInterface.getFormalParameters().getFormalParameter(), true);
+         id = idFactory.getId();
+         name = idFactory.getName();
+      }
+
       parameterType.setId(id);
       parameterType.setName(name);
       parameterType.setMode(mode);
@@ -385,11 +403,22 @@ public class ModelBuilderFacade
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
 
-      if (StringUtils.isEmpty(id))
+      FormalParameterType parameterType = processInterface.getFormalParameters()
+            .getFormalParameter(id);
+
+      if (parameterType == null)
       {
-         id = NameIdUtilsExtension.createIdFromName(name);
+         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
+               XpdlPackage.eINSTANCE.getFormalParameterType(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+
+         parameterType = xpdlFactory.createFormalParameterType();
+         idFactory.computeNames(processInterface.getFormalParameters()
+               .getFormalParameter(), true);
+         id = idFactory.getId();
+         name = idFactory.getName();
       }
 
       parameterType.setId(id);
@@ -464,7 +493,23 @@ public class ModelBuilderFacade
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
+
+      FormalParameterType parameterType = processInterface.getFormalParameters()
+            .getFormalParameter(id);
+
+      if (parameterType == null)
+      {
+         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
+               XpdlPackage.eINSTANCE.getFormalParameterType(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+
+         parameterType = xpdlFactory.createFormalParameterType();
+         idFactory.computeNames(processInterface.getFormalParameters()
+               .getFormalParameter(), true);
+         id = idFactory.getId();
+         name = idFactory.getName();
+      }
 
       parameterType.setId(id);
       parameterType.setName(name);
