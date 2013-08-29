@@ -82,7 +82,7 @@ private DirectionType directionType;
 	allMessageTypes.addAll(controller.getTargetMessageTypes());
 	typeFilters.add(new StructuredTypesFilter());
 	typeFilters.add(new PrimitivesFilter());
-	if (!controller.isSimpleMode()) {
+	if (!controller.isSimpleMode() || controller.isWithSerializable()) {
 		typeFilters.add(new SerializableFilter());	
 	}	
   }

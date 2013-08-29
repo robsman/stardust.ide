@@ -108,6 +108,7 @@ public class MessageTransformationController {
 	private JavaScriptValidator javaScriptValidator;
     private IProject project;
 	private boolean simpleMode;
+	private boolean withSerialiable;
     private List<AccessPointType> invalidAccessPoints = new ArrayList<AccessPointType>();
     private static final Type[] TYPES = {
         Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
@@ -1572,6 +1573,16 @@ public class MessageTransformationController {
    public void setSimpleMode(boolean simpleMode)
    {
       this.simpleMode = simpleMode;
+   }
+   
+   public boolean isWithSerializable()
+   {
+	   return withSerialiable;
+   }
+   
+   public void setWithSerializable(boolean withSerializable)
+   {
+	   this.withSerialiable = withSerializable;
    }
 
    public void setExternalReference(boolean externalReference)
