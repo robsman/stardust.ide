@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.strategy;
 
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,10 +19,13 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
-public abstract class AbstractModelManagementStrategy implements ModelManagementStrategy {
+public abstract class AbstractModelManagementStrategy implements ModelManagementStrategy
+{
+   private boolean hasLoaded = false;
 
 	private Map<String, ModelType> xpdlModels = newHashMap();
 
@@ -59,9 +63,10 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	 */
    public Map<String, ModelType> getModels(boolean reload)
    {
-      if (reload)
+      if (reload || !hasLoaded)
       {
          xpdlModels.clear();
+         nativeModels.clear();
          for (ModelDescriptor modelDescriptor : loadModels())
          {
             xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
@@ -71,6 +76,8 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
                nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
             }
          }
+
+         this.hasLoaded = true;
       }
 
       return xpdlModels;
@@ -117,7 +124,37 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	 */
 	public abstract ModelType attachModel(String id);
 
-	/**
+   public ModelType attachModel(String id, String name, EObject nativeModel)
+   {
+      ModelType xpdlModel = null;
+      if (nativeModel instanceof ModelType)
+      {
+         xpdlModel = (ModelType) nativeModel;
+      }
+      else
+      {
+         // use just the most basic XPDL representation, rest will be handled
+         // directly from native format (e.g. BPMN2)
+         xpdlModel = BpmModelBuilder.newBpmModel()
+               .withIdAndName(id, !isEmpty(name) ? name : id).build();
+      }
+
+      // TODO - This method needs to move to some place where it will be called only
+      // once for
+      loadEObjectUUIDMap(xpdlModel);
+      // TODO mapModelFileName(xpdlModel, modelDocument.getName());
+
+      xpdlModels.put(id, xpdlModel);
+      if (xpdlModel != nativeModel)
+      {
+         // register native representation (in order to smoothly transition to BPMN2)
+         nativeModels.put(xpdlModel, nativeModel);
+      }
+
+      return xpdlModel;
+   }
+
+   /**
 	 *
 	 */
 	public abstract void saveModel(ModelType model);

@@ -14,6 +14,8 @@ package org.eclipse.stardust.model.xpdl.builder.strategy;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
@@ -43,6 +45,8 @@ public interface ModelManagementStrategy {
 	 * @return
 	 */
 	ModelType attachModel(String id);
+
+   ModelType attachModel(String id, String name, EObject model);
 
 	/**
 	 *
