@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.stardust.modeling.core.triggerTypes">
+      <trigger
+            icon="icons/full/obj16/camel_trigger_icon.gif"
+            id="camel"
+            name="%camelTrigger"
+            pullTrigger="false">
+         <attribute
+               name="carnot:engine:runtimeValidator"
+               value="org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator"/>
+         <attribute
+               name="carnot:engine:validator"
+               value="org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator">
+         </attribute>
+      </trigger>
+     </extension>
+
+<extension point="org.eclipse.ui.propertyPages">
+ <page id="_cwm_spi_trigger_"
+           name="%camelTrigger"
+           category="spi"
+class="org.eclipse.stardust.modeling.integration.camel.triggerTypes.PropertyPage"
+icon="icons/full/obj16/camel_trigger_icon.gif">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.TriggerType"/>
+               <test property="com.infinity.properties.metaType" value="camel"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
+   </page>
+           <page id="_cwm_parameter_mapping_table_"
+           name="%parameterMappings"
+           category="spi"
+class="org.eclipse.stardust.modeling.integration.camel.triggerTypes.CamelParameterMappingTablePage"
+icon="icons/full/obj16/trigger.gif">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.TriggerType"/>
+               <test property="com.infinity.properties.metaType" value="camel"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
+   </page>
+           <page id="_cwm_parameter_mapping_"
+            name="Camel Parameter Mapping Page"
+           category="_cwm_parameter_mapping_table_"
+            class="org.eclipse.stardust.modeling.integration.camel.triggerTypes.CamelParameterMappingPage">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType"/>
+               <test property="com.infinity.properties.metaType" value="camel"/>
+               <not>
+                  <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+               </not>
+            </and>
+         </enabledWhen>
+           </page>
+           <page id="cwm_spi_camel_general_tab_"
+  name="%generalTab"
+  category="spi"
+  icon="icons/esb.jpg"
+  class="org.eclipse.stardust.modeling.integration.camel.ui.GeneralPropertyPage">
+<enabledWhen>
+<or>
+<and>
+<instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+<test property="com.infinity.properties.metaType" value="camelSpringProducerApplication"/>
+<not>
+<test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+</not>
+</and>
+<and>
+<instanceof value="org.eclipse.stardust.model.xpdl.carnot.ApplicationType"/>
+<test property="com.infinity.properties.metaType" value="camelConsumerApplication"/>
+<not>
+<test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective"/>
+</not>
+</and>
+</or>
+</enabledWhen>
+</page>
+</extension>
+<extension point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+<modelElementValidator
+class="org.eclipse.stardust.modeling.integration.camel.validator.CamelProducerModelValidator"
+id="ag.carnot.workflow.model.validation.camelProducerApplication"
+metaTypeId="camelSpringProducerApplication" targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+<filter name="metaType" value="camelSpringProducerApplication" />
+<filter name="!perspectiveType"
+value="ag.carnot.workflow.modeler.businessModelingPerspective" />
+</modelElementValidator>
+</extension>
+<extension point="org.eclipse.stardust.modeling.core.applicationTypes">
+<application id="camelSpringProducerApplication"
+ name="%camelProducerApplication"
+ icon="icons/esb.jpg"
+ synchronous="true"
+ initializerClass="org.eclipse.stardust.modeling.integration.camel.CamelProducerSpringBeanApplicationInitializer"
+>
+   <!--accessPointProvider="org.eclipse.stardust.modeling.integration.camel.CamelProducerSpringBeanAccessPointProvider"-->
+<!--attribute name="carnot:engine:accessPointProvider"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider" /-->
+<attribute name="carnot:engine:applicationInstance"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance" />
+<attribute name="carnot:engine:validator"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator" />
+</application>
+<application id="camelConsumerApplication"
+ name="%camelConsumerApplication"
+ icon="icons/esb.jpg"
+ synchronous="false"
+ initializerClass="org.eclipse.stardust.modeling.integration.camel.CamelProducerSpringBeanApplicationInitializer"
+ ><!-- accessPointProvider="org.eclipse.stardust.modeling.integration.camel.CamelProducerSpringBeanAccessPointProvider"-->
+<!--attribute name="carnot:engine:accessPointProvider"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider" /-->
+<attribute name="carnot:engine:applicationInstance"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance" />
+<attribute name="carnot:engine:validator"
+value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator" />
+</application>
+</extension>
+
+<!-- WST facet related extensions -->
+<extension point="org.eclipse.stardust.ide.wst.facet.portal.webModule">
+      <installConfigurator
+            class="org.eclipse.stardust.modeling.integration.camel.wst.InstallModuleConfigurator">
+      </installConfigurator>
+      <uninstallConfigurator
+            class="org.eclipse.stardust.modeling.integration.camel.wst.UninstallModuleConfigurator">
+      </uninstallConfigurator>
+   </extension>
+   <extension point="org.eclipse.core.variables.dynamicVariables">
+      <variable
+            description="%camelDynamicVariableDescription"
+            name="IPP_CAMEL_PORTAL_LIBS"
+            resolver="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"/>
+      <variable
+            description="%camelDynamicVariableDescription"
+            name="IPP_3RD_PARTY_CAMEL_LIBS"
+            resolver="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"/>
+   </extension>
+   <extension point="org.eclipse.jdt.core.classpathVariableInitializer">
+      <classpathVariableInitializer
+            class="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"
+            variable="IPP_CAMEL_PORTAL_LIBS"/>
+      <classpathVariableInitializer
+            class="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"
+            variable="IPP_3RD_PARTY_CAMEL_LIBS"/>
+   </extension>
+</plugin>

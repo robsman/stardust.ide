@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<!--artifactId>org.eclipse.stardust.modeling.core.spi.camel.producer</artifactId-->
+  <artifactId>org.eclipse.stardust.modeling.integration.camel</artifactId>
+
+	<parent>
+		<groupId>org.eclipse.stardust.modeling.core</groupId>
+		<artifactId>modeling-core-parent</artifactId>
+		<version>9.9.9-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<packaging>eclipse-plugin</packaging>
+	<!--properties>
+		<tycho-extras-version>0.14.0</tycho-extras-version>
+		<tycho-version>0.14.1</tycho-version>
+		<camel.version>2.9.2</camel.version>
+		<tycho.version>0.10.0</tycho.version>
+		<stardust.modeling.core>9.9.9-SNAPSHOT</stardust.modeling.core>
+	</properties-->
+	<dependencies>
+		<!--dependency>
+			<groupId>org.eclipse.stardust.modeling.core</groupId>
+			<artifactId>org.eclipse.stardust.modeling.core</artifactId>
+			<version>${ipp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.stardust.ide.3rdparty</groupId>
+			<artifactId>org.eclipse.stardust.ide.thirdparty.camel</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.stardust.modeling.model</groupId>
+			<artifactId>org.eclipse.stardust.model.xpdl</artifactId>
+			<version>${ipp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.stardust.modeling.core</groupId>
+			<artifactId>org.eclipse.stardust.modeling.javascript.editor</artifactId>                  
+			<version>${ipp.version}</version>
+		</dependency-->
+    
+		<dependency>
+			<groupId>com.infinity.bpm</groupId>
+			<artifactId>ipp-camel</artifactId>                  
+			<version>${ipp.version}</version>
+		</dependency>    
+	</dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>embed-jars-no-version</id>
+            <configuration>
+              <includeArtifactIds>ipp-camel</includeArtifactIds>
+              <outputDirectory>${basedir}/lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>        
+      </plugin>
+    </plugins>
+  </build>  
+  
+</project>

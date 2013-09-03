@@ -38,6 +38,8 @@
     <module>org.eclipse.stardust.modeling.debug.nl</module>
     <module>org.eclipse.stardust.modeling.deploy</module>
     <module>org.eclipse.stardust.modeling.deploy.nl</module>
+    <module>org.eclipse.stardust.modeling.integration.camel</module>
+    <module>org.eclipse.stardust.modeling.integration.camel.nl</module>    
     <module>org.eclipse.stardust.modeling.integration.dms</module>
     <module>org.eclipse.stardust.modeling.integration.dms.nl</module>
     <module>org.eclipse.stardust.modeling.integration.ejb30</module>
