@@ -1234,7 +1234,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
       JSAssignment ass = new JSAssignment(assignment.lhs, assignment.expression, assignment.sourceEnd);
       ass.bits = assignment.bits;
       ass.constant = assignment.constant;
-      ass.implicitConversion = assignment.implicitConversion;
+      // ass.implicitConversion = assignment.implicitConversion;
       ass.resolvedType = assignment.resolvedType;
       ass.sourceEnd = assignment.sourceEnd;
       ass.sourceStart = assignment.sourceStart;
@@ -1251,7 +1251,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
          fr.binding = fieldReference.binding;
          fr.bits = fieldReference.bits;
          fr.constant = fieldReference.constant;
-         fr.implicitConversion = fieldReference.implicitConversion;
+         // fr.implicitConversion = fieldReference.implicitConversion;
          fr.nameSourcePosition = fieldReference.nameSourcePosition;
          fr.receiver = fieldReference.receiver;
          fr.receiverType = fieldReference.receiverType;
@@ -1276,7 +1276,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
           fr.binding = fieldReference.binding;
           fr.bits = fieldReference.bits;
           fr.constant = fieldReference.constant;
-          fr.implicitConversion = fieldReference.implicitConversion;
+          // fr.implicitConversion = fieldReference.implicitConversion;
           fr.nameSourcePosition = fieldReference.nameSourcePosition;
           fr.receiver = fieldReference.receiver;
           fr.receiverType = fieldReference.receiverType;
@@ -1298,7 +1298,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
        ArrayReference fr = new JSArrayReference(fieldReference.receiver, fieldReference.position);        
        fr.bits = fieldReference.bits;
        fr.constant = fieldReference.constant;
-       fr.implicitConversion = fieldReference.implicitConversion;
+       // fr.implicitConversion = fieldReference.implicitConversion;
        fr.receiver = fieldReference.receiver;        
        fr.resolvedType = fieldReference.resolvedType;
        fr.sourceEnd = fieldReference.sourceEnd;
