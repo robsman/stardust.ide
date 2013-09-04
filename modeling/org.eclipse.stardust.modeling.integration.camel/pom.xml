@@ -21,7 +21,7 @@
 		<stardust.modeling.core>9.9.9-SNAPSHOT</stardust.modeling.core>
 	</properties-->
 	<dependencies>
-		<!--dependency>
+		<dependency>
 			<groupId>org.eclipse.stardust.modeling.core</groupId>
 			<artifactId>org.eclipse.stardust.modeling.core</artifactId>
 			<version>${ipp.version}</version>
@@ -41,7 +41,7 @@
 			<groupId>org.eclipse.stardust.modeling.core</groupId>
 			<artifactId>org.eclipse.stardust.modeling.javascript.editor</artifactId>                  
 			<version>${ipp.version}</version>
-		</dependency-->
+		</dependency>
     
 		<dependency>
 			<groupId>com.infinity.bpm</groupId>
