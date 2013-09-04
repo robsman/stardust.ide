@@ -8,24 +8,22 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  org.eclipse.core.variables,
- org.eclipse.jst.j2ee,
- org.eclipse.jst.j2ee.web,
  org.eclipse.stardust.model.xpdl,
  org.eclipse.stardust.modeling.common,
- org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.common.ui.jface,
  org.eclipse.stardust.modeling.validation,
- org.eclipse.stardust.ide.wst.common,
- org.eclipse.stardust.ide.wst.facet.portal,
- org.eclipse.gef,
  org.eclipse.stardust.modeling.core,
+ org.eclipse.gef,
  org.eclipse.stardust.ide.thirdparty.camel,
- org.eclipse.stardust.ide.thirdparty.springframework
+ org.eclipse.stardust.ide.thirdparty.springframework,
+ org.eclipse.stardust.modeling.transformation,
+ org.eclipse.stardust.modeling.common.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.jface.text
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.stardust.modeling.integration.camel.triggerTypes,
  org.eclipse.stardust.modeling.integration.camel.ui,
- org.eclipse.stardust.modeling.integration.camel.validator,
- org.eclipse.stardust.modeling.integration.camel.wst
+ org.eclipse.stardust.modeling.integration.camel.validator
 Bundle-ClassPath: lib/ipp-camel.jar,
  ipp-camel-plugin.jar
 Bundle-ActivationPolicy: lazy

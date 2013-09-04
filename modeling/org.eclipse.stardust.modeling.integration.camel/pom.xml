@@ -19,7 +19,7 @@
 		<camel.version>2.9.2</camel.version>
 		<tycho.version>0.10.0</tycho.version>
 		<stardust.modeling.core>9.9.9-SNAPSHOT</stardust.modeling.core>
-	</properties-->
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.stardust.modeling.core</groupId>
@@ -48,7 +48,7 @@
 			<artifactId>ipp-camel</artifactId>                  
 			<version>${ipp.version}</version>
 		</dependency>    
-	</dependencies>
+	</dependencies-->
   
   <build>
     <plugins>

@@ -127,31 +127,4 @@ value="org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanV
 </application>
 </extension>
 
-<!-- WST facet related extensions -->
-<extension point="org.eclipse.stardust.ide.wst.facet.portal.webModule">
-      <installConfigurator
-            class="org.eclipse.stardust.modeling.integration.camel.wst.InstallModuleConfigurator">
-      </installConfigurator>
-      <uninstallConfigurator
-            class="org.eclipse.stardust.modeling.integration.camel.wst.UninstallModuleConfigurator">
-      </uninstallConfigurator>
-   </extension>
-   <extension point="org.eclipse.core.variables.dynamicVariables">
-      <variable
-            description="%camelDynamicVariableDescription"
-            name="IPP_CAMEL_PORTAL_LIBS"
-            resolver="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"/>
-      <variable
-            description="%camelDynamicVariableDescription"
-            name="IPP_3RD_PARTY_CAMEL_LIBS"
-            resolver="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"/>
-   </extension>
-   <extension point="org.eclipse.jdt.core.classpathVariableInitializer">
-      <classpathVariableInitializer
-            class="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"
-            variable="IPP_CAMEL_PORTAL_LIBS"/>
-      <classpathVariableInitializer
-            class="org.eclipse.stardust.modeling.integration.camel.wst.CamelLibsVariableResolver"
-            variable="IPP_3RD_PARTY_CAMEL_LIBS"/>
-   </extension>
 </plugin>
