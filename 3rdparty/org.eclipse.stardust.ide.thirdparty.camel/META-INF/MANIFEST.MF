@@ -6,10 +6,10 @@ Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.camel;singleton:=true
 Bundle-Version: 2.9.2
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/camel-core-2.9.2.jar,
- lib/camel-spring-2.9.2.jar,
- lib/camel-jms-2.9.2.jar,
- lib/camel-mail-2.9.2.jar,
- lib/camel-quartz-2.9.2.jar,
- lib/quartz-1.8.5.jar,
- lib/camel-script-2.9.2.jar
+Bundle-ClassPath: lib/camel-core.jar,
+ lib/camel-spring.jar,
+ lib/camel-jms.jar,
+ lib/camel-quartz.jar,
+ lib/camel-script.jar,
+ lib/quartz.jar,
+ lib/org.restlet.jar
