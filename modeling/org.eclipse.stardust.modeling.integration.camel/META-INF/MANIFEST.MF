@@ -24,7 +24,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.stardust.modeling.integration.camel.triggerTypes,
  org.eclipse.stardust.modeling.integration.camel.ui,
  org.eclipse.stardust.modeling.integration.camel.validator
-Bundle-ClassPath: lib/ipp-camel.jar,
- ipp-camel-plugin.jar
+Bundle-ClassPath: lib/stardust-engine-camel.jar,
+ stardust-camel-plugin.jar
 Bundle-ActivationPolicy: lazy
 
