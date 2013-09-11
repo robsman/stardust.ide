@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
@@ -25,10 +27,14 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 public class StructAccessPointBuilder
       extends AbstractModelElementBuilder<AccessPointType, StructAccessPointBuilder>
 {
-
    private ModelBuilderFacade facade;
 
    private IAccessPointOwner owner;
+
+   protected EList< ? super AccessPointType> getElementContainer()
+   {
+      return owner.getAccessPoint();
+   }
 
    public StructAccessPointBuilder()
    {
@@ -210,5 +216,4 @@ public class StructAccessPointBuilder
       }
       return facade;
    }
-
 }

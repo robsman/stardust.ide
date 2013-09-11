@@ -12,6 +12,8 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
@@ -28,6 +30,11 @@ public class PrimitiveAccessPointBuilder
 {
 
    private IAccessPointOwner owner;
+
+   protected EList< ? super AccessPointType> getElementContainer()
+   {
+      return owner.getAccessPoint();
+   }
 
    public PrimitiveAccessPointBuilder()
    {
@@ -184,5 +191,4 @@ public class PrimitiveAccessPointBuilder
       }
       return null;
    }
-
 }
