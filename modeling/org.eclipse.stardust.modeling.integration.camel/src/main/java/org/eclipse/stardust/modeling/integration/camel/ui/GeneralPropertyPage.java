@@ -182,7 +182,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       setAttributeValue(CamelConstants.CAMEL_CONTEXT_ID_ATT, null, camelContextNameText);
       setAttributeValue(CamelConstants.ADDITIONAL_SPRING_BEANS_DEF_ATT, null, additionalSpringBeanDefinitions);
       
-      AttributeUtil.setAttribute(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS, Boolean.toString(true));
+      AttributeUtil.setAttribute(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS, "boolean", Boolean.toString(true));
       
    }
 
