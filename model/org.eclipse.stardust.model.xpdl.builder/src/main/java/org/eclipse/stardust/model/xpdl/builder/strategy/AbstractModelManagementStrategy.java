@@ -65,6 +65,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
    {
       if (reload || !hasLoaded)
       {
+         this.hasLoaded = true;
          xpdlModels.clear();
          nativeModels.clear();
          for (ModelDescriptor modelDescriptor : loadModels())
@@ -76,8 +77,6 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
                nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
             }
          }
-
-         this.hasLoaded = true;
       }
 
       return xpdlModels;
