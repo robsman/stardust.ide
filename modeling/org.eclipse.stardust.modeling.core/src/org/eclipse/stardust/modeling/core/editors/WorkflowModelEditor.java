@@ -87,6 +87,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
@@ -1216,6 +1217,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                if (symbol.getModelElement() == null
                      && !(symbol instanceof StartEventSymbol)
                      && !(symbol instanceof EndEventSymbol)
+                     && !(symbol instanceof IntermediateEventSymbol)                     
                      && !(symbol instanceof PublicInterfaceSymbol))
                {
                   toDelete.add(symbol);
