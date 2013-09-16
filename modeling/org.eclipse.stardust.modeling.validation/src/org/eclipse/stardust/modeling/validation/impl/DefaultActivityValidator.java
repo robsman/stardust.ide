@@ -318,7 +318,8 @@ public class DefaultActivityValidator implements IModelElementValidator
       int count = 0;
       
       List removeTransitions = new ArrayList<TransitionType>();
-      List transitions = process.getTransition();      
+      List transitions = new ArrayList<TransitionType>();
+      transitions.addAll(process.getTransition());
       for(EventHandlerType eventHandler : activity.getEventHandler())
       {
          TransitionType exceptionTransition = getExceptionTransition(activity.getOutTransitions(), eventHandler.getId());
