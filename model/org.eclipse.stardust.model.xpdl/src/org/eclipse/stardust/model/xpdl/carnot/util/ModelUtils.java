@@ -1635,22 +1635,22 @@ public class ModelUtils
       return referencedModel;
    }
 
-   public static XSDImport getImportByNamespace(XSDSchema schema, String nameSpace)
+   public static ModelType getExternalModel(ModelType model, String modelID)
    {
-      List<XSDImport> xsdImports = TypeDeclarationUtils.getImports(schema);
-      if (xsdImports != null)
+      ExternalPackages packages = model.getExternalPackages();
+      if (packages != null)
       {
-         for (Iterator<XSDImport> i = xsdImports.iterator(); i.hasNext();)
+         for (ExternalPackage pkg : packages.getExternalPackage())
          {
-            XSDImport xsdImport = i.next();
-            String importNameSpace = xsdImport.getNamespace();
-            if (nameSpace.equals(importNameSpace))
+            ModelType otherModel = ModelUtils.getExternalModel(pkg);
+            if (otherModel.getId().equals(modelID))
             {
-               return xsdImport;
+               return otherModel;
             }
          }
       }
       return null;
    }
+
 
 }
