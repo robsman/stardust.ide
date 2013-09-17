@@ -856,9 +856,12 @@ public class JavaScriptInferenceEngine extends InferEngine
                              }
                              else
                              {
-                                dataType = (DataType) ModelUtils
-                                   .findIdentifiableElement(model.getData(), name);
-                                CodeCompletionHelper.getInstance().getTypeMap().put(name, dataType);
+                              dataType = (DataType) ModelUtils.findIdentifiableElement(
+                                    model.getData(), name);
+                              CodeCompletionHelper.getInstance()
+                                    .getTypeMap()
+                                    .put(name, dataType);
+
                              }
                          }
 
@@ -868,14 +871,21 @@ public class JavaScriptInferenceEngine extends InferEngine
                          }
                          else
                          {
-                            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(model,
+                            ModelType referModel = model;
+                            String[] namePath = targetTypeName.split("/");
+                            if (!model.getId().equals(namePath[0]) && namePath.length > 1)
+                            {
+                               referModel = ModelUtils.getExternalModel(model, namePath[0]);
+                               targetTypeName = namePath[1];
+                            }
+                            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(referModel,
                                   targetTypeName);
                             accessPoint = new StructAccessPointType(xPathMap.getRootXPath(),
                                   xPathMap);
                             ((StructAccessPointType) accessPoint).setId(targetTypeName);
                             ((StructAccessPointType) accessPoint)
                                   .setType((DataTypeType) ModelUtils.findIdentifiableElement(
-                                        model.getDataType(), "struct"));                         //$NON-NLS-1$
+                                        referModel.getDataType(), "struct"));                         //$NON-NLS-1$
                          }
                          inferredIppAccessPointsByType.put(targetTypeName, accessPoint);
                       }
