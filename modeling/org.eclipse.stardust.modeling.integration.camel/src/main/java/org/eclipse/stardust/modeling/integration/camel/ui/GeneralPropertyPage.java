@@ -261,7 +261,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
                   .equalsIgnoreCase(Camel_Messages.label_Invocation_Pattern_Receive))
             {
                initializePropertyPage();
-               AttributeUtil.setAttribute(application, CamelConstants.INVOCATION_TYPE_EXT_ATT, SYNCHRONOUS);
+               AttributeUtil.setAttribute(application, CamelConstants.INVOCATION_TYPE_EXT_ATT, ASYNCHRONOUS);
                AttributeUtil.setAttribute(application, CamelConstants.INVOCATION_PATTERN_EXT_ATT, RECEIVE);
                addPropertyPage(getApplication(), createConsumerConfigurationElement());
                changeApplicationTypeToConsumer();
