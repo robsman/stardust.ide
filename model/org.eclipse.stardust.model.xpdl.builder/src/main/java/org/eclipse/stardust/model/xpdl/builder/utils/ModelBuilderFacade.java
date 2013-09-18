@@ -45,10 +45,8 @@ import java.util.UUID;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.Direction;
@@ -404,8 +402,14 @@ public class ModelBuilderFacade
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
 
-      FormalParameterType parameterType = processInterface.getFormalParameters()
-            .getFormalParameter(id);
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+         processInterface.setFormalParameters(parametersType);         
+      }
+      
+      FormalParameterType parameterType = parametersType.getFormalParameter(id);
 
       if (parameterType == null)
       {
@@ -462,14 +466,7 @@ public class ModelBuilderFacade
          dataTypeType.setExternalReference(extRef);
       }
 
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-      }
       parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
