@@ -35,8 +35,8 @@ public class CamelProducerModelValidator implements IModelElementValidator
             INVOCATION_PATTERN_EXT_ATT);
       String invocationType = AttributeUtil.getAttributeValue((IExtensibleElement) element, INVOCATION_TYPE_EXT_ATT);
 
-      if(((ApplicationTypeImpl)element).getExecutedActivities().isEmpty())
-         result.add(Issue.error(element, "No application activity set for application "+((ApplicationTypeImpl)element).getName()));
+//      if(((ApplicationTypeImpl)element).getExecutedActivities().isEmpty())
+//         result.add(Issue.error(element, "No application activity set for application "+((ApplicationTypeImpl)element).getName()));
       
       if (invocationPattern == null && invocationType == null)
       {
