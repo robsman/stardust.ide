@@ -19,6 +19,7 @@
    <configurations>
       <conf name="ipp-bpm-model-builder-compile" description="XPDL Builder - Compile Scope" />
       <conf name="ipp-bpm-model-builder-runtime" description="XPDL Builder - Runtime Scope" />
+      <conf name="ipp-bpm-model-builder-sources" description="XPDL Builder - Sources" />
       
       <conf name="test" visibility="private" description="Test dependencies" />
 
@@ -33,6 +34,7 @@
 
    <publications>
       <artifact name="ipp-bpm-model-builder" type="jar" conf="ipp-bpm-model-builder-compile,ipp-bpm-model-builder-runtime" ext="jar" />
+      <artifact name="ipp-bpm-model-builder" type="source" conf="ipp-bpm-model-builder-sources" ext="jar" m:classifier="sources" />
       <artifact name="ipp-bpm-model-builder" type="pom" conf="pom" ext="pom" />
    </publications>
 
