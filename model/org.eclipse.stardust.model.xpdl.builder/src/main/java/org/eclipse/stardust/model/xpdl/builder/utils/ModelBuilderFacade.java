@@ -717,6 +717,7 @@ public class ModelBuilderFacade
          return;
       }
 
+      data.getAttribute().clear();
       ModelType model = ModelUtils.findContainingModel(data);
       data.setType(ModelUtils.findIdentifiableElement(model.getDataType(), targetTypeID));
       IDataInitializer init = getInitializer(targetTypeID);
