@@ -54,7 +54,7 @@
       <property name="ipp-bpm-repository.jar" value="${build.lib}/${ipp-bpm-repository.jarfile}" />
       <property name="ipp-bpm-repository.pom" value="${build.lib}/${ipp-bpm-repository.pomfile}" />
       <property name="ipp-bpm-repository.src-jarfile" value="${artifactId}-sources.jar" />
-      <property name="ipp-bpm-repository.src-jar" value="${build.lib.src}/${ipp-bpm-repository.src-jarfile}" />
+      <property name="ipp-bpm-repository.src-jar" value="${build.lib}/${ipp-bpm-repository.src-jarfile}" />
    </target>
 
    <target name="initBuildDirectories" depends="initBuild">
@@ -82,7 +82,17 @@
 			pomFilePath="${build.lib}" moduleName="${artifactId}" />
 	</target>
 	
-	<target name="publish.ivy" depends="unpack.p2, jar.m2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
+   <target name="jar.src" >
+      <delete file="${ipp-bpm-repository.src-jar}" />
+      <ipp:jar jarfile="${ipp-bpm-repository.src-jar}" implementationTitle="Modeling Repository Sources"
+         duplicate="preserve">
+         <fileset dir="${project.dir}/src">
+            <include name="**/*.java" />
+         </fileset>
+      </ipp:jar>
+   </target>
+      
+	<target name="publish.ivy" depends="unpack.p2, jar.m2, jar.src, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
 		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />		   
 	</target>
 	
