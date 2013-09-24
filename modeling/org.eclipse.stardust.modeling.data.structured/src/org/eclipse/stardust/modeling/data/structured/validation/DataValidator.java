@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.data.structured.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
@@ -31,8 +32,6 @@ import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
-
-import com.infinity.bpm.thirdparty.emf.common.util.URI;
 
 public class DataValidator implements IModelElementValidator
 {

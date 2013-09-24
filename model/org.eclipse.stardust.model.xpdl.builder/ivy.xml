@@ -72,5 +72,9 @@
       </dependency>
       <dependency org="org.hamcrest" name="hamcrest-core" rev="${hamcrest-core.version}" conf="test->default" />
 
+      <override org="org.eclipse.emf" module="org.eclipse.emf.common" rev="${org.eclipse.emf.common.version}" />
+      <override org="org.eclipse.emf" module="org.eclipse.emf.ecore" rev="${org.eclipse.emf.ecore.version}" />
+
    </dependencies>
 </ivy-module>
+
