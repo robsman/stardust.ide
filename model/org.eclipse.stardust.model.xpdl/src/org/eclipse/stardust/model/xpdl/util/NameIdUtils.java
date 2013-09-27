@@ -12,7 +12,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -25,6 +24,7 @@ import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
@@ -81,16 +81,16 @@ public class NameIdUtils
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Code(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Name());
       }
+      else if(element instanceof IIdentifiableElement)
+      {
+         factory = new IdFactory(base, base);
+      }
       else if (element instanceof FormalParameterType)
       {
          factory = new IdFactory(base, base,
                XpdlPackage.eINSTANCE.getFormalParameterType(),
                XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
                XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-      }
-      else if(element instanceof IIdentifiableElement)
-      {
-         factory = new IdFactory(base, base);
       }
       else if(element instanceof TypeDeclarationType)
       {
