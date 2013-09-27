@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -29,7 +30,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
-import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 
 public class TypeDeclarationUtils
 {
@@ -40,6 +40,8 @@ public class TypeDeclarationUtils
    public static final int COMPLEX_TYPE = 2;
 
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
+
+   private static Set<String> reservedPrefixes = reserve("xml", "xsd");
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -97,6 +99,19 @@ public class TypeDeclarationUtils
          }
       }
       clone.updateElement(true);
+   }
+
+   private static Set<String> reserve(String... values)
+   {
+      Set<String> reserved = CollectionUtils.newSet();
+      if (values != null)
+      {
+         for (String string : values)
+         {
+            reserved.add(string);
+         }
+      }
+      return reserved;
    }
 
    public static boolean fixImport(TypeDeclarationType typeDeclaration, String newId, String previousId)
@@ -407,18 +422,22 @@ public class TypeDeclarationUtils
          {
             nch = pos;
          }
-         prefix = name.substring(0, nch) + name.substring(pos);
+         prefix = (name.substring(0, nch) + name.substring(pos)).toLowerCase();
+      }
+      if (reservedPrefixes.contains(prefix))
+      {
+         prefix = "px"; //$NON-NLS-1$
       }
       if (usedPrefixes.contains(prefix))
       {
          int counter = 1;
-         while (usedPrefixes.contains(prefix + '_' + counter))
+         while (usedPrefixes.contains(prefix + counter))
          {
             counter++;
          }
-         prefix = prefix + '_' + counter;
+         prefix = prefix + counter;
       }
-      return prefix.toLowerCase();
+      return prefix;
    }
 
    public static void updateImports(XSDSchema xsdSchema, String oldTargetNamespace, String oldId, String id)
