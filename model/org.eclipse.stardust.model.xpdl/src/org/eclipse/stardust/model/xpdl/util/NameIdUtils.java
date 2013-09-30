@@ -24,6 +24,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 
@@ -36,7 +37,7 @@ public class NameIdUtils
    {
       return createIdFromName(container, element, null);
    }
-   
+
    /**
     * @return
     */
@@ -46,23 +47,27 @@ public class NameIdUtils
       {
          container = findContainer(element);
       }
-      
+
       if(base == null)
       {
          if(element instanceof Code)
-         {            
+         {
             base = ((Code) element).getName();
-         }         
+         }
          if(element instanceof IIdentifiableElement)
-         {            
+         {
             base = ((IIdentifiableElement) element).getName();
+         }
+         if(element instanceof FormalParameterType)
+         {
+            base = ((FormalParameterType) element).getName();
          }
          else if(element instanceof TypeDeclarationType)
          {
-            base = ((TypeDeclarationType) element).getName();         
+            base = ((TypeDeclarationType) element).getName();
          }
       }
-         
+
       if(StringUtils.isEmpty(base))
       {
          return "";
@@ -70,14 +75,21 @@ public class NameIdUtils
 
       IdFactory factory = null;
       if(element instanceof Code)
-      {            
+      {
          factory = new IdFactory(base, base,
                      CarnotWorkflowModelPackage.eINSTANCE.getCode(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Code(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Name());
-      }      
+      }
+      else if (element instanceof FormalParameterType)
+      {
+         factory = new IdFactory(base, base,
+               XpdlPackage.eINSTANCE.getFormalParameterType(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+      }
       else if(element instanceof IIdentifiableElement)
-      {            
+      {
          factory = new IdFactory(base, base);
       }
       else if(element instanceof TypeDeclarationType)
@@ -85,7 +97,7 @@ public class NameIdUtils
          factory = new IdFactory(base);
       }
 
-      List list = null;      
+      List list = null;
       if(element instanceof RoleType
             || element instanceof OrganizationType
             || element instanceof ConditionalPerformerType)
@@ -95,7 +107,7 @@ public class NameIdUtils
          list.addAll(containingModel.getRole());
          list.addAll(containingModel.getOrganization());
          list.addAll(containingModel.getConditionalPerformer());
-      }      
+      }
       else if(container instanceof EObject
             && !(element instanceof AccessPointType)
             && !(element instanceof ModelType))
