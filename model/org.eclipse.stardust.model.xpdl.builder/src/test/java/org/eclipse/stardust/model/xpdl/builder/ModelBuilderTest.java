@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.DEFAULT_CONTEXT;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
@@ -26,8 +27,12 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransit
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,6 +78,51 @@ public class ModelBuilderTest
 
       assertNotNull(aString);
       assertTrue(aString.isSetElementOid());
+   }
+   
+   @Test
+   public void verifyIdGeneration1()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, "jumbo", "jet", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "jet", param.getId());
+      assertEquals("Name", "jet", param.getName());
+   }
+
+   @Test
+   public void verifyIdGeneration2()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, "jumbo", "  ", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "jumbo", param.getId());
+      assertEquals("Name", "jumbo", param.getName());
+   }
+
+   @Test
+   public void verifyIdGeneration3()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, " ", " ", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "FormalParameter1", param.getId());
+      assertEquals("Name", "FormalParameter 1", param.getName());
    }
 
    public static void assignMissingElementOids(ModelType model)

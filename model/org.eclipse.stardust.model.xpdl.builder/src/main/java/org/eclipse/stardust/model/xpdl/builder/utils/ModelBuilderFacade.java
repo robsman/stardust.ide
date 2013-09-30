@@ -328,35 +328,8 @@ public class ModelBuilderFacade
          String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-
-      FormalParameterType parameterType = processInterface.getFormalParameters()
-            .getFormalParameter(id);
-      if (parameterType == null)
-      {
-         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
-                                                XpdlPackage.eINSTANCE.getFormalParameterType(),
-                                                XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
-                                                XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-
-         parameterType = xpdlFactory.createFormalParameterType();
-         idFactory.computeNames(processInterface.getFormalParameters().getFormalParameter(), true);
-         id = idFactory.getId();
-         name = idFactory.getName();
-      }
-
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-      }
-
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
+      
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
@@ -402,32 +375,7 @@ public class ModelBuilderFacade
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
 
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-         processInterface.setFormalParameters(parametersType);         
-      }
-      
-      FormalParameterType parameterType = parametersType.getFormalParameter(id);
-
-      if (parameterType == null)
-      {
-         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
-               XpdlPackage.eINSTANCE.getFormalParameterType(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-
-         parameterType = xpdlFactory.createFormalParameterType();
-         idFactory.computeNames(processInterface.getFormalParameters()
-               .getFormalParameter(), true);
-         id = idFactory.getId();
-         name = idFactory.getName();
-      }
-
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
@@ -466,8 +414,6 @@ public class ModelBuilderFacade
          dataTypeType.setExternalReference(extRef);
       }
 
-      parametersType.addFormalParameter(parameterType);
-
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
       if (parameterMappingsType == null)
@@ -485,32 +431,60 @@ public class ModelBuilderFacade
       return parameterType;
    }
 
+   private FormalParameterType createFormalParameter(ProcessDefinitionType processInterface, String id, String name,
+         ModeType mode, XpdlFactory xpdlFactory)
+   {
+      boolean forceSuffix = false;
+      if (StringUtils.isEmpty(name.trim()))
+      {
+         if (StringUtils.isEmpty(id.trim()))
+         {
+            name = "FormalParameter";
+            forceSuffix = true;
+         }
+         else
+         {
+            name = id;
+         }
+      }
+
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+         processInterface.setFormalParameters(parametersType);         
+      }
+      
+      FormalParameterType parameterType = parametersType.getFormalParameter(id);
+
+      if (parameterType == null)
+      {
+         IdFactory idFactory = new IdFactory(null, name.trim(),
+               XpdlPackage.eINSTANCE.getFormalParameterType(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+
+         parameterType = xpdlFactory.createFormalParameterType();
+         idFactory.computeNames(parametersType.getFormalParameter(), forceSuffix);
+         id = idFactory.getId();
+         name = idFactory.getName();
+         parametersType.addFormalParameter(parameterType);
+      }
+
+      parameterType.setId(id);
+      parameterType.setName(name);
+      parameterType.setMode(mode);
+      
+      return parameterType;
+   }
+
    public FormalParameterType createDocumentParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
 
-      FormalParameterType parameterType = processInterface.getFormalParameters()
-            .getFormalParameter(id);
-
-      if (parameterType == null)
-      {
-         IdFactory idFactory = new IdFactory("formalParameter", "FormalParameter_",
-               XpdlPackage.eINSTANCE.getFormalParameterType(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-
-         parameterType = xpdlFactory.createFormalParameterType();
-         idFactory.computeNames(processInterface.getFormalParameters()
-               .getFormalParameter(), true);
-         id = idFactory.getId();
-         name = idFactory.getName();
-      }
-
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
@@ -525,15 +499,6 @@ public class ModelBuilderFacade
       declaredType.setId(stripFullId(structTypeFullID));
 
       dataTypeType.setDeclaredType(declaredType);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-      }
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
