@@ -49,6 +49,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
@@ -459,21 +461,32 @@ public class ModelBuilderFacade
 
       if (parameterType == null)
       {
-         IdFactory idFactory = new IdFactory(null, name.trim(),
-               XpdlPackage.eINSTANCE.getFormalParameterType(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-
          parameterType = xpdlFactory.createFormalParameterType();
-         idFactory.computeNames(parametersType.getFormalParameter(), forceSuffix);
-         id = idFactory.getId();
-         name = idFactory.getName();
          parametersType.addFormalParameter(parameterType);
       }
 
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
+      IdFactory idFactory = new IdFactory(null, name.trim(),
+            XpdlPackage.eINSTANCE.getFormalParameterType(),
+            XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+            XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+      List<FormalParameterType> existing = CollectionUtils.copyList(parametersType.getFormalParameter());
+      existing.remove(parameterType);
+      idFactory.computeNames(existing, forceSuffix);
+      id = idFactory.getId();
+      name = idFactory.getName();
+
+      if (!id.equals(parameterType.getId()))
+      {
+         parameterType.setId(id);
+      }
+      if (!name.equals(parameterType.getName()))
+      {
+         parameterType.setName(name);
+      }
+      if (!CompareHelper.areEqual(mode, parameterType.getMode()))
+      {
+         parameterType.setMode(mode);
+      }
       
       return parameterType;
    }
