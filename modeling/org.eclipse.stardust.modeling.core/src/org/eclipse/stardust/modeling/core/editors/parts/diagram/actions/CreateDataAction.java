@@ -109,7 +109,8 @@ public class CreateDataAction extends SelectionAction
             IDataInitializer initializer = ModelUtils.getInitializer(element.getType());
             if (initializer != null)
             {
-               List<AttributeType> attributes = initializer.initialize(element, Collections.EMPTY_LIST);
+               List<AttributeType> attributes = initializer.initialize(element,
+                     Collections.<AttributeType>emptyList());
                if (attributes != null)
                {
                   element.getAttribute().addAll(attributes);
