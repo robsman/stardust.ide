@@ -4,8 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.engine.core;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Bundle-ClassPath: etc/,
- lib/carnot-engine.jar,
- lib/carnot-emf-xsd-integration.jar
+ lib/carnot-engine.jar
 Bundle-Localization: plugin
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.eclipse.stardust.ide.engine.base
