@@ -486,13 +486,13 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
          {
             String producerMethodNameValue = getProducerMethodName();
 
-            if (producerMethodNameValue.equalsIgnoreCase(GenericProducer.SEND_METHOD))
+            if (producerMethodNameValue.equalsIgnoreCase(CamelConstants.SEND_METHOD))
             {
                initSendAsynchronousApplication();
             }
-            if (producerMethodNameValue.equalsIgnoreCase(GenericProducer.SEND_METHOD_WITH_HEADER))
+            if (producerMethodNameValue.equalsIgnoreCase(CamelConstants.SEND_METHOD_WITH_HEADER))
                initSendAsynchronousApplication();
-            if (producerMethodNameValue.equalsIgnoreCase(GenericProducer.SEND_RECEIVE_METHOD_WITH_HEADER))
+            if (producerMethodNameValue.equalsIgnoreCase(CamelConstants.SEND_RECEIVE_METHOD_WITH_HEADER))
                initSendReceiveSynchronousApplication();
 
          }
