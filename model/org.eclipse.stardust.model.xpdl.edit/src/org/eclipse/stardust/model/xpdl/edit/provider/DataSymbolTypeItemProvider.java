@@ -94,8 +94,8 @@ public class DataSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataSymbolType_data_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataSymbolType_data_feature", "_UI_DataSymbolType_type"),
+             getString("_UI_DataSymbolType_data_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataSymbolType_data_feature", "_UI_DataSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_SYMBOL_TYPE__DATA,
              true,
              false,
@@ -117,8 +117,8 @@ public class DataSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataSymbolType_dataMappings_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataSymbolType_dataMappings_feature", "_UI_DataSymbolType_type"),
+             getString("_UI_DataSymbolType_dataMappings_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataSymbolType_dataMappings_feature", "_UI_DataSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_SYMBOL_TYPE__DATA_MAPPINGS,
              true,
              false,
@@ -137,7 +137,7 @@ public class DataSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -150,7 +150,7 @@ public class DataSymbolTypeItemProvider
    public String getText(Object object)
    {
       DataSymbolType dataSymbolType = (DataSymbolType)object;
-      return getString("_UI_DataSymbolType_type") + " " + dataSymbolType.getElementOid();
+      return getString("_UI_DataSymbolType_type") + " " + dataSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

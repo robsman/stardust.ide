@@ -100,8 +100,8 @@ public class ParameterMappingTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -123,8 +123,8 @@ public class ParameterMappingTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ParameterMappingType_data_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_data_feature", "_UI_ParameterMappingType_type"),
+             getString("_UI_ParameterMappingType_data_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_data_feature", "_UI_ParameterMappingType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PARAMETER_MAPPING_TYPE__DATA,
              true,
              false,
@@ -146,8 +146,8 @@ public class ParameterMappingTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ParameterMappingType_dataPath_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_dataPath_feature", "_UI_ParameterMappingType_type"),
+             getString("_UI_ParameterMappingType_dataPath_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_dataPath_feature", "_UI_ParameterMappingType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PARAMETER_MAPPING_TYPE__DATA_PATH,
              true,
              false,
@@ -169,8 +169,8 @@ public class ParameterMappingTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ParameterMappingType_parameter_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_parameter_feature", "_UI_ParameterMappingType_type"),
+             getString("_UI_ParameterMappingType_parameter_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_parameter_feature", "_UI_ParameterMappingType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PARAMETER_MAPPING_TYPE__PARAMETER,
              true,
              false,
@@ -192,8 +192,8 @@ public class ParameterMappingTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ParameterMappingType_parameterPath_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_parameterPath_feature", "_UI_ParameterMappingType_type"),
+             getString("_UI_ParameterMappingType_parameterPath_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ParameterMappingType_parameterPath_feature", "_UI_ParameterMappingType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PARAMETER_MAPPING_TYPE__PARAMETER_PATH,
              true,
              false,
@@ -212,7 +212,7 @@ public class ParameterMappingTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ParameterMappingType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ParameterMappingType")); //$NON-NLS-1$
    }
 
    /**
@@ -225,7 +225,7 @@ public class ParameterMappingTypeItemProvider
    public String getText(Object object)
    {
       ParameterMappingType parameterMappingType = (ParameterMappingType)object;
-      return getString("_UI_ParameterMappingType_type") + " " + parameterMappingType.getElementOid();
+      return getString("_UI_ParameterMappingType_type") + " " + parameterMappingType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -107,8 +107,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -130,8 +130,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_borderColor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_borderColor_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_borderColor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_borderColor_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__BORDER_COLOR,
              true,
              false,
@@ -153,8 +153,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_fillColor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_fillColor_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_fillColor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_fillColor_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__FILL_COLOR,
              true,
              false,
@@ -176,8 +176,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_style_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_style_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_style_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_style_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__STYLE,
              true,
              false,
@@ -199,8 +199,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_xPos_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_xPos_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_xPos_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_xPos_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__XPOS,
              true,
              false,
@@ -222,8 +222,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_yPos_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_yPos_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_yPos_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_yPos_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__YPOS,
              true,
              false,
@@ -245,8 +245,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_width_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_width_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_width_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_width_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__WIDTH,
              true,
              false,
@@ -268,8 +268,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_height_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_height_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_height_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_height_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__HEIGHT,
              true,
              false,
@@ -291,8 +291,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_shape_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_shape_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_shape_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_shape_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__SHAPE,
              true,
              false,
@@ -314,8 +314,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_referingToConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingToConnections_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_referingToConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingToConnections_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__REFERING_TO_CONNECTIONS,
              true,
              false,
@@ -337,8 +337,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_referingFromConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingFromConnections_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_referingFromConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingFromConnections_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__REFERING_FROM_CONNECTIONS,
              true,
              false,
@@ -360,8 +360,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_inLinks_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_inLinks_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_inLinks_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_inLinks_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__IN_LINKS,
              true,
              false,
@@ -383,8 +383,8 @@ public class GroupSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_INodeSymbol_outLinks_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_outLinks_feature", "_UI_INodeSymbol_type"),
+             getString("_UI_INodeSymbol_outLinks_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_INodeSymbol_outLinks_feature", "_UI_INodeSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.INODE_SYMBOL__OUT_LINKS,
              true,
              false,
@@ -403,7 +403,7 @@ public class GroupSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/GroupSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/GroupSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -416,7 +416,7 @@ public class GroupSymbolTypeItemProvider
    public String getText(Object object)
    {
       GroupSymbolType groupSymbolType = (GroupSymbolType)object;
-      return getString("_UI_GroupSymbolType_type") + " " + groupSymbolType.getElementOid();
+      return getString("_UI_GroupSymbolType_type") + " " + groupSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

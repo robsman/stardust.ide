@@ -106,8 +106,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -129,8 +129,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -152,8 +152,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -175,8 +175,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IMetaType_isPredefined_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"),
+             getString("_UI_IMetaType_isPredefined_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMETA_TYPE__IS_PREDEFINED,
              true,
              false,
@@ -198,8 +198,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TriggerTypeType_panelClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_panelClass_feature", "_UI_TriggerTypeType_type"),
+             getString("_UI_TriggerTypeType_panelClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_panelClass_feature", "_UI_TriggerTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRIGGER_TYPE_TYPE__PANEL_CLASS,
              true,
              false,
@@ -221,8 +221,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TriggerTypeType_pullTrigger_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_pullTrigger_feature", "_UI_TriggerTypeType_type"),
+             getString("_UI_TriggerTypeType_pullTrigger_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_pullTrigger_feature", "_UI_TriggerTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRIGGER_TYPE_TYPE__PULL_TRIGGER,
              true,
              false,
@@ -244,8 +244,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TriggerTypeType_pullTriggerEvaluator_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_pullTriggerEvaluator_feature", "_UI_TriggerTypeType_type"),
+             getString("_UI_TriggerTypeType_pullTriggerEvaluator_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_pullTriggerEvaluator_feature", "_UI_TriggerTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRIGGER_TYPE_TYPE__PULL_TRIGGER_EVALUATOR,
              true,
              false,
@@ -267,8 +267,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TriggerTypeType_rule_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_rule_feature", "_UI_TriggerTypeType_type"),
+             getString("_UI_TriggerTypeType_rule_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_rule_feature", "_UI_TriggerTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRIGGER_TYPE_TYPE__RULE,
              true,
              false,
@@ -290,8 +290,8 @@ public class TriggerTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TriggerTypeType_triggers_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_triggers_feature", "_UI_TriggerTypeType_type"),
+             getString("_UI_TriggerTypeType_triggers_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TriggerTypeType_triggers_feature", "_UI_TriggerTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRIGGER_TYPE_TYPE__TRIGGERS,
              true,
              false,
@@ -344,7 +344,7 @@ public class TriggerTypeTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/TriggerTypeType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/TriggerTypeType")); //$NON-NLS-1$
    }
 
    /**
@@ -358,8 +358,8 @@ public class TriggerTypeTypeItemProvider
    {
       String label = ((TriggerTypeType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_TriggerTypeType_type") :
-         getString("_UI_TriggerTypeType_type") + " " + label;
+         getString("_UI_TriggerTypeType_type") : //$NON-NLS-1$
+         getString("_UI_TriggerTypeType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -99,8 +99,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_performedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_performedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__PERFORMED_ACTIVITIES,
              true,
              false,
@@ -122,8 +122,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__TRIGGERED_EVENTS,
              true,
              false,
@@ -145,8 +145,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationSymbolType_organization_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_organization_feature", "_UI_OrganizationSymbolType_type"),
+             getString("_UI_OrganizationSymbolType_organization_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_organization_feature", "_UI_OrganizationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_SYMBOL_TYPE__ORGANIZATION,
              true,
              false,
@@ -168,8 +168,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationSymbolType_superOrganizations_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_superOrganizations_feature", "_UI_OrganizationSymbolType_type"),
+             getString("_UI_OrganizationSymbolType_superOrganizations_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_superOrganizations_feature", "_UI_OrganizationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_SYMBOL_TYPE__SUPER_ORGANIZATIONS,
              true,
              false,
@@ -191,8 +191,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationSymbolType_subOrganizations_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_subOrganizations_feature", "_UI_OrganizationSymbolType_type"),
+             getString("_UI_OrganizationSymbolType_subOrganizations_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_subOrganizations_feature", "_UI_OrganizationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_SYMBOL_TYPE__SUB_ORGANIZATIONS,
              true,
              false,
@@ -214,8 +214,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationSymbolType_memberRoles_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_memberRoles_feature", "_UI_OrganizationSymbolType_type"),
+             getString("_UI_OrganizationSymbolType_memberRoles_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_memberRoles_feature", "_UI_OrganizationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_SYMBOL_TYPE__MEMBER_ROLES,
              true,
              false,
@@ -237,8 +237,8 @@ public class OrganizationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationSymbolType_teamLead_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_teamLead_feature", "_UI_OrganizationSymbolType_type"),
+             getString("_UI_OrganizationSymbolType_teamLead_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationSymbolType_teamLead_feature", "_UI_OrganizationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_SYMBOL_TYPE__TEAM_LEAD,
              true,
              false,
@@ -257,7 +257,7 @@ public class OrganizationSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/OrganizationSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/OrganizationSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -270,7 +270,7 @@ public class OrganizationSymbolTypeItemProvider
    public String getText(Object object)
    {
       OrganizationSymbolType organizationSymbolType = (OrganizationSymbolType)object;
-      return getString("_UI_OrganizationSymbolType_type") + " " + organizationSymbolType.getElementOid();
+      return getString("_UI_OrganizationSymbolType_type") + " " + organizationSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

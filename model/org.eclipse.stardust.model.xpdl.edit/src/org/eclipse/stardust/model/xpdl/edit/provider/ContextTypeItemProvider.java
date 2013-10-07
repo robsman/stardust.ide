@@ -99,8 +99,8 @@ public class ContextTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -122,8 +122,8 @@ public class ContextTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ContextType_type_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ContextType_type_feature", "_UI_ContextType_type"),
+             getString("_UI_ContextType_type_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ContextType_type_feature", "_UI_ContextType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.CONTEXT_TYPE__TYPE,
              true,
              false,
@@ -177,7 +177,7 @@ public class ContextTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ContextType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ContextType")); //$NON-NLS-1$
    }
 
    /**
@@ -190,7 +190,7 @@ public class ContextTypeItemProvider
    public String getText(Object object)
    {
       ContextType contextType = (ContextType)object;
-      return getString("_UI_ContextType_type") + " " + contextType.getElementOid();
+      return getString("_UI_ContextType_type") + " " + contextType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

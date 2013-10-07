@@ -106,8 +106,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -129,8 +129,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleType_cardinality_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_cardinality_feature", "_UI_RoleType_type"),
+             getString("_UI_RoleType_cardinality_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_cardinality_feature", "_UI_RoleType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_TYPE__CARDINALITY,
              true,
              false,
@@ -152,8 +152,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleType_teams_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_teams_feature", "_UI_RoleType_type"),
+             getString("_UI_RoleType_teams_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_teams_feature", "_UI_RoleType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_TYPE__TEAMS,
              true,
              false,
@@ -175,8 +175,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleType_roleSymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_roleSymbols_feature", "_UI_RoleType_type"),
+             getString("_UI_RoleType_roleSymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleType_roleSymbols_feature", "_UI_RoleType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_TYPE__ROLE_SYMBOLS,
              true,
              false,
@@ -198,8 +198,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -221,8 +221,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -244,8 +244,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_performedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedActivities_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_performedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedActivities_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PERFORMED_ACTIVITIES,
              true,
              false,
@@ -267,8 +267,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_performedSwimlanes_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedSwimlanes_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_performedSwimlanes_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedSwimlanes_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PERFORMED_SWIMLANES,
              true,
              false,
@@ -290,8 +290,8 @@ public class RoleTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_participantAssociations_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_participantAssociations_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_participantAssociations_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_participantAssociations_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PARTICIPANT_ASSOCIATIONS,
              false,
              false,
@@ -344,7 +344,7 @@ public class RoleTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/RoleType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/RoleType")); //$NON-NLS-1$
    }
 
    /**
@@ -358,8 +358,8 @@ public class RoleTypeItemProvider
    {
       String label = ((RoleType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_RoleType_type") :
-         getString("_UI_RoleType_type") + " " + label;
+         getString("_UI_RoleType_type") : //$NON-NLS-1$
+         getString("_UI_RoleType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

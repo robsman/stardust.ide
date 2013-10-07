@@ -96,8 +96,8 @@ public class ParticipantTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ParticipantType_participant_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ParticipantType_participant_feature", "_UI_ParticipantType_type"),
+             getString("_UI_ParticipantType_participant_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ParticipantType_participant_feature", "_UI_ParticipantType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PARTICIPANT_TYPE__PARTICIPANT,
              true,
              false,
@@ -116,7 +116,7 @@ public class ParticipantTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ParticipantType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ParticipantType")); //$NON-NLS-1$
    }
 
    /**
@@ -128,7 +128,7 @@ public class ParticipantTypeItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_ParticipantType_type");
+      return getString("_UI_ParticipantType_type"); //$NON-NLS-1$
    }
 
    /**

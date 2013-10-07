@@ -108,8 +108,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -131,8 +131,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_borderColor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_borderColor_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_borderColor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_borderColor_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__BORDER_COLOR,
              true,
              false,
@@ -154,8 +154,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_fillColor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_fillColor_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_fillColor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_fillColor_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__FILL_COLOR,
              true,
              false,
@@ -177,8 +177,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_style_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_style_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_style_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_style_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__STYLE,
              true,
              false,
@@ -200,8 +200,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_referingToConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingToConnections_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_referingToConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingToConnections_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__REFERING_TO_CONNECTIONS,
              true,
              false,
@@ -223,8 +223,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IGraphicalObject_referingFromConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingFromConnections_feature", "_UI_IGraphicalObject_type"),
+             getString("_UI_IGraphicalObject_referingFromConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IGraphicalObject_referingFromConnections_feature", "_UI_IGraphicalObject_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IGRAPHICAL_OBJECT__REFERING_FROM_CONNECTIONS,
              true,
              false,
@@ -246,8 +246,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IConnectionSymbol_sourceAnchor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_sourceAnchor_feature", "_UI_IConnectionSymbol_type"),
+             getString("_UI_IConnectionSymbol_sourceAnchor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_sourceAnchor_feature", "_UI_IConnectionSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ICONNECTION_SYMBOL__SOURCE_ANCHOR,
              true,
              false,
@@ -269,8 +269,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IConnectionSymbol_targetAnchor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_targetAnchor_feature", "_UI_IConnectionSymbol_type"),
+             getString("_UI_IConnectionSymbol_targetAnchor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_targetAnchor_feature", "_UI_IConnectionSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ICONNECTION_SYMBOL__TARGET_ANCHOR,
              true,
              false,
@@ -292,8 +292,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IConnectionSymbol_routing_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_routing_feature", "_UI_IConnectionSymbol_type"),
+             getString("_UI_IConnectionSymbol_routing_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IConnectionSymbol_routing_feature", "_UI_IConnectionSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ICONNECTION_SYMBOL__ROUTING,
              true,
              false,
@@ -315,8 +315,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ExecutedByConnectionType_activitySymbol_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ExecutedByConnectionType_activitySymbol_feature", "_UI_ExecutedByConnectionType_type"),
+             getString("_UI_ExecutedByConnectionType_activitySymbol_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ExecutedByConnectionType_activitySymbol_feature", "_UI_ExecutedByConnectionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EXECUTED_BY_CONNECTION_TYPE__ACTIVITY_SYMBOL,
              true,
              false,
@@ -338,8 +338,8 @@ public class ExecutedByConnectionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ExecutedByConnectionType_applicationSymbol_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ExecutedByConnectionType_applicationSymbol_feature", "_UI_ExecutedByConnectionType_type"),
+             getString("_UI_ExecutedByConnectionType_applicationSymbol_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ExecutedByConnectionType_applicationSymbol_feature", "_UI_ExecutedByConnectionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EXECUTED_BY_CONNECTION_TYPE__APPLICATION_SYMBOL,
              true,
              false,
@@ -391,7 +391,7 @@ public class ExecutedByConnectionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ExecutedByConnectionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ExecutedByConnectionType")); //$NON-NLS-1$
    }
 
    /**
@@ -404,7 +404,7 @@ public class ExecutedByConnectionTypeItemProvider
    public String getText(Object object)
    {
       ExecutedByConnectionType executedByConnectionType = (ExecutedByConnectionType)object;
-      return getString("_UI_ExecutedByConnectionType_type") + " " + executedByConnectionType.getElementOid();
+      return getString("_UI_ExecutedByConnectionType_type") + " " + executedByConnectionType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

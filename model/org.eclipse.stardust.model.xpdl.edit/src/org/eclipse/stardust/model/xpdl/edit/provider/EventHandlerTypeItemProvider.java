@@ -105,8 +105,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -128,8 +128,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventHandlerType_autoBind_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_autoBind_feature", "_UI_EventHandlerType_type"),
+             getString("_UI_EventHandlerType_autoBind_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_autoBind_feature", "_UI_EventHandlerType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_HANDLER_TYPE__AUTO_BIND,
              true,
              false,
@@ -151,8 +151,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventHandlerType_consumeOnMatch_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_consumeOnMatch_feature", "_UI_EventHandlerType_type"),
+             getString("_UI_EventHandlerType_consumeOnMatch_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_consumeOnMatch_feature", "_UI_EventHandlerType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_HANDLER_TYPE__CONSUME_ON_MATCH,
              true,
              false,
@@ -174,8 +174,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -197,8 +197,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventHandlerType_logHandler_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_logHandler_feature", "_UI_EventHandlerType_type"),
+             getString("_UI_EventHandlerType_logHandler_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_logHandler_feature", "_UI_EventHandlerType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_HANDLER_TYPE__LOG_HANDLER,
              true,
              false,
@@ -220,8 +220,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -243,8 +243,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventHandlerType_type_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_type_feature", "_UI_EventHandlerType_type"),
+             getString("_UI_EventHandlerType_type_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_type_feature", "_UI_EventHandlerType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_HANDLER_TYPE__TYPE,
              true,
              false,
@@ -266,8 +266,8 @@ public class EventHandlerTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventHandlerType_unbindOnMatch_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_unbindOnMatch_feature", "_UI_EventHandlerType_type"),
+             getString("_UI_EventHandlerType_unbindOnMatch_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventHandlerType_unbindOnMatch_feature", "_UI_EventHandlerType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_HANDLER_TYPE__UNBIND_ON_MATCH,
              true,
              false,
@@ -324,7 +324,7 @@ public class EventHandlerTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/EventHandlerType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/EventHandlerType")); //$NON-NLS-1$
    }
 
    /**
@@ -338,8 +338,8 @@ public class EventHandlerTypeItemProvider
    {
       String label = ((EventHandlerType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_EventHandlerType_type") :
-         getString("_UI_EventHandlerType_type") + " " + label;
+         getString("_UI_EventHandlerType_type") : //$NON-NLS-1$
+         getString("_UI_EventHandlerType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -85,7 +85,7 @@ public class IntermediateEventSymbolItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/IntermediateEventSymbol"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/IntermediateEventSymbol")); //$NON-NLS-1$
    }
 
    /**
@@ -98,7 +98,7 @@ public class IntermediateEventSymbolItemProvider
    public String getText(Object object)
    {
       IntermediateEventSymbol intermediateEventSymbol = (IntermediateEventSymbol)object;
-      return getString("_UI_IntermediateEventSymbol_type") + " " + intermediateEventSymbol.getElementOid();
+      return getString("_UI_IntermediateEventSymbol_type") + " " + intermediateEventSymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

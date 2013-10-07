@@ -86,7 +86,7 @@ public class AbstractEventSymbolItemProvider
    public String getText(Object object)
    {
       AbstractEventSymbol abstractEventSymbol = (AbstractEventSymbol)object;
-      return getString("_UI_AbstractEventSymbol_type") + " " + abstractEventSymbol.getElementOid();
+      return getString("_UI_AbstractEventSymbol_type") + " " + abstractEventSymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

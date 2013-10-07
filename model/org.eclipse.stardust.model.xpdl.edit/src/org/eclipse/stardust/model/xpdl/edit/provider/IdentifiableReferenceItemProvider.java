@@ -49,7 +49,7 @@ public class IdentifiableReferenceItemProvider
 	 * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+	public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * This constructs an instance from a factory and a notifier.
@@ -93,8 +93,8 @@ public class IdentifiableReferenceItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IdentifiableReference_attribute_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IdentifiableReference_attribute_feature", "_UI_IdentifiableReference_type"),
+             getString("_UI_IdentifiableReference_attribute_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IdentifiableReference_attribute_feature", "_UI_IdentifiableReference_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IDENTIFIABLE_REFERENCE__ATTRIBUTE,
              true,
              false,
@@ -116,8 +116,8 @@ public class IdentifiableReferenceItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IdentifiableReference_identifiable_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IdentifiableReference_identifiable_feature", "_UI_IdentifiableReference_type"),
+             getString("_UI_IdentifiableReference_identifiable_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IdentifiableReference_identifiable_feature", "_UI_IdentifiableReference_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IDENTIFIABLE_REFERENCE__IDENTIFIABLE,
              true,
              false,
@@ -136,7 +136,7 @@ public class IdentifiableReferenceItemProvider
 	@Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/IdentifiableReference"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/IdentifiableReference")); //$NON-NLS-1$
    }
 
    /**
@@ -148,7 +148,7 @@ public class IdentifiableReferenceItemProvider
 	@Override
    public String getText(Object object)
    {
-      return getString("_UI_IdentifiableReference_type");
+      return getString("_UI_IdentifiableReference_type"); //$NON-NLS-1$
    }
 
    /**

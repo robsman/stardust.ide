@@ -85,7 +85,7 @@ public class BindActionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/BindActionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/BindActionType")); //$NON-NLS-1$
    }
 
    /**
@@ -99,8 +99,8 @@ public class BindActionTypeItemProvider
    {
       String label = ((BindActionType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_BindActionType_type") :
-         getString("_UI_BindActionType_type") + " " + label;
+         getString("_UI_BindActionType_type") : //$NON-NLS-1$
+         getString("_UI_BindActionType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
