@@ -289,7 +289,7 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
                                  .getAttribute(declaration.getExtendedAttributes(),
                                        PredefinedConstants.MODELELEMENT_VISIBILITY);
                            if (visibility == null
-                                 || visibility.getValue().equalsIgnoreCase("Public"))
+                                 || visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
                            {
                               declarations.add(declaration);
                      }
