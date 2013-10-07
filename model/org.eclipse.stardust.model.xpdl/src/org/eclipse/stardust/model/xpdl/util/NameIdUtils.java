@@ -61,7 +61,7 @@ public class NameIdUtils
 
       if (StringUtils.isEmpty(base))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = null;
@@ -128,7 +128,7 @@ public class NameIdUtils
    {
       if(StringUtils.isEmpty(name))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = new IdFactory(name, name);
@@ -172,7 +172,7 @@ public class NameIdUtils
    {
       if(StringUtils.isEmpty(name))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = new IdFactory(name, name);
