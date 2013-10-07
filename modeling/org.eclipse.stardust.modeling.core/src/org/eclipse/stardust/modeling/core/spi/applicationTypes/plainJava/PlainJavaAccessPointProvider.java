@@ -248,7 +248,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
             AccessPointType accessPoint = AccessPointUtil.createIntrinsicAccessPoint(
                   paramId,//
                   // TODO:
-                  paramLabel + " : " + paramName,
+                  paramLabel + " : " + paramName, //$NON-NLS-1$
                   method.getParameterType(i), //$NON-NLS-1$
                   DirectionType.IN_LITERAL,//
                   false,//

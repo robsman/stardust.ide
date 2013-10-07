@@ -112,7 +112,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   CarnotConstants.TYPE_ATT, false), getSwtComboAdapter());
       
       mgr.bind(
-            WidgetBindingManager.createModelAdapter((IExtensibleElement) element, "carnot:engine:dataType", 
+            WidgetBindingManager.createModelAdapter((IExtensibleElement) element, "carnot:engine:dataType",  //$NON-NLS-1$
                   getStructAdapter()),
             BindingManager.createWidgetAdapter(enumViewer));
 
@@ -352,7 +352,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          }
       });
       
-      enumLabel = FormBuilder.createLabel(composite, "Structure: ");
+      enumLabel = FormBuilder.createLabel(composite, "Structure: "); //$NON-NLS-1$
       enumTree = createEnumTree(composite);
       enumViewer = createEnumViewer(enumTree);
 

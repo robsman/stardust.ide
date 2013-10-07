@@ -170,11 +170,11 @@ public class TransitionConnectionFigure extends AbstractConnectionSymbolFigure i
 
                public String getSubStringText()
                {
-                  String[] splitText = text.split("\n");
+                  String[] splitText = text.split("\n"); //$NON-NLS-1$
                   String newText = new String();
                   for (int i = 0; i < splitText.length; i++)
                   {
-                     newText = newText + getSubStringText(splitText[i]) + "\n";
+                     newText = newText + getSubStringText(splitText[i]) + "\n"; //$NON-NLS-1$
                   }
                   return newText;
                }

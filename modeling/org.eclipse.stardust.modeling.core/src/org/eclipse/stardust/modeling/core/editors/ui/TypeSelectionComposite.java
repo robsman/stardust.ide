@@ -213,7 +213,7 @@ public class TypeSelectionComposite
    public void setType(TypeInfo type)
    {
       this.type = type;
-      typeText.setText(type == null ? "" : type.getFullName());
+      typeText.setText(type == null ? "" : type.getFullName()); //$NON-NLS-1$
    }
 
    public void setFilter(Class<?> clazz)

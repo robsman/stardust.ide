@@ -494,7 +494,7 @@ public class DynamicConnectionCommand extends Command
    {
       XmlTextNode type = transition.getExpression();
       String expression = type == null ? null : ModelUtils.getCDataString(transition.getExpression().getMixed());
-      if (expression != null && expression.startsWith(TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "("))
+      if (expression != null && expression.startsWith(TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(")) //$NON-NLS-1$
       {
          return true;
       }

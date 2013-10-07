@@ -44,7 +44,6 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.core.spi.SpiPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.IdentifiableViewerSorter;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -176,16 +175,16 @@ public class ParticipantPropertyPage extends AbstractModelElementPropertyPage
    {
       CarnotPreferenceNode preferenceNode = (CarnotPreferenceNode) this
             .getPreferenceManager()
-            .find("org~eclipse~stardust~modeling~core~spi~triggerTypes~scan~ParticipantPropertyPage");
+            .find("org~eclipse~stardust~modeling~core~spi~triggerTypes~scan~ParticipantPropertyPage"); //$NON-NLS-1$
       preferenceNode.updatePageStatus(state);
       TreeViewer parentTreeViewer = (TreeViewer) Reflect.getFieldValue(
-            this.getContainer(), "treeViewer");
+            this.getContainer(), "treeViewer"); //$NON-NLS-1$
       parentTreeViewer.refresh(true);
       labeledWidget.getLabel().setValidationStatus(state);
       if (state == IQuickValidationStatus.ERRORS)
       {
          labeledWidget.getLabel().setToolTipText(
-               Validation_Messages.MSG_Scantrigger_UnspecifiedParticipant);
+               ""); //$NON-NLS-1$
       }
       else
       {
