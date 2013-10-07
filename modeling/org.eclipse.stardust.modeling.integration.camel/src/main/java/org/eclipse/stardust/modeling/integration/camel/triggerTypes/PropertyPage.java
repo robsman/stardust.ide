@@ -43,7 +43,7 @@ public class PropertyPage extends AbstractModelElementPropertyPage
    public static final String PARAMETER_MAPPING_TABLE_ID = ParameterMappingTablePage.PARAMETER_MAPPING_TABLE_ID;
    // private static final String ENDPOINT_PKG =
    // "org.eclipse.stardust.engine.extensions.camel.runtime";
-   private static final String HEADERS_ACCESS_POINT_ID = "headers";
+   private static final String HEADERS_ACCESS_POINT_ID = "headers"; //$NON-NLS-1$
 
    private Text camelContextId;
    // private Text endpointUri;
@@ -52,13 +52,13 @@ public class PropertyPage extends AbstractModelElementPropertyPage
    private Text additionalBeans;
 //   private Endpoint camelEndpoint;
    // extended attribute key
-   private static final String CAMEL_TRIGGER_USERNAME = "carnot:engine:camel::username";
-   private static final String CAMEL_TRIGGER_PASSWORD = "carnot:engine:camel::password";
-   private static final String CAMEL_TRIGGER_EVENTCLASS = "eventClass";
+   private static final String CAMEL_TRIGGER_USERNAME = "carnot:engine:camel::username"; //$NON-NLS-1$
+   private static final String CAMEL_TRIGGER_PASSWORD = "carnot:engine:camel::password"; //$NON-NLS-1$
+   private static final String CAMEL_TRIGGER_EVENTCLASS = "eventClass"; //$NON-NLS-1$
    // extended attribute value
-   private static final String CAMEL_TRIGGER_USERNAME_CV = "${camelTriggerUsername}";
-   private static final String CAMEL_TRIGGER_PASSWORD_CV = "${camelTriggerPassword}";
-   private static final String CAMEL_TRIGGER_EVENTCLASS_CV = "message";
+   private static final String CAMEL_TRIGGER_USERNAME_CV = "${camelTriggerUsername}"; //$NON-NLS-1$
+   private static final String CAMEL_TRIGGER_PASSWORD_CV = "${camelTriggerPassword}"; //$NON-NLS-1$
+   private static final String CAMEL_TRIGGER_EVENTCLASS_CV = "message"; //$NON-NLS-1$
 
    private TriggerTypeImpl getApplication()
    {

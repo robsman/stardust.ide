@@ -26,11 +26,11 @@ public class CamelProducerSpringBeanApplicationInitializer extends JavaApplicati
          AttributeType attribute = (AttributeType) attributes.get(i);
          if (sourceName == null)
          {
-            sourceName = "";
+            sourceName = ""; //$NON-NLS-1$
          }
          if (targetName == null)
          {
-            targetName = "";
+            targetName = ""; //$NON-NLS-1$
          }
          if (sourceName.equals(attribute.getName()) || targetName.equals(attribute.getName()))
          {

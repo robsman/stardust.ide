@@ -62,7 +62,7 @@ public class InputOutputAccessPointPropertyPage extends
             IPreferencePageContainer container = getContainer();
             if (container instanceof ModelElementPropertyDialog)
             {
-               IPreferenceNode node = ((ModelElementPropertyDialog) container).getNode("cwm_spi_camel_general_tab_");
+               IPreferenceNode node = ((ModelElementPropertyDialog) container).getNode("cwm_spi_camel_general_tab_"); //$NON-NLS-1$
                if(node instanceof CarnotPreferenceNode)
                {
                   IPreferencePage page = ((CarnotPreferenceNode) node).getPage();
