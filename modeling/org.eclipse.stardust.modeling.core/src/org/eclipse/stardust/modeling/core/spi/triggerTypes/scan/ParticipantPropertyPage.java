@@ -44,6 +44,7 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.core.spi.SpiPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.IdentifiableViewerSorter;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -184,7 +185,7 @@ public class ParticipantPropertyPage extends AbstractModelElementPropertyPage
       if (state == IQuickValidationStatus.ERRORS)
       {
          labeledWidget.getLabel().setToolTipText(
-               ""); //$NON-NLS-1$
+               Validation_Messages.MSG_Scantrigger_UnspecifiedParticipant);
       }
       else
       {
