@@ -41,7 +41,7 @@ public class TypeDeclarationUtils
 
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
 
-   private static Set<String> reservedPrefixes = reserve("xml", "xsd");
+   private static Set<String> reservedPrefixes = reserve("xml", "xsd"); //$NON-NLS-1$ //$NON-NLS-2$
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -291,13 +291,13 @@ public class TypeDeclarationUtils
       ResourceSet resourceSet = XSDSchemaImpl.createResourceSet();
       // make sure we can load schemas in WSDL documents.
       Map<String, Object> extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd"));
+      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd")); //$NON-NLS-1$ //$NON-NLS-2$
       URIConverter converter = defaultURIConverter.get();
       if (converter != null)
       {
          resourceSet.setURIConverter(converter);
       }
-      Resource resource = resourceSet.createResource(URI.createURI("*.xsd"));
+      Resource resource = resourceSet.createResource(URI.createURI("*.xsd")); //$NON-NLS-1$
       resource.setURI(uri);
       resource.load(options);
 

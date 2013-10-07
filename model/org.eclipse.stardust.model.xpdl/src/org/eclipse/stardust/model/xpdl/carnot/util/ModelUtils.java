@@ -878,7 +878,7 @@ public class ModelUtils
       }
 
       // resolve declared references
-      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference"); //$NON-NLS-1$
       if (configs != null)
       {
          for(IConfigurationElement config : configs)
@@ -933,9 +933,9 @@ public class ModelUtils
                {
                   model = otherModel;
                   scopeList = id.substring(0, ix);
-                  if ("typeDeclaration".equals(scopeList))
+                  if ("typeDeclaration".equals(scopeList)) //$NON-NLS-1$
                   {
-                     scopeList = "struct";
+                     scopeList = "struct"; //$NON-NLS-1$
                   }
                   id = qname.getLocalPart();
                }
@@ -1625,11 +1625,11 @@ public class ModelUtils
       if (model != null && model.getConnectionManager() != null)
       {
          EObject connectionObject = model.getConnectionManager().find(
-               proxyUri.scheme() + "://" + proxyUri.authority() + "/");
+               proxyUri.scheme() + "://" + proxyUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
          if (connectionObject != null)
          {
             referencedModel = (ModelType) Reflect.getFieldValue(connectionObject,
-                  "eObject");
+                  "eObject"); //$NON-NLS-1$
          }
       }
       return referencedModel;

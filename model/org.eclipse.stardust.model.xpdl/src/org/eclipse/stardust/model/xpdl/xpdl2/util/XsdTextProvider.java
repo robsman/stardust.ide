@@ -19,10 +19,10 @@ public class XsdTextProvider extends XSDSwitch<String>
 {
    private static final String[] DEFAULT_CARDINALITY_LABELS =
    {
-      "required",//Structured_Messages.CardinalityRequiredLabel,
-      "optional",//Structured_Messages.CardinalityOptionalLabel,
-      "many",//Structured_Messages.CardinalityManyLabel,
-      "at least one"//Structured_Messages.CardinalityAtLeastOneLabel
+      "required",//Structured_Messages.CardinalityRequiredLabel, //$NON-NLS-1$
+      "optional",//Structured_Messages.CardinalityOptionalLabel, //$NON-NLS-1$
+      "many",//Structured_Messages.CardinalityManyLabel, //$NON-NLS-1$
+      "at least one"//Structured_Messages.CardinalityAtLeastOneLabel //$NON-NLS-1$
    };
    
    private int column;

@@ -140,7 +140,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    {
       try
       {
-         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1"); 
+         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1");  //$NON-NLS-1$
          if (theCarnotWorkflowModelFactory != null)
          {
             return theCarnotWorkflowModelFactory;
@@ -244,7 +244,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.WORKS_FOR_CONNECTION_TYPE: return createWorksForConnectionType();
          case CarnotWorkflowModelPackage.XML_TEXT_NODE: return createXmlTextNode();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -318,7 +318,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.DIAGRAM_MODE_TYPE_OBJECT:
             return createDiagramModeTypeObjectFromString(eDataType, initialValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -392,7 +392,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.DIAGRAM_MODE_TYPE_OBJECT:
             return convertDiagramModeTypeObjectToString(eDataType, instanceValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -1120,7 +1120,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public ActivityImplementationType createActivityImplementationTypeFromString(EDataType eDataType, String initialValue)
    {
       ActivityImplementationType result = ActivityImplementationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1142,7 +1142,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public DirectionType createDirectionTypeFromString(EDataType eDataType, String initialValue)
    {
       DirectionType result = DirectionType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1164,7 +1164,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public FlowControlType createFlowControlTypeFromString(EDataType eDataType, String initialValue)
    {
       FlowControlType result = FlowControlType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1186,7 +1186,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public ImplementationType createImplementationTypeFromString(EDataType eDataType, String initialValue)
    {
       ImplementationType result = ImplementationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1208,7 +1208,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public JoinSplitType createJoinSplitTypeFromString(EDataType eDataType, String initialValue)
    {
       JoinSplitType result = JoinSplitType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1230,7 +1230,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkCardinality createLinkCardinalityFromString(EDataType eDataType, String initialValue)
    {
       LinkCardinality result = LinkCardinality.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1252,7 +1252,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkColor createLinkColorFromString(EDataType eDataType, String initialValue)
    {
       LinkColor result = LinkColor.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1274,7 +1274,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkLineStyle createLinkLineStyleFromString(EDataType eDataType, String initialValue)
    {
       LinkLineStyle result = LinkLineStyle.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1296,7 +1296,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkEndStyle createLinkEndStyleFromString(EDataType eDataType, String initialValue)
    {
       LinkEndStyle result = LinkEndStyle.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1318,7 +1318,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LoopType createLoopTypeFromString(EDataType eDataType, String initialValue)
    {
       LoopType result = LoopType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1340,7 +1340,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public OrientationType createOrientationTypeFromString(EDataType eDataType, String initialValue)
    {
       OrientationType result = OrientationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1362,7 +1362,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public RoutingType createRoutingTypeFromString(EDataType eDataType, String initialValue)
    {
       RoutingType result = RoutingType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1406,7 +1406,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public DiagramModeType createDiagramModeTypeFromString(EDataType eDataType, String initialValue)
    {
       DiagramModeType result = DiagramModeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 

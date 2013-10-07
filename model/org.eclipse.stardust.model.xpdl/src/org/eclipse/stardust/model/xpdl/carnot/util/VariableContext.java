@@ -58,7 +58,7 @@ public class VariableContext
       List<AttributeType> allAttributes = model.getAttribute();
       for(AttributeType at: allAttributes)
       {
-         if(at.getName().startsWith("ipp:variables"))
+         if(at.getName().startsWith("ipp:variables")) //$NON-NLS-1$
          {
             elements.add(at);
          }
