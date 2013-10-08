@@ -82,7 +82,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       ModelType model = strategy.getModels(false).get(id.split("\\.")[0]);
       if (model == null)
       {
-         model = strategy.loadModel(id);
+         model = strategy.loadModel(id.split("\\.")[0]);
       }
       return model;
    }
