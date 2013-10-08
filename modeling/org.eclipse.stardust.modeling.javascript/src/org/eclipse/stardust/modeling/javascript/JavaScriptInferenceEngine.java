@@ -872,7 +872,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                          else
                          {
                             ModelType referModel = model;
-                            String[] namePath = targetTypeName.split("/");
+                            String[] namePath = targetTypeName.split("/"); //$NON-NLS-1$
                             if (!model.getId().equals(namePath[0]) && namePath.length > 1)
                             {
                                referModel = ModelUtils.getExternalModel(model, namePath[0]);
