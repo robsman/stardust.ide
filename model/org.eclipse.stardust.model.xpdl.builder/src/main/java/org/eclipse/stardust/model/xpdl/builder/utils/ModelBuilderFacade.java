@@ -947,7 +947,7 @@ public class ModelBuilderFacade
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
          ModelType loadModel = getModelManagementStrategy().loadModel(
-               dataModelId + ".xpdl");
+               dataModelId);
          // DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
          DataType dataCopy = findData(dataModel, stripFullId(dataFullID));
          // if (dataCopy == null)
@@ -1071,7 +1071,7 @@ public class ModelBuilderFacade
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID + ".xpdl");
+                  participantModelID);
             /*
              * IModelParticipant participantCopy = findParticipant(loadModel,
              * stripFullId(participantFullID));
@@ -3259,7 +3259,7 @@ public class ModelBuilderFacade
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID + ".xpdl");
+                  participantModelID);
             /*
              * IModelParticipant participantCopy = findParticipant(loadModel,
              * stripFullId(participantFullID));
