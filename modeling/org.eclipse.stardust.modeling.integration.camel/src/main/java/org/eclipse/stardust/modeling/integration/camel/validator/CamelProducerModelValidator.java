@@ -4,6 +4,7 @@ import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.CONSUM
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_PATTERN_EXT_ATT;
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_TYPE_EXT_ATT;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class CamelProducerModelValidator implements IModelElementValidator
          {
             if (StringUtils.isEmpty(routeDefinition))
                result.add(Issue.error(element, Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
-         }
+        }
 
          if (invocationPattern.equals(CamelConstants.InvocationPatterns.RECEIVE))
          {
@@ -62,7 +63,6 @@ public class CamelProducerModelValidator implements IModelElementValidator
             if (AttributeUtil.getAttributeValue((IExtensibleElement) element, CONSUMER_ROUTE_ATT) == null)
             {
                result.add(Issue.error(element, Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));
-
             }
          }
 
@@ -70,7 +70,8 @@ public class CamelProducerModelValidator implements IModelElementValidator
             for(int i=0; i<((ApplicationTypeImpl)element).getAccessPoint().size();i++){
                AccessPointType accessPoint=((ApplicationTypeImpl)element).getAccessPoint().get(i);
                if((accessPoint.getDirection().getLiteral().equalsIgnoreCase(Direction.OUT.getName())||accessPoint.getDirection().getLiteral().equalsIgnoreCase(Direction.IN_OUT.getId())) &&invocationPattern.equals(CamelConstants.InvocationPatterns.SEND)){
-                  result.add(Issue.error(element, "Application "+((ApplicationTypeImpl)element).getName()+" contains out accessPoint while the endpoint pattern is set to "+invocationPattern, CamelConstants.INVOCATION_PATTERN_EXT_ATT));
+                  String message = MessageFormat.format(Camel_Messages.issue_Application_Contains_Out_AccessPoint_While_Endpoint_Pattern_Is_Set_To, new Object[]{((ApplicationTypeImpl)element).getName(), invocationPattern});
+                  result.add(Issue.error(element, message, CamelConstants.INVOCATION_PATTERN_EXT_ATT));
                }
             }
          }
@@ -81,10 +82,10 @@ public class CamelProducerModelValidator implements IModelElementValidator
       String camelContextId = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             CamelConstants.CAMEL_CONTEXT_ID_ATT);
       if (StringUtils.isEmpty(camelContextId))
-         result.add(Issue.error(element, "CamelContextID is Empty", CamelConstants.CAMEL_CONTEXT_ID_ATT));
+         result.add(Issue.error(element, Camel_Messages.issue_CamelContextID_is_Empty, CamelConstants.CAMEL_CONTEXT_ID_ATT));
 
       if (result.isEmpty())
-         logger.debug("No Issues found");
+         logger.debug(Camel_Messages.issue_No_Issues_Found);
 
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }

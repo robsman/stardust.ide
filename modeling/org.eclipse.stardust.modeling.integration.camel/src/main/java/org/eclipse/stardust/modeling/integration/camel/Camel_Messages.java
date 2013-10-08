@@ -42,8 +42,12 @@ public class Camel_Messages extends NLS
 
    public static String issue_No_Consumer_Route_Definition_Specified_For_Application;
 
+   public static String issue_Application_Contains_Out_AccessPoint_While_Endpoint_Pattern_Is_Set_To;
 
-   // public static String label_
+   public static String issue_CamelContextID_is_Empty;
+
+   public static String issue_No_Issues_Found;
+
    static
    {
       // initialize resource bundle
