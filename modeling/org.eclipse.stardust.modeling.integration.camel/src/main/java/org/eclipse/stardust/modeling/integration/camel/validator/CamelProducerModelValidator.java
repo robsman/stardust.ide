@@ -15,6 +15,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.impl.ApplicationTypeImpl;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.modeling.integration.camel.Camel_Messages;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
@@ -37,13 +38,13 @@ public class CamelProducerModelValidator implements IModelElementValidator
 
 //      if(((ApplicationTypeImpl)element).getExecutedActivities().isEmpty())
 //         result.add(Issue.error(element, "No application activity set for application "+((ApplicationTypeImpl)element).getName()));
-      
+
       if (invocationPattern == null && invocationType == null)
       {
          // backward compatiblity
          if (StringUtils.isEmpty(routeDefinition))
          {
-            result.add(Issue.error(element, "No Producer route definition specified for application"));
+            result.add(Issue.error(element, Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
          }
       }
       else
@@ -52,7 +53,7 @@ public class CamelProducerModelValidator implements IModelElementValidator
                || invocationPattern.equals(CamelConstants.InvocationPatterns.SENDRECEIVE))
          {
             if (StringUtils.isEmpty(routeDefinition))
-               result.add(Issue.error(element, "No Producer route definition specified for application"));
+               result.add(Issue.error(element, Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
          }
 
          if (invocationPattern.equals(CamelConstants.InvocationPatterns.RECEIVE))
@@ -60,11 +61,11 @@ public class CamelProducerModelValidator implements IModelElementValidator
 
             if (AttributeUtil.getAttributeValue((IExtensibleElement) element, CONSUMER_ROUTE_ATT) == null)
             {
-               result.add(Issue.error(element, "No Consumer route definition specified for application"));
+               result.add(Issue.error(element, Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));
 
             }
          }
-         
+
          if(!((ApplicationTypeImpl)element).getAccessPoint().isEmpty()){
             for(int i=0; i<((ApplicationTypeImpl)element).getAccessPoint().size();i++){
                AccessPointType accessPoint=((ApplicationTypeImpl)element).getAccessPoint().get(i);
@@ -73,8 +74,8 @@ public class CamelProducerModelValidator implements IModelElementValidator
                }
             }
          }
-         
-         
+
+
       }
 
       String camelContextId = AttributeUtil.getAttributeValue((IExtensibleElement) element,

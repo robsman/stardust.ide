@@ -1,8 +1,11 @@
 package org.eclipse.stardust.modeling.integration.camel.ui;
 
-import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.*;
-import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationTypes.*;
-import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationPatterns.*;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.DEFAULT_CAMEL_CONTEXT_ID;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationPatterns.RECEIVE;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationPatterns.SEND;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationPatterns.SENDRECEIVE;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationTypes.ASYNCHRONOUS;
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.InvocationTypes.SYNCHRONOUS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +17,17 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.jface.viewers.*;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.IElementComparer;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.extensions.camel.CamelConstants;
-import org.eclipse.stardust.engine.extensions.camel.GenericProducer;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
@@ -51,9 +60,9 @@ import org.eclipse.swt.widgets.Text;
 /**
  * Camel Application type property page; 3 fields are provided camelContextId,
  * routeDefinition and additional spring beans definition
- * 
+ *
  * @author Fradj.ZAYEN
- * 
+ *
  */
 public class GeneralPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -67,48 +76,48 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
    private ComboViewer invocationTypeViewer;
    private Label invocationTypeLabel;
    private IExtensibleElement extensibleElement;
-   
+
    private Label bodyInAccessPointLabel;
    private ComboViewer bodyInAccessPointViewer;
-   
+
    private Label bodyOutAccessPointLabel;
    private ComboViewer bodyOutAccessPointViewer;
-   
+
    public void dispose()
    {
       super.dispose();
    }
-   
+
    public void populateBodyInAccessPointViewer()
    {
-	   String intBodyAP = 
+	   String intBodyAP =
 			   AttributeUtil.getAttributeValue(getApplication(), CamelConstants.CAT_BODY_IN_ACCESS_POINT);
-	      
+
 	   AccessPointType bodyInAccessPoint = null;
-	   
+
 	   List<AccessPointType> inAccessPoints = new ArrayList<AccessPointType>();
-	   
+
 	   List<AccessPointType> accessPoints = getApplication().getAccessPoint();
-      
+
 	   for (Iterator<AccessPointType> _iterator = accessPoints.iterator(); _iterator.hasNext();)
 	   {
 		   AccessPointType apt = _iterator.next();
-    	  
-		   if (apt.getDirection().equals(DirectionType.IN_LITERAL) 
+
+		   if (apt.getDirection().equals(DirectionType.IN_LITERAL)
 				   || apt.getDirection().equals(DirectionType.INOUT_LITERAL))
 		   {
 			   inAccessPoints.add(apt);
-			   
+
 			   if (apt.getId().equals(intBodyAP))
 			   {
 				   bodyInAccessPoint = apt;
 			   }
 		   }
 	   }
-	   
+
 	   bodyInAccessPointViewer.setInput(inAccessPoints);
 	   bodyInAccessPointViewer.refresh();
-	   
+
 	   if (bodyInAccessPoint != null)
 	   {
 		   bodyInAccessPointViewer.setSelection(new StructuredSelection(bodyInAccessPoint));
@@ -117,43 +126,43 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
 	   {
 		   AttributeUtil.setAttribute(getApplication(), CamelConstants.CAT_BODY_IN_ACCESS_POINT, null);
 	   }
-	   
+
 	   bodyInAccessPointViewer.getCombo().setEnabled(bodyInAccessPointViewer.getCombo().getItemCount() != 0);
 
    }
-   
+
    public void populateBodyOutAccessPointViewer()
    {
 	   bodyOutAccessPointViewer.refresh();
-	   
-	   String outBodyAP = 
+
+	   String outBodyAP =
 			   AttributeUtil.getAttributeValue(getApplication(), CamelConstants.CAT_BODY_OUT_ACCESS_POINT);
-	   
+
 	   AccessPointType bodyOutAccessPoint = null;
-	   
+
 	   List<AccessPointType> outAccessPoints = new ArrayList<AccessPointType>();
-	   
+
 	   List<AccessPointType> accessPoints = getApplication().getAccessPoint();
-      
+
 	   for (Iterator<AccessPointType> _iterator = accessPoints.iterator(); _iterator.hasNext();)
 	   {
 		   AccessPointType apt = _iterator.next();
-		   
-		   if (apt.getDirection().equals(DirectionType.OUT_LITERAL) 
+
+		   if (apt.getDirection().equals(DirectionType.OUT_LITERAL)
 				   || apt.getDirection().equals(DirectionType.INOUT_LITERAL))
-		   {			   
+		   {
 			   outAccessPoints.add(apt);
-			   
+
 			   if (apt.getId().equals(outBodyAP))
 			   {
 				   bodyOutAccessPoint = apt;
 			   }
 		   }
 	   }
-	   
+
 	   bodyOutAccessPointViewer.setInput(outAccessPoints);
 	   bodyOutAccessPointViewer.refresh();
-	   
+
 	   if (bodyOutAccessPoint != null)
 	   {
 		   bodyOutAccessPointViewer.setSelection(new StructuredSelection(bodyOutAccessPoint));
@@ -162,10 +171,10 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
 	   {
 		   AttributeUtil.setAttribute(getApplication(), CamelConstants.CAT_BODY_OUT_ACCESS_POINT, null);
 	   }
-	   
+
 	   bodyOutAccessPointViewer.getCombo().setEnabled(bodyOutAccessPointViewer.getCombo().getItemCount() != 0);
 
-   }	
+   }
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
@@ -181,27 +190,27 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       extensibleElement = (IExtensibleElement) element;
       setAttributeValue(CamelConstants.CAMEL_CONTEXT_ID_ATT, null, camelContextNameText);
       setAttributeValue(CamelConstants.ADDITIONAL_SPRING_BEANS_DEF_ATT, null, additionalSpringBeanDefinitions);
-      
-      AttributeUtil.setAttribute(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS, "boolean", Boolean.toString(true));
-      
+
+      AttributeUtil.setAttribute(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS, "boolean", Boolean.toString(true)); //$NON-NLS-1$
+
    }
 
    private ApplicationType getApplication()
    {
       return (ApplicationType) getModelElement();
    }
-   
+
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
-      
+
       FormBuilder.createLabel(composite, Camel_Messages.label_CamelContextId);
       camelContextNameText = FormBuilder.createText(composite);
       if (StringUtils.isEmpty(camelContextNameText.getText()))
       {
          camelContextNameText.setText(DEFAULT_CAMEL_CONTEXT_ID);
       }
-    
+
       FormBuilder.createLabel(composite, Camel_Messages.label_Invocation_Pattern);
       invocationPatternViewer = new ComboViewer(FormBuilder.createCombo(composite));
       invocationPatternViewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -304,44 +313,44 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
             }
          }
       });
-      
+
       FormBuilder.createHorizontalSeparator(composite, 2).setVisible(false);
       FormBuilder.createHorizontalSeparator(composite, 2);
       FormBuilder.createHorizontalSeparator(composite, 2).setVisible(false);
-      
+
       bodyInAccessPointLabel = FormBuilder.createLabel(composite, Camel_Messages.label_Body_Input_Access_Point);
       bodyInAccessPointViewer = new ComboViewer(FormBuilder.createCombo(composite));
       bodyInAccessPointViewer.setContentProvider(ArrayContentProvider.getInstance());
       bodyInAccessPointViewer.setLabelProvider(new AccessPointLabelProvider());
-      
+
       bodyInAccessPointViewer.setComparer(new IElementComparer() {
-  		
+
   		@Override
   		public int hashCode(Object hashCode) {
   			return hashCode.hashCode();
   		}
-  		
+
   		@Override
 		public boolean equals(Object one, Object two) {
-			
+
 			if (one != null && two != null)
 			{
 				if (one instanceof AccessPointType && two instanceof AccessPointType)
 				{
 					String aptOneId = ((AccessPointType) one).getId();
 					String aptTwoId = ((AccessPointType) two).getId();
-					
+
 					return aptOneId.equals(aptTwoId);
 				}
-				
+
 				return one.equals(two);
-				
+
 			}
-				
+
 			return false;
 		}
       });
-      
+
       this.populateBodyInAccessPointViewer();
 
       bodyInAccessPointViewer.addSelectionChangedListener(new ISelectionChangedListener()
@@ -354,50 +363,50 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
              if (selection != null && selection.getFirstElement() != null)
              {
             	AccessPointType apt = (AccessPointType) selection.getFirstElement();
-                AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_IN_ACCESS_POINT, "String", apt.getId());
+                AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_IN_ACCESS_POINT, "String", apt.getId()); //$NON-NLS-1$
              }
              else
              {
             	 AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_IN_ACCESS_POINT, null);
              }
          }
-         
+
       });
-      
+
       bodyOutAccessPointLabel = FormBuilder.createLabel(composite, Camel_Messages.label_Body_Output_Access_Point);
       bodyOutAccessPointViewer = new ComboViewer(FormBuilder.createCombo(composite));
       bodyOutAccessPointViewer.setContentProvider(ArrayContentProvider.getInstance());
       bodyOutAccessPointViewer.setLabelProvider(new AccessPointLabelProvider());
       bodyOutAccessPointViewer.setComparer(new IElementComparer() {
-		
+
 		@Override
 		public int hashCode(Object hashCode) {
 			return hashCode.hashCode();
 		}
-		
+
 		@Override
 		public boolean equals(Object one, Object two) {
-			
+
 			if (one != null && two != null)
 			{
 				if (one instanceof AccessPointType && two instanceof AccessPointType)
 				{
 					String aptOneId = ((AccessPointType) one).getId();
 					String aptTwoId = ((AccessPointType) two).getId();
-					
+
 					return aptOneId.equals(aptTwoId);
 				}
-				
+
 				return one.equals(two);
-				
+
 			}
-				
+
 			return false;
 		}
 	});
-      
+
       this.populateBodyOutAccessPointViewer();
-      
+
       bodyOutAccessPointViewer.addSelectionChangedListener(new ISelectionChangedListener()
       {
          @Override
@@ -408,27 +417,27 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
              if (selection != null && selection.getFirstElement() != null)
              {
             	 AccessPointType apt = (AccessPointType) selection.getFirstElement();
-                AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_OUT_ACCESS_POINT, "String", apt.getId());
+                AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_OUT_ACCESS_POINT, "String", apt.getId()); //$NON-NLS-1$
              }
              else
              {
             	 AttributeUtil.setAttribute(application, CamelConstants.CAT_BODY_OUT_ACCESS_POINT, null);
              }
          }
-         
+
       });
-      
+
       FormBuilder.createHorizontalSeparator(composite, 2).setVisible(false);
       FormBuilder.createHorizontalSeparator(composite, 2).setVisible(false);
-      
+
       FormBuilder.createLabel(composite, Camel_Messages.label_additionalSpringBeanDef);
       additionalSpringBeanDefinitions = FormBuilder.createTextArea(composite, 2);
 
-     
+
       // this is required for camel consumer application; it allows the application type
       // to behave different that the producer type
       if (getApplication().getType() != null
-            && getApplication().getType().getId().equalsIgnoreCase("camelConsumerApplication")
+            && getApplication().getType().getId().equalsIgnoreCase("camelConsumerApplication") //$NON-NLS-1$
             && AttributeUtil.getAttributeValue(getApplication(), CamelConstants.INVOCATION_PATTERN_EXT_ATT) == null)
       {
          invocationPatternViewer.setSelection(new StructuredSelection(Camel_Messages.label_Invocation_Pattern_Receive),
@@ -436,7 +445,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       }
 
       addPropertyPage(getApplication(), createAccessPointConfigurationElement());
-      
+
       return composite;
    }
 
@@ -504,7 +513,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
             // provided then set to sendReceive sync
             if (AttributeUtil.getAttributeValue(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS) != null
                   && AttributeUtil.getAttributeValue(extensibleElement, CamelConstants.SUPPORT_MULTIPLE_ACCESS_POINTS)
-                        .equalsIgnoreCase("true"))
+                        .equalsIgnoreCase("true")) //$NON-NLS-1$
             {
                boolean hasOutAccessPoints = false;
                if (element instanceof ApplicationTypeImpl)
@@ -648,12 +657,12 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
 
    private void changeApplicationTypeToProducer()
    {
-      changeApplicationType("camelSpringProducerApplication");
+      changeApplicationType("camelSpringProducerApplication"); //$NON-NLS-1$
    }
 
    private void changeApplicationTypeToConsumer()
    {
-      changeApplicationType("camelConsumerApplication");
+      changeApplicationType("camelConsumerApplication"); //$NON-NLS-1$
    }
 
    private String getExtendedAttributeValueForInvocationType()
@@ -662,12 +671,12 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
    }
 
    private ConfigurationElement createAccessPointConfigurationElement()
-   {   
+   {
 	   String iconName = "{org.eclipse.stardust.modeling.transformation.modeling.externalwebapp}icons/message_transformation_application_icon.gif"; //$NON-NLS-1$
 	   return  ConfigurationElement.createPageConfiguration(
 			   "org.eclipse.stardust.modeling.integration.camel.ui.InputOutputAccessPointPropertyPage", //$NON-NLS-1$
-			   Modeling_Messages.LBL_TYPED_ACCESS_POINTS, 
-			   iconName, 
+			   Modeling_Messages.LBL_TYPED_ACCESS_POINTS,
+			   iconName,
 			   org.eclipse.stardust.modeling.integration.camel.ui.InputOutputAccessPointPropertyPage.class);
    }
 
@@ -702,7 +711,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       {
          super(ConfigurationElement.CFG_PAGE);
          attributes.put(SpiConstants.ID, CONSUMER_NODE); //$NON-NLS-1$
-         attributes.put(SpiConstants.NAME, "Consumer Route");//
+         attributes.put(SpiConstants.NAME, "Consumer Route"); //$NON-NLS-1$
          attributes.put(SpiConstants.ICON, null);
          attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelConsumerPropertyPage.class.getName());//
       }
@@ -731,7 +740,7 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
       {
          super(ConfigurationElement.CFG_PAGE);
          attributes.put(SpiConstants.ID, PRODUCER_NODE); //$NON-NLS-1$
-         attributes.put(SpiConstants.NAME, "Producer Route");//
+         attributes.put(SpiConstants.NAME, "Producer Route"); //$NON-NLS-1$
          attributes.put(SpiConstants.ICON, null);
          attributes.put(SpiConstants.PROPERTY_PAGE_CLASS, CamelProducerSpringBeanPropertyPage.class.getName());//
       }
@@ -751,20 +760,20 @@ public class GeneralPropertyPage extends AbstractModelElementPropertyPage
          return (String[]) attributes.keySet().toArray(new String[attributes.size()]);
       }
    }
-   
+
    private class AccessPointLabelProvider extends LabelProvider
    {
 
 		@Override
 		public String getText(Object element) {
-			
+
 			if (element instanceof AccessPointType)
 			{
 				return ((AccessPointType) element).getName();
 			}
-			
+
 			return super.getText(element);
 		}
    }
-   
+
 }
