@@ -388,8 +388,8 @@ public class MessageTransformationController {
              StructAccessPointType messageType = (StructAccessPointType) apt;
              String typeString = getStructuredTypeName(messageType);
              AttributeType attributeType = AttributeUtil.getAttribute(messageType,
-                   "carnot:engine:dataType");
-             String id = "";
+                   "carnot:engine:dataType"); //$NON-NLS-1$
+             String id = ""; //$NON-NLS-1$
              if (attributeType != null)
              {
                 if (attributeType.getReference() != null)
@@ -400,7 +400,7 @@ public class MessageTransformationController {
                       ModelType rModel = ModelUtils.findContainingModel(ref.getIdentifiable());
                       if (rModel != null && !rModel.getId().equals(modelType.getId()))
                       {
-                         id = rModel.getId() + "/";
+                         id = rModel.getId() + "/"; //$NON-NLS-1$
                       }
                    }
                 }
@@ -436,8 +436,8 @@ public class MessageTransformationController {
              StructAccessPointType messageType = (StructAccessPointType) apt;
              String typeString = getStructuredTypeName(messageType);
              AttributeType attributeType = AttributeUtil.getAttribute(messageType,
-                   "carnot:engine:dataType");
-             String id = "";
+                   "carnot:engine:dataType"); //$NON-NLS-1$
+             String id = ""; //$NON-NLS-1$
              if (attributeType != null)
              {
                 if (attributeType.getReference() != null)
@@ -448,7 +448,7 @@ public class MessageTransformationController {
                       ModelType rModel = ModelUtils.findContainingModel(ref.getIdentifiable());
                       if (rModel != null && !rModel.getId().equals(modelType.getId()))
                       {
-                         id = rModel.getId() + "/";
+                         id = rModel.getId() + "/"; //$NON-NLS-1$
                       }
                    }
                 }
