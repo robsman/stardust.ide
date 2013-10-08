@@ -220,7 +220,7 @@ public class TypeInfo
       IMemberValuePair[] values = nameAnnotation.getMemberValuePairs();
       for (IMemberValuePair pair : values)
       {
-         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_STRING)
+         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_STRING) //$NON-NLS-1$
          {
             Object value = pair.getValue();
             if (!value.getClass().isArray())
@@ -239,7 +239,7 @@ public class TypeInfo
       IMemberValuePair[] values = parameterNamesAnnotation.getMemberValuePairs();
       for (IMemberValuePair pair : values)
       {
-         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_ANNOTATION)
+         if ("value".equals(pair.getMemberName()) && pair.getValueKind() == IMemberValuePair.K_ANNOTATION) //$NON-NLS-1$
          {
             Object value = pair.getValue();
             if (value.getClass().isArray())

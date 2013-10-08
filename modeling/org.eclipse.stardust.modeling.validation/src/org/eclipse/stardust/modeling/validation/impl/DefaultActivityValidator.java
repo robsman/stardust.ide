@@ -377,7 +377,7 @@ public class DefaultActivityValidator implements IModelElementValidator
          return null;
       }
       
-      String condition = TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(" + eventHandlerId + ")";
+      String condition = TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(" + eventHandlerId + ")"; //$NON-NLS-1$ //$NON-NLS-2$
       for (TransitionType t : outTransitions)
       {
          String expression = getExpression(t);
