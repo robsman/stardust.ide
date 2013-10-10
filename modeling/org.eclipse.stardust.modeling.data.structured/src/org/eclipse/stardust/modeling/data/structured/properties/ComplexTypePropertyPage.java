@@ -696,7 +696,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                return false;
             }      
 */                  
-            return true;
+            return isLocal((XSDAttributeDeclaration) element);
          }
          else if (element instanceof XSDModelGroup)
          {
