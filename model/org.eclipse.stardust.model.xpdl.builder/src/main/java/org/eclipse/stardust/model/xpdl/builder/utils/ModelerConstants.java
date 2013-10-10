@@ -138,6 +138,7 @@ public class ModelerConstants
    public static final String WEB_SERVICE_APPLICATION_TYPE_ID = "webservice";
    public static final String MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID = "messageTransformationBean";
    public static final String CAMEL_APPLICATION_TYPE_ID = "camelSpringProducerApplication";
+   public static final String DROOLS_APPLICATION_TYPE_ID = "rulesEngineBean";
    public static final String CAMEL_CONSUMER_APPLICATION_TYPE_ID = "camelConsumerApplication";
    public static final String CAMEL_TRIGGER_TYPE_ID = "camel";
    public static final String MAIL_APPLICATION_TYPE_ID = "mailBean";
