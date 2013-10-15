@@ -13,13 +13,7 @@ package org.eclipse.stardust.modeling.core.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
@@ -35,38 +29,28 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.ejb.SessionBeanConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractSwimlaneEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramRootEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.*;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
 import org.eclipse.ui.PlatformUI;
 
 public class GenericUtils
-{    
+{
+   private static final String[] EMPTY = {};
+   
    public static String getLocationRelativeToClasspath(IFile file)
    {
       String fileName = file.toString().substring(1); // strip resource type identifier
@@ -372,6 +356,13 @@ public class GenericUtils
    // return class name that reflects the data
    public static String getReferenceClassName(DataType data)
    {
+      String[] names = getReferenceClassNames(data);
+      return names.length == 0 ? null : names[0];
+   }
+   
+   // return class name that reflects the data
+   public static String[] getReferenceClassNames(DataType data)
+   {
       // DMS
       if (data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT)
             || data.getType().getId().equals(org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants.DATA_TYPE_ID_DOCUMENT_SET)
@@ -380,40 +371,59 @@ public class GenericUtils
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER)
             || data.getType().getId().equals(DmsConstants.DATA_TYPE_DMS_FOLDER_LIST))
       {
-         return (String) AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT);         
+         return new String[] {AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT)};         
       }   
       else if (data.getType().getId().equals(PredefinedConstants.PRIMITIVE_DATA))
       {
          String type = AttributeUtil.getAttributeValue(data, PredefinedConstants.TYPE_ATT);
-         return Reflect.getClassFromAbbreviatedName(type).getName();
+         if (Type.Enumeration.getId().equals(type))
+         {
+            String typeDeclarationId = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);
+            if (typeDeclarationId != null)
+            {
+               TypeDeclarationType typeDeclaration = StructuredTypeUtils.getTypeDeclaration(data);
+               if (typeDeclaration != null)
+               {
+                  String enumClass = ExtendedAttributeUtil.getAttributeValue(typeDeclaration, PredefinedConstants.CLASS_NAME_ATT);
+                  if (enumClass != null)
+                  {
+                     return new String[] {enumClass, String.class.getName()};
+                  }
+               }
+            }
+            
+            // defaults to String
+            return new String[] {String.class.getName()};
+         }
+         return new String[] {Reflect.getClassFromAbbreviatedName(type).getName()};
       }
       else if (data.getType().getId().equals(PredefinedConstants.HIBERNATE_DATA))
       {
-         return (String) AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT);         
+         return new String[] {AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT)};         
       }      
       else if (data.getType().getId().equals(PredefinedConstants.SERIALIZABLE_DATA))
       {
-         return (String) AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT);
+         return new String[] {AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT)};
       }
       else if (data.getType().getId().equals(PredefinedConstants.ENTITY_BEAN_DATA))
       {
          // depends on implementation (EJB 2 or 3)
          String version = AttributeUtil.getAttributeValue(data, SessionBeanConstants.VERSION_ATT);
-         if(version == null || version.equals(SessionBeanConstants.VERSION_2_X))
+         if (version == null || version.equals(SessionBeanConstants.VERSION_2_X))
          {
-            return (String) AttributeUtil.getAttributeValue(data, PredefinedConstants.REMOTE_INTERFACE_ATT);            
+            return new String[] {AttributeUtil.getAttributeValue(data, PredefinedConstants.REMOTE_INTERFACE_ATT)};            
          }
-         return (String) AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT); 
+         return new String[] {AttributeUtil.getAttributeValue(data, PredefinedConstants.CLASS_NAME_ATT)}; 
       }
       else if (data.getType().getId().equals(PredefinedConstants.STRUCTURED_DATA))
       {
          String id = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);
-         if(!StringUtils.isEmpty(id))
+         if (!StringUtils.isEmpty(id))
          {
-            return id;            
+            return new String[] {id};            
          }
       }
-      return null;
+      return EMPTY;
    }
    
    // check if accessPoint is already connected

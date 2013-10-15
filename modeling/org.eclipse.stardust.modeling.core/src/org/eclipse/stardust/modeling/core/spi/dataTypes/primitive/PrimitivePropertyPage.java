@@ -33,7 +33,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediato
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtButtonAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtComboAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
-import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.Verifier;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
@@ -431,7 +430,12 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                Object value = selection.getFirstElement();
                if (value instanceof TypeDeclarationType)
                {
-                  enumComboViewer.setInput(getFacets((TypeDeclarationType) value));
+                  Object[] facets = getFacets((TypeDeclarationType) value);
+                  enumComboViewer.setInput(facets);
+                  if (facets.length > 0)
+                  {
+                     enumComboViewer.setSelection(new StructuredSelection(facets[0]), true);
+                  }
                }
             }
          }
