@@ -1340,8 +1340,14 @@ public class ModelBuilderFacade
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
                .build();
       }
+      // This application is "hidden" and implicitly created when for a task activity the
+      // task type is changed to "Rules"
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DROOLS_APPLICATION_TYPE_ID))
       {
+         IdFactory idFactory = new IdFactory(applicationID, applicationName);
+         idFactory.computeNames(model.getApplication(), true);
+         applicationID = idFactory.getId();
+         applicationName = idFactory.getName();
          return newDroolsApplication(model).withIdAndName(applicationID, applicationName)
                .build();
       }
