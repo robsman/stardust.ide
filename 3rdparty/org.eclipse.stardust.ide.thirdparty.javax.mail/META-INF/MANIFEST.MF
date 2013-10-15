@@ -5,8 +5,8 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.javax.mail
 Bundle-Version: 1.4.0.qualifier
 Bundle-Vendor: %providerName
-Bundle-Localization: plugin
 Bundle-ClassPath: lib/mail.jar
+Bundle-Localization: plugin
 Export-Package: javax.mail,
  javax.mail.event,
  javax.mail.internet,
