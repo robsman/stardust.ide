@@ -115,7 +115,7 @@ public class StructuredTypeUtils
             if (model != declarationModel)
             {
                typeDeclaration = getTypeDeclaration(model, declarationModel.getId(), typeDeclaration.getId());
-      }
+            }
          }
       }
       else

@@ -216,6 +216,12 @@ public class ActivityUtil
    public static List<AccessPointType> getAccessPoints(ActivityType activity,
          boolean isIn, String contextId)
    {
+      return getAccessPoints(activity, isIn, true, contextId);
+   }
+   
+   public static List<AccessPointType> getAccessPoints(ActivityType activity,
+         boolean isIn, boolean includeBrowsables, String contextId)
+   {
       List<AccessPointType> accessPoints = CollectionUtils.newList();
 
       if (PredefinedConstants.ENGINE_CONTEXT.equals(contextId))
@@ -270,7 +276,7 @@ public class ActivityUtil
          if (application != null)
          {
             accessPoints.addAll(getAccessPoints(getIntrinsicAccessPoints(application),
-                  application.getAccessPoint(), isIn));
+                  application.getAccessPoint(), isIn, includeBrowsables));
          }
       }
       else if (PredefinedConstants.PROCESSINTERFACE_CONTEXT.equals(contextId))
@@ -292,7 +298,7 @@ public class ActivityUtil
          if (ctx != null) // manual activities don't have a context
          {
             accessPoints.addAll(getAccessPoints(getIntrinsicAccessPoints(ctx), ctx
-                  .getAccessPoint(), isIn));
+                  .getAccessPoint(), isIn, includeBrowsables));
          }
       }
 
@@ -344,6 +350,12 @@ public class ActivityUtil
    public static List<AccessPointType> getExplicitAccessPoints(ActivityType activity, boolean isIn,
          String contextId)
    {
+      return getExplicitAccessPoints(activity, isIn, true, contextId);
+   }
+   
+   public static List<AccessPointType> getExplicitAccessPoints(ActivityType activity, boolean isIn,
+         boolean includeBrowsables, String contextId)
+   {
       List<AccessPointType> accessPoints = CollectionUtils.newList();
 
       if (PredefinedConstants.ENGINE_CONTEXT.equals(contextId) && !isIn)
@@ -365,7 +377,7 @@ public class ActivityUtil
          if (null != application)
          {
             accessPoints.addAll(getAccessPoints(Collections.<AccessPointType>emptyList(), application
-                  .getAccessPoint(), isIn));
+                  .getAccessPoint(), isIn, includeBrowsables));
          }
       }
       else if (isInteractive(activity))
@@ -374,7 +386,7 @@ public class ActivityUtil
          if (ctx != null) // manual activities don't have a context
          {
             accessPoints.addAll(getAccessPoints(Collections.<AccessPointType>emptyList(), ctx
-                  .getAccessPoint(), isIn));
+                  .getAccessPoint(), isIn, includeBrowsables));
          }
       }
 
@@ -411,12 +423,12 @@ public class ActivityUtil
    }
 
    private static Collection<AccessPointType> getAccessPoints(List<AccessPointType> intrinsicAccessPoints,
-         List<AccessPointType> explicitAccessPoints, boolean isIn)
+         List<AccessPointType> explicitAccessPoints, boolean isIn, boolean includeBrowsables)
    {
       List<AccessPointType> accessPoints = CollectionUtils.newList();
 
-      addAll(accessPoints, intrinsicAccessPoints, isIn);
-      addAll(accessPoints, explicitAccessPoints, isIn);
+      addAll(accessPoints, intrinsicAccessPoints, isIn, includeBrowsables);
+      addAll(accessPoints, explicitAccessPoints, isIn, includeBrowsables);
 
       Collections.sort(accessPoints, new Comparator<AccessPointType>()
       {
@@ -430,11 +442,11 @@ public class ActivityUtil
       return accessPoints;
    }
 
-   private static void addAll(List<AccessPointType> list, List<AccessPointType> accessPoint, boolean isIn)
+   private static void addAll(List<AccessPointType> list, List<AccessPointType> accessPoint, boolean isIn, boolean includeBrowsables)
    {
       for (AccessPointType ap : accessPoint)
       {
-         if (AccessPointUtil.isBrowsable(ap) && isIn
+         if (includeBrowsables && isIn && AccessPointUtil.isBrowsable(ap)
          // todo (fh) remove usage of isBrowsable as
                // direction filter, see defect #4243
                || AccessPointUtil.isDirectionCompatible(ap, isIn))
