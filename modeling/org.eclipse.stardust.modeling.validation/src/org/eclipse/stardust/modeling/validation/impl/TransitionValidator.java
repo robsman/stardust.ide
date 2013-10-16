@@ -204,10 +204,10 @@ public class TransitionValidator implements IModelElementValidator
             else if (PredefinedConstants.PRIMITIVE_DATA.equals(data.getType().getId()))
             {
                PrimitiveAccessPathEvaluator pojoEvaluator = new PrimitiveAccessPathEvaluator();
-               result = pojoEvaluator.createDefaultValue(data.getAllAttributes());
+               result = pojoEvaluator.createDefaultValue(data, null);
                if (null == result)
                {
-                  result = pojoEvaluator.createInitialValue(data.getAllAttributes());
+                  result = pojoEvaluator.createInitialValue(data, null);
                }
             }
          }
