@@ -51,7 +51,8 @@ public class ConfigurationVariableValidator implements IModelValidator
                List<EObject> list = context.getVariableReferences().get(
                      modelVariable.getName());
                // Invalid variables
-               if (!context.isValidName(modelVariable.getName()))
+               if (!context.isValidName(modelVariable.getName())
+                     || !context.isValidType(modelVariable.getName()))
                {
                   result.add(Issue.warning(model, MessageFormat.format(
                         Validation_Messages.MODEL_ConfigurationVariable_Invalid,
