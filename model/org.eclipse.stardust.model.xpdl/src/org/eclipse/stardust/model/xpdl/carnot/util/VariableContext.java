@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.preferences.configurationvariables.ConfigurationVariableScope;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -532,6 +533,25 @@ public class VariableContext
       return value;
    }
 
+   public boolean isValidType(String name)
+   {
+      if (name.startsWith("${")) //$NON-NLS-1$
+      {
+         name = name.substring(2, name.length() - 1);
+      }
+      String type = VariableContextHelper.getType(name);
+      ConfigurationVariableScope[] scopes = ConfigurationVariableScope.values();
+      for(ConfigurationVariableScope scope : scopes)
+      {
+         if(scope.name().equals(type))
+         {
+            return true;
+         }
+      }
+      
+      return false;
+   }
+      
    public boolean isValidName(String name)
    {
       if (name == null)
@@ -546,6 +566,14 @@ public class VariableContext
       {
          return false;
       }
+      
+      String[] parts = name.split(":");
+      if(parts.length > 2)
+      {
+         return false;
+      }
+            
+      name = VariableContextHelper.getName(name);      
       if (!StringUtils.isValidIdentifier(name))
       {
          return false;
@@ -562,5 +590,4 @@ public class VariableContext
    {
       this.criticalityFormulaChanged = criticalityFormulaChanged;
    }
-
 }

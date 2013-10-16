@@ -13,9 +13,9 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.stardust.engine.core.preferences.configurationvariables.ConfigurationVariableScope;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-
 
 public class VariableContextHelper
 {
@@ -108,4 +108,20 @@ public class VariableContextHelper
       }
    }
 
+   public static String getName(String name)
+   {
+      String[] parts = name.split(":"); //$NON-NLS-1$
+      return parts[parts.length - 1];      
+   }
+   
+   public static String getType(String name)
+   {
+      String[] parts = name.split(":"); //$NON-NLS-1$
+      if(parts.length == 1)
+      {
+         return ConfigurationVariableScope.String.name();
+      }      
+      
+      return parts[0];      
+   }        
 }
