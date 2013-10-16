@@ -12,9 +12,11 @@ package org.eclipse.stardust.modeling.core.properties;
 
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
-import org.eclipse.swt.graphics.Image;
 
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
+
+import org.eclipse.swt.graphics.Image;
 
 public class ModelVariableLabelProvider extends LabelProvider implements  ITableLabelProvider {
 
@@ -25,18 +27,20 @@ public class ModelVariableLabelProvider extends LabelProvider implements  ITable
 
    public String getColumnText(Object element, int columnIndex) {
       ModelVariable variable = (ModelVariable) element;
+      String name = variable.getName();
+      name = name.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      name = name.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
+            
       switch (columnIndex) {
       case 0:
-          String name = variable.getName();
-          name = name.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
-          name = name.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
-          return name;
+          return VariableContextHelper.getName(name);
       case 1:
           return variable.getDefaultValue();
       case 2:
           return variable.getDescription();
+      case 3:
+         return VariableContextHelper.getType(name);
       }
       return "n.a."; //$NON-NLS-1$
   }
-
 }
