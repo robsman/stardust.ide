@@ -63,6 +63,9 @@
 	<bean name="mapAppenderProcessor"
 		class="org.eclipse.stardust.engine.extensions.camel.enricher.MapAppenderProcessor" />
 
+   <bean id="sqlPrepareStatementStrategy"
+      class="org.eclipse.stardust.engine.extensions.camel.sql.SqlPrepareStatementStrategy" />
+      
 	<camelContext id="defaultCamelContext" trace="true"
 		xmlns="http://camel.apache.org/schema/spring">
 	</camelContext>
