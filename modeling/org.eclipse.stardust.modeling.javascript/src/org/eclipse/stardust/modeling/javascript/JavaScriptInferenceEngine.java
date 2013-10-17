@@ -333,7 +333,7 @@ public class JavaScriptInferenceEngine extends InferEngine
                         {
                            String type = GenericUtils.getReferenceClassName((DataType) data);
                            attrType = getInferredTypeFromJavaType(type, xPath, null);
-                           if (attrType == null)
+                           if(attrType == null)
                            {
                               isJavaType = true;
                               className = GenericUtils.getReferenceClassName((DataType) data);
@@ -911,10 +911,10 @@ public class JavaScriptInferenceEngine extends InferEngine
                                    || GenericUtils.isXMLDataType((DataType) dataType)))
                             {
                                String javaType = GenericUtils.getReferenceClassName((DataType) dataType);
-                               if (javaType != null)
+                               if(javaType != null)
                                {
                                   InferredType iType = getInferredTypeFromJavaType(javaType, null, null);
-                                  if (iType != null)
+                                  if(iType != null)
                                   {
                                      localDeclaration.setInferredType(iType);
                                   }
