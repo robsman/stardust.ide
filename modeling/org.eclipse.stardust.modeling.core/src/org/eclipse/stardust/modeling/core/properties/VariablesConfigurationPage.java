@@ -339,7 +339,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                      name = name.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
                      
                      String type = VariableContextHelper.getType(name);
-                     modelVariable.setName("${" + type + ":" + value.toString() + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                     modelVariable.setName("${" + value.toString() + ":" + type + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                   }
                }
                if (Diagram_Messages.COL_NAME_DefaultValue.equals(property))
