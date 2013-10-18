@@ -19,7 +19,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 public class VariableContextHelper
 {
-
    private static VariableContextHelper instance = null;
 
    private Map<String, VariableContext> contextMap = new HashMap<String, VariableContext>();
@@ -111,7 +110,7 @@ public class VariableContextHelper
    public static String getName(String name)
    {
       String[] parts = name.split(":"); //$NON-NLS-1$
-      return parts[parts.length - 1];      
+      return parts[0];      
    }
    
    public static String getType(String name)
@@ -122,6 +121,6 @@ public class VariableContextHelper
          return ConfigurationVariableScope.String.name();
       }      
       
-      return parts[0];      
+      return parts[1];      
    }        
 }
