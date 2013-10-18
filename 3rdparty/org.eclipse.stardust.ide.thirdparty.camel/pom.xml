@@ -80,11 +80,6 @@
       <artifactId>quartz</artifactId>
       <version>${quartz.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.restlet.jse</groupId>
-      <artifactId>org.restlet</artifactId>
-      <version>${org.restlet.version}</version>
-    </dependency>
   </dependencies>
   
   <build>
@@ -98,7 +93,7 @@
             <configuration>
               <includeArtifactIds>
                 camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
-                quartz,org.restlet,camel-mail,camel-http
+                quartz,camel-mail,camel-http
               </includeArtifactIds>
             </configuration>
           </execution>
