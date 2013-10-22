@@ -3526,7 +3526,7 @@ public class ModelBuilderFacade
     * @param targetActivitySymbol
     * @throws JSONException
     */
-   public void createControlFlowConnection(ProcessDefinitionType processDefinition,
+   public TransitionConnectionType createControlFlowConnection(ProcessDefinitionType processDefinition,
          ActivitySymbolType sourceActivitySymbol,
          ActivitySymbolType targetActivitySymbol, String id, String name,
          String description, boolean otherwise, String condition, String fromAnchor,
@@ -3541,7 +3541,7 @@ public class ModelBuilderFacade
             sourceActivitySymbol.getActivity(), targetActivitySymbol.getActivity(), id,
             name, description, otherwise, condition);
 
-      createTransitionSymbol(processDefinition, sourceActivitySymbol,
+      return createTransitionSymbol(processDefinition, sourceActivitySymbol,
             targetActivitySymbol, transition, fromAnchor, toAnchor);
    }
 
