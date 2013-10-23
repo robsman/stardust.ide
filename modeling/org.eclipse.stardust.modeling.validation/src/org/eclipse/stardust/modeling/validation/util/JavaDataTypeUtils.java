@@ -27,6 +27,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.ejb.data.EntityBeanConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -34,9 +35,17 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.validation.AccessPathEvaluationContext;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
@@ -44,6 +53,8 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 public class JavaDataTypeUtils
 {
@@ -75,7 +86,8 @@ public class JavaDataTypeUtils
       return attributes;
    }
 
-   public static String getReferenceClassName(ITypedElement data, boolean convert)
+   public static String getReferenceClassName(ITypedElement data, 
+         boolean convert, AccessPathEvaluationContext ctx)
    {
       String className = null;
       DataTypeType dataType = null;
@@ -90,8 +102,45 @@ public class JavaDataTypeUtils
 
       if (dataType.getId().equals(PredefinedConstants.PRIMITIVE_DATA))
       {
-         className = AttributeUtil.getAttributeValue((IExtensibleElement) data,
-               PredefinedConstants.TYPE_ATT);
+         String type = AttributeUtil.getAttributeValue((IExtensibleElement) data, CarnotConstants.TYPE_ATT);
+         if(type.equals(Type.Enumeration.toString()))
+         {
+            if(ctx != null)
+            {
+               ITypedElement targetAccessPoint = ctx.getTargetAccessPoint();
+               className = AttributeUtil.getAttributeValue((IExtensibleElement) targetAccessPoint, CarnotConstants.CLASS_NAME_ATT);                           
+            }
+            else
+            {
+               TypeDeclarationType typeDeclaration = null;                                    
+               String typeDeclarationId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               if(!StringUtils.isEmpty(typeDeclarationId))
+               {
+                  ModelType model = ModelUtils.findContainingModel(data);
+                  if (model != null)
+                  {
+                     TypeDeclarationsType declarations = model.getTypeDeclarations();
+                     if (declarations != null)
+                     {
+                        typeDeclaration = declarations.getTypeDeclaration(typeDeclarationId);
+                     }
+                  }
+               }
+               if(typeDeclaration != null)
+               {
+                  XSDNamedComponent component = TypeDeclarationUtils.getSimpleType(typeDeclaration);
+                  if (component instanceof XSDSimpleTypeDefinition)
+                  {
+                     className = ExtendedAttributeUtil.getAttributeValue(typeDeclaration, CarnotConstants.CLASS_NAME_ATT);            
+                  }  
+               }            
+            }            
+         }
+         else
+         {
+            className = AttributeUtil.getAttributeValue((IExtensibleElement) data,
+                  PredefinedConstants.TYPE_ATT);
+         }         
       }
       else if (dataType.getId().equals(PredefinedConstants.SERIALIZABLE_DATA))
       {
@@ -122,7 +171,7 @@ public class JavaDataTypeUtils
 
    public static IType getReferenceClass(ITypedElement data)
    {
-      return getTypeFromCurrentProject(getReferenceClassName(data, true));
+      return getTypeFromCurrentProject(getReferenceClassName(data, true, null));
    }
 
    // TODO: (rsauer) need to explicitly pass in the resource in question to prevent
@@ -221,10 +270,16 @@ public class JavaDataTypeUtils
    public static BridgeObject getBridgeObject(ITypedElement ap, String path,
          DirectionType direction) throws ValidationException
    {
+      return getBridgeObject(ap, path, direction, null);
+   }
+   
+   public static BridgeObject getBridgeObject(ITypedElement ap, String path,
+         DirectionType direction, AccessPathEvaluationContext ctx) throws ValidationException
+   {
       DataTypeType dataType = (DataTypeType) ap.getMetaType();
       IAccessPathEditor editor = AccessPointUtil.getSPIAccessPathEditor(dataType);
       ITypedElement element = traversePath(editor, ap, path, direction);
-      String referenceClassName = getReferenceClassName(element, true);
+      String referenceClassName = getReferenceClassName(element, true, ctx);
       IType accessPointType = getTypeFromCurrentProject(referenceClassName);
       return new BridgeObject(accessPointType, direction, referenceClassName);
    }
