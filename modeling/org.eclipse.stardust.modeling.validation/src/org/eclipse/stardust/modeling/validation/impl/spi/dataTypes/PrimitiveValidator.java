@@ -123,9 +123,8 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
    }
 
    public BridgeObject getBridgeObject(ITypedElement accessPoint, String accessPath, DirectionType direction) throws ValidationException
-   {
-      // TODO: use the context
-      return JavaDataTypeUtils.getBridgeObject(accessPoint, accessPath, direction);
+   {      
+      return JavaDataTypeUtils.getBridgeObject(accessPoint, accessPath, direction, context);
    }
 
    @Override
