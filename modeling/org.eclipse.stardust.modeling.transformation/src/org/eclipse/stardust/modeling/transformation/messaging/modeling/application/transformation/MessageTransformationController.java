@@ -199,10 +199,11 @@ public class MessageTransformationController {
 		targetMessageTypes = new ArrayList<AccessPointType>();
 		externalClassTypes = new ArrayList<AccessPointType>();
 		externalClassTypesMissing = new ArrayList<AccessPointType>();
-		if (trafoProp != null) {
-			extractAccessPoints(element);
-			extractExternalClassesfromTrafoprop(model, element);
-		}
+      extractAccessPoints(element);
+      if (trafoProp != null)
+      {
+         extractExternalClassesfromTrafoprop(model, element);
+      }
 	}
 
    private void extractAccessPoints(IModelElement element)
@@ -1639,12 +1640,12 @@ public class MessageTransformationController {
    {
       this.simpleMode = simpleMode;
    }
-   
+
    public boolean isWithSerializable()
    {
 	   return withSerialiable;
    }
-   
+
    public void setWithSerializable(boolean withSerializable)
    {
 	   this.withSerialiable = withSerializable;
