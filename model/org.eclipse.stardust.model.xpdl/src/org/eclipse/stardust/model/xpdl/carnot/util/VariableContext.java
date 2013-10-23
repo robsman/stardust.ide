@@ -533,6 +533,21 @@ public class VariableContext
       return value;
    }
 
+   public boolean isSecurityContext(String name)
+   {
+      if (name.startsWith("${")) //$NON-NLS-1$
+      {
+         name = name.substring(2, name.length() - 1);
+      }
+      String type = VariableContextHelper.getType(name);
+      if(type.equals(ConfigurationVariableScope.Password.name()))
+      {
+         return true;
+      }
+      
+      return false;
+   }
+   
    public boolean isValidType(String name)
    {
       if (name.startsWith("${")) //$NON-NLS-1$
