@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.dataTypes.primitive;
 
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -24,8 +25,14 @@ public class PrimitiveAccessPathEditor extends SerializableAccessPathEditor
 {
    protected String getClassName(IExtensibleElement data)
    {
-      Class type = Reflect.getClassFromAbbreviatedName(AttributeUtil.getAttributeValue(
-            data, CarnotConstants.TYPE_ATT));
+      String className = AttributeUtil.getAttributeValue(
+            data, CarnotConstants.TYPE_ATT);
+      if(StringUtils.isEmpty(className))
+      {
+         return null;
+      }
+      
+      Class type = Reflect.getClassFromAbbreviatedName(className);
       return (null != type) ? type.getName() : null;
    }
 }
