@@ -20,22 +20,31 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
+import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.stardust.modeling.validation.IModelValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+import org.eclipse.stardust.modeling.validation.util.TypeInfo;
+
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDImport;
+import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 public class ModelValidator implements IModelValidator
 {
@@ -81,12 +90,14 @@ public class ModelValidator implements IModelValidator
       TypeDeclarationsType declarations = model.getTypeDeclarations();
       List<TypeDeclarationType> allDeclarations = declarations.getTypeDeclaration();
       for (TypeDeclarationType declaration : allDeclarations)
-      {
+      {         
          Issue duplicateId = checkTypeDeclaration(declaration, allDeclarations);
          if (duplicateId != null)
          {
             result.add(duplicateId);
          }
+         
+         checkEnumeration(declaration, result);
 
          XpdlTypeType dataType = declaration.getDataType();
          if (dataType instanceof SchemaTypeType || dataType instanceof ExternalReferenceType)
@@ -160,4 +171,36 @@ public class ModelValidator implements IModelValidator
       }
       return null;
    }
+   
+   private void checkEnumeration(TypeDeclarationType checkDeclaration, List<Issue> result)
+   {      
+      XSDNamedComponent component = TypeDeclarationUtils.getSimpleType(checkDeclaration);
+      if (component instanceof XSDSimpleTypeDefinition)
+      {
+         if(ExtendedAttributeUtil.getAttribute(checkDeclaration, CarnotConstants.CLASS_NAME_ATT) != null)
+         {
+            ModelType model = ModelUtils.findContainingModel(checkDeclaration);         
+            String className = ExtendedAttributeUtil.getAttributeValue(checkDeclaration, CarnotConstants.CLASS_NAME_ATT);
+
+            if(StringUtils.isEmpty(className))
+            {               
+               result.add(Issue.error(checkDeclaration, Structured_Messages.ERROR_MSG_NO_CLASSNAME));
+            }
+            else
+            {
+               if(model != null)
+               {
+                  TypeFinder finder = new TypeFinder(model);
+                  TypeInfo type = finder.findType(className);
+                  if (type == null)
+                  {
+                     result.add(Issue.error(checkDeclaration, 
+                           MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME, 
+                           className)));
+                  }
+               }               
+            }
+         }
+      }
+   }   
 }

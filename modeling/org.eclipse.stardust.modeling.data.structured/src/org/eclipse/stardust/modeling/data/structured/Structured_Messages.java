@@ -240,6 +240,9 @@ public class Structured_Messages extends NLS
 
    public static String TypeDeclarationPropertyPage_InvalidIdentifierErrorMessage;
 
+   public static String ERROR_MSG_NO_CLASSNAME;
+   
+   public static String ERROR_MSG_INVALID_CLASSNAME;
 
 public static String Question;
 

@@ -25,6 +25,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
@@ -102,6 +103,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
             setJavaType(itype);
          }
          viewer.refresh();
+         validateClass();
       }
    };
 
@@ -192,6 +194,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          enumName = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
          initJavaType(enumName);
       }
+      validateClass();      
    }
 
    private void initJavaType(String enumName)
@@ -341,6 +344,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
                contentProvider.removeNewElement(type);
                setJavaBound(true);
                viewer.refresh();
+               validateClass();
             }
          }
       });
@@ -595,8 +599,47 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
 	   {
 		   validateInput();
 	   }
+      if(isValid())
+      {
+         validateClass();
+      }	   	   
    }
 
+   private void validateClass()
+   {
+      if(ExtendedAttributeUtil.getAttribute(declaration, CarnotConstants.CLASS_NAME_ATT) != null)
+      {
+         ModelType model = ModelUtils.findContainingModel(declaration);         
+         String className = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
+
+         if(StringUtils.isEmpty(className))
+         {
+            setMessage(Structured_Messages.ERROR_MSG_NO_CLASSNAME, ERROR);
+            setValid(false);
+            return;            
+         }
+         else
+         {
+            if(model != null)
+            {
+               TypeFinder finder = new TypeFinder(model);
+               TypeInfo type = finder.findType(className);
+               
+               if (type == null)
+               {
+                  setMessage(MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME, 
+                        className), ERROR);
+                  setValid(false);
+                  return;
+               }
+            }               
+         }
+      }      
+      
+      setMessage(null);
+      setValid(true);      
+   }
+      
    private void validateLength()
    {
       String minLengthString = minLengthText.getText().trim();
