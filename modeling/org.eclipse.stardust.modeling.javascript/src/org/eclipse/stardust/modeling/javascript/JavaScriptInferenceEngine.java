@@ -46,9 +46,13 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML.PlainXMLAccessPointType;
@@ -95,6 +99,7 @@ import org.eclipse.wst.jsdt.internal.compiler.ast.Statement;
 import org.eclipse.wst.jsdt.internal.compiler.ast.StringLiteral;
 import org.eclipse.wst.jsdt.internal.compiler.lookup.BlockScope;
 import org.eclipse.xsd.XSDEnumerationFacet;
+import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 /**
@@ -319,7 +324,42 @@ public class JavaScriptInferenceEngine extends InferEngine
                         {
                            String type = AttributeUtil.getAttributeValue((DataType) data,
                                  PredefinedConstants.TYPE_ATT);
-                           attrType = getInferredTypeFromJavaType(type, xPath, null);
+                           if(type.equals(Type.Enumeration.toString()))
+                           {
+                              TypeDeclarationType typeDeclaration = null;                                    
+                              String typeDeclarationId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
+                              if(!StringUtils.isEmpty(typeDeclarationId))
+                              {
+                                 ModelType model = ModelUtils.findContainingModel(data);
+                                 if (model != null)
+                                 {
+                                    TypeDeclarationsType declarations = model.getTypeDeclarations();
+                                    if (declarations != null)
+                                    {
+                                       typeDeclaration = declarations.getTypeDeclaration(typeDeclarationId);
+                                    }
+                                 }
+                              }
+                              if(typeDeclaration != null)
+                              {
+                                 XSDNamedComponent component = TypeDeclarationUtils.getSimpleType(typeDeclaration);
+                                 if (component instanceof XSDSimpleTypeDefinition)
+                                 {
+                                    className = ExtendedAttributeUtil.getAttributeValue(typeDeclaration, CarnotConstants.CLASS_NAME_ATT);            
+                                    if(!StringUtils.isEmpty(className))
+                                    {
+                                       isJavaType = true;
+                                       attrType = addType(className.toCharArray());
+                                       attrType.isDefinition = true;
+                                       attrType.isAnonymous = false;                                       
+                                    }               
+                                 }  
+                              }            
+                           }                           
+                           else
+                           {                           
+                              attrType = getInferredTypeFromJavaType(type, xPath, null);
+                           }
                         }
                         else if (GenericUtils.isStructuredDataType((DataType) data)
                               || GenericUtils.isDMSDataType((DataType) data)
