@@ -927,15 +927,26 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       List<TypeDeclarationType> declarations = CollectionUtils.copyList(container.getTypeDeclaration());
       declarations.remove(declaration);
       factory.computeNames(declarations, false);
+      
+      String oldName = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
+      
       String newId = factory.getId();
       if (!newId.equals(declaration.getId()))
       {
-         declaration.setId(newId);
+         if(StringUtils.isEmpty(oldName)
+               || !oldName.endsWith(enumName))
+         {
+            declaration.setId(newId);
+         }
       }
       String newName = factory.getName();
       if (!newName.equals(declaration.getName()))
       {
-         declaration.setName(newName);
+         if(StringUtils.isEmpty(oldName)
+               || !oldName.endsWith(enumName))
+         {         
+            declaration.setName(newName);
+         }
       }
       ExtendedAttributeUtil.setAttribute(declaration, CarnotConstants.CLASS_NAME_ATT, enumName);
       try
