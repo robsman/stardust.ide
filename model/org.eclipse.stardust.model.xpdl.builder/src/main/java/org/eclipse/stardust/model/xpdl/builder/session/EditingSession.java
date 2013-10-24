@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.session;
 
+import static java.util.Collections.unmodifiableSet;
 import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
 
 import java.util.Set;
@@ -31,15 +32,7 @@ public class EditingSession
 
    private final Set<EObject> models = newHashSet();
 
-   private ChangeRecorder emfChangeRecorder = new ChangeRecorder()
-   {
-      @Override
-      protected boolean isOrphan(EObject eObject)
-      {
-         // the models being watched should never be considered orphans
-         return !models.contains(eObject) && super.isOrphan(eObject);
-      }
-   };
+   private ChangeRecorder emfChangeRecorder = null;
 
    private final Stack<Modification> undoableModifications = new Stack<Modification>();
 
@@ -63,6 +56,22 @@ public class EditingSession
    public boolean isTrackingModel(EObject model)
    {
       return models.contains(model);
+   }
+
+   public Set<EObject> getTrackedModels()
+   {
+      return unmodifiableSet(models);
+   }
+
+   public void reset()
+   {
+      if (isInEditMode())
+      {
+         endEdit();
+      }
+      clearUndoRedoStack();
+
+      models.clear();
    }
 
    public void trackModel(EObject model)
