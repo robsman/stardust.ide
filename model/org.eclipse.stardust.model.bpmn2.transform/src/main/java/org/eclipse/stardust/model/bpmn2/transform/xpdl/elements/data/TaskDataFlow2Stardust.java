@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
@@ -155,7 +158,10 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String assingmentId = assign.getId();
             String mappingId = assocOut.getId() + "_" + assingmentId;
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+            String applicationAccessPoint = ExtensionHelper2.getInstance().getAssignmentAccessPointRef(fromExpression);
+			if (isEmpty(applicationAccessPoint)) {
+				applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+			}
             String applicationAccessPath = getExpressionValue(fromExpression);
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);

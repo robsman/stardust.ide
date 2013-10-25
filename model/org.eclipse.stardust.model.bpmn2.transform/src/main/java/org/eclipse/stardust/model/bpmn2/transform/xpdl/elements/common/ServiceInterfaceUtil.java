@@ -25,18 +25,21 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustAccessPointExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustApplicationExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustContextExt;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
+import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
@@ -158,24 +161,33 @@ public class ServiceInterfaceUtil {
 		return triggerType;
 	}
 
-	public void convertContexts(StardustApplicationType application) {
+	public void convertContexts(StardustApplicationExt application, ApplicationType stardustApp) {
 		List<ContextType> contexts = new ArrayList<ContextType>();
-		for(StardustContextType ctxt : application.getContext1()) {
-			contexts.add(ctxt);
-			ApplicationContextTypeType contextType = getContextType(ctxt.getTypeRef());
-			ctxt.setType(contextType);
+		for(StardustContextExt ctxt : application.contexts) {
+			ContextType stardustCtxt = BpmPackageBuilder.F_CWM.createContextType();
+			// TODO propagate core attributes
+			contexts.add(stardustCtxt);
+			ApplicationContextTypeType contextType = getContextType(ctxt.typeRef);
+			stardustCtxt.setType(contextType);
 		}
-		application.getContext().addAll(contexts);
+		stardustApp.getContext().addAll(contexts);
 	}
 
-	public void convertAccessPoints(StardustApplicationType application) {
+	public void convertAccessPoints(StardustApplicationExt application, ApplicationType stardustApp) {
 		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
-		for(StardustAccessPointType ap : application.getAccessPoint1()) {
-			aptypes.add(ap);
-			DataTypeType type = getMetaDataType(ap.getTypeRef());
-			ap.setType(type);
+		for(StardustAccessPointExt ap : application.accessPoints) {
+			AccessPointType stardustAp = BpmPackageBuilder.F_CWM.createAccessPointType();
+			// TODO propagate core attributes
+    		stardustAp.setElementOid(ap.elementOid);
+    		stardustAp.setId(ap.id);
+    		stardustAp.setName(ap.name);
+    		stardustAp.setDirection(DirectionType.get(ap.direction));
+
+			aptypes.add(stardustAp);
+			DataTypeType type = getMetaDataType(ap.typeRef);
+			stardustAp.setType(type);
 		}
-		application.getAccessPoint().addAll(aptypes);
+		stardustApp.getAccessPoint().addAll(aptypes);
 	}
 
 	public void convertAccessPoints(StardustTriggerType application) {

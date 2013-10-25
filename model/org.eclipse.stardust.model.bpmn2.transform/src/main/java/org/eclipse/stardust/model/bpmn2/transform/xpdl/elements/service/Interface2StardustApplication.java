@@ -13,11 +13,13 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service;
 import java.util.List;
 
 import org.eclipse.bpmn2.Interface;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustApplicationExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustInterfaceExt;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
+import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -31,7 +33,7 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
 
     public void addIInterface(Interface bpmnInterface) {
     	logger.info("Add service interface: " + bpmnInterface);
-    	StardustInterfaceType sdInterface = ExtensionHelper.getInstance().getApplicationExtension(bpmnInterface);
+    	StardustInterfaceExt sdInterface = ExtensionHelper2.getInstance().getApplicationExtension(bpmnInterface);
     	if (sdInterface != null) {
     		addApplicationToModel(sdInterface);
     	} else {
@@ -39,19 +41,29 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
     	}
     }
 
-    private void addApplicationToModel(StardustInterfaceType sdInterface) {
-    	StardustApplicationType application = sdInterface.getStardustApplication();
+    private void addApplicationToModel(StardustInterfaceExt sdInterface) {
+    	StardustApplicationExt application = sdInterface.stardustApplication;
     	ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, null, failures);
+
+    	ApplicationType stardustApp = BpmPackageBuilder.F_CWM.createApplicationType();
+    	// TODO propagate core attributes
+
     	if (application != null) {
-    		setApplicationType(sdInterface, application);
-    		serviceUtil.convertAccessPoints(application);
-    		serviceUtil.convertContexts(application);
-    		carnotModel.getApplication().add(application);
+    		stardustApp.setElementOid(application.elementOid);
+    		stardustApp.setId(application.id);
+    		stardustApp.setName(application.name);
+
+    		stardustApp.setInteractive(application.interactive);
+
+    		setApplicationType(sdInterface, stardustApp);
+    		serviceUtil.convertAccessPoints(application, stardustApp);
+    		serviceUtil.convertContexts(application, stardustApp);
+    		carnotModel.getApplication().add(stardustApp);
     	}
     }
 
-	private void setApplicationType(StardustInterfaceType sdInterface, StardustApplicationType application) {
-    	String applicationTypeId = sdInterface.getApplicationType();
+	private void setApplicationType(StardustInterfaceExt sdInterface, ApplicationType application) {
+    	String applicationTypeId = sdInterface.applicationType;
     	if (applicationTypeId != null && !applicationTypeId.isEmpty()) {
     		ApplicationTypeType applicationType = (ApplicationTypeType)ModelUtils.findIdentifiableElement(carnotModel,
     				 CarnotWorkflowModelPackage.eINSTANCE.getModelType_ApplicationType(), applicationTypeId);

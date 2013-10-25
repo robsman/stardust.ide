@@ -20,8 +20,7 @@
 	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
 	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 	xmlns:cust="http://stardust.eclipse.org/Customer"
-	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
-	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+	xmlns:stardust="http://www.eclipse.org/stardust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<import location="Customer.xsd" namespace="http://stardust.eclipse.org/Customer" importType="http://www.w3.org/2001/XMLSchema" />
@@ -32,18 +31,32 @@
 
 	<interface id="JSFUserTaskApp" name="JSFUserTaskApp">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jsf">
-				<sdbpmn:StardustApplication oid="10055" id="JsfUserTaskApp" name="JsfUserTaskApp" interactive="true">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<sdbpmn:context oid="10056" typeRef="jsf">
-						<stardust:attribute name="jsf:componentKind" value="facelets" />
-						<stardust:attribute name="jsf:url" value="/xhtml/eclipse/stardust/test/jsftask/JsfUserTaskPanel.iface" />
-						<stardust:attribute name="jsf:managedBeanName" value="JsfUserTaskBean" />
-						<stardust:attribute name="carnot:engine:className" value="org.eclipse.stardust.test.jsfprocess.JsfUserTaskBean" />
-						<stardust:attribute name="carnot:engine:methodName" value="complete()" />
-					</sdbpmn:context>
-				</sdbpmn:StardustApplication>
-			</sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
+				{ "applicationType": "jsf",
+					"stardustApplication": {
+						"elementOid": 10055,
+						"id": "JsfUserTaskApp",
+						"name": "JsfUserTaskApp",
+						"interactive": true,
+						"attributes": {
+							"carnot:engine:visibility": "Public"
+						},
+						"contexts": [
+							{
+								"elementOid": 10056,
+								"typeRef": "jsf",
+								"attributes": {
+									"jsf:componentKind": "facelets",
+									"jsf:url": "/xhtml/eclipse/stardust/test/jsftask/JsfUserTaskPanel.iface",
+									"jsf:managedBeanName": "JsfUserTaskBean",
+									"carnot:engine:className": "org.eclipse.stardust.test.jsfprocess.JsfUserTaskBean",
+									"carnot:engine:methodName": "complete()"
+								}
+							}
+						]
+					}
+				}
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="complete" name="complete">
 			<inMessageRef>void</inMessageRef>
@@ -60,7 +73,11 @@
 		</startEvent>
 		<userTask id="TestModelTaskA" name="enter" implementation="http://java.sun.com/jsf">
 			<extensionElements>
-				<sdbpmn:StardustUserTask interactiveApplicationRef="JsfUserTaskApp"/>
+				<stardust:StardustUserTask>
+					{
+						"interactiveApplicationRef": "JsfUserTaskApp"
+					}
+				</stardust:StardustUserTask>
 			</extensionElements>
 			<ioSpecification>
 				<dataOutput id="TestModelDataOutputTaskA">
@@ -74,7 +91,7 @@
 				<sourceRef>TestModelDataOutputTaskA</sourceRef>
 				<targetRef>TestModelDataObjectReferenceA</targetRef>
 				<assignment id="TestAssignmentOutputTaskA">
-					<from sdbpmn:applicationAccessPointRef="getCustomerData()" xsi:type="tFormalExpression"></from>
+					<from stardust:applicationAccessPointRef="getCustomerData()" xsi:type="tFormalExpression"></from>
 					<to xsi:type="tFormalExpression"></to>
 				</assignment>
 			</dataOutputAssociation>

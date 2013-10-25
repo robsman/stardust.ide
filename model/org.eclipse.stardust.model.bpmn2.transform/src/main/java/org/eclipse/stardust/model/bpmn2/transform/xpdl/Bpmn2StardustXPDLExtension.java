@@ -18,11 +18,13 @@ import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustUserTaskExt;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -99,12 +101,14 @@ public class Bpmn2StardustXPDLExtension {
     }
 
     public static void addUserTaskExtensions(CarnotModelQuery query, UserTask task, ActivityType activity) {
-        StardustUserTaskType taskExt = ExtensionHelper.getInstance().getUserTaskExtension(task);
+        StardustUserTaskExt taskExt = ExtensionHelper2.getInstance().getUserTaskExtension(task);
         if (taskExt == null) return;
-        activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
-        activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
-        activity.setElementOid(tryParseLong(taskExt.getElementOid()));
-        activity.getEventHandler().addAll(taskExt.getEventHandler());
+        activity.setAllowsAbortByPerformer(taskExt.allowsAbortByPerformer);
+        activity.setHibernateOnCreation(taskExt.hibernateOnCreation);
+        if (null != taskExt.elementOid) {
+			activity.setElementOid(taskExt.elementOid);
+		}
+		// TODO activity.getEventHandler().addAll(taskExt.getEventHandler());
         activity.setApplication(getApplication(query, taskExt));
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
     }
@@ -115,8 +119,8 @@ public class Bpmn2StardustXPDLExtension {
         return taskExt.getInteractiveApplicationRef();
     }
 
-    private static ApplicationType getApplication(CarnotModelQuery query, StardustUserTaskType taskExt) {
-        String appRef = taskExt.getInteractiveApplicationRef();
+    private static ApplicationType getApplication(CarnotModelQuery query, StardustUserTaskExt taskExt) {
+        String appRef = taskExt.interactiveApplicationRef;
         if (appRef == null || appRef.isEmpty()) return null;
 		return query.findApplication(appRef);
 	}
