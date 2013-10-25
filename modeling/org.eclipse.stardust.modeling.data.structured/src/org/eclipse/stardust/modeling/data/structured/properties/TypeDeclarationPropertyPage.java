@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -40,8 +38,6 @@ import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdaptee;
-import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
@@ -103,46 +99,11 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
          }
          validateInput();
       }
-   };
-   
-   private Adapter idAdapter = new NotificationAdapter(new NotificationAdaptee()
-   {
-      @Override
-      public void handleNotification(Notification notification)
-      {
-         if (XpdlPackage.eINSTANCE.getTypeDeclarationType_Id() == notification.getFeature())
-         {
-            if (!txtId.getText().isDisposed())
-            {
-               txtId.getText().setText(declaration.getId());
-            }
-         }
-         else if (XpdlPackage.eINSTANCE.getTypeDeclarationType_Name() == notification.getFeature())
-         {
-            if (!txtName.getText().isDisposed())
-            {
-               txtName.getText().setText(declaration.getName());
-            }
-         }
-      }
-      
-      @Override
-      public Object getModel()
-      {
-         return declaration;
-      }
-   });
+   };   
 
    public void elementChanged()
    {
-      if (declaration != null)
-      {
-         declaration.eAdapters().remove(idAdapter);
-      }
-      
-      declaration = (TypeDeclarationType) getElement().getAdapter(EObject.class);
-      
-      declaration.eAdapters().add(idAdapter);
+      declaration = (TypeDeclarationType) getElement().getAdapter(EObject.class);      
       
       setupVisibility();
       
