@@ -25,12 +25,13 @@ import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.TransitionUtil;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 import org.junit.Test;
 
 /**
@@ -147,7 +148,7 @@ public class TestSequencesConditionalPlusGateways2Stardust { //extends TestCase 
     }
 
     private String getCondition(TransitionType transition) {
-    	return XpdlModelUtils.getCDataString(transition.getExpression().getMixed());
+    	return ModelUtils.getCDataString(transition.getExpression().getMixed());
     }
 
 }

@@ -48,7 +48,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.stardust.engine.core.runtime.beans.AbortScope;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
@@ -58,6 +57,8 @@ import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 import org.junit.Test;
 
 
@@ -107,9 +108,9 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(eventControlFlowFlag);
         EventHandlerType timerEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(timerEventHandler);
-        EventActionTypeType cancelActivityActionType = XpdlModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
+        EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = XpdlModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
+        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
         assertNotNull(setDataActionType);
         EventActionType setDataAction = getFirstEventActionOfType(timerEventHandler, setDataActionType);
         assertNotNull(setDataAction);
@@ -170,9 +171,9 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(eventControlFlowFlag);
         EventHandlerType exceptionEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(exceptionEventHandler);
-        EventActionTypeType cancelActivityActionType = XpdlModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
+        EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = XpdlModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
+        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
         assertNotNull(setDataActionType);
         EventActionType setDataAction = getFirstEventActionOfType(exceptionEventHandler, setDataActionType);
         assertNotNull(setDataAction);

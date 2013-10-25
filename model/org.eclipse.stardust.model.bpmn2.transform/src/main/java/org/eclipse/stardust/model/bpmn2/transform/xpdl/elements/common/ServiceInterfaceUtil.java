@@ -31,7 +31,6 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -151,7 +150,7 @@ public class ServiceInterfaceUtil {
 	}
 
 	private TriggerTypeType getTriggerTypeAndReportFailure(StardustInterfaceType stardustInterface) {
-		TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), stardustInterface.getApplicationType());
+		TriggerTypeType triggerType = ModelUtils.findElementById(carnotModel.getTriggerType(), stardustInterface.getApplicationType());
 		if (triggerType == null) {
 			failures.add("Stardust Trigger Type not found (type " + stardustInterface.getApplicationType()  + " stardust interface " + stardustInterface + ")");
 			return null;

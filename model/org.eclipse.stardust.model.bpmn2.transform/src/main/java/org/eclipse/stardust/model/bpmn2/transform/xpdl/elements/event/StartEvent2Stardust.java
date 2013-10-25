@@ -35,13 +35,13 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class StartEvent2Stardust extends AbstractElement2Stardust {
 
@@ -99,7 +99,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
 	private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
         logger.debug("addTimerTrigger " + event);
 
-        TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
+        TriggerTypeType triggerType = ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
         if (triggerType != null) {
             TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
             trigger.setType(triggerType);
@@ -146,8 +146,8 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         } else {
             String expression = DocumentationTool.getInformalExpressionValue(cycleExpression);
             DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
-            String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
-            XpdlModelUtils.setCDataString(descriptor.getMixed(), expression.concat(descr), true);
+            String descr = ModelUtils.getCDataString(descriptor.getMixed());
+            ModelUtils.setCDataString(descriptor.getMixed(), expression.concat(descr), true);
         }
     }
 
@@ -165,9 +165,9 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         } else {
             String expression = DocumentationTool.getInformalExpressionValue(timeExpression);
             DescriptionType descriptor = trigger.getDescription() != null ? trigger.getDescription() : AbstractElementBuilder.F_CWM.createDescriptionType();
-            String descr = XpdlModelUtils.getCDataString(descriptor.getMixed());
+            String descr = ModelUtils.getCDataString(descriptor.getMixed());
             if (null!=descr) expression = expression.concat(descr);
-            XpdlModelUtils.setCDataString(descriptor.getMixed(), expression, true);
+            ModelUtils.setCDataString(descriptor.getMixed(), expression, true);
             trigger.setDescription(descriptor);
         }
     }

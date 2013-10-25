@@ -25,6 +25,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -48,6 +50,7 @@ public class TestMessageEvents2Stardust {
 	private static final String DATA_OBJECT_ID = "TestModelDataObjectA";
 
     @Test
+    @Ignore
     public void testEvents() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "MessageEvents.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testMessageEvents.xpdl";

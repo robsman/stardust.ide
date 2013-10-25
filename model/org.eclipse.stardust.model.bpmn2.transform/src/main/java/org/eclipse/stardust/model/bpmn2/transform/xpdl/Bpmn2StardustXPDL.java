@@ -85,7 +85,6 @@ import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
@@ -97,6 +96,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 /**
  * @author Simon Nikles
  *
@@ -137,7 +137,7 @@ public class Bpmn2StardustXPDL implements Transformator {
         false, TimerTriggerValidator.class);
         initializer.initializeInteractionContextTypes(carnotModel);
 
-        if (null == XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
+        if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
 	        TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
 	        typeDef.setId(PredefinedConstants.JMS_TRIGGER);
 	        typeDef.setName("JMS Trigger");
@@ -147,7 +147,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 	        carnotModel.getTriggerType().add(typeDef);
     	}
 
-        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
+        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
         {
            ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
            typeDef.setId(PredefinedConstants.APPLICATION_CONTEXT);
@@ -158,7 +158,7 @@ public class Bpmn2StardustXPDL implements Transformator {
            typeDef.setHasMappingId(false);
            carnotModel.getApplicationContextType().add(typeDef);
         }
-        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
+        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
         {
            ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
            typeDef.setId(PredefinedConstants.JSF_CONTEXT);
@@ -351,7 +351,7 @@ public class Bpmn2StardustXPDL implements Transformator {
     @SuppressWarnings("unused")
     private static DescriptionType getDescription(String description) {
         DescriptionType descriptor = AbstractElementBuilder.F_CWM.createDescriptionType();
-        XpdlModelUtils.setCDataString(descriptor.getMixed(), description, true);
+        ModelUtils.setCDataString(descriptor.getMixed(), description, true);
         return descriptor;
     }
 
@@ -406,7 +406,7 @@ public class Bpmn2StardustXPDL implements Transformator {
      */
     @Deprecated
     private static void assignMissingElementOids(ModelType model) {
-        long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+        long maxElementOid = ModelUtils.getMaxUsedOid(model);
 
         if (!model.isSetOid()) {
             model.setOid(++maxElementOid);
