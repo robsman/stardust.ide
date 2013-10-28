@@ -919,6 +919,9 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       enumName = itype.getFullName();
       int ix = enumName.lastIndexOf('.');
       String name = ix >= 0 ? enumName.substring(ix + 1) : enumName;
+      ix = name.lastIndexOf('$');
+      name = ix >= 0 ? name.substring(ix + 1) : name;
+      
       IdFactory factory = new IdFactory(null, name,
             XpdlPackage.eINSTANCE.getTypeDeclarationType(),
             XpdlPackage.eINSTANCE.getTypeDeclarationType_Id(),
@@ -931,20 +934,21 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       String oldName = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
       
       String newId = factory.getId();
+      String newName = factory.getName();      
+      
       if (!newId.equals(declaration.getId()))
       {
          if(StringUtils.isEmpty(oldName)
-               || !oldName.endsWith(enumName))
+               || !oldName.equals(enumName))
          {
             declaration.setId(newId);
          }
       }
-      String newName = factory.getName();
       if (!newName.equals(declaration.getName()))
       {
          if(StringUtils.isEmpty(oldName)
-               || !oldName.endsWith(enumName))
-         {         
+               || !oldName.equals(enumName))
+         {
             declaration.setName(newName);
          }
       }
