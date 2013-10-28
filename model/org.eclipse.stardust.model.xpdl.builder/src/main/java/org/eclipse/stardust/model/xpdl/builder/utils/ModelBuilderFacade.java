@@ -3488,40 +3488,6 @@ public class ModelBuilderFacade
 
    /**
     *
-    * @param sourceOid
-    * @param targetOid
-    * @param processDefinition
-    */
-   private void deleteDuplicateConnections(long sourceOid, long targetOid,
-         ProcessDefinitionType processDefinition)
-   {
-      List<TransitionConnectionType> tobeRemoved = new ArrayList<TransitionConnectionType>();
-
-      EList<TransitionConnectionType> transitionConnections = processDefinition.getDiagram()
-            .get(0)
-            .getPoolSymbols()
-            .get(0)
-            .getTransitionConnection();
-
-      for (TransitionConnectionType transitionConnectionType : transitionConnections)
-      {
-         if (transitionConnectionType.getSourceActivitySymbol().getElementOid() == sourceOid
-               && transitionConnectionType.getTargetActivitySymbol().getElementOid() == targetOid)
-         {
-            tobeRemoved.add(transitionConnectionType);
-         }
-      }
-
-      for (TransitionConnectionType transitionConnectionType : tobeRemoved)
-      {
-         transitionConnections.remove(transitionConnectionType);
-         processDefinition.getTransition().remove(
-               transitionConnectionType.getTransition());
-      }
-   }
-
-   /**
-    *
     * @param sourceActivitySymbol
     * @param targetActivitySymbol
     * @throws JSONException
@@ -3532,11 +3498,6 @@ public class ModelBuilderFacade
          String description, boolean otherwise, String condition, String fromAnchor,
          String toAnchor)
    {
-      // Remove duplicate transition connections
-
-      deleteDuplicateConnections(sourceActivitySymbol.getElementOid(),
-            targetActivitySymbol.getElementOid(), processDefinition);
-
       TransitionType transition = createTransition(processDefinition,
             sourceActivitySymbol.getActivity(), targetActivitySymbol.getActivity(), id,
             name, description, otherwise, condition);
