@@ -42,7 +42,6 @@ import org.eclipse.stardust.modeling.core.editors.ui.SwtVerifierTextAdapter;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataModelAdapter;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
-import org.eclipse.stardust.modeling.core.utils.ExtensibleElementAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.SWT;
@@ -112,7 +111,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       
       mgr.bind(
             WidgetBindingManager.createModelAdapter((IExtensibleElement) element, "carnot:engine:dataType",  //$NON-NLS-1$
-                  getStructAdapter()),
+                  ExtensibleElementValueAdapter.INSTANCE),
             BindingManager.createWidgetAdapter(enumViewer));
 
       // bind valueComposites and value attribute of DataType
@@ -161,43 +160,6 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       {
          disableControls();
       }
-   }
-
-   private ExtensibleElementValueAdapter getStructAdapter()
-   {
-      return new ExtensibleElementValueAdapter()
-      {
-
-         @Override
-         public Object fromModel(ExtensibleElementAdapter binding, Object value)
-         {
-            // TODO: qualified id ?
-            if (value instanceof String)
-            {
-               ModelType model = ModelUtils.findContainingModel(binding.getEModel());
-               if (model != null)
-               {
-                  TypeDeclarationsType declarations = model.getTypeDeclarations();
-                  if (declarations != null)
-                  {
-                     return declarations.getTypeDeclaration((String) value);
-                  }
-               }
-            }
-            return super.fromModel(binding, value);
-         }
-
-         @Override
-         public Object toModel(ExtensibleElementAdapter binding, Object value)
-         {
-            if (value instanceof TypeDeclarationType)
-            {
-               // TODO: qualified id ?
-               return ((TypeDeclarationType) value).getId();
-            }
-            return super.toModel(binding, value);
-         }
-      };
    }
 
    private SwtVerifierTextAdapter getSwtVerifierTextAdapter(final Type type, Text text)

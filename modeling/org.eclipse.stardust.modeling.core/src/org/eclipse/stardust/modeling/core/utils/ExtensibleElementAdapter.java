@@ -23,6 +23,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IModelAdapter;
 
@@ -31,7 +32,7 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
    private final EObject model;
    private final String feature;
    private boolean isBoolean;
-   private List list;
+   private List<? extends IIdentifiableElement> list;
    private EObject scope;
    private EStructuralFeature scopeFeature;
 
@@ -70,12 +71,12 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
       this.modelValueAdapter = modelValueAdapter;
    }
 
-   public ExtensibleElementAdapter(EObject model, String feature, List scope)
+   public ExtensibleElementAdapter(EObject model, String feature, List<? extends IIdentifiableElement> scope)
    {
       this(model, feature, scope, ExtensibleElementValueAdapter.INSTANCE);
    }
    
-   public ExtensibleElementAdapter(EObject model, String feature, List scope,
+   public ExtensibleElementAdapter(EObject model, String feature, List<? extends IIdentifiableElement> scope,
          ExtensibleElementValueAdapter modelValueAdapter)
    {
       this.model = model;
@@ -219,16 +220,11 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
                {
                   if (AttributeUtil.isReference((IExtensibleElement) model, feature))
                   {
-                     AttributeUtil.setReference((IExtensibleElement) model, feature,
-                           (IIdentifiableElement) newValue);
+                     AttributeUtil.setReference((IExtensibleElement) model, feature, (EObject) newValue);
                   }
                   else
                   {
-                     if ((scope != null || list != null)
-                           && newValue instanceof IIdentifiableElement)
-                     {
-                        newValue = ((IIdentifiableElement) newValue).getId();
-                     }
+                     newValue = getId(newValue);
                      AttributeUtil.setAttribute((IExtensibleElement) model, feature,
                         newValue == null ? null : newValue.toString());
                   }
@@ -240,16 +236,28 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
                }
                else
                {
-                  if ((scope != null || list != null)
-                     && newValue instanceof IIdentifiableElement)
-                  {
-                     newValue = ((IIdentifiableElement) newValue).getId();
-                  }
+                  newValue = getId(newValue);
                   attribute.setValue(newValue == null ? null : newValue.toString());
                }
             }
          }
       }
+   }
+
+   private Object getId(Object newValue)
+   {
+      if (scope != null || list != null)
+      {
+         if (newValue instanceof IIdentifiableElement)
+         {
+            newValue = ((IIdentifiableElement) newValue).getId();
+         }
+         else if (newValue instanceof TypeDeclarationType)
+         {
+            newValue = ((TypeDeclarationType) newValue).getId();
+         }
+      }
+      return newValue;
    }
 
    public void updateVisuals(Object value)
