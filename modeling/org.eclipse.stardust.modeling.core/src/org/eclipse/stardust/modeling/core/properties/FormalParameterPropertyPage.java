@@ -89,7 +89,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
 
    private static final Type[] TYPES = {
          Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
-         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short};
+         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short, Type.Enumeration};
 
    List<Type> primitiveTypes = Arrays.asList(TYPES);
 
