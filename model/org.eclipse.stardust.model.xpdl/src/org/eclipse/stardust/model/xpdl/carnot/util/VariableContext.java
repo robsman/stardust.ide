@@ -33,7 +33,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 
-
 public class VariableContext
 {
    private List<ModelVariable> variables = new ArrayList<ModelVariable>();
@@ -313,7 +312,7 @@ public class VariableContext
       for (Iterator<ModelVariable> i = variables.iterator(); i.hasNext();)
       {
          ModelVariable variable = i.next();
-         if (variable.getName().equalsIgnoreCase(ref))
+         if(variableEquals(variable.getName(), ref))
          {
             return true;
          }
@@ -604,5 +603,32 @@ public class VariableContext
    public void setCriticalityFormulaChanged(boolean criticalityFormulaChanged)
    {
       this.criticalityFormulaChanged = criticalityFormulaChanged;
+   }
+   
+   private boolean variableEquals(String left, String right)
+   {
+      if (left.startsWith("${")) //$NON-NLS-1$
+      {
+         left = left.substring(2, left.length() - 1);
+      }
+      if (right.startsWith("${")) //$NON-NLS-1$
+      {
+         right = right.substring(2, right.length() - 1);
+      }
+      String leftType = VariableContextHelper.getType(left);
+      String rightType = VariableContextHelper.getType(right);      
+      if(!leftType.equals(rightType))
+      {
+         return false;
+      }
+      
+      String leftName = VariableContextHelper.getName(left);
+      String rightName = VariableContextHelper.getName(right);
+      if(leftName.equalsIgnoreCase(rightName))
+      {
+         return true;
+      }
+      
+      return false;
    }
 }
