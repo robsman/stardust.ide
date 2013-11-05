@@ -11,7 +11,10 @@
 package org.eclipse.stardust.modeling.validation.util;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.internal.core.BinaryType;
@@ -19,7 +22,6 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.annotations.ParameterName;
 import org.eclipse.stardust.common.annotations.ParameterNames;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-
 
 public class TypeInfo
 {
@@ -59,26 +61,26 @@ public class TypeInfo
    
    public List<FieldInfo> getFields() throws JavaModelException
    {
-      Map<String, FieldInfo> fieldInfos = CollectionUtils.newMap();
-      fetchFields(fieldInfos, CollectionUtils.<String>newSet());
-      return CollectionUtils.newList(fieldInfos.values());
+      List<FieldInfo> fieldInfos = CollectionUtils.newList();
+      fetchFields(CollectionUtils.<String>newSet(), fieldInfos, CollectionUtils.<String>newSet());
+      return fieldInfos;
    }
 
-   private void fetchFields(Map<String, FieldInfo> fieldInfos, Set<String> visitedFields) throws JavaModelException
+   private void fetchFields(Set<String> names, List<FieldInfo> fieldInfos, Set<String> visitedFields) throws JavaModelException
    {
-      fetchFields(fieldInfos, false);
+      fetchFields(names, fieldInfos, false);
       if (!type.isInterface())
       {
-         fetchFields(fieldInfos, visitedFields, type.getSuperclassTypeSignature());
+         fetchFields(names, fieldInfos, visitedFields, type.getSuperclassTypeSignature());
       }
       String[] interfaces = type.getSuperInterfaceTypeSignatures();
       for (int i = 0; i < interfaces.length; i++)
       {
-         fetchFields(fieldInfos, visitedFields, interfaces[i]);
+         fetchFields(names, fieldInfos, visitedFields, interfaces[i]);
       }
    }
 
-   private void fetchFields(Map<String, FieldInfo> fieldInfos, Set<String> visitedFields,
+   private void fetchFields(Set<String> names, List<FieldInfo> fieldInfos, Set<String> visitedFields,
          String typeSignature) throws JavaModelException
    {
       String superType = typeSignature == null
@@ -95,12 +97,12 @@ public class TypeInfo
          }
          else
          {
-            descriptor.fetchFields(fieldInfos, visitedFields);
+            descriptor.fetchFields(names, fieldInfos, visitedFields);
          }
       }
    }
 
-   private void fetchFields(Map<String, FieldInfo> fieldInfos, boolean constructors)
+   private void fetchFields(Set<String> names, List<FieldInfo> fieldInfos, boolean constructors)
       throws JavaModelException
    {
       IField[] fields = type.getFields();
@@ -112,9 +114,10 @@ public class TypeInfo
          String fieldType = field.getTypeSignature();
          String parameterType = resolveSignature(fieldType);
          FieldInfo info = new FieldInfo(fieldName, parameterType, field.getFlags());            
-         if (!fieldInfos.containsKey(fieldName))
+         if (!names.contains(fieldName))
          {
-            fieldInfos.put(fieldName, info);
+            names.add(fieldName);
+            fieldInfos.add(info);
          }
       }
    }   
