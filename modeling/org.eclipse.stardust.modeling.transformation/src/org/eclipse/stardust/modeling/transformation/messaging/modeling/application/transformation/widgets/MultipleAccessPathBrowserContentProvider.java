@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.engine.core.runtime.beans.BigData;
+import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.FieldMapping;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -125,15 +127,17 @@ private void setupAP(Object parentElement, AccessPointType type, boolean isRootT
       /*if (!controller.isSimpleMode() && AttributeUtil.getAttribute(type, "RootElement") == null) {
          AttributeUtil.setAttribute(type, "RootElement", getApc().getRootTypeName());
       }*/
+      String rootTypeName = getApc().getRootTypeName();
       if (AttributeUtil.getAttribute(type, "RootElement") == null) { //$NON-NLS-1$
-      		AttributeUtil.setAttribute(type, "RootElement", getApc().getRootTypeName()); //$NON-NLS-1$
+      		AttributeUtil.setAttribute(type, "RootElement", rootTypeName); //$NON-NLS-1$
    	  }
 
       String realXPath = null;
       if (type instanceof StructAccessPointType) {
          StructAccessPointType sapt = (StructAccessPointType)type;
-         realXPath = sapt.getXPath().toString();
-         fullXPath = getApc().getRootTypeName() + "/" + realXPath; //$NON-NLS-1$
+         TypedXPath xpath = sapt.getXPath();
+         realXPath = xpath .toString();
+         fullXPath = isSimpleContentComplexTypeRoot(xpath) ? rootTypeName : rootTypeName + "/" + realXPath; //$NON-NLS-1$
       } else {
     	 if (controller.isSerializable(type)) {
     		 realXPath = ""; //$NON-NLS-1$
@@ -145,7 +149,7 @@ private void setupAP(Object parentElement, AccessPointType type, boolean isRootT
     		 }
     	 } else {
              realXPath = ""; //$NON-NLS-1$
-             fullXPath = getApc().getRootTypeName() + "/" + realXPath; //$NON-NLS-1$
+             fullXPath = rootTypeName + "/" + realXPath; //$NON-NLS-1$
     	 }
       }            
       fullXPath = fullXPath.replaceAll("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
@@ -162,6 +166,12 @@ private void setupAP(Object parentElement, AccessPointType type, boolean isRootT
       }
    }
 
+   private boolean isSimpleContentComplexTypeRoot(TypedXPath xpath)
+   {
+      return xpath.getParentXPath() == null     // is root
+          && xpath.getType() == BigData.NULL    // is complex type
+          && xpath.getChildXPath("@") != null;  // has value node
+   }
 
    @Override
    public void inputChanged(Viewer viewer, Object oldInput, Object newInput)

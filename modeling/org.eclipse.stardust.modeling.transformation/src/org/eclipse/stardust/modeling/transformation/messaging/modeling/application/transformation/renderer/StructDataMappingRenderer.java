@@ -42,7 +42,8 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 
 	public String renderSetterCode(String getterCode, boolean ignoreArrays, boolean variablesAsIndices, MappingConfiguration config) {
 	    String accessCode = createJavaPath(ignoreArrays, variablesAsIndices, config);			
-		if (controller.getArraySelectionDepthTarget() > 0) {
+		if (controller.getArraySelectionDepthTarget() > 0 || 
+		      MessageTransformationController.ENABLE_SIMPLE_CONTENT && accessCode.endsWith("@")) {
 			return accessCode + " = " + getterCode; //$NON-NLS-1$
 		}
 	    return getterCode; 
@@ -124,7 +125,9 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 				} else {
 					String sourceChildArray = sourceChildTypeMapper.renderGetterCode(false, true, config);
 					String targetChildArray = targetChildTypeMapper.renderGetterCode(false, true, config);
-					result = result + inset + "   " + targetChildArray + " = "	+ sourceChildArray + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					String assignment = MessageTransformationController.setMappingExpression(targetChildArray + " = " + sourceChildArray,
+					      null, sourceChildTypeMapper, targetChildTypeMapper);
+                    result = result + inset + "   " + assignment + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
 		}

@@ -114,6 +114,9 @@ public class MessageTransformationController {
     private static final Type[] TYPES = {
         Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short};
+    
+    public static final boolean ENABLE_SIMPLE_CONTENT = true;
+    
     private IJavaScriptProject javaProject;
     private IModelElement modelElement;
     private MessageTransformationUtils mtaUtils;
@@ -619,8 +622,7 @@ public class MessageTransformationController {
                FieldMapping fm = fieldMappings.get(xPath);
                if (fm != null) {
                    String javaPath = getMapperByType(selectedSourceField).renderGetterCode(false, false, null);
-                   draggedText = javaPath;
-                   draggedText = draggedText.replaceAll("@",""); //$NON-NLS-1$ //$NON-NLS-2$
+                   draggedText = fixAttributeAccess(javaPath);
                }
            } else {
                if (selectedSourceField != null && isRoot(selectedSourceField)) {
@@ -629,6 +631,16 @@ public class MessageTransformationController {
                }
            }
        }
+   }
+
+   private String fixAttributeAccess(String javaPath)
+   {
+      if (selectedSourceField instanceof StructAccessPointType
+            && javaPath.endsWith("@"))
+      {
+         javaPath = javaPath.substring(0, javaPath.length() - 1) + "getContent()";
+      }
+      return javaPath;
    }
 
 	private List<AccessPointType> extractSelectedElements(TreeSelection sourceTreeSelection) {
@@ -928,14 +940,45 @@ public class MessageTransformationController {
                fm.setAdvancedMapping(arraySelectionDepthTarget > 0);
            }
          }
-         mappingCode = mappingCode.replaceAll("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
-         fm.setMappingExpression(mappingCode);
+         setMappingExpression(mappingCode, fm, sm, tm);
          validateMapping(fm, true);
       }
-
-
-
   }
+
+   public static String setMappingExpression(String javaPath, FieldMapping fm, IMappingRenderer sm, IMappingRenderer tm)
+   {
+      if (ENABLE_SIMPLE_CONTENT)
+      {
+         if (sm.getType() instanceof StructAccessPointType
+               && javaPath.endsWith("@"))
+         {
+            javaPath = javaPath.substring(0, javaPath.length() - 1) + "getContent()";
+         }
+         if (tm.getType() instanceof StructAccessPointType)
+         {
+            int ix = javaPath.indexOf("@ = ");
+            if (ix >= 0)
+            {
+               javaPath = javaPath.substring(0, ix) + "setContent(" + javaPath.substring(ix + 4) + ")";
+               if (fm != null)
+               {
+                  fm.setAdvancedMapping(true);
+                  fm.setContentMapping(true);
+               }
+            }
+         }
+      }
+      javaPath = javaPath.replace("@", "");
+      if (javaPath.endsWith("."))
+      {
+         javaPath = javaPath.substring(0, javaPath.length() - 1);
+      }
+      if (fm != null)
+      {
+         fm.setMappingExpression(javaPath);
+      }
+      return javaPath;
+   }
 
 	private void mapComplextToPrimitiveMessage(
 			AccessPointType sourceMessage,
