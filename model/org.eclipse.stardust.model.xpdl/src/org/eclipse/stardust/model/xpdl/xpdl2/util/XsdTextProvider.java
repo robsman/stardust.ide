@@ -57,8 +57,19 @@ public class XsdTextProvider extends XSDSwitch<String>
       case 1:
          if (ref != null)
          {
-            // TODO: (fh) is that correct ?
-            return ref.getQName(element);
+            XSDTypeDefinition type = ref.getTypeDefinition();
+            if (type == ref.getAnonymousTypeDefinition())
+            {
+               if (type instanceof XSDSimpleTypeDefinition)
+               {
+                  type = type.getBaseType();
+               }
+               else if (type instanceof XSDComplexTypeDefinition)
+               {
+                  return ref.getQName(element);
+               }
+            }
+            return type.getQName(element);
          }
          XSDTypeDefinition type = element.getTypeDefinition();
          if (type != null)
@@ -94,8 +105,10 @@ public class XsdTextProvider extends XSDSwitch<String>
    {
       switch (column)
       {
-      case 0: return simpleType.getName();
-      case 1: return simpleType.getBaseTypeDefinition().getName();
+      case 0:
+         String name = simpleType.getName();
+         return name == null ? "<value>" : name;
+      case 1: return simpleType.getBaseTypeDefinition().getQName(simpleType);
       }
       return ""; //$NON-NLS-1$
    }
@@ -143,11 +156,16 @@ public class XsdTextProvider extends XSDSwitch<String>
       {
       case 0: return attribute.getName();
       case 1:
-         if (attribute.getTypeDefinition() == null)
+         XSDSimpleTypeDefinition typeDefinition = attribute.getTypeDefinition();
+         if (typeDefinition == null)
          {
             return("<unresolved>"); //$NON-NLS-1$
          }
-         return attribute.getTypeDefinition().getName();
+         if (typeDefinition.getName() == null)
+         {
+            typeDefinition = typeDefinition.getBaseTypeDefinition();
+         }
+         return typeDefinition.getQName(attribute);
       case 2:
          int cardinalityIndex = getCardinalityIndex(attribute);
          if (cardinalityIndex >= 0)

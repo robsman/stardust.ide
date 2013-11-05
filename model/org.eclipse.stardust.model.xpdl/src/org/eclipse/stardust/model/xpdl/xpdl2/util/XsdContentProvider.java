@@ -105,13 +105,18 @@ public class XsdContentProvider extends XSDSwitch<EObject[]>
       int cnt = 0;
            
       EObject[] content = XsdContentProvider.EMPTY_ARRAY;
-      if (type.getContent() != null)
+      XSDComplexTypeContent typeContent = type.getContent();
+      if (typeContent != null)
       {
-         content = doSwitch(type.getContent());
+         content = doSwitch(typeContent);
       }
       List<XSDComponent> result = CollectionUtils.newList();
       XSDWildcard wildcard = type.getAttributeWildcardContent();
       List<XSDAttributeGroupContent> attributes = type.getAttributeContents();
+      if (typeContent instanceof XSDSimpleTypeDefinition && !attributes.isEmpty())
+      {
+         result.add(typeContent);
+      }
       addAttributes(result, attributes);
       if (wildcard != null)
       {
