@@ -152,11 +152,13 @@ public class XsdTextProvider extends XSDSwitch<String>
 
    public String caseXSDAttributeDeclaration(XSDAttributeDeclaration attribute)
    {
+      XSDAttributeDeclaration resolvedAttribute = attribute.getResolvedAttributeDeclaration();
       switch (column)
       {
-      case 0: return attribute.getName();
+      case 0:
+         return resolvedAttribute.getName();
       case 1:
-         XSDSimpleTypeDefinition typeDefinition = attribute.getTypeDefinition();
+         XSDSimpleTypeDefinition typeDefinition = resolvedAttribute.getTypeDefinition();
          if (typeDefinition == null)
          {
             return("<unresolved>"); //$NON-NLS-1$

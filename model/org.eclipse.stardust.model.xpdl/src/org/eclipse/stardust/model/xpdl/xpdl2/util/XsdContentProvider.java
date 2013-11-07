@@ -165,12 +165,7 @@ public class XsdContentProvider extends XSDSwitch<EObject[]>
       {
          if (attribute instanceof XSDAttributeUse)
          {
-            XSDAttributeDeclaration attr = ((XSDAttributeUse) attribute).getContent(); //getAttributeDeclaration());
-            if (attr.isAttributeDeclarationReference())
-            {
-               attr = attr.getResolvedAttributeDeclaration();
-            }
-            result.add(attr);
+            result.add(((XSDAttributeUse) attribute).getContent());
          }
          else if (attribute instanceof XSDAttributeGroupDefinition)
          {
