@@ -11,15 +11,16 @@
 package org.eclipse.stardust.modeling.core.spi.dataTypes.primitive;
 
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.forEachReferencedModel;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
@@ -48,6 +49,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -84,6 +86,12 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
    private TreeViewer enumViewer;
 
    private ComboViewer enumComboViewer;
+
+   private Button enumSorter;
+
+   private Label enumSorterLabel;
+
+   protected boolean grouped;
 
    private static Type[] fetchTypes()
    {
@@ -246,7 +254,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   : (Control) object;
 
             valueComposite.layout();
-            exclude(selectedType != Type.Enumeration, enumLabel, enumTree);
+            exclude(selectedType != Type.Enumeration, enumLabel, enumTree, enumSorterLabel, enumSorter);
             enumLabel.getParent().layout();
          }
       };
@@ -287,6 +295,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             ((DatePickerCombo) control).setEnabled(false);
          }
       }
+      enumTree.setEnabled(false);
    }
 
    private boolean isPredefined(IModelElement element)
@@ -316,6 +325,18 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       enumLabel = FormBuilder.createLabel(composite, "Structure: "); //$NON-NLS-1$
       enumTree = createEnumTree(composite);
       enumViewer = createEnumViewer(enumTree);
+      enumSorterLabel = FormBuilder.createLabel(composite, "");
+      enumSorter = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_GroupModelElements);
+      enumSorter.addSelectionListener(new SelectionListener()
+      {
+         public void widgetDefaultSelected(SelectionEvent e) {}
+
+         public void widgetSelected(SelectionEvent e)
+         {
+            grouped = enumSorter.getSelection();
+            enumViewer.refresh(true);
+         }
+      });
 
       FormBuilder.createLabel(composite, Diagram_Messages.LB_DefaultValue);
 
@@ -334,7 +355,6 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
       valueControlsMap.put(TYPES[0], createDatePickerComposite());
 
-      // TODO (fh) Temporary solution for enumerations
       Combo enumCombo = FormBuilder.createCombo(valueComposite);
       enumComboViewer = new ComboViewer(enumCombo);
       enumComboViewer.setContentProvider(new ArrayContentProvider());
@@ -377,32 +397,30 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       viewer.setUseHashlookup(true);
       viewer.setContentProvider(getEnumContentProvider());
       viewer.setLabelProvider(new EObjectLabelProvider(getEditor()));
+      viewer.setSorter(new ViewerSorter());
       viewer.addSelectionChangedListener(new ISelectionChangedListener()
       {
          @Override
          public void selectionChanged(SelectionChangedEvent event)
          {
+            Object[] facets = emptyArray;
             IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-            if (selection.isEmpty())
-            {
-               enumComboViewer.setInput(emptyArray);
-            }
-            else
+            if (!selection.isEmpty())
             {
                Object value = selection.getFirstElement();
                if (value instanceof TypeDeclarationType)
                {
-                  Object[] facets = getFacets((TypeDeclarationType) value);
-                  enumComboViewer.setInput(facets);
-                  if (facets.length > 0)
-                  {
-                     enumComboViewer.setSelection(new StructuredSelection(facets[0]), true);
-                  }
+                  facets = getFacets((TypeDeclarationType) value);
                }
+            }
+            enumComboViewer.setInput(facets);
+            if (facets.length > 0)
+            {
+               enumComboViewer.setSelection(new StructuredSelection(facets[0]), true);
             }
          }
       });
-      viewer.setInput(getEditor().getWorkflowModel());
+      viewer.setInput(Collections.singleton(getEditor().getWorkflowModel()));
       return viewer;
    }
 
@@ -425,47 +443,110 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          @Override
          public Object[] getElements(Object inputElement)
          {
+            final List<EObject> result = CollectionUtils.newList();
+            if (inputElement instanceof Collection)
+            {
+               for (Object object : (Collection<?>) inputElement)
+               {
+                  addContent(result, object);
+               }
+            }
+            else
+            {
+               addContent(result, inputElement);
+            }
+            return result.isEmpty() ? emptyArray : result.toArray();
+         }
+
+         private void addContent(final List<EObject> result, Object inputElement)
+         {
             if (inputElement instanceof ModelType)
             {
                ModelType model = (ModelType) inputElement;
-               List<Object> result = CollectionUtils.newList();
-               TypeDeclarationsType declarations = model.getTypeDeclarations();
-               if (declarations != null)
+               if (grouped)
                {
-                  for (TypeDeclarationType decl : declarations.getTypeDeclaration())
+                  addModel(result, model);
+                  forEachReferencedModel(model, new Predicate<ModelType>()
                   {
-                     if (isEnumeration(decl))
+                     public boolean accept(ModelType externalModel)
                      {
-                        result.add(decl);
+                        addModel(result, externalModel);
+                        return true;
                      }
-                  }
+                  });
                }
-               // TODO: other models
-               if (!result.isEmpty())
+               else
                {
-                  return result.toArray();
+                  addTypeDeclarations(result, model);
+                  forEachReferencedModel(model, new Predicate<ModelType>()
+                  {
+                     public boolean accept(ModelType externalModel)
+                     {
+                        addTypeDeclarations(result, externalModel);
+                        return true;
+                     }
+                  });
                }
             }
-            return emptyArray;
+         }
+
+         private void addTypeDeclarations(final List<EObject> result, ModelType model)
+         {
+            TypeDeclarationsType declarations = model.getTypeDeclarations();
+            if (declarations != null)
+            {
+               for (TypeDeclarationType decl : declarations.getTypeDeclaration())
+               {
+                  if (isEnumeration(decl))
+                  {
+                     result.add(decl);
+                  }
+               }
+            }
          }
 
          @Override
          public Object[] getChildren(Object parentElement)
          {
-            // TODO Auto-generated method stub
+            if (parentElement instanceof ModelType)
+            {
+               List<EObject> result = CollectionUtils.newList();
+               addTypeDeclarations(result, (ModelType) parentElement);
+               return result.toArray();
+            }
             return emptyArray;
          }
 
          @Override
          public Object getParent(Object element)
          {
-            return null; // TODO
+            if (element instanceof TypeDeclarationType)
+            {
+               return ModelUtils.findContainingModel((EObject) element);
+            }
+            return null;
          }
 
          @Override
          public boolean hasChildren(Object element)
          {
             return element instanceof ModelType;
+         }
+
+         private void addModel(final List<EObject> result, ModelType model)
+         {
+            TypeDeclarationsType declarations = model.getTypeDeclarations();
+            if (declarations != null)
+            {
+               for (TypeDeclarationType decl : declarations.getTypeDeclaration())
+               {
+                  if (isEnumeration(decl))
+                  {
+                     result.add(model);
+                     break;
+                  }
+               }
+            }
          }
       };
    }
@@ -489,7 +570,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       return false;
    }
 
-   protected Object[] getFacets(TypeDeclarationType decl)
+   private Object[] getFacets(TypeDeclarationType decl)
    {
       XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(decl);
       if (component instanceof XSDElementDeclaration)
