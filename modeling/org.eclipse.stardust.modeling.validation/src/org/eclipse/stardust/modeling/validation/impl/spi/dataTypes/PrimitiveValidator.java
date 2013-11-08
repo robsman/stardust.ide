@@ -54,8 +54,6 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
             }
             else
             {
-               TypeDeclarationType typeDeclaration = (TypeDeclarationType) ref;                        
-
                String defaultValue = AttributeUtil.getAttributeValue((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT);            
                if (StringUtils.isEmpty(defaultValue))
                {
@@ -65,7 +63,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
                }
                else
                {
-                  XSDSimpleTypeDefinition def = TypeDeclarationUtils.getSimpleType(typeDeclaration);
+                  XSDSimpleTypeDefinition def = TypeDeclarationUtils.getSimpleType((TypeDeclarationType) ref);
                   if (def != null)
                   {
                      XSDEnumerationFacet effectiveFacet = def.getEffectiveEnumerationFacet();
