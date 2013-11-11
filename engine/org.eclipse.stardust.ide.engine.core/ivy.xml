@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="org.eclipse.stardust.modeling.engine" module="engine"
+   <info organisation="org.eclipse.stardust.ide.engine" module="engine"
       revision="${ipp.version.full}" />
 
    <configurations>
