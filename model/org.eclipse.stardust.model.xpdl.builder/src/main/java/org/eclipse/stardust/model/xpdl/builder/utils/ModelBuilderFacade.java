@@ -431,6 +431,68 @@ public class ModelBuilderFacade
 
       return parameterType;
    }
+   
+   public FormalParameterType createDocumentParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String structTypeFullID, ModeType mode)
+   {
+      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
+
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
+
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
+      String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
+
+      parameterType.setDataType(dataTypeType);
+      dataTypeType.setCarnotType(typeId);
+
+      String refModelId = null;
+      String structTypeId = null;
+      String[] splittedIds = structTypeFullID.split(":");
+      if (splittedIds.length > 1)
+      {
+         refModelId = splittedIds[0];
+         structTypeId = splittedIds[1];
+      }
+      else
+      {
+         structTypeId = splittedIds[0];
+      }
+
+      ModelType model = ModelUtils.findContainingModel(processInterface);
+      if (refModelId == null || model != null && refModelId.equals(model.getId()))
+      {
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
+      }
+      else if (model != null)
+      {
+         ModelType ref = findModel(refModelId);
+         updateReferences(model, ref);
+         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
+         extRef.setLocation(refModelId);
+         //extRef.setNamespace("TypeDeclarations");
+         extRef.setXref(structTypeId);
+         dataTypeType.setExternalReference(extRef);
+      }
+
+      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
+
+      if (parameterMappingsType == null)
+      {
+         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
+      }
+
+      if (data != null)
+      {
+         parameterMappingsType.setMappedData(parameterType, data);
+      }
+
+      processInterface.setFormalParameterMappings(parameterMappingsType);
+
+      return parameterType;
+   }
 
    private FormalParameterType createFormalParameter(ProcessDefinitionType processInterface, String id, String name,
          ModeType mode, XpdlFactory xpdlFactory)
@@ -487,45 +549,6 @@ public class ModelBuilderFacade
          parameterType.setMode(mode);
       }
       
-      return parameterType;
-   }
-
-   public FormalParameterType createDocumentParameter(
-         ProcessDefinitionType processInterface, DataType data, String id, String name,
-         String structTypeFullID, ModeType mode)
-   {
-      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-
-      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
-
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
-      String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
-
-      parameterType.setDataType(dataTypeType);
-      dataTypeType.setCarnotType(typeId);
-
-      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      // declaredType.setId(AttributeUtil.getAttributeValue(data,
-      // StructuredDataConstants.TYPE_DECLARATION_ATT));
-
-      declaredType.setId(stripFullId(structTypeFullID));
-
-      dataTypeType.setDeclaredType(declaredType);
-
-      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
-
-      if (parameterMappingsType == null)
-      {
-         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
-      }
-
-      if (data != null)
-      {
-         parameterMappingsType.setMappedData(parameterType, data);
-      }
-
-      processInterface.setFormalParameterMappings(parameterMappingsType);
-
       return parameterType;
    }
 
