@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -40,6 +41,7 @@ import org.eclipse.stardust.modeling.core.properties.ReferencedModelSorter;
 import org.eclipse.stardust.modeling.data.structured.StructContentProvider;
 import org.eclipse.stardust.modeling.data.structured.StructLabelProvider;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
@@ -257,7 +259,13 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
       TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
       if (typeDeclarations != null)
       {
-         declarations.addAll(typeDeclarations.getTypeDeclaration());
+         for(TypeDeclarationType declaration : typeDeclarations.getTypeDeclaration())
+         {
+            if(!TypeDeclarationUtils.isJavaEnumeration(declaration))
+            {         
+               declarations.add(declaration);
+            }
+         }
       }
       ExternalPackages packages = model.getExternalPackages();
       if (packages != null)
@@ -291,13 +299,16 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
                            if (visibility == null
                                  || visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
                            {
-                              declarations.add(declaration);
+                              if(!TypeDeclarationUtils.isJavaEnumeration(declaration))
+                              {
+                                 declarations.add(declaration);
+                              }
+                           }
+                        }
                      }
                   }
                }
             }
-         }
-      }
          }
       }
       return declarations;
