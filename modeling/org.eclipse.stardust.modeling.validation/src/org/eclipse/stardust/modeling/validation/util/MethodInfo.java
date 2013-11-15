@@ -93,10 +93,15 @@ public class MethodInfo
          if (i > 0)
          {
             nameBuffer.append(", "); //$NON-NLS-1$
-            encodedBuffer.append(',');
+            encodedBuffer.append(','); 
          }
-         nameBuffer.append(Signature.getSignatureSimpleName(parameterSignatures[i]));
-         encodedBuffer.append(parameterTypes[i]);
+         String signatureSimpleName = Signature.getSignatureSimpleName(parameterSignatures[i]);
+         signatureSimpleName = signatureSimpleName.replaceAll("\\.", "\\$"); //$NON-NLS-1$ //$NON-NLS-2$
+         
+         nameBuffer.append(signatureSimpleName);
+         
+         encodedBuffer.append(parameterTypes[i].substring(0, parameterTypes[i].length() - signatureSimpleName.length()));
+         encodedBuffer.append(signatureSimpleName);
       }
       nameBuffer.append(")"); // : ").append(Signature.getSignatureSimpleName(result)); //$NON-NLS-1$
       encodedBuffer.append(")"); //$NON-NLS-1$
