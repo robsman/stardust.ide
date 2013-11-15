@@ -20,13 +20,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
+
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
@@ -703,4 +706,25 @@ public class TypeDeclarationUtils
          }
       }
    }
+      
+   public static boolean isJavaEnumeration(TypeDeclarationType decl)
+   {
+      int type = TypeDeclarationUtils.COMPLEX_TYPE;
+      try
+      {
+         type = TypeDeclarationUtils.getType(decl);            
+      }
+      catch(IllegalArgumentException e)
+      {
+      }
+      if(type == TypeDeclarationUtils.SIMPLE_TYPE)
+      {
+         if(ExtendedAttributeUtil.getAttribute(decl, CarnotConstants.CLASS_NAME_ATT) != null)
+         {
+            return true;
+         }
+      }
+                  
+      return false;
+   }   
 }
