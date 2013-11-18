@@ -43,6 +43,14 @@ public class ModelVariable implements Cloneable
    {
       return name;
    }
+   
+   public String getStrippedName()
+   {
+      String strippedName = getName();
+      strippedName = strippedName.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      strippedName = strippedName.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      return strippedName;
+   }
 
    public String getType()
    {

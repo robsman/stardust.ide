@@ -342,6 +342,18 @@ public class VariableContext
    {
       return variableReferences;
    }
+   
+   public List<EObject> getReferences(ModelVariable modelVariable)
+   {
+      
+      String typelessName = "${" + modelVariable.getStrippedName().split(":")[0] + "}";
+      List<EObject> references = getVariableReferences().get(modelVariable.getName());
+      if (references == null || references.isEmpty())
+      {
+         references = getVariableReferences().get(typelessName);
+      }
+      return references;
+   }
 
    public boolean hasVariable(IModelElement modelElement)
    {

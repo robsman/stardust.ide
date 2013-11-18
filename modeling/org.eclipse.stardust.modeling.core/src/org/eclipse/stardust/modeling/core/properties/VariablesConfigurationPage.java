@@ -144,6 +144,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             if (o instanceof ModelVariable)
             {
                ModelVariable modelVariable = (ModelVariable) o;
+               selectedVariable = modelVariable;
                List<EObject> refList = variablesContext.getVariableReferences().get(
                      modelVariable.getName());
                if (refList != null)
@@ -208,8 +209,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                   if (selectedVariable != null)
                   {
                      ModelVariable modelVariable = selectedVariable;
-                     List<EObject> refList = variablesContext.getVariableReferences()
-                           .get(modelVariable.getName());
+                     List<EObject> refList = variablesContext.getReferences(modelVariable);
                      if (refList != null && !refList.isEmpty())
                      {
                         LiteralSelectionDialog dialog = new LiteralSelectionDialog(
