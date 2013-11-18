@@ -46,7 +46,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
          if (type.equals(Type.Enumeration.toString()))
          {
             EObject ref = AttributeUtil.getIdentifiable((IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
-            if (!(ref instanceof TypeDeclarationType))
+            if (!(ref instanceof TypeDeclarationType) && !element.eIsProxy()) // TODO: validation that proxy elements are resolved
             {
                return new Issue[] {Issue.error(element, 
                      Validation_Messages.MSG_NoTypeDeclarationDefined, 
