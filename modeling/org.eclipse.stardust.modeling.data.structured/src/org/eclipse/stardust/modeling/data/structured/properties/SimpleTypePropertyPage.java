@@ -625,7 +625,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
                TypeFinder finder = new TypeFinder(model);
                TypeInfo type = finder.findType(className);
                
-               if (type == null)
+               if (type == null  && TypeFinder.getProjectFromEObject(model) != null)
                {
                   setMessage(MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME, 
                         className), ERROR);

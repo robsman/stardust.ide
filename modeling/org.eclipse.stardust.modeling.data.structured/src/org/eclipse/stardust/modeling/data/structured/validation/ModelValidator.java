@@ -188,7 +188,7 @@ public class ModelValidator implements IModelValidator
             }
             else
             {
-               if(model != null)
+               if(model != null && TypeFinder.getProjectFromEObject(model) != null)
                {
                   TypeFinder finder = new TypeFinder(model);
                   TypeInfo type = finder.findType(className);
