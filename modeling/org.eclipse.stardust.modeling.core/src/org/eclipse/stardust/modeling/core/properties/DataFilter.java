@@ -14,9 +14,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -26,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 
 public class DataFilter extends ViewerFilter
@@ -74,7 +77,7 @@ public class DataFilter extends ViewerFilter
       }
       DataType dataType = (DataType) element;
       String typeId = dataType.getType().getId();
-
+      
       if ((PredefinedConstants.PRIMITIVE_DATA.equals(typeId) || PredefinedConstants.STRUCTURED_DATA
             .equals(typeId))
             && !categoryFilter.toString().startsWith("Document")) //$NON-NLS-1$
@@ -127,13 +130,42 @@ public class DataFilter extends ViewerFilter
             typeName = AttributeUtil.getAttributeValue(dataType.getAttribute(),
                   "carnot:engine:dataType"); //$NON-NLS-1$
          }
+         
+         // extra check for enumeration here                           
+         if (filterType != null 
+               && filterType instanceof Type
+               && ((Type) filterType).equals(Type.Enumeration))
+         {
+            if (PredefinedConstants.PRIMITIVE_DATA.equals(typeId))
+            {
+               if (filterType != null && filterType instanceof Type)
+               {
+                  return ((Type) filterType).getId().equalsIgnoreCase(typeName);
+               }
+            }
+            else if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+            {
+               TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(dataType, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               if(decl != null)
+               {
+                  return TypeDeclarationUtils.isEnumeration(decl, false);
+               }            
+            }
+         }
          if (filterType != null && filterType instanceof Type)
          {
             return ((Type) filterType).getId().equalsIgnoreCase(typeName);
          }
          if (filterType != null && filterType instanceof TypeDeclarationType)
          {
-            return (PredefinedConstants.STRUCTURED_DATA.equals(typeId));
+            if(PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+            {
+               TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(dataType, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               if(decl != null)
+               {
+                  return !TypeDeclarationUtils.isEnumeration(decl, false);
+               }                        
+            }
          }
       }
       if (typeId.equals("dmsDocument") && categoryFilter.toString().equals("Document")) //$NON-NLS-1$ //$NON-NLS-2$
