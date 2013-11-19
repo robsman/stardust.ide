@@ -168,7 +168,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
             .getTypeDeclaration().iterator(); i.hasNext();)
       {
          TypeDeclarationType typeDec = i.next();
-         if(!TypeDeclarationUtils.isJavaEnumeration(typeDec))
+         if(!TypeDeclarationUtils.isEnumeration(typeDec, false))
          {         
             dataTypes.add(typeDec);
          }
@@ -734,7 +734,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
          if (element instanceof TypeDeclarationType)
          {
             TypeDeclarationType decl = (TypeDeclarationType) element;
-            return (!decl.getName().equals("<default>")); //$NON-NLS-1$
+            return (!decl.getName().equals("<default>")); //$NON-NLS-1$            
          }
          return false;
       }
@@ -797,7 +797,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return Diagram_Messages.TXT_DOCUMENT_LIST;
       }
-
    }
 
    public class EmptyFilter extends TypeFilter
