@@ -177,12 +177,11 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       dataTypes.addAll(primitiveTypes);
       DataType selectedData = getSelectedData();
       Object selectedType = getInterfaceType();
-      dataFilter.setFilterType(selectedType);
-      dataFilter.setReferencedModel(referencedModelType);
-
+      
       categoryCombo.getViewer().setInput(typeFilters);
       String selectedCategory = null;
       DataTypeType selectedDataType = parameterType.getDataType();
+      
       if (selectedDataType != null) 
       {
           selectedCategory = parameterType.getDataType().getCarnotType();
@@ -198,6 +197,23 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
              }
           }    	  
       }
+      
+      String typeId = selectedData.getType().getId();      
+      if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(selectedData, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if(decl != null)
+         {
+            if(TypeDeclarationUtils.isEnumeration(decl, false))
+            {
+               selectedCategory = PredefinedConstants.PRIMITIVE_DATA;
+               selectedType = Type.Enumeration;
+            }
+         }            
+      }                                    
+      
+      dataFilter.setFilterType(selectedType);
+      dataFilter.setReferencedModel(referencedModelType);      
       
       ViewerFilter selectedFilter = getSelectedFilter(selectedCategory);
 
@@ -539,7 +555,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
                         .getSelection()).getFirstElement();
                   DataTypeType dataType = xpdlFactory.createDataTypeType();
                   String typeId = data.getType().getId();
-
+                  
                   if (PredefinedConstants.PRIMITIVE_DATA.equals(typeId))
                   {
                      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
