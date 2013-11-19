@@ -497,7 +497,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             {
                for (TypeDeclarationType decl : declarations.getTypeDeclaration())
                {
-                  if (TypeDeclarationUtils.isJavaEnumeration(decl))
+                  if (TypeDeclarationUtils.isEnumeration(decl, true))
                   {
                      result.add(decl);
                   }
@@ -540,7 +540,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             {
                for (TypeDeclarationType decl : declarations.getTypeDeclaration())
                {
-                  if (TypeDeclarationUtils.isJavaEnumeration(decl))
+                  if (TypeDeclarationUtils.isEnumeration(decl, true))
                   {
                      result.add(model);
                      break;
