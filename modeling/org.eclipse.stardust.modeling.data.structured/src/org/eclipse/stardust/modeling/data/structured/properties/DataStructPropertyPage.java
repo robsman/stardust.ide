@@ -261,7 +261,7 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
       {
          for(TypeDeclarationType declaration : typeDeclarations.getTypeDeclaration())
          {
-            if(!TypeDeclarationUtils.isJavaEnumeration(declaration))
+            if(!TypeDeclarationUtils.isEnumeration(declaration, true))
             {         
                declarations.add(declaration);
             }
@@ -299,7 +299,7 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
                            if (visibility == null
                                  || visibility.getValue().equalsIgnoreCase("Public")) //$NON-NLS-1$
                            {
-                              if(!TypeDeclarationUtils.isJavaEnumeration(declaration))
+                              if(!TypeDeclarationUtils.isEnumeration(declaration, true))
                               {
                                  declarations.add(declaration);
                               }
