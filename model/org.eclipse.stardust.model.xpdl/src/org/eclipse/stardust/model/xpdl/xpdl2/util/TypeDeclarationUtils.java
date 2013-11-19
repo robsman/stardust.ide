@@ -707,7 +707,7 @@ public class TypeDeclarationUtils
       }
    }
       
-   public static boolean isJavaEnumeration(TypeDeclarationType decl)
+   public static boolean isEnumeration(TypeDeclarationType decl, boolean isJava)
    {
       int type = TypeDeclarationUtils.COMPLEX_TYPE;
       try
@@ -719,6 +719,11 @@ public class TypeDeclarationUtils
       }
       if(type == TypeDeclarationUtils.SIMPLE_TYPE)
       {
+         if(!isJava)
+         {
+            return true;
+         }
+                     
          if(ExtendedAttributeUtil.getAttribute(decl, CarnotConstants.CLASS_NAME_ATT) != null)
          {
             return true;
