@@ -82,15 +82,15 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
       variablesContext.saveVariables();
-      handleModifications();      
+      handleModifications();
    }
-   
+
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       if (element instanceof ModelType)
       {
          model = (ModelType) element;
-      }      
+      }
       variablesContext = VariableContextHelper.getInstance().getContext(model);
       variablesContext.cleanupReferences();
       viewer.setInput(variablesContext.getVariables());
@@ -145,8 +145,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             {
                ModelVariable modelVariable = (ModelVariable) o;
                selectedVariable = modelVariable;
-               List<EObject> refList = variablesContext.getVariableReferences().get(
-                     modelVariable.getName());
+               List<EObject> refList = variablesContext.getReferences(modelVariable);
                if (refList != null)
                {
                   viewer2.setInput(refList.toArray());
@@ -162,7 +161,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             Diagram_Messages.COL_NAME_Name, Diagram_Messages.COL_NAME_DefaultValue,
             Diagram_Messages.COL_NAME_Description, Diagram_Messages.COL_NAME_Type});
       TableUtil.setInitialColumnSizes(table, new int[] {30, 20, 30, 20});
-            
+
       viewer.setLabelProvider(new ModelVariableLabelProvider());
       viewer.setContentProvider(new ModelVariableContentProvider());
       viewer.setFilters(new ViewerFilter[] {new VariableFilter()});
@@ -194,7 +193,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             new SelectionAdapter()
             {
                public void widgetSelected(SelectionEvent e)
-               {                  
+               {
                   variablesContext.getVariables().add(new ModelVariable(Diagram_Messages.CONFIGURATION_VARIABLE_NEW, "", ""));       //$NON-NLS-1$ //$NON-NLS-2$
                   viewer.refresh();
                   validateVariables();
@@ -239,7 +238,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                         modelVariable.setName(""); //$NON-NLS-1$
                         validateVariables();
                      }
-                     viewer.refresh();                     
+                     viewer.refresh();
                   }
                }
             });
@@ -279,17 +278,17 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                }
                cnt++;
             }
-            
+
             return 0;
-         }         
-         
+         }
+
          public boolean canModify(Object element, String property)
          {
             if (Diagram_Messages.COL_NAME_Type.equals(property))
             {
                return false;
             }
-            
+
             return true;
          }
 
@@ -297,11 +296,11 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
          {
             if (element instanceof ModelVariable)
             {
-               ModelVariable modelVariable = (ModelVariable) element;               
+               ModelVariable modelVariable = (ModelVariable) element;
                String name = modelVariable.getName();
                name = name.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
                name = name.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
-               
+
                if (Diagram_Messages.COL_NAME_Name.equals(property))
                {
                   return VariableContextHelper.getName(name);
@@ -331,13 +330,13 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                ModelVariable modelVariable = (ModelVariable) tableItem.getData();
                selectedVariable = modelVariable;
                if (Diagram_Messages.COL_NAME_Name.equals(property))
-               {                  
+               {
                   if (variablesContext.isValidName(value.toString()))
                   {
                      String name = modelVariable.getName();
                      name = name.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
                      name = name.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
-                     
+
                      String type = VariableContextHelper.getType(name);
                      modelVariable.setName("${" + value.toString() + ":" + type + "}"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                   }
@@ -370,24 +369,24 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             values[cnt] = "";
             for(ConfigurationVariableScope scope : scopes)
             {
-               values[++cnt] = scope.name();               
+               values[++cnt] = scope.name();
             }
             return values;
          }
-         
+
          protected void doSetValue(Object value)
          {
             int comboValue = 0;
-            
+
             super.doSetValue(comboValue);
          }
 
          public void setItems(String[] items)
          {
             super.setItems(getScopes());
-         }         
-      };      
-      
+         }
+      };
+
       viewer.setCellEditors(new CellEditor[] {
             new TextCellEditor(viewer.getTable()), new TextCellEditor(viewer.getTable()),
             new TextCellEditor(viewer.getTable()), typeEditor});
@@ -396,7 +395,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
             Diagram_Messages.COL_NAME_Name, Diagram_Messages.COL_NAME_DefaultValue,
             Diagram_Messages.COL_NAME_Description, Diagram_Messages.COL_NAME_Type});
    }
-   
+
    private void validateVariables()
    {
       provideError(null, true);
@@ -427,7 +426,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
                provideError(MessageFormat.format(
                      Diagram_Messages.PROVIDE_ERROR_IS_NOT_A_VALID_VARIABLE_NAME_TYPE,
                      new Object[] {modelVariable.getName()}), false);
-            }            
+            }
          }
       }
    }
@@ -437,7 +436,7 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
       setErrorMessage(errorMessage);
       setValid(valid);
       getApplyButton().setEnabled(valid);
-      buttons[ADD_BUTTON].setEnabled(valid);      
+      buttons[ADD_BUTTON].setEnabled(valid);
    }
 
    protected boolean nameExists(ModelVariable editedVariable, String string)
@@ -497,5 +496,5 @@ public class VariablesConfigurationPage extends AbstractModelElementPropertyPage
       {
          return (!((ModelVariable) element).isRemoved());
       }
-   }   
+   }
 }

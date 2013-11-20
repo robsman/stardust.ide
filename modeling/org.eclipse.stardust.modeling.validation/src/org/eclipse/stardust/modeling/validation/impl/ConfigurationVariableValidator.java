@@ -41,7 +41,7 @@ public class ConfigurationVariableValidator implements IModelValidator
 
    public Issue[] validate(ModelType model) throws ValidationException
    {
-      List<Issue> result = new ArrayList<Issue>();      
+      List<Issue> result = new ArrayList<Issue>();
       VariableContext context = VariableContextHelper.getInstance().getContext(model);
       if (context != null)
       {
@@ -50,9 +50,8 @@ public class ConfigurationVariableValidator implements IModelValidator
             ModelVariable modelVariable = i.next();
             if (!modelVariable.isRemoved())
             {
-               List<EObject> list = context.getVariableReferences().get(
-                     modelVariable.getName());
-               
+               List<EObject> list = context.getReferences(modelVariable);
+
                // Invalid variables
                if (!context.isValidName(modelVariable.getName())
                      || !context.isValidType(modelVariable.getName()))
@@ -72,7 +71,7 @@ public class ConfigurationVariableValidator implements IModelValidator
                }
                // No default value
                if (StringUtils.isEmpty(modelVariable.getDefaultValue())
-                     && !context.isSecurityContext(modelVariable.getName())) 
+                     && !context.isSecurityContext(modelVariable.getName()))
                {
                   result.add(Issue.warning(model, MessageFormat.format(
                         Validation_Messages.MODEL_ConfigurationVariable_NoDefaultValue,
@@ -98,7 +97,7 @@ public class ConfigurationVariableValidator implements IModelValidator
       }
       return (Issue[]) result.toArray(ISSUE_ARRAY);
    }
-      
+
    private TypeDeclarationType getTypeDeclaration(EObject o)
    {
       if (o instanceof TypeDeclarationType)
@@ -114,7 +113,7 @@ public class ConfigurationVariableValidator implements IModelValidator
       }
       return null;
    }
-   
+
    private List<Issue> isAllowed(EObject o)
    {
       List<Issue> result = new ArrayList<Issue>();
@@ -174,7 +173,7 @@ public class ConfigurationVariableValidator implements IModelValidator
                   PredefinedConstants.TARGET_PARTICIPANT_ATT));
             unique.add(typeDecl);
          }
-      }    
+      }
       return result;
    }
 
