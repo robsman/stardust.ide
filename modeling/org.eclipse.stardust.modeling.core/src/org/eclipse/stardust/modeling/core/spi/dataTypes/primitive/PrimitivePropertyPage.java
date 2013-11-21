@@ -19,11 +19,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -31,6 +34,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.BindingManager;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
+import org.eclipse.stardust.modeling.common.ui.jface.databinding.StructuredViewerAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtButtonAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtComboAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -44,7 +48,9 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataModelAdapter;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -101,7 +107,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       return array;
    }
 
-   public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
+   public void loadFieldsFromElement(IModelElementNodeSymbol symbol, final IModelElement element)
    {
       WidgetBindingManager binding = getWidgetBindingManager();
 
@@ -110,17 +116,48 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       mgr.bind(
             new PrimitiveDataModelAdapter(ModelUtils.findContainingModel(element), Arrays
                   .asList(TYPES), (IExtensibleElement) element),
-            new PrimitiveDataWidgetAdapter(typeViewer, valueComposite, valueControlsMap));
+            new PrimitiveDataWidgetAdapter(typeViewer, valueComposite, valueControlsMap)
+            {
+               public void updateModel(Object value)
+               {
+                  super.updateModel(value);
+                  if(!Type.Enumeration.equals(value))
+                  {
+                     ModelType model = ModelUtils.findContainingModel(element);
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                  }
+               }
+            }
+            );
 
       // bind typeViewer and type attribute of DataType
       mgr.bind(
             WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
                   CarnotConstants.TYPE_ATT, false), getSwtComboAdapter());
-      
+
       mgr.bind(
             WidgetBindingManager.createModelAdapter((IExtensibleElement) element, "carnot:engine:dataType",  //$NON-NLS-1$
                   ExtensibleElementValueAdapter.INSTANCE),
-            BindingManager.createWidgetAdapter(enumViewer));
+            new StructuredViewerAdapter(enumViewer)
+            {
+               public void updateModel(Object value)
+               {
+                  super.updateModel(value);
+                  ModelType model = ModelUtils.findContainingModel(element);
+                  TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration((DataType) element);
+                  if(decl == null || TypeDeclarationUtils.isEnumeration(decl, true))
+                  {
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                     valueComposite.setEnabled(true);
+                  }
+                  else
+                  {
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
+                     valueComposite.setEnabled(false);
+                  }
+               }
+            });
 
       // bind valueComposites and value attribute of DataType
       for (int i = 0; i < TYPES.length; i++)
@@ -321,7 +358,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             return ((Type) type).getId();
          }
       });
-      
+
       enumLabel = FormBuilder.createLabel(composite, "Structure: "); //$NON-NLS-1$
       enumTree = createEnumTree(composite);
       enumViewer = createEnumViewer(enumTree);
@@ -497,7 +534,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             {
                for (TypeDeclarationType decl : declarations.getTypeDeclaration())
                {
-                  if (TypeDeclarationUtils.isEnumeration(decl, true))
+                  if (TypeDeclarationUtils.isEnumeration(decl, false))
                   {
                      result.add(decl);
                   }
@@ -540,7 +577,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             {
                for (TypeDeclarationType decl : declarations.getTypeDeclaration())
                {
-                  if (TypeDeclarationUtils.isEnumeration(decl, true))
+                  if (TypeDeclarationUtils.isEnumeration(decl, false))
                   {
                      result.add(model);
                      break;
@@ -614,13 +651,13 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       GridData gdDP = new GridData();
       gdDP.grabExcessHorizontalSpace = true;
       gdDP.horizontalAlignment = SWT.FILL;
-      
+
       final DatePickerCombo calendarCombo = new DatePickerCombo(calendarComposite, SWT.BORDER);
       calendarCombo.setLayoutData(gdDP);
       calendarCombo.setEditable(false);
       calendarCombo.setDateFormat(new SimpleDateFormat(Diagram_Messages.SIMPLE_DATE_FORMAT,
             Locale.GERMANY));
-      
+
       Button resetButton = new Button(calendarComposite, SWT.NONE);
       resetButton.setText(Diagram_Messages.BUT_RESET);
       GridData gdBtn = new GridData();
@@ -629,7 +666,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       DatePickerComposite datePickerComposite = new DatePickerComposite(calendarComposite, calendarCombo, resetButton);
       return datePickerComposite;
    }
-   
+
    public class DatePickerComposite
    {
       private final Composite calendarComposite;
