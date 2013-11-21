@@ -112,15 +112,15 @@ public class VariableContextHelper
       String[] parts = name.split(":"); //$NON-NLS-1$
       return parts[0];      
    }
-   
+
    public static String getType(String name)
    {
       String[] parts = name.split(":"); //$NON-NLS-1$
       if(parts.length == 1)
       {
          return ConfigurationVariableScope.String.name();
-      }      
-      
-      return parts[1];      
-   }        
+      }
+
+      return parts[parts.length - 1];
+   }
 }
