@@ -10,16 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_START_EVENT;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_START_EVENT_TIMER_CYCLE_STOP;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_START_EVENT_TIMER_DATE;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 import java.util.Calendar;
 
@@ -36,7 +30,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestStartEvents2Stardust {
+public class TestStartEvents2Stardust extends Bpmn2StardustTestSuite {
 
     @Test
     public void testStartEventNone() {
@@ -45,12 +39,15 @@ public class TestStartEvents2Stardust {
 
         ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
         ProcessDefinitionType process = result.getProcessDefinition().get(0);
+        assertThat(process, is(not(nullValue())));
+        assertThat(result, is(not(nullValue())));
 
-        assertNotNull(process);
-        assertNotNull(result);
         TriggerType trigger = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
-        assertNotNull(trigger);
-        assertEquals(PredefinedConstants.MANUAL_TRIGGER, trigger.getType().getId());
+        assertThat(trigger, is(not(nullValue())));
+        assertThat(trigger.getType().getId(), is(PredefinedConstants.MANUAL_TRIGGER));
+
+        String performer = AttributeUtil.getAttributeValue(trigger, PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
+        assertThat(performer, is(PredefinedConstants.ADMINISTRATOR_ROLE));
     }
 
     @Test
@@ -70,28 +67,50 @@ public class TestStartEvents2Stardust {
         Definitions defs = loadBpmnModel(modelFile);
         ModelType result = transformModel(defs, fileOutput);
         ProcessDefinitionType process = result.getProcessDefinition().get(0);
-        assertNotNull(process);
-        assertNotNull(result);
+        assertThat(process, is(not(nullValue())));
+        assertThat(result, is(not(nullValue())));
+
         TriggerType triggerCycle = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT_TIMER_CYCLE_STOP);
         TriggerType triggerDate = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT_TIMER_DATE);
 
-        assertNotNull(triggerDate);
-        assertNotNull(triggerCycle);
-
-        assertEquals(PredefinedConstants.TIMER_TRIGGER, triggerDate.getType().getId());
-        assertEquals(PredefinedConstants.TIMER_TRIGGER, triggerCycle.getType().getId());
+        assertThat(triggerDate, is(not(nullValue())));
+        assertThat(triggerCycle, is(not(nullValue())));
+        assertThat(typeOf(triggerDate), is(PredefinedConstants.TIMER_TRIGGER));
+        assertThat(typeOf(triggerCycle), is(PredefinedConstants.TIMER_TRIGGER));
 
         String dateStart = AttributeUtil.getAttributeValue(triggerDate, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT);
         String cycleStart = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_START_TIMESTAMP_ATT);
         String cyclePeriod = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_PERIODICITY_ATT);
         String cycleStop = AttributeUtil.getAttributeValue(triggerCycle, PredefinedConstants.TIMER_TRIGGER_STOP_TIMESTAMP_ATT);
 
-        assertEquals(startTime, Long.parseLong(dateStart));
-        assertEquals(startTime, Long.parseLong(cycleStart));
-        assertEquals(period, cyclePeriod);
-        assertEquals(stopTime, Long.parseLong(cycleStop));
-
-
+        assertThat(dateStart, is (String.valueOf(startTime)));
+        assertThat(cycleStart, is (String.valueOf(startTime)));
+        assertThat(cyclePeriod, is (period) );
+        assertThat(cycleStop, is (String.valueOf(stopTime)) );
     }
+
+    @Test
+    public void testStartEventCamelTimer() {
+        final String modelFile = TEST_BPMN_MODEL_DIR + "StartEventTimerCamel.bpmn";
+        final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testStartEventTimerCamel.xpdl";
+
+        Definitions defs = loadBpmnModel(modelFile);
+        ModelType result = transformModel(defs, fileOutput);
+        ProcessDefinitionType process = result.getProcessDefinition().get(0);
+        assertThat(process, is(not(nullValue())));
+        assertThat(result, is(not(nullValue())));
+
+        TriggerType triggerType = CarnotModelQuery.findTrigger(process, "TestModelStartEventCamel");
+
+        assertThat(triggerType, is(not(nullValue())));
+
+        String camelContext = AttributeUtil.getAttributeValue(triggerType, "carnot:engine:camel::camelContextId");
+
+        assertThat(camelContext, is ("defaultCamelContext"));
+    }
+
+	private String typeOf(TriggerType triggerType) {
+		return triggerType.getType().getId();
+	}
 
 }

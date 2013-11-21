@@ -17,11 +17,10 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSwimlanes2Stardust {
+public class TestSwimlanes2Stardust extends Bpmn2StardustTestSuite {
 
     @Test
-    public void testPoolToOrganization() {
-    }
+    public void testPoolToOrganization() {}
 
     @Test
     public void testLaneToRole() {

@@ -14,8 +14,9 @@ import java.util.List;
 
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
-import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustApplicationExt;
-import org.eclipse.stardust.model.bpmn2.sdbpmn2.StardustInterfaceExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceExt;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
@@ -33,11 +34,16 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
 
     public void addIInterface(Interface bpmnInterface) {
     	logger.info("Add service interface: " + bpmnInterface);
+
     	StardustInterfaceExt sdInterface = ExtensionHelper2.getInstance().getApplicationExtension(bpmnInterface);
     	if (sdInterface != null) {
-    		addApplicationToModel(sdInterface);
+    		if (null != sdInterface.stardustApplication) {
+	    		addApplicationToModel(sdInterface);
+    		} else if (null == sdInterface.stardustTrigger) { // triggers in stardust are defined within the process and thus transformed for each bpmn-event usage
+    			logger.info("Interface has no stardust application or trigger definition ("+sdInterface+").");
+    		}
     	} else {
-    		logger.info("Interface has no stardust application definition.");
+    		logger.info("Interface has no stardust extension ("+sdInterface+").");
     	}
     }
 
@@ -46,7 +52,7 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
     	ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, null, failures);
 
     	ApplicationType stardustApp = BpmPackageBuilder.F_CWM.createApplicationType();
-    	// TODO propagate core attributes
+    	Bpmn2StardustXPDLExtension.addAttributes(application, stardustApp);
 
     	if (application != null) {
     		stardustApp.setElementOid(application.elementOid);

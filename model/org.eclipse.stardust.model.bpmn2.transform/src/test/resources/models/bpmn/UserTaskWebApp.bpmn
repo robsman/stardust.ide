@@ -73,11 +73,11 @@
 		</startEvent>
 		<userTask id="TestModelTaskA" name="enter" implementation="http://java.sun.com/jsf">
 			<extensionElements>
-				<stardust:StardustUserTask>
+				<stardust:core>
 					{
 						"interactiveApplicationRef": "JsfUserTaskApp"
 					}
-				</stardust:StardustUserTask>
+				</stardust:core>
 			</extensionElements>
 			<ioSpecification>
 				<dataOutput id="TestModelDataOutputTaskA">

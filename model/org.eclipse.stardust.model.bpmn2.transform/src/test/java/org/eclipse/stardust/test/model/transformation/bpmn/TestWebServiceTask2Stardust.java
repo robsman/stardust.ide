@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -40,7 +34,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestWebServiceTask2Stardust {
+public class TestWebServiceTask2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String WEBSERVICE_APP_ID = "CROServiceApp";
 	private static final String DATA_ASSOC_ID = "TestModelOutputAssociationTaskA";
@@ -50,6 +44,8 @@ public class TestWebServiceTask2Stardust {
 	private static final String DATA_OBJECT_ID = "TestModelDataObjectA";
 	private static final String DATA_OBJECT_TYPE_ID = "getCROResponse";
 	private static final String SERVICE_REQUEST_MESSAGE_TYPE_ID = "getCRO";
+	private static final Object APPLICATION_NAME = "CROServiceApp";
+	private static final Object WSDL_URL = "http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl";
 
     @Test
     public void testWebServiceTask() {
@@ -60,7 +56,6 @@ public class TestWebServiceTask2Stardust {
         ModelType result = transformModel(defs, fileOutput);
 
         ProcessDefinitionType process = result.getProcessDefinition().get(0);
-
         ActivityType activity = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
 
         assertNotNull(activity);
@@ -80,8 +75,10 @@ public class TestWebServiceTask2Stardust {
         assertEquals(ActivityImplementationType.APPLICATION_LITERAL, activity.getImplementation());
 
         assertEquals(WEBSERVICE_APP_ID, application.getId());
-
-        assertEquals(PredefinedConstants.WS_APPLICATION, application.getType().getId());
+    	assertEquals(APPLICATION_NAME, application.getName());
+    	assertEquals(10058, application.getElementOid());
+    	assertEquals(PredefinedConstants.WS_APPLICATION, application.getType().getId());
+    	assertEquals(WSDL_URL, AttributeUtil.getAttribute(application, PredefinedConstants.WS_WSDL_URL_ATT).getValue());
 
         for (AccessPointType ap : application.getAccessPoint()) {
         	assertNotNull(ap.getType());

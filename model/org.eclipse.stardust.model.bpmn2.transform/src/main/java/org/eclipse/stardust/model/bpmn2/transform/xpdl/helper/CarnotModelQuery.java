@@ -18,9 +18,11 @@ import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -29,6 +31,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 
 /**
@@ -187,6 +190,12 @@ public class CarnotModelQuery {
 			if (handler != null && handler.getId().equals(id)) return handler;
 		}
 		return null;
+	}
+
+	public static DataTypeType getMetaDataType(ModelType model, String typeRef) {
+		if (typeRef == null || typeRef.isEmpty()) return null;
+		return (DataTypeType)
+				ModelUtils.findIdentifiableElement(model, CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(), typeRef);
 	}
 
 }

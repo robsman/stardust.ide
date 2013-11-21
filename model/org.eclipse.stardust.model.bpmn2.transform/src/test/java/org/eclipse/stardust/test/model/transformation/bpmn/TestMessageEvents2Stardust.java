@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -25,8 +20,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -34,7 +27,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestMessageEvents2Stardust {
+public class TestMessageEvents2Stardust extends Bpmn2StardustTestSuite {
 
 	//private static final String INTERFACE_JMS_TRIGGER_START = "ReceiveOffer";
 	private static final String INTERFACE_JMS_SEND_EVENT = "SendRequest";
@@ -50,7 +43,6 @@ public class TestMessageEvents2Stardust {
 	private static final String DATA_OBJECT_ID = "TestModelDataObjectA";
 
     @Test
-    @Ignore
     public void testEvents() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "MessageEvents.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testMessageEvents.xpdl";
@@ -111,9 +103,5 @@ public class TestMessageEvents2Stardust {
 		assertEquals(DATA_OBJECT_ID, startEvent.getParameterMapping().get(0).getData().getId());
 		assertEquals(ACCESSPOINTS_ID, startEvent.getParameterMapping().get(0).getParameter());
 	}
-
-
-
-
 
 }

@@ -26,11 +26,13 @@ import org.eclipse.bpmn2.MessageEventDefinition;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustEventDefinitionExt;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
@@ -93,30 +95,44 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
         TriggerType trigger = newManualTrigger(processDef)
             .withIdAndName(event.getId(), event.getName())
             .build();
-        Bpmn2StardustXPDLExtension.addStartEventExtensions(event, trigger);
+    	StardustEventDefinitionExt ext = ExtensionHelper2.getInstance().getCoreExtension(StardustEventDefinitionExt.class, event);
+    	if (null == ext) return;
+    	Bpmn2StardustXPDLExtension.addAttributes(ext, trigger);
     }
 
 	private void addTimerTrigger(StartEvent event, TimerEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
         logger.debug("addTimerTrigger " + event);
 
-        TriggerTypeType triggerType = ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
-        if (triggerType != null) {
-            TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
-            trigger.setType(triggerType);
-            trigger.setId(event.getId());
-            trigger.setName(event.getName());
-            setTimerTriggerDefinition(event, def, trigger);
-            Bpmn2StardustXPDLExtension.addTimerStartEventExtensions(event, trigger);
-            processDef.getTrigger().add(trigger);
-        } else {
-            failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
-        }
+//    	StardustEventDefinitionExt ext = ExtensionHelper2.getInstance().getCoreExtension(StardustEventDefinitionExt.class, event);
+        StardustEventDefinitionExt ext = ExtensionHelper2.getInstance().getCoreExtension(StardustEventDefinitionExt.class, def);
+    	if (StringUtils.isNotEmpty(ext.stardustTriggerInterfaceRef)) {
+    		StardustTriggerUtil triggerUtil = new StardustTriggerUtil(carnotModel, bpmnquery, failures);
+    		TriggerType trigger = triggerUtil.getStartTriggerAndReportFailure(processDef, event, def, container);
+            if (trigger != null) {
+            	trigger.setId(event.getId());
+            	processDef.getTrigger().add(trigger);
+            }
+    		return;
+    	} else {
+	        TriggerTypeType triggerType = ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.TIMER_TRIGGER);
+	        if (triggerType != null) {
+	            TriggerType trigger = AbstractElementBuilder.F_CWM.createTriggerType();
+	            trigger.setType(triggerType);
+	            trigger.setId(event.getId());
+	            trigger.setName(event.getName());
+	            setTimerTriggerDefinition(event, def, trigger);
+	            Bpmn2StardustXPDLExtension.addAttributes(ext, trigger);
+	            processDef.getTrigger().add(trigger);
+	        } else {
+	            failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");
+	        }
+    	}
     }
 
     private void addMessageTrigger(StartEvent event, MessageEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
         logger.debug("addMessageTrigger (JMS) " + event);
-        ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, bpmnquery, failures);
-        TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(event, def, container);
+        StardustTriggerUtil serviceUtil = new StardustTriggerUtil(carnotModel, bpmnquery, failures);
+        TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(processDef, event, def, container);
         if (trigger != null) {
         	trigger.setId(event.getId());
         	processDef.getTrigger().add(trigger);

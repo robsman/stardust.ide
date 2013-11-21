@@ -84,14 +84,11 @@
 
 		<startEvent id="TestModelStartEventId" isInterrupting="true" />
 
-		<!-- <activity oid="10063" id="CallCROWebService" name="call CRO WebService" allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false"
-			implementation="Application"> -->
 		<serviceTask id="TestModelTaskA" name="get CRO" implementation="##WebService" operationRef="OperationGetCRO">
 			<!-- allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false" -->
 			<ioSpecification>
 				<dataOutput id="TestModelDataOutputTaskA">
 				</dataOutput>
-				<inputSet />
 				<outputSet>
 					<dataOutputRefs>TestModelDataOutputTaskA</dataOutputRefs>
 				</outputSet>

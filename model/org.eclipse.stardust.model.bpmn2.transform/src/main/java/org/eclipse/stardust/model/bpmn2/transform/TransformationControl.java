@@ -49,7 +49,12 @@ import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
+import org.eclipse.bpmn2.GlobalBusinessRuleTask;
+import org.eclipse.bpmn2.GlobalChoreographyTask;
+import org.eclipse.bpmn2.GlobalManualTask;
+import org.eclipse.bpmn2.GlobalScriptTask;
 import org.eclipse.bpmn2.GlobalTask;
+import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.ImplicitThrowEvent;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InclusiveGateway;
@@ -96,11 +101,12 @@ public class TransformationControl {
     private Transformator transf;
     private String processingInfo = "";
     private Logger log;
-    private Map<FlowElementsContainer, List<Activity>> tasksWithDataflow;
+    private Map<FlowElementsContainer, List<Activity>> activitiesWithDataflow;
     private Map<FlowElementsContainer, List<ThrowEvent>> throwEventsWithDataflow;
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
     private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
     private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
+    private Map<FlowElementsContainer, List<CallActivity>> globalCalls;
 
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
@@ -112,11 +118,12 @@ public class TransformationControl {
     }
 
     public String transformToTarget(Definitions definitions, OutputStream target) {
-        tasksWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
+        activitiesWithDataflow = new HashMap<FlowElementsContainer, List<Activity>>();
         throwEventsWithDataflow = new HashMap<FlowElementsContainer, List<ThrowEvent>>();
         catchEventsWithDataflow = new HashMap<FlowElementsContainer, List<CatchEvent>>();
         startEventsPerContainer = new HashMap<FlowElementsContainer, List<StartEvent>>();
         potentialStartNodesPerContainer = new HashMap<FlowElementsContainer, List<FlowNode>>();
+        globalCalls = new HashMap<FlowElementsContainer, List<CallActivity>>();
         processingInfo = "";
         transf = dialect.getTransformator();
         processBpmn(definitions, transf);
@@ -143,8 +150,8 @@ public class TransformationControl {
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
         List<Import> bpmnImports =  definitions.getImports();
-        // 'globally' used elements
-        for (RootElement root : definitions.getRootElements()) {
+        // 'globally' used elements (except callable elements)
+        for (RootElement root : roots) {
             if (root instanceof ItemDefinition) {
                 processItemDefinition((ItemDefinition)root, bpmnImports);
             } else if (root instanceof Interface) {
@@ -154,11 +161,13 @@ public class TransformationControl {
             }
         }
         for (RootElement root : roots) {
-            if (root instanceof CallableElement) {
+        	if (root instanceof Resource) {
+        		postprocessResource((Resource)root); // relations between resources
+        	} else if (root instanceof CallableElement) {
                 if (root instanceof Process) {
                     processProcess((Process)root);
                 } else if (root instanceof GlobalTask) {
-                    processGlobalTask((GlobalTask)root);
+                    processGlobalTask((GlobalTask)root, definitions);
                 }
             } else if (root instanceof Category) {
                 processCategory((Category)root);
@@ -191,8 +200,8 @@ public class TransformationControl {
             processCollaboration(collab);
         }
 
-        for (FlowElementsContainer container : tasksWithDataflow.keySet()) {
-            for (Activity activity : tasksWithDataflow.get(container)) {
+        for (FlowElementsContainer container : activitiesWithDataflow.keySet()) {
+            for (Activity activity : activitiesWithDataflow.get(container)) {
                 processTaskDataFlow(activity, container);
             }
         }
@@ -206,10 +215,17 @@ public class TransformationControl {
 				processEventDataFlow(event, container);
 			}
 		}
+
+		for (FlowElementsContainer container : globalCalls.keySet()) {
+			for (CallActivity caller : globalCalls.get(container)) {
+				processGlobalCall(caller, container);
+			}
+		}
     }
 
 	private  void processProcess(Process process) {
         transf.addProcess(process);
+        transf.addProcessParameters(process);
         transf.addIOBinding(process.getIoBinding(), process);
         for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
             processingInfo +=   "Artifact" + NOT_SUPPORTED;
@@ -289,8 +305,8 @@ public class TransformationControl {
                 processEvent((Event)flowElement, container);
             } else if (flowElement instanceof Gateway) {
                 processGateway((Gateway)flowElement, container);
-            }
-            else if (flowElement instanceof ChoreographyActivity) {
+
+            } else if (flowElement instanceof ChoreographyActivity) {
                 processChoreographyActivity((ChoreographyActivity)flowElement, container);
             }
         }
@@ -299,7 +315,7 @@ public class TransformationControl {
     private void processActivity(Activity activity, FlowElementsContainer container) {
         if (activity instanceof Task) {
 
-            addToTasksWithDataFlow(activity, container);
+            addToActivitiesWithDataFlow(activity, container);
 
             if (activity instanceof UserTask) {
                 processUserTask((UserTask)activity, container);
@@ -322,21 +338,26 @@ public class TransformationControl {
             processSubProcess((SubProcess)activity, container);
 
         } else if (activity instanceof CallActivity) {
+        	addToActivitiesWithDataFlow(activity, container);
             processCallActivity((CallActivity)activity, container);
+            if (!globalCalls.containsKey(container)) {
+            	globalCalls.put(container, new ArrayList<CallActivity>());
+            }
+            globalCalls.get(container).add((CallActivity)activity);
         }
     }
 
-    private void addToTasksWithDataFlow(Activity activity, FlowElementsContainer container) {
+    private void addToActivitiesWithDataFlow(Activity activity, FlowElementsContainer container) {
         InputOutputSpecification ioSpec = activity.getIoSpecification();
         if (ioSpec != null) {
             if ((ioSpec.getDataInputs() != null && ioSpec.getDataInputs().size() > 0)
              || (ioSpec.getDataOutputs() != null && ioSpec.getDataOutputs().size() > 0)
              || (ioSpec.getInputSets() != null && ioSpec.getInputSets().size() > 0)
              || (ioSpec.getOutputSets() != null && ioSpec.getOutputSets().size() > 0)) {
-                if (!this.tasksWithDataflow.containsKey(container)) {
-                    this.tasksWithDataflow.put(container, new ArrayList<Activity>());
+                if (!this.activitiesWithDataflow.containsKey(container)) {
+                    this.activitiesWithDataflow.put(container, new ArrayList<Activity>());
                 }
-                this.tasksWithDataflow.get(container).add(activity);
+                this.activitiesWithDataflow.get(container).add(activity);
             }
         }
     }
@@ -419,6 +440,10 @@ public class TransformationControl {
     	transf.addResource(resource);
     }
 
+	private void postprocessResource(Resource resource) {
+    	transf.addResourceRelations(resource);
+	}
+
     private  void processCollaboration(Collaboration collab) {
         for (Participant participant : collab.getParticipants()) {
             Process proc = participant.getProcessRef();
@@ -481,14 +506,31 @@ public class TransformationControl {
         transf.addSequenceFlow(seq, container);
     }
 
-    private  void processPartnerEntity(PartnerEntity entity) {
-        transf.addPartnerEntity(entity);
+    private void processCallActivity(CallActivity activity, FlowElementsContainer container) {
+//      processingInfo +=   "CallActivity" + NOT_SUPPORTED;
+    	transf.addCallActivity(activity, container);
     }
 
+	private void processGlobalCall(CallActivity caller, FlowElementsContainer container) {
+		/* handle the call (i.e. data mapping of a call activity) finally, when all callable elements have been transformed */
+    	transf.addGlobalCall(caller, container);
+	}
+
+    private  void processGlobalTask(GlobalTask global, Definitions definitions) {
+    	if (global instanceof GlobalUserTask) {
+    		transf.addGlobalUserTask((GlobalUserTask)global, definitions);
+    	} else if (global instanceof GlobalBusinessRuleTask) {
+    		processingInfo +=   "GlobalBusinessRuleTask" + NOT_SUPPORTED;
+    	} else if (global instanceof GlobalScriptTask) {
+    		processingInfo +=   "GlobalScriptTask" + NOT_SUPPORTED;
+    	} else if (global instanceof GlobalManualTask) {
+    		processingInfo +=   "GlobalManualTask" + NOT_SUPPORTED;
+    	}
+    }
 
     private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
-        processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
-
+        //processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
+        transf.addInclusiveGateway(gateway, container);
     }
 
     private void processComplexGateway(ComplexGateway gateway, FlowElementsContainer container) {
@@ -518,6 +560,11 @@ public class TransformationControl {
     	transf.addIntermediateThrowEvent(event, container);
     }
 
+    private  void processDataStore(DataStore data) {
+        //processingInfo +=   "DataStore" + NOT_SUPPORTED;
+    	transf.addDataStore(data);
+    }
+
     private void processImplicitThrowEvent(ImplicitThrowEvent event, FlowElementsContainer container) {
         processingInfo +=   "ImplicitThrowEvent" + NOT_SUPPORTED;
 
@@ -528,17 +575,18 @@ public class TransformationControl {
     }
 
     private void processSendTask(SendTask activity, FlowElementsContainer container) {
-        processingInfo +=   "SendTask" + NOT_SUPPORTED;
-
+        //processingInfo +=   "SendTask" + NOT_SUPPORTED;
+    	transf.addSendTask(activity, container);
     }
 
     private void processScriptTask(ScriptTask activity, FlowElementsContainer container) {
-        processingInfo +=   "ScriptTask" + NOT_SUPPORTED;
-
+        //processingInfo +=   "ScriptTask" + NOT_SUPPORTED;
+    	transf.addScriptTask(activity, container);
     }
 
     private void processReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
-        processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
+        //processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
+    	transf.addReceiveTask(activity, container);
 
     }
 
@@ -563,24 +611,14 @@ public class TransformationControl {
 
     }
 
-    private void processCallActivity(CallActivity activity, FlowElementsContainer container) {
-        processingInfo +=   "CallActivity" + NOT_SUPPORTED;
-
-    }
-
-
     private void processChoreographyActivity(ChoreographyActivity choreo, FlowElementsContainer container) {
         processingInfo +=   "ChoreographyActivity" + NOT_SUPPORTED;
 
     }
 
-    private  void processGlobalTask(GlobalTask global) {
-        processingInfo +=   "GlobalTask" + NOT_SUPPORTED;
-    }
-
-    private  void processDataStore(DataStore data) {
-        processingInfo +=   "DataStore" + NOT_SUPPORTED;
-
+    private  void processPartnerEntity(PartnerEntity entity) {
+        //transf.addPartnerEntity(entity);
+        processingInfo +=   "PartnerEntity" + NOT_SUPPORTED;
     }
 
     private  void processPartnerRole(PartnerRole role) {

@@ -1,15 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
 <definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="05.10.2012 16:41:15" itp:modificationDate="08.10.2012 12:23:03" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_45fb976a-d97f-4101-8904-1b395fe0930d" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
-	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+	xmlns:stardust="http://www.eclipse.org/stardust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
 
 	<interface id="SendRequest" name="SendRequest" implementationRef="SendRequest">
 		<extensionElements>
-			<sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
 				{
 					"applicationType": "jms",
 					"stardustApplication": {
@@ -18,13 +17,13 @@
 						"name": "send request",
 						"attributes": {
 							"carnot:engine:visibility": "Public",
-							"carnot:engine:type" { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" "value": "out" },
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "out" },
 							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
 							"carnot:engine:queue.jndiName": "java:comp/env/jms/CarnotApplicationQueue",
 							"carnot:engine:messageProvider": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider",
-							"carnot:engine:requestMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType" "value": "Text" },
+							"carnot:engine:requestMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
 							"carnot:engine:includeOidHeaders": true
-						}
+						},
 						"accessPoints": [
 							{
 								"elementOid": 10085,
@@ -41,7 +40,7 @@
 						 ]
 					 }
 				 }
-			</sdbpmn:StardustInterface>
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="SendRequestOperation" name="SendRequestOperation">
 			<inMessageRef>SendRequestOperationInput</inMessageRef>
@@ -50,19 +49,38 @@
 	</interface>
 	<interface id="ReceiveResponse" name="ReceiveResponse" implementationRef="ReceiveResponse">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
-				<sdbpmn:StardustApplication elementOid="10076" id="ReceiveResponse" name="receive response" >
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<stardust:attribute name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="in" />
-					<stardust:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
-					<stardust:attribute name="carnot:engine:responseMessageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
-					<sdbpmn:accessPoint oid="10086" id="content" name="Content" direction="OUT" typeRef="serializable">
-						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
-						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
-						<stardust:attribute name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="BODY" />
-					</sdbpmn:accessPoint>
-				</sdbpmn:StardustApplication>
-			</sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustApplication": {
+						"elementOid": 10076,
+						"id": "ReceiveResponse",
+						"name": "receive response",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "in" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:messageAcceptor": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor",
+							"carnot:engine:responseMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10086,
+								"id": "content",
+								"name": "Content",
+								"direction": "OUT",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": true,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="ReceiveResponseOperation" name="ReceiveResponseOperation">
 			<inMessageRef>ReceiveResponseOperationInput</inMessageRef>
@@ -71,22 +89,39 @@
 	</interface>
 	<interface id="SendOrder" name="SendOrder" implementationRef="SendOrder">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
-				<sdbpmn:StardustApplication elementOid="10079" id="SendOrder" name="send order">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<stardust:attribute name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="out" />
-					<stardust:attribute name="carnot:engine:queueConnectionFactory.jndiName" value="java:comp/env/jms/CarnotXAConnectionFactory" />
-					<stardust:attribute name="carnot:engine:queue.jndiName" value="java:comp/env/jms/CarnotApplicationQueue" />
-					<stardust:attribute name="carnot:engine:messageProvider" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider" />
-					<stardust:attribute name="carnot:engine:requestMessageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
-					<stardust:attribute name="carnot:engine:includeOidHeaders" type="boolean" value="true" />
-					<sdbpmn:accessPoint oid="10094" id="content" name="Content" direction="IN" typeRef="serializable">
-						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
-						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
-						<stardust:attribute name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="BODY" />
-					</sdbpmn:accessPoint>
-				</sdbpmn:StardustApplication>
-			</sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustApplication": {
+						"elementOid": 10079,
+						"id": "SendOrder",
+						"name": "send order",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "out" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:queue.jndiName": "java:comp/env/jms/CarnotApplicationQueue",
+							"carnot:engine:messageProvider": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider",
+							"carnot:engine:requestMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10094,
+								"id": "content",
+								"name": "Content",
+								"direction": "IN",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": false,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="SendOrderOperation" name="SendOrder">
 			<inMessageRef>SendOrderOperationInput</inMessageRef>
@@ -95,17 +130,38 @@
 	</interface>
 	<interface id="ReceiveOffer" name="ReceiveOffer">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
-				<sdbpmn:StardustTrigger elementOid="10048" id="ReceiveOffer" name="Receive Offer">
-					<stardust:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
-					<stardust:attribute name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
-					<sdbpmn:accessPoint oid="10084" id="content" name="Content" direction="OUT" typeRef="serializable">
-						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
-						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
-						<stardust:attribute name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="BODY" />
-					</sdbpmn:accessPoint>
-				</sdbpmn:StardustTrigger>
-			</sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustTrigger": {
+						"elementOid": 10048,
+						"id": "ReceiveOffer",
+						"name": "Receive Offer",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "in" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:messageAcceptor": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor",
+							"carnot:engine:responseMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10084,
+								"id": "content",
+								"name": "Content",
+								"direction": "OUT",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": true,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="ReceiveOfferOperation" name="ReceiveOfferOperation">
 			<inMessageRef>ReceiveOfferOperationInput</inMessageRef>
@@ -121,8 +177,8 @@
       <dataOutputAssociation id="_5e8d0c47-d08c-4496-9a99-d73802377485">
         <sourceRef>TestModelStartEventOutput</sourceRef>
 		<targetRef>TestModelDataObjectRefA</targetRef>
-		<assignment id="TestAssignmentOutputTaskA" sdbpmn:parameterMappingOid="10093">
-			<from sdbpmn:triggerAccessPointRef="content"></from>
+		<assignment id="TestAssignmentOutputTaskA" stardust:parameterMappingOid="10093">
+			<from stardust:applicationAccessPointRef="content"></from>
 			<to></to>
 		</assignment>
       </dataOutputAssociation>

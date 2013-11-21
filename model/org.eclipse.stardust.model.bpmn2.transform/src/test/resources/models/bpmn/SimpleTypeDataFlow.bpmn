@@ -46,14 +46,27 @@
         <targetRef>TestModelStringDataOutputObjectReference</targetRef>
       </dataOutputAssociation>
     </userTask>
-    <dataObjectReference id="TestModelNumberDataInputObjectReference" name="NumberIn" dataObjectRef="TestModelNumberDataInputObject">
-    </dataObjectReference>
-    <dataObject id="TestModelNumberDataInputObject" itemSubjectRef="TestIntegerItem">
-    </dataObject>
-    <dataObjectReference id="TestModelStringDataOutputObjectReference" name="StringOut" dataObjectRef="TestModelStringDataOutputObject">
-    </dataObjectReference>
-    <dataObject id="TestModelStringDataOutputObject" itemSubjectRef="TestStringItem">
-    </dataObject>
+    
+	<dataObjectReference
+		id="TestModelNumberDataInputObjectReference"
+		name="NumberIn"
+		dataObjectRef="TestModelNumberDataInputObject">
+	</dataObjectReference>
+	<dataObject
+		id="TestModelNumberDataInputObject"
+		itemSubjectRef="TestIntegerItem">
+	</dataObject>
+	
+	<dataObjectReference
+		id="TestModelStringDataOutputObjectReference"
+		name="StringOut"
+		dataObjectRef="TestModelStringDataOutputObject">
+	</dataObjectReference>
+	<dataObject
+		id="TestModelStringDataOutputObject"
+		itemSubjectRef="TestStringItem">
+	</dataObject>
+    
   </process>
   <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
     <bpmndi:BPMNPlane id="_1" bpmnElement="TestModelProcessPrimitiveData">

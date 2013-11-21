@@ -5,55 +5,13 @@
  xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
 >
 
-	<resource name="Administrator" id="Administrator">
-		<extensionElements>
-			<sdbpmn:StardustResource>
-				<sdbpmn:StardustRole oid="10080">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-				</sdbpmn:StardustRole>
-			</sdbpmn:StardustResource>
-		</extensionElements>
-	</resource>
-	<resource id="OrganizationX" name="OrganizationX">
-		<extensionElements>
-			<sdbpmn:StardustResource>
-				<sdbpmn:StardustOrganization oid="10074">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<stardust:attribute name="carnot:engine:bound" type="boolean" value="false" />
-					<stardust:attribute name="carnot:engine:dataPath" value="" />
-				</sdbpmn:StardustOrganization>
-			</sdbpmn:StardustResource>
-		</extensionElements>
-	</resource>
-	<resource id="ConditionalX" name="ConditionalX">
-		<extensionElements>
-			<sdbpmn:StardustResource dataId="PROCESS_ID">
-<!-- 				<sdbpmn:StardustConditionalPerformer oid="10072" dataId="STARTING_USER" dataPath="getId()" is_user="false"> -->
-				<sdbpmn:StardustConditionalPerformer oid="10072" dataPath="getId()" is_user="false">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<stardust:attribute name="carnot:engine:conditionalPerformer:kind" value="userGroup" />
-				</sdbpmn:StardustConditionalPerformer>
-			</sdbpmn:StardustResource>
-		</extensionElements>
-  </resource>
-
-
   <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
 
     <userTask id="TestModelTaskA" name="Task A" implementation="unspecified">
-		<performer>
-			<resourceRef>Administrator</resourceRef>
-		</performer>
     </userTask>
     <userTask id="TestModelTaskB" name="Task B" implementation="unspecified">
-		<performer>
-			<resourceRef>OrganizationX</resourceRef>
-		</performer>
     </userTask>
     <userTask id="TestModelTaskC" name="Task C" implementation="unspecified">
-		<performer>
-			<resourceRef>ConditionalX</resourceRef>
-		</performer>
     </userTask>
   </process>
   <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">

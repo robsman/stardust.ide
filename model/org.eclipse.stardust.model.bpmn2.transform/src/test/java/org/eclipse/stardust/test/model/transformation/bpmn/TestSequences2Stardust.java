@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_SEQUENCE_A_TO_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -26,7 +24,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSequences2Stardust { //extends TestCase {
+public class TestSequences2Stardust extends Bpmn2StardustTestSuite {
 
     public TestSequences2Stardust() {}
 

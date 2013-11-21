@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
@@ -64,6 +65,14 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     public void addParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
         addGateway(Gate.PARALLEL, gateway, container);
     }
+
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+		if (isMixed(gateway) || isJoin(gateway)) {
+			failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "Only splitting InclusiveGateways are supported (skipping " + gateway.getId() + " " + gateway.getName() + ")");
+			return;
+		}
+		addGateway(Gate.INCLUSIVE, gateway, container);
+	}
 
     private void addGateway(Gate type, Gateway gateway, FlowElementsContainer container) {
         ProcessDefinitionType processDef = getProcessAndReportFailure(gateway, container);
