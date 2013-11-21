@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -45,6 +46,7 @@ import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.*;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
+
 import org.eclipse.ui.PlatformUI;
 
 public class GenericUtils
@@ -491,5 +493,12 @@ public class GenericUtils
    {
       return PlatformUI.getPreferenceStore().getBoolean(
             BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);      
+   }
+   
+   public static DataTypeType getDataTypeType(ModelType model, String type)
+   {
+      return (DataTypeType) ModelUtils.findIdentifiableElement(model,
+            CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(),
+            type);
    }
 }
