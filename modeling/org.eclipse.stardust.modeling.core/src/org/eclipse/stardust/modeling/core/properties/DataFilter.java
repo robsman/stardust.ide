@@ -18,7 +18,6 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -77,7 +76,7 @@ public class DataFilter extends ViewerFilter
       }
       DataType dataType = (DataType) element;
       String typeId = dataType.getType().getId();
-      
+
       if ((PredefinedConstants.PRIMITIVE_DATA.equals(typeId) || PredefinedConstants.STRUCTURED_DATA
             .equals(typeId))
             && !categoryFilter.toString().startsWith("Document")) //$NON-NLS-1$
@@ -87,9 +86,9 @@ public class DataFilter extends ViewerFilter
          if (typeId.equals(PredefinedConstants.STRUCTURED_DATA))
          {
             ModelType model = ModelUtils.findContainingModel(dataType);
-            if (!model.equals(referencedModel))
+            if (referencedModel != null && !model.equals(referencedModel))
             {
-               AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element, "carnot:connection:uri"); //$NON-NLS-1$               
+               AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element, "carnot:connection:uri"); //$NON-NLS-1$
                if (dataType.getExternalReference() != null)
                {
                   if (this.referencedModel.getId().equals(
@@ -130,9 +129,9 @@ public class DataFilter extends ViewerFilter
             typeName = AttributeUtil.getAttributeValue(dataType.getAttribute(),
                   "carnot:engine:dataType"); //$NON-NLS-1$
          }
-         
-         // extra check for enumeration here                           
-         if (filterType != null 
+
+         // extra check for enumeration here
+         if (filterType != null
                && filterType instanceof Type
                && ((Type) filterType).equals(Type.Enumeration))
          {
@@ -145,11 +144,11 @@ public class DataFilter extends ViewerFilter
             }
             else if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
             {
-               TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(dataType, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration(dataType);
                if(decl != null)
                {
                   return TypeDeclarationUtils.isEnumeration(decl, false);
-               }            
+               }
             }
          }
          if (filterType != null && filterType instanceof Type)
@@ -160,11 +159,11 @@ public class DataFilter extends ViewerFilter
          {
             if(PredefinedConstants.STRUCTURED_DATA.equals(typeId))
             {
-               TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(dataType, StructuredDataConstants.TYPE_DECLARATION_ATT);
+               TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration(dataType);
                if(decl != null)
                {
                   return !TypeDeclarationUtils.isEnumeration(decl, false);
-               }                        
+               }
             }
          }
       }
