@@ -125,6 +125,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   {
                      ModelType model = ModelUtils.findContainingModel(element);
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
                   }
                }
             }
