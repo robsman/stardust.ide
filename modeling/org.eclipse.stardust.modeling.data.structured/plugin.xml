@@ -153,6 +153,7 @@
             <and>
                <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
                <test property="com.infinity.properties.metaType" value="struct"/>
+               <test property="com.infinity.properties.structType" value="complex"/>
             </and>
          </enabledWhen>
 		</page>
