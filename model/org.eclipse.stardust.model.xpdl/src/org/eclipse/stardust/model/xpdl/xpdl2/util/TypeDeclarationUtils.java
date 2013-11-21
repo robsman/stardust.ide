@@ -23,9 +23,12 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
@@ -706,13 +709,13 @@ public class TypeDeclarationUtils
          }
       }
    }
-      
+
    public static boolean isEnumeration(TypeDeclarationType decl, boolean isJava)
    {
       int type = TypeDeclarationUtils.COMPLEX_TYPE;
       try
       {
-         type = TypeDeclarationUtils.getType(decl);            
+         type = TypeDeclarationUtils.getType(decl);
       }
       catch(IllegalArgumentException e)
       {
@@ -723,13 +726,39 @@ public class TypeDeclarationUtils
          {
             return true;
          }
-                     
+
          if(ExtendedAttributeUtil.getAttribute(decl, CarnotConstants.CLASS_NAME_ATT) != null)
          {
             return true;
          }
       }
-                  
+
       return false;
-   }   
+   }
+
+   public static TypeDeclarationType findTypeDeclaration(DataType data)
+   {
+      TypeDeclarationType type = null;
+      if (data.getExternalReference() != null)
+      {
+         return type;
+      }
+
+      ModelType model = ModelUtils.findContainingModel(data);
+      String typeId = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);
+      if (StringUtils.isEmpty(typeId))
+      {
+         return type;
+      }
+      else
+      {
+         TypeDeclarationsType declarations = model.getTypeDeclarations();
+         if(declarations != null)
+         {
+            type = declarations.getTypeDeclaration(typeId);
+         }
+      }
+
+      return type;
+   }
 }
