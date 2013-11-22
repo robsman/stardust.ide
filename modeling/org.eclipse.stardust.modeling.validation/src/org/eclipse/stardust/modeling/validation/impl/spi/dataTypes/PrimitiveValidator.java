@@ -28,7 +28,7 @@ import org.eclipse.stardust.modeling.validation.*;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.xsd.XSDEnumerationFacet;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
- 
+
 public class PrimitiveValidator implements IModelElementValidator, IBridgeObjectProvider, AccessPathEvaluationContext.Aware
 {
    private AccessPathEvaluationContext context;
@@ -48,17 +48,18 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
             EObject ref = AttributeUtil.getIdentifiable((IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if (!(ref instanceof TypeDeclarationType) && !element.eIsProxy()) // TODO: validation that proxy elements are resolved
             {
-               return new Issue[] {Issue.error(element, 
-                     Validation_Messages.MSG_NoTypeDeclarationDefined, 
+               return new Issue[] {Issue.error(element,
+                     Validation_Messages.MSG_NoTypeDeclarationDefined,
                      StructuredDataConstants.TYPE_DECLARATION_ATT)};
             }
-            else
+            else if(!element.eIsProxy())
             {
-               String defaultValue = AttributeUtil.getAttributeValue((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT);            
+
+               String defaultValue = AttributeUtil.getAttributeValue((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT);
                if (StringUtils.isEmpty(defaultValue))
                {
-                  return new Issue[] {Issue.error(element, 
-                        Validation_Messages.MSG_NoEnumerationDefaultValue, 
+                  return new Issue[] {Issue.error(element,
+                        Validation_Messages.MSG_NoEnumerationDefaultValue,
                         CarnotConstants.DEFAULT_VALUE_ATT)};
                }
                else
@@ -73,7 +74,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
                         {
                            return Issue.ISSUE_ARRAY;
                         }
-                     }                     
+                     }
                   }
                   return new Issue[] {Issue.error(element, MessageFormat.format(
                         Validation_Messages.MSG_InvalidEnumerationDefaultValue, new Object[] {defaultValue}),
@@ -86,7 +87,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
    }
 
    public BridgeObject getBridgeObject(ITypedElement accessPoint, String accessPath, DirectionType direction) throws ValidationException
-   {      
+   {
       return JavaDataTypeUtils.getBridgeObject(accessPoint, accessPath, direction, context);
    }
 
