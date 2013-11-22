@@ -16,6 +16,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 
@@ -36,7 +37,7 @@ public class StructTypeTester extends PropertyTester
 
             if(metaTypeId.equals(PredefinedConstants.STRUCTURED_DATA))
             {
-               TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration((DataType) receiver);
+               TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) receiver);
                if(decl != null && TypeDeclarationUtils.isEnumeration(decl, false))
                {
                   structType = SIMPLE;
