@@ -19,8 +19,6 @@ import java.util.Set;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.internal.core.BinaryType;
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.common.annotations.ParameterName;
-import org.eclipse.stardust.common.annotations.ParameterNames;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 public class TypeInfo
@@ -51,14 +49,14 @@ public class TypeInfo
          }
       }
    }
-   
+
    public List<MethodInfo> getConstructors() throws JavaModelException
    {
       Map<String, MethodInfo> constructorInfos = CollectionUtils.newMap();
       fetchMethods(constructorInfos, true);
       return CollectionUtils.newList(constructorInfos.values());
    }
-   
+
    public List<FieldInfo> getFields() throws JavaModelException
    {
       List<FieldInfo> fieldInfos = CollectionUtils.newList();
@@ -93,7 +91,7 @@ public class TypeInfo
          {
 				System.err.println(MessageFormat.format(
 						Validation_Messages.CSL_ERR_UNABLE_TO_RESOLVE_CL,
-						new Object[] { superType })); 
+						new Object[] { superType }));
          }
          else
          {
@@ -108,20 +106,20 @@ public class TypeInfo
       IField[] fields = type.getFields();
       for (int i = 0; i < fields.length; i++)
       {
-         IField field = fields[i];         
-         field.getFlags();         
+         IField field = fields[i];
+         field.getFlags();
          String fieldName = field.getElementName();
          String fieldType = field.getTypeSignature();
          String parameterType = resolveSignature(fieldType);
-         FieldInfo info = new FieldInfo(fieldName, parameterType, field.getFlags());            
+         FieldInfo info = new FieldInfo(fieldName, parameterType, field.getFlags());
          if (!names.contains(fieldName))
          {
             names.add(fieldName);
             fieldInfos.add(info);
          }
       }
-   }   
-   
+   }
+
    public List<MethodInfo> getMethods() throws JavaModelException
    {
       Map<String, MethodInfo> methodInfos = CollectionUtils.newMap();
@@ -172,9 +170,9 @@ public class TypeInfo
                && !(method.getElementType() == IMethod.INITIALIZER))
          {
             String methodName = method.getElementName();
-            
+
             String[] parameterNames = getParameterNames(method);
-            
+
             String[] parameterSignatures = method.getParameterTypes();
             String[] parameterTypes = new String[parameterSignatures.length];
             for (int j = 0; j < parameterSignatures.length; j++)
@@ -208,9 +206,24 @@ public class TypeInfo
             for (int c = 0, i = 0; i < names.length && i < parameterNames.length; i++)
             {
                IAnnotation nameAnnotation = names[i];
-               if (matchAnnotation(ParameterName.class, nameAnnotation.getElementName()))
+               if (matchAnnotation("ParameterName", nameAnnotation.getElementName()))
                {
                   parameterNames[c++] = getParameterName(nameAnnotation);
+               }
+            }
+         }
+      }
+      ILocalVariable[] params = method.getParameters();
+      for (int i = 0; i < params.length && i < parameterNames.length; i++)
+      {
+         IAnnotation[] annotations = params[i].getAnnotations();
+         if (annotations != null)
+         {
+            for (IAnnotation annotation : annotations)
+            {
+               if (matchAnnotation("ParameterName", annotation.getElementName()))
+               {
+                  parameterNames[i] = getParameterName(annotation);
                }
             }
          }
@@ -237,8 +250,6 @@ public class TypeInfo
 
    private IAnnotation[] getParameterNamesValues(IAnnotation parameterNamesAnnotation) throws JavaModelException
    {
-      // (fh) this complex checking is required since we're not actually sure that
-      // the annotation is the one we're looking for.
       IMemberValuePair[] values = parameterNamesAnnotation.getMemberValuePairs();
       for (IMemberValuePair pair : values)
       {
@@ -261,7 +272,7 @@ public class TypeInfo
    {
       for (IAnnotation annotation : method.getAnnotations())
       {
-         if (matchAnnotation(ParameterNames.class, annotation.getElementName()))
+         if (matchAnnotation("ParameterNames", annotation.getElementName()))
          {
             return annotation;
          }
@@ -269,10 +280,10 @@ public class TypeInfo
       return null;
    }
 
-   private boolean matchAnnotation(Class<?> clazz, String elementName)
+   private boolean matchAnnotation(String clazz, String elementName)
    {
-      return clazz.getSimpleName().equals(elementName)
-            || clazz.getName().equals(elementName);
+      int ix = elementName.lastIndexOf('.');
+      return clazz.equals(ix < 0 ? elementName : elementName.substring(ix + 1));
    }
 
    private String resolveSignature(String signature) throws JavaModelException
@@ -280,7 +291,7 @@ public class TypeInfo
       String value = Signature.toString(signature);
       return resolve(value);
    }
-   
+
    public String resolve(String value) throws JavaModelException
    {
       String parameterString = null;
@@ -316,21 +327,21 @@ public class TypeInfo
 
    /**
     * Resolves a simple type reference in the context of this type.
-    * 
+    *
     * @param value simple type name
     * @return fully qualified type name
     * @throws JavaModelException
     */
    private String resolveSimpleType(String value) throws JavaModelException
-   {      
+   {
 	  String[][] resolved = null;
-	  //(rp) Workaround for CRNT-13058 
-	  //In any case the resolveType-method returns null for "BinaryTypes" (e.g. Date, String...). 
+	  //(rp) Workaround for CRNT-13058
+	  //In any case the resolveType-method returns null for "BinaryTypes" (e.g. Date, String...).
 	  //But in Eclipse 3.4 this operation is much more time consuming because it uses the same mechanism as
 	  //for the resolution of "SourceTypes" (e.g. CreateSupportData.java) which uses an instance of a SelectionEngine to
 	  //perform a lookup. See "NamedMember.resolveType(String typeName, WorkingCopyOwner owner)".
 	  //This decreases the operation speed of the modeler. So workaround here:
-	  if (!(type instanceof BinaryType)) 
+	  if (!(type instanceof BinaryType))
 	  {
 		  resolved = type.resolveType(value);
 	  }
@@ -447,16 +458,16 @@ public class TypeInfo
          parameterMapping.put(elementName, value.trim());
       }
    }
-   
+
    public boolean implementsInterface(String name)
-   {      
+   {
       ArrayList<TypeInfo> interfaces = new ArrayList<TypeInfo>();
-      
+
       if(getFullName().equals(name))
       {
          return true;
-      }            
-      
+      }
+
       try
       {
          findInterfaces(interfaces, type);
@@ -465,22 +476,22 @@ public class TypeInfo
             if(type.getFullName().equals(name))
             {
                return true;
-            }         
+            }
          }
-         
+
          ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(null);
          IType superType = typeHierarchy.getSuperclass(type);
          TypeInfo superTypeInfo = new TypeInfo(finder, superType, null);
-         
+
          return superTypeInfo.implementsInterface(name);
       }
       catch (Exception exception)
       {
          // ignore
       }
-      
+
       return false;
-   }   
+   }
 
    private void findInterfaces(ArrayList<TypeInfo> list, IType thisType) throws JavaModelException
    {
@@ -502,8 +513,8 @@ public class TypeInfo
             // ignore
          }
       }
-   }   
-      
+   }
+
    public List<TypeInfo> getInterfaces()
    {
       ArrayList<TypeInfo> list = new ArrayList<TypeInfo>();
@@ -524,7 +535,7 @@ public class TypeInfo
       {
          return;
       }
-      
+
       try
       {
          String[] interfaces = baseType.getSuperInterfaceTypeSignatures();
@@ -537,7 +548,7 @@ public class TypeInfo
                if(!list.contains(theType))
                {
                   list.add(theType);
-                  getInterfaces(finder.findExactType(superType), list);                  
+                  getInterfaces(finder.findExactType(superType), list);
                }
             }
             catch (Exception exception)
@@ -549,9 +560,9 @@ public class TypeInfo
       catch (Exception exception)
       {
          // ignore
-      }      
-   }   
-   
+      }
+   }
+
    public boolean isInterface()
    {
       try
@@ -563,7 +574,7 @@ public class TypeInfo
          return false;
       }
    }
-   
+
    public boolean isSameType(String nodeName)
    {
       try
