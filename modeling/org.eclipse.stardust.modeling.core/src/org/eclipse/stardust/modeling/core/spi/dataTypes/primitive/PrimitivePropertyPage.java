@@ -29,6 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
@@ -145,7 +146,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                {
                   super.updateModel(value);
                   ModelType model = ModelUtils.findContainingModel(element);
-                  TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration((DataType) element);
+                  TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
                   if(decl == null || TypeDeclarationUtils.isEnumeration(decl, true))
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
