@@ -144,7 +144,7 @@ public class DataFilter extends ViewerFilter
             }
             else if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
             {
-               TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration(dataType);
+               TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(dataType);
                if(decl != null)
                {
                   return TypeDeclarationUtils.isEnumeration(decl, false);
@@ -159,7 +159,7 @@ public class DataFilter extends ViewerFilter
          {
             if(PredefinedConstants.STRUCTURED_DATA.equals(typeId))
             {
-               TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration(dataType);
+               TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(dataType);
                if(decl != null)
                {
                   return !TypeDeclarationUtils.isEnumeration(decl, false);
