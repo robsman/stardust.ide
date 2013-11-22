@@ -51,6 +51,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ViewType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -127,16 +128,13 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
          }
 
          DataTypeType metaType = ((DataType) model).getType();
-         if(GenericUtils.isStructuredDataType((DataType) model))
+         TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) model);
+         if(decl != null)
          {
-            TypeDeclarationType decl = TypeDeclarationUtils.findTypeDeclaration((DataType) model);
-            if(decl != null)
+            if(TypeDeclarationUtils.isEnumeration(decl, false))
             {
-               if(TypeDeclarationUtils.isEnumeration(decl, false))
-               {
-                  ModelType containingModel = ModelUtils.findContainingModel(model);
-                  metaType = GenericUtils.getDataTypeType(containingModel, PredefinedConstants.PRIMITIVE_DATA);
-               }
+               ModelType containingModel = ModelUtils.findContainingModel(model);
+               metaType = GenericUtils.getDataTypeType(containingModel, PredefinedConstants.PRIMITIVE_DATA);
             }
          }
 
