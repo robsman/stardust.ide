@@ -69,7 +69,8 @@
             <format>${maven.build.timestamp.format}</format>
             <strictVersions>false</strictVersions>
             <timestampProvider>jgit</timestampProvider>
-            <jgit.ignore></jgit.ignore>
+            <jgit.ignore>pom.xml</jgit.ignore>
+            <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
           </configuration>
         </plugin>
       </plugins>
