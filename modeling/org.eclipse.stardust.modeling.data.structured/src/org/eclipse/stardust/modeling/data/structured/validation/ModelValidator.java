@@ -49,7 +49,7 @@ import org.eclipse.xsd.XSDSimpleTypeDefinition;
 public class ModelValidator implements IModelValidator
 {
    private static final Issue[] ISSUE_ARRAY = new Issue[0];
-   
+
    private boolean canResolveExternalReference(String location, IProject project)
    {
       try
@@ -77,10 +77,10 @@ public class ModelValidator implements IModelValidator
             e1.printStackTrace();
          }
       }
-      
+
       return false;
    }
-   
+
    // validate references
    public Issue[] validate(ModelType model) throws ValidationException
    {
@@ -90,14 +90,12 @@ public class ModelValidator implements IModelValidator
       TypeDeclarationsType declarations = model.getTypeDeclarations();
       List<TypeDeclarationType> allDeclarations = declarations.getTypeDeclaration();
       for (TypeDeclarationType declaration : allDeclarations)
-      {         
+      {
          Issue duplicateId = checkTypeDeclaration(declaration, allDeclarations);
          if (duplicateId != null)
          {
             result.add(duplicateId);
          }
-         
-         checkEnumeration(declaration, result);
 
          XpdlTypeType dataType = declaration.getDataType();
          if (dataType instanceof SchemaTypeType || dataType instanceof ExternalReferenceType)
@@ -117,6 +115,7 @@ public class ModelValidator implements IModelValidator
                   }
                }
             }
+
             if (dataType instanceof SchemaTypeType)
             {
                XSDSchema schema = declaration.getSchema();
@@ -149,6 +148,8 @@ public class ModelValidator implements IModelValidator
                         }
                      }
                   }
+
+                  checkEnumeration(declaration, result);
                }
             }
          }
@@ -171,19 +172,19 @@ public class ModelValidator implements IModelValidator
       }
       return null;
    }
-   
+
    private void checkEnumeration(TypeDeclarationType checkDeclaration, List<Issue> result)
-   {      
+   {
       XSDNamedComponent component = TypeDeclarationUtils.getSimpleType(checkDeclaration);
       if (component instanceof XSDSimpleTypeDefinition)
       {
          if(ExtendedAttributeUtil.getAttribute(checkDeclaration, CarnotConstants.CLASS_NAME_ATT) != null)
          {
-            ModelType model = ModelUtils.findContainingModel(checkDeclaration);         
+            ModelType model = ModelUtils.findContainingModel(checkDeclaration);
             String className = ExtendedAttributeUtil.getAttributeValue(checkDeclaration, CarnotConstants.CLASS_NAME_ATT);
 
             if(StringUtils.isEmpty(className))
-            {               
+            {
                result.add(Issue.error(checkDeclaration, Structured_Messages.ERROR_MSG_NO_CLASSNAME));
             }
             else
@@ -194,13 +195,13 @@ public class ModelValidator implements IModelValidator
                   TypeInfo type = finder.findType(className);
                   if (type == null)
                   {
-                     result.add(Issue.error(checkDeclaration, 
-                           MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME, 
+                     result.add(Issue.error(checkDeclaration,
+                           MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME,
                            className)));
                   }
-               }               
+               }
             }
          }
       }
-   }   
+   }
 }
