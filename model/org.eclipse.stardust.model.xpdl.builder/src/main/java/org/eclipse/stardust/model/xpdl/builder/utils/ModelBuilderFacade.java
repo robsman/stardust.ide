@@ -330,6 +330,15 @@ public class ModelBuilderFacade
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String primitiveTypeID, ModeType mode)
    {
+      return createPrimitiveParameter(processInterface, data, id, name, primitiveTypeID, mode, null);
+   }
+   
+   public FormalParameterType createPrimitiveParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String primitiveTypeID, ModeType mode, String structTypeFullID)
+   {
+      String refModelId = null;
+      String structTypeId = null;
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       
       FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
@@ -342,12 +351,33 @@ public class ModelBuilderFacade
       }
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
-      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      if ( !StringUtils.isEmpty(primitiveTypeID))
+      
+      // For Primitive ENUM, create DeclaredTypeType
+      if (StringUtils.isNotEmpty(structTypeFullID))
       {
-      basicType.setType(getPrimitiveType(primitiveTypeID));
+         String[] splittedIds = structTypeFullID.split(":");
+         if (splittedIds.length > 1)
+         {
+            refModelId = splittedIds[0];
+            structTypeId = splittedIds[1];
+         }
+         else
+         {
+            structTypeId = splittedIds[0];
+         }
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
       }
-      dataTypeType.setBasicType(basicType);
+      else
+      {
+         BasicTypeType basicType = xpdlFactory.createBasicTypeType();
+         if ( !StringUtils.isEmpty(primitiveTypeID))
+         {
+            basicType.setType(getPrimitiveType(primitiveTypeID));
+         }
+         dataTypeType.setBasicType(basicType);   
+      }
       parameterType.setDataType(dataTypeType);
       String typeId = PredefinedConstants.PRIMITIVE_DATA;
       dataTypeType.setCarnotType(typeId);
