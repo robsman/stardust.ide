@@ -25,11 +25,10 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
@@ -100,7 +99,7 @@ public class DataValidator implements IModelElementValidator
          }
          else
          {
-            if(ExtendedAttributeUtil.getAttribute(type, CarnotConstants.CLASS_NAME_ATT) != null)
+            if(TypeDeclarationUtils.isEnumeration(type, true))
             {
                issues.add(new Issue(Issue.ERROR, element, Structured_Messages.MSG_TypeDeclarationJavaBoundEnum,
                      StructuredDataConstants.TYPE_DECLARATION_ATT));
