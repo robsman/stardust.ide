@@ -89,14 +89,14 @@ public class Validation_Messages extends NLS
 
    public static String MSG_ClassCanNotBeResolved;
 
-   public static String MSG_NoTypeDeclarationFound;   
+   public static String MSG_NoTypeDeclarationFound;
 
-   public static String MSG_NoTypeDeclarationDefined;    
-   
-   public static String MSG_NoEnumerationDefaultValue;    
+   public static String MSG_NoTypeDeclarationDefined;
 
-   public static String MSG_InvalidEnumerationDefaultValue;       
-   
+   public static String MSG_NoEnumerationDefaultValue;
+
+   public static String MSG_InvalidEnumerationDefaultValue;
+
    public static String MSG_ClassNotSerilizable;
 
    public static String MSG_ConstructorNotVisible;
@@ -465,4 +465,5 @@ public static String Validation_MSG_JNDIPathNotSpecified;
 
    public static String MSG_PERSISTENCE_OPTION_NOT_ALLOWED;
 
+   public static String MSG_TypeDeclarationNotJavaBoundEnum;
 }
