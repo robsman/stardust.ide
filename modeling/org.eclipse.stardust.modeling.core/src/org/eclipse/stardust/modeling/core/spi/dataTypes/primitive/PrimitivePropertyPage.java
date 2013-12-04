@@ -147,15 +147,21 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   super.updateModel(value);
                   ModelType model = ModelUtils.findContainingModel(element);
                   TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
-                  if(decl == null || TypeDeclarationUtils.isEnumeration(decl, true))
+                  if(decl == null)
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                     valueComposite.setEnabled(false);
+                  }
+                  else if(TypeDeclarationUtils.isEnumeration(decl, true))
+                  {
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      valueComposite.setEnabled(true);
                   }
                   else
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
+                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
                      valueComposite.setEnabled(false);
                   }
                }
@@ -343,7 +349,8 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
-   {}
+   {
+   }
 
    public Control createBody(Composite parent)
    {
