@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -24,9 +25,11 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
@@ -38,7 +41,7 @@ public class DataValidator implements IModelElementValidator
    public Issue[] validate(IModelElement element) throws ValidationException
    {
       List<Issue> issues = new ArrayList<Issue>();
-      DataType data = (DataType) element;  
+      DataType data = (DataType) element;
       AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element, "carnot:connection:uri"); //$NON-NLS-1$
       if (data.getExternalReference() != null)
       {
@@ -46,12 +49,12 @@ public class DataValidator implements IModelElementValidator
          return null;
       }
 
-      ModelType model = ModelUtils.findContainingModel(data);            
-      String typeId = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);      
+      ModelType model = ModelUtils.findContainingModel(data);
+      String typeId = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);
       if (StringUtils.isEmpty(typeId))
       {
          issues.add(new Issue(Issue.ERROR, element, Structured_Messages.DataValidator_NoType,
-               StructuredDataConstants.TYPE_DECLARATION_ATT));         
+               StructuredDataConstants.TYPE_DECLARATION_ATT));
       }
       else
       {
@@ -59,7 +62,7 @@ public class DataValidator implements IModelElementValidator
          if(attribute != null)
          {
             String uri = attribute.getValue();
-            URI aRealUri = URI.createURI(uri);            
+            URI aRealUri = URI.createURI(uri);
             Connection connection = (Connection) model.getConnectionManager()
                   .findConnection(uri);
             if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
@@ -69,7 +72,7 @@ public class DataValidator implements IModelElementValidator
                EObject o = model.getConnectionManager().find(
                      aRealUri.scheme().toString() + "://" + aRealUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
                ModelType referencedModel = (ModelType) Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
-               
+
                declarations = referencedModel.getTypeDeclarations();
             }
             else
@@ -79,23 +82,31 @@ public class DataValidator implements IModelElementValidator
          }
          else
          {
-            declarations = model.getTypeDeclarations();            
+            declarations = model.getTypeDeclarations();
          }
-         
+
          TypeDeclarationType type = null;
          if(declarations != null)
          {
             type = declarations.getTypeDeclaration(typeId);
          }
-         
+
          if (type == null)
          {
             String message = Structured_Messages.DataValidator_InvalidType + typeId;
             // TODO: check other types when implemented
             issues.add(new Issue(Issue.WARNING, element, message,
                   StructuredDataConstants.TYPE_DECLARATION_ATT));
-         }         
-      }      
+         }
+         else
+         {
+            if(ExtendedAttributeUtil.getAttribute(type, CarnotConstants.CLASS_NAME_ATT) != null)
+            {
+               issues.add(new Issue(Issue.ERROR, element, Structured_Messages.MSG_TypeDeclarationJavaBoundEnum,
+                     StructuredDataConstants.TYPE_DECLARATION_ATT));
+            }
+         }
+      }
       return issues.toArray(new Issue[issues.size()]);
    }
 }
