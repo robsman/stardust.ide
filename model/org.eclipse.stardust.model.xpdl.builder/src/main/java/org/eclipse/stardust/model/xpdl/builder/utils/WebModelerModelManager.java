@@ -11,23 +11,28 @@
 
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-import java.io.File;
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.xml.transform.TransformerFactory;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.utils.xml.XmlProperties;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.WorkflowModelManager;
 
 public class WebModelerModelManager extends WorkflowModelManager
 {
+   private static final String TRAX_KEY = TransformerFactory.class.getName();
+   
    private WebModelerConnectionManager manager;
-   private ModelType saveModel;
    private ModelManagementStrategy strategy;
 
    public WebModelerModelManager()
@@ -42,7 +47,8 @@ public class WebModelerModelManager extends WorkflowModelManager
 
    public void setModel(ModelType model)
    {
-      saveModel = model;
+      this.model = model;
+      resource = this.model.eResource();
    }
 
    @Override
@@ -60,11 +66,30 @@ public class WebModelerModelManager extends WorkflowModelManager
       super.resolve(model);
    }
 
-   public void save(URI uri) throws IOException
+   @Override
+   public void save(URI uri, OutputStream os) throws IOException
+   {
+      if (resource == null)
+      {
+         // create resource and attach model
+         getResource(uri, false);
+         
+         CarnotWorkflowModelFactory cwmFactory = getFactory();
+         DocumentRoot documentRoot = cwmFactory.createDocumentRoot();
+         resource.getContents().add(documentRoot);
+
+         documentRoot.setModel(model);
+         resolve(model);
+      }
+
+      super.save(uri, os);
+   }
+
+   protected void doSave(OutputStream os) throws IOException
    {
       if (manager == null)
       {
-         manager = (WebModelerConnectionManager) saveModel.getConnectionManager();
+         manager = (WebModelerConnectionManager) model.getConnectionManager();
          if(manager == null)
          {
             manager = new WebModelerConnectionManager(model, strategy);            
@@ -72,7 +97,7 @@ public class WebModelerModelManager extends WorkflowModelManager
       }
       manager.save();
 
-      super.save(uri);
+      super.doSave(os);
    }
 
    public WebModelerConnectionManager getConnectionManager()
@@ -80,32 +105,41 @@ public class WebModelerModelManager extends WorkflowModelManager
       return manager;
    }
 
-   public static ModelType loadModel(File modelXml) throws IOException
+   @Override
+   protected void doLoad(InputStream is) throws IOException
    {
       // optionally override default TraxFactory to get rid of a Xalan related bug of loosing namespace alias declarations
-      final String ippTraxFactory = Parameters.instance().getString(
-            XmlProperties.XSLT_TRANSFORMER_FACTORY);
-
-      final String traxFactoryOverride = System.getProperty(TransformerFactory.class.getName());
+      final String ippTraxFactory = Parameters.instance().getString(XmlProperties.XSLT_TRANSFORMER_FACTORY);
+      final String traxFactoryOverride = System.getProperty(TRAX_KEY);
       try
       {
-         if ( !StringUtils.isEmpty(ippTraxFactory))
+         if (!isEmpty(ippTraxFactory))
          {
-            System.setProperty(TransformerFactory.class.getName(), ippTraxFactory);
+            System.setProperty(TRAX_KEY, ippTraxFactory);
          }
-
-         WorkflowModelManager modelMgr = new WorkflowModelManager();
-
-         modelMgr.load(modelXml);
-
-         return modelMgr.getModel();
+   
+         try
+         {
+            super.doLoad(is);
+         }
+         catch (Exception e)
+         {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
       }
       finally
       {
-         if ( !StringUtils.isEmpty(ippTraxFactory) && !StringUtils.isEmpty(traxFactoryOverride))
+         if (!isEmpty(ippTraxFactory))
          {
-            System.setProperty(TransformerFactory.class.getName(),
-                  traxFactoryOverride);
+            if (isEmpty(traxFactoryOverride))
+            {
+               System.clearProperty(TRAX_KEY);
+            }
+            else
+            {
+               System.setProperty(TRAX_KEY, traxFactoryOverride);
+            }
          }
       }
    }

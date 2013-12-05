@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.data.structured.validation;
 
 import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.IXPathMap;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
@@ -20,7 +21,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
 import org.eclipse.stardust.modeling.validation.util.PathEntry;
@@ -72,7 +72,7 @@ public class StructBridgeObject extends BridgeObject
          result[1] = QNameUtil.toString(xpath.getXsdElementNs(), xpath.getXsdElementName()) ;
       }
       else if (element instanceof DataType || element instanceof AccessPointType)
-      {   
+      {
          TypeDeclarationType declaration = null;
          if(element instanceof DataType)
          {
@@ -91,16 +91,16 @@ public class StructBridgeObject extends BridgeObject
                   {
                      declaration = declarations.getTypeDeclaration(ref.getXref());
                   }
-               }               
-            }            
+               }
+            }
          }
-         
+
          if (declaration == null)
-         {         
+         {
             declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                (IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
          }
-         
+
          if (declaration == null)
          {
             String typeDeclarationId = AttributeUtil.getAttributeValue(
@@ -115,11 +115,11 @@ public class StructBridgeObject extends BridgeObject
                }
             }
          }
-         
+
          if (declaration != null)
          {
             XpdlTypeType dataType = declaration.getDataType();
-            
+
             if (dataType instanceof ExternalReferenceType)
             {
                ExternalReferenceType ref = (ExternalReferenceType) dataType;

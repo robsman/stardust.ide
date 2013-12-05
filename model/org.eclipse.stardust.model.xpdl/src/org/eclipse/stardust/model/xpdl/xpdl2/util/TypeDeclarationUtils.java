@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -39,6 +40,8 @@ public class TypeDeclarationUtils
    public static final int COMPLEX_TYPE = 2;
 
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
+
+   private static Set<String> reservedPrefixes = reserve("xml", "xsd");
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -96,6 +99,19 @@ public class TypeDeclarationUtils
          }
       }
       clone.updateElement(true);
+   }
+
+   private static Set<String> reserve(String... values)
+   {
+      Set<String> reserved = CollectionUtils.newSet();
+      if (values != null)
+      {
+         for (String string : values)
+         {
+            reserved.add(string);
+         }
+      }
+      return reserved;
    }
 
    public static boolean fixImport(TypeDeclarationType typeDeclaration, String newId, String previousId)
@@ -406,18 +422,22 @@ public class TypeDeclarationUtils
          {
             nch = pos;
          }
-         prefix = name.substring(0, nch) + name.substring(pos);
+         prefix = (name.substring(0, nch) + name.substring(pos)).toLowerCase();
+      }
+      if (reservedPrefixes.contains(prefix))
+      {
+         prefix = "px"; //$NON-NLS-1$
       }
       if (usedPrefixes.contains(prefix))
       {
          int counter = 1;
-         while (usedPrefixes.contains(prefix + '_' + counter))
+         while (usedPrefixes.contains(prefix + counter))
          {
             counter++;
          }
-         prefix = prefix + '_' + counter;
+         prefix = prefix + counter;
       }
-      return prefix.toLowerCase();
+      return prefix;
    }
 
    public static void updateImports(XSDSchema xsdSchema, String oldTargetNamespace, String oldId, String id)
@@ -481,9 +501,8 @@ public class TypeDeclarationUtils
       return null;
    }
 
-   public static void removeImport(XSDSchema schema, XSDTypeDefinition type)
+   public static boolean hasImport(XSDSchema schema, TypeDeclarationType type)
    {
-      XSDImport removeImport = null;
       for (XSDSchemaContent content : schema.getContents())
       {
          if (content instanceof XSDImport)
@@ -492,11 +511,29 @@ public class TypeDeclarationUtils
             if (location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
             {
                String typeId = location.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length());
-               if (typeId.equals(type.getName()))
+               if (typeId.equals(type.getId()))
                {
-                  removeImport = (XSDImport) content;
-                  break;
+                  return true;
                }
+            }
+         }
+      }
+      return false;
+   }
+
+   public static XSDImport removeImport(XSDSchema schema, XSDSchema importedSchema)
+   {
+      XSDImport removeImport = null;
+      for (XSDSchemaContent content : schema.getContents())
+      {
+         if (content instanceof XSDImport)
+         {
+            XSDImport xsdImport = (XSDImport) content;
+            if (xsdImport.getResolvedSchema() == importedSchema
+                  && xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+            {
+               removeImport = xsdImport;
+               break;
             }
          }
       }
@@ -504,6 +541,8 @@ public class TypeDeclarationUtils
       {
          schema.getContents().remove(removeImport);
       }
+
+      return removeImport;
    }
 
    public static XSDTypeDefinition getTypeDefinition(TypeDeclarationsType declarations, String name)
@@ -618,6 +657,15 @@ public class TypeDeclarationUtils
    {
       String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
 
+      String prefix = getNamespacePrefix(schema, targetNameSpace);
+      if (prefix != null)
+      {
+         schema.getQNamePrefixToNamespaceMap().remove(prefix);
+      }
+   }
+
+   public static String getNamespacePrefix(XSDSchema schema, String targetNameSpace)
+   {
       String prefix = null;
       for (Map.Entry<String, String> entry : schema.getQNamePrefixToNamespaceMap().entrySet())
       {
@@ -627,9 +675,32 @@ public class TypeDeclarationUtils
             break;
          }
       }
-      if (prefix != null)
+      return prefix;
+   }
+
+   public static void collectAllNamespaces(XSDSchema schema, Map<String, String> qNamePrefixToNamespaceMap)
+   {
+      List<XSDImport> imports = TypeDeclarationUtils.getImports(schema);
+      if(imports != null)
       {
-         schema.getQNamePrefixToNamespaceMap().remove(prefix);
+         for(XSDImport xsdImport : imports)
+         {
+            if (xsdImport.getSchemaLocation().startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
+            {
+               XSDSchema importetSchema = xsdImport.getResolvedSchema();
+               if(importetSchema != null)
+               {
+                  String targetNamespace = importetSchema.getTargetNamespace();
+                  String namespacePrefix = TypeDeclarationUtils.getNamespacePrefix(importetSchema, targetNamespace);
+
+                  if(!qNamePrefixToNamespaceMap.containsValue(targetNamespace))
+                  {
+                     qNamePrefixToNamespaceMap.put(namespacePrefix, targetNamespace);
+                     collectAllNamespaces(importetSchema, qNamePrefixToNamespaceMap);
+                  }
+               }
+            }
+         }
       }
    }
 }

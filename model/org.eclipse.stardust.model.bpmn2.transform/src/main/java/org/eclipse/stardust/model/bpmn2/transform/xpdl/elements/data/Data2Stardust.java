@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.reader.ModelInfo;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
@@ -35,8 +36,10 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
+import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.xsd.XSDSchema;
 
 public class Data2Stardust extends AbstractElement2Stardust {
 
@@ -47,39 +50,100 @@ public class Data2Stardust extends AbstractElement2Stardust {
     }
 
     public void addItemDefinition(ItemDefinition itemdef) {
-        if (itemdef.getStructureRef() == null) {
-        	logger.info("No structure reference for item definition " + itemdef);
-        	return;
-        }
 
-        Definitions defs = ModelInfo.getDefinitions(itemdef);
-        URI uri = getDataStructureURI(itemdef, defs);
-        if (isXsdType(uri)) {
+    	Definitions defs = ModelInfo.getDefinitions(itemdef);
+    	TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
+    	XSDSchema embedded = ExtensionHelper2.getInstance().getEmbeddedSchemaExtension(itemdef);
+
+    	String defId = itemdef.getId();
+
+    	URI uri = getDataStructureURI(itemdef, defs);
+    	if (null == uri) return; // ignore type-definition if no uri is available // uri = URI.createURI("");
+    	String uriFragment = uri.fragment();
+
+    	if (isXsdType(uri)) {
         	// no need to declare primitive types (if they were all mapped...)
         	return;
+        } else if (null != embedded) {
+        	SchemaTypeType schemaType = XpdlFactory.eINSTANCE.createSchemaTypeType();
+            schemaType.setSchema(embedded);
+            declaration.setSchemaType(schemaType);
+        } else {
+	        URI baseUri = null;
+	        if (null != uri) {
+	        	baseUri = uri.trimFragment();
+	        }
+
+	        Import imprt = ImportHelper.findImportForLocation((Definitions)itemdef.eContainer(), baseUri);
+	        ExternalReferenceType extReference;
+	        extReference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+	        if (imprt != null) {
+	            extReference.setLocation(imprt.getLocation());
+	            extReference.setNamespace(imprt.getNamespace());
+	            extReference.setXref("{"+imprt.getNamespace()+"}"+uriFragment);
+	            declaration.setExternalReference(extReference);
+	        }
         }
-
-        URI baseUri = uri.trimFragment();
-        String uriFragment = uri.fragment();
-        String defId = itemdef.getId();
-
-        Import imprt = ImportHelper.findImportForLocation((Definitions)itemdef.eContainer(), baseUri);
-
-        ExternalReferenceType extReference;
-        extReference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-        if (imprt != null) {
-            extReference.setLocation(imprt.getLocation());
-            extReference.setNamespace(imprt.getNamespace());
-            extReference.setXref("{"+imprt.getNamespace()+"}"+uriFragment);
-        }
-
-        TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
-        declaration.setExternalReference(extReference);
-        declaration.setId(defId);
-        declaration.setName(getName(itemdef, uriFragment));
-
+		declaration.setId(defId);
+		declaration.setName(getName(itemdef, uriFragment));
         carnotModel.getTypeDeclarations().getTypeDeclaration().add(declaration);
     }
+
+//    public void addItemDefinition(ItemDefinition itemdef) {
+//    	// TODO handle embedded schema
+//    	XSDSchema embedded = ExtensionHelper.getInstance().getEmbeddedSchemaExtension(itemdef);
+//        if (null != embedded) {
+//
+//        	SchemaTypeType schemaType = XpdlFactory.eINSTANCE.createSchemaTypeType();
+////            XSDSchema dummy = XSDSchemaBuildingTools.getXSDFactory().createXSDSchema();
+//            schemaType.setSchema(embedded);
+//
+//            TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
+//
+//            declaration.setSchemaType(schemaType);
+//            declaration.setId(defId);
+//            declaration.setName(getName(itemdef, uriFragment));
+//
+//            carnotModel.getTypeDeclarations().getTypeDeclaration().add(declaration);
+//        	return;
+//        }
+//
+//        Definitions defs = ModelInfo.getDefinitions(itemdef);
+//        URI uri = getDataStructureURI(itemdef, defs);
+//        if (isXsdType(uri)) {
+//        	// no need to declare primitive types (if they were all mapped...)
+//        	return;
+//        }
+//
+//        URI baseUri = null;
+//        if (null != uri) {
+//        	baseUri = uri.trimFragment();
+//        }
+//        else {
+//        	baseUri = URI.createURI("");
+//        	uri = URI.createURI("");
+//        }
+//
+//        String uriFragment = uri.fragment();
+//        String defId = itemdef.getId();
+//
+//        Import imprt = ImportHelper.findImportForLocation((Definitions)itemdef.eContainer(), baseUri);
+//
+//        ExternalReferenceType extReference;
+//        extReference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+//        if (imprt != null) {
+//            extReference.setLocation(imprt.getLocation());
+//            extReference.setNamespace(imprt.getNamespace());
+//            extReference.setXref("{"+imprt.getNamespace()+"}"+uriFragment);
+//        }
+//
+//        TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
+//        declaration.setExternalReference(extReference);
+//        declaration.setId(defId);
+//        declaration.setName(getName(itemdef, uriFragment));
+//
+//        carnotModel.getTypeDeclarations().getTypeDeclaration().add(declaration);
+//    }
 
     public void addDataObject(DataObject dataObject) {
         if (dataObject == null) return;
@@ -97,7 +161,7 @@ public class Data2Stardust extends AbstractElement2Stardust {
         return addVariable(data, getName(data));
     }
 
-    private DataType addVariable(ItemAwareElement dataObject, String name) {
+    protected DataType addVariable(ItemAwareElement dataObject, String name) {
         if (refersToPrimitiveType(dataObject)) {
         	return addPrimitiveVariable(dataObject, name);
         } else {
@@ -105,7 +169,7 @@ public class Data2Stardust extends AbstractElement2Stardust {
         }
 	}
 
-    private DataType addStructuredVariable(ItemAwareElement data, String name) {
+    protected DataType addStructuredVariable(ItemAwareElement data, String name) {
         BpmStructVariableBuilder builder = BpmModelBuilder.newStructVariable(carnotModel);
         builder.setTypeDeclarationModel(carnotModel);
         String typeId = getTypeId(data);
@@ -122,7 +186,7 @@ public class Data2Stardust extends AbstractElement2Stardust {
         return dataType;
     }
 
-    private DataType addPrimitiveVariable(ItemAwareElement data, String name) {
+    protected DataType addPrimitiveVariable(ItemAwareElement data, String name) {
 
     	URI uri = getDataStructureURI(data);
         if (uri == null) return null;
@@ -147,37 +211,38 @@ public class Data2Stardust extends AbstractElement2Stardust {
     	return variable;
     }
 
-    private boolean refersToPrimitiveType(ItemAwareElement data) {
+    protected boolean refersToPrimitiveType(ItemAwareElement data) {
         URI typeUri = getDataStructureURI(data);
         if (typeUri == null) return false;
         return isXsdType(typeUri);
     }
 
-    private boolean isXsdType(URI typeUri) {
+    protected boolean isXsdType(URI typeUri) {
     	if (typeUri == null) return false;
     	URI baseUri = typeUri.trimFragment();
         return baseUri.toString().equals(XML_SCHEMA_URI);
     }
 
-    private URI getDataStructureURI(ItemAwareElement data) {
+    protected URI getDataStructureURI(ItemAwareElement data) {
     	if (data == null) return null;
     	ItemDefinition itemDef = data.getItemSubjectRef();
     	Definitions defs = ModelInfo.getDefinitions(data);
         return getDataStructureURI(itemDef, defs);
     }
 
-    private URI getDataStructureURI(ItemDefinition itemDef, Definitions defs) {
+    protected URI getDataStructureURI(ItemDefinition itemDef, Definitions defs) {
     	if (itemDef == null) return null;
     	if (itemDef.eIsProxy()) {
     		itemDef = Bpmn2ProxyResolver.resolveItemDefinition(itemDef, defs);
     	}
+    	if (null == itemDef) return null;
     	EObject structureRef = (EObject)itemDef.getStructureRef();
     	if (structureRef == null) return null;
 
         return ((InternalEObject)structureRef).eProxyURI();
     }
 
-    private String getTypeId(ItemAwareElement data) {
+    protected String getTypeId(ItemAwareElement data) {
         String typeId =
                 data.getItemSubjectRef() != null
                 ? (data.getItemSubjectRef().eIsProxy())

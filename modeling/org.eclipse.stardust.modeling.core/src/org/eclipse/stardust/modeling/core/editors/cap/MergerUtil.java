@@ -58,6 +58,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
@@ -891,5 +892,36 @@ public class MergerUtil
       }            
       
       return null;
+   }
+
+   public static ModelVariable findModelVariable(List<ModelVariable> list, ModelVariable var)
+   {
+      for(ModelVariable variable : list)
+      {
+         if(variable.getName().equals(var.getName()))
+         {
+            return variable;
+         }         
+      }
+      return null;
+   }
+   
+   public static List<ModelVariable> findMergedVariables(List<ModelVariable> oldList,List<ModelVariable> newList)
+   {
+      List<ModelVariable> merged = new ArrayList<ModelVariable>();
+      
+      if(newList.size() != oldList.size())
+      {
+         for(ModelVariable variable : newList)
+         {
+            if(findModelVariable(oldList, variable) == null)
+            {
+               merged.add(variable);
+            }
+            
+         }         
+      }
+      
+      return merged;
    }
 }

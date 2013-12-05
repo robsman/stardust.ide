@@ -51,9 +51,18 @@ public class MailValidator implements IModelElementValidator
          checkProperty(application, PredefinedConstants.TO_ADDRESS,
                MailConstants.DEFAULT_MAIL_TO, Mail_Messages.TXT_NO_RECEIVER_MAIL_ADDRESS_SPECIFIED,
                result);
-         checkProperty(application, PredefinedConstants.MAIL_SERVER,
-               MailConstants.DEFAULT_MAIL_SERVER, Mail_Messages.TXT_NO_MAIL_SERVER_SPECIFIED,
-               result);
+         
+         //only one must exist
+         List<Issue> tmpResult = CollectionUtils.newList();
+           checkProperty(application, PredefinedConstants.MAIL_SERVER,
+                 MailConstants.DEFAULT_MAIL_SERVER, Mail_Messages.TXT_NO_MAIL_SERVER_SPECIFIED,
+                 tmpResult);
+           checkProperty(application, PredefinedConstants.JNDI_SESSION,
+                 MailConstants.DEFAULT_JNDI_SESSION, Mail_Messages.TXT_NO_JNDI_SESSION_SPECIFIED,
+                 tmpResult);
+           if (tmpResult.size() >= 2) {
+           result.addAll(tmpResult);
+         }
          
          validateMailAddress(application, MailConstants.DEFAULT_MAIL_FROM, result);
          validateMailAddress(application, MailConstants.DEFAULT_MAIL_TO, result);

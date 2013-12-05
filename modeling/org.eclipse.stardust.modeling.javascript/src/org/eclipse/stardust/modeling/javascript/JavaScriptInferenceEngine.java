@@ -540,29 +540,29 @@ public class JavaScriptInferenceEngine extends InferEngine
           String[] parameterTypes = {}; 
           List methods = typeInfo.getMethods();         
           if (className.endsWith("ActivityInstance")) { //$NON-NLS-1$
-             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, "J", "long", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             MethodInfo mi = new MethodInfo(false, "getAge", parameterSignatures, parameterTypes, null, "J", "long", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
           }
           if (className.endsWith("Activity")) {             //$NON-NLS-1$
-             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, "Ljava.lang.String;", "java.lang.String", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             MethodInfo mi = new MethodInfo(false, "getMeasure", parameterSignatures, parameterTypes, null, "Ljava.lang.String;", "java.lang.String", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, "J", "long", true);        //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetMeasureQuantity", parameterSignatures, parameterTypes, null, "J", "long", true);        //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, "I", "int", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getDifficulty", parameterSignatures, parameterTypes, null, "I", "int", true); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetProcessingTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetIdleTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetWaitingTime", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetQueueDepth", parameterSignatures, parameterTypes, null, "J", "long", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);
-             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetCostPerExecution", parameterSignatures, parameterTypes, null, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);             
-             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getTargetCostPerSecond", parameterSignatures, parameterTypes, null, "D", "double", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi); 
-             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, "B", "boolean", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             mi = new MethodInfo(false, "getResourcePerformanceCalculation", parameterSignatures, parameterTypes, null, "B", "boolean", true);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              methods.add(mi);    
           }
           for (int m = 0; m < methods.size(); m++)
@@ -856,9 +856,12 @@ public class JavaScriptInferenceEngine extends InferEngine
                              }
                              else
                              {
-                                dataType = (DataType) ModelUtils
-                                   .findIdentifiableElement(model.getData(), name);
-                                CodeCompletionHelper.getInstance().getTypeMap().put(name, dataType);
+                              dataType = (DataType) ModelUtils.findIdentifiableElement(
+                                    model.getData(), name);
+                              CodeCompletionHelper.getInstance()
+                                    .getTypeMap()
+                                    .put(name, dataType);
+
                              }
                          }
 
@@ -868,14 +871,21 @@ public class JavaScriptInferenceEngine extends InferEngine
                          }
                          else
                          {
-                            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(model,
+                            ModelType referModel = model;
+                            String[] namePath = targetTypeName.split("/");
+                            if (!model.getId().equals(namePath[0]) && namePath.length > 1)
+                            {
+                               referModel = ModelUtils.getExternalModel(model, namePath[0]);
+                               targetTypeName = namePath[1];
+                            }
+                            IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(referModel,
                                   targetTypeName);
                             accessPoint = new StructAccessPointType(xPathMap.getRootXPath(),
                                   xPathMap);
                             ((StructAccessPointType) accessPoint).setId(targetTypeName);
                             ((StructAccessPointType) accessPoint)
                                   .setType((DataTypeType) ModelUtils.findIdentifiableElement(
-                                        model.getDataType(), "struct"));                         //$NON-NLS-1$
+                                        referModel.getDataType(), "struct"));                         //$NON-NLS-1$
                          }
                          inferredIppAccessPointsByType.put(targetTypeName, accessPoint);
                       }
@@ -1234,7 +1244,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
       JSAssignment ass = new JSAssignment(assignment.lhs, assignment.expression, assignment.sourceEnd);
       ass.bits = assignment.bits;
       ass.constant = assignment.constant;
-      ass.implicitConversion = assignment.implicitConversion;
+      // ass.implicitConversion = assignment.implicitConversion;
       ass.resolvedType = assignment.resolvedType;
       ass.sourceEnd = assignment.sourceEnd;
       ass.sourceStart = assignment.sourceStart;
@@ -1251,7 +1261,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
          fr.binding = fieldReference.binding;
          fr.bits = fieldReference.bits;
          fr.constant = fieldReference.constant;
-         fr.implicitConversion = fieldReference.implicitConversion;
+         // fr.implicitConversion = fieldReference.implicitConversion;
          fr.nameSourcePosition = fieldReference.nameSourcePosition;
          fr.receiver = fieldReference.receiver;
          fr.receiverType = fieldReference.receiverType;
@@ -1276,7 +1286,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
           fr.binding = fieldReference.binding;
           fr.bits = fieldReference.bits;
           fr.constant = fieldReference.constant;
-          fr.implicitConversion = fieldReference.implicitConversion;
+          // fr.implicitConversion = fieldReference.implicitConversion;
           fr.nameSourcePosition = fieldReference.nameSourcePosition;
           fr.receiver = fieldReference.receiver;
           fr.receiverType = fieldReference.receiverType;
@@ -1298,7 +1308,7 @@ synchronized private InferredType getInferredTypeFromXPath(TypedXPath xPath)
        ArrayReference fr = new JSArrayReference(fieldReference.receiver, fieldReference.position);        
        fr.bits = fieldReference.bits;
        fr.constant = fieldReference.constant;
-       fr.implicitConversion = fieldReference.implicitConversion;
+       // fr.implicitConversion = fieldReference.implicitConversion;
        fr.receiver = fieldReference.receiver;        
        fr.resolvedType = fieldReference.resolvedType;
        fr.sourceEnd = fieldReference.sourceEnd;

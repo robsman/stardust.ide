@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.DEFAULT_CONTEXT;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
@@ -23,18 +24,15 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimiti
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransition;
 
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
+import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,15 +74,60 @@ public class ModelBuilderTest
    @Test
    public void verifyStringVariable()
    {
-      DataType aString = XpdlModelUtils.findElementById(model.getData(), "aString");
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
 
       assertNotNull(aString);
       assertTrue(aString.isSetElementOid());
    }
+   
+   @Test
+   public void verifyIdGeneration1()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, "jumbo", "jet", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "jet", param.getId());
+      assertEquals("Name", "jet", param.getName());
+   }
+
+   @Test
+   public void verifyIdGeneration2()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, "jumbo", "  ", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "jumbo", param.getId());
+      assertEquals("Name", "jumbo", param.getName());
+   }
+
+   @Test
+   public void verifyIdGeneration3()
+   {
+      ProcessDefinitionType pd = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      assertNotNull("Process definition not found", pd);
+      
+      DataType aString = ModelUtils.findElementById(model.getData(), "aString");
+      assertNotNull("Data not found", aString);
+      
+      ModelBuilderFacade mb = new ModelBuilderFacade();
+      FormalParameterType param = mb.createPrimitiveParameter(pd, aString, " ", " ", ModelerConstants.STRING_PRIMITIVE_DATA_TYPE, ModeType.IN);
+      assertEquals("Id", "FormalParameter1", param.getId());
+      assertEquals("Name", "FormalParameter 1", param.getName());
+   }
 
    public static void assignMissingElementOids(ModelType model)
    {
-      long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+      long maxElementOid = ModelUtils.getMaxUsedOid(model);
 
       if ( !model.isSetOid())
       {

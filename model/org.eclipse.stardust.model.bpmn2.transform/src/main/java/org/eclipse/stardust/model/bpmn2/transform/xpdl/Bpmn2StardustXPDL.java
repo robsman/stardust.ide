@@ -24,16 +24,20 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
+import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
+import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Import;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -45,7 +49,10 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Resource;
+import org.eclipse.bpmn2.ScriptTask;
+import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -55,12 +62,15 @@ import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
 import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.CallActivity2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.GlobalTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.ScriptTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.SendAndReceiveTask2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.ServiceTask2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.UserTask2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.Resource2Stardust;
@@ -69,7 +79,9 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.ProcessS
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingSequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.DataStore2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.ProcessParam2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
@@ -85,7 +97,6 @@ import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
@@ -97,6 +108,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 /**
  * @author Simon Nikles
  *
@@ -137,7 +149,7 @@ public class Bpmn2StardustXPDL implements Transformator {
         false, TimerTriggerValidator.class);
         initializer.initializeInteractionContextTypes(carnotModel);
 
-        if (null == XpdlModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
+        if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
 	        TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
 	        typeDef.setId(PredefinedConstants.JMS_TRIGGER);
 	        typeDef.setName("JMS Trigger");
@@ -147,7 +159,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 	        carnotModel.getTriggerType().add(typeDef);
     	}
 
-        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
+        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
         {
            ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
            typeDef.setId(PredefinedConstants.APPLICATION_CONTEXT);
@@ -158,7 +170,7 @@ public class Bpmn2StardustXPDL implements Transformator {
            typeDef.setHasMappingId(false);
            carnotModel.getApplicationContextType().add(typeDef);
         }
-        if (null == XpdlModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
+        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
         {
            ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
            typeDef.setId(PredefinedConstants.JSF_CONTEXT);
@@ -267,6 +279,12 @@ public class Bpmn2StardustXPDL implements Transformator {
         new Gateway2Stardust(carnotModel,failures).addParallelGateway(gateway, container);
     }
 
+	@Override
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+        logger.debug("addParallelGateway" + gateway.getId() + " " + gateway.getName());
+        new Gateway2Stardust(carnotModel,failures).addInclusiveGateway(gateway, container);
+	}
+
     public void addPartnerEntity(PartnerEntity entity) {
     	logger.debug("addPartnerEntity " + entity);
         newOrganization(carnotModel)
@@ -331,12 +349,18 @@ public class Bpmn2StardustXPDL implements Transformator {
         new Data2Stardust(carnotModel, failures).addDataObject(dataObject);
     }
 
-    public void addDataObjectReference(DataObjectReference flowElement, FlowElementsContainer container) {
+	@Override
+	public void addDataStore(DataStore data) {
+    	logger.debug("addDataStore " + data.getId());
+        new DataStore2Stardust(carnotModel, failures).addDataStore(data);
+	}
 
+    public void addDataObjectReference(DataObjectReference flowElement, FlowElementsContainer container) {
+    	// NOP
     }
 
     public void addDataStoreReference(DataStoreReference flowElement, FlowElementsContainer container) {
-
+    	// NOP
     }
 
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container) {
@@ -351,7 +375,7 @@ public class Bpmn2StardustXPDL implements Transformator {
     @SuppressWarnings("unused")
     private static DescriptionType getDescription(String description) {
         DescriptionType descriptor = AbstractElementBuilder.F_CWM.createDescriptionType();
-        XpdlModelUtils.setCDataString(descriptor.getMixed(), description, true);
+        ModelUtils.setCDataString(descriptor.getMixed(), description, true);
         return descriptor;
     }
 
@@ -365,6 +389,12 @@ public class Bpmn2StardustXPDL implements Transformator {
 	public void addResource(Resource resource) {
 		logger.debug("addResource " + resource);
 		new Resource2Stardust(carnotModel, failures).addResource(resource);
+	}
+
+	@Override
+	public void addResourceRelations(Resource resource) {
+		logger.debug("addResourceRelations " + resource);
+		new Resource2Stardust(carnotModel, failures).addResourceRelations(resource);
 	}
 
 	@Override
@@ -406,7 +436,7 @@ public class Bpmn2StardustXPDL implements Transformator {
      */
     @Deprecated
     private static void assignMissingElementOids(ModelType model) {
-        long maxElementOid = XpdlModelUtils.getMaxUsedOid(model);
+        long maxElementOid = ModelUtils.getMaxUsedOid(model);
 
         if (!model.isSetOid()) {
             model.setOid(++maxElementOid);
@@ -419,5 +449,40 @@ public class Bpmn2StardustXPDL implements Transformator {
             }
         }
     }
+
+	@Override
+	public void addCallActivity(CallActivity caller, FlowElementsContainer container) {
+		new CallActivity2Stardust(carnotModel, failures).addCallActivity(caller, container);
+	}
+
+	@Override
+	public void addGlobalCall(CallActivity caller, FlowElementsContainer container) {
+		new CallActivity2Stardust(carnotModel, failures).addGlobalCall(caller, container);
+	}
+
+	@Override
+	public void addProcessParameters(Process process) {
+		new ProcessParam2Stardust(carnotModel, failures).addProcessParams(process);
+	}
+
+	@Override
+	public void addGlobalUserTask(GlobalUserTask global, Definitions defs) {
+		new GlobalTask2Stardust(carnotModel, failures).addGlobalUserTask(global, defs);
+	}
+
+	@Override
+	public void addSendTask(SendTask activity, FlowElementsContainer container) {
+		new SendAndReceiveTask2Stardust(carnotModel, failures).addSendTask(activity, container);
+	}
+
+	@Override
+	public void addReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
+		new SendAndReceiveTask2Stardust(carnotModel, failures).addReceiveTask(activity, container);
+	}
+
+	@Override
+	public void addScriptTask(ScriptTask activity, FlowElementsContainer container) {
+		new ScriptTask2Stardust(carnotModel, failures).addScriptTask(activity, container);
+	}
 
 }

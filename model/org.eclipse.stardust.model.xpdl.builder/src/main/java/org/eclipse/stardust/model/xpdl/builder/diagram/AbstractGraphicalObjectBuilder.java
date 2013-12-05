@@ -11,11 +11,11 @@
 package org.eclipse.stardust.model.xpdl.builder.diagram;
 
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -97,7 +97,7 @@ public abstract class AbstractGraphicalObjectBuilder<T extends IGraphicalObject,
          {
             this.container = container;
 
-            ModelType containingModel = XpdlModelUtils.findContainingModel(container);
+            ModelType containingModel = ModelUtils.findContainingModel(container);
             if (null != containingModel)
             {
                setModel(containingModel);
@@ -129,7 +129,7 @@ public abstract class AbstractGraphicalObjectBuilder<T extends IGraphicalObject,
 
    protected void setModelElement(IModelElement modelElement)
    {
-      ModelType containingModel = XpdlModelUtils.findContainingModel(modelElement);
+      ModelType containingModel = ModelUtils.findContainingModel(modelElement);
       if (null != containingModel)
       {
          setModel(containingModel);

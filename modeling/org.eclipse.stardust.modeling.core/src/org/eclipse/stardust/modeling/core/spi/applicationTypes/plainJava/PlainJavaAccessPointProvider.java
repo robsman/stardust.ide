@@ -10,27 +10,17 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.plainJava;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.constants.PlainJavaConstants;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaAccessPointType;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaApplicationTypeHelper;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPointProvider;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
+import org.eclipse.stardust.model.xpdl.carnot.util.*;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
@@ -51,9 +41,9 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     * @return All calculated {@link AccessPointType}s. An empty list if no access points
     *         could be calculated.
     */
-   public List createIntrinsicAccessPoint(IModelElement element)
+   public List<AccessPointType> createIntrinsicAccessPoint(IModelElement element)
    {
-      List result = Collections.EMPTY_LIST;
+      List<AccessPointType> result = Collections.emptyList();
 
       if (element instanceof IExtensibleElement)
       {
@@ -97,7 +87,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     * @return All calculated {@link AccessPointType}s. An empty list if no access points
     *         could be calculated.
     */
-   public static List getIntrinsicAccessPoints(IExtensibleElement element,
+   public static List<AccessPointType> getIntrinsicAccessPoints(IExtensibleElement element,
          String className, String methodName, String constructorName,
          DirectionType direction, String hint, boolean paramsOnly)
    {
@@ -127,11 +117,11 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     * @return All calculated {@link AccessPointType}s. An empty list if no access points
     *         could be calculated.
     */
-   public static List getIntrinsicAccessPoints(IExtensibleElement element,
+   public static List<AccessPointType> getIntrinsicAccessPoints(IExtensibleElement element,
          String fullClassName, String methodName, boolean usedForObjectCreation,
          String constructorName, DirectionType direction, String hint, boolean paramsOnly)
    {
-      final ArrayList accessPoints = new ArrayList();
+      List<AccessPointType> accessPoints = CollectionUtils.newList();
 
       if (element != null)
       {
@@ -155,11 +145,9 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                   // get all methods from the type and add parameter access points and
                   // possibly method access points
                   String fragmentName = getFragmentNameFilter(hint);
-                  List methods = finder.getMethods(type, fragmentName);
-                  for (int i = 0; i < methods.size(); i++)
+                  List<MethodInfo> methods = finder.getMethods(type, fragmentName);
+                  for (MethodInfo method : methods)
                   {
-                     MethodInfo method = (MethodInfo) methods.get(i);
-                     
                      if (methodName != null)
                      {
                         String compactMethodName = StringUtils
@@ -188,14 +176,13 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                         .replace(constructorName, ", ", ","); //$NON-NLS-1$ //$NON-NLS-2$
 
                      // get all constructors from type and add parameter access points
-                     List constructors = finder.getConstructors(type);
-                     for (int i = 0; i < constructors.size(); i++)
+                     List<MethodInfo> constructors = finder.getConstructors(type);
+                     for (MethodInfo ctor : constructors)
                      {
-                        MethodInfo method = (MethodInfo) constructors.get(i);
-                        if (method.getEncoded().equals(compactCtorName)
-                              && method.isAccessible())
+                        if (ctor.getEncoded().equals(compactCtorName)
+                              && ctor.isAccessible())
                         {
-                           addParameterAccessPoints(method, accessPoints, direction,
+                           addParameterAccessPoints(ctor, accessPoints, direction,
                                  dataType, paramsOnly);
                         }
                      }
@@ -240,7 +227,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     *           Only the parameter of the method are considered.
     */
    public static void addParameterAccessPoints(MethodInfo method,
-         final ArrayList accessPoints, DirectionType direction, DataTypeType dataType,
+         List<AccessPointType> accessPoints, DirectionType direction, DataTypeType dataType,
          boolean paramsOnly)
    {
       String prefix = method.isUsedForObjectCreation()
@@ -251,11 +238,18 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
       {
          for (int i = 0; i < method.getParameterCount(); i++)
          {
-            String humanName = method.getParameterName(i);
-            String paramName = humanName.toLowerCase().charAt(0) + prefix + (i + 1);
+            String paramLabel = method.getParameterLabel(i);
+            String paramName = method.getParameterName(i);
+            String paramId = paramName.toLowerCase().charAt(0) + prefix + (i + 1);
+            if (paramName.equals(paramLabel))
+            {
+               paramLabel = paramId;
+            }
             AccessPointType accessPoint = AccessPointUtil.createIntrinsicAccessPoint(
-                  paramName,//
-                  paramName + " : " + humanName, method.getParameterType(i), //$NON-NLS-1$
+                  paramId,//
+                  // TODO:
+                  paramLabel + " : " + paramName,
+                  method.getParameterType(i), //$NON-NLS-1$
                   DirectionType.IN_LITERAL,//
                   false,//
                   new String[] {
@@ -295,7 +289,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     *           The type of the access point to create.
     */
    public static void addMethodAccessPoint(MethodInfo method,
-         final ArrayList accessPoints, DirectionType direction, DataTypeType dataType)
+         List<AccessPointType> accessPoints, DirectionType direction, DataTypeType dataType)
    {
       if (method.getParameterCount() == 0)
       {

@@ -12,18 +12,12 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.BitSet;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -42,13 +36,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -63,8 +51,8 @@ public class MessageAdditionDialog extends Dialog implements ModifyListener {
   private String messageName;
   private List messageTypes;
   private String preset;
-  private List allMessageTypes = new ArrayList();
-  private List typeFilters = new ArrayList();
+  private List<AccessPointType> allMessageTypes = new ArrayList<AccessPointType>();
+  private List<ViewerFilter> typeFilters = new ArrayList<ViewerFilter>();
  
   
 private Combo messageCombo;
@@ -94,7 +82,7 @@ private DirectionType directionType;
 	allMessageTypes.addAll(controller.getTargetMessageTypes());
 	typeFilters.add(new StructuredTypesFilter());
 	typeFilters.add(new PrimitivesFilter());
-	if (!controller.isSimpleMode()) {
+	if (!controller.isSimpleMode() || controller.isWithSerializable()) {
 		typeFilters.add(new SerializableFilter());	
 	}	
   }
@@ -209,72 +197,108 @@ private DirectionType directionType;
     parent.getShell().setText(Modeling_Messages.TXT_ADD + controller.getNameString());
     return comp;
   }
+  
+   private static final int SELECTION_CHANGED_FLAG = 0;
+   private static final int MANUAL_SET_NAME_FLAG = 1;
 
-private void initCombos()
-{   
-   messageComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+   private void initCombos()
+   {
+      final BitSet flags = new BitSet(2);
 
-		public void selectionChanged(SelectionChangedEvent event) {			
-			IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-			if (!selection.isEmpty()) {
-	            messageType = (AccessPointType) selection.getFirstElement();
-	            String text = messageType.getId();
-	            int n = 1;
-	            while ( isAccessPointIdDefined(text + n) )
-	            {
-	               n++;
-	            }
-	            text = text + n;
-	            messageNameText.setText(text);
-	            messageNameText.setSelection(0, messageNameText.getText().length());               			   
-			}
-			buttonEnablement();
-		}
-    	
-    });
-   
-    dataTypeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-      public void selectionChanged(SelectionChangedEvent event)
+      messageNameText.addModifyListener(new ModifyListener()
       {
-         IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-         selectedFilter = (ViewerFilter) selection.getFirstElement();
-         messageComboViewer.setFilters(new ViewerFilter[]{selectedFilter});
-         if (selectedFilter instanceof SerializableFilter) 
+         public void modifyText(ModifyEvent event)
          {
-        	 stack.topControl = classBrowseComposite;          	         	            
-         } else {
-        	 stack.topControl = structPrimComposite;      	 
+            if (!flags.get(SELECTION_CHANGED_FLAG))
+            {
+               if (flags.get(MANUAL_SET_NAME_FLAG))
+               {
+                  if (messageNameText.getText().isEmpty())
+                  {
+                     flags.clear(MANUAL_SET_NAME_FLAG);
+                  }
+               }
+               else
+               {
+                  flags.set(MANUAL_SET_NAME_FLAG);
+               }
+            }
          }
-         messageComposite.setText(Modeling_Messages.TXT_SEL + selectedFilter.toString());
-    	 messageComposite.layout();
-      }
-       
-    });
-          
-    messageComboViewer.setInput(controller.getAvailableMessageTypes());
-    messageComboViewer.addSelectionChangedListener(new ISelectionChangedListener(){
+      });
 
-		public void selectionChanged(SelectionChangedEvent event) {
-			if (event.getSelection() instanceof IStructuredSelection)  {
-				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-				messageType = (AccessPointType)selection.getFirstElement();
-			}			
-		}			
-    
-    });  
-    //Filters
-    dataTypeComboViewer.setInput(typeFilters); 
-    List filterSelection = new ArrayList();
-    filterSelection.add(typeFilters.get(0));
-    dataTypeComboViewer.setSelection(new StructuredSelection(filterSelection));
-    
-    //MessageTypes
-    List selection = new ArrayList();
-    selection.add(controller.getAvailableMessageTypes().get(0)); 
-    messageNameText.setSelection(0, messageNameText.getText().length());
+      messageComboViewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+         public void selectionChanged(SelectionChangedEvent event)
+         {
+            IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+            if (!selection.isEmpty())
+            {
+               if (!flags.get(MANUAL_SET_NAME_FLAG))
+               {
+                  flags.set(SELECTION_CHANGED_FLAG);
+                  messageType = (AccessPointType) selection.getFirstElement();
+                  String text = messageType.getId();
+                  int n = 1;
+                  while (isAccessPointIdDefined(text + n))
+                  {
+                     n++;
+                  }
+                  text = text + n;
+                  messageNameText.setText(text);
+                  messageNameText.setSelection(0, messageNameText.getText().length());
+                  flags.clear(SELECTION_CHANGED_FLAG);
+               }
+            }
+            buttonEnablement();
+         }
 
-}
+      });
+
+      dataTypeComboViewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+         public void selectionChanged(SelectionChangedEvent event)
+         {
+            IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+            selectedFilter = (ViewerFilter) selection.getFirstElement();
+            messageComboViewer.setFilters(new ViewerFilter[] {selectedFilter});
+            if (selectedFilter instanceof SerializableFilter)
+            {
+               stack.topControl = classBrowseComposite;
+            }
+            else
+            {
+               stack.topControl = structPrimComposite;
+            }
+            messageComposite.setText(Modeling_Messages.TXT_SEL + selectedFilter.toString());
+            messageComposite.layout();
+         }
+      });
+
+      messageComboViewer.setInput(controller.getAvailableMessageTypes());
+      messageComboViewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+         public void selectionChanged(SelectionChangedEvent event)
+         {
+            if (event.getSelection() instanceof IStructuredSelection)
+            {
+               IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+               messageType = (AccessPointType) selection.getFirstElement();
+            }
+         }
+      });
+
+      // Filters
+      dataTypeComboViewer.setInput(typeFilters);
+      List<ViewerFilter> filterSelection = new ArrayList<ViewerFilter>();
+      filterSelection.add(typeFilters.get(0));
+      dataTypeComboViewer.setSelection(new StructuredSelection(filterSelection));
+
+      // MessageTypes
+      List<AccessPointType> selection = new ArrayList<AccessPointType>();
+      selection.add(controller.getAvailableMessageTypes().get(0));
+      messageNameText.setSelection(0, messageNameText.getText().length());
+
+   }
 
   protected void buttonEnablement() {
 	String text = messageNameText.getText(); 
@@ -331,33 +355,35 @@ public void modifyText(ModifyEvent arg0) {
 	buttonEnablement();	
 }
 
-private void serializableTypeModified(ModifyEvent e) {
-	String messageName = classBrowser.getType().getType().getElementName();
-    String text = messageName;
-    int n = 1;
-    while ( isAccessPointIdDefined(text + n) )
-    {
-       n++;
-    }
-    text = text + n;
-    messageNameText.setText(text);
-	AccessPointType apt = controller.getMtaUtils().createSerializableAccessPoint(classBrowser.getType(), text, directionType);
-	this.messageType = apt;
-}
+   private void serializableTypeModified(ModifyEvent e)
+   {
+      String messageName = classBrowser.getType().getType().getElementName();
+      String text = messageName;
+      int n = 1;
+      while (isAccessPointIdDefined(text + n))
+      {
+         n++;
+      }
+      text = text + n;
+      messageNameText.setText(text);
+      this.messageType = controller.getMtaUtils().createSerializableAccessPoint(classBrowser.getType(),
+            text, directionType);
+   }
 
-public AccessPointType getMessageType() {
-	return messageType;
-}
+   public AccessPointType getMessageType()
+   {
+      return messageType;
+   }
 
-public String getMessageName() {
-	return messageName;
-}
+   public String getMessageName()
+   {
+      return messageName;
+   }
 
    private boolean isAccessPointIdDefined(String id)
    {
-      for (Iterator i = allMessageTypes.iterator(); i.hasNext();)
+      for (AccessPointType messageType : allMessageTypes)
       {
-         AccessPointType messageType = (AccessPointType) i.next();
          if (messageType.getId().equalsIgnoreCase(id))
          {
             return true;
@@ -366,14 +392,15 @@ public String getMessageName() {
       return false;
    }
 
-private AccessPointType getMessageTypeByName(String name) {
-	for (Iterator i = allMessageTypes.iterator(); i.hasNext();) {
-	   AccessPointType messageType = (AccessPointType)i.next();		
-		if (messageType.getId().equalsIgnoreCase(name)) {
-			return messageType;
-		}
-	}
-	return null;
-}
-
+   private AccessPointType getMessageTypeByName(String name)
+   {
+      for (AccessPointType messageType : allMessageTypes)
+      {
+         if (messageType.getId().equalsIgnoreCase(name))
+         {
+            return messageType;
+         }
+      }
+      return null;
+   }
 }

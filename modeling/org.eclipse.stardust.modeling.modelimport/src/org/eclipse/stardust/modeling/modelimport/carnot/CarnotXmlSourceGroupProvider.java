@@ -139,10 +139,10 @@ public class CarnotXmlSourceGroupProvider extends ThirdPartySourceGroupProvider
    protected void browseForFile()
    {
       FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
-      dialog.setFilterExtensions(new String[] {"*.xpdl", "*.xml", "*.mod", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+      dialog.setFilterExtensions(new String[] {"*.xpdl", "*.xml", "*.*"}); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
       dialog.setFilterNames(new String[] {
             Import_Messages.STR_XpdlFiles, Import_Messages.STR_XmlFiles,
-            Import_Messages.STR_ModFiles, Import_Messages.STR_AnyFile});
+            Import_Messages.STR_AnyFile});
       String filename = dialog.open();
       if (filename != null)
       {

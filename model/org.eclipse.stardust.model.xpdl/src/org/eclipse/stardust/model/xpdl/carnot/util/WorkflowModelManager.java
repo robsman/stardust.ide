@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
@@ -180,8 +181,7 @@ public class WorkflowModelManager
     */
    public void load(URI uri) throws IOException
    {
-      getResource(uri, false);
-      doLoad(null);
+      load(uri, null);
    }
 
    /**
@@ -191,8 +191,7 @@ public class WorkflowModelManager
     */
    public void load(File file) throws IOException
    {
-      getResource(URI.createFileURI(file.getAbsolutePath()), false);
-      doLoad(null);
+      load(URI.createFileURI(file.getAbsolutePath()));
    }
 
    public void load(URI uri, InputStream is) throws IOException
@@ -201,7 +200,7 @@ public class WorkflowModelManager
       doLoad(is);
    }
 
-   private void doLoad(InputStream is) throws IOException
+   protected void doLoad(InputStream is) throws IOException
    {
       Map<String, Object> options = CollectionUtils.newMap();
       options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
@@ -297,6 +296,16 @@ public class WorkflowModelManager
     */
    public void save(URI uri) throws IOException
    {
+      save(uri, null);
+   }
+   
+   public void save(File file) throws IOException
+   {
+      save(URI.createFileURI(file.getAbsolutePath()));
+   }
+
+   public void save(URI uri, OutputStream os) throws IOException
+   {
       getResource(uri, false);
 
       if ((null != resource) && !CompareHelper.areEqual(resource.getURI(), uri))
@@ -304,12 +313,17 @@ public class WorkflowModelManager
          resource.setURI(uri);
       }
 
+      doSave(os);
+   }
+   
+   protected void doSave(OutputStream os) throws IOException
+   {
       Map<String, Object> options = CollectionUtils.newMap();
       // options.put(XMLResource.OPTION_DECLARE_XML, Boolean.TRUE);
       options.put(XMLResource.OPTION_ENCODING, XMLConstants.ENCODING_ISO_8859_1);
 
-      if ((null != resource) //
-            && (null != uri.fileExtension())
+      URI uri = resource.getURI();
+      if ((null != uri.fileExtension())
             && uri.fileExtension().endsWith(XpdlUtils.EXT_XPDL)
             && (resource instanceof CarnotWorkflowModelResourceImpl))
       {
@@ -339,8 +353,9 @@ public class WorkflowModelManager
             {
                Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
-               StreamResult target = new StreamResult(
-                     ((CarnotWorkflowModelResourceImpl) resource).getNewOutputStream());
+               StreamResult target = new StreamResult(os == null
+                     ? ((CarnotWorkflowModelResourceImpl) resource).getNewOutputStream()
+                     : os);
 
                TransformerFactory transformerFactory = XmlUtils.newTransformerFactory();
                Transformer xpdlTrans = transformerFactory.newTransformer(xsltSource);
@@ -361,7 +376,14 @@ public class WorkflowModelManager
       }
       else
       {
-         resource.save(options);
+         if (os == null)
+         {
+            resource.save(options);
+         }
+         else
+         {
+            resource.save(os, options);
+         }
       }
    }
 

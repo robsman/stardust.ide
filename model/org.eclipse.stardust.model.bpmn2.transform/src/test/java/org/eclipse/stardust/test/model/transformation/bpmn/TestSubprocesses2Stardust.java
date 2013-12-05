@@ -10,14 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_MAIN_PROCESS;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_SUBPROCESS;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -33,7 +25,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSubprocesses2Stardust {
+public class TestSubprocesses2Stardust extends Bpmn2StardustTestSuite {
     @Test
     public void testCollapsedSubprocess() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "CollapsedSubprocess.bpmn";
@@ -53,6 +45,6 @@ public class TestSubprocesses2Stardust {
 
         assertEquals(ActivityImplementationType.SUBPROCESS_LITERAL, subprocessActivity.getImplementation());
         assertEquals(subprocess, subprocessActivity.getImplementationProcess());
-
     }
+
 }

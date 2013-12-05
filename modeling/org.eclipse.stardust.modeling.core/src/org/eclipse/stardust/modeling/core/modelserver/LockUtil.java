@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.modelserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -33,6 +36,8 @@ import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 
 public class LockUtil
 {
+   private static Map<WorkflowModelEditor, LockUtil> instances;
+   
    private WorkflowModelEditor editor;
    
    private ModelType localModel;
@@ -45,8 +50,29 @@ public class LockUtil
    private List<EObject> removedElements = new ArrayList<EObject>();   
    private List<EObject> changedElements = new ArrayList<EObject>();
    private List<EObject> allElements = new ArrayList<EObject>();
+
+   private WorkflowModelManager manager;
+   private long localModelTimeStamp = 0;
       
-   public LockUtil(WorkflowModelEditor editor)
+   public static LockUtil getLockUtil(WorkflowModelEditor editor)
+   {
+      LockUtil instance = null;
+      if(instances == null)
+      {
+         instances = new HashMap<WorkflowModelEditor, LockUtil>();
+      }
+      
+      instance = instances.get(editor);
+      if(instance == null)
+      {
+         instance = new LockUtil(editor);
+         instances.put(editor, instance);
+      }
+      
+      return instance;
+   }
+   
+   private LockUtil(WorkflowModelEditor editor)
    {
       this.editor = editor;
    }      
@@ -58,18 +84,9 @@ public class LockUtil
       monitor.subTask(Diagram_Messages.TASK_READING_LOCAL_MD);
       ModelServer modelServer = editor.getModelServer();
       ModelType model = modelServer.getModel();
-      
-      WorkflowModelManager manager = new WorkflowModelManager();
       Resource resource = model.eResource();
-      try
-      {
-         manager.load(resource.getURI());
-      }
-      catch (IOException e)
-      {
-         throw new RMSException("...", RMSException.DEFAULT);          //$NON-NLS-1$
-      }
-      localModel = manager.getModel();
+      
+      getLocalModel(resource);
 
       monitor.subTask(Diagram_Messages.TASK_READING_REMOTE_MD);
       try
@@ -136,6 +153,55 @@ public class LockUtil
                }               
             }
          }         
+      }
+   }
+
+   private void getLocalModel(Resource resource) throws RMSException
+   {
+      URI uri = resource.getURI();
+      int segmentCount = uri.segmentCount();
+      String fileName = "platform:"; //$NON-NLS-1$
+      for(int i = 1; i < segmentCount; i++)
+      {
+         fileName += "/" + uri.segment(i); //$NON-NLS-1$
+      }
+      
+      java.net.URI uri_ = java.net.URI.create(fileName);
+      File file = new File(uri_.getPath());
+      if (!file.isAbsolute())
+      {
+         file = new File(Platform.getLocation().toFile(), file.toString());
+      }
+      
+      if(file.exists() && localModelTimeStamp != 0)
+      {
+         if(file.lastModified() > localModelTimeStamp)
+         {
+            manager = null;            
+         }
+      }  
+      else
+      {
+         manager = null;
+      }
+      
+      if(manager == null)
+      {
+         if(file.exists())
+         {
+            localModelTimeStamp = file.lastModified();            
+         }
+         
+         manager = new WorkflowModelManager();
+         try
+         {
+            manager.load(resource.getURI());
+         }
+         catch (IOException e)
+         {
+            throw new RMSException("...", RMSException.DEFAULT);         
+         }
+         localModel = manager.getModel();
       }
    }
     

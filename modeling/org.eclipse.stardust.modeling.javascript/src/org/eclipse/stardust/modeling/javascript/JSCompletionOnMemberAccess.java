@@ -162,7 +162,7 @@ public class JSCompletionOnMemberAccess extends CompletionOnMemberAccess{
           fr.binding = fieldReference.binding;
           fr.bits = fieldReference.bits;
           fr.constant = fieldReference.constant;
-          fr.implicitConversion = fieldReference.implicitConversion;
+          // fr.implicitConversion = fieldReference.implicitConversion;
           fr.nameSourcePosition = fieldReference.nameSourcePosition;
           fr.receiver = fieldReference.receiver;
           fr.receiverType = fieldReference.receiverType;

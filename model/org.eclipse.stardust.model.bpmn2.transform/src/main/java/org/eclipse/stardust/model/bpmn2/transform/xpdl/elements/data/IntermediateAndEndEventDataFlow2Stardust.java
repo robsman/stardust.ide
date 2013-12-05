@@ -28,17 +28,16 @@ import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 /**
  * @author Simon Nikles
@@ -135,7 +134,8 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
             String assingmentId = assign.getId();
             Expression toExpression = assign.getTo();
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+            // TODO TO-JSON-EXT
+            String applicationAccessPoint = ""; //ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
             String applicationAccessPath = getExpressionValue(toExpression);
 
             String mappingId = assocIn.getId() + "_" + assingmentId;
@@ -153,7 +153,8 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
             String assingmentId = assign.getId();
             String mappingId = assocOut.getId() + "_" + assingmentId;
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+            // TODO TO-JSON-EXT
+            String applicationAccessPoint = ""; //ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
             String applicationAccessPath = getExpressionValue(fromExpression);
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
@@ -191,7 +192,7 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
                 expr = assoc.getTransformation().getBody();
                 logger.debug("Set Datapath from Expression-Body value: " + expr + " (" + assoc + ")");
             } else if (assoc.getTransformation().getMixed() != null )  {
-                 expr = XpdlModelUtils.getCDataString(assoc.getTransformation().getMixed());
+                 expr = ModelUtils.getCDataString(assoc.getTransformation().getMixed());
                  logger.debug("Set Datapath from Mixed value: " + expr + " (" + assoc + ")");
             }
             mapping.setDataPath(expr);

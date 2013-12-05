@@ -12,8 +12,8 @@ package org.eclipse.stardust.model.xpdl.builder.transition;
 
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -38,7 +38,7 @@ public class BpmConditionalTransitionBuilder extends AbstractTransitionBuilder<B
       element.setCondition("CONDITION");
 
       element.setExpression(F_CWM.createXmlTextNode());
-      XpdlModelUtils.setCDataString(element.getExpression().getMixed(), expression, true);
+      ModelUtils.setCDataString(element.getExpression().getMixed(), expression, true);
 
       return this;
    }
@@ -49,7 +49,7 @@ public class BpmConditionalTransitionBuilder extends AbstractTransitionBuilder<B
       element.setCondition("CONDITION");
 
       element.setExpression(F_CWM.createXmlTextNode());
-      XpdlModelUtils.setCDataString(element.getExpression().getMixed(), "true", true);
+      ModelUtils.setCDataString(element.getExpression().getMixed(), "true", true);
 
       return this;
    }

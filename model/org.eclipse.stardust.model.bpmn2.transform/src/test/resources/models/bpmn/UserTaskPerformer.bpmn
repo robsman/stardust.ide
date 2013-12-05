@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	expressionLanguage="http://www.w3.org/1999/XPath"
+	typeLanguage="http://www.w3.org/2001/XMLSchema"
+	itp:name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="28.06.2012 09:29:58"
+	itp:modificationDate="28.06.2012 15:10:59"
+	itp:createdWithVersion="5.2769.13758 SR7"
+	itp:conformanceSubClass="Full"
+	stardust:uuid="b8926c46-4836-4505-96d2-c0987f5034ca"
+	id="_9be861c8-bb4a-4f30-a848-d7f4eb178051"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.eclipse.org/stardust"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	>
+	<partnerEntity id="TestOrganisationA" name="Test Organisation A">
+		<participantRef>TestModelPool1</participantRef>
+	</partnerEntity>
+
+  <resource id="ORGANISATION_1" stardust:uuid="0eb7ab16-4626-4fd5-8796-d606c5ebbc2a" name="Organisation 1">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"participantType":"organizationParticipant","attributes":{"carnot:engine:tasks:assignment:mode":"assemblyLine"}}]]></stardust:core>
+    </extensionElements>
+    <documentation id="description" textFormat="plain/text"/>
+  </resource>
+  <resource id="ORGANISATION_2" stardust:uuid="547ee9fe-6b3c-463c-b550-581f8305edbc" name="Organisation 2">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"participantType":"organizationParticipant","parentUUID":"0eb7ab16-4626-4fd5-8796-d606c5ebbc2a","teamLeadFullId":"b8926c46-4836-4505-96d2-c0987f5034ca:ROLLE_1"}]]></stardust:core>
+    </extensionElements>
+  </resource>
+  <resource id="ROLLE_1" stardust:uuid="5d167010-bd14-44ce-bc9d-93fbc00e4d19" name="Rolle 1">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"participantType":"roleParticipant","parentUUID":"547ee9fe-6b3c-463c-b550-581f8305edbc"}]]></stardust:core>
+    </extensionElements>
+  </resource>
+  <resource id="ROLLE_2" stardust:uuid="16ab703f-0b2b-4e17-b62d-246ed19302e7" name="Rolle 2">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"participantType":"roleParticipant","parentUUID":"547ee9fe-6b3c-463c-b550-581f8305edbc","attributes":{"carnot:engine:tasks:assignment:mode":"assemblyLine"}}]]></stardust:core>
+    </extensionElements>
+    <documentation id="description" textFormat="plain/text"/>
+  </resource>
+  <resource id="CONDITIONAL_PERFORMER" stardust:uuid="bcabf656-4bec-438d-9802-d2a12bca66c6" name="Bedingt">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"participantType":"conditionalPerformerParticipant","dataFullId":"b8926c46-4836-4505-96d2-c0987f5034ca:DummyVarId","attributes":{"carnot:engine:conditionalPerformer:kind":"user"}}]]></stardust:core>
+    </extensionElements>
+    <documentation id="description" textFormat="plain/text"/>
+  </resource>
+  <dataStore id="DummyVarId" isUnlimited="true" name="DummyVar">
+    <extensionElements>
+      <stardust:core xsi:type="xsd:anyType"><![CDATA[{"dataType":"primitive","primitiveDataType":"String","name":"DummyVar"}]]></stardust:core>
+    </extensionElements>
+    <documentation id="description" textFormat="plain/text"/>
+  </dataStore>
+  <collaboration id="_ba2d7f88-eb78-443e-bd7f-ff5a37de8ef4">
+    <participant id="TestModelPool1" name="Pool 1" processRef="_5561110d-efd3-4218-b5c6-2038bbc4ba3d">
+      <extensionElements>
+        <itp:localization>
+          <itp:label lang="unspecified" text="Pool 1" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </participant>
+  </collaboration>
+  <process id="_5561110d-efd3-4218-b5c6-2038bbc4ba3d" name="Pool 1" processType="None">
+    <extensionElements>
+      <itp:localization>
+        <itp:label lang="unspecified" text="Pool 1" default="True" />
+      </itp:localization>
+    </extensionElements>
+    <laneSet>
+      <lane id="TestModelLane1" name="Lane 1">
+        <extensionElements>
+          <itp:systemDefinedAttributes>
+            <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+            <attribute name="ExternalId" type="String" />
+          </itp:systemDefinedAttributes>
+          <itp:localization>
+            <itp:label lang="unspecified" text="Lane 1" default="True" />
+          </itp:localization>
+        </extensionElements>
+        <flowNodeRef>TestModelTaskA</flowNodeRef>
+        <flowNodeRef>TestModelTaskA</flowNodeRef>
+      </lane>
+      <lane id="TestModelLane2" name="Lane 2">
+        <flowNodeRef>TestModelTaskB</flowNodeRef>
+        <flowNodeRef>TestModelTaskB</flowNodeRef>
+      </lane>
+    </laneSet>
+    <userTask id="TestModelTaskA" name="Task A" implementation="unspecified">
+      <performer id="TestPerformerTaskA" name="Test Performer Task A">
+    		<resourceRef>ROLLE_1</resourceRef>
+	  </performer>
+    </userTask>
+    <userTask id="TestModelTaskB" name="Task B" implementation="unspecified">
+      <performer id="TestPerformerTaskB" name="Test Performer Task B">
+    		<resourceRef>ROLLE_2</resourceRef>
+	  </performer>
+    </userTask>
+    <userTask id="TestModelTaskC" name="Task C" implementation="unspecified">
+      <performer id="TestPerformerTaskB" name="Test Performer Task B">
+    		<resourceRef>CONDITIONAL_PERFORMER</resourceRef>
+	  </performer>
+    </userTask>
+    <sequenceFlow id="TestModelSequenceAtoB" sourceRef="TestModelTaskA" targetRef="TestModelTaskB">
+      <extensionElements>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="_7fbbf87f-0a87-487b-ad5a-b6eb6cc9c2e2" sourceRef="TestModelTaskB" targetRef="TestModelTaskC">
+      <extensionElements>
+        <itp:localization>
+          <itp:label lang="unspecified" text="" default="True" />
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_ba2d7f88-eb78-443e-bd7f-ff5a37de8ef4">
+      <bpmndi:BPMNShape id="_AD141325-0FB6-427F-95A7-44DCCC719152" bpmnElement="TestModelPool1" isHorizontal="true" itp:label="Pool 1" itp:elementType="participant">
+        <dc:Bounds x="93.7700645669291" y="79.3700787401575" width="680.088160629921" height="212.59842519685" />
+        <bpmndi:BPMNLabel labelStyle="_ff9cc401-a712-4307-be78-49b8608a04f2">
+          <dc:Bounds x="72" y="165.075590551181" width="14.4" height="41.04" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_082CD16B-8C09-4ACD-8552-CF99840DDF21" bpmnElement="TestModelLane1" isHorizontal="true" itp:label="Lane 1" itp:elementType="lane">
+        <dc:Bounds x="93.7700645669291" y="79.3700787401575" width="680.088160629921" height="70.8661417322835" />
+        <bpmndi:BPMNLabel labelStyle="_ff9cc401-a712-4307-be78-49b8608a04f2">
+          <dc:Bounds x="72" y="93.0755905511811" width="14.4" height="43.92" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_940DF887-B83D-40F0-ABD1-9F46E1BB1246" bpmnElement="TestModelLane2" isHorizontal="true" itp:label="Lane 2" itp:elementType="lane">
+        <dc:Bounds x="93.7700645669291" y="150.236220472441" width="680.088160629921" height="70.8661417322835" />
+        <bpmndi:BPMNLabel labelStyle="_ff9cc401-a712-4307-be78-49b8608a04f2">
+          <dc:Bounds x="72" y="163.635590551181" width="14.4" height="43.92" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_158B096D-D2E6-4C4D-96B3-65F3604554E2" bpmnElement="TestModelTaskA" itp:label="Task A" itp:elementType="userTask">
+        <dc:Bounds x="178.582677165354" y="93.5433070866142" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_69c7560c-ead4-446b-93a8-b7ca20626ace">
+          <dc:Bounds x="201.96" y="108.195590551181" width="38.16" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_2FE1C5C0-6337-4A71-AE6C-8E035FC2BBFC" bpmnElement="TestModelTaskB" itp:label="Task B" itp:elementType="userTask">
+        <dc:Bounds x="311.811023622047" y="164.409448818898" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_69c7560c-ead4-446b-93a8-b7ca20626ace">
+          <dc:Bounds x="335.16" y="178.755590551181" width="38.16" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_CE06FB34-8947-46B1-A7D1-512249FEFF1E" bpmnElement="TestModelTaskC" itp:label="Task C" itp:elementType="userTask">
+        <dc:Bounds x="445.03937007874" y="238.110236220472" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_69c7560c-ead4-446b-93a8-b7ca20626ace">
+          <dc:Bounds x="468.36" y="252.195590551181" width="38.16" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_C29998D6-EA29-4212-9FB3-62FA003F4951" bpmnElement="TestModelSequenceAtoB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="263.622047244095" y="114.803149606299" />
+        <di:waypoint x="274.251968503937" y="114.803149606299" />
+        <di:waypoint x="274.251968503937" y="185.669291338583" />
+        <di:waypoint x="311.811023622047" y="185.669291338583" />
+        <bpmndi:BPMNLabel labelStyle="_96eaa0fb-7c0b-4af2-8497-9b3c1f6a7a14">
+          <dc:Bounds x="270.36" y="156.795590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_73D93602-6735-4C7D-875A-B45252C4E8FE" bpmnElement="_7fbbf87f-0a87-487b-ad5a-b6eb6cc9c2e2" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="396.850393700787" y="185.669291338583" />
+        <di:waypoint x="407.48031496063" y="185.669291338583" />
+        <di:waypoint x="407.48031496063" y="259.370078740158" />
+        <di:waypoint x="445.03937007874" y="259.370078740158" />
+        <bpmndi:BPMNLabel labelStyle="_96eaa0fb-7c0b-4af2-8497-9b3c1f6a7a14">
+          <dc:Bounds x="403.56" y="229.515590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_ff9cc401-a712-4307-be78-49b8608a04f2">
+      <dc:Font name="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_69c7560c-ead4-446b-93a8-b7ca20626ace">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_96eaa0fb-7c0b-4af2-8497-9b3c1f6a7a14">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

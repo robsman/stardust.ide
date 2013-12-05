@@ -1,44 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 09:37:13" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
- xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
- xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
->
-  <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
-    <extensionElements>
-    </extensionElements>
-    <startEvent id="TestModelTimerStartEventTime" name="TimerStartEventTime">
-      <documentation>Documentation: Timer Start Event</documentation>
-      <extensionElements/>
-      <timerEventDefinition>
-      	<timeDate xsi:type="tFormalExpression">2012-09-01T11:00:00</timeDate>
-      </timerEventDefinition>
-    </startEvent>
-    <startEvent id="TestModelStartEventCycleStop" name="TimerStartEvent">
-      <documentation>Documentation: Timer Start Event</documentation>
-      <extensionElements>
-        <sdbpmn:StardustTimerStartEvent>
-          <sdbpmn:StardustAttributes>
-            <stardust:AttributeType name="carnot:engine:stopTime" type="long" value="1347919200000"/>
-          </sdbpmn:StardustAttributes>
-        </sdbpmn:StardustTimerStartEvent>
-      </extensionElements>
-      <timerEventDefinition>
-      	<timeCycle xsi:type="tFormalExpression" id="_J4Gw4fi3EeGWf5efbeOuhA">2012-09-01T11:00:00/P1Y2M1DT20H30M</timeCycle>
-      </timerEventDefinition>
-    </startEvent>
-  </process>
-  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
-    <bpmndi:BPMNPlane id="_1" bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">
-      <bpmndi:BPMNShape id="_B962DEFE-088F-483D-8CDE-4B5A8CDDE82E" bpmnElement="TestModelStartEventId" itp:label="TimerStartEvent" itp:elementType="startEvent">
-        <dc:Bounds x="76.5354330708661" y="119.055118110236" width="17.007874015748" height="17.007874015748" />
-        <bpmndi:BPMNLabel labelStyle="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
-          <dc:Bounds x="30" y="159.629653930664" width="21.1732330322266" height="3.74070143699646" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-    <bpmndi:BPMNLabelStyle id="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
-      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
-    </bpmndi:BPMNLabelStyle>
-  </bpmndi:BPMNDiagram>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com) -->
+<definitions targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7"
+	itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles"
+	itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 09:37:13"
+	itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full"
+	id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.eclipse.org/stardust">
+	<process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess"
+		processType="None">
+		<extensionElements>
+		</extensionElements>
+		<startEvent id="TestModelTimerStartEventTime" name="TimerStartEventTime">
+			<documentation>Documentation: Timer Start Event</documentation>
+			<extensionElements />
+			<timerEventDefinition>
+				<timeDate xsi:type="tFormalExpression">2012-09-01T11:00:00</timeDate>
+			</timerEventDefinition>
+		</startEvent>
+		<startEvent id="TestModelStartEventCycleStop" name="TimerStartEvent">
+			<documentation>Documentation: Timer Start Event</documentation>
+			<timerEventDefinition>
+				<extensionElements>
+					<stardust:core>
+						{ "attributes": {"carnot:engine:stopTime":"1347919200000"}}
+					</stardust:core>
+				</extensionElements>
+				<timeCycle xsi:type="tFormalExpression" id="_J4Gw4fi3EeGWf5efbeOuhA">2012-09-01T11:00:00/P1Y2M1DT20H30M</timeCycle>
+			</timerEventDefinition>
+		</startEvent>
+	</process>
+	<bpmndi:BPMNDiagram name="Mein Diagramm (1)"
+		resolution="72">
+		<bpmndi:BPMNPlane id="_1"
+			bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">
+			<bpmndi:BPMNShape id="_B962DEFE-088F-483D-8CDE-4B5A8CDDE82E"
+				bpmnElement="TestModelStartEventId" itp:label="TimerStartEvent"
+				itp:elementType="startEvent">
+				<dc:Bounds x="76.5354330708661" y="119.055118110236"
+					width="17.007874015748" height="17.007874015748" />
+				<bpmndi:BPMNLabel labelStyle="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+					<dc:Bounds x="30" y="159.629653930664" width="21.1732330322266"
+						height="3.74070143699646" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+			<dc:Font name="Arial" size="8" isBold="false" isItalic="false"
+				isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
 </definitions>

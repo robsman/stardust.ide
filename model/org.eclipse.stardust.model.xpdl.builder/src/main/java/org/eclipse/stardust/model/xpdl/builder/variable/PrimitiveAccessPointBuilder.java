@@ -12,6 +12,8 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.MappingFactory;
@@ -19,13 +21,7 @@ import org.eclipse.stardust.engine.extensions.transformation.model.mapping.Trans
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
@@ -34,6 +30,11 @@ public class PrimitiveAccessPointBuilder
 {
 
    private IAccessPointOwner owner;
+
+   protected EList< ? super AccessPointType> getElementContainer()
+   {
+      return owner.getAccessPoint();
+   }
 
    public PrimitiveAccessPointBuilder()
    {
@@ -155,6 +156,10 @@ public class PrimitiveAccessPointBuilder
       {
          directionType = DirectionType.IN_LITERAL;
       }
+      else if (direction.equals(DirectionType.INOUT_LITERAL.getName()))
+      {
+         directionType = DirectionType.INOUT_LITERAL;
+      }
       else
       {
          directionType = DirectionType.OUT_LITERAL;
@@ -186,5 +191,4 @@ public class PrimitiveAccessPointBuilder
       }
       return null;
    }
-
 }

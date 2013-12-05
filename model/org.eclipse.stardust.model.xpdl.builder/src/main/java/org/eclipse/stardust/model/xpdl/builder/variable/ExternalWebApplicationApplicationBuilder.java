@@ -13,11 +13,11 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ExternalWebApplicationApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, ExternalWebApplicationApplicationBuilder>
 {
@@ -30,7 +30,7 @@ public class ExternalWebApplicationApplicationBuilder extends AbstractModelEleme
 
       ContextType context = F_CWM.createContextType();
       element.setInteractive(true);
-      ApplicationContextTypeType contextTypeType = XpdlModelUtils.findIdentifiableElement(
+      ApplicationContextTypeType contextTypeType = ModelUtils.findIdentifiableElement(
             model.getApplicationContextType(), ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
       if (contextTypeType == null) {
          contextTypeType = AbstractElementBuilder.F_CWM.createApplicationContextTypeType();

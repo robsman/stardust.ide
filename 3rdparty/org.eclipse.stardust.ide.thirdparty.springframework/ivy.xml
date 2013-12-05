@@ -29,7 +29,6 @@
       <dependency org="aopalliance" name="aopalliance" rev="${aopalliance.version}" transitive="false" conf="bom->default" />
       
       <dependency org="org.springframework" name="spring-aop" rev="${spring-aop.version}" transitive="false" conf="bom->default" />
-      <dependency org="org.springframework" name="spring-asm" rev="${spring-asm.version}" transitive="false" conf="bom->default" />
       <dependency org="org.springframework" name="spring-beans" rev="${spring-beans.version}" transitive="false" conf="bom->default" />
       <dependency org="org.springframework" name="spring-context" rev="${spring-context.version}" transitive="false" conf="bom->default" />
       <dependency org="org.springframework" name="spring-context-support" rev="${spring-context-support.version}" transitive="false" conf="bom->default" />

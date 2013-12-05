@@ -138,6 +138,7 @@ public class ModelerConstants
    public static final String WEB_SERVICE_APPLICATION_TYPE_ID = "webservice";
    public static final String MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID = "messageTransformationBean";
    public static final String CAMEL_APPLICATION_TYPE_ID = "camelSpringProducerApplication";
+   public static final String CAMEL_CONSUMER_APPLICATION_TYPE_ID = "camelConsumerApplication";
    public static final String CAMEL_TRIGGER_TYPE_ID = "camel";
    public static final String MAIL_APPLICATION_TYPE_ID = "mailBean";
    public static final String INTERACTIVE_APPLICATION_TYPE_KEY = "interactive";
@@ -209,6 +210,7 @@ public class ModelerConstants
    public static final String DEFAULT_CONTEXT_TYPE_KEY = "default";
    public static final String INTERMEDIATE_EVENT = "intermediateEvent";
    public static final String BINDING_ACTIVITY_UUID = "bindingActivityUuid";
+   public static final String LOG_HANDLER_PROPERTY = "logHandler";
    public static final String INTERRUPTING_PROPERTY = "interrupting";
    public static final String THROWING_PROPERTY = "throwing";
    public static final String TIMER_EVENT_CLASS_KEY = "timer";
@@ -229,6 +231,7 @@ public class ModelerConstants
    public static final String IMPLEMENTATION_PROPERTY = "implementation";
    public static final String SCAN_TRIGGER_TYPE_ID = "scan";
    public static final String DATA_TYPE = "carnot:engine:dataType";
+   public static final String DATA_TYPE_SIMPLENAME = "simpleName";
 
    //Web Modeler default size parameters
    public static final int DEFAULT_SWIMLANE_WIDTH = 375;
@@ -239,4 +242,6 @@ public class ModelerConstants
    public static final int EVENT_ICON_WIDTH = 26;
    public static final int ANNOTATION_SYMBOL_DEFAULT_WIDTH = 80;
    public static final int ANNOTATION_SYMBOL_DEFAULT_HEIGHT = 30;
+
+   public static final String READ_ONLY_LITERAL = "readOnly";
 }

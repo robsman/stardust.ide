@@ -29,7 +29,8 @@ public class ModelOidUtil extends EContentAdapter
    private long lastOID = 0;
    private Map<Long, IModelElement> unsets = CollectionUtils.newMap();
    private Set<Long> oids = CollectionUtils.newSet();
-   private boolean enabled = true;   
+   private boolean enabled = true;  
+   private boolean copyPaste = false;     
    private boolean valid = false;
    private XMLResource resource;
    
@@ -38,6 +39,11 @@ public class ModelOidUtil extends EContentAdapter
       this.enabled = enabled;
    }
 
+   public void setCopyPaste(boolean copyPaste)
+   {
+      this.copyPaste = copyPaste;
+   }   
+   
    @Override
    public void notifyChanged(Notification notification)
    {      
@@ -52,7 +58,10 @@ public class ModelOidUtil extends EContentAdapter
          }         
          else
          {
-            oids.remove(notification.getOldLongValue());
+            if(!copyPaste)
+            {
+               oids.remove(notification.getOldLongValue());
+            }
             oids.add(notification.getNewLongValue());
          }
       }

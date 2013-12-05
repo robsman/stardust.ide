@@ -15,6 +15,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplica
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
@@ -27,10 +28,8 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
-import static org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants.ID_PROPERTY;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,19 +49,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
-
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.BpmRuntimeError;
 import org.eclipse.stardust.engine.core.pojo.data.JavaDataTypeUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
@@ -71,7 +64,6 @@ import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.common.EObjectUUIDMapper;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
@@ -79,7 +71,6 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataIniti
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
-import org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
@@ -138,11 +129,13 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
@@ -158,6 +151,14 @@ import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDSchema;
 
 public class ModelBuilderFacade
 {
@@ -245,21 +246,16 @@ public class ModelBuilderFacade
          IModelParticipant participant)
    {
       List<OrganizationType> belongsTo = new ArrayList<OrganizationType>();
-      EList<OrganizationType> orgs = model.getOrganization();
-      if (null != orgs)
+      for (OrganizationType org : model.getOrganization())
       {
-         for (OrganizationType org : orgs)
+         for (ParticipantType pt : org.getParticipant())
          {
-            for (ParticipantType pt : org.getParticipant())
+            if (participant.equals(pt.getParticipant()))
             {
-               if (participant.equals(pt.getParticipant()))
-               {
-                  belongsTo.add(org);
-               }
+               belongsTo.add(org);
             }
          }
       }
-
       return belongsTo;
    }
 
@@ -283,7 +279,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(typeID))
       {
-         typeID = NameIdUtils.createIdFromName(typeName);
+         typeID = NameIdUtilsExtension.createIdFromName(typeName);
       }
       structuredDataType.setId(typeID);
 
@@ -291,6 +287,7 @@ public class ModelBuilderFacade
       structuredDataType.setSchemaType(schema);
 
       XSDSchema xsdSchema = XSDFactory.eINSTANCE.createXSDSchema();
+
       xsdSchema.getQNamePrefixToNamespaceMap().put(XSDPackage.eNS_PREFIX,
             XMLResource.XML_SCHEMA_URI);
       xsdSchema.setSchemaForSchemaQNamePrefix(XSDPackage.eNS_PREFIX);
@@ -323,6 +320,7 @@ public class ModelBuilderFacade
       schema.getSchema().updateElement(true);
 
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
+      Object o = structuredDataType.getSchema().eResource();
 
       return structuredDataType;
    }
@@ -332,20 +330,8 @@ public class ModelBuilderFacade
          String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-      }
-
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
+      
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
@@ -390,16 +376,8 @@ public class ModelBuilderFacade
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
 
-      if (StringUtils.isEmpty(id))
-      {
-         id = NameIdUtils.createIdFromName(name);
-      }
-
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
@@ -407,22 +385,36 @@ public class ModelBuilderFacade
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
 
-      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      // declaredType.setId(AttributeUtil.getAttributeValue(data,
-      // StructuredDataConstants.TYPE_DECLARATION_ATT));
-
-      declaredType.setId(stripFullId(structTypeFullID));
-
-      dataTypeType.setDeclaredType(declaredType);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
+      String refModelId = null;
+      String structTypeId = null;
+      String[] splittedIds = structTypeFullID.split(":");
+      if (splittedIds.length > 1)
       {
-         parametersType = xpdlFactory.createFormalParametersType();
+         refModelId = splittedIds[0];
+         structTypeId = splittedIds[1];
       }
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
+      else
+      {
+         structTypeId = splittedIds[0];
+      }
+
+      ModelType model = ModelUtils.findContainingModel(processInterface);
+      if (refModelId == null || model != null && refModelId.equals(model.getId()))
+      {
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
+      }
+      else if (model != null)
+      {
+         ModelType ref = findModel(refModelId);
+         updateReferences(model, ref);
+         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
+         extRef.setLocation(refModelId);
+         //extRef.setNamespace("TypeDeclarations");
+         extRef.setXref(structTypeId);
+         dataTypeType.setExternalReference(extRef);
+      }
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
@@ -441,16 +433,71 @@ public class ModelBuilderFacade
       return parameterType;
    }
 
+   private FormalParameterType createFormalParameter(ProcessDefinitionType processInterface, String id, String name,
+         ModeType mode, XpdlFactory xpdlFactory)
+   {
+      boolean forceSuffix = false;
+      if (StringUtils.isEmpty(name.trim()))
+      {
+         if (StringUtils.isEmpty(id.trim()))
+         {
+            name = "FormalParameter";
+            forceSuffix = true;
+         }
+         else
+         {
+            name = id;
+         }
+      }
+
+      FormalParametersType parametersType = processInterface.getFormalParameters();
+      if (parametersType == null)
+      {
+         parametersType = xpdlFactory.createFormalParametersType();
+         processInterface.setFormalParameters(parametersType);         
+      }
+      
+      FormalParameterType parameterType = parametersType.getFormalParameter(id);
+
+      if (parameterType == null)
+      {
+         parameterType = xpdlFactory.createFormalParameterType();
+         parametersType.addFormalParameter(parameterType);
+      }
+
+      IdFactory idFactory = new IdFactory(null, name.trim(),
+            XpdlPackage.eINSTANCE.getFormalParameterType(),
+            XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+            XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+      List<FormalParameterType> existing = CollectionUtils.copyList(parametersType.getFormalParameter());
+      existing.remove(parameterType);
+      idFactory.computeNames(existing, forceSuffix);
+      id = idFactory.getId();
+      name = idFactory.getName();
+
+      if (!id.equals(parameterType.getId()))
+      {
+         parameterType.setId(id);
+      }
+      if (!name.equals(parameterType.getName()))
+      {
+         parameterType.setName(name);
+      }
+      if (!CompareHelper.areEqual(mode, parameterType.getMode()))
+      {
+         parameterType.setMode(mode);
+      }
+      
+      return parameterType;
+   }
+
    public FormalParameterType createDocumentParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      FormalParameterType parameterType = xpdlFactory.createFormalParameterType();
 
-      parameterType.setId(id);
-      parameterType.setName(name);
-      parameterType.setMode(mode);
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
@@ -465,15 +512,6 @@ public class ModelBuilderFacade
       declaredType.setId(stripFullId(structTypeFullID));
 
       dataTypeType.setDeclaredType(declaredType);
-
-      FormalParametersType parametersType = processInterface.getFormalParameters();
-
-      if (parametersType == null)
-      {
-         parametersType = xpdlFactory.createFormalParametersType();
-      }
-      parametersType.addFormalParameter(parameterType);
-      processInterface.setFormalParameters(parametersType);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
 
@@ -657,6 +695,7 @@ public class ModelBuilderFacade
          return;
       }
 
+      data.getAttribute().clear();
       ModelType model = ModelUtils.findContainingModel(data);
       data.setType(ModelUtils.findIdentifiableElement(model.getDataType(), targetTypeID));
       IDataInitializer init = getInitializer(targetTypeID);
@@ -750,8 +789,10 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
+      
       if (typeDeclarationModel != null)
       {
+         String qualifiedId = null;         
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
@@ -761,8 +802,9 @@ public class ModelBuilderFacade
             AttributeType attribute = AttributeUtil.setAttribute(data,
                   DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, declarationID);
             ModelUtils.setReference(attribute, model, "struct");
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
-         }
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);            
+            qualifiedId = typeDeclaration.getId();
+         }         
          else
          {
             String fileConnectionId = WebModelerConnectionManager.createFileConnection(
@@ -791,7 +833,10 @@ public class ModelBuilderFacade
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
+            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";            
          }
+         
+         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);               
       }
    }
 
@@ -970,7 +1015,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(laneID))
       {
-         laneID = NameIdUtils.createIdFromName(null, laneSymbol);
+         laneID = NameIdUtilsExtension.createIdFromName(null, laneSymbol);
       }
       laneSymbol.setId(laneID);
 
@@ -1403,11 +1448,13 @@ public class ModelBuilderFacade
             BpmApplicationActivityBuilder applicationActivity = newApplicationActivity(processDefinition);
             applicationActivity.setApplicationModel(applicationModel);
 
-            activity = applicationActivity.withIdAndName(activityID, activityName)
-                  .invokingApplication(
-                        getApplication(applicationModel.getId(),
-                              stripFullId(applicationFullID)))
-                  .build();
+            BpmApplicationActivityBuilder activityBuilder = applicationActivity.withIdAndName(
+                  activityID, activityName);
+            if (null != application)
+            {
+               activityBuilder.invokingApplication(application);
+            }
+            activity = activityBuilder.build();
 
             if (ModelerConstants.USER_TASK_KEY.equals(taskType)
                   && participantFullID != null)
@@ -1688,6 +1735,33 @@ public class ModelBuilderFacade
          }
       }
 
+      // TODO Temporary
+      if (id.equals(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID))
+      {
+    	  ApplicationTypeType applicationMetaType = ModelUtils.findIdentifiableElement(
+                  model.getApplicationType(), ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
+
+            if (null == applicationMetaType)
+            {
+               CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
+
+               applicationMetaType = F_CWM.createApplicationTypeType();
+               applicationMetaType.setId(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
+               applicationMetaType.setName("Camel Consumer Application");
+               applicationMetaType.setIsPredefined(true);
+               applicationMetaType.setSynchronous(false);
+
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider",
+                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider");
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance",
+                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance");
+               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator",
+               		"org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
+
+               model.getApplicationType().add(applicationMetaType);
+            }
+      }
+
       throw new ObjectNotFoundException("Application type " + id + " does not exist.");
    }
 
@@ -1711,7 +1785,7 @@ public class ModelBuilderFacade
       
       if (id.equals("camel"))
       {
-         TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+         TriggerTypeType triggerMetaType = ModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
 
          if (null == triggerMetaType)
@@ -1736,8 +1810,7 @@ public class ModelBuilderFacade
       }
       else if (id.equals("scan"))
       {
-         long maxUsedOid = XpdlModelUtils.getMaxUsedOid(model);
-         TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+         TriggerTypeType triggerMetaType = ModelUtils.findIdentifiableElement(
                model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
 
          if (null == triggerMetaType)
@@ -1804,16 +1877,12 @@ public class ModelBuilderFacade
     */
    public TypeDeclarationType findTypeDeclaration(ModelType model, String id)
    {
-      for (TypeDeclarationType typeDeclaration : model.getTypeDeclarations()
-            .getTypeDeclaration())
+      TypeDeclarationType typeDeclaration = model.getTypeDeclarations().getTypeDeclaration(id);
+      if (typeDeclaration == null)
       {
-         if (typeDeclaration.getId().equals(id))
-         {
-            return typeDeclaration;
-         }
+         throw new ObjectNotFoundException(BpmRuntimeError.MDL_UNKNOWN_TYPE_DECLARATION_ID.raise(id));
       }
-
-      throw new ObjectNotFoundException("Type declaration " + id + " does not exist.");
+      return typeDeclaration;
    }
 
    /**
@@ -1823,20 +1892,8 @@ public class ModelBuilderFacade
     */
    public TypeDeclarationType findTypeDeclaration(String fullTypeID)
    {
-      String modelID = this.getModelId(fullTypeID);
-      String typeID = stripFullId(fullTypeID);
-      ModelType model = findModel(modelID);
-      for (TypeDeclarationType typeDeclaration : model.getTypeDeclarations()
-            .getTypeDeclaration())
-      {
-         if (typeDeclaration.getId().equals(typeID))
-         {
-            return typeDeclaration;
-         }
-      }
-
-      throw new ObjectNotFoundException("Type declaration " + fullTypeID
-            + " does not exist.");
+      String[] ids = fullTypeID.split(":");
+      return findTypeDeclaration(findModel(ids[0]), ids[1]);
    }
 
    /**
@@ -2050,7 +2107,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
+   public static ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
    {
       LaneSymbol laneSymbol = findLaneContainingActivitySymbol(diagram, oid);
 
@@ -2068,7 +2125,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
+   public static ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
       {
@@ -2087,7 +2144,7 @@ public class ModelBuilderFacade
     * @param oid
     * @return
     */
-   public LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
+   public static LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
    {
       for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
       {
@@ -2106,7 +2163,7 @@ public class ModelBuilderFacade
       return null;
    }
 
-   public LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
+   public static LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
          long oid)
    {
       for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
@@ -2912,7 +2969,7 @@ public class ModelBuilderFacade
       return application;
    }
 
-   public void setAttribute(Object element, String name, String value)
+   public static void setAttribute(Object element, String name, String value)
    {
       if (element instanceof Extensible)
       {
@@ -2924,10 +2981,9 @@ public class ModelBuilderFacade
       }
    }
 
-   public void setTimestampAttribute(IExtensibleElement element, String name, String value)
+   public static void setTimestampAttribute(IExtensibleElement element, String name, String value)
    {
-      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE,
-            value);
+      AttributeUtil.setAttribute((IExtensibleElement) element, name, TIMESTAMP_TYPE, value);
    }
 
    public Date getTimestampAttribute(IExtensibleElement element, String name)
@@ -2948,7 +3004,7 @@ public class ModelBuilderFacade
       return date;
    }
 
-   public void setBooleanAttribute(Object element, String name, boolean value)
+   public static void setBooleanAttribute(Object element, String name, boolean value)
    {
       if (element instanceof Extensible)
       {
@@ -3087,6 +3143,10 @@ public class ModelBuilderFacade
    {
       if (modelElement != null)
       {
+         if (modelElement.eIsProxy())
+         {
+            return true;
+         }
          if (modelElement instanceof DataType)
          {
             DataType dataType = (DataType) modelElement;
@@ -3255,7 +3315,7 @@ public class ModelBuilderFacade
 
       if (StringUtils.isEmpty(modelID))
       {
-         modelID = NameIdUtils.createIdFromName(modelName, ids);
+         modelID = NameIdUtilsExtension.createIdFromName(modelName, ids);
       }
       model.setId(modelID);
 
@@ -3286,7 +3346,8 @@ public class ModelBuilderFacade
    {
       ParameterMappingType mappingType = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
       mappingType.setParameter(parameter);
-      mappingType.setData(findData(dataFullID));
+      DataType dt = importData(ModelUtils.findContainingModel(trigger), dataFullID);
+      mappingType.setData(dt);
       if (dataPath != null)
       {
          mappingType.setDataPath(dataPath);
@@ -3627,5 +3688,45 @@ public class ModelBuilderFacade
       }
 
       return null;
+   }
+
+   public boolean isReadOnly(EObject element)
+   {
+      if (element != null && element instanceof ModelType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute((ModelType) element,
+               "stardust:security:hash");
+         if ((attribute != null) && (attribute.getValue() != null)
+               && (attribute.getValue().length() > 0))
+         {
+            return true;
+         }
+
+      }
+      return false;
+   }
+
+   public void updateReferences(ModelType model, ModelType ref)
+   {
+      String connId = WebModelerConnectionManager.createFileConnection(model, ref);
+
+      ExternalPackages packs = model.getExternalPackages();
+      if (packs == null)
+      {
+         packs = XpdlFactory.eINSTANCE.createExternalPackages();
+         model.setExternalPackages(packs);
+      }
+      if (packs.getExternalPackage(ref.getId()) == null)
+      {
+         ExternalPackage pack = XpdlFactory.eINSTANCE.createExternalPackage();
+         pack.setId(ref.getId());
+         pack.setName(ref.getName());
+         pack.setHref(ref.getId());
+
+         ExtendedAttributeUtil.setAttribute(pack, IConnectionManager.URI_ATTRIBUTE_NAME, "cnx://" + connId + "/");
+
+         List<ExternalPackage> packList = packs.getExternalPackage();
+         packList.add(pack);
+      }
    }
 }

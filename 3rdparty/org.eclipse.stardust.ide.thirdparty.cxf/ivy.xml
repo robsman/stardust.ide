@@ -57,7 +57,6 @@
       <dependency org="org.apache.santuario" name="xmlsec" rev="${xmlsec.version}" transitive="false" conf="bom->default" />
       
       <dependency org="com.sun.xml.bind" name="jaxb-impl" rev="${jaxb-impl.version}" transitive="false" conf="bom->default" />
-      <dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="${jaxb-xjc.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.velocity" name="velocity" rev="${velocity.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.ws.xmlschema" name="xmlschema-core" rev="${xmlschema-core.version}" transitive="false" conf="bom->default" />
    </dependencies>

@@ -24,5 +24,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.stardust.modeling.common.ui,
  org.eclipse.stardust.modeling.common.ui.actions,
  org.eclipse.stardust.modeling.common.ui.classpath,
- org.eclipse.stardust.modeling.common.ui.properties
+ org.eclipse.stardust.modeling.common.ui.properties,
+ org.eclipse.stardust.modeling.common.ui.preferences
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

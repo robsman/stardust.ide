@@ -403,7 +403,13 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
          final EObject model = getEObjectModel();
          if (null != model)
          {
-            model.eAdapters().remove(getNotificationAdapter());
+            try
+            {
+               model.eAdapters().remove(getNotificationAdapter());
+            }
+            catch (Exception e)
+            {
+            }
          }
 
          super.deactivate();

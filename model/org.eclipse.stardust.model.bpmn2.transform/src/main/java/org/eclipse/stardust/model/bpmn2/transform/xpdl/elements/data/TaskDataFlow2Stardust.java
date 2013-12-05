@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,23 +23,27 @@ import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.DataStore;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 /**
  * @author Simon Nikles
@@ -95,7 +101,20 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         ItemAwareElement associationSource = getFirstAssociationSource(assocIn);
         if (associationSource instanceof DataObjectReference)
             associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+
+        if (associationSource instanceof DataStoreReference) {
+            associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
+        	if (associationSource.eIsProxy()) {
+        		associationSource = Bpmn2ProxyResolver.resolveDataStoreProxy((DataStore)associationSource, BpmnModelQuery.getModelDefinitions(container));
+        	}
+        }
+
         DataInput dataInput = associationTarget instanceof DataInput ? (DataInput)associationTarget : null;
+        if (null == associationSource) {
+        	failures.add("DATA INPUT ASSOCIATION HAS NO TARGET association id: " + assocIn.getId() + " to Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+        	return dataInput;
+        }
+
         DataType fromVariable = query.findVariable(associationSource.getId());
         if (fromVariable == null) failures.add("DATA INPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " to Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
 
@@ -114,8 +133,19 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
         ItemAwareElement associationTarget = assocOut.getTargetRef();
         if (associationTarget instanceof DataObjectReference) associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
+        if (associationTarget instanceof DataStoreReference) {
+        	associationTarget = ((DataStoreReference)associationTarget).getDataStoreRef();
+        	if (associationTarget.eIsProxy()) {
+        		associationTarget = Bpmn2ProxyResolver.resolveDataStoreProxy((DataStore)associationTarget, BpmnModelQuery.getModelDefinitions(container));
+        	}
+        }
 
         DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
+        if (null == associationTarget) {
+        	failures.add("DATA OUTPUT ASSOCIATION TARGET NOT SET id: " + assocOut.getId() + " from Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+        	return dataOutput;
+        }
+
         DataType toVariable = query.findVariable(associationTarget.getId());
         if (toVariable == null) failures.add("DATA OUTPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " from Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
 
@@ -137,7 +167,8 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String assingmentId = assign.getId();
             Expression toExpression = assign.getTo();
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+            //String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+            String applicationAccessPoint = ExtensionHelper2.getInstance().getAssignmentAccessPointRef(toExpression);
             String applicationAccessPath = getExpressionValue(toExpression);
 
             String mappingId = assocIn.getId() + "_" + assingmentId;
@@ -155,7 +186,11 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String assingmentId = assign.getId();
             String mappingId = assocOut.getId() + "_" + assingmentId;
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+            String applicationAccessPoint = ExtensionHelper2.getInstance().getAssignmentAccessPointRef(fromExpression);
+			if (isEmpty(applicationAccessPoint)) {
+				// TODO TO-JSON-EXT
+				applicationAccessPoint = ""; //ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+			}
             String applicationAccessPath = getExpressionValue(fromExpression);
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
@@ -208,7 +243,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
                 expr = assoc.getTransformation().getBody();
                 logger.debug("Set Datapath from Expression-Body value: " + expr + " (" + assoc + ")");
             } else if (assoc.getTransformation().getMixed() != null )  {
-                 expr = XpdlModelUtils.getCDataString(assoc.getTransformation().getMixed());
+                 expr = ModelUtils.getCDataString(assoc.getTransformation().getMixed());
                  logger.debug("Set Datapath from Mixed value: " + expr + " (" + assoc + ")");
             }
             mapping.setDataPath(expr);
@@ -224,7 +259,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         return null;
     }
 
-    private boolean hasAssignment(DataAssociation assoc) {
+    public static boolean hasAssignment(DataAssociation assoc) {
         return (assoc.getAssignment() != null && assoc.getAssignment().size() > 0);
     }
 
@@ -241,6 +276,13 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             valid = false;
         }
         if (associationSource instanceof DataObjectReference) associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+        if (associationSource instanceof DataStoreReference) {
+        	associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
+        	if (associationTarget.eIsProxy()) {
+        		associationTarget = Bpmn2ProxyResolver.resolveDataStoreProxy((DataStore)associationSource, BpmnModelQuery.getModelDefinitions(container));
+        	}
+        }
+
         if (associationSource == null) {
             failures.add("DATA ASSOCIATION SOURCE NOT VALID " + assoc.getId() + " Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
             valid = false;
@@ -280,8 +322,24 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     				return PredefinedConstants.APPLICATION_CONTEXT;
     			}
     		}
+    	} else if (ActivityImplementationType.SUBPROCESS_LITERAL.equals(activity.getImplementation())) {
+    		return PredefinedConstants.ENGINE_CONTEXT;
     	}
+
     	return PredefinedConstants.DEFAULT_CONTEXT;
     }
 
+    public static String getInDataMappingId(DataInput dataInput, DataInputAssociation inputAssociation) {
+    	if (inputAssociation != null) {
+    		return inputAssociation.getId();
+    	}
+    	return dataInput.getId();
+    }
+
+    public static String getOutDataMappingId(DataOutput dataOutput, DataOutputAssociation outputAssociation) {
+    	if (outputAssociation != null) {
+    		return outputAssociation.getId();
+    	}
+    	return dataOutput.getId();
+    }
 }

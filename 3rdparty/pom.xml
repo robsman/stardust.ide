@@ -29,6 +29,7 @@
     <module>org.eclipse.stardust.ide.thirdparty.runtime.j2ee</module>
     <module>org.eclipse.stardust.ide.thirdparty.runtime.xml</module>
     <module>org.eclipse.stardust.ide.thirdparty.springframework</module>
+    <module>org.eclipse.stardust.ide.thirdparty.camel</module>
 
     <module>org.eclipse.stardust.ide.3rdparty-feature</module>
   </modules>
@@ -68,7 +69,8 @@
             <format>${maven.build.timestamp.format}</format>
             <strictVersions>false</strictVersions>
             <timestampProvider>jgit</timestampProvider>
-            <jgit.ignore></jgit.ignore>
+            <jgit.ignore>pom.xml</jgit.ignore>
+            <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
           </configuration>
         </plugin>
       </plugins>

@@ -44,16 +44,6 @@ public class MyASTVisitor extends ASTVisitor
       this.node = node;
    }
 
-   private TypeDeclaration getTypeDeclaration()
-   {
-      return result;
-   }
-
-   private List<Annotation> getAnnotations()
-   {
-      return annotations;
-   }
-
    @Override
    public boolean visit(TypeDeclaration node)
    {
@@ -102,20 +92,15 @@ public class MyASTVisitor extends ASTVisitor
       ASTNode node = parser.createAST(null);
       MyASTVisitor visitor = new MyASTVisitor(type);
       node.accept(visitor);
-      return visitor.getTypeDeclaration();
-   }
-
-   public static List<Annotation> getAnnotations(TypeInfo type, ASTNode node)
-   {
-      MyASTVisitor visitor = new MyASTVisitor(type, node);
-      node.accept(visitor);
-      return visitor.getAnnotations();
+      return visitor.result;
    }
 
    public static Annotation getAnnotation(TypeInfo type, ASTNode node,
          Class<?> targetClass)
    {
-      List<Annotation> annotations = getAnnotations(type, node);
+      MyASTVisitor visitor = new MyASTVisitor(type, node);
+      node.accept(visitor);
+      List<Annotation> annotations = visitor.annotations;
       for (Annotation annotation : annotations)
       {
          String annotationType = annotation.getTypeName().toString();

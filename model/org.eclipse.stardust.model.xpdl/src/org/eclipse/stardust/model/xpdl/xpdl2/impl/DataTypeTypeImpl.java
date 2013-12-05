@@ -350,13 +350,23 @@ public class DataTypeTypeImpl extends EObjectImpl implements DataTypeType
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
-    * @generated
+    * @generated NOT
     */
    public XpdlTypeType getDataType()
    {
-      // TODO: implement this method
-      // Ensure that you remove @generated or mark it @generated NOT
-      throw new UnsupportedOperationException();
+      if (schemaType != null)
+      {
+         return schemaType;
+      }
+      else if (declaredType != null)
+      {
+         return declaredType;
+      }
+      else if (externalReference != null)
+      {
+         return externalReference;
+      }
+      return basicType;
    }
 
    /**

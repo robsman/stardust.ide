@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +30,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestUserTaskWebApp2Stardust {
+public class TestUserTaskWebApp2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String DATA_OUTPUT_ASSOCIATION_ID = "TestModelOutputAssociationTaskA";
 	private static final String DATA_ASSOCIATION_ASSIGNMENT_ID = "TestAssignmentOutputTaskA";
@@ -74,6 +68,5 @@ public class TestUserTaskWebApp2Stardust {
         assertNotNull(context);
         assertEquals(PredefinedConstants.JSF_CONTEXT, context.getType().getId());
     }
-
 
 }

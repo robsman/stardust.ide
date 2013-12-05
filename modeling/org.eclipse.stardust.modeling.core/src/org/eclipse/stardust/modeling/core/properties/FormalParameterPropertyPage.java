@@ -40,6 +40,7 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappings
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
@@ -51,7 +52,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
-import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
@@ -60,18 +60,16 @@ import org.eclipse.stardust.modeling.core.editors.parts.tree.IdentifiableModelEl
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 public class FormalParameterPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -82,7 +80,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
    private LabeledViewer directionCombo;
    private LabeledViewer dataCombo;
    private Button[] buttons;
-   private Button autoIdButton;
 
    private boolean isEditable = true;
 
@@ -111,27 +108,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
 
    private List typeFilters = new ArrayList<ViewerFilter>();
 
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {}
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if (selection)
-         {
-            idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
-            idText.getText().setText(computedId);
-         }
-         else
-         {
-            idText.getText().setEditable(true);
-         }
-      }
-   };
-
    protected void performDefaults()
    {
       super.performDefaults();
@@ -147,11 +123,10 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };
@@ -330,7 +305,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
 
    private void enableControls()
    {
-      autoIdButton.setEnabled(!readOnly && enablePage);
       idText.getText().setEnabled(!readOnly && enablePage);
       nameText.getText().setEnabled(!readOnly && enablePage);
       directionCombo.getViewer().getControl().setEnabled(!readOnly && enablePage);
@@ -449,17 +423,11 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
          }
       });
 
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);
-      autoIdButton.setSelection(autoIdButtonValue);
-      autoIdButton.setEnabled(enablePage);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if (autoIdButtonValue)
       {
          idText.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
 
       // FormBuilder.createLabel(composite, Properties_Messages.LB_Direction);
       List<DirectionType> directions = new ArrayList<DirectionType>();

@@ -207,6 +207,8 @@ public class MessageTransformationApplicationControlsManager
    private ModelType model;
 
    private boolean simpleMode;
+   
+   private boolean withSerializable;
 
    private boolean externalReference;
 
@@ -234,6 +236,13 @@ public class MessageTransformationApplicationControlsManager
    {
       return create(parent, modelElement, enableEditing && !externalReference, false);
    }
+   
+   public Control create(final Composite parent, final IModelElement modelElement,
+	         final boolean enableEditing, final boolean simpleMode, boolean withSerializable)
+   {
+	   this.withSerializable = withSerializable;
+	   return this.create(parent, modelElement, enableEditing, simpleMode);
+   }
 
    public Control create(final Composite parent, final IModelElement modelElement,
          final boolean enableEditing, final boolean simpleMode)
@@ -244,6 +253,8 @@ public class MessageTransformationApplicationControlsManager
 
          this.simpleMode = simpleMode;
          controller.setSimpleMode(simpleMode);
+         controller.setWithSerializable(withSerializable);
+         
          model = ModelUtils.findContainingModel(modelElement);
 
          project = ModelUtils.getProjectFromEObject(modelElement);
@@ -597,7 +608,8 @@ public class MessageTransformationApplicationControlsManager
                      MessageTransformationApplicationControlsManager.this, controller);
                manager.add(deleteMessageAction);
             }
-            if (controller.isSimpleMode())
+            
+            if (controller.isSimpleMode() && !controller.isSerializable(controller.getSelectedSourceField()))
             {
                RenameMessageAction renameMessageAction = new RenameMessageAction(
                      MessageTransformationApplicationControlsManager.this, controller, true);
@@ -782,7 +794,7 @@ public class MessageTransformationApplicationControlsManager
 
                }
             }
-            if (controller.isSimpleMode())
+            if (controller.isSimpleMode()  && !controller.isSerializable(controller.getSelectedTargetField()))
             {
 
                RenameMessageAction renameMessageAction = new RenameMessageAction(

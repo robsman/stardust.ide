@@ -16,11 +16,11 @@ import org.eclipse.stardust.engine.extensions.transformation.model.mapping.Trans
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class MessageTransformationApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, MessageTransformationApplicationBuilder>
 {
@@ -31,7 +31,7 @@ public class MessageTransformationApplicationBuilder extends AbstractModelElemen
 
       forModel(model);
 
-      ApplicationTypeType applicationMetaType = XpdlModelUtils.findIdentifiableElement(
+      ApplicationTypeType applicationMetaType = ModelUtils.findIdentifiableElement(
             model.getApplicationType(), ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
       if (null == applicationMetaType)
       {

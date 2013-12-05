@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jaxb-impl.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jaxb-xjc.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-bindings-soap.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-tools-validator.jar"/>

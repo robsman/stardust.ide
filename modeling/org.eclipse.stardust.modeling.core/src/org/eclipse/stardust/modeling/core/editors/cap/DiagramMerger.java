@@ -491,6 +491,8 @@ public class DiagramMerger extends AbstractMerger
             }
          }
       }
+      
+      mergeConfigurationVariables();
    }
    
    private void createConnections()

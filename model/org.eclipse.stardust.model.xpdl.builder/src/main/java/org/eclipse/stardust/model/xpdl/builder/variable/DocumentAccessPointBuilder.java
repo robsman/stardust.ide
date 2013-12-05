@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -23,6 +24,10 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 public class DocumentAccessPointBuilder
       extends AbstractModelElementBuilder<AccessPointType, DocumentAccessPointBuilder>
 {
+   protected EList< ? super AccessPointType> getElementContainer()
+   {
+      return owner.getAccessPoint();
+   }
    private IAccessPointOwner owner;
 
    public DocumentAccessPointBuilder()

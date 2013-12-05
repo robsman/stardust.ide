@@ -40,6 +40,7 @@ import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
 import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.GroupSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelerSymbolType;
@@ -69,7 +70,6 @@ import org.eclipse.stardust.modeling.core.editors.figures.ProcessInterfaceFigure
 import org.eclipse.stardust.modeling.core.editors.figures.ProcessSymbolFigure;
 import org.eclipse.stardust.modeling.core.editors.figures.RoleSymbolFigure;
 import org.eclipse.stardust.modeling.core.editors.figures.TransitionConnectionFigure;
-
 
 public class WorkflowModelDiagramEditPartFactory implements EditPartFactory
 {
@@ -267,6 +267,23 @@ public class WorkflowModelDiagramEditPartFactory implements EditPartFactory
             {
                EndEventSymbol symbolModel = (EndEventSymbol) getModel();
                EventFigure f = new EventFigure(EventFigure.EVENT_FLOW_END,
+                     getIconFactory().getIconFor(symbolModel));
+               // f.setTypeIndicator(EventFigure.EVENT_TYPE_MESSAGE);
+               f.setLocation(new Point(symbolModel.getXPos(), symbolModel.getYPos()));
+               f.setText(null/* "End Event" */); //$NON-NLS-1$
+               return f;
+            }
+         };
+      }
+      else if (model instanceof IntermediateEventSymbol)
+      {
+         return new AbstractModelElementNodeSymbolEditPart(editor,
+               (IntermediateEventSymbol) model, EventFigure.class, startEventSourceConnections, endEventTargetConnections)
+         {
+            protected IFigure createFigure()
+            {
+               IntermediateEventSymbol symbolModel = (IntermediateEventSymbol) getModel();
+               EventFigure f = new EventFigure(EventFigure.EVENT_FLOW_INTERMEDIATE,
                      getIconFactory().getIconFor(symbolModel));
                // f.setTypeIndicator(EventFigure.EVENT_TYPE_MESSAGE);
                f.setLocation(new Point(symbolModel.getXPos(), symbolModel.getYPos()));

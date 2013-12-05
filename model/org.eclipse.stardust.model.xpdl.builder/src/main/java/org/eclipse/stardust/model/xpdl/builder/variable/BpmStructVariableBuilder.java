@@ -13,19 +13,18 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -60,7 +59,7 @@ public class BpmStructVariableBuilder
 
       forModel(model);
 
-      DataTypeType structMetaType = XpdlModelUtils.findIdentifiableElement(
+      DataTypeType structMetaType = ModelUtils.findIdentifiableElement(
             model.getDataType(), PredefinedConstants.STRUCTURED_DATA);
       if (null != structMetaType)
       {

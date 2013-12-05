@@ -27,6 +27,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
@@ -45,7 +46,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 public class DataPathPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -67,32 +67,8 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
    private AccessPathBrowserComposite dataPathBrowser;
 
    private Button[] buttons;
-   private Button autoIdButton;
    private boolean isEditable = true;
 
-   
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
-            idText.getText().setText(computedId);            
-         }
-         else
-         {
-            idText.getText().setEditable(true);            
-         }         
-      }
-   };         
-   
    protected void performDefaults()
    {
       super.performDefaults();
@@ -107,11 +83,10 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };
@@ -202,7 +177,6 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
          dataPathBrowser.getBrowseButton().setEnabled(
                editor != null && editor.supportsBrowsing() && enabled);
       }
-      autoIdButton.setEnabled(enabled);
       if (buttons != null && buttons.length >= IButtonManager.DELETE_BUTTON)
       {
          buttons[IButtonManager.DELETE_BUTTON].setEnabled(enabled);
@@ -281,7 +255,6 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      GenericUtils.setAutoIdValue(getModelElement(), autoIdButton.getSelection());            
    }
 
    public Control createBody(Composite parent)
@@ -291,15 +264,11 @@ public class DataPathPropertyPage extends AbstractModelElementPropertyPage
       nameText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_Name);
       idText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
 
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue(getModelElement());
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          idText.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);      
 
       FormBuilder.createLabel(composite, Diagram_Messages.LB_Direction);
       directionCombo = new ComboViewer(FormBuilder.createCombo(composite));

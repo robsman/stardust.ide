@@ -5,8 +5,7 @@
 	itp:modificationDate="10.09.2012 11:58:33" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
 	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 
-	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
-	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+	xmlns:stardust="http://www.eclipse.org/stardust"
 	xmlns:WSExportRDFServiceHttpEndpoint="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl"
 	>
 
@@ -21,40 +20,57 @@
 
 	<interface id="CROServiceAppInterface" name="CROServiceAppInterface" implementationRef="CROServiceApp">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="webservice">
-				<sdbpmn:StardustApplication elementOid="10058" id="CROServiceApp" name="CROServiceApp">
-					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<stardust:attribute name="carnot:engine:wsRuntime" value="jaxws" />
-					<stardust:attribute name="carnot:engine:wsdlUrl" value="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" />
-					<stardust:attribute name="carnot:engine:wsServiceName" value="{http://ws.dao.athene.fhnw.ch}WSExportRDFService" />
-					<stardust:attribute name="carnot:engine:wsPortName" value="WSExportRDFServiceHttpEndpoint" />
-					<stardust:attribute name="carnot:engine:wsOperationName" value="getCRO" />
-					<stardust:attribute name="carnot:engine:wsSoapProtocol" value="SOAP 1.1 Protocol" />
-					<stardust:attribute name="carnot:engine:wsInputOrder" value="parameters" />
-					<stardust:attribute name="carnot:engine:wsOutputOrder" value="parameters" />
-					<stardust:attribute name="synchronous:retry:enable" type="boolean" value="false" />
-					<stardust:attribute name="carnot:engine:wsSoapActionUri" value="urn:getCRO" />
-					<sdbpmn:accessPoint elementOid="10060" id="carnot:engine:endpointAddress" name="Endpoint Address" direction="IN" typeRef="serializable">
-						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
-						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
-					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10061" id="parameters" name="parameters" direction="IN" typeRef="plainXML">
-						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
-					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10062" id="parameters" name="parameters" direction="OUT" typeRef="plainXML" />
-					<sdbpmn:accessPoint elementOid="10074" id="parameters_struct" name="parameters_struct (getCRO)" direction="IN" typeRef="struct">
-						<stardust:attribute name="carnot:engine:dataType" value="getCRO" />
-						<stardust:attribute name="carnot:engine:transformation" value="DOM" />
-						<stardust:attribute name="carnot:engine:path:separator" value="/" />
-						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
-					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10075" id="parameters_struct" name="parameters_struct (getCROResponse)" direction="OUT" typeRef="struct">
-						<stardust:attribute name="carnot:engine:dataType" value="getCROResponse" />
-						<stardust:attribute name="carnot:engine:path:separator" value="/" />
-						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
-					</sdbpmn:accessPoint>
-				</sdbpmn:StardustApplication>
-			</sdbpmn:StardustInterface>
+			<stardust:StardustInterface>
+				{ "applicationType": "webservice",
+					"stardustApplication": {
+				  		"elementOid": 10058,
+				  		"id": "CROServiceApp",
+				  		"name": "CROServiceApp",
+				  		"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:wsRuntime": "jaxws",
+							"carnot:engine:wsdlUrl": "http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl",
+							"carnot:engine:wsServiceName": "{http://ws.dao.athene.fhnw.ch}WSExportRDFService",
+							"carnot:engine:wsPortName": "WSExportRDFServiceHttpEndpoint",
+							"carnot:engine:wsOperationName": "getCRO",
+							"carnot:engine:wsSoapProtocol": "SOAP 1.1 Protocol",
+							"carnot:engine:wsInputOrder": "parameters",
+							"carnot:engine:wsOutputOrder": "parameters",
+							"synchronous:retry:enable": false,
+							"carnot:engine:wsSoapActionUri": "urn:getCRO"
+				  		},
+				  		"accessPoints": [
+							{ "elementOid": 10060, "id": "carnot:engine:endpointAddress", "name": "Endpoint Address", "direction": "IN", "typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": true
+								}
+							},
+							{ "elementOid": 10061, "id": "parameters", "name": "parameters", "direction": "IN", "typeRef": "plainXML",
+								"attributes": {
+									"carnot:engine:browsable": true
+								}
+							},
+							{ "elementOid": 10062, "id": "parameters", "name": "parameters", "direction": "OUT", "typeRef": "plainXML" },
+							{ "elementOid": 10074, "id": "parameters_struct", "name": "parameters_struct (getCRO)", "direction": "IN", "typeRef": "struct",
+								"attributes": {
+									"carnot:engine:dataType": "getCRO",
+									"carnot:engine:transformation": "DOM",
+									"carnot:engine:path:separator": "/",
+									"carnot:engine:data:bidirectional": true
+								}
+							},
+							{ "elementOid": 10075, "id": "parameters_struct", "name": "parameters_struct (getCROResponse)", "direction": "OUT", "typeRef": "struct",
+								"attributes": {
+									"carnot:engine:dataType": "getCROResponse",
+									"carnot:engine:path:separator": "/",
+									"carnot:engine:data:bidirectional": true
+								}
+							}
+					  	]
+					}
+				}
+			</stardust:StardustInterface>
 		</extensionElements>
 		<operation id="OperationGetCRO" name="getCRO">
 			<inMessageRef>getCROMessageInput</inMessageRef>
@@ -68,14 +84,11 @@
 
 		<startEvent id="TestModelStartEventId" isInterrupting="true" />
 
-		<!-- <activity oid="10063" id="CallCROWebService" name="call CRO WebService" allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false"
-			implementation="Application"> -->
 		<serviceTask id="TestModelTaskA" name="get CRO" implementation="##WebService" operationRef="OperationGetCRO">
 			<!-- allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false" -->
 			<ioSpecification>
 				<dataOutput id="TestModelDataOutputTaskA">
 				</dataOutput>
-				<inputSet />
 				<outputSet>
 					<dataOutputRefs>TestModelDataOutputTaskA</dataOutputRefs>
 				</outputSet>
@@ -84,7 +97,7 @@
 				<sourceRef>TestModelDataOutputTaskA</sourceRef>
 				<targetRef>TestModelDataObjectReferenceA</targetRef>
 				<assignment id="TestAssignmentOutputTaskA">
-					<from sdbpmn:applicationAccessPointRef="parameters_struct" xsi:type="tFormalExpression">return</from>
+					<from stardust:applicationAccessPointRef="parameters_struct" xsi:type="tFormalExpression">return</from>
 					<to xsi:type="tFormalExpression">return</to>
 				</assignment>
 			</dataOutputAssociation>

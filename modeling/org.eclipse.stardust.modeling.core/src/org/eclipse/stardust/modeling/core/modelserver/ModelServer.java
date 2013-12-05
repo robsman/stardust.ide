@@ -327,7 +327,7 @@ public class ModelServer extends ModelServerHelper
          return;
       }
       
-      LockUtil util = new LockUtil(editor);
+      LockUtil util = LockUtil.getLockUtil(editor);
       util.analyze(monitor);
       String updateElements = util.checkUpdateNeeded(elements);
       if(!StringUtils.isEmpty(updateElements))
@@ -610,7 +610,7 @@ public class ModelServer extends ModelServerHelper
             {
                ModelServerUtils.mergeElements3(updateUtil.getSelectedElementsChanged(), remoteModelHead, model);
             }
-         });                      
+         });  
          MergeUtils.fixDuplicateOids(model);
       }
       catch (Exception e)
@@ -799,7 +799,7 @@ public class ModelServer extends ModelServerHelper
       {
          monitor.beginTask(Diagram_Messages.TASK_LOCK_ELEMENTS, lockables.length + 5);
       }
-      LockUtil util = new LockUtil(editor);
+      LockUtil util = LockUtil.getLockUtil(editor);
       util.analyze(monitor);
       String updateElements = util.checkUpdateNeeded(Arrays.asList(lockables));
       if(!StringUtils.isEmpty(updateElements))

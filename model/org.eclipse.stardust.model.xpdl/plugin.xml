@@ -14,6 +14,8 @@
 
 <plugin>
   <extension-point id="modelAdapterFactory" name="Model Adapter Factory" schema="schema/modelAdapterFactory.exsd"/>
+  <extension-point id="elementReference" name="Element Reference" schema="schema/elementReference.exsd"/>
+    
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "http://www.carnot.ag/workflowmodel/3.1" 
@@ -26,5 +28,105 @@
        type="cwm" 
        class="org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelResourceFactoryImpl" />
   </extension>
+ 
+  <extension point="org.eclipse.stardust.model.xpdl.elementReference">
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.TriggerType"
+           meta="manual">
+        <attribute
+              attributeName="carnot:engine:participant"
+              scope="role+organization">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.TriggerType"
+           meta="scan">
+        <attribute
+              attributeName="carnot:engine:participant"
+              scope="role+organization">
+        </attribute>
+     </reference>     
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.OrganizationType">
+        <attribute
+              attributeName="carnot:engine:dataId"
+              scope="data">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.DataType"
+           meta="struct">           
+        <attribute
+              attributeName="carnot:engine:dataType"
+              scope="struct">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.DataType"
+           meta="dmsDocument">                      
+        <attribute
+              attributeName="carnot:engine:dms:resourceMetadataSchema"
+              scope="struct">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.AccessPointType">
+        <attribute
+              attributeName="carnot:engine:dataType"
+              scope="struct">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType"
+           meta="timer">
+        <attribute
+              attributeName="carnot:engine:data"
+              scope="data">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventActionType"
+           meta="trigger">                      
+        <attribute
+              attributeName="carnot:engine:processDefinition"
+              scope="processDefinition">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventActionType"
+           meta="mail">                      
+        <attribute
+              attributeName="carnot:engine:receiver"
+              scope="role+organization+conditionalPerformer">
+        </attribute>
+        <attribute
+              attributeName="carnot:engine:mailBodyData"
+              scope="data">              
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventActionType"
+           meta="delegateActivity">                      
+        <attribute
+              attributeName="carnot:engine:target"
+              scope="role+organization+conditionalPerformer">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventActionType"
+           meta="excludeUser">                      
+        <attribute
+              attributeName="carnot:engine:excludedPerformerData"
+              scope="data">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.EventActionType"
+           meta="setData">                      
+        <attribute
+              attributeName="carnot:engine:dataId"
+              scope="data">
+        </attribute>
+     </reference>
+  </extension>     
 </plugin>
-

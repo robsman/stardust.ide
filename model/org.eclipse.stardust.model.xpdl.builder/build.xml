@@ -36,7 +36,7 @@
    <target name="initOnProduction" unless="setup.development">
       <echo message="Performing a production build ..." />
 
-      <property name="javac.debuglevel" value="lines,source" />
+      <property name="javac.debuglevel" value="lines,source,vars" />
    </target>
 
    <target name="init" depends="initOnDevelopment, initOnProduction">
@@ -51,21 +51,19 @@
    <target name="initBuild" depends="init">
       <property name="build.classes" value="${build.dir}/classes" />
       <property name="build.lib" value="${build.dir}/lib" />
-      <property name="build.lib.src" value="${build.dir}/src" />
       <property name="build.src" value="${build.dir}/src" />
       <property name="build.src.none" location="${build.dir}/src-none" />
 
       <property name="xpdl.builder.jarfile" value="${artifactId}.jar" />
       <property name="xpdl.builder.jar" value="${build.lib}/${xpdl.builder.jarfile}" />
       <property name="xpdl.builder.src-jarfile" value="${artifactId}-sources.jar" />
-      <property name="xpdl.builder.src-jar" value="${build.lib.src}/${xpdl.builder.src-jarfile}" />
+      <property name="xpdl.builder.src-jar" value="${build.lib}/${xpdl.builder.src-jarfile}" />
    </target>
 
    <target name="initBuildDirectories" depends="initBuild">
       <mkdir dir="${build.classes}" />
       <mkdir dir="${build.lib}" />
       <mkdir dir="${build.src}" />
-      <mkdir dir="${build.lib.src}" />
       <mkdir dir="${build.src.none}" />
    </target>
 
@@ -135,8 +133,12 @@
 
    <target name="jar.src" depends="compile">
       <delete file="${xpdl.builder.src-jar}" />
-      <ipp:jar jarfile="${xpdl.builder.src-jar}" implementationTitle="Model XPDL Builder">
-         <fileset dir="${project.src}">
+      <ipp:jar jarfile="${xpdl.builder.src-jar}" implementationTitle="Model XPDL Builder Sources"
+         duplicate="preserve">
+         <fileset dir="${build.src.generated}">
+            <include name="**/*.java" />
+         </fileset>
+         <fileset dir="${build.src.static}">
             <include name="**/*.java" />
          </fileset>
       </ipp:jar>
@@ -144,7 +146,7 @@
    
    <target name="build" depends="jar, jar.src" xmlns:ivy="antlib:org.apache.ivy.ant">
       <ivy:resolve file="${project.dir}/ivy.xml" />
-      <ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" srcArtifactDir="${build.lib.src}" 
+      <ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" 
          conf="*" publishIvy="true" publishPom="true"/>
    </target>
 

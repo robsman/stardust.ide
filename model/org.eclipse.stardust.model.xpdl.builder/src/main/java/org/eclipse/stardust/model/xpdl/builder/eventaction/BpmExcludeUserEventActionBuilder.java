@@ -11,11 +11,11 @@
 package org.eclipse.stardust.model.xpdl.builder.eventaction;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 public class BpmExcludeUserEventActionBuilder
@@ -42,7 +42,7 @@ public class BpmExcludeUserEventActionBuilder
 
    public BpmExcludeUserEventActionBuilder basedOnVariable(String dataId)
    {
-      return basedOnVariable(XpdlModelUtils.findElementById(model.getData(), dataId));
+      return basedOnVariable(ModelUtils.findElementById(model.getData(), dataId));
    }
 
    public BpmExcludeUserEventActionBuilder basedOnVariable(DataType data)

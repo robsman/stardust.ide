@@ -36,7 +36,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.AbstractWidgetAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EFeatureAdapter;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.EObjectAdapter;
@@ -49,16 +49,13 @@ import org.eclipse.stardust.modeling.core.editors.ui.AccessPathBrowserComposite;
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathModelAdapter2;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathWidgetAdapter2;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * @author fherinean
@@ -68,8 +65,6 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
 {
    protected LabeledText txtId;
    protected LabeledText txtName;
-
-   protected Button autoIdButton;
    
    private LabelWithStatus dataLabel;
    private ComboViewer dataText;
@@ -90,37 +85,13 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
    
    private String dataMappingContext;
    
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
-            txtId.getText().setText(computedId);            
-         }
-         else
-         {
-            txtId.getText().setEditable(true);            
-         }         
-      }
-   };         
-   
    private ModifyListener listener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);
          }
       }
@@ -408,15 +379,11 @@ public class DataMappingPropertyPage extends AbstractModelElementPropertyPage
       txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
       txtId.setTextLimit(80);      
 
-      autoIdButton = FormBuilder.createCheckBox(composite, Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          txtId.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
 
       dataLabel = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.LB_Data);

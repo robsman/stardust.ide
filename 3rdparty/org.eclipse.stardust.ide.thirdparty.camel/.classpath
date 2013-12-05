@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-spring.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-jms.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-quartz.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-restlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-script.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/quartz.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/org.restlet.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

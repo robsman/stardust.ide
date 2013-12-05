@@ -11,13 +11,8 @@
 package org.eclipse.stardust.model.xpdl.builder.eventaction;
 
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -30,7 +25,7 @@ public abstract class AbstractEventActionBuilder<T extends AbstractEventAction, 
    {
       super(action);
 
-      forModel(XpdlModelUtils.findContainingModel(handler));
+      forModel(ModelUtils.findContainingModel(handler));
 
       this.handler = handler;
    }
@@ -62,8 +57,7 @@ public abstract class AbstractEventActionBuilder<T extends AbstractEventAction, 
 
    protected B forActionType(String actionTypeId)
    {
-      return forActionType(XpdlModelUtils.findElementById(model.getEventActionType(),
-            actionTypeId));
+      return forActionType(ModelUtils.findElementById(model.getEventActionType(), actionTypeId));
    }
 
    @SuppressWarnings("unchecked")

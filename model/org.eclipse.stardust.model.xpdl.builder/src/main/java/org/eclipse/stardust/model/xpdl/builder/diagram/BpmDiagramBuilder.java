@@ -11,13 +11,8 @@
 package org.eclipse.stardust.model.xpdl.builder.diagram;
 
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 
@@ -157,7 +152,7 @@ public class BpmDiagramBuilder extends AbstractElementBuilder<DiagramType, BpmDi
          {
             this.process = process;
 
-            ModelType containingModel = XpdlModelUtils.findContainingModel(process);
+            ModelType containingModel = ModelUtils.findContainingModel(process);
             if (null != containingModel)
             {
                setModel(containingModel);

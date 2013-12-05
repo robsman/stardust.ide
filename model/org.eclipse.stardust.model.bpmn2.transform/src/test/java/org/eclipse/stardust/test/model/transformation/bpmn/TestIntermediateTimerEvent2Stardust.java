@@ -13,14 +13,6 @@ package org.eclipse.stardust.test.model.transformation.bpmn;
 
 import static org.eclipse.stardust.engine.api.runtime.ActivityInstanceState.COMPLETED;
 import static org.eclipse.stardust.engine.api.runtime.ActivityInstanceState.HIBERNATED;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_MAIN_PROCESS;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -42,7 +34,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestIntermediateTimerEvent2Stardust {
+public class TestIntermediateTimerEvent2Stardust extends Bpmn2StardustTestSuite {
 	private static final String ID_TIMER_EVENT = "TestModelIntermediateTimer";
 
     @Test
@@ -87,6 +79,5 @@ public class TestIntermediateTimerEvent2Stardust {
         assertEquals(DURATION, period);
         assertFalse(useData);
     }
-
 
 }

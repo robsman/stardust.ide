@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LinkCardinality;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -25,13 +25,8 @@ import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-
 
 public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -60,40 +55,13 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
    private LabeledText txtId;
    private LabeledText txtName;
 
-   private Button autoIdButton;
-   
-   
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
-            txtId.getText().setText(computedId);            
-         }
-         else
-         {
-            txtId.getText().setEditable(true);            
-         }         
-      }
-   };       
-   
    private ModifyListener listener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             txtId.getText().setText(computedId);
          }
       }
@@ -127,7 +95,6 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      GenericUtils.setAutoIdValue(getModelElement(), autoIdButton.getSelection());      
    }
 
    public Control createBody(Composite parent)
@@ -140,14 +107,11 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
       this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
       txtId.setTextLimit(80);      
 
-      autoIdButton = FormBuilder.createCheckBox(composite, Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue(getModelElement());
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          txtId.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
             
       sourceTypeViewer = createTypeViewer(composite,
             Diagram_Messages.LINK_TYPE_LB_SourceType);

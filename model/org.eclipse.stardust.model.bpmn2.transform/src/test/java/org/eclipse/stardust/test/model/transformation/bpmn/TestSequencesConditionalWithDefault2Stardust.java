@@ -10,35 +10,27 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.TransitionUtil;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 import org.junit.Test;
 
 /**
  * @author Simon Nikles
  *
  */
-public class TestSequencesConditionalWithDefault2Stardust { //extends TestCase {
+public class TestSequencesConditionalWithDefault2Stardust extends Bpmn2StardustTestSuite { //extends TestCase {
 
 	private static final String TEST_ID_TASK_X ="TestModelTaskX";
-
 	private static final String SEQ_COND_XA ="TestModelSequenceConditionalXtoA";
 	private static final String SEQ_COND_XB ="TestModelSequenceConditionalXtoB";
 	private static final String SEQ_DEFAULT_XC = "TestModelSequenceDefaultlXtoC";
@@ -77,8 +69,8 @@ public class TestSequencesConditionalWithDefault2Stardust { //extends TestCase {
         assertNotNull(transitionDefaultXC);
 
         // transition conditions
-        assertEquals(CONDITION_XA, XpdlModelUtils.getCDataString(transitionCondXA.getExpression().getMixed()));
-        assertEquals(CONDITION_XB, XpdlModelUtils.getCDataString(transitionCondXB.getExpression().getMixed()));
+        assertEquals(CONDITION_XA, ModelUtils.getCDataString(transitionCondXA.getExpression().getMixed()));
+        assertEquals(CONDITION_XB, ModelUtils.getCDataString(transitionCondXB.getExpression().getMixed()));
         assertEquals(TransitionUtil.OTHERWISE_KEY, transitionDefaultXC.getCondition());
 
         // transition source / target

@@ -10,12 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.util;
 
+import org.eclipse.bpmn2.CallableElement;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceRole;
+import org.eclipse.bpmn2.RootElement;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -35,10 +38,37 @@ public class Bpmn2ProxyResolver {
         return resource;
     }
 
+	public static Resource resolveResourceProxy(Resource resource, Definitions defs) {
+        URI proxyURI = ((InternalEObject) resource).eProxyURI();
+        if (defs.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = defs.eResource();
+            resource = (Resource)eRes.getEObject(proxyURI.fragment());
+        }
+        return resource;
+	}
+
+	public static DataStore resolveDataStoreProxy(DataStore element, Definitions defs) {
+        URI proxyURI = ((InternalEObject) element).eProxyURI();
+        if (defs.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = defs.eResource();
+            element = (DataStore)eRes.getEObject(proxyURI.fragment());
+        }
+        return element;
+	}
+
     public static ResourceRole resolveRoleProxy(ResourceRole role, FlowElementsContainer container) {
         URI proxyURI = ((InternalEObject) role).eProxyURI();
         if (container.eResource() != null) {
             org.eclipse.emf.ecore.resource.Resource eRes = container.eResource();
+            role = (ResourceRole)eRes.getEObject(proxyURI.fragment());
+        }
+        return role;
+    }
+
+    public static ResourceRole resolveRoleProxy(ResourceRole role, Definitions defs) {
+        URI proxyURI = ((InternalEObject) role).eProxyURI();
+        if (defs.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = defs.eResource();
             role = (ResourceRole)eRes.getEObject(proxyURI.fragment());
         }
         return role;
@@ -79,6 +109,16 @@ public class Bpmn2ProxyResolver {
             error = (org.eclipse.bpmn2.Error)eRes.getEObject(proxyURI.fragment());
         }
         return error;
+	}
+
+	public static CallableElement resolveCallableElementProxy(CallableElement callable, Definitions definitions) {
+		if (!callable.eIsProxy()) return callable;
+        URI proxyURI = ((InternalEObject) callable).eProxyURI();
+        if (definitions.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = definitions.eResource();
+            callable = (CallableElement)eRes.getEObject(proxyURI.fragment());
+        }
+        return callable;
 	}
 
 //	public static AnyType resolveAnyTypeProxy(AnyType type, RootElement container) {

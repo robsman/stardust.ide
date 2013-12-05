@@ -13,12 +13,12 @@ package org.eclipse.stardust.model.xpdl.builder.process;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 
 public class BpmManualTriggerBuilder
@@ -31,7 +31,7 @@ public class BpmManualTriggerBuilder
 
       if ((null == element.getType()) && (null != model))
       {
-         element.setType(XpdlModelUtils.findElementById(model.getTriggerType(),
+         element.setType(ModelUtils.findElementById(model.getTriggerType(),
                PredefinedConstants.MANUAL_TRIGGER));
       }
    }

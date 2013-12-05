@@ -19,16 +19,17 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import org.eclipse.stardust.model.xpdl.builder.BpmActivityDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmActivitySequenceDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelDef;
-import org.eclipse.stardust.model.xpdl.builder.BpmProcessDef;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerModelManager;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -99,16 +100,25 @@ public class HelloWorldModelBuilderTest
       }}).build();
       model.setConnectionManager(new WebModelerConnectionManager(model, strategy));
       
-      
-
-      byte[] modelContent = XpdlModelIoUtils.saveModel(model);
-      System.out.println(new String(modelContent));
+      try
+      {
+         ByteArrayOutputStream modelXml = new ByteArrayOutputStream();
+         WebModelerModelManager modelMgr = new WebModelerModelManager();
+         modelMgr.setModel(model);
+         modelMgr.save(URI.createURI(model.getId() + "." + XpdlUtils.EXT_XPDL), modelXml);
+         byte[] modelContent = modelXml.toByteArray();
+         System.out.println(new String(modelContent));
+      }
+      catch (IOException ex)
+      {
+         ex.printStackTrace();
+      }
    }
 
    @Test
    public void verifyStringVariable()
    {
-      DataType aString = XpdlModelUtils.findElementById(model.getData(), "Name");
+      DataType aString = ModelUtils.findElementById(model.getData(), "Name");
 
       assertThat(aString, not(is(nullValue())));
       assertTrue(aString.isSetElementOid());

@@ -30,36 +30,39 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 /**
  * @author Simon Nikles
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
-        {TestUserTaskDataFlow2Stardust.class,
-         TestGateways2Stardust.class,
-         TestSequences2Stardust.class,
-         TestStartEvents2Stardust.class,
-         TestSubprocesses2Stardust.class,
-         TestSwimlanes2Stardust.class,
-         TestTasks2Stardust.class,
-         TestWebServiceTask2Stardust.class,
-         TestUserTaskWebApp2Stardust.class,
-         TestSimpleTypeDataFlow2Stardust.class,
-         TestSequencesUncontrolledFlow2Stardust.class,
-         TestSequencesConditionalWithDefault2Stardust.class,
-         TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
-         TestSequencesConditionalPlusGateways2Stardust.class,
-         TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
-         TestMessageEvents2Stardust.class,
-         TestProcessStart2Stardust.class,
-         TestIntermediateTimerEvent2Stardust.class,
-         TestBoundaryEvents2Stardust.class
-        })
+//@RunWith(Suite.class)
+//@Suite.SuiteClasses(
+//        {TestUserTaskDataFlow2Stardust.class,
+//         TestGateways2Stardust.class,
+//         TestSequences2Stardust.class,
+//         TestStartEvents2Stardust.class,
+//         TestSubprocesses2Stardust.class,
+//         TestSwimlanes2Stardust.class,
+//         TestTasks2Stardust.class,
+//         TestWebServiceTask2Stardust.class,
+//         TestUserTaskWebApp2Stardust.class,
+//         TestSimpleTypeDataFlow2Stardust.class,
+//         TestSequencesUncontrolledFlow2Stardust.class,
+//         TestSequencesConditionalWithDefault2Stardust.class,
+//         TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
+//         TestSequencesConditionalPlusGateways2Stardust.class,
+//         TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
+//         TestMessageEvents2Stardust.class,
+//         TestProcessStart2Stardust.class,
+//         TestIntermediateTimerEvent2Stardust.class,
+//         TestBoundaryEvents2Stardust.class,
+//         TestDataStoreDataFlow2Stardust.class,
+//         TestCallActivities2Stardust.class,
+//         TestSendReceiveTasks2Stardust.class,
+//
+//        })
 public class Bpmn2StardustTestSuite {
+
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
     public static final String TEST_MODEL_OUTPUT_DIR = "models/output/";
     public static final String TEST_ID_START_EVENT = "TestModelStartEventId";
@@ -128,6 +131,15 @@ public class Bpmn2StardustTestSuite {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return definitions;
+    }
+
+    public static Definitions loadBpmnModelWithXsd(String bpmnFile) throws FileNotFoundException, IOException {
+        String path = getResourceFilePath(bpmnFile);
+        Definitions definitions = null;
+        Bpmn2Resource bpmnModel = BPMNModelImporter.importModel(path);
+		definitions = BPMNModelImporter.getDefinitions(bpmnModel);
 
         return definitions;
     }

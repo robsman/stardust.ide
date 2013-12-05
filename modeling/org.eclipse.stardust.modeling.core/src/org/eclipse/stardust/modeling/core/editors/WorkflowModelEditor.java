@@ -78,20 +78,23 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
 import org.eclipse.stardust.common.config.Version;
 import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
@@ -1214,6 +1217,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                if (symbol.getModelElement() == null
                      && !(symbol instanceof StartEventSymbol)
                      && !(symbol instanceof EndEventSymbol)
+                     && !(symbol instanceof IntermediateEventSymbol)                     
                      && !(symbol instanceof PublicInterfaceSymbol))
                {
                   toDelete.add(symbol);
@@ -1256,6 +1260,14 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          catch (Throwable t)
          {
             t.printStackTrace();
+         }
+
+         // Model locked within web modeler --> unlock (CRNT-29022)
+         AttributeType attribute = AttributeUtil.getAttribute(getWorkflowModel(),
+               PredefinedConstants.READ_ONLY_HASH);
+         if (attribute != null)
+         {
+            getWorkflowModel().getAttribute().remove(attribute);
          }
 
          modelManager.save(URI.createPlatformResourceURI(file.getFullPath().toString(), false));

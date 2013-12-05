@@ -30,25 +30,19 @@ import static org.eclipse.stardust.model.xpdl.builder.diagram.BpmDiagramBuilder.
 import static org.eclipse.stardust.model.xpdl.builder.diagram.BpmDiagramBuilder.newTransitionConnection;
 import static org.junit.Assert.assertSame;
 
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmRouteActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.diagram.BpmDiagramBuilder;
 import org.eclipse.stardust.model.xpdl.builder.strategy.InMemoryModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerModelManager;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -141,17 +135,26 @@ public class ModelContainingGatewaysTest
             .fromRightOf(symGatewaySplit).toTopOf(symStep2b)
             .build();
 
-      
       ModelBuilderTest.assignMissingElementOids(gatewaysModel);
 
-      byte[] modelXml = XpdlModelIoUtils.saveModel(gatewaysModel);
-      System.out.println(new String(modelXml));
+      try
+      {
+         ByteArrayOutputStream modelXml = new ByteArrayOutputStream();
+         WebModelerModelManager modelMgr = new WebModelerModelManager();
+         modelMgr.setModel(gatewaysModel);
+         modelMgr.save(URI.createURI(gatewaysModel.getId() + '.' + XpdlUtils.EXT_XPDL), modelXml);
+         System.out.println(new String(modelXml.toByteArray()));
+      }
+      catch (IOException ex)
+      {
+         ex.printStackTrace();
+      }
    }
 
    @Test
    public void verifyStringVariable()
    {
-      DataType aString = XpdlModelUtils.findElementById(gatewaysModel.getData(), "aString");
+      DataType aString = ModelUtils.findElementById(gatewaysModel.getData(), "aString");
 
       assertNotNull(aString);
       assertTrue(aString.isSetElementOid());
@@ -160,12 +163,12 @@ public class ModelContainingGatewaysTest
    @Test
    public void verifyXorGateway()
    {
-      ProcessDefinitionType xorGatewayProcess = XpdlModelUtils.findElementById(
+      ProcessDefinitionType xorGatewayProcess = ModelUtils.findElementById(
             gatewaysModel.getProcessDefinition(), "XOR_GATEWAY_PROCESS");
 
       assertNotNull(xorGatewayProcess);
 
-      ActivityType xorGateway = XpdlModelUtils.findElementById(
+      ActivityType xorGateway = ModelUtils.findElementById(
             xorGatewayProcess.getActivity(), "xorGateway");
       assertNotNull(xorGateway);
 

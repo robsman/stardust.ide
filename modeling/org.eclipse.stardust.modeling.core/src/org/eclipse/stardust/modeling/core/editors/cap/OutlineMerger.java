@@ -145,6 +145,8 @@ public class OutlineMerger extends AbstractMerger
       {
          fixTransitions();        
       }
+      
+      mergeConfigurationVariables();      
    }
 
    // seems to be a bug, that transitions are not connected to activities 

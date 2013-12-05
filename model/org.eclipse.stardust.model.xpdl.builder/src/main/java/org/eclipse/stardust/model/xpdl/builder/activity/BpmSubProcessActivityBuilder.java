@@ -10,23 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.activity;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.util.IConnection;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
-import org.eclipse.stardust.modeling.repository.common.Attribute;
-import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.stardust.modeling.repository.common.RepositoryFactory;
-import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-
 
 public class BpmSubProcessActivityBuilder
       extends AbstractActivityBuilder<BpmSubProcessActivityBuilder>

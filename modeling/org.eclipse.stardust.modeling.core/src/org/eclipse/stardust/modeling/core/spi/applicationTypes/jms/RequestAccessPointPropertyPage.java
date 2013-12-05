@@ -17,7 +17,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -30,12 +30,9 @@ import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * @author fherinean
@@ -57,48 +54,19 @@ public class RequestAccessPointPropertyPage extends AbstractModelElementProperty
    private TypeSelectionComposite classNameBrowser;
 
    private LabeledText valueText;
-
-   private Button autoIdButton;
    private Button[] buttons;
 
-   
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            idText.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(nameText.getText().getText());
-            idText.getText().setText(computedId);            
-         }
-         else
-         {
-            idText.getText().setEditable(true);            
-         }         
-      }
-   };            
-   
    private ModifyListener idSyncListener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            idText.getText().setText(ModelUtils.computeId(name));
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            idText.getText().setText(computedId);
          }
       }
    };
-   
-   
-   
    
    protected boolean includeDefaultValue()
    {
@@ -157,7 +125,6 @@ public class RequestAccessPointPropertyPage extends AbstractModelElementProperty
          AttributeUtil.setAttribute(ap, PredefinedConstants.JMS_LOCATION_PROPERTY,
                JMSLocation.class.getName(), LOCATION[locationIndex][0]);
       }
-      GenericUtils.setAutoIdValue(getModelElement(), autoIdButton.getSelection());                        
    }
 
    public Control createBody(Composite parent)
@@ -174,15 +141,11 @@ public class RequestAccessPointPropertyPage extends AbstractModelElementProperty
       this.nameText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_Name);
       this.idText = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_Id);
 
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue(getModelElement());
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          idText.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
       
       this.lblClassName = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.LB_SPI_Type);

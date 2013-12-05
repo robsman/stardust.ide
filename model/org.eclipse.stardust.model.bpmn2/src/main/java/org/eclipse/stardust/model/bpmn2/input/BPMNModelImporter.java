@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.input;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,12 +23,20 @@ import org.eclipse.bpmn2.DocumentRoot;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.util.Bpmn2Resource;
 import org.eclipse.bpmn2.util.Bpmn2ResourceFactoryImpl;
+import org.eclipse.bpmn2.util.OnlyContainmentTypeInfo;
+import org.eclipse.bpmn2.util.XmlExtendedMetadata;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.ElementHandlerImpl;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.stardust.model.bpmn2.serialization.StardustBpmn2XmlResource;
 
 /**
  * @author Simon Nikles
@@ -39,6 +49,58 @@ public class BPMNModelImporter {
 
     }
 
+    public static Bpmn2Resource importModel(String filePath) throws FileNotFoundException, IOException {
+    	try
+    	{
+    		URI resourceStreamUri = URI.createFileURI(filePath);
+    		InputStream modelContent = new FileInputStream(filePath);
+
+    		ResourceSet context = new ResourceSetImpl();
+    		context.getResourceFactoryRegistry()
+    		.getProtocolToFactoryMap()
+    		.put(resourceStreamUri.scheme(), new Bpmn2ResourceFactoryImpl()
+    		{
+    			@Override
+    			public Resource createResource(URI uri)
+    			{
+    				StardustBpmn2XmlResource result = new StardustBpmn2XmlResource(uri);
+
+    				ExtendedMetaData extendedMetadata = new XmlExtendedMetadata();
+    				result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetadata);
+    				result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetadata);
+    				result.getDefaultSaveOptions().put(XMLResource.OPTION_SAVE_TYPE_INFORMATION, new OnlyContainmentTypeInfo());
+    				result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    				result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
+    				result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+    				result.getDefaultSaveOptions().put(XMLResource.OPTION_ELEMENT_HANDLER, new ElementHandlerImpl(true));
+    				result.getDefaultSaveOptions().put(XMLResource.OPTION_ENCODING, "UTF-8");
+    				return result;
+    			}
+    		});
+
+    		Bpmn2Resource bpmnModel = (Bpmn2Resource) context.createResource(resourceStreamUri);
+
+    		// must pass stream directly as load(options) will close the stream internally
+    		bpmnModel.load(modelContent, getDefaultXmlLoadOptions());
+
+    		return bpmnModel;
+    	}
+    	catch (IOException ioe)
+    	{
+    		log.warn("Failed loading BPMN2 model.", ioe);
+    	}
+    	return null;
+    }
+
+	private static Map<Object, Object> getDefaultXmlLoadOptions() {
+		Map<Object, Object> options = new HashMap<Object, Object>();
+		options.put(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS, Boolean.TRUE);
+		options.put(XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
+		options.put(XMLResource.OPTION_DEFER_IDREF_RESOLUTION, Boolean.TRUE);
+		return options;
+	}
+
+	/*
     public static Bpmn2Resource importModel(String filePath) throws FileNotFoundException, IOException {
         log.info("importModel " + filePath);
         Bpmn2ResourceFactoryImpl factory = new Bpmn2ResourceFactoryImpl();
@@ -55,8 +117,7 @@ public class BPMNModelImporter {
         //debugPrint(loadedResource);
 
         return loadedResource;
-    }
-
+    } */
 
     public static Definitions getDefinitions(Bpmn2Resource loadedResource) {
 

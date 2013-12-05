@@ -91,12 +91,6 @@ public class Import_Messages extends NLS
 
    public static String LB_ElementsImport;
 
-   public static String LB_IncludeDiagram;
-
-   public static String LB_PrototypeMode;
-
-   public static String LB_ProductionMode;
-
    public static String NAME_ImportWiz;
 
    public static String TITLE_ImportWiz;
@@ -150,8 +144,6 @@ public class Import_Messages extends NLS
    public static String STR_XmlFiles;
 
    public static String STR_XpdlFiles;
-
-   public static String STR_ModFiles;
 
    public static String STR_AnyFile;
 

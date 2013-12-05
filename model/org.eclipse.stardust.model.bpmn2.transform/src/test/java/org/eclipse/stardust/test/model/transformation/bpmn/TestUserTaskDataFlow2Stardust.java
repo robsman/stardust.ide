@@ -10,14 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -44,13 +36,12 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestUserTaskDataFlow2Stardust {
+public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
 
     private final String TEST_PROCESS_ID = "TestProcessDataObjectFlow";
     private final String ITEM_DEFINITION_ID = "TestImportedXmlItemDefinition";
     private final String DATA_OBJECT_ID = "TestModelDataObjectA";
     private final String ASSOCIATION_TRANSFORM_EXPRESSION = "Name";
-
     private final String IMPORT_NAMESPACE = "http://stardust.eclipse.org/Customer";
     private final String IMPORT_LOCATION = "Customer.xsd";
     private ModelType resultModel;

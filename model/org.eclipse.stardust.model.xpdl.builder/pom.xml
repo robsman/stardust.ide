@@ -13,12 +13,12 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org.eclipse.stardust</groupId>
+      <groupId>com.infinity.bpm</groupId>
       <artifactId>product-parent</artifactId>
       <version>9.9.9-SNAPSHOT</version>
-      <relativePath>../../../product/product-parent/pom.xml</relativePath>
+      <relativePath>../../../../sungard/product/product-parent/pom.xml</relativePath>
    </parent>
-   
+
    <groupId>org.eclipse.stardust.modeling.model</groupId>
    <artifactId>org.eclipse.stardust.model.xpdl.builder</artifactId>
    <version>0.0.1-SNAPSHOT</version>
@@ -26,7 +26,7 @@
    <packaging>jar</packaging>
 
    <properties>
-      <ipp.version>7.1.1-NIGHTLY-SNAPSHOT</ipp.version>
+      <ipp.version>7.2.0-NIGHTLY-SNAPSHOT</ipp.version>
    </properties>
 
    <dependencies>

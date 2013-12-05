@@ -44,7 +44,6 @@ import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
@@ -52,10 +51,8 @@ import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
@@ -448,67 +445,7 @@ public class GenericUtils
          return true;
       }
       return false;
-   }
-      
-   public static void setAutoIdValue(EObject modelElement, boolean store)
-   {
-      boolean save = false;               
-      if (modelElement instanceof IIdentifiableElement)
-      {     
-         String name = ((IIdentifiableElement) modelElement).getName();
-         String id = ((IIdentifiableElement) modelElement).getId();
-         
-         if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
-         {
-            String computedId = ModelUtils.computeId(name);
-            if(id.equals(computedId))
-            {
-               save = true;
-            }               
-         }
-         else
-         {
-            save = true;               
-         }
-         
-         if(!store && save)
-         {
-            AttributeUtil.setAttribute((IExtensibleElement) modelElement, CarnotConstants.AUTO_ID_GENERATION, Boolean.FALSE.toString());               
-         }
-         else
-         {
-            AttributeUtil.setAttribute((IExtensibleElement) modelElement, CarnotConstants.AUTO_ID_GENERATION, null);               
-         }         
-      }
-      else if(modelElement instanceof TypeDeclarationType)
-      {
-         String name = ((TypeDeclarationType) modelElement).getName();
-         String id = ((TypeDeclarationType) modelElement).getId();
-         
-         if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
-         {
-            String computedId = ModelUtils.computeId(name);
-            if(id.equals(computedId))
-            {
-               save = true;
-            }               
-         }
-         else
-         {
-            save = true;               
-         }
-         
-         if(!store && save)
-         {
-            ExtendedAttributeUtil.setAttribute((TypeDeclarationType) modelElement, CarnotConstants.AUTO_ID_GENERATION, Boolean.FALSE.toString());               
-         }
-         else
-         {
-            ExtendedAttributeUtil.setAttribute((TypeDeclarationType) modelElement, CarnotConstants.AUTO_ID_GENERATION, null);               
-         }         
-      }         
-   }
-
+   }      
    
    public static List<IJavaProject> getRequiredProjects(IJavaProject javaProject)
    {
@@ -540,66 +477,9 @@ public class GenericUtils
       return requiredProjects;
    }
       
-   public static boolean getAutoIdValue(EObject modelElement)
+   public static boolean getAutoIdValue()
    {
-      boolean autoIdButtonValue = PlatformUI.getPreferenceStore().getBoolean(
+      return PlatformUI.getPreferenceStore().getBoolean(
             BpmProjectNature.PREFERENCE_AUTO_ID_GENERATION);      
-      
-      if (modelElement instanceof IExtensibleElement)
-      {      
-         String attributeValue = AttributeUtil.getAttributeValue((IExtensibleElement) modelElement, CarnotConstants.AUTO_ID_GENERATION);
-         if(attributeValue != null)
-         {
-            // we store only false 
-            autoIdButtonValue = false;
-         }   
-         else
-         {         
-            String name = ((IIdentifiableElement) modelElement).getName();
-            String id = ((IIdentifiableElement) modelElement).getId();
-            
-            if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
-            {
-               String computedId = ModelUtils.computeId(name);
-               if(id.equals(computedId))
-               {
-                  autoIdButtonValue = true;
-               }               
-               else
-               {
-                  autoIdButtonValue = false;                     
-               }
-            }
-         }
-      }
-      else if(modelElement instanceof TypeDeclarationType)
-      {
-         String attributeValue = ExtendedAttributeUtil.getAttributeValue((TypeDeclarationType) modelElement, CarnotConstants.AUTO_ID_GENERATION);
-         if(attributeValue != null)
-         {
-            // we store only false 
-            autoIdButtonValue = false;
-         }   
-         else
-         {         
-            String name = ((TypeDeclarationType) modelElement).getName();
-            String id = ((TypeDeclarationType) modelElement).getId();
-            
-            if(!StringUtils.isEmpty(name) && !StringUtils.isEmpty(id))
-            {
-               String computedId = ModelUtils.computeId(name);
-               if(id.equals(computedId))
-               {
-                  autoIdButtonValue = true;
-               }               
-               else
-               {
-                  autoIdButtonValue = false;                     
-               }
-            }
-         }
-      }
-      
-      return autoIdButtonValue;
    }
 }

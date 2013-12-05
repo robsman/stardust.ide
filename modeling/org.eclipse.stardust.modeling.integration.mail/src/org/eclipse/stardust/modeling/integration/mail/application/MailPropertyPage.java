@@ -63,6 +63,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 {
 	private TabItem htmlItem;
 	private LabeledText mailServerText;
+   private LabeledText jndiSessionText;
 	private LabeledText urlPrefixText;
 	private Button htmlButton;
 	private Button createProcessHistoryLinkButton;
@@ -91,6 +92,8 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 
 		this.mailServerText.getText().setText(
             nullSafe(app, MailConstants.DEFAULT_MAIL_SERVER));
+      this.jndiSessionText.getText().setText(
+            nullSafe(app, MailConstants.DEFAULT_JNDI_SESSION));
 
       this.urlPrefixText.getText().setText(nullSafe(app, MailConstants.URL_PREFIX));
 
@@ -143,6 +146,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
       wBndMgr.bind(defaultToText, app, MailConstants.DEFAULT_MAIL_TO);
       wBndMgr.bind(defaultFromText, app, MailConstants.DEFAULT_MAIL_FROM);
       wBndMgr.bind(mailServerText, app, MailConstants.DEFAULT_MAIL_SERVER);
+      wBndMgr.bind(jndiSessionText, app, MailConstants.DEFAULT_JNDI_SESSION);
       
       
         
@@ -163,7 +167,9 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 
 		AttributeUtil.setAttribute(app, MailConstants.DEFAULT_MAIL_SERVER,
             mailServerText.getText().getText());
-      AttributeUtil.setAttribute(app, MailConstants.URL_PREFIX, urlPrefixText.getText()
+      AttributeUtil.setAttribute(app, MailConstants.DEFAULT_JNDI_SESSION,
+            jndiSessionText.getText().getText());
+		AttributeUtil.setAttribute(app, MailConstants.URL_PREFIX, urlPrefixText.getText()
             .getText());
       AttributeUtil.setAttribute(app, MailConstants.DEFAULT_MAIL_SUBJECT,
             defaultSubjectText.getText().getText());
@@ -223,6 +229,8 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 
 		this.mailServerText = FormBuilder.createLabeledText(composite,
 					Mail_Messages.MAIL_SERVER_LABEL);
+      this.jndiSessionText = FormBuilder.createLabeledText(composite,
+            Mail_Messages.JNDI_SESSION_LABEL);
 		this.urlPrefixText = FormBuilder.createLabeledText(composite,
 					Mail_Messages.URL_PREFIX_LABEL);
 		this.htmlButton = FormBuilder.createCheckBox(composite, Mail_Messages.BOX_HTML);

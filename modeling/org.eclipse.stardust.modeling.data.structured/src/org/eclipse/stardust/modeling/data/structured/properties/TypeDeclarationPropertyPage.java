@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -26,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.model.xpdl.util.NameIdUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
@@ -44,12 +47,10 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
@@ -65,7 +66,6 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
    private LabeledText txtName;
    private Label namespaceLabel;
 
-   private Button autoIdButton;
    private Button autoNamespaceButton;
 
    private TypeDeclarationType declaration;
@@ -74,35 +74,16 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
    private Button publicCheckBox;
    protected boolean publicType;
    
-   private SelectionListener autoIdListener = new SelectionListener()
-   {
-      public void widgetDefaultSelected(SelectionEvent e)
-      {
-      }
-
-      public void widgetSelected(SelectionEvent e)
-      {
-         boolean selection = ((Button) e.widget).getSelection();
-         if(selection)
-         {
-            txtId.getText().setEditable(false);
-            String computedId = ModelUtils.computeId(txtName.getText().getText());
-            txtId.getText().setText(computedId);            
-         }
-         else
-         {
-            txtId.getText().setEditable(true);            
-         }         
-      }
-   };      
-   
    private ModifyListener idListener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
       {
          if (autoNamespaceButton.getSelection())
          {
-            namespaceLabel.setText(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), declaration.getId()));
+            if(!StringUtils.isEmpty(declaration.getId()))
+            {
+               namespaceLabel.setText(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), declaration.getId()));
+            }
          }
          validateInput();
       }
@@ -112,11 +93,9 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
    {
       public void modifyText(ModifyEvent e)
       {
-         Text text = (Text) e.widget;
-         String name = text.getText();
-         if (autoIdButton.getSelection())
+         if (GenericUtils.getAutoIdValue())
          {
-            String computedId = ModelUtils.computeId(name);
+            String computedId = NameIdUtils.createIdFromName(null, declaration);
             txtId.getText().setText(computedId);
          }
          validateInput();
@@ -169,7 +148,6 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       {
          txtId.getText().setEnabled(false);
          txtName.getText().setEnabled(false);
-         autoIdButton.setEnabled(false);
       }
       
       validateInput();
@@ -259,7 +237,6 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             }
       declaration.getSchema().eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);           
       savedId = id;
-      GenericUtils.setAutoIdValue((EObject) getElement().getAdapter(EObject.class), autoIdButton.getSelection());                                    
    }
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
@@ -278,15 +255,11 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
 
       this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
       txtId.setTextLimit(80);
-      autoIdButton = FormBuilder.createCheckBox(composite,
-            Diagram_Messages.BTN_AutoId, 2);
-      boolean autoIdButtonValue = GenericUtils.getAutoIdValue((EObject) getElement().getAdapter(EObject.class));
-      autoIdButton.setSelection(autoIdButtonValue);
+      boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          txtId.getText().setEditable(false);
       }
-      autoIdButton.addSelectionListener(autoIdListener);
       
       publicCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.CHECKBOX_Visibility);
       publicCheckBox.addSelectionListener(new SelectionAdapter()

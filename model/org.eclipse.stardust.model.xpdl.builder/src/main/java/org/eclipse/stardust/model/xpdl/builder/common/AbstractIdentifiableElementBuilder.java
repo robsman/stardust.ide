@@ -12,7 +12,7 @@ package org.eclipse.stardust.model.xpdl.builder.common;
 
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
-import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtils;
+import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtilsExtension;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 
 public abstract class AbstractIdentifiableElementBuilder<T extends IIdentifiableElement, B extends AbstractIdentifiableElementBuilder<T, B>> extends AbstractElementBuilder<T, B>
@@ -44,7 +44,7 @@ public abstract class AbstractIdentifiableElementBuilder<T extends IIdentifiable
       {
          if ( !isEmpty(element.getName()))
          {
-            element.setId(NameIdUtils.createIdFromName(element.getName()));
+            element.setId(NameIdUtilsExtension.createIdFromName(element.getName()));
          }
          else
          {

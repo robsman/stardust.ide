@@ -20,27 +20,24 @@ import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ServiceTask;
-import org.eclipse.bpmn2.StartEvent;
+import org.eclipse.bpmn2.Task;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationExt;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextExt;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
+import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ServiceInterfaceUtil {
@@ -57,6 +54,12 @@ public class ServiceInterfaceUtil {
 	}
 
 	public ApplicationType getApplicationAndReportFailure(ServiceTask task, FlowElementsContainer container) {
+		Interface bpmnInterface = getServiceInterfaceAndReportFailure(task, container);
+		if (bpmnInterface == null) return null;
+		return getApplicationAndReportFailure(bpmnInterface, container);
+	}
+
+	public ApplicationType getApplicationAndReportFailure(Task task, FlowElementsContainer container) {
 		Interface bpmnInterface = getServiceInterfaceAndReportFailure(task, container);
 		if (bpmnInterface == null) return null;
 		return getApplicationAndReportFailure(bpmnInterface, container);
@@ -83,117 +86,133 @@ public class ServiceInterfaceUtil {
 				implId = ((AnyType)impl).getMixed().toString();
 			}
 			return CarnotModelQuery.findApplication(carnotModel, implId);
+		} else if (impl instanceof Interface) {
+			return CarnotModelQuery.findApplication(carnotModel, ((Interface) impl).getId());
 		} else {
 			failures.add("Stardust Implementation Reference (Application) not resolved " + bpmnInterface + " in " + container);
 		}
 		return null;
 	}
 
-	public TriggerType getStartTriggerAndReportFailure(StartEvent event, EventDefinition eventDef, FlowElementsContainer container) {
-		StardustInterfaceType stardustInterface = getStardustInterfaceAndReportFailure(eventDef, container);
-		if (stardustInterface == null)
-			return null;
-
-		StardustTriggerType stardustTrigger = getStartTriggerAndReportFailure(stardustInterface, container);
-		if (stardustTrigger == null)
-			return null;
-
-		TriggerTypeType triggerType = getTriggerTypeAndReportFailure(stardustInterface);
-		if (triggerType == null)
-			return null;
-
-		TriggerType trigger = (TriggerType) stardustTrigger;
-		convertAccessPoints(stardustTrigger);
-		trigger.setType(triggerType);
-
-		return trigger;
-	}
-
-	private StardustInterfaceType getStardustInterfaceAndReportFailure(EventDefinition eventDef,
-			FlowElementsContainer container) {
-		Interface bpmnInterface = getServiceInterfaceAndReportFailure(eventDef, container);
-		if (bpmnInterface == null)
-			return null;
-		StardustInterfaceType stardustInterface = ExtensionHelper.getInstance().getApplicationExtension(bpmnInterface);
-		if (stardustInterface == null) {
-			failures.add("No Application definition found. (Event Definition " + eventDef + " in " + container + ")");
-			return null;
-		}
-		return stardustInterface;
-	}
-
 	private Interface getServiceInterfaceAndReportFailure(BaseElement element, FlowElementsContainer container) {
 		Interface bpmnInterface = bpmnquery.getInterfaceByOperationRef(element, container);
-		if (bpmnInterface != null)
-			return bpmnInterface;
-		failures.add("No Operation Interface found. (Element " + element.getClass().getName() + " " + element + " in " + container + ")");
-		return null;
+		if (null == bpmnInterface) failures.add("No Operation Interface found. (Element " + element.getClass().getName() + " " + element + " in " + container + ")");
+		return bpmnInterface;
 	}
 
-//	private ApplicationTypeType getApplicationTypeAndReportFailure(StardustInterfaceType stardustInterface) {
-//		ApplicationTypeType appType = XpdlModelUtils.findElementById(carnotModel.getApplicationType(),
-//				stardustInterface.getApplicationType());
-//		if (appType != null)
-//			return appType;
+//	public TriggerType getStartTriggerAndReportFailure(StartEvent event, EventDefinition eventDef, FlowElementsContainer container) {
+//		StardustInterfaceExt stardustInterface = getStardustInterfaceAndReportFailure(eventDef, container);
+//		if (stardustInterface == null)
+//			return null;
 //
-//		failures.add("Stardust Application Type not found (type: " + stardustInterface.getApplicationType()
-//				+ " stardust interface: " + stardustInterface + ")");
-//		return null;
+//		StardustTriggerExt stardustTrigger = getStartTriggerAndReportFailure(stardustInterface, container);
+//		if (stardustTrigger == null)
+//			return null;
+//
+//		TriggerTypeType triggerType = getTriggerTypeAndReportFailure(stardustInterface);
+//		if (triggerType == null)
+//			return null;
+//
+//		TriggerType trigger = createTrigger(stardustTrigger);
+//		convertAccessPoints(stardustTrigger, trigger);
+//		trigger.setType(triggerType);
+//
+//		return trigger;
 //	}
 
-	private StardustTriggerType getStartTriggerAndReportFailure(StardustInterfaceType stardustInterface, FlowElementsContainer container) {
-		StardustTriggerType trigger = stardustInterface.getStardustTrigger();
-		if (trigger != null)
-			return trigger;
+//	private TriggerType createTrigger(StardustTriggerExt trigger) {
+//		TriggerType stardustTrigger = BpmPackageBuilder.F_CWM.createTriggerType();
+//		stardustTrigger.setElementOid(trigger.elementOid);
+//		stardustTrigger.setId(trigger.id);
+//		stardustTrigger.setName(trigger.name);
+//		return stardustTrigger;
+//	}
+//
+//	private StardustInterfaceExt getStardustInterfaceAndReportFailure(EventDefinition eventDef, FlowElementsContainer container) {
+//		Interface bpmnInterface = getServiceInterfaceAndReportFailure(eventDef, container);
+//		if (bpmnInterface == null)
+//			return null;
+//		StardustInterfaceExt stardustInterface = ExtensionHelper2.getInstance().getApplicationExtension(bpmnInterface);
+//		if (stardustInterface == null) {
+//			failures.add("No Application definition found. (Event Definition " + eventDef + " in " + container + ")");
+//			return null;
+//		}
+//		return stardustInterface;
+//	}
 
-		failures.add("Stardust Trigger Definition not found (stardust interface " + stardustInterface + ")");
-		return null;
-	}
+//	private StardustTriggerExt getStartTriggerAndReportFailure(StardustInterfaceExt stardustInterface, FlowElementsContainer container) {
+//		StardustTriggerExt trigger = stardustInterface.stardustTrigger;
+//		if (trigger != null)
+//			return trigger;
+//
+//		failures.add("Stardust Trigger Definition not found (stardust interface " + stardustInterface + ")");
+//		return null;
+//	}
+//
+//	private TriggerTypeType getTriggerTypeAndReportFailure(StardustInterfaceExt stardustInterface) {
+//		TriggerTypeType triggerType = ModelUtils.findElementById(carnotModel.getTriggerType(), stardustInterface.applicationType); // getApplicationType());
+//		if (triggerType == null) {
+//			failures.add("Stardust Trigger Type not found (type " + stardustInterface.applicationType + " stardust interface " + stardustInterface + ")");
+//			return null;
+//		}
+//		return triggerType;
+//	}
 
-	private TriggerTypeType getTriggerTypeAndReportFailure(StardustInterfaceType stardustInterface) {
-		TriggerTypeType triggerType = XpdlModelUtils.findElementById(carnotModel.getTriggerType(), stardustInterface.getApplicationType());
-		if (triggerType == null) {
-			failures.add("Stardust Trigger Type not found (type " + stardustInterface.getApplicationType()  + " stardust interface " + stardustInterface + ")");
-			return null;
-		}
-		return triggerType;
-	}
-
-	public void convertContexts(StardustApplicationType application) {
+	public void convertContexts(StardustApplicationExt application, ApplicationType stardustApp) {
 		List<ContextType> contexts = new ArrayList<ContextType>();
-		for(StardustContextType ctxt : application.getContext1()) {
-			contexts.add(ctxt);
-			ApplicationContextTypeType contextType = getContextType(ctxt.getTypeRef());
-			ctxt.setType(contextType);
+		for(StardustContextExt ctxt : application.contexts) {
+			ContextType stardustCtxt = BpmPackageBuilder.F_CWM.createContextType();
+			Bpmn2StardustXPDLExtension.addAttributes(ctxt, stardustCtxt);
+			contexts.add(stardustCtxt);
+			ApplicationContextTypeType contextType = getContextType(ctxt.typeRef);
+			stardustCtxt.setType(contextType);
 		}
-		application.getContext().addAll(contexts);
+		stardustApp.getContext().addAll(contexts);
 	}
 
-	public void convertAccessPoints(StardustApplicationType application) {
+	public void convertAccessPoints(StardustApplicationExt application, ApplicationType stardustApp) {
 		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
-		for(StardustAccessPointType ap : application.getAccessPoint1()) {
-			aptypes.add(ap);
-			DataTypeType type = getMetaDataType(ap.getTypeRef());
-			ap.setType(type);
+		for(StardustAccessPointExt ap : application.accessPoints) {
+			AccessPointType stardustAp = BpmPackageBuilder.F_CWM.createAccessPointType();
+
+			Bpmn2StardustXPDLExtension.addAttributes(ap, stardustAp);
+
+    		stardustAp.setElementOid(ap.elementOid);
+    		stardustAp.setId(ap.id);
+    		stardustAp.setName(ap.name);
+    		stardustAp.setDirection(DirectionType.get(ap.direction));
+
+			aptypes.add(stardustAp);
+			DataTypeType type = CarnotModelQuery.getMetaDataType(carnotModel, ap.typeRef);
+			stardustAp.setType(type);
 		}
-		application.getAccessPoint().addAll(aptypes);
+		stardustApp.getAccessPoint().addAll(aptypes);
 	}
 
-	public void convertAccessPoints(StardustTriggerType application) {
-		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
-		for(StardustAccessPointType ap : application.getAccessPoint1()) {
-			aptypes.add(ap);
-			DataTypeType type = getMetaDataType(ap.getTypeRef());
-			ap.setType(type);
-		}
-		application.getAccessPoint().addAll(aptypes);
-	}
+//	public void convertAccessPoints(StardustTriggerExt trigger, TriggerType stardustTrigger) {
+//		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
+//		for(StardustAccessPointExt ap : trigger.accessPoints) {
+//			AccessPointType stardustAp = BpmPackageBuilder.F_CWM.createAccessPointType();
+//
+//			Bpmn2StardustXPDLExtension.addAttributes(ap, stardustAp);
+//
+//    		stardustAp.setElementOid(ap.elementOid);
+//    		stardustAp.setId(ap.id);
+//    		stardustAp.setName(ap.name);
+//    		stardustAp.setDirection(DirectionType.get(ap.direction));
+//
+//			aptypes.add(stardustAp);
+//			DataTypeType type = getMetaDataType(ap.typeRef);
+//			stardustAp.setType(type);
+//		}
+//		stardustTrigger.getAccessPoint().addAll(aptypes);
+//	}
 
-	private DataTypeType getMetaDataType(String typeRef) {
-		if (typeRef == null || typeRef.isEmpty()) return null;
-		return (DataTypeType)
-				ModelUtils.findIdentifiableElement(carnotModel, CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(), typeRef);
-	}
+//	private DataTypeType getMetaDataType(String typeRef) {
+//		if (typeRef == null || typeRef.isEmpty()) return null;
+//		return (DataTypeType)
+//				ModelUtils.findIdentifiableElement(carnotModel, CarnotWorkflowModelPackage.eINSTANCE.getModelType_DataType(), typeRef);
+//	}
 
 	private ApplicationContextTypeType getContextType(String typeRef) {
 		if (typeRef == null || typeRef.isEmpty()) return null;

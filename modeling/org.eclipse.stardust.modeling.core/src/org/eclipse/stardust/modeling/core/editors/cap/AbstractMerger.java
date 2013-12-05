@@ -77,6 +77,9 @@ import org.eclipse.stardust.model.xpdl.carnot.merge.UUIDUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelVariable;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -173,7 +176,8 @@ public abstract class AbstractMerger
    protected ProcessDefinitionType targetProcess;   
    // only in diagram
    protected boolean isDiagram = false;   
-         
+   private List<ModelVariable> targetVariables;
+   
    protected boolean isSameModel = false;
    private boolean isCollision = false;   
 
@@ -198,6 +202,16 @@ public abstract class AbstractMerger
       isCollision = storage.isCollision();
       storage.setTargetModel(targetModel);
       targetProject = ModelUtils.getProjectFromEObject(targetModel);
+      
+      if(!isSameModel)
+      {
+         VariableContext context = VariableContextHelper.getInstance().getContext(targetModel);
+         if(context != null)
+         {
+            context.refreshVariables(targetModel);
+            targetVariables = new ArrayList<ModelVariable>(context.getVariables());
+         }
+      }
    }
 
    /**
@@ -1483,6 +1497,50 @@ public abstract class AbstractMerger
          typeTypes.clear();
       }
    }   
+   
+   public void mergeConfigurationVariables()   
+   {   
+      if(!isSameModel)
+      {
+         VariableContext targetContext = VariableContextHelper.getInstance().getContext(targetModel);
+         List<ModelVariable> changedtargetVariables = null;
+         if(targetContext != null)
+         {
+            targetContext.refreshVariables(targetModel);
+            changedtargetVariables = targetContext.getVariables();
+         }
+         
+         if(targetVariables != null && changedtargetVariables != null)
+         {
+            List<ModelVariable> findMergedVariables = MergerUtil.findMergedVariables(targetVariables, changedtargetVariables);
+            if(findMergedVariables.size() > 0)
+            {
+               ModelType sourceModel = storage.getOriginalModelCopy();                            
+               VariableContext sourceContext = VariableContextHelper.getInstance().getContext(sourceModel);
+               List<ModelVariable> sourceVariables = null;
+               if(sourceContext != null)
+               {
+                  sourceContext.refreshVariables(sourceModel);
+                  sourceVariables = sourceContext.getVariables();
+               }
+               
+               if(sourceVariables != null)
+               {
+                  for(ModelVariable findMergedVariable : findMergedVariables)
+                  {
+                     ModelVariable findModelVariable = MergerUtil.findModelVariable(sourceVariables, findMergedVariable);
+                     if(findModelVariable != null)
+                     {
+                        findMergedVariable.setDescription(findModelVariable.getDescription());
+                        findMergedVariable.setDefaultValue(findModelVariable.getDefaultValue());
+                     }                     
+                  }
+                  targetContext.saveVariables();
+               }               
+            }
+         }
+      }
+   }
    
    public boolean mergeGlobal()
    {	 

@@ -141,6 +141,7 @@ public class UpgradeModelAction extends SelectionAction
       }
       createMissingDataCmd(command);
       createMissingDataTypes(command);
+      createMissingApplicationContextTypes(command);      
       createModifiedValidatorsCmds(command);
       createChangeStructuredDataCmd(command);
       createModifiedDataMappingCmd(command);
@@ -480,9 +481,6 @@ public class UpgradeModelAction extends SelectionAction
    private void createUpdateControllingAttributes(CompoundCommand command,
          ProcessDefinitionType process)
    {
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetProcessingTime"); //$NON-NLS-1$
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetExecutionTime"); //$NON-NLS-1$
-      createUpdateControllingAttribute(command, process, "carnot:pwh:targetIdleTime"); //$NON-NLS-1$
       List activities = process.getActivity();
       for (int i = 0; i < activities.size(); i++)
       {
@@ -588,6 +586,37 @@ public class UpgradeModelAction extends SelectionAction
       }
    }
 
+   private void createMissingApplicationContextTypes(CompoundCommand command)
+   {
+      String[] defaultContextTypes = {
+         PredefinedConstants.DEFAULT_CONTEXT, PredefinedConstants.ENGINE_CONTEXT,
+         PredefinedConstants.APPLICATION_CONTEXT, PredefinedConstants.JFC_CONTEXT,
+         PredefinedConstants.JSP_CONTEXT, PredefinedConstants.PROCESSINTERFACE_CONTEXT,
+         PredefinedConstants.EXTERNALWEBAPP_CONTEXT};      
+      
+      ModelType model = editor.getWorkflowModel();
+      EList<ApplicationContextTypeType> applicationContextTypes = model.getApplicationContextType();      
+      Map<String, IConfigurationElement> dataTypesConfig = SpiExtensionRegistry.instance().getExtensions(CarnotConstants.CONTEXT_TYPES_EXTENSION_POINT_ID);
+
+      for(String contextTypeKey : defaultContextTypes)
+      {
+         ApplicationContextTypeType contextType = ModelUtils.findIdentifiableElement(applicationContextTypes, contextTypeKey); //$NON-NLS-1$
+         if(contextType == null)
+         {
+            IConfigurationElement contextConfig = dataTypesConfig.get(contextTypeKey);
+            CreateMetaTypeCommand createContextTypeCommand = new CreateMetaTypeCommand(
+                  contextConfig, CarnotWorkflowModelPackage.eINSTANCE.getApplicationContextTypeType(),
+                     new EStructuralFeature[] {
+                           CarnotWorkflowModelPackage.eINSTANCE
+                                 .getApplicationContextTypeType_HasMappingId(),
+                           CarnotWorkflowModelPackage.eINSTANCE
+                                 .getApplicationContextTypeType_HasApplicationPath()});
+            createContextTypeCommand.setParent(model);
+            command.add(createContextTypeCommand);
+         }
+      }  
+   }
+   
    private void createMissingDataTypes(CompoundCommand command)
    {
       String[] dmsDataTypeKeys = {

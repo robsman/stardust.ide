@@ -12,25 +12,35 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
+import org.eclipse.bpmn2.CallActivity;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataInputAssociation;
+import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataOutputAssociation;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElement;
+import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
 /**
@@ -124,6 +134,18 @@ public class BpmnModelQuery {
 		return null;
 	}
 
+	public static Definitions getDefinitions(FlowElementsContainer container) {
+		if (null == container) return null;
+		return findDefinitions(container);
+	}
+
+
+	private static Definitions findDefinitions(FlowElementsContainer container) {
+		EObject parent = container.eContainer();
+		if (!(parent instanceof Definitions)) return findDefinitions(container);
+		return (Definitions)parent;
+	}
+
 	public static boolean hasNoIncomingSequence(FlowNode flowNode) {
 		List<SequenceFlow> incoming = flowNode.getIncoming();
 		return (null == incoming || 0 == incoming.size());
@@ -180,4 +202,58 @@ public class BpmnModelQuery {
 		}
 		return null;
 	}
+
+	public static DataInputAssociation findDataInputAssociationTo(DataInput callerInput, CallActivity caller) {
+		for (DataInputAssociation assoc : caller.getDataInputAssociations()) {
+			if (assoc.getTargetRef() != null && assoc.getTargetRef().equals(callerInput)) {
+				return assoc;
+			}
+		}
+		return null;
+	}
+
+	public static DataOutputAssociation findDataOutputAssociationFrom(DataOutput callerOutput, CallActivity caller) {
+		for (DataOutputAssociation assoc : caller.getDataOutputAssociations()) {
+			if (assoc.getSourceRef() != null) {
+				for (ItemAwareElement out : assoc.getSourceRef()) {
+					if (out != null && out.equals(callerOutput)) {
+						return assoc;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Interface findInterfaceById(Definitions defs, String id) {
+		if (null == id) return null;
+		for (RootElement root : defs.getRootElements()) {
+			if (root instanceof Interface) {
+				if (id.equals(root.getId())) return (Interface) root;
+			}
+		}
+		return null;
+	}
+
+	public Resource findResourceByUUID(Definitions defs, String searchUUID) {
+		for (RootElement root : defs.getRootElements()) {
+			if (root instanceof Resource) {
+				String uuid = getUUID(root.getAnyAttribute());
+				if (null != uuid && uuid.equals(searchUUID)) return (Resource)root;
+			}
+		}
+		return null;
+	}
+
+	private String getUUID(FeatureMap anyAttribute) {
+		final String uuid = "uuid";
+		Iterator<Entry> iterator = anyAttribute.iterator();
+		while (iterator.hasNext()) {
+			Entry entry = iterator.next();
+			if (uuid.equals(entry.getEStructuralFeature().getName())) return entry.getValue().toString();
+		}
+		return null;
+	}
+
+
 }

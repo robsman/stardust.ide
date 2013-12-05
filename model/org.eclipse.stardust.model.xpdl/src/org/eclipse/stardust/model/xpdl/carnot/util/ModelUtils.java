@@ -46,8 +46,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
@@ -56,8 +56,6 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.engine.core.upgrade.jobs.m30.ApplicationContextType;
-import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -91,7 +89,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
@@ -115,6 +112,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 
 public class ModelUtils
 {
@@ -163,156 +161,86 @@ public class ModelUtils
       }
    };
 
-   public static ModelType findContainingModel(EObject element)
+   private static <T extends EObject> T findContained(EObject object, Class<T> clz)
    {
-      if (element instanceof ModelType)
+      if (object != null)
       {
-         return (ModelType) element;
-      }
-      if (element != null)
-      {
-         while (null != element.eContainer())
+         for (EObject content : object.eContents())
          {
-            element = element.eContainer();
-            if (element instanceof ModelType)
+            if (clz.isInstance(content))
             {
-               return (ModelType) element;
-            }
-         }
-         for (EObject content : element.eContents())
-         {
-            if (content instanceof ModelType)
-            {
-               return (ModelType) content;
+               return clz.cast(content);
             }
          }
       }
       return null;
    }
 
-   public static DiagramType findContainingDiagram(IGraphicalObject graphicalObject)
+   private static <T extends EObject> T findContainer(EObject object, Class<T> clz)
    {
-      EObject element = graphicalObject;
-      DiagramType diagram = (element instanceof DiagramType)
-            ? (DiagramType) element
-            : null;
+      while (object != null)
+      {
+         if (clz.isInstance(object))
+         {
+            return clz.cast(object);
+         }
+         object = object.eContainer();
+      }
+      return null;
+   }
 
-      while (null == diagram && null != element.eContainer())
+   public static ModelType findContainingModel(EObject element)
+   {
+      if (element == null)
+      {
+         return null;
+      }
+      ModelType model = findContainer(element, ModelType.class);
+      return model == null ? findContained(getTopContainer(element), ModelType.class) : model;
+   }
+
+   private static EObject getTopContainer(EObject element)
+   {
+      while (null != element.eContainer())
       {
          element = element.eContainer();
-         if (element instanceof DiagramType)
-         {
-            diagram = (DiagramType) element;
-         }
       }
+      return element;
+   }
 
-      return diagram;
+   public static DiagramType findContainingDiagram(IGraphicalObject graphicalObject)
+   {
+      return findContainer(graphicalObject, DiagramType.class);
    }
 
    public static ProcessDefinitionType findContainingProcess(EObject element)
    {
-      ProcessDefinitionType process = (element instanceof ProcessDefinitionType)
-            ? (ProcessDefinitionType) element
-            : null;
-
-      while ((null == process) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ProcessDefinitionType)
-         {
-            process = (ProcessDefinitionType) element;
-         }
-      }
-
-      return process;
+      return findContainer(element, ProcessDefinitionType.class);
    }
 
    public static PoolSymbol findContainingPool(EObject element)
    {
-      PoolSymbol pool = (element instanceof PoolSymbol)
-            ? (PoolSymbol) element
-            : null;
-
-      while ((null == pool) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof PoolSymbol)
-         {
-            pool = (PoolSymbol) element;
-         }
-      }
-
-      return pool;
+      return findContainer(element, PoolSymbol.class);
    }
 
    public static ApplicationType findContainingApplication(EObject element)
    {
-      ApplicationType application = (element instanceof ApplicationType)
-            ? (ApplicationType) element
-            : null;
-
-      while ((null == application) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ApplicationType)
-         {
-            application = (ApplicationType) element;
-         }
-      }
-
-      return application;
+      return findContainer(element, ApplicationType.class);
    }
 
    public static ActivityType findContainingActivity(EObject element)
    {
-      ActivityType activity = (element instanceof ActivityType)
-            ? (ActivityType) element
-            : null;
-      while ((null == activity) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof ActivityType)
-         {
-            activity = (ActivityType) element;
-         }
-      }
-      return activity;
+      return findContainer(element, ActivityType.class);
    }
 
    public static EventHandlerType findContainingEventHandlerType(EObject element)
    {
-      EventHandlerType handler = (element instanceof EventHandlerType)
-            ? (EventHandlerType) element
-            : null;
-
-      while ((null == handler) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof EventHandlerType)
-         {
-            handler = (EventHandlerType) element;
-         }
-      }
-
-      return handler;
+      return findContainer(element, EventHandlerType.class);
    }
 
    public static TriggerType findContainingTriggerType(EObject element)
    {
-      TriggerType triggerType = (element instanceof TriggerType)
-            ? (TriggerType) element
-            : null;
-
-      while ((null == triggerType) && (null != element.eContainer()))
-      {
-         element = element.eContainer();
-         if (element instanceof TriggerType)
-         {
-            triggerType = (TriggerType) element;
-         }
-      }
-
-      return triggerType;
+      return findContainer(element, TriggerType.class);
    }
 
    public static long getElementOid(IModelElement element, ModelType model)
@@ -950,70 +878,22 @@ public class ModelUtils
       }
 
       // resolve declared references
-      IConfigurationElement config = SpiExtensionRegistry.getConfiguration(extensible);
-      if (config != null)
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
+      if (configs != null)
       {
-         IConfigurationElement[] refs = config.getChildren("reference"); //$NON-NLS-1$
-         for (IConfigurationElement ref : refs)
+         for(IConfigurationElement config : configs)
          {
-            AttributeType attribute = AttributeUtil.getAttribute(extensible,
-                  ref.getAttribute("attributeName")); //$NON-NLS-1$
-            if (attribute != null)
+            IConfigurationElement[] refs = config.getChildren("attribute"); //$NON-NLS-1$
+            for (IConfigurationElement ref : refs)
             {
-               String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
-               setReference(attribute, model, scopeList);
+               AttributeType attribute = AttributeUtil.getAttribute(extensible,
+                     ref.getAttribute("attributeName")); //$NON-NLS-1$
+               if (attribute != null)
+               {
+                  String scopeList = ref.getAttribute("scope"); //$NON-NLS-1$
+                  setReference(attribute, model, scopeList);
+               }
             }
-         }
-      }
-
-      // resolve references for Organizations which are not part of ExtensionRegistry (see CRNT-16871)
-      if (extensible instanceof OrganizationType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               PredefinedConstants.BINDING_DATA_ID_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "data"); //$NON-NLS-1$
-         }
-      }
-
-      if (extensible instanceof DataType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
-         }
-      }
-
-      // This is for the WebModeler who does not have access to the extension mechanism
-      if (config == null && extensible instanceof TriggerType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               PredefinedConstants.MANUAL_TRIGGER_PARTICIPANT_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "role+organization"); //$NON-NLS-1$
-         }
-      }
-      if (config == null && extensible instanceof DataType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               StructuredDataConstants.TYPE_DECLARATION_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
-         }
-      }
-
-      if (config == null && extensible instanceof AccessPointType)
-      {
-         AttributeType attribute = AttributeUtil.getAttribute(extensible,
-               StructuredDataConstants.TYPE_DECLARATION_ATT);
-         if (attribute != null)
-         {
-            setReference(attribute, model, "struct"); //$NON-NLS-1$
          }
       }
 
@@ -1299,10 +1179,13 @@ public class ModelUtils
    {
       EObject o = model.getConnectionManager().find(uri);
       ModelType refModel = null;
-      Object refObject = Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
-      if (refObject != null && refObject instanceof ModelType)
+      if(o != null)
       {
-         refModel = (ModelType) refObject;
+         Object refObject = Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
+         if (refObject != null && refObject instanceof ModelType)
+         {
+            refModel = (ModelType) refObject;
+         }
       }
       return refModel;
    }
@@ -1719,5 +1602,55 @@ public class ModelUtils
       }
       return null;
    }
+
+   public static boolean isReadOnly(EObject element)
+   {
+      if (element != null && element instanceof ModelType)
+      {
+         AttributeType attribute = AttributeUtil.getAttribute((ModelType) element,
+               PredefinedConstants.READ_ONLY_HASH);
+         if ((attribute != null) && (attribute.getValue() != null)
+               && (attribute.getValue().length() > 0))
+         {
+            return true;
+         }
+
+      }
+      return false;
+   }
+
+   public static ModelType getModelByProxyURI(ModelType model, URI proxyUri)
+   {
+      ModelType referencedModel = null;
+      if (model != null && model.getConnectionManager() != null)
+      {
+         EObject connectionObject = model.getConnectionManager().find(
+               proxyUri.scheme() + "://" + proxyUri.authority() + "/");
+         if (connectionObject != null)
+         {
+            referencedModel = (ModelType) Reflect.getFieldValue(connectionObject,
+                  "eObject");
+         }
+      }
+      return referencedModel;
+   }
+
+   public static ModelType getExternalModel(ModelType model, String modelID)
+   {
+      ExternalPackages packages = model.getExternalPackages();
+      if (packages != null)
+      {
+         for (ExternalPackage pkg : packages.getExternalPackage())
+         {
+            ModelType otherModel = ModelUtils.getExternalModel(pkg);
+            if (otherModel.getId().equals(modelID))
+            {
+               return otherModel;
+            }
+         }
+      }
+      return null;
+   }
+
 
 }

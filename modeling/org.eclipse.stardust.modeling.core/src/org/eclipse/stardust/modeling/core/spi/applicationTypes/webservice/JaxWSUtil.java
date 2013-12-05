@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 - 2012 SunGard CSA 
+ * Copyright (c) 2011 - 2012 SunGard CSA
  *******************************************************************************/
 
 package org.eclipse.stardust.modeling.core.spi.applicationTypes.webservice;
@@ -12,6 +12,7 @@ import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.TypedXPath;
 import org.eclipse.stardust.engine.core.struct.spi.StructDataTransformerKey;
@@ -22,7 +23,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.QNameUtil;
 
 public final class JaxWSUtil
 {
@@ -71,7 +71,7 @@ public final class JaxWSUtil
          JaxWSOutlineSynchronizer synchronizer)
    {
       String className = EMPTY_STRING;
-   
+
       if (!StringUtils.isEmpty(bindingStyle) && !"message".equals(bindingStyle)) //$NON-NLS-1$
       {
          if (synchronizer != null)
@@ -88,13 +88,13 @@ public final class JaxWSUtil
             }
          }
       }
-   
+
       DataTypeType type = className.length() == 0 ? plainXML : serializable;
       String name = part.getName();
-      
+
       createAccessPoint(rawAccessPoints, application, name, name, direction,
             type, className);
-      
+
       createStructAccessPoint(rawAccessPoints, application, name+WSConstants.STRUCT_POSTFIX, direction, part);
    }
 
@@ -110,7 +110,7 @@ public final class JaxWSUtil
             return null;
          }
       }
-      
+
       ModelType model = ModelUtils.findContainingModel(application);
       TypeDeclarationType type = findMatchingTypeDeclaration(qname, model);
       if (type == null)
@@ -143,7 +143,7 @@ public final class JaxWSUtil
       {
          return null;
       }
-      
+
       TypedXPath rootXPath = StructuredTypeUtils.getXPathMap(typeDeclaration).getRootXPath();
       if (!QNameUtil.toString(rootXPath.getXsdElementNs(), rootXPath.getXsdElementName()).equals(qname.toString()))
       {
@@ -152,19 +152,19 @@ public final class JaxWSUtil
 
       return typeDeclaration;
    }
-   
+
    private static void createStructAccessPoint(
          Map<String, AccessPointType> rawAccessPoints, ApplicationType application,
          String id, DirectionType direction, Part part)
    {
       TypeDeclarationType typeDeclaration = findMatchingTypeDeclaration(application, part);
-      
+
       if (typeDeclaration == null)
       {
          // not found or too many found, this is handled by WebServicePropertyPage.validateOperations()
          return;
       }
-      
+
       AccessPointType ap = null;
       String name = id+" ("+typeDeclaration.getName()+")"; //$NON-NLS-1$ //$NON-NLS-2$
       DataTypeType dataType = ModelUtils.getDataType(application, StructuredDataConstants.STRUCTURED_DATA);
@@ -172,14 +172,14 @@ public final class JaxWSUtil
       {
          ap = rawAccessPoints.get(id);
       }
-      
+
       String transformationType = null;
       if (direction.equals(DirectionType.IN_LITERAL) || direction.equals(DirectionType.INOUT_LITERAL))
       {
          // force IN/INOUT structured data values to be transformed to DOM
          transformationType = StructDataTransformerKey.DOM;
       }
-      
+
       if (ap == null)
       {
          ap = AccessPointUtil.createAccessPoint(id, name, direction,

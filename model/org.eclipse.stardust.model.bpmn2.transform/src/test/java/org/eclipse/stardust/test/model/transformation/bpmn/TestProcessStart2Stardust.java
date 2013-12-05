@@ -10,16 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_MAIN_PROCESS;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_START_EVENT;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -37,7 +27,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestProcessStart2Stardust {
+public class TestProcessStart2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String TEST_ID_TRANSITION_START_TO_A = "TestIdTransitionStartToA";
 	private static final String TEST_ID_TRANSITION_START_TO_B = "TestIdTransitionStartToB";
@@ -88,6 +78,7 @@ public class TestProcessStart2Stardust {
 
     @Test
     public void testParallelBox() {
+
         final String modelFile = TEST_BPMN_MODEL_DIR + "ParallelBox.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testParallelBox.xpdl";
 

@@ -16,16 +16,20 @@ import java.util.Map;
 
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
+import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
+import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Import;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -37,7 +41,10 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Resource;
+import org.eclipse.bpmn2.ScriptTask;
+import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -117,5 +124,25 @@ public interface Transformator {
 	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer, Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer);
 
 	public void addBoundaryEvent(BoundaryEvent event, FlowElementsContainer container);
+
+	public void addDataStore(DataStore data);
+
+	public void addCallActivity(CallActivity caller, FlowElementsContainer container);
+
+	public void addGlobalCall(CallActivity caller, FlowElementsContainer container);
+
+	public void addProcessParameters(Process process);
+
+	public void addGlobalUserTask(GlobalUserTask global, Definitions definitions);
+
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container);
+
+	public void addSendTask(SendTask activity, FlowElementsContainer container);
+
+	public void addReceiveTask(ReceiveTask activity, FlowElementsContainer container);
+
+	public void addScriptTask(ScriptTask activity, FlowElementsContainer container);
+
+	public void addResourceRelations(Resource resource);
 
 }

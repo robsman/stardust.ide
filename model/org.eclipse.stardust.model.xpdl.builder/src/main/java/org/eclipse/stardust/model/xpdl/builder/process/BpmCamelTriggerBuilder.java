@@ -11,11 +11,11 @@
 package org.eclipse.stardust.model.xpdl.builder.process;
 
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class BpmCamelTriggerBuilder
       extends AbstractTriggerBuilder<BpmCamelTriggerBuilder>
@@ -38,7 +38,7 @@ public class BpmCamelTriggerBuilder
 
    protected TriggerType finalizeElement()
    {
-      TriggerTypeType triggerMetaType = XpdlModelUtils.findIdentifiableElement(
+      TriggerTypeType triggerMetaType = ModelUtils.findIdentifiableElement(
             model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
       if (null == triggerMetaType)
       {

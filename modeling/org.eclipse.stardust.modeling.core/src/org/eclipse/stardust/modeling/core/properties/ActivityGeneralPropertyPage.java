@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -149,21 +148,7 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
       }
       TransitionType relocationTransition = ModelUtils.findElementById(process.getTransition(),
             PredefinedConstants.RELOCATION_TRANSITION_ID);
-      if (supportsRelocation)
-      {
-         if (relocationTransition == null)
-         {
-            relocationTransition = CarnotWorkflowModelFactory.eINSTANCE.createTransitionType();
-            process.getTransition().add(relocationTransition);
-         }
-         relocationTransition.setId(PredefinedConstants.RELOCATION_TRANSITION_ID);
-         relocationTransition.setName(Diagram_Messages.RELOCATION_TRANSITION);
-         relocationTransition.setCondition("TRUE"); //$NON-NLS-1$
-         relocationTransition.setFrom(null);
-         relocationTransition.setTo(null);
-         relocationTransition.setForkOnTraversal(false);
-      }
-      else
+      if (!supportsRelocation)
       {
          if (relocationTransition != null)
          {
@@ -193,6 +178,4 @@ public class ActivityGeneralPropertyPage extends IdentifiablePropertyPage
             Diagram_Messages.LBL_IS_RELOCATION_TARGET, new GridData(SWT.LEAD, SWT.CENTER,
                   true, false));
    }
-
-
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
+import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.transformation.model.MappingModelUtil;
@@ -18,23 +20,21 @@ import org.eclipse.stardust.engine.extensions.transformation.model.mapping.Trans
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class StructAccessPointBuilder
       extends AbstractModelElementBuilder<AccessPointType, StructAccessPointBuilder>
 {
-
    private ModelBuilderFacade facade;
 
    private IAccessPointOwner owner;
+
+   protected EList< ? super AccessPointType> getElementContainer()
+   {
+      return owner.getAccessPoint();
+   }
 
    public StructAccessPointBuilder()
    {
@@ -163,15 +163,22 @@ public class StructAccessPointBuilder
    public StructAccessPointBuilder withDirection(String direction)
    {
       DirectionType directionType;
+      
       if (direction.equals(DirectionType.IN_LITERAL.getName()))
       {
          directionType = DirectionType.IN_LITERAL;
+      }
+      else if (direction.equals(DirectionType.INOUT_LITERAL.getName()))
+      {
+         directionType = DirectionType.INOUT_LITERAL;
       }
       else
       {
          directionType = DirectionType.OUT_LITERAL;
       }
+      
       element.setDirection(directionType);
+      
       return self();
    }
 
@@ -209,5 +216,4 @@ public class StructAccessPointBuilder
       }
       return facade;
    }
-
 }

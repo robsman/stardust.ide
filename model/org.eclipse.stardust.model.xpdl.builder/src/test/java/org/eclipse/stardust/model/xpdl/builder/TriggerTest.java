@@ -13,23 +13,16 @@ package org.eclipse.stardust.model.xpdl.builder;
 import static junit.framework.Assert.assertNotNull;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ADMINISTRATOR_ROLE;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
-import static org.junit.Assert.*;
-
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
-import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,7 +52,7 @@ public class TriggerTest
    @Test
    public void verifyStringVariable()
    {
-      ProcessDefinitionType aProcess = XpdlModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
+      ProcessDefinitionType aProcess = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
       DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
             PredefinedConstants.DOCUMENT_DATA);
            

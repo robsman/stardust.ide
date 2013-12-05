@@ -26,20 +26,6 @@ import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.Bou
 import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust.BOUNDARY_SPLIT_EVENT_ROUTE_POSTFIX;
 import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust.BOUNDARY_SPLIT_HAPPY_ROUTE_POSTFIX;
 import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust.CONTROL_FLOW_VAR_SUFFIX;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_D;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_E;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getFirstEventActionOfType;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.otherwiseConditionBetween;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transitionConditionBetween;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transitionExistsBetween;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -48,7 +34,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.stardust.engine.core.runtime.beans.AbortScope;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
@@ -58,6 +43,8 @@ import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
 import org.junit.Test;
 
 
@@ -65,7 +52,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestBoundaryEvents2Stardust {
+public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String TEST_ID_GATEWAY = "TestModelGateway";
 	private static final String TEST_ID_TASK_DEFAULT = "TestModelTaskDefault";
@@ -87,6 +74,7 @@ public class TestBoundaryEvents2Stardust {
 
     @Test
     public void testBoundaryTimerEvent() {
+
         final String modelFile = TEST_BPMN_MODEL_DIR + "BoundaryTimerEvent.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testBoundaryTimerEvent.xpdl";
 
@@ -107,9 +95,9 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(eventControlFlowFlag);
         EventHandlerType timerEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(timerEventHandler);
-        EventActionTypeType cancelActivityActionType = XpdlModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
+        EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = XpdlModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
+        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
         assertNotNull(setDataActionType);
         EventActionType setDataAction = getFirstEventActionOfType(timerEventHandler, setDataActionType);
         assertNotNull(setDataAction);
@@ -170,9 +158,9 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(eventControlFlowFlag);
         EventHandlerType exceptionEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(exceptionEventHandler);
-        EventActionTypeType cancelActivityActionType = XpdlModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
+        EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = XpdlModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
+        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
         assertNotNull(setDataActionType);
         EventActionType setDataAction = getFirstEventActionOfType(exceptionEventHandler, setDataActionType);
         assertNotNull(setDataAction);

@@ -22,13 +22,13 @@ import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEval
 import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentValidator;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
-import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -102,7 +102,7 @@ public class BpmDocumentVariableBuilder
 
       if ((null == element.getType()))
       {
-         DataTypeType documentMetaType = XpdlModelUtils.findIdentifiableElement(
+         DataTypeType documentMetaType = ModelUtils.findIdentifiableElement(
                this.model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT);
          
          if (null == documentMetaType)

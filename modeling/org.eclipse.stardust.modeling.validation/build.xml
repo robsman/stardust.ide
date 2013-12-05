@@ -54,7 +54,7 @@
       <property name="ipp-bpm-validation.jar" value="${build.lib}/${ipp-bpm-validation.jarfile}" />
       <property name="ipp-bpm-validation.pom" value="${build.lib}/${ipp-bpm-validation.pomfile}" />
       <property name="ipp-bpm-validation.src-jarfile" value="${artifactId}-sources.jar" />
-      <property name="ipp-bpm-validation.src-jar" value="${build.lib.src}/${ipp-bpm-validation.src-jarfile}" />
+      <property name="ipp-bpm-validation.src-jar" value="${build.lib}/${ipp-bpm-validation.src-jarfile}" />
    </target>
 
    <target name="initBuildDirectories" depends="initBuild">
@@ -82,8 +82,18 @@
 			pomFilePath="${build.lib}" moduleName="${artifactId}" />
 	</target>
 	
-	<target name="publish.ivy" depends="unpack.p2, jar.m2, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
-		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />		   
+   <target name="jar.src" >
+      <delete file="${ipp-bpm-validation.src-jar}" />
+      <ipp:jar jarfile="${ipp-bpm-validation.src-jar}" implementationTitle="Model Validation Sources"
+         duplicate="preserve">
+         <fileset dir="${project.dir}/src">
+            <include name="**/*.java" />
+         </fileset>
+      </ipp:jar>
+   </target>
+               
+	<target name="publish.ivy" depends="unpack.p2, jar.m2, jar.src, make-pom" xmlns:ivy="antlib:org.apache.ivy.ant">
+		<ivy-publish-local artifactId="${artifactId}" artifactDir="${build.lib}" />
 	</target>
    
 	<target name="deploy" depends="publish.ivy" />

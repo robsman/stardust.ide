@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 
@@ -41,6 +42,8 @@ public class Modification
 
    private final ChangeDescription changeDescription;
 
+   private final Exception failure;
+
    private State state;
 
    private final Set<EObject> modifiedElements = new CopyOnWriteArraySet<EObject>();
@@ -54,6 +57,18 @@ public class Modification
       this.id = UUID.randomUUID().toString();
       this.session = session;
       this.changeDescription = changeDescription;
+      this.failure = null;
+      this.state = State.UNDOABLE;
+
+      normalizeChangeSet();
+   }
+
+   public Modification(EditingSession session, Exception failure)
+   {
+      this.id = UUID.randomUUID().toString();
+      this.session = session;
+      this.changeDescription = ChangeFactory.eINSTANCE.createChangeDescription();
+      this.failure = failure;
       this.state = State.UNDOABLE;
 
       normalizeChangeSet();
@@ -124,6 +139,16 @@ public class Modification
    public ChangeDescription getChangeDescription()
    {
       return changeDescription;
+   }
+
+   public boolean wasFailure()
+   {
+      return null != failure;
+   }
+
+   public Exception getFailure()
+   {
+      return failure;
    }
 
    private void normalizeChangeSet()

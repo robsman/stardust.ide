@@ -36,12 +36,14 @@ import org.eclipse.stardust.engine.extensions.transformation.model.mapping.Mappi
 import org.eclipse.stardust.engine.extensions.transformation.model.mapping.TransformationProperty;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -108,6 +110,7 @@ public class MessageTransformationController {
 	private JavaScriptValidator javaScriptValidator;
     private IProject project;
 	private boolean simpleMode;
+	private boolean withSerialiable;
     private List<AccessPointType> invalidAccessPoints = new ArrayList<AccessPointType>();
     private static final Type[] TYPES = {
         Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
@@ -275,7 +278,8 @@ public class MessageTransformationController {
           TypeDeclarationType typeAdapter = j.next();
           if(TypeDeclarationUtils.getType(typeAdapter) == TypeDeclarationUtils.COMPLEX_TYPE)
           {
-              AccessPointType messageType = mtaUtils.createStructAccessPoint((EObject) typeAdapter, typeAdapter.getId(), DirectionType.INOUT_LITERAL);
+              AccessPointType messageType = mtaUtils.createStructAccessPoint((EObject) typeAdapter, typeAdapter.getId(),
+                    DirectionType.INOUT_LITERAL, false);
               availableMessageTypes.add(messageType);
           }
       }
@@ -371,72 +375,136 @@ public class MessageTransformationController {
 	   return false;
 	}
 
-	public void refreshJavaScriptContext() {
-		CodeCompletionHelper.getInstance().clear();
-		jScriptProlog = "function ippInitialize(e) {return null;}\n"; //$NON-NLS-1$
-		jScriptProlog = jScriptProlog
-				+ "function ippImport(e) {return null;}\n"; //$NON-NLS-1$
+   public void refreshJavaScriptContext()
+   {
+      CodeCompletionHelper.getInstance().clear();
+      jScriptProlog = "function ippInitialize(e) {return null;}\n"; //$NON-NLS-1$
+      jScriptProlog = jScriptProlog + "function ippImport(e) {return null;}\n"; //$NON-NLS-1$
 
-		for (Iterator<AccessPointType> i = sourceMessageTypes.iterator(); i.hasNext();) {
-		   AccessPointType apt = i.next();
-		   if (apt instanceof StructAccessPointType) {
-	           StructAccessPointType messageType = (StructAccessPointType) apt;;
-	           String typeString = getStructuredTypeName(messageType);
-	           jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-                     + " = ippInitialize(\"" + typeString + "\");\n";		       //$NON-NLS-1$ //$NON-NLS-2$
-		   } else {
-              AccessPointType messageType = apt;
-		    	if (isSerializable(apt)) {
-		    		String className = AttributeUtil.getAttributeValue(apt, "carnot:engine:className"); //$NON-NLS-1$
-		            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-	                + " = ippInitialize(\"" + className + "\");\n";		 	           		    		 //$NON-NLS-1$ //$NON-NLS-2$
-		    	} else {
-		              jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-		              + " = new " + getTypeString(messageType) + "();\n";   //$NON-NLS-1$ //$NON-NLS-2$
-		              CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);
-		    	}
-		   }
-		}
-		for (Iterator<AccessPointType> i = targetMessageTypes.iterator(); i.hasNext();) {
-		    AccessPointType apt = i.next();
-		    if (apt instanceof StructAccessPointType) {
-	            StructAccessPointType messageType = (StructAccessPointType) apt;
-	            String typeString = getStructuredTypeName(messageType);
-	            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-                + " = ippInitialize(\"" + typeString + "\");\n";		 	            //$NON-NLS-1$ //$NON-NLS-2$
-		    } else {
-		    	AccessPointType messageType = apt;
-		    	if (isSerializable(apt)) {
-		    		String className = AttributeUtil.getAttributeValue(apt, "carnot:engine:className"); //$NON-NLS-1$
-		            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-	                + " = ippInitialize(\"" + className + "\");\n";		 	           		    		 //$NON-NLS-1$ //$NON-NLS-2$
-		    	} else {
-		            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-		            + " = new " + getTypeString(messageType) + "();\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		            CodeCompletionHelper.getInstance().getTypeMap().put(messageType.getId(), messageType);
-		    	}
-		    }
-		}
-		for (Iterator<AccessPointType> i = externalClassTypes.iterator(); i.hasNext();) {
-		   AccessPointType apt = i.next();
-		   if (apt instanceof StructAccessPointType) {
-		          StructAccessPointType messageType = (StructAccessPointType) apt;
-		          String typeString = getStructuredTypeName(messageType);
-		          jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-	              + " = ippInitialize(\"" + typeString + "\");\n";		 	            //$NON-NLS-1$ //$NON-NLS-2$
-		   } else {
-		   	AccessPointType messageType = apt;
-		   	if (isSerializable(apt) && apt.getElementOid() == 1) {
-		   		String className = AttributeUtil.getAttributeValue(apt, "carnot:engine:className"); //$NON-NLS-1$
-		           jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
-		              + " = ippInitialize(\"" + className + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
-		           CodeCompletionHelper.getInstance().getExternalTypeMap().put(messageType.getId(), messageType);
-		   	}
-		  }
-		}
-		fieldsDocument = "//Fields\n" + jScriptProlog; //$NON-NLS-1$
+      for (Iterator<AccessPointType> i = sourceMessageTypes.iterator(); i.hasNext();)
+      {
+         AccessPointType apt = i.next();
+         if (apt instanceof StructAccessPointType)
+         {
+            StructAccessPointType messageType = (StructAccessPointType) apt;
+            String typeString = getStructuredTypeName(messageType);
+            AttributeType attributeType = AttributeUtil.getAttribute(messageType,
+                  "carnot:engine:dataType");
+            String id = "";
+            if (attributeType != null)
+            {
+               if (attributeType.getReference() != null)
+               {
+                  IdentifiableReference ref = attributeType.getReference();
+                  if (ref != null)
+                  {
+                     ModelType rModel = ModelUtils.findContainingModel(ref.getIdentifiable());
+                     if (rModel != null && !rModel.getId().equals(modelType.getId()))
+                     {
+                        id = rModel.getId() + "/";
+                     }
+                  }
+               }
+            }
+            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                  + " = ippInitialize(\"" + id + typeString + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+         }
+         else
+         {
+            AccessPointType messageType = apt;
+            if (isSerializable(apt))
+            {
+               String className = AttributeUtil.getAttributeValue(apt,
+                     "carnot:engine:className"); //$NON-NLS-1$
+               jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                     + " = ippInitialize(\"" + className + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+            }
+            else
+            {
+               jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                     + " = new " + getTypeString(messageType) + "();\n"; //$NON-NLS-1$ //$NON-NLS-2$
+               CodeCompletionHelper.getInstance()
+                     .getTypeMap()
+                     .put(messageType.getId(), messageType);
+            }
+         }
+      }
+      for (Iterator<AccessPointType> i = targetMessageTypes.iterator(); i.hasNext();)
+      {
+         AccessPointType apt = i.next();
+         if (apt instanceof StructAccessPointType)
+         {
+            StructAccessPointType messageType = (StructAccessPointType) apt;
+            String typeString = getStructuredTypeName(messageType);
+            AttributeType attributeType = AttributeUtil.getAttribute(messageType,
+                  "carnot:engine:dataType");
+            String id = "";
+            if (attributeType != null)
+            {
+               if (attributeType.getReference() != null)
+               {
+                  IdentifiableReference ref = attributeType.getReference();
+                  if (ref != null)
+                  {
+                     ModelType rModel = ModelUtils.findContainingModel(ref.getIdentifiable());
+                     if (rModel != null && !rModel.getId().equals(modelType.getId()))
+                     {
+                        id = rModel.getId() + "/";
+                     }
+                  }
+               }
+            }
+            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                  + " = ippInitialize(\"" + id + typeString + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+         }
+         else
+         {
+            AccessPointType messageType = apt;
+            if (isSerializable(apt))
+            {
+               String className = AttributeUtil.getAttributeValue(apt,
+                     "carnot:engine:className"); //$NON-NLS-1$
+               jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                     + " = ippInitialize(\"" + className + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+            }
+            else
+            {
+               jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                     + " = new " + getTypeString(messageType) + "();\n"; //$NON-NLS-1$ //$NON-NLS-2$
+               CodeCompletionHelper.getInstance()
+                     .getTypeMap()
+                     .put(messageType.getId(), messageType);
+            }
+         }
+      }
+      for (Iterator<AccessPointType> i = externalClassTypes.iterator(); i.hasNext();)
+      {
+         AccessPointType apt = i.next();
+         if (apt instanceof StructAccessPointType)
+         {
+            StructAccessPointType messageType = (StructAccessPointType) apt;
+            String typeString = getStructuredTypeName(messageType);
+            jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                  + " = ippInitialize(\"" + typeString + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+         }
+         else
+         {
+            AccessPointType messageType = apt;
+            if (isSerializable(apt) && apt.getElementOid() == 1)
+            {
+               String className = AttributeUtil.getAttributeValue(apt,
+                     "carnot:engine:className"); //$NON-NLS-1$
+               jScriptProlog = jScriptProlog + "var " + messageType.getId() //$NON-NLS-1$
+                     + " = ippInitialize(\"" + className + "\");\n"; //$NON-NLS-1$ //$NON-NLS-2$
+               CodeCompletionHelper.getInstance()
+                     .getExternalTypeMap()
+                     .put(messageType.getId(), messageType);
+            }
+         }
+      }
+      fieldsDocument = "//Fields\n" + jScriptProlog; //$NON-NLS-1$
 
-	}
+   }
 
 	public String getStructuredTypeName(StructAccessPointType messageType) {
 		TypeDeclarationType declarationType = (TypeDeclarationType) AttributeUtil
@@ -1152,7 +1220,8 @@ public class MessageTransformationController {
 
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
-	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.IN_LITERAL);
+	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName,
+	              DirectionType.IN_LITERAL, true);
 	    } else {
 	       if (declaringType.getType() == null || declaringType.getType().getId().equalsIgnoreCase("serializable")) { //$NON-NLS-1$
 	    	  //String className = AttributeUtil.getAttributeValue(declaringType, PredefinedConstants.CLASS_NAME_ATT);
@@ -1196,7 +1265,8 @@ public class MessageTransformationController {
 
 	    AccessPointType accessPoint = null;
 	    if (declaringType instanceof StructAccessPointType) {
-	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName, DirectionType.OUT_LITERAL);
+	        accessPoint = mtaUtils.createStructAccessPoint((EObject) declaringType, messageName,
+	              DirectionType.OUT_LITERAL, true);
 	    } else {
 	       if (declaringType.getType() == null || declaringType.getType().getId().equalsIgnoreCase("serializable")) { //$NON-NLS-1$
 	          //accessPoint = mtaUtils.createSerializableAccessPoint(declaringType, messageName, DirectionType.IN_LITERAL);
@@ -1569,6 +1639,16 @@ public class MessageTransformationController {
    public void setSimpleMode(boolean simpleMode)
    {
       this.simpleMode = simpleMode;
+   }
+
+   public boolean isWithSerializable()
+   {
+	   return withSerialiable;
+   }
+
+   public void setWithSerializable(boolean withSerializable)
+   {
+	   this.withSerialiable = withSerializable;
    }
 
    public void setExternalReference(boolean externalReference)
