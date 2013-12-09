@@ -13,24 +13,15 @@ package org.eclipse.stardust.modeling.data.structured.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
-import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
@@ -41,14 +32,12 @@ public class DataValidator implements IModelElementValidator
    {
       List<Issue> issues = new ArrayList<Issue>();
       DataType data = (DataType) element;
-      AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) element, "carnot:connection:uri"); //$NON-NLS-1$
       if (data.getExternalReference() != null)
       {
          // Validation for external references takes place in the ReferencedModelElementValidator
          return null;
       }
 
-      ModelType model = ModelUtils.findContainingModel(data);
       String typeId = AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT);
       if (StringUtils.isEmpty(typeId))
       {
@@ -57,38 +46,7 @@ public class DataValidator implements IModelElementValidator
       }
       else
       {
-         TypeDeclarationsType declarations = null;
-         if(attribute != null)
-         {
-            String uri = attribute.getValue();
-            URI aRealUri = URI.createURI(uri);
-            Connection connection = (Connection) model.getConnectionManager()
-                  .findConnection(uri);
-            if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
-                  && !"false".equals(connection.getAttribute("importByReference"))) //$NON-NLS-1$ //$NON-NLS-2$
-            {
-
-               EObject o = model.getConnectionManager().find(
-                     aRealUri.scheme().toString() + "://" + aRealUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
-               ModelType referencedModel = (ModelType) Reflect.getFieldValue(o, "eObject"); //$NON-NLS-1$
-
-               declarations = referencedModel.getTypeDeclarations();
-            }
-            else
-            {
-               declarations = model.getTypeDeclarations();
-            }
-         }
-         else
-         {
-            declarations = model.getTypeDeclarations();
-         }
-
-         TypeDeclarationType type = null;
-         if(declarations != null)
-         {
-            type = declarations.getTypeDeclaration(typeId);
-         }
+         TypeDeclarationType type = StructuredTypeUtils.getTypeDeclaration(data);
 
          if (type == null)
          {
