@@ -13,10 +13,10 @@
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>com.infinity.bpm</groupId>
+      <groupId>org.eclipse.stardust</groupId>
       <artifactId>product-parent</artifactId>
       <version>9.9.9-SNAPSHOT</version>
-      <relativePath>../../../../sungard/product/product-parent/pom.xml</relativePath>
+      <relativePath>../../../product/product-parent/pom.xml</relativePath>
    </parent>
 
    <groupId>org.eclipse.stardust.modeling.model</groupId>
@@ -26,7 +26,7 @@
    <packaging>jar</packaging>
 
    <properties>
-      <ipp.version>7.2.0-NIGHTLY-SNAPSHOT</ipp.version>
+      <ipp.version>9.9.9-SNAPSHOT</ipp.version>
    </properties>
 
    <dependencies>
@@ -122,6 +122,7 @@
             </exclusion>
          </exclusions>
       </dependency>
+<!--
       <dependency>
          <groupId>org.eclipse.core</groupId>
          <artifactId>org.eclipse.core.resources</artifactId>
@@ -142,7 +143,7 @@
             </exclusion>
          </exclusions>
       </dependency>
-
+-->
       <dependency>
          <groupId>org.eclipse.equinox</groupId>
          <artifactId>org.eclipse.equinox.common</artifactId>
@@ -192,16 +193,5 @@
          </plugin>
       </plugins>
    </build>
-
-   <repositories>
-      <repository>
-         <id>ipp-repo</id>
-         <url>https://infinity.sungard.com/repository/ipp-libs</url>
-      </repository>
-      <repository>
-         <id>ipp-repo-dev</id>
-         <url>https://infinity.sungard.com/repository/ipp-libs-dev</url>
-      </repository>
-   </repositories>
 
 </project>
