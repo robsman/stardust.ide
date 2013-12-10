@@ -45,7 +45,7 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
    {
       this(model, feature, isBoolean, ExtensibleElementValueAdapter.INSTANCE);
    }
-   
+
    public ExtensibleElementAdapter(EObject model, String feature, boolean isBoolean,
          ExtensibleElementValueAdapter modelValueAdapter)
    {
@@ -60,7 +60,7 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
    {
       this(model, feature, scope, scopeFeature, ExtensibleElementValueAdapter.INSTANCE);
    }
-   
+
    public ExtensibleElementAdapter(EObject model, String feature, EObject scope,
          EStructuralFeature scopeFeature, ExtensibleElementValueAdapter modelValueAdapter)
    {
@@ -75,7 +75,7 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
    {
       this(model, feature, scope, ExtensibleElementValueAdapter.INSTANCE);
    }
-   
+
    public ExtensibleElementAdapter(EObject model, String feature, List<? extends IIdentifiableElement> scope,
          ExtensibleElementValueAdapter modelValueAdapter)
    {
@@ -230,7 +230,7 @@ public class ExtensibleElementAdapter extends AdapterImpl implements IModelAdapt
                   }
                   connect();
                }
-               else if (AttributeUtil.isReference(attribute))
+               else if (AttributeUtil.isReference(attribute) || AttributeUtil.isReference((IExtensibleElement) model, feature))
                {
                   AttributeUtil.setReference(attribute, (EObject) newValue);
                }
