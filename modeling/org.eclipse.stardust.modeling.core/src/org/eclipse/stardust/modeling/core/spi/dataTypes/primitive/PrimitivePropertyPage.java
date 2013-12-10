@@ -110,6 +110,14 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, final IModelElement element)
    {
+      String dataType = AttributeUtil.getAttributeValue((DataType) element, PredefinedConstants.TYPE_ATT);
+      String typeId = ((DataType) element).getType().getId();
+      if(dataType == null && PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT,
+               "org.eclipse.stardust.engine.core.pojo.data.Type", Type.Enumeration.getId()); //$NON-NLS-1$
+      }
+
       WidgetBindingManager binding = getWidgetBindingManager();
 
       // bind types, typeViewer and valueComposites
@@ -350,6 +358,11 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
+      String typeId = ((DataType) element).getType().getId();
+      if(PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT, null);
+      }
    }
 
    public Control createBody(Composite parent)
