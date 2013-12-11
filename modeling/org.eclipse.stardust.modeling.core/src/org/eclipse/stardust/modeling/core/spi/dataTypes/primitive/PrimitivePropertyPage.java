@@ -153,8 +153,13 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                public void updateModel(Object value)
                {
                   super.updateModel(value);
+
                   ModelType model = ModelUtils.findContainingModel(element);
                   TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
+                  if(element.eIsProxy())
+                  {
+                     return;
+                  }
 
                   // for cross model, no selection on page open
                   if(value == null && decl != null)
