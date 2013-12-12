@@ -22,7 +22,7 @@
   </parent>
 
   <artifactId>org.eclipse.stardust.ide.thirdparty.springframework</artifactId>
-  <version>3.0.5</version>
+  <version>3.2.4</version>
 
   <packaging>eclipse-plugin</packaging>
 
@@ -110,7 +110,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>aopalliance,spring-aop,spring-asm,spring-beans,
+              <includeArtifactIds>aopalliance,spring-aop,spring-beans,
                 spring-context,spring-context-support,spring-core,spring-expression,spring-jdbc,
                 spring-jms,spring-orm,spring-tx,spring-web,spring-webmvc
               </includeArtifactIds>

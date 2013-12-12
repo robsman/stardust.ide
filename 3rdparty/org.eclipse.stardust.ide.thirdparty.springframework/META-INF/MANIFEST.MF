@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.springframework
-Bundle-Version: 3.0.5.qualifier
+Bundle-Version: 3.2.4.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.stardust.ide.thirdparty.commons.logging;resolution:=optional
