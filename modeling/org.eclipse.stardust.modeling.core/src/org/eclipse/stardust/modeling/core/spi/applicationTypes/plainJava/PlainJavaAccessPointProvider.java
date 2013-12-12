@@ -31,11 +31,10 @@ import org.eclipse.stardust.modeling.validation.util.TypeInfo;
  */
 public class PlainJavaAccessPointProvider implements IAccessPointProvider
 {
-
    /**
     * Returns all intrinsic access points which are computed appropriate to the elements
     * class, method and constructor attribute values.
-    * 
+    *
     * @param element
     *           The application element.
     * @return All calculated {@link AccessPointType}s. An empty list if no access points
@@ -59,7 +58,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                (IExtensibleElement) element, CarnotConstants.CONSTRUCTOR_NAME_ATT);
          constructorName = VariableContextHelper.getInstance().getContext(element)
                .replaceAllVariablesByDefaultValue(constructorName);
-         
+
          result = getIntrinsicAccessPoints((IExtensibleElement) element, className,
                methodName, constructorName, null, null, false);
       }
@@ -70,7 +69,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
     * Returns all intrinsic access points which are computed appropriate to the
     * application element, class name, method name, constructor name and data flow
     * direction.
-    * 
+    *
     * @param element
     *           The application element.
     * @param className
@@ -98,7 +97,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
    /**
     * Computes all intrinsic access points appropriate to the application element, class
     * name, method name, constructor name and data flow direction and returns them.
-    * 
+    *
     * @param element
     *           The application element.
     * @param className
@@ -144,8 +143,16 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                {
                   // get all methods from the type and add parameter access points and
                   // possibly method access points
-                  String fragmentName = getFragmentNameFilter(hint);
-                  List<MethodInfo> methods = finder.getMethods(type, fragmentName);
+                  List<MethodInfo> methods = null;
+                  if(methodName != null && type.getType() != null)
+                  {
+                     methods = finder.getMethods(type.getType(), methodName);
+                  }
+                  else
+                  {
+                     methods = finder.getMethods(type, getFragmentNameFilter(hint));
+                  }
+
                   for (MethodInfo method : methods)
                   {
                      if (methodName != null)
@@ -214,7 +221,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
    /**
     * Creates new access points in consideration of data flow direction and of parameter
     * count and return value of the method and add them to the access points list.
-    * 
+    *
     * @param method
     *           The signature of the application's method.
     * @param accessPoints
@@ -278,7 +285,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
    /**
     * Creates a new access point in consideration of the data flow direction and method
     * signature and add it to the access points list.
-    * 
+    *
     * @param method
     *           The signature of the application's method.
     * @param accessPoints
@@ -328,7 +335,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
 
    /**
     * Splits the given access path at the first occurrence of '.' in the path.
-    * 
+    *
     * @param accessPath
     * @return The splitted access path in an array with two elements. The unmodified
     *         access path in the first array element if access path couldn't be splitted
