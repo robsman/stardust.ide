@@ -6,7 +6,9 @@
 	<classpathentry exported="true" kind="lib" path="lib/camel-spring.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-jms.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-quartz.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/camel-restlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-sql.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-http.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/camel-mail.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-script.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/quartz.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.restlet.jar"/>

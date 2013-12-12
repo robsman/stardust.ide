@@ -28,7 +28,9 @@
    <dependencies>
       <dependency org="org.apache.camel" name="camel-core" rev="${camel-core.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.camel" name="camel-spring" rev="${camel-spring.version}" transitive="false" conf="bom->default" />
-      <dependency org="org.apache.camel" name="camel-restlet" rev="${camel-restlet.version}" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.camel" name="camel-sql" rev="${camel-sql.version}" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.camel" name="camel-http" rev="${camel-http.version}" transitive="false" conf="bom->default" />
+      <dependency org="org.apache.camel" name="camel-mail" rev="${camel-mail.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.camel" name="camel-jms" rev="${camel-jms.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.camel" name="camel-quartz" rev="${camel-quartz.version}" transitive="false" conf="bom->default" />
       <dependency org="org.apache.camel" name="camel-script" rev="${camel-script.version}" transitive="false" conf="bom->default" />
