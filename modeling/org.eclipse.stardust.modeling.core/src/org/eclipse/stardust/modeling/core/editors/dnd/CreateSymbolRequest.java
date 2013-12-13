@@ -325,6 +325,11 @@ public class CreateSymbolRequest extends CreateRequest
       ConnectionManager cm = editor.getConnectionManager();
 
       String name = Diagram_Messages.TXT_STRUCTURED_DATA;
+      if(javaEnumeration)
+      {
+         name = Diagram_Messages.TXT_PRIMITIVE_DATA;
+      }
+
       final org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] struct =
          new org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] {
             (org.eclipse.stardust.model.xpdl.carnot.DataTypeType) ModelUtils.findIdentifiableElement(
@@ -335,6 +340,10 @@ public class CreateSymbolRequest extends CreateRequest
                CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
 
          IConfigurationElement config = (IConfigurationElement) dataExtensions.get(PredefinedConstants.STRUCTURED_DATA);
+         if(javaEnumeration)
+         {
+            config = (IConfigurationElement) dataExtensions.get(PredefinedConstants.PRIMITIVE_DATA);
+         }
          if (null != config)
          {
             name = config.getAttribute(SpiConstants.NAME);
@@ -381,6 +390,11 @@ public class CreateSymbolRequest extends CreateRequest
          e.printStackTrace();
       }
       IdFactory id = new IdFactory(PredefinedConstants.STRUCTURED_DATA, name);
+      if(javaEnumeration)
+      {
+         id = new IdFactory(PredefinedConstants.PRIMITIVE_DATA, name);
+      }
+
       command.add(new CreateModelElementCommand(IContainedElementCommand.MODEL, id,
             CarnotWorkflowModelPackage.eINSTANCE.getDataType())
       {
