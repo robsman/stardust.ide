@@ -651,7 +651,10 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       if (component instanceof XSDSimpleTypeDefinition)
       {
          XSDEnumerationFacet effectiveFacet = ((XSDSimpleTypeDefinition) component).getEffectiveEnumerationFacet();
-         return effectiveFacet.getValue().toArray();
+         if(effectiveFacet != null)
+         {
+            return effectiveFacet.getValue().toArray();
+         }
       }
       return emptyArray;
    }
