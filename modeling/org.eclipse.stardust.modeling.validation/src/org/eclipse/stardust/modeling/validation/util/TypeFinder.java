@@ -18,24 +18,24 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
+
 import org.osgi.framework.Bundle;
 
 /**
@@ -57,7 +57,7 @@ public class TypeFinder
    private IJavaProject project;
 
    private static final String PLUGIN_ID = "org.eclipse.stardust.modeling.common.platform"; //$NON-NLS-1$
-   
+
    private EObject modelElement;
 
 
@@ -93,21 +93,7 @@ public class TypeFinder
    {
       if (eObject != null)
       {
-         Resource eResource = eObject.eResource();
-         if (eResource != null)
-         {
-            URI eUri = eResource.getURI();
-            IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-                  eUri.segment(1));
-            if (resource instanceof IProject)
-            {
-               return (IProject) resource;
-            }
-            else if (resource != null)
-            {
-               return resource.getProject();
-            }
-         }
+         return ModelUtils.getProjectFromEObject(eObject);
       }
       return null;
    }
@@ -577,7 +563,7 @@ public class TypeFinder
       }
       return Collections.emptyList();
    }
-   
+
    public EObject getModelElement()
    {
       return modelElement;
