@@ -1190,12 +1190,12 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          TypeDeclarationType typeDecl = (TypeDeclarationType) internalTypes2declarations.get(component);
          if (typeDecl != null)
          {
-            String tns = component.getTargetNamespace();
-            XSDImport xsdImport = findImport(schema, tns);
+            XSDImport xsdImport = findImport(schema, component.getSchema());
             if (xsdImport == null)
             {
                xsdImport = XSDFactory.eINSTANCE.createXSDImport();
             }
+            String tns = component.getTargetNamespace();
             xsdImport.setNamespace(tns);
             xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + typeDecl.getId());
             if (xsdImport.eContainer() != schema)
@@ -1211,16 +1211,18 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          }
       }
 
-      private XSDImport findImport(XSDSchema schema, String tns)
+      private XSDImport findImport(XSDSchema schema, XSDSchema otherSchema)
       {
-         for (XSDSchemaContent item : schema.getContents())
+         if (otherSchema != null)
          {
-            if (item instanceof XSDImport)
+            for (XSDSchemaContent item : schema.getContents())
             {
-               String namespace = ((XSDImport) item).getNamespace();
-               if (!StringUtils.isEmpty(namespace) && namespace.equals(tns))
+               if (item instanceof XSDImport)
                {
-                  return (XSDImport) item;
+                  if (otherSchema.equals(((XSDImport) item).getResolvedSchema()))
+                  {
+                     return (XSDImport) item;
+                  }
                }
             }
          }
