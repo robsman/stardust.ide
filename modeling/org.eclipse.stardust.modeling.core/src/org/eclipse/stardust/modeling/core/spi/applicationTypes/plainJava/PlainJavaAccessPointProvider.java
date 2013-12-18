@@ -144,14 +144,14 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                   // get all methods from the type and add parameter access points and
                   // possibly method access points
                   List<MethodInfo> methods = null;
-                  if(methodName != null && type.getType() != null)
+                  /*if (methodName != null && type.getType() != null)
                   {
                      methods = finder.getMethods(type.getType(), methodName);
                   }
                   else
-                  {
+                  {*/
                      methods = finder.getMethods(type, getFragmentNameFilter(hint));
-                  }
+                  //}
 
                   for (MethodInfo method : methods)
                   {
