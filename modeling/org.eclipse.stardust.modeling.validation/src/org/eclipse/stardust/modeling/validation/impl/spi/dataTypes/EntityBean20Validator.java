@@ -28,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.modeling.validation.*;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 
 public class EntityBean20Validator implements IModelElementValidator, IBridgeObjectProvider
 {
@@ -35,7 +36,7 @@ public class EntityBean20Validator implements IModelElementValidator, IBridgeObj
    {
       List<Issue> result = CollectionUtils.newList();
       TypeFinder typeFinder = new TypeFinder(element);
-      IType type = null;
+      TypeInfo type = null;
 
       boolean isLocal = AttributeUtil.getBooleanValue((IExtensibleElement) element,
          PredefinedConstants.IS_LOCAL_ATT);
@@ -48,19 +49,19 @@ public class EntityBean20Validator implements IModelElementValidator, IBridgeObj
       }
       else
       {
-         type = typeFinder.findExactType(className);
+         type = typeFinder.findType(className);
          if (null == type)
          {
             result.add(Issue.error(element, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                PredefinedConstants.REMOTE_INTERFACE_ATT));
          }
          else
          {
             if (!isLocal)
             {
-               if (!typeFinder.implementsInterface(type, EJBObject.class.getName()) &&
-                   !typeFinder.implementsInterface(type, EJBLocalObject.class.getName()))
+               if (!type.implementsInterface(EJBObject.class.getName()) &&
+                   !type.implementsInterface(EJBLocalObject.class.getName()))
                {
                   result.add(Issue.warning(element, MessageFormat.format(
                         Validation_Messages.MSG_EntityBean_InvalidEjbTypeSignature,
@@ -80,19 +81,19 @@ public class EntityBean20Validator implements IModelElementValidator, IBridgeObj
       }
       else
       {
-         type = typeFinder.findExactType(className);
+         type = typeFinder.findType(className);
          if (null == type)
          {
             result.add(Issue.error(element, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                PredefinedConstants.HOME_INTERFACE_ATT));
          }
          else
          {
             if (!isLocal)
             {
-               if (!typeFinder.implementsInterface(type, EJBHome.class.getName()) &&
-                   !typeFinder.implementsInterface(type, EJBLocalHome.class.getName()))
+               if (!type.implementsInterface(EJBHome.class.getName()) &&
+                   !type.implementsInterface(EJBLocalHome.class.getName()))
                {
                   result.add(Issue.warning(element, MessageFormat.format(
                         Validation_Messages.MSG_EntityBean_InvalidEjbTypeSignature,
@@ -112,11 +113,11 @@ public class EntityBean20Validator implements IModelElementValidator, IBridgeObj
       }
       else
       {
-         type = typeFinder.findExactType(className);
+         type = typeFinder.findType(className);
          if (null == type)
          {
             result.add(Issue.error(element, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                PredefinedConstants.PRIMARY_KEY_ATT));
          }
       }

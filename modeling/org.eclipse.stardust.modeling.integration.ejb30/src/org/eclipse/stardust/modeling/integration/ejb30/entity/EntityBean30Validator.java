@@ -35,6 +35,7 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 
 public class EntityBean30Validator implements IModelElementValidator, IBridgeObjectProvider
 {
@@ -42,7 +43,7 @@ public class EntityBean30Validator implements IModelElementValidator, IBridgeObj
    {
       List<Issue> result = new ArrayList<Issue>();
       TypeFinder typeFinder = new TypeFinder(element);
-      IType type = null;
+      TypeInfo type = null;
 
       String className = AttributeUtil.getAttributeValue((IExtensibleElement) element,
          PredefinedConstants.CLASS_NAME_ATT);
@@ -53,11 +54,11 @@ public class EntityBean30Validator implements IModelElementValidator, IBridgeObj
       }
       else
       {
-         type = typeFinder.findExactType(className);
+         type = typeFinder.findType(className);
          if (null == type)
          {
             result.add(Issue.error(element, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                PredefinedConstants.CLASS_NAME_ATT));
          }
       }
@@ -70,7 +71,7 @@ public class EntityBean30Validator implements IModelElementValidator, IBridgeObj
          result.add(Issue.warning(element, Validation_Messages.MSG_NoJNDI,
             CarnotConstants.JNDI_PATH_ATT));
       }
-      
+
       // TODO !
 
       return result.toArray(Issue.ISSUE_ARRAY);

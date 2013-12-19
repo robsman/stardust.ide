@@ -141,17 +141,7 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
                TypeInfo type = finder.findType(fullClassName);
                if (type != null)
                {
-                  // get all methods from the type and add parameter access points and
-                  // possibly method access points
-                  List<MethodInfo> methods = null;
-                  /*if (methodName != null && type.getType() != null)
-                  {
-                     methods = finder.getMethods(type.getType(), methodName);
-                  }
-                  else
-                  {*/
-                     methods = finder.getMethods(type, getFragmentNameFilter(hint));
-                  //}
+                  List<MethodInfo> methods = finder.getMethods(type);
 
                   for (MethodInfo method : methods)
                   {
@@ -199,23 +189,6 @@ public class PlainJavaAccessPointProvider implements IAccessPointProvider
          }
       }
       return accessPoints;
-   }
-
-   public static String getFragmentNameFilter(String hint)
-   {
-      if (hint == null)
-      {
-         hint = ""; //$NON-NLS-1$
-      }
-      else
-      {
-         int ix = hint.indexOf('(');
-         if (ix >= 0)
-         {
-            hint = hint.substring(0, ix);
-         }
-      }
-      return hint;
    }
 
    /**

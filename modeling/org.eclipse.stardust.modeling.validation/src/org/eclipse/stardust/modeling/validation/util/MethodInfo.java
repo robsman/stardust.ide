@@ -93,21 +93,25 @@ public class MethodInfo
          if (i > 0)
          {
             nameBuffer.append(", "); //$NON-NLS-1$
-            encodedBuffer.append(','); 
+            encodedBuffer.append(',');
          }
-         String signatureSimpleName = Signature.getSignatureSimpleName(parameterSignatures[i]);
+         /*String signatureSimpleName = Signature.getSignatureSimpleName(parameterSignatures[i]);
          signatureSimpleName = signatureSimpleName.replaceAll("\\.", "\\$"); //$NON-NLS-1$ //$NON-NLS-2$
-         
+
          nameBuffer.append(signatureSimpleName);
-         
+
          encodedBuffer.append(parameterTypes[i].substring(0, parameterTypes[i].length() - signatureSimpleName.length()));
-         encodedBuffer.append(signatureSimpleName);
+         encodedBuffer.append(signatureSimpleName);*/
+
+         nameBuffer.append(Signature.getSignatureSimpleName(parameterSignatures[i]));
+         encodedBuffer.append(parameterTypes[i]);
+
       }
       nameBuffer.append(")"); // : ").append(Signature.getSignatureSimpleName(result)); //$NON-NLS-1$
       encodedBuffer.append(")"); //$NON-NLS-1$
       this.label = nameBuffer.toString();
       encoded = encodedBuffer.toString();
-      
+
       paramLabels = parameterLabels;
       paramNames = new String[parameterSignatures.length];
       for (int i = 0; i < parameterSignatures.length; i++)
@@ -115,7 +119,7 @@ public class MethodInfo
          paramNames[i] = new String(Signature.getSignatureSimpleName(parameterSignatures[i]));
       }
       returnName = new String(Signature.getSignatureSimpleName(returnSignature));
-      
+
       hasReturn = returnSignature.length() > 1 || returnSignature.charAt(0) != Signature.C_VOID;
       isPrimitiveReturn = Signature.getTypeSignatureKind(returnSignature) == Signature.BASE_TYPE_SIGNATURE;
       isArrayReturn = Signature.getTypeSignatureKind(returnSignature) == Signature.ARRAY_TYPE_SIGNATURE;
@@ -127,7 +131,7 @@ public class MethodInfo
    /**
     * This always will return true when isConstrutor() is true. Otherwise it will return
     * the previously with setUsedForObjectCreation set value.
-    * 
+    *
     * @return
     */
    public boolean isUsedForObjectCreation()
@@ -138,7 +142,7 @@ public class MethodInfo
    /**
     * Set whether this method will be used for object creation. If isConstructor() is
     * true, this method will leave the value on true.
-    * 
+    *
     * @param usedForObjectCreation
     */
    public void setUsedForObjectCreation(boolean usedForObjectCreation)

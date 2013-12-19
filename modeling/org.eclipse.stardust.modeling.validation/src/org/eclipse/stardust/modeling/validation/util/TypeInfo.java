@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.*;
-import org.eclipse.jdt.internal.core.BinaryType;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 public class TypeInfo
@@ -54,6 +54,14 @@ public class TypeInfo
    {
       Map<String, MethodInfo> constructorInfos = CollectionUtils.newMap();
       fetchMethods(constructorInfos, true);
+      if (constructorInfos.isEmpty())
+      {
+         // no explicit constructor, infer default one
+         MethodInfo defc = new MethodInfo(true, type.getElementName(),
+               StringUtils.EMPTY_STRING_ARRAY, StringUtils.EMPTY_STRING_ARRAY, StringUtils.EMPTY_STRING_ARRAY,
+               "V", "void", true);
+         constructorInfos.put(defc.getEncoded(), defc);
+      }
       return CollectionUtils.newList(constructorInfos.values());
    }
 
@@ -89,9 +97,9 @@ public class TypeInfo
          TypeInfo descriptor = finder.findType(superType);
          if (descriptor == null)
          {
-				System.err.println(MessageFormat.format(
-						Validation_Messages.CSL_ERR_UNABLE_TO_RESOLVE_CL,
-						new Object[] { superType }));
+            System.err.println(MessageFormat.format(
+                  Validation_Messages.CSL_ERR_UNABLE_TO_RESOLVE_CL,
+                  new Object[] { superType }));
          }
          else
          {
@@ -167,7 +175,8 @@ public class TypeInfo
       for (IMethod method : type.getMethods())
       {
          if (constructors == method.isConstructor()
-               && !(method.getElementType() == IMethod.INITIALIZER))
+               && !(method.getElementType() == IMethod.INITIALIZER)
+               && !"<clinit>".equals(method.getElementName()))
          {
             String methodName = method.getElementName();
 
@@ -332,20 +341,21 @@ public class TypeInfo
     * @return fully qualified type name
     * @throws JavaModelException
     */
+   @SuppressWarnings("restriction")
    private String resolveSimpleType(String value) throws JavaModelException
    {
-	  String[][] resolved = null;
-	  //(rp) Workaround for CRNT-13058
-	  //In any case the resolveType-method returns null for "BinaryTypes" (e.g. Date, String...).
-	  //But in Eclipse 3.4 this operation is much more time consuming because it uses the same mechanism as
-	  //for the resolution of "SourceTypes" (e.g. CreateSupportData.java) which uses an instance of a SelectionEngine to
-	  //perform a lookup. See "NamedMember.resolveType(String typeName, WorkingCopyOwner owner)".
-	  //This decreases the operation speed of the modeler. So workaround here:
-	  if (!(type instanceof BinaryType))
-	  {
-		  resolved = type.resolveType(value);
-	  }
-	  //(rp) End of Workaround
+      String[][] resolved = null;
+      //(rp) Workaround for CRNT-13058
+      //In any case the resolveType-method returns null for "BinaryTypes" (e.g. Date, String...).
+      //But in Eclipse 3.4 this operation is much more time consuming because it uses the same mechanism as
+      //for the resolution of "SourceTypes" (e.g. CreateSupportData.java) which uses an instance of a SelectionEngine to
+      //perform a lookup. See "NamedMember.resolveType(String typeName, WorkingCopyOwner owner)".
+      //This decreases the operation speed of the modeler. So workaround here:
+      if (!(type instanceof org.eclipse.jdt.internal.core.BinaryType))
+      {
+         resolved = type.resolveType(value);
+      }
+      //(rp) End of Workaround
       if (resolved == null)
       {
          String defaultValue = null;
@@ -367,7 +377,7 @@ public class TypeInfo
       }
       else if (resolved.length == 1)
       {
-         value = resolved[0][0] + '.' + resolved[0][1];
+         value = resolved[0][0] + '.' + resolved[0][1].replace('.', '$');
       }
       return value;
    }
