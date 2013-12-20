@@ -67,24 +67,24 @@ import org.eclipse.xsd.XSDSchema;
 public class ElementReferenceSearcher
 {
    private ModelType model;
-   private List processes;   
-   private Map matchedElements;   
+   private List processes;
+   private Map matchedElements;
    private EObject checkElement;
-   
+
    public Map search(EObject element)
    {
       matchedElements = new HashMap();
       model = ModelUtils.findContainingModel(element);
       checkElement = element;
-        
-      search();  
+
+      search();
       return matchedElements;
-   }   
-   
+   }
+
    public void search()
    {
       processes = model.getProcessDefinition();
-      
+
       if (checkElement instanceof ExternalPackage)
       {
          checkTypeDeclaration((ExternalPackage)checkElement);
@@ -103,8 +103,8 @@ public class ElementReferenceSearcher
       else if(checkElement instanceof DataType)
       {
          isElementUsedInProcesses(checkElement);
-         isDataUsedInConditionalPerformer(checkElement);      
-         isDataUsedInOrganization(checkElement);      
+         isDataUsedInConditionalPerformer(checkElement);
+         isDataUsedInOrganization(checkElement);
       }
       else if(checkElement instanceof LinkTypeType)
       {
@@ -121,9 +121,9 @@ public class ElementReferenceSearcher
             || checkElement instanceof ActivityType)
       {
          isElementUsedInProcesses(checkElement);
-      }      
+      }
    }
-         
+
    private void addChildren(EObject container, List elements)
    {
       List modelChildren = (List) matchedElements.get(container);
@@ -132,11 +132,11 @@ public class ElementReferenceSearcher
          modelChildren = new ArrayList();
       }
       modelChildren.addAll(elements);
-      matchedElements.put(container, modelChildren);      
-   }   
-      
-   //////////////////////////////////////////////   
-   
+      matchedElements.put(container, modelChildren);
+   }
+
+   //////////////////////////////////////////////
+
    private void checkTypeDeclaration(ExternalPackage externalPackage)
    {
       List elements = new ArrayList();
@@ -158,27 +158,27 @@ public class ElementReferenceSearcher
          addChildren(model, elements);
       }
    }
-   
+
    private void checkTypeDeclaration(TypeDeclarationType element)
    {
-      List elements = new ArrayList();      
-      
+      List elements = new ArrayList();
+
       List typeDeclarations = model.getTypeDeclarations().getTypeDeclaration();
       for (Iterator i = typeDeclarations.iterator(); i.hasNext();)
       {
-         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();    
+         TypeDeclarationType typeDeclaration = (TypeDeclarationType) i.next();
          XSDSchema schema = typeDeclaration.getSchema();
          if(schema != null)
          {
              List xsdImports = TypeDeclarationUtils.getImports(schema);
              if(xsdImports != null)
              {
-                 Iterator it = xsdImports.iterator(); 
-                 while (it.hasNext()) 
+                 Iterator it = xsdImports.iterator();
+                 while (it.hasNext())
                  {
                      XSDImport xsdImport = (XSDImport) it.next();
                      String schemaLocation = xsdImport.getSchemaLocation();
-                     if (schemaLocation != null)         
+                     if (schemaLocation != null)
                      {
                          if(schemaLocation.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
                          {
@@ -187,22 +187,25 @@ public class ElementReferenceSearcher
                              {
                                 elements.add(typeDeclaration);
                              }
-                         }           
-                     }           
+                         }
+                     }
                  }
-             }           
-         }       
+             }
+         }
       }
-            
+
       List datas = model.getData();
       for (Iterator i = datas.iterator(); i.hasNext();)
       {
-         DataType data = (DataType) i.next();   
+         DataType data = (DataType) i.next();
          DataTypeType type = data.getType();
-         if(type != null && type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
+         if (type != null && type.getId().equals(StructuredDataConstants.STRUCTURED_DATA)
+               || type.getId().equals(PredefinedConstants.PRIMITIVE_DATA))
          {
-            String structuredDataId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
-            if(!StringUtils.isEmpty(structuredDataId) && structuredDataId.equals(element.getId()))
+            String structuredDataId = AttributeUtil.getAttributeValue(
+                  (IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
+            if ( !StringUtils.isEmpty(structuredDataId)
+                  && structuredDataId.equals(element.getId()))
             {
                elements.add(data);
             }
@@ -214,32 +217,32 @@ public class ElementReferenceSearcher
             {
                elements.add(data);
             }
-         }               
-      }      
+         }
+      }
       if(!elements.isEmpty())
       {
          addChildren(model, elements);
       }
-   }      
-   
+   }
+
    private void isElementUsedinApplications(EObject element)
    {
-      List elements = new ArrayList();      
+      List elements = new ArrayList();
       List applications = model.getApplication();
       for (Iterator it = applications.iterator(); it.hasNext();)
       {
          boolean addApplication = false;
-         ApplicationType application = (ApplicationType) it.next();   
+         ApplicationType application = (ApplicationType) it.next();
          List accessPoints = application.getAccessPoint();
          for (Iterator i = accessPoints.iterator(); i.hasNext();)
          {
-            AccessPointType accessPoint = (AccessPointType) i.next(); 
+            AccessPointType accessPoint = (AccessPointType) i.next();
             TypeDeclarationType declaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                   accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if(declaration != null && declaration.equals(element))
             {
                addApplication = true;
-            }            
+            }
          }
          if(addApplication)
          {
@@ -250,15 +253,15 @@ public class ElementReferenceSearcher
       {
          addChildren(model, elements);
       }
-   }   
+   }
 
    private void isElementUsedinModelDiagrams(EObject element)
    {
-      List elements = new ArrayList();      
+      List elements = new ArrayList();
       List diagrams = model.getDiagram();
       for (Iterator it = diagrams.iterator(); it.hasNext();)
       {
-         DiagramType diagram = (DiagramType) it.next();   
+         DiagramType diagram = (DiagramType) it.next();
          if(isElementUsedinDiagram(diagram, element))
          {
             elements.add(diagram);
@@ -268,17 +271,17 @@ public class ElementReferenceSearcher
       {
          addChildren(model, elements);
       }
-   }   
-   
+   }
+
    private boolean isElementUsedinDiagram(DiagramType diagram, EObject element)
-   {      
+   {
       List pools = ((DiagramType) diagram).getPoolSymbols();
       for (Iterator p = pools.iterator(); p.hasNext();)
       {
-         PoolSymbol pool = (PoolSymbol) p.next();   
+         PoolSymbol pool = (PoolSymbol) p.next();
          for(Iterator iter = pool.getLanes().iterator(); iter.hasNext();)
          {
-            LaneSymbol lane = (LaneSymbol) iter.next();             
+            LaneSymbol lane = (LaneSymbol) iter.next();
             IModelParticipant participant = lane.getParticipantReference();
             if(participant != null && participant.equals(element))
             {
@@ -286,10 +289,10 @@ public class ElementReferenceSearcher
             }
          }
       }
-      
+
       for(int p = 0; p < pools.size(); p++)
       {
-         PoolSymbol pool = (PoolSymbol) pools.get(p); 
+         PoolSymbol pool = (PoolSymbol) pools.get(p);
          EList genericLinks = ((PoolSymbol) pool).getGenericLinkConnection();
          for (int i = 0; i < genericLinks.size(); i++)
          {
@@ -303,7 +306,7 @@ public class ElementReferenceSearcher
          EList lanes = ((PoolSymbol) pool).getLanes();
          for(int l = 0; l < lanes.size(); l++)
          {
-            LaneSymbol lane = (LaneSymbol) lanes.get(l);       
+            LaneSymbol lane = (LaneSymbol) lanes.get(l);
             genericLinks = ((LaneSymbol) lane).getGenericLinkConnection();
             for (int i = 0; i < genericLinks.size(); i++)
             {
@@ -313,9 +316,9 @@ public class ElementReferenceSearcher
                {
                   return true;
                }
-            }                
+            }
          }
-      }            
+      }
       EList genericLinks = diagram.getGenericLinkConnection();
       for (int i = 0; i < genericLinks.size(); i++)
       {
@@ -325,10 +328,10 @@ public class ElementReferenceSearcher
          {
             return true;
          }
-      }            
+      }
       return false;
    }
-      
+
    private void isParticipantUsedInOrganizations(EObject element)
    {
       List elements = new ArrayList();
@@ -336,7 +339,7 @@ public class ElementReferenceSearcher
       for (Iterator i = organizations.iterator(); i.hasNext();)
       {
          boolean addOrganization = false;
-         OrganizationType organization = (OrganizationType) i.next();   
+         OrganizationType organization = (OrganizationType) i.next();
          List participants = organization.getParticipant();
          for(int cnt = 0; cnt < participants.size(); cnt++)
          {
@@ -344,8 +347,8 @@ public class ElementReferenceSearcher
             if(participant.equals(element))
             {
                addOrganization = true;
-            }            
-         }         
+            }
+         }
          RoleType role = organization.getTeamLead();
          if(role != null && role.equals(element))
          {
@@ -353,14 +356,14 @@ public class ElementReferenceSearcher
          }
          if(addOrganization)
          {
-            elements.add(organization);               
-         }         
+            elements.add(organization);
+         }
       }
       if(!elements.isEmpty())
       {
          addChildren(model, elements);
       }
-   }         
+   }
 
    private void isDataUsedInOrganization(EObject element)
    {
@@ -370,23 +373,23 @@ public class ElementReferenceSearcher
       {
          if(AttributeUtil.getBooleanValue((IExtensibleElement) organization, PredefinedConstants.BINDING_ATT))
          {
-            String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) organization, PredefinedConstants.BINDING_DATA_ID_ATT);               
+            String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) organization, PredefinedConstants.BINDING_DATA_ID_ATT);
             if(!StringUtils.isEmpty(dataId))
             {
                DataType data = (DataType) ModelUtils.findElementById(model.getData(), dataId);
                if(data != null && data.equals(element))
                {
-                  elements.add(organization);                                 
+                  elements.add(organization);
                }
-            }            
+            }
          }
       }
       if(!elements.isEmpty())
       {
          addChildren(model, elements);
       }
-   }         
-   
+   }
+
    private void isDataUsedInConditionalPerformer(EObject element)
    {
       List elements = new ArrayList();
@@ -394,10 +397,10 @@ public class ElementReferenceSearcher
       for (Iterator i = conditionalPerformers.iterator(); i.hasNext();)
       {
          boolean addConditionalPerformer = false;
-         ConditionalPerformerType conditionalPerformer = (ConditionalPerformerType) i.next();   
+         ConditionalPerformerType conditionalPerformer = (ConditionalPerformerType) i.next();
          DataType dataType = conditionalPerformer.getData();
          if(dataType != null && dataType.equals(element))
-         {                  
+         {
             addConditionalPerformer = true;
          }
          String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) conditionalPerformer, PredefinedConstants.CONDITIONAL_PERFORMER_REALM_DATA);
@@ -405,21 +408,21 @@ public class ElementReferenceSearcher
          {
             DataType realmData = (DataType) ModelUtils.findElementById(model.getData(), dataId);
             if(realmData != null && realmData.equals(element))
-            {                  
+            {
                addConditionalPerformer = true;
             }
          }
          if(addConditionalPerformer)
          {
-            elements.add(conditionalPerformer);               
-         }         
+            elements.add(conditionalPerformer);
+         }
       }
       if(!elements.isEmpty())
       {
          addChildren(model, elements);
       }
-   }         
-   
+   }
+
    private void isElementUsedInProcesses(ExternalPackage externalPackage)
    {
       List modelElements = new ArrayList();
@@ -457,19 +460,19 @@ public class ElementReferenceSearcher
          addChildren(model, modelElements);
       }
    }
-   
+
    private void isElementUsedInProcesses(EObject element)
    {
       List modelElements = new ArrayList();
       for (Iterator i = processes.iterator(); i.hasNext();)
       {
-         ProcessDefinitionType process = (ProcessDefinitionType) i.next();  
-         
+         ProcessDefinitionType process = (ProcessDefinitionType) i.next();
+
          if(isElementUsedInEventHandlers(process.getEventHandler(), element))
          {
             modelElements.add(process);
-         }         
-         
+         }
+
          List elements = new ArrayList();
          List activities = process.getActivity();
          if(element instanceof ActivityType)
@@ -480,7 +483,7 @@ public class ElementReferenceSearcher
                if(activityProcess.equals(process))
                {
                   modelElements.add(process);
-               }            
+               }
             }
             activities = new ArrayList();
             if(ModelUtils.findContainingProcess(element).equals(process))
@@ -488,11 +491,11 @@ public class ElementReferenceSearcher
                activities.add(element);
             }
          }
-         
+
          for (Iterator it = activities.iterator(); it.hasNext();)
          {
             boolean addActivity = false;
-            ActivityType activity = (ActivityType) it.next();   
+            ActivityType activity = (ActivityType) it.next();
             if(isElementUsedInDataMappings(activity, element))
             {
                addActivity = true;
@@ -509,8 +512,8 @@ public class ElementReferenceSearcher
                TransitionType transition = (TransitionType) t.next();
                if(transition.equals(element))
                {
-                  addActivity = true;                  
-               }               
+                  addActivity = true;
+               }
                if(transition.getFrom().equals(element))
                {
                   transitions.add(transition);
@@ -522,11 +525,11 @@ public class ElementReferenceSearcher
             }
             for (Iterator t = outTransitions.iterator(); t.hasNext();)
             {
-               TransitionType transition = (TransitionType) t.next();   
+               TransitionType transition = (TransitionType) t.next();
                if(transition.equals(element))
                {
-                  addActivity = true;                  
-               }               
+                  addActivity = true;
+               }
                if(transition.getFrom().equals(element))
                {
                   transitions.add(transition);
@@ -535,12 +538,12 @@ public class ElementReferenceSearcher
                {
                   transitions.add(transition);
                }
-            }            
+            }
             if(!transitions.isEmpty())
             {
                elements.addAll(transitions);
             }
-            
+
             ApplicationType activityApplication = activity.getApplication();
             if(activityApplication != null)
             {
@@ -555,7 +558,7 @@ public class ElementReferenceSearcher
                if(activityProcess.equals(element))
                {
                   addActivity = true;
-               }            
+               }
             }
             IModelParticipant activityParticipant = activity.getPerformer();
             if(activityParticipant != null)
@@ -563,19 +566,19 @@ public class ElementReferenceSearcher
                if(activityParticipant.equals(element))
                {
                   addActivity = true;
-               }            
+               }
             }
             if(addActivity)
             {
-               elements.add(activity);               
+               elements.add(activity);
             }
-         }   
-         
+         }
+
          List triggers = process.getTrigger();
          for (Iterator it = triggers.iterator(); it.hasNext();)
          {
             boolean addTrigger = false;
-            TriggerType trigger = (TriggerType) it.next();   
+            TriggerType trigger = (TriggerType) it.next();
             EList attributes = trigger.getAttribute();
             for(int a = 0; a < attributes.size(); a++)
             {
@@ -598,20 +601,20 @@ public class ElementReferenceSearcher
                if(data != null && data.equals(element))
                {
                   addTrigger = true;
-               }                     
-            }   
+               }
+            }
             if(addTrigger)
             {
                elements.add(trigger);
-            }            
+            }
          }
-         
+
          if(element instanceof DataType)
          {
             List transitions = process.getTransition();
             for (Iterator it = transitions.iterator(); it.hasNext();)
             {
-               TransitionType transition = (TransitionType) it.next();   
+               TransitionType transition = (TransitionType) it.next();
                String condition = transition.getCondition();
                if(condition.equals("CONDITION")) //$NON-NLS-1$
                {
@@ -627,23 +630,23 @@ public class ElementReferenceSearcher
                         elements.add(transition);
                      }
                   }
-               }         
+               }
             }
          }
-         
+
          List diagrams = process.getDiagram();
          for (Iterator it = diagrams.iterator(); it.hasNext();)
          {
-            DiagramType diagram = (DiagramType) it.next();   
+            DiagramType diagram = (DiagramType) it.next();
             if(isElementUsedinDiagram(diagram, element))
             {
                elements.add(diagram);
             }
          }
-         
+
          List dataPathList = process.getDataPath();
          for (Iterator it = dataPathList.iterator(); it.hasNext();)
-         {               
+         {
             DataPathType dataPath = (DataPathType) it.next();
             DataType data = dataPath.getData();
             if(data != null && data.equals(element))
@@ -662,7 +665,7 @@ public class ElementReferenceSearcher
          addChildren(model, modelElements);
       }
    }
-   
+
    private boolean isElementUsedInDataMappings(ActivityType activity, EObject element)
    {
       List dataMappings = activity.getDataMapping();
@@ -673,26 +676,26 @@ public class ElementReferenceSearcher
          if(data != null && data.equals(element))
          {
             return true;
-         }         
-      }    
+         }
+      }
       return false;
    }
-   
+
    private boolean isElementUsedInEventHandlers(List eventHandlers, EObject element)
    {
       for (Iterator it = eventHandlers.iterator(); it.hasNext();)
       {
-         EventHandlerType eventHandler = (EventHandlerType) it.next();   
+         EventHandlerType eventHandler = (EventHandlerType) it.next();
          List eventActions = eventHandler.getEventAction();
          for (Iterator a = eventActions.iterator(); a.hasNext();)
          {
-            EventActionType actionType = (EventActionType) a.next();   
+            EventActionType actionType = (EventActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -701,22 +704,22 @@ public class ElementReferenceSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
+         }
          List bindActions = eventHandler.getBindAction();
          for (Iterator a = bindActions.iterator(); a.hasNext();)
          {
-            BindActionType actionType = (BindActionType) a.next();   
+            BindActionType actionType = (BindActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -725,22 +728,22 @@ public class ElementReferenceSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
+         }
          List unbindActions = eventHandler.getUnbindAction();
          for (Iterator a = unbindActions.iterator(); a.hasNext();)
          {
-            UnbindActionType actionType = (UnbindActionType) a.next();   
+            UnbindActionType actionType = (UnbindActionType) a.next();
             if(actionType instanceof IExtensibleElement)
             {
                List attributes = actionType.getAttribute();
                for (Iterator attr = attributes.iterator(); attr.hasNext();)
                {
-                  AttributeType attribute = (AttributeType) attr.next();   
+                  AttributeType attribute = (AttributeType) attr.next();
                   if (attribute != null)
                   {
                      if (attribute.getReference() != null)
@@ -749,13 +752,13 @@ public class ElementReferenceSearcher
                         if(referencedElement != null && referencedElement.equals(element))
                         {
                            return true;
-                        }                     
+                        }
                      }
-                  }                        
+                  }
                }
             }
-         }                  
-      }    
+         }
+      }
       return false;
-   }      
+   }
 }
