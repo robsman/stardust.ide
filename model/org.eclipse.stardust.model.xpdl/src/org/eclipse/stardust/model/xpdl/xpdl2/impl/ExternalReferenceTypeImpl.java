@@ -253,71 +253,9 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
              StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
     }
 
-    private static class Key
-    {
-       private String location;
-       private String namespace;
-
-       private Key(String location, String namespace)
-       {
-          this.location = location;
-          this.namespace = namespace;
-       }
-
-      @Override
-      public int hashCode()
-      {
-         final int prime = 31;
-         int result = 1;
-         result = prime * result + ((location == null) ? 0 : location.hashCode());
-         result = prime * result + ((namespace == null) ? 0 : namespace.hashCode());
-         return result;
-      }
-
-      /* (fh) optimized for usage in the 2 maps below, where we know the keys are never null or of a different type */
-      @Override
-      public boolean equals(Object obj)
-      {
-         if (this == obj)
-         {
-            return true;
-         }
-         Key other = (Key) obj;
-         if (location == null)
-         {
-            if (other.location != null)
-            {
-               return false;
-            }
-         }
-         else
-         {
-            if (!location.equals(other.location))
-            {
-               return false;
-            }
-         }
-         if (namespace == null)
-         {
-            if (other.namespace != null)
-            {
-               return false;
-            }
-         }
-         else
-         {
-            if (!namespace.equals(other.namespace))
-            {
-               return false;
-            }
-         }
-         return true;
-      }
-    }
-
-    private static final Map<Key, Key> keys = CollectionUtils.newMap();
-    private static final Map<Key, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
-          CollectionUtils.<Key, XSDSchema>newHashMap());
+    // TODO: (fh) remove the cache, instead use an unique ResourceSet to load all the schemas (and perhaps models)
+    private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
+          CollectionUtils.<String, XSDSchema>newHashMap());
 
     private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
     {
@@ -325,17 +263,9 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        {
           try
           {
-             Key key;
-             Key tmp = new Key(schemaLocation, namespaceURI);
-             synchronized (keys)
-             {
-                key = keys.get(tmp);
-                if (key == null)
-                {
-                   key = tmp;
-                   keys.put(key, key);
-                }
-             }
+             String key = '{' + namespaceURI + '}' + location;
+             key = key.intern();
+
              synchronized (key)
              {
                 if (externalSchemaCache.containsKey(key))
