@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import java.util.Collections;
+import java.util.Map;
+
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -23,16 +22,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDSchema;
@@ -258,14 +253,99 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
              StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
     }
 
+    private static class Key
+    {
+       private String location;
+       private String namespace;
+
+       private Key(String location, String namespace)
+       {
+          this.location = location;
+          this.namespace = namespace;
+       }
+
+      @Override
+      public int hashCode()
+      {
+         final int prime = 31;
+         int result = 1;
+         result = prime * result + ((location == null) ? 0 : location.hashCode());
+         result = prime * result + ((namespace == null) ? 0 : namespace.hashCode());
+         return result;
+      }
+
+      /* (fh) optimized for usage in the 2 maps below, where we know the keys are never null or of a different type */
+      @Override
+      public boolean equals(Object obj)
+      {
+         if (this == obj)
+         {
+            return true;
+         }
+         Key other = (Key) obj;
+         if (location == null)
+         {
+            if (other.location != null)
+            {
+               return false;
+            }
+         }
+         else
+         {
+            if (!location.equals(other.location))
+            {
+               return false;
+            }
+         }
+         if (namespace == null)
+         {
+            if (other.namespace != null)
+            {
+               return false;
+            }
+         }
+         else
+         {
+            if (!namespace.equals(other.namespace))
+            {
+               return false;
+            }
+         }
+         return true;
+      }
+    }
+
+    private static final Map<Key, Key> keys = CollectionUtils.newMap();
+    private static final Map<Key, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
+          CollectionUtils.<Key, XSDSchema>newHashMap());
 
     private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
     {
-       if(StringUtils.isNotEmpty(schemaLocation))
+       if (StringUtils.isNotEmpty(schemaLocation))
        {
           try
           {
-             return TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
+             Key key;
+             Key tmp = new Key(schemaLocation, namespaceURI);
+             synchronized (keys)
+             {
+                key = keys.get(tmp);
+                if (key == null)
+                {
+                   key = tmp;
+                   keys.put(key, key);
+                }
+             }
+             synchronized (key)
+             {
+                if (externalSchemaCache.containsKey(key))
+                {
+                   return externalSchemaCache.get(key);
+                }
+                schema = TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
+                externalSchemaCache.put(key, schema);
+             }
+             return schema;
           }
           catch (Exception e1)
           {}
