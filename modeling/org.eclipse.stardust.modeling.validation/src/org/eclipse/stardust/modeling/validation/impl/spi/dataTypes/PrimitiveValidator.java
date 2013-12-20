@@ -56,7 +56,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
                      Validation_Messages.MSG_NoTypeDeclarationDefined,
                      StructuredDataConstants.TYPE_DECLARATION_ATT)};
             }
-            else if(!element.eIsProxy())
+            else if (!element.eIsProxy())
             {
                String defaultValue = AttributeUtil.getAttributeValue((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT);
                if (StringUtils.isEmpty(defaultValue))
@@ -67,7 +67,7 @@ public class PrimitiveValidator implements IModelElementValidator, IBridgeObject
                }
                else
                {
-                  if(ExtendedAttributeUtil.getAttribute((Extensible) ref, CarnotConstants.CLASS_NAME_ATT) == null)
+                  if (ExtendedAttributeUtil.getAttribute((Extensible) ref, CarnotConstants.CLASS_NAME_ATT) == null)
                   {
                      return new Issue[] {Issue.error(element,
                            Validation_Messages.MSG_TypeDeclarationNotJavaBoundEnum,

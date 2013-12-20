@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -33,11 +32,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.BindingManager;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.StructuredViewerAdapter;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtButtonAdapter;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtComboAdapter;
+import org.eclipse.stardust.modeling.common.ui.jface.databinding.*;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.Verifier;
@@ -51,7 +46,6 @@ import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -76,9 +70,6 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       implements IDataPropertyPage
 {
    private static final Type[] TYPES = fetchTypes();
-
-   // TODO: unify with other empty arrays
-   private static final Object[] emptyArray = new Object[0];
 
    private ComboViewer typeViewer;
 
@@ -130,7 +121,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                public void updateModel(Object value)
                {
                   super.updateModel(value);
-                  if(!Type.Enumeration.equals(value))
+                  if (!Type.Enumeration.equals(value))
                   {
                      ModelType model = ModelUtils.findContainingModel(element);
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
@@ -154,26 +145,27 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                {
                   super.updateModel(value);
 
-                  ModelType model = ModelUtils.findContainingModel(element);
-                  TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
-                  if(element.eIsProxy())
+                  if (element.eIsProxy())
                   {
                      return;
                   }
 
+                  ModelType model = ModelUtils.findContainingModel(element);
+                  TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
+
                   // for cross model, no selection on page open
-                  if(value == null && decl != null)
+                  if (value == null && decl != null)
                   {
                      updateControl(decl);
                   }
 
-                  if(decl == null)
+                  if (decl == null)
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
                      valueComposite.setEnabled(false);
                   }
-                  else if(TypeDeclarationUtils.isEnumeration(decl, true))
+                  else if (TypeDeclarationUtils.isEnumeration(decl, true))
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      valueComposite.setEnabled(true);
@@ -214,9 +206,16 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          }
          else if (TYPES[i].equals(Type.Enumeration))
          {
-            mgr.bind(
-                  WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
-                        CarnotConstants.DEFAULT_VALUE_ATT, false), new SwtComboAdapter((Combo) control));
+            // TODO: (fh) investigate if we can't use the same adapter for all default value controls.
+            IModelAdapter modelAdapter = WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
+                  CarnotConstants.DEFAULT_VALUE_ATT, false);
+            mgr.bind(modelAdapter, new SwtComboAdapter((Combo) control));
+            IStructuredSelection selection = (IStructuredSelection) enumComboViewer.getSelection();
+            if (!selection.isEmpty())
+            {
+               Object item = selection.getFirstElement();
+               modelAdapter.updateModel(item);
+            }
          }
          else
          {
@@ -272,10 +271,10 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
          public void updateControl(Object value)
          {
-        	if (value != null && !(value instanceof Boolean))
-        	{
-        	   value = "true".equalsIgnoreCase(value.toString()) ? Boolean.TRUE : Boolean.FALSE; //$NON-NLS-1$
-        	}
+         if (value != null && !(value instanceof Boolean))
+         {
+            value = "true".equalsIgnoreCase(value.toString()) ? Boolean.TRUE : Boolean.FALSE; //$NON-NLS-1$
+         }
             Type selectedType = (Type) ((IStructuredSelection) typeViewer
                   .getSelection()).getFirstElement();
             if (Type.Boolean.equals(selectedType))
@@ -371,7 +370,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
    {
       String typeId = ((DataType) element).getType().getId();
-      if(PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
       {
          AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT, null);
       }
@@ -474,14 +473,14 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          @Override
          public void selectionChanged(SelectionChangedEvent event)
          {
-            Object[] facets = emptyArray;
+            Object[] facets = StructuredTypeUtils.emptyArray;
             IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
             if (!selection.isEmpty())
             {
                Object value = selection.getFirstElement();
                if (value instanceof TypeDeclarationType)
                {
-                  facets = getFacets((TypeDeclarationType) value);
+                  facets = StructuredTypeUtils.getFacets((TypeDeclarationType) value);
                }
             }
             enumComboViewer.setInput(facets);
@@ -526,7 +525,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             {
                addContent(result, inputElement);
             }
-            return result.isEmpty() ? emptyArray : result.toArray();
+            return result.isEmpty() ? StructuredTypeUtils.emptyArray : result.toArray();
          }
 
          private void addContent(final List<EObject> result, Object inputElement)
@@ -585,7 +584,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                addTypeDeclarations(result, (ModelType) parentElement);
                return result.toArray();
             }
-            return emptyArray;
+            return StructuredTypeUtils.emptyArray;
          }
 
          @Override
@@ -639,24 +638,6 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          }
       }
       return false;
-   }
-
-   private Object[] getFacets(TypeDeclarationType decl)
-   {
-      XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(decl);
-      if (component instanceof XSDElementDeclaration)
-      {
-         component = ((XSDElementDeclaration) component).getTypeDefinition();
-      }
-      if (component instanceof XSDSimpleTypeDefinition)
-      {
-         XSDEnumerationFacet effectiveFacet = ((XSDSimpleTypeDefinition) component).getEffectiveEnumerationFacet();
-         if(effectiveFacet != null)
-         {
-            return effectiveFacet.getValue().toArray();
-         }
-      }
-      return emptyArray;
    }
 
    private Text createVerifiedText(Verifier verifier)

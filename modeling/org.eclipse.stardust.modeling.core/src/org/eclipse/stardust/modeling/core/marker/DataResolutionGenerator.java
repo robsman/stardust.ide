@@ -14,28 +14,44 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeDataAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.ui.IMarkerResolution;
 
-
 public class DataResolutionGenerator implements IResolutionGenerator
 {
-   private IAction action;
+   private IAction upgradeAction;
 
    public boolean hasResolutions(WorkflowModelEditor editor, Issue issue)
    {
-      if (issue.getModelElement() instanceof DataType)
+      if (isPrimitiveDefaultValueIssue(issue))
       {
-         action = getAction(editor, issue.getModelElement(),
-               DiagramActionConstants.DATA_UPGRADE);
-         if (action != null && action.isEnabled())
+         return true;
+      }
+      EObject element = issue.getModelElement();
+      if (element instanceof DataType)
+      {
+         upgradeAction = getAction(editor, element, DiagramActionConstants.DATA_UPGRADE);
+         if (upgradeAction != null && upgradeAction.isEnabled())
          {
             return true;
          }
@@ -43,9 +59,64 @@ public class DataResolutionGenerator implements IResolutionGenerator
       return false;
    }
 
-   public void addResolutions(List<IMarkerResolution> list, WorkflowModelEditor editor, Issue issue)
+   private boolean isPrimitiveDefaultValueIssue(Issue issue)
    {
-      list.add(new MarkerResolution(action));
+      EObject element = issue.getModelElement();
+      return element instanceof DataType
+            && !element.eIsProxy()
+            && PredefinedConstants.DEFAULT_VALUE_ATT.equals(issue.getFeature())
+            && ((DataType) element).getType() != null
+            && PredefinedConstants.PRIMITIVE_DATA.equals(((DataType) element).getType().getId())
+            && Type.Enumeration.getId().equals(AttributeUtil.getAttributeValue((DataType) element, PredefinedConstants.TYPE_ATT));
+   }
+
+   public void addResolutions(List<IMarkerResolution> list, final WorkflowModelEditor editor, final Issue issue)
+   {
+      if (isPrimitiveDefaultValueIssue(issue))
+      {
+         Action action = new SelectionAction(editor)
+         {
+            public void run()
+            {
+               DataType data = (DataType) issue.getModelElement();
+               TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(data);
+               Object[] facets = StructuredTypeUtils.getFacets(decl);
+               if (facets.length > 0)
+               {
+                  Command cmd;
+                  AttributeType attribute = AttributeUtil.getAttribute(data, PredefinedConstants.DEFAULT_VALUE_ATT);
+                  if (attribute == null)
+                  {
+                     attribute = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
+                     attribute.setName(PredefinedConstants.DEFAULT_VALUE_ATT);
+                     attribute.setValue(facets[0].toString());
+                     cmd = new SetValueCmd(data, CarnotWorkflowModelPackage.eINSTANCE.getIExtensibleElement_Attribute(), attribute);
+                  }
+                  else
+                  {
+                     cmd = new SetValueCmd(attribute, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), facets[0].toString());
+                  }
+                  if (cmd != null)
+                  {
+                     execute(cmd);
+                  }
+               }
+            }
+
+            @Override
+            protected boolean calculateEnabled()
+            {
+               return true;
+            }
+         };
+         action.setText("Reset default value");
+         list.add(new MarkerResolution(action, DiagramPlugin.getImage(
+               editor.getIconFactory().getIconFor(issue.getModelElement()))));
+      }
+      else
+      {
+         list.add(new MarkerResolution(upgradeAction));
+      }
    }
 
    private IAction getAction(final WorkflowModelEditor editor,
