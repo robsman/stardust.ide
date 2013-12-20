@@ -74,44 +74,46 @@ public class DataResolutionGenerator implements IResolutionGenerator
    {
       if (isPrimitiveDefaultValueIssue(issue))
       {
-         Action action = new SelectionAction(editor)
+         DataType data = (DataType) issue.getModelElement();
+         TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(data);
+         Object[] facets = StructuredTypeUtils.getFacets(decl);
+         for (int i = 0; i < facets.length; i++)
          {
-            public void run()
+            final String value = facets[i].toString();
+            Action action = new SelectionAction(editor)
             {
-               DataType data = (DataType) issue.getModelElement();
-               TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(data);
-               Object[] facets = StructuredTypeUtils.getFacets(decl);
-               if (facets.length > 0)
+               public void run()
                {
+                  DataType data = (DataType) issue.getModelElement();
                   Command cmd;
                   AttributeType attribute = AttributeUtil.getAttribute(data, PredefinedConstants.DEFAULT_VALUE_ATT);
                   if (attribute == null)
                   {
                      attribute = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
                      attribute.setName(PredefinedConstants.DEFAULT_VALUE_ATT);
-                     attribute.setValue(facets[0].toString());
+                     attribute.setValue(value);
                      cmd = new SetValueCmd(data, CarnotWorkflowModelPackage.eINSTANCE.getIExtensibleElement_Attribute(), attribute);
                   }
                   else
                   {
-                     cmd = new SetValueCmd(attribute, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), facets[0].toString());
+                     cmd = new SetValueCmd(attribute, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), value);
                   }
                   if (cmd != null)
                   {
                      execute(cmd);
                   }
                }
-            }
 
-            @Override
-            protected boolean calculateEnabled()
-            {
-               return true;
-            }
-         };
-         action.setText("Reset default value");
-         list.add(new MarkerResolution(action, DiagramPlugin.getImage(
-               editor.getIconFactory().getIconFor(issue.getModelElement()))));
+               @Override
+               protected boolean calculateEnabled()
+               {
+                  return value != null;
+               }
+            };
+            action.setText("Set the default value to '" + value + "'.");
+            list.add(new MarkerResolution(action, DiagramPlugin.getImage(
+                  editor.getIconFactory().getIconFor(issue.getModelElement()))));
+         }
       }
       else
       {
