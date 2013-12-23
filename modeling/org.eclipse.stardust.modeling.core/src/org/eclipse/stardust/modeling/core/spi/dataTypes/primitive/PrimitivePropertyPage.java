@@ -159,18 +159,13 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                      updateControl(decl);
                   }
 
-                  if (decl == null)
-                  {
-                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
-                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
-                     valueComposite.setEnabled(false);
-                  }
-                  else if (TypeDeclarationUtils.isEnumeration(decl, true))
+                  if (decl == null  // (fh) real primitive
+                        || TypeDeclarationUtils.isEnumeration(decl, true)) // (fh) java bound enumeration
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      valueComposite.setEnabled(true);
                   }
-                  else
+                  else // (fh) simple type data
                   {
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
                      AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
