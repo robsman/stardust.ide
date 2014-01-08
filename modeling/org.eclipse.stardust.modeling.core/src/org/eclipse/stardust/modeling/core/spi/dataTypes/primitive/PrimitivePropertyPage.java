@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -46,6 +47,7 @@ import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -475,7 +477,11 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                Object value = selection.getFirstElement();
                if (value instanceof TypeDeclarationType)
                {
-                  facets = StructuredTypeUtils.getFacets((TypeDeclarationType) value);
+                  Object[] content = StructuredTypeUtils.emptyArray;
+                  content = StructuredTypeUtils.getFacets((TypeDeclarationType) value);
+                  facets = new Object[content.length + 1];
+                  facets[0] = ""; //$NON-NLS-1$
+                  System.arraycopy(content, 0, facets, 1, content.length);
                }
             }
             enumComboViewer.setInput(facets);
