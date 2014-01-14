@@ -28,10 +28,10 @@ import org.eclipse.stardust.modeling.transformation.messaging.modeling.applicati
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageTransformationLineBreakpoint;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.breakpoints.MessageTransformationMappingBreakpoint;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebugFrame;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableScript;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.debug.DebugFrame;
+import org.mozilla.javascript.debug.DebuggableScript;
 
 
 public class RhinoDebugFrame implements DebugFrame

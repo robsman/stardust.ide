@@ -27,11 +27,11 @@ import org.eclipse.stardust.engine.extensions.transformation.runtime.transformat
 import org.eclipse.stardust.modeling.transformation.debug.common.CommonConstants;
 import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugFrame;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptableObject;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableScript;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.debug.DebuggableScript;
 
 public class JsStackFrame extends JsDebugElement implements IStackFrame
 {

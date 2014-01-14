@@ -30,6 +30,7 @@
     <module>org.eclipse.stardust.ide.thirdparty.runtime.xml</module>
     <module>org.eclipse.stardust.ide.thirdparty.springframework</module>
     <module>org.eclipse.stardust.ide.thirdparty.camel</module>
+    <module>org.eclipse.stardust.ide.thirdparty.javascript</module>
 
     <module>org.eclipse.stardust.ide.3rdparty-feature</module>
   </modules>
