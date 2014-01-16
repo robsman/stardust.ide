@@ -128,7 +128,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          if (GenericUtils.getAutoIdValue())
          {
-            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             idText.getText().setText(computedId);
          }
       }
@@ -169,7 +169,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          TypeDeclarationType typeDec = i.next();
          if(!TypeDeclarationUtils.isEnumeration(typeDec, false))
-         {         
+         {
             dataTypes.add(typeDec);
          }
       }
@@ -177,12 +177,12 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       dataTypes.addAll(primitiveTypes);
       DataType selectedData = getSelectedData();
       Object selectedType = getInterfaceType();
-      
+
       categoryCombo.getViewer().setInput(typeFilters);
       String selectedCategory = null;
       DataTypeType selectedDataType = parameterType.getDataType();
-      
-      if (selectedDataType != null) 
+
+      if (selectedDataType != null)
       {
           selectedCategory = parameterType.getDataType().getCarnotType();
           if (selectedCategory == null)
@@ -195,10 +195,14 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
              {
                 selectedCategory = "struct"; //$NON-NLS-1$
              }
-          }    	  
+          }
       }
-      
-      String typeId = selectedData.getType().getId();      
+
+      String typeId = null;
+      if(selectedData != null)
+      {
+         typeId = selectedData.getType().getId();
+      }
       if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
       {
          TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(selectedData, StructuredDataConstants.TYPE_DECLARATION_ATT);
@@ -209,12 +213,12 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
                selectedCategory = PredefinedConstants.PRIMITIVE_DATA;
                selectedType = Type.Enumeration;
             }
-         }            
-      }                                    
-      
+         }
+      }
+
       dataFilter.setFilterType(selectedType);
-      dataFilter.setReferencedModel(referencedModelType);      
-      
+      dataFilter.setReferencedModel(referencedModelType);
+
       ViewerFilter selectedFilter = getSelectedFilter(selectedCategory);
 
       if (selectedFilter != null)
@@ -555,7 +559,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
                         .getSelection()).getFirstElement();
                   DataTypeType dataType = xpdlFactory.createDataTypeType();
                   String typeId = data.getType().getId();
-                  
+
                   if (PredefinedConstants.PRIMITIVE_DATA.equals(typeId))
                   {
                      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
@@ -750,7 +754,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
          if (element instanceof TypeDeclarationType)
          {
             TypeDeclarationType decl = (TypeDeclarationType) element;
-            return (!decl.getName().equals("<default>")); //$NON-NLS-1$            
+            return (!decl.getName().equals("<default>")); //$NON-NLS-1$
          }
          return false;
       }
