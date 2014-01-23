@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -68,7 +69,8 @@ public class MessagingAccessPathBrowserContentProvider extends AccessPathBrowser
          if (type instanceof DataTypeType)
          {            
             DataTypeType dataType = (DataTypeType) ((AccessPointType)root).getMetaType();
-           
+            if (!dataType.getId().equalsIgnoreCase(PredefinedConstants.PRIMITIVE_DATA))
+            {
                IAccessPathEditor editor = AccessPointUtil.getSPIAccessPathEditor(dataType);
                List aps = editor.getAccessPoints(null,
                   (IExtensibleElement) accessPoint, direction);;
@@ -142,6 +144,7 @@ public class MessagingAccessPathBrowserContentProvider extends AccessPathBrowser
          {
             Object child = children[i];
             parentCache.put(child, parentElement);
+         }
          }
       }
       return children;
