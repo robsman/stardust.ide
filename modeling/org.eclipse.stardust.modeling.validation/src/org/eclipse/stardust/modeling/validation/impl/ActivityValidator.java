@@ -127,7 +127,7 @@ public class ActivityValidator implements IModelElementValidator
          }
       }
 
-      if (activity.getLoopType() != null &&
+      /*if (activity.getLoopType() != null &&
          (activity.getLoopType().getValue() == LoopType.WHILE ||
           activity.getLoopType().getValue() == LoopType.REPEAT))
       {
@@ -142,7 +142,7 @@ public class ActivityValidator implements IModelElementValidator
             result.add(Issue.warning(activity, Validation_Messages.ERR_ACTIVITY_InvalidLoopCondition,
                   ValidationService.PKG_CWM.getActivityType_LoopCondition()));
          }
-      }
+      }*/
 
       ValidationService vs = ValidationService.getInstance();
       result.addAll(Arrays.asList(vs.validateModelElements(activity.getDataMapping())));

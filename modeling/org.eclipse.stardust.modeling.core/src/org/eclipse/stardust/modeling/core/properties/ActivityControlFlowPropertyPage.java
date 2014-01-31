@@ -13,34 +13,25 @@ package org.eclipse.stardust.modeling.core.properties;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Enumerator;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.LoopType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetActivityControlFlowCmd;
-import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-
 
 public class ActivityControlFlowPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -50,7 +41,7 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
 
    private static final int LOOP = 2;
 
-   private static final String[] NAMES = {Diagram_Messages.LB_TITLE_Join, Diagram_Messages.LB_TITLE_Split, Diagram_Messages.LB_TITLE_Loop}; 
+   private static final String[] NAMES = {Diagram_Messages.LB_TITLE_Join, Diagram_Messages.LB_TITLE_Split, Diagram_Messages.LB_TITLE_Loop};
 
    private Button[] joinButtons;
 
@@ -65,19 +56,19 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       super.performDefaults();
       setSelectedButton(joinButtons, getActivity().getJoin().getValue());
       setSelectedButton(splitButtons, getActivity().getSplit().getValue());
-      setSelectedButton(loopButtons, getActivity().getLoopType().getValue());      
+      setSelectedButton(loopButtons, getLoopType().getValue());
    }
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
-      WidgetBindingManager wBndMgr = getWidgetBindingManager();
+      //WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
       getActivity();
       setSelectedButton(joinButtons, getActivity().getJoin().getValue());
       setSelectedButton(splitButtons, getActivity().getSplit().getValue());
-      setSelectedButton(loopButtons, getActivity().getLoopType().getValue());
+      setSelectedButton(loopButtons, getLoopType().getValue());
 
-      wBndMgr.bind(loopConditionText, element, PKG_CWM.getActivityType_LoopCondition());
+      //wBndMgr.bind(loopConditionText, element, PKG_CWM.getActivityType_LoopCondition());
 
       if (element instanceof GatewaySymbol)
       {
@@ -117,16 +108,14 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       for (int i = 0; i < diagramList.size(); i++)
       {
          DiagramType diagram = diagramList.get(i);
-         List activitySymbolList = DiagramUtil.getSymbols(diagram,
+         List<ActivitySymbolType> activitySymbolList = DiagramUtil.getSymbols(diagram,
             CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_ActivitySymbol(),
             activity);
-         for (int j = 0; j < activitySymbolList.size(); j++)
+         for (ActivitySymbolType activitySymbol : activitySymbolList)
          {
-            ActivitySymbolType activitySymbol = (ActivitySymbolType) activitySymbolList.get(j);
             List<TransitionConnectionType> outTransitions = activitySymbol.getOutTransitions();
-            for (int k = 0; k < outTransitions.size(); k++)
+            for (TransitionConnectionType connection : outTransitions)
             {
-               TransitionConnectionType connection = outTransitions.get(k);
                if (connection.getTargetActivitySymbol() instanceof EndEventSymbol)
                {
                   return true;
@@ -145,16 +134,14 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       for (int i = 0; i < diagramList.size(); i++)
       {
          DiagramType diagram = diagramList.get(i);
-         List activitySymbolList = DiagramUtil.getSymbols(diagram,
+         List<ActivitySymbolType> activitySymbolList = DiagramUtil.getSymbols(diagram,
             CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_ActivitySymbol(),
             activity);
-         for (int j = 0; j < activitySymbolList.size(); j++)
+         for (ActivitySymbolType activitySymbol : activitySymbolList)
          {
-            ActivitySymbolType activitySymbol = (ActivitySymbolType) activitySymbolList.get(j);
             List<TransitionConnectionType> inTransitions = activitySymbol.getInTransitions();
-            for (int k = 0; k < inTransitions.size(); k++)
+            for (TransitionConnectionType connection : inTransitions)
             {
-               TransitionConnectionType connection = inTransitions.get(k);
                if (connection.getSourceActivitySymbol() instanceof StartEventSymbol)
                {
                   return true;
@@ -205,13 +192,86 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       return (ActivityType) getModelElement();
    }
 
+   private LoopType getLoopType()
+   {
+      ActivityType activity = getActivity();
+      org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop = activity.getLoop();
+      if (loop != null && loop.getLoopType() == LoopTypeType.STANDARD)
+      {
+         LoopStandardType loopStandard = loop.getLoopStandard();
+         if (loopStandard == null)
+         {
+            return LoopType.REPEAT_LITERAL;
+         }
+         switch (loopStandard.getTestTime())
+         {
+         case BEFORE:
+            return LoopType.WHILE_LITERAL;
+         case AFTER:
+            return LoopType.REPEAT_LITERAL;
+         }
+      }
+      return LoopType.NONE_LITERAL;
+   }
+
+   @SuppressWarnings("incomplete-switch")
    private void setLoopType(LoopType type)
    {
-      getActivity().setLoopType(type);
+      ActivityType activity = getActivity();
+      if (type == null || type == LoopType.NONE_LITERAL)
+      {
+         activity.setLoop(null);
+      }
+      else
+      {
+         LoopStandardType loopStandard = getOrCreateLoopStandard(activity);
+         switch (type)
+         {
+         case WHILE_LITERAL:
+            loopStandard.setTestTime(TestTimeType.BEFORE);
+            break;
+         case REPEAT_LITERAL:
+            loopStandard.setTestTime(TestTimeType.AFTER);
+            break;
+         }
+      }
+   }
+
+   private void setLoopCondition(String condition)
+   {
+      LoopStandardType loopStandard = getOrCreateLoopStandard(getActivity());
+      XpdlUtil.setLoopStandardCondition(loopStandard, condition);
+   }
+
+   private static LoopStandardType getOrCreateLoopStandard(ActivityType activity)
+   {
+      org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop = activity.getLoop();
+      LoopStandardType loopStandard = XpdlUtil.getOrCreateLoopStandard(loop);
+      if (loop == null)
+      {
+         activity.setLoop((org.eclipse.stardust.model.xpdl.xpdl2.LoopType) loopStandard.eContainer());
+      }
+      return loopStandard;
    }
 
    public Control createBody(Composite parent)
    {
+      /*ActivityType activity = getActivity();
+      LoopType loopType = activity.getLoopType();
+      if (loopType != null)
+      {
+         // (fh) conversion to xpdl format
+         setLoopType(loopType);
+         activity.setLoopType(null);
+      }
+      String condition = activity.getLoopCondition();
+      if (condition != null)
+      {
+         // (fh) conversion to xpdl format
+         setLoopCondition(condition);
+         activity.setLoopCondition(null);
+      }*/
+
       Composite composite = FormBuilder.createComposite(parent, 1);
 
       createGroup(composite, joinButtons = new Button[JoinSplitType.VALUES.size()], JOIN,
@@ -232,13 +292,41 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
             LoopType.VALUES.size());
       loopConditionText = FormBuilder.createLabeledText(conditionComposite,
          Diagram_Messages.LB_FORMBUILDER_LoopCondition);
+      loopConditionText.getText().addModifyListener(new ModifyListener()
+      {
+         public void modifyText(ModifyEvent e)
+         {
+            String condition = loopConditionText.getText().getText().trim();
+            String previous = XpdlUtil.getLoopStandardCondition(getActivity().getLoop());
+            previous = previous == null ? "" : previous.trim();
+            if (!previous.equals(condition))
+            {
+               setLoopCondition(condition);
+            }
+         }
+      });
 
       return composite;
    }
 
    private void enableLoopCondition()
    {
-      loopConditionText.getText().setEnabled(!loopButtons[1].getSelection());
+      boolean enabled = !loopButtons[1].getSelection();
+      loopConditionText.getText().setEnabled(enabled);
+      String condition = "";
+      if (enabled)
+      {
+         org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop = getActivity().getLoop();
+         if (loop != null && loop.getLoopType() == LoopTypeType.STANDARD)
+         {
+            LoopStandardType loopStandard = getOrCreateLoopStandard(getActivity());
+            if (loopStandard != null)
+            {
+               condition = XpdlUtil.getLoopStandardCondition(loopStandard);
+            }
+         }
+      }
+      loopConditionText.getText().setText(condition);
    }
 
    private Group createGroup(Composite composite, Button[] buttons, int type, List<? extends Enumerator> enums,
@@ -248,16 +336,15 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       for (int i = start; i < enums.size(); i++)
       {
          Enumerator rawEnum = enums.get(i);
-         buttons[i] = createRadioButton(
-               group,
+         buttons[i] = createRadioButton(group,
                ModelUtils.getFlowTypeText(rawEnum.getLiteral()) + "  ", rawEnum.getValue(), type);//$NON-NLS-1$
       }
       return group;
    }
 
-   private Button createRadioButton(Group joinGroup, final String name, final int value, final int type)
+   private Button createRadioButton(Group group, final String name, final int value, final int type)
    {
-      Button button = FormBuilder.createRadioButton(joinGroup, name);
+      Button button = FormBuilder.createRadioButton(group, name);
       button.addSelectionListener(new SelectionAdapter()
       {
          public void widgetSelected(SelectionEvent e)
