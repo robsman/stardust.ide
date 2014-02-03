@@ -11,26 +11,44 @@
 package org.eclipse.stardust.modeling.validation.impl;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.model.beans.TransitionBean;
-import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
+import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
+import org.eclipse.stardust.model.xpdl.carnot.LoopType;
+import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlUtil;
-import org.eclipse.stardust.modeling.validation.*;
+import org.eclipse.stardust.modeling.validation.IModelElementValidator;
+import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationException;
+import org.eclipse.stardust.modeling.validation.ValidationService;
+import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
 public class DefaultActivityValidator implements IModelElementValidator
 {
    private static final int JOIN = 0;
    private static final int SPLIT = 1;
 
-   private Set<ActivityType> checkedActivities;
+   private Set checkedActivities;
 
    protected boolean performFullCheck()
    {
@@ -39,7 +57,7 @@ public class DefaultActivityValidator implements IModelElementValidator
 
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      List<Issue> result = new ArrayList<Issue>();
+      List result = new ArrayList();
       ActivityType activity = (ActivityType) element;
 
       if (findDuplicateId(activity))
@@ -77,12 +95,30 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
       }
 
-      validateLoop(result, activity, activity.getLoop());
-
-      Map<ActivityType, Boolean> targetActivities = new HashMap<ActivityType, Boolean>();
-      for (TransitionType transition : activity.getOutTransitions())
+      if (activity.getLoopType() != null
+            && (activity.getLoopType().getValue() == LoopType.WHILE || activity
+                  .getLoopType().getValue() == LoopType.REPEAT))
       {
-         if (transition.getTo() != null)
+         if (activity.getLoopCondition() == null
+               || activity.getLoopCondition().trim().length() == 0)
+         {
+            result.add(Issue.error(activity,
+                  Validation_Messages.ERR_ACTIVITY_NoLoopCondition,
+                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
+         }
+         else if (!isValidLoopCondition(activity.getLoopCondition()))
+         {
+            result.add(Issue.warning(activity,
+                  Validation_Messages.ERR_ACTIVITY_InvalidLoopCondition,
+                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
+         }
+      }
+
+      Map targetActivities = new HashMap();
+      for (Iterator i = activity.getOutTransitions().iterator(); i.hasNext();)
+      {
+         TransitionType transition = (TransitionType) i.next();
+         if (null != transition.getTo())
          {
             if (targetActivities.containsKey(transition.getTo()))
             {
@@ -103,15 +139,15 @@ public class DefaultActivityValidator implements IModelElementValidator
             }
          }
       }
-
-      checkedActivities = new HashSet<ActivityType>();
+      
+      checkedActivities = new HashSet();
       ActivityType blockingActivity = checkXORANDBlock(activity, activity);
 
       if (blockingActivity != null)
       {
          result.add(Issue.warning(activity, MessageFormat.format(
-               Validation_Messages.Msg_XORSplitANDJoinBlock,
-                  activity.getName(), blockingActivity.getName()),
+               Validation_Messages.Msg_XORSplitANDJoinBlock, new String[] {
+                     activity.getName(), blockingActivity.getName()}),
                ValidationService.PKG_CWM.getActivityType()));
       }
 
@@ -122,88 +158,13 @@ public class DefaultActivityValidator implements IModelElementValidator
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }
 
-   private void validateLoop(List<Issue> result, ActivityType activity,
-         org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop)
-   {
-      if (loop == null)
-      {
-         validateOldStyleLoop(result, activity);
-      }
-      else
-      {
-         switch (loop.getLoopType())
-         {
-         case STANDARD:
-            validateLoopStandard(result, activity, loop.getLoopStandard());
-            break;
-         case MULTI_INSTANCE:
-            // TODO (fh)
-            break;
-         default:
-            // TODO (fh) add error
-            break;
-         }
-      }
-   }
-
-   private void validateLoopStandard(List<Issue> result, ActivityType activity,
-         LoopStandardType loopStandard)
-   {
-      if (loopStandard == null)
-      {
-         // TODO (fh) add error
-      }
-      else if (loopStandard.getTestTime() == null)
-      {
-         // TODO (fh) add error
-      }
-      else
-      {
-         String condition = XpdlUtil.getLoopStandardCondition(loopStandard);
-         if (condition == null
-               || condition.trim().length() == 0)
-         {
-            result.add(Issue.error(activity,
-                  Validation_Messages.ERR_ACTIVITY_NoLoopCondition,
-                  XpdlPackage.eINSTANCE.getLoopStandardType_LoopCondition()));
-         }
-         else if (!isValidLoopCondition(condition))
-         {
-            result.add(Issue.warning(activity,
-                  Validation_Messages.ERR_ACTIVITY_InvalidLoopCondition,
-                  XpdlPackage.eINSTANCE.getLoopStandardType_LoopCondition()));
-         }
-      }
-   }
-
-   private void validateOldStyleLoop(List<Issue> result, ActivityType activity)
-   {
-      /*if (activity.getLoopType() != null
-            && (activity.getLoopType().getValue() == LoopType.WHILE || activity
-                  .getLoopType().getValue() == LoopType.REPEAT))
-      {
-         if (activity.getLoopCondition() == null
-               || activity.getLoopCondition().trim().length() == 0)
-         {
-            result.add(Issue.error(activity,
-                  Validation_Messages.ERR_ACTIVITY_NoLoopCondition,
-                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
-         }
-         else if (!isValidLoopCondition(activity.getLoopCondition()))
-         {
-            result.add(Issue.warning(activity,
-                  Validation_Messages.ERR_ACTIVITY_InvalidLoopCondition,
-                  ValidationService.PKG_CWM.getActivityType_LoopCondition()));
-         }
-      }*/
-   }
-
    private ActivityType checkXORANDBlock(ActivityType startActivity,
          ActivityType currentActivity)
    {
 
-      for (TransitionType outTransition : currentActivity.getOutTransitions())
+      for (Iterator iter = currentActivity.getOutTransitions().iterator(); iter.hasNext();)
       {
+         TransitionType outTransition = (TransitionType) iter.next();
          currentActivity = outTransition.getTo();
          if (JoinSplitType.AND_LITERAL.equals(currentActivity.getJoin())
                && checkBackXORANDBlock(startActivity, currentActivity, outTransition))
@@ -222,8 +183,9 @@ public class DefaultActivityValidator implements IModelElementValidator
    private boolean checkBackXORANDBlock(ActivityType startActivity,
          ActivityType currentActivity, TransitionType outTransition)
    {
-      for (TransitionType inTransition : currentActivity.getInTransitions())
+      for (Iterator iter = currentActivity.getInTransitions().iterator(); iter.hasNext();)
       {
+         TransitionType inTransition = (TransitionType) iter.next();
          if (outTransition != null && outTransition.equals(inTransition))
          {
             outTransition = null;
@@ -249,20 +211,21 @@ public class DefaultActivityValidator implements IModelElementValidator
       return false;
    }
 
-   private void checkApplicationActivity(List<Issue> result, ActivityType activity)
+   private void checkApplicationActivity(List result, ActivityType activity)
    {
       if (ActivityUtil.isApplicationActivity(activity))
       {
          if (activity.getApplication() == null)
          {
             result.add(Issue.error(activity, MessageFormat.format(
-                  Validation_Messages.ERR_ACTIVITYNoApplication, activity.getName()),
-                  ValidationService.PKG_CWM.getActivityType_Application()));
+                  Validation_Messages.ERR_ACTIVITYNoApplication, new String[] {activity
+                        .getName()}), ValidationService.PKG_CWM
+                  .getActivityType_Application()));
          }
       }
    }
 
-   private void checkSubprocessActivity(List<Issue> result, ActivityType activity)
+   private void checkSubprocessActivity(List result, ActivityType activity)
    {
       if (ActivityUtil.isSubprocessActivity(activity))
       {
@@ -274,14 +237,15 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
          else if (null == activity.getSubProcessMode())
          {
-            result.add(Issue.warning(activity, MessageFormat.format(
-                  Validation_Messages.ERR_ACTIVITY_SubProcessMode, activity.getName()),
-                  ValidationService.PKG_CWM.getActivityType_SubProcessMode()));
+            result.add(Issue.warning(activity, MessageFormat
+                  .format(Validation_Messages.ERR_ACTIVITY_SubProcessMode,
+                        new String[] {activity.getName()}), ValidationService.PKG_CWM
+                  .getActivityType_SubProcessMode()));
          }
       }
    }
 
-   private void checkPerformer(List<Issue> result, ActivityType activity)
+   private void checkPerformer(List result, ActivityType activity)
    {
       if (ActivityUtil.isInteractive(activity))
       {
@@ -291,38 +255,38 @@ public class DefaultActivityValidator implements IModelElementValidator
                   Validation_Messages.ERR_ACTIVITY_NoPerformerSet,
                   ValidationService.PKG_CWM.getActivityType_Performer()));
          }
+         
+         boolean isQualityAssurance = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT);      
 
-         boolean isQualityAssurance = AttributeUtil.getBooleanValue((IExtensibleElement) activity, PredefinedConstants.ACTIVITY_IS_QUALITY_ASSURANCE_ATT);
-
-         if (isQualityAssurance)
+         if(isQualityAssurance)
          {
             IModelParticipant performer = activity.getPerformer();
-            if (performer != null)
+            if(performer != null)
             {
-               if (performer instanceof ConditionalPerformerType)
+               if(performer instanceof ConditionalPerformerType)
                {
                   result.add(Issue.error(activity,
                         Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
-                        ValidationService.PKG_CWM.getActivityType_Performer()));
+                        ValidationService.PKG_CWM.getActivityType_Performer()));                  
                }
             }
-
+            
             IModelParticipant qualityControlPerformer = activity.getQualityControlPerformer();
-            if (qualityControlPerformer == null)
+            if(qualityControlPerformer == null)
             {
-
+               
             }
             else
             {
-               if (qualityControlPerformer instanceof ConditionalPerformerType)
+               if(qualityControlPerformer instanceof ConditionalPerformerType)
                {
                   result.add(Issue.error(activity,
                         Validation_Messages.ERR_ACTIVITY_QualityAssurancePerformer,
-                        ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));
-               }
-            }
-         }
-
+                        ValidationService.PKG_CWM.getActivityType_QualityControlPerformer()));                                    
+               }               
+            }               
+         }         
+         
          /*
           * TODO rsauer: obsolete? if ((!StringUtils.isEmpty(activity.getPerformer())) &&
           * (findConditionalPerformer(activity) == null)) { result .add(Issue .error(
@@ -344,7 +308,7 @@ public class DefaultActivityValidator implements IModelElementValidator
 
    private boolean isValidLoopCondition(String condition)
    {
-      // TODO: (fh) syntactic check?
+      // todo: (fh) syntactic check?
       return true;
    }
 
@@ -352,9 +316,9 @@ public class DefaultActivityValidator implements IModelElementValidator
    {
       ProcessDefinitionType process = (ProcessDefinitionType) activity.eContainer();
       int count = 0;
-
-      List<TransitionType> removeTransitions = new ArrayList<TransitionType>();
-      List<TransitionType> transitions = new ArrayList<TransitionType>();
+      
+      List removeTransitions = new ArrayList<TransitionType>();
+      List transitions = new ArrayList<TransitionType>();
       transitions.addAll(process.getTransition());
       for(EventHandlerType eventHandler : activity.getEventHandler())
       {
@@ -365,7 +329,7 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
       }
       transitions.removeAll(removeTransitions);
-
+      
       for (int i = 0; i < transitions.size(); i++)
       {
          TransitionType trans = (TransitionType) transitions.get(i);
@@ -393,8 +357,10 @@ public class DefaultActivityValidator implements IModelElementValidator
 
    private boolean findDuplicateId(ActivityType activity)
    {
-      for (ActivityType otherActivity : ModelUtils.findContainingProcess(activity).getActivity())
+      for (Iterator iter = ModelUtils.findContainingProcess(activity).getActivity()
+            .iterator(); iter.hasNext();)
       {
+         ActivityType otherActivity = (ActivityType) iter.next();
          if ((otherActivity.getId().equals(activity.getId()))
                && (!activity.equals(otherActivity)))
          {
@@ -403,14 +369,14 @@ public class DefaultActivityValidator implements IModelElementValidator
       }
       return false;
    }
-
+   
    private TransitionType getExceptionTransition(List<TransitionType> outTransitions, String eventHandlerId)
    {
       if (outTransitions == null || StringUtils.isEmpty(eventHandlerId))
       {
          return null;
       }
-
+      
       String condition = TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(" + eventHandlerId + ")"; //$NON-NLS-1$ //$NON-NLS-2$
       for (TransitionType t : outTransitions)
       {
@@ -421,8 +387,8 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
       }
       return null;
-   }
-
+   }   
+   
    private String getExpression(TransitionType transition)
    {
       XmlTextNode type = transition.getExpression();
