@@ -36,7 +36,6 @@ public final class PredefinedConstants
    public static final String JMS_APPLICATION = "jms"; //$NON-NLS-1$
    public static final String SPRINGBEAN_APPLICATION = "springBean"; //$NON-NLS-1$
    public static final String WS_APPLICATION = "webservice"; //$NON-NLS-1$
-   public static final String WFXML_APPLICATION = "wfxml"; //$NON-NLS-1$
 
    // predefined data type IDs
    public static final String PRIMITIVE_DATA = "primitive"; //$NON-NLS-1$
@@ -144,7 +143,7 @@ public final class PredefinedConstants
    public static final String CONDITIONAL_PERFORMER_REALM_DATA = ENGINE_SCOPE + "conditionalPerformer:realmData"; //$NON-NLS-1$
    public static final String CONDITIONAL_PERFORMER_REALM_DATA_PATH = ENGINE_SCOPE + "conditionalPerformer:realmDataPath"; //$NON-NLS-1$
 
-   // common for generic WebService application and WfXML application types.
+   // common for generic WebService application types.
    public static final String AUTHENTICATION_ATT = ENGINE_SCOPE + "wsAuthentication"; //$NON-NLS-1$
    public static final String BASIC_AUTHENTICATION = "basic"; //$NON-NLS-1$
    public static final String WS_SECURITY_AUTHENTICATION = "ws-security"; //$NON-NLS-1$
@@ -179,21 +178,6 @@ public final class PredefinedConstants
    public static final String WS_FAULT_STYLE_ATT = ENGINE_SCOPE + "wsFaultStyle:"; //$NON-NLS-1$
 
    // attributes
-   public static final String WFXML_SCOPE = ENGINE_SCOPE + "wfxml:"; //$NON-NLS-1$
-   public static final String WFXML_IS_CARNOT_ATT = WFXML_SCOPE + "isCarnot"; //$NON-NLS-1$
-   public static final String WFXML_RESOURCE_ATT = WFXML_SCOPE + "resource"; //$NON-NLS-1$
-   public static final String WFXML_OPERATION_SCOPE = WFXML_SCOPE + "operation:"; //$NON-NLS-1$
-   public static final String WFXML_OPERATION_ATT = WFXML_SCOPE + "operation"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_ID = "endpoint"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_SCOPE = WFXML_SCOPE + WFXML_ENDPOINT_ID + ":"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_ADDRESS_ATT = "address"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_SERVICE_NAME_ATT = "service:name"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_SERVICE_PORT_ATT = "service:port"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_PORT_TYPE_ATT = "port:type"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_PARAMETER_NAME_SCOPE = WFXML_ENDPOINT_SCOPE + "parameter:name:"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_PARAMETER_VALUE_SCOPE = WFXML_ENDPOINT_SCOPE + "parameter:value:"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_PROPERTY_NAME_SCOPE = WFXML_ENDPOINT_SCOPE + "property:name:"; //$NON-NLS-1$
-   public static final String WFXML_ENDPOINT_PROPERTY_VALUE_SCOPE = WFXML_ENDPOINT_SCOPE + "property:value:"; //$NON-NLS-1$
 
    public static final String FLAVOR_ATT = ENGINE_SCOPE + "flavor"; //$NON-NLS-1$
    public static final String BROWSABLE_ATT = ENGINE_SCOPE + "browsable"; //$NON-NLS-1$
@@ -317,11 +301,6 @@ public final class PredefinedConstants
    public static final String WS_APPLICATION_PANEL_CLASS = "ag.carnot.workflow.spi.providers.applications.ws.gui.WebserviceApplicationPanel"; //$NON-NLS-1$
    public static final String WS_APPLICATION_ICON_LOCATION = "/ag/carnot/workflow/spi/providers/applications/ws/gui/icon.gif"; //$NON-NLS-1$
 
-   public static final String WFXML_APPLICATION_INSTANCE_CLASS = "ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationInstance"; //$NON-NLS-1$
-   public static final String WFXML_APPLICATION_VALIDATOR_CLASS = "ag.carnot.workflow.spi.providers.applications.wfxml.WfXMLApplicationValidator"; //$NON-NLS-1$
-   public static final String WFXML_APPLICATION_PANEL_CLASS = "ag.carnot.workflow.spi.providers.applications.wfxml.gui.WfXMLApplicationPanel"; //$NON-NLS-1$
-   public static final String WFXML_APPLICATION_ICON_LOCATION = "/ag/carnot/workflow/spi/providers/applications/wfxml/gui/icon.gif"; //$NON-NLS-1$
-
    public static final String JFC_CONTEXT_ACCESSPOINT_PROVIDER_CLASS = "ag.carnot.workflow.spi.providers.contexts.jfc.JFCAccessPointProvider"; //$NON-NLS-1$
    public static final String JFC_CONTEXT_VALIDATOR_CLASS = "ag.carnot.workflow.spi.providers.contexts.jfc.JFCValidator"; //$NON-NLS-1$
    public static final String JFC_CONTEXT_PANEL_CLASS = "ag.carnot.workflow.spi.providers.contexts.jfc.JFCContextTypePanel"; //$NON-NLS-1$
@@ -422,8 +401,6 @@ public final class PredefinedConstants
    public static final String ABORT_PROCESS_ACTION_CLASS = "ag.carnot.workflow.spi.providers.actions.abort.AbortProcessEventAction"; //$NON-NLS-1$
    public static final String ABORT_PROCESS_ACTION_ICON_LOCATION = "/ag/carnot/workflow/spi/providers/actions/abort/icon.gif"; //$NON-NLS-1$
 
-   public static final String NOTIFY_OBSERVERS_ACTION_CLASS = "ag.carnot.workflow.wfxml.spi.actions.NotifyObserversEventAction"; //$NON-NLS-1$
-   public static final String NOTIFY_OBSERVERS_ACTION_ICON_LOCATION = "/ag/carnot/workflow/wfxml/spi/actions/icon.gif"; //$NON-NLS-1$
 
    public static final String COMPLETE_ACTIVITY_ACTION_CLASS = "ag.carnot.workflow.spi.providers.actions.complete.CompleteActivityEventAction"; //$NON-NLS-1$
    public static final String COMPLETE_ACTIVITY_ACTION_ICON_LOCATION = "/ag/carnot/workflow/spi/providers/actions/complete/icon.gif"; //$NON-NLS-1$
@@ -436,11 +413,6 @@ public final class PredefinedConstants
    public static final String EXTERNAL_CONDITION_CLASS = "ag.carnot.workflow.spi.providers.conditions.simplepush.PushCondition"; //$NON-NLS-1$
    public static final String EXTERNAL_CONDITION_ICON_LOCATION = "/ag/carnot/workflow/spi/providers/conditions/simplepush/icon.gif"; //$NON-NLS-1$
 
-   public static final String OBSERVER_CONDITION_RULE_CLASS = "ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationCondition"; //$NON-NLS-1$
-   public static final String OBSERVER_CONDITION_PANEL_CLASS = "ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationPropertiesPanel"; //$NON-NLS-1$
-   public static final String OBSERVER_CONDITION_VALIDATOR_CLASS = "ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationValidator"; //$NON-NLS-1$
-   public static final String OBSERVER_CONDITION_ACCESS_POINT_PROVIDER_CLASS = "ag.carnot.workflow.wfxml.spi.conditions.ObserverNotificationAccessPointProvider"; //$NON-NLS-1$
-   public static final String OBSERVER_CONDITION_ICON_LOCATION = "/ag/carnot/workflow/wfxml/spi/conditions/icon.gif"; //$NON-NLS-1$
 
    // random constants
    // @todo (france, ub): exploit in the queryservice
@@ -538,8 +510,6 @@ public final class PredefinedConstants
 
    public static final String PLAINXML_SCHEMA_URL_ATT = ENGINE_SCOPE + "schemaURL"; //$NON-NLS-1$
    public static final String PLAINXML_TYPE_ID_ATT = ENGINE_SCOPE + "typeId"; //$NON-NLS-1$
-   public static final String WFXML_EPR_PARAMETER = "parameter"; //$NON-NLS-1$
-   public static final String WFXML_EPR_PROPERTY = "property"; //$NON-NLS-1$
    
    private static final String[] META_DATA_IDS_ARRAY = {STARTING_USER, ROOT_PROCESS_ID, CURRENT_USER,
       LAST_ACTIVITY_PERFORMER, CURRENT_DATE, PROCESS_ID, PROCESS_PRIORITY, CURRENT_LOCALE, CURRENT_MODEL};
