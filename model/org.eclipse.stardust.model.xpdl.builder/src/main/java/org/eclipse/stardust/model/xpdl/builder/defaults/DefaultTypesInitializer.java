@@ -285,7 +285,6 @@ public class DefaultTypesInitializer implements ModelInitializer
    private static final String[] defaultActionTypes = {
          PredefinedConstants.TRIGGER_ACTION, PredefinedConstants.MAIL_ACTION,
          PredefinedConstants.ABORT_PROCESS_ACTION,
-         PredefinedConstants.NOTIFY_OBSERVERS_ACTION,
          PredefinedConstants.COMPLETE_ACTIVITY_ACTION,
          PredefinedConstants.ACTIVATE_ACTIVITY_ACTION,
          PredefinedConstants.DELEGATE_ACTIVITY_ACTION,
