@@ -14,10 +14,10 @@ import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDroolsApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDroolsApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newMessageTransformationApplication;
@@ -331,7 +331,7 @@ public class ModelBuilderFacade
          String primitiveTypeID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-      
+
       FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
@@ -377,9 +377,7 @@ public class ModelBuilderFacade
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-
       FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
-
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
       String typeId = PredefinedConstants.STRUCTURED_DATA;
 
@@ -455,9 +453,9 @@ public class ModelBuilderFacade
       if (parametersType == null)
       {
          parametersType = xpdlFactory.createFormalParametersType();
-         processInterface.setFormalParameters(parametersType);         
+         processInterface.setFormalParameters(parametersType);
       }
-      
+
       FormalParameterType parameterType = parametersType.getFormalParameter(id);
 
       if (parameterType == null)
@@ -488,7 +486,7 @@ public class ModelBuilderFacade
       {
          parameterType.setMode(mode);
       }
-      
+
       return parameterType;
    }
 
