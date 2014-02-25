@@ -16,6 +16,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class DroolsApplicationBuilder extends AbstractModelElementBuilder<ApplicationType, DroolsApplicationBuilder>
@@ -33,12 +34,14 @@ public class DroolsApplicationBuilder extends AbstractModelElementBuilder<Applic
       {
          applicationMetaType = AbstractElementBuilder.F_CWM.createApplicationTypeType();
          applicationMetaType.setId(ModelerConstants.DROOLS_APPLICATION_TYPE_ID);
-         applicationMetaType.setName("Drools Application");
+         applicationMetaType.setName("Drools Rules Engine");
          applicationMetaType.setIsPredefined(true);
          applicationMetaType.setSynchronous(true);
-         /*AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider");
-         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance");*/
+
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider", "org.eclipse.stardust.engine.extensions.drools.runtime.DroolsAccessPointProvider");
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance", "org.eclipse.stardust.engine.extensions.drools.runtime.DroolsApplicationInstance");
+         AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator", "org.eclipse.stardust.engine.extensions.drools.runtime.DroolsValidator");
+
          model.getApplicationType().add(applicationMetaType);
       }
       element.setType(applicationMetaType);
