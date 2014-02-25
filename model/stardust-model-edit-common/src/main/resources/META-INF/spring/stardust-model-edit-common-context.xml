@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:ippui="http://infinity.com/bpm/ui/common/uiDefinition"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://infinity.com/bpm/portal/common/uiDefinition http://infinity.com/bpm/portal/common/uiDefinition.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="org.eclipse.stardust.ui.web.modeler" />
+
+	<bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+		<property name="scopes">
+			<map>
+				<entry key="modelingSession">
+					<bean class="org.eclipse.stardust.ui.web.modeler.integration.spring.scope.ModelingSessionScopeProvider"
+						autowire="constructor" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="bpmModelerCmdHandlerRegistry" class="org.eclipse.stardust.ui.web.modeler.edit.CommandHandlerRegistry"
+		scope="singleton" />
+
+	<!-- this is a bean factory post processor, must use XML to wire dependencies (see SPR-4935) -->
+	<bean class="org.eclipse.stardust.ui.web.modeler.edit.discovery.CommandHandlerScanner">
+		<constructor-arg index="0" ref="bpmModelerCmdHandlerRegistry" />
+	</bean>
+
+	<bean name="webModelerModelManagementStrategy" class="org.eclipse.stardust.ui.web.modeler.service.DefaultModelManagementStrategy" scope="prototype" />
+
+	<bean name="defaultClassLoaderProvider" class="org.eclipse.stardust.ui.web.modeler.marshaling.DefaultClassLoaderProvider" scope="prototype" />
+
+	<bean id="modelService" class="org.eclipse.stardust.ui.web.modeler.service.ModelService"
+		scope="session">
+		<aop:scoped-proxy/>
+	</bean>
+
+	<bean id="testModelManagementStrategy" class="org.eclipse.stardust.ui.web.modeler.service.TestModelManagementStrategy"
+		scope="session">
+		<qualifier value="test" />
+		<property name="modelService" ref="modelService" />
+	</bean>
+
+	<bean id="clientModelManagementStrategy" class="org.eclipse.stardust.ui.web.modeler.service.ClientModelManagementStrategy"
+		scope="session">
+		<qualifier value="test" />
+	</bean>
+</beans>
