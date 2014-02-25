@@ -1982,7 +1982,11 @@ public class ModelBuilderFacade
    public TypeDeclarationType findTypeDeclaration(String fullTypeID)
    {
       String[] ids = fullTypeID.split(":");
-      return findTypeDeclaration(findModel(ids[0]), ids[1]);
+      if (ids.length > 1)
+      {
+    	  return findTypeDeclaration(findModel(ids[0]), ids[1]);
+      }
+      return null;
    }
 
    /**
