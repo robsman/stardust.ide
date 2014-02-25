@@ -784,8 +784,12 @@ public class ModelBuilderFacade
       if (sourceModelID.equals(model.getId()))
       {
          declaredTypeID = declarationID;
-         AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
       }
+      else
+      {
+         declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
+      }
+      AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
    }
    
    /**
