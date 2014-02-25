@@ -332,7 +332,7 @@ public class ModelBuilderFacade
    {
       return createPrimitiveParameter(processInterface, data, id, name, primitiveTypeID, mode, null);
    }
-   
+
    public FormalParameterType createPrimitiveParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String primitiveTypeID, ModeType mode, String structTypeFullID)
@@ -351,7 +351,7 @@ public class ModelBuilderFacade
       }
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
-      
+
       // For Primitive ENUM, create DeclaredTypeType
       if (StringUtils.isNotEmpty(structTypeFullID))
       {
@@ -376,7 +376,7 @@ public class ModelBuilderFacade
          {
             basicType.setType(getPrimitiveType(primitiveTypeID));
          }
-         dataTypeType.setBasicType(basicType);   
+         dataTypeType.setBasicType(basicType);
       }
       parameterType.setDataType(dataTypeType);
       String typeId = PredefinedConstants.PRIMITIVE_DATA;
@@ -461,7 +461,7 @@ public class ModelBuilderFacade
 
       return parameterType;
    }
-   
+
    public FormalParameterType createDocumentParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String structTypeFullID, ModeType mode)
@@ -771,7 +771,7 @@ public class ModelBuilderFacade
    }
 
    /**
-    * 
+    *
     * @param dataJson
     * @param data
     */
@@ -791,7 +791,7 @@ public class ModelBuilderFacade
       }
       AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
    }
-   
+
    /**
     * Update the type declaration a structured data refers to.
     *
@@ -3309,9 +3309,9 @@ public class ModelBuilderFacade
       }
       return false;
    }
-   
+
    /**
-    * 
+    *
     * @param typeDeclaration
     * @return
     */
@@ -3319,7 +3319,7 @@ public class ModelBuilderFacade
    {
       try
       {
-         if (null != typeDeclaration.getExtendedAttributes())
+         if (null != typeDeclaration && null != typeDeclaration.getExtendedAttributes())
          {
             for (ExtendedAttributeType extendedAttrType : typeDeclaration.getExtendedAttributes()
                   .getExtendedAttribute())
