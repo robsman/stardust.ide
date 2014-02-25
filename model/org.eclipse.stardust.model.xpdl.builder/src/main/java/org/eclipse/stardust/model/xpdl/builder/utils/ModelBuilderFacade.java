@@ -967,6 +967,10 @@ public class ModelBuilderFacade
       {
          type = Type.Money;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.ENUM_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Enumeration;
+      }
 
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
             .ofType(type)
