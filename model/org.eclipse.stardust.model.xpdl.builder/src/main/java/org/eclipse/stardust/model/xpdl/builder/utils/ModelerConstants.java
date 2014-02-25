@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-
 public class ModelerConstants
 {
    public static final String RULE_SET_ID = "ruleSetId";
@@ -203,6 +202,7 @@ public class ModelerConstants
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
+   public static final String ACCESS_POINT_PATH_PROPERTY = "accessPointPath";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
    public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
    public static final String APPLICATION_CONTEXT_TYPE_KEY = "application";
