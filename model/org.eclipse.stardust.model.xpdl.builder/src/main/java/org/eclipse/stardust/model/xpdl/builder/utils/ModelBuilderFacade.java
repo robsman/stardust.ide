@@ -14,6 +14,7 @@ import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDroolsApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
@@ -789,10 +790,10 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
-      
+
       if (typeDeclarationModel != null)
       {
-         String qualifiedId = null;         
+         String qualifiedId = null;
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
@@ -802,9 +803,9 @@ public class ModelBuilderFacade
             AttributeType attribute = AttributeUtil.setAttribute(data,
                   DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, declarationID);
             ModelUtils.setReference(attribute, model, "struct");
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);            
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
             qualifiedId = typeDeclaration.getId();
-         }         
+         }
          else
          {
             String fileConnectionId = WebModelerConnectionManager.createFileConnection(
@@ -833,10 +834,10 @@ public class ModelBuilderFacade
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
-            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";            
+            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";
          }
-         
-         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);               
+
+         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);
       }
    }
 
@@ -1339,6 +1340,11 @@ public class ModelBuilderFacade
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
+               .build();
+      }
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DROOLS_APPLICATION_TYPE_ID))
+      {
+         return newDroolsApplication(model).withIdAndName(applicationID, applicationName)
                .build();
       }
       return null;
