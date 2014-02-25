@@ -741,6 +741,24 @@ public class ModelBuilderFacade
    }
 
    /**
+    * 
+    * @param dataJson
+    * @param data
+    */
+   public void updateTypeForPrimitive(DataType data, String typeFullID)
+   {
+      ModelType model = ModelUtils.findContainingModel(data);
+      String declaredTypeID = null;
+      String sourceModelID = getModelId(typeFullID);
+      String declarationID = stripFullId(typeFullID);
+      if (sourceModelID.equals(model.getId()))
+      {
+         declaredTypeID = declarationID;
+         AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
+      }
+   }
+   
+   /**
     * Update the type declaration a structured data refers to.
     *
     * <p>
@@ -3250,6 +3268,34 @@ public class ModelBuilderFacade
                return true;
             }
          }
+      }
+      return false;
+   }
+   
+   /**
+    * 
+    * @param typeDeclaration
+    * @return
+    */
+   public boolean isEnumerationJavaBound(TypeDeclarationType typeDeclaration)
+   {
+      try
+      {
+         if (null != typeDeclaration.getExtendedAttributes())
+         {
+            for (ExtendedAttributeType extendedAttrType : typeDeclaration.getExtendedAttributes()
+                  .getExtendedAttribute())
+            {
+               if (extendedAttrType.getName().equals(PredefinedConstants.CLASS_NAME_ATT))
+               {
+                  return true;
+               }
+            }
+         }
+      }
+      catch (Exception e)
+      {
+         return false;
       }
       return false;
    }
