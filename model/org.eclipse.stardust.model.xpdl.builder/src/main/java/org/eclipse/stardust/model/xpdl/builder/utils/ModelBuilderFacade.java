@@ -44,7 +44,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -91,6 +90,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
 import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -3809,6 +3809,20 @@ public class ModelBuilderFacade
 
          List<ExternalPackage> packList = packs.getExternalPackage();
          packList.add(pack);
+      }
+   }
+
+   /**
+    * @param element
+    * @param description
+    */
+   public static void setDescription(IIdentifiableModelElement element, String description)
+   {
+      if (StringUtils.isNotEmpty(description))
+      {
+         DescriptionType dt = AbstractElementBuilder.F_CWM.createDescriptionType();
+         dt.getMixed().add(FeatureMapUtil.createRawTextEntry(description));
+         element.setDescription(dt);
       }
    }
 }
