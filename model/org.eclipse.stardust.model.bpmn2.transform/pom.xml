@@ -2,14 +2,24 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
+   <parent>
+      <groupId>org.eclipse.stardust</groupId>
+      <artifactId>product-parent</artifactId>
+      <version>9.9.9-SNAPSHOT</version>
+      <relativePath>../../../product/product-parent/pom.xml</relativePath>
+   </parent>
+
 	<artifactId>org.eclipse.stardust.model.bpmn2.transform</artifactId>
 	<groupId>org.eclipse.stardust.modeling.model</groupId>
+
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<ipp.version>9.9.9-SNAPSHOT</ipp.version>
-		<eclipse.emf>2.9.1.v20130827-0309</eclipse.emf>
-		<eclipse.xsd>2.9.1.v20130902-0605</eclipse.xsd>
+       <stardust.version>1.1.2</stardust.version>
+<!--
+       <stardust.version>7.3.1-NIGHTLY-SNAPSHOT</stardust.version>
+		<stardust.version>${project.version}</stardust.version>
+ -->
 	</properties>
 
 	<dependencies>
@@ -21,22 +31,21 @@
 		<dependency>
 			<groupId>org.eclipse.stardust.modeling.model</groupId>
 			<artifactId>ipp-bpm-model</artifactId>
-			<version>${ipp.version}</version>
+			<version>${stardust.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.stardust.modeling.model</groupId>
 			<artifactId>ipp-bpm-model-builder</artifactId>
-			<version>${ipp.version}</version>
+			<version>${stardust.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.stardust.engine</groupId>
 			<artifactId>carnot-engine</artifactId>
-			<version>${ipp.version}</version>
+			<version>${stardust.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>${eclipse.emf}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.emf</groupId>
@@ -47,7 +56,6 @@
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-			<version>${eclipse.emf}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.eclipse.emf</groupId>
@@ -58,24 +66,20 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
-			<version>4.10</version>
 		</dependency>
 
 	</dependencies>
@@ -119,5 +123,16 @@
 			</plugin>
 		</plugins>
 	</build>
+
+   <repositories>
+      <repository>
+         <id>stardust-releases-repo</id>
+         <url>http://download.eclipse.org/stardust/maven/releases</url>
+         <layout>default</layout>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
 
 </project>
