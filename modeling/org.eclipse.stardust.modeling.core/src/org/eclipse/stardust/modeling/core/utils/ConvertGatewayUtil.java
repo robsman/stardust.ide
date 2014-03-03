@@ -171,7 +171,7 @@ public class ConvertGatewayUtil
          newActivity.setSplit(type);
          newActivity.setJoin(type);
       }
-      createSymbols(activity, newActivity);
+      createSymbols(activity, newActivity, isSplit);
    }
 
    private void removeGatewaySymbols(ActivityType activity, ActivityType newActivity, boolean isSplit)
@@ -230,15 +230,12 @@ public class ConvertGatewayUtil
       }
    }
 
-   private void createSymbols(ActivityType activity, ActivityType newActivity)
+   private void createSymbols(ActivityType activity, ActivityType newActivity, boolean isSplit)
    {
-      int distance = 100;
+      int distance = 80;
 
       for(INodeSymbol symbol : activity.getSymbols())
       {
-         int height = symbol.getHeight();
-         int width = symbol.getWidth();
-
          ISymbolContainer activitySymbolContainer = (ISymbolContainer) symbol.eContainer();
 
          IdFactory idFactoryGateway = new IdFactory("Gateway", Diagram_Messages.BASENAME_Gateway); //$NON-NLS-1$
@@ -247,36 +244,43 @@ public class ConvertGatewayUtil
          activitySymbolContainer.getActivitySymbol().add(activitySymbol);
 
          activitySymbol.setWidth(40);
+         activitySymbol.setHeight(40);
          activitySymbol.setXPos(symbol.getXPos() + symbol.getWidth() / 2 - 20);
-         activitySymbol.setYPos(symbol.getYPos() + distance);
+
+         if(isSplit)
+         {
+            activitySymbol.setYPos(symbol.getYPos() + symbol.getHeight() + 40);
+         }
+         else
+         {
+            activitySymbol.setYPos(symbol.getYPos() - distance);
+         }
 
          newActivity.getSymbols().add(activitySymbol);
          activitySymbol.setActivity(newActivity);
 
          GatewaySymbol gatewaySymbolIn = (GatewaySymbol) CreateModelElementUtil.createModelElement(idFactoryGateway, PKG.getGatewaySymbol(), activitySymbolContainer, model);
          gatewaySymbolIn.setActivitySymbol(activitySymbol);
-         gatewaySymbolIn.setXPos(symbol.getXPos() + width/2);
-         gatewaySymbolIn.setYPos(symbol.getYPos() + distance - height);
+         gatewaySymbolIn.setXPos(activitySymbol.getXPos());
+         gatewaySymbolIn.setYPos(activitySymbol.getYPos() - distance/2);
          gatewaySymbolIn.setFlowKind(FlowControlType.JOIN_LITERAL);
          activitySymbolContainer.getGatewaySymbol().add(gatewaySymbolIn);
 
          GatewaySymbol gatewaySymbolOut = (GatewaySymbol) CreateModelElementUtil.createModelElement(idFactoryGateway, PKG.getGatewaySymbol(), activitySymbolContainer, model);
          gatewaySymbolOut.setActivitySymbol(activitySymbol);
-         gatewaySymbolOut.setXPos(symbol.getXPos() + width/2);
-         gatewaySymbolOut.setYPos(symbol.getYPos() + distance +  height);
+         gatewaySymbolOut.setXPos(activitySymbol.getXPos());
+         gatewaySymbolOut.setYPos(activitySymbol.getYPos() + distance/2);
          gatewaySymbolOut.setFlowKind(FlowControlType.SPLIT_LITERAL);
          activitySymbolContainer.getGatewaySymbol().add(gatewaySymbolOut);
 
          TransitionConnectionType connectionIn = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
          connectionIn.setSourceNode(gatewaySymbolIn);
          connectionIn.setTargetNode(activitySymbol);
-
          addConnection(activitySymbolContainer, connectionIn);
 
          TransitionConnectionType connectionOut = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
          connectionOut.setSourceNode(activitySymbol);
          connectionOut.setTargetNode(gatewaySymbolOut);
-
          addConnection(activitySymbolContainer, connectionOut);
 
          for(TransitionType transition : newActivity.getOutTransitions())
@@ -289,12 +293,15 @@ public class ConvertGatewayUtil
 
                if(toSymbolDiagram.equals(activitySymbolDiagram))
                {
-                  TransitionConnectionType connection = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
-                  connection.setSourceNode(gatewaySymbolOut);
-                  connection.setTargetNode(toSymbol);
-                  connection.setTransition(transition);
+                  if(!toSymbol.equals(activitySymbol))
+                  {
+                     TransitionConnectionType connection = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
+                     connection.setSourceNode(gatewaySymbolOut);
+                     connection.setTargetNode(toSymbol);
+                     connection.setTransition(transition);
 
-                  addConnection(activitySymbolContainer, connection);
+                     addConnection(activitySymbolContainer, connection);
+                  }
                }
             }
          }
@@ -308,12 +315,15 @@ public class ConvertGatewayUtil
 
                if(fromSymbolDiagram.equals(activitySymbolDiagram))
                {
-                  TransitionConnectionType connection = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
-                  connection.setSourceNode(fromSymbol);
-                  connection.setTargetNode(gatewaySymbolIn);
-                  connection.setTransition(transition);
+                  if(!fromSymbol.equals(activitySymbol))
+                  {
+                     TransitionConnectionType connection = (TransitionConnectionType) CreateModelElementUtil.createModelElement(null, PKG.getTransitionConnectionType(), null, model);
+                     connection.setSourceNode(fromSymbol);
+                     connection.setTargetNode(gatewaySymbolIn);
+                     connection.setTransition(transition);
 
-                  addConnection(activitySymbolContainer, connection);
+                     addConnection(activitySymbolContainer, connection);
+                  }
                }
             }
          }
