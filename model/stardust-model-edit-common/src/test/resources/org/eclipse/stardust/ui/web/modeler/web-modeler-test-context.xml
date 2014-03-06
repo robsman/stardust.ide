@@ -54,17 +54,6 @@
    <bean name="defaultClassLoaderProvider" class="org.eclipse.stardust.ui.web.modeler.marshaling.DefaultClassLoaderProvider"
       scope="prototype" />
 
-   <bean class="org.eclipse.stardust.ui.web.modeler.service.rest.ModelerSessionRestController">
-      <constructor-arg index="0">
-         <bean class="org.eclipse.stardust.ui.web.modeler.utils.test.MockUriInfo">
-            <property name="base" value="http://localhost:8080/" />
-            <property name="path" value="services/rest/modeler/sessions" />
-         </bean>
-      </constructor-arg>
-   </bean>
-
-   <bean class="org.eclipse.stardust.ui.web.modeler.service.rest.ModelerResource" />
-
    <bean name="bpmModelerCmdHandlerRegistry"
       class="org.eclipse.stardust.ui.web.modeler.edit.CommandHandlerRegistry"
       scope="singleton" />
