@@ -60,12 +60,12 @@ public class MergeUtils
             EObject original = ModelUtils.findElementById(element instanceof TypeDeclarationType ?
                   targetModel.getTypeDeclarations() : targetModel,
                   element.eContainingFeature(), MergeUtils.getId(element));
-            map.put(element, original);            
+            map.put(element, original);
          }
       }
       return map;
-   }   
-   
+   }
+
    public static URI createQualifiedUri(URI uri, EObject eObject, boolean qualifyUri)
    {
       String id = getId(eObject);
@@ -73,7 +73,7 @@ public class MergeUtils
          ? uri.appendSegment(eObject.eContainingFeature().getName()).appendSegment(id)
          : uri;
    }
-   
+
    public static String getId(EObject eObject)
    {
       if (eObject instanceof IIdentifiableElement)
@@ -110,22 +110,22 @@ public class MergeUtils
          {
             parent = element.eContainer();
          }
-         Object containment = parent.eGet(eFtrContainment);         
+         Object containment = parent.eGet(eFtrContainment);
          if (containment instanceof List)
          {
             ((List<?>) containment).remove(element);
-         }  
+         }
          else
          {
             parent.eUnset(eFtrContainment);
          }
       }
-   }      
-   
-   public static void importElements(EObject eObject, ModelType targetModel, 
+   }
+
+   public static void importElements(EObject eObject, ModelType targetModel,
          List<EObject> closure, Map<EObject, EObject> map, Map<EObject, MergeAction> reuseReplace,
          LinkAttribute linkAttribute)
-   {      
+   {
       // make a list with all models affected by the change
       // so it can only be the source model
       Set<ModelType> roots = new HashSet<ModelType>();
@@ -138,7 +138,7 @@ public class MergeUtils
             roots.add(containingModel);
          }
       }
-      
+
       // collect all references by id and replace them with nulls.
       // this is mandatory since references by id are lost during transfer
       // as a consequence of the target objects being removed from their container.
@@ -172,12 +172,12 @@ public class MergeUtils
             }
          }
       }
-      
+
       // sort elements per actions
       Map<EObject, EObject> reuse = CollectionUtils.newMap();
       Map<EObject, EObject> replace = CollectionUtils.newMap();
       List<EObject> add = CollectionUtils.newList();
-      
+
       for (int i = 0; i < closure.size(); i++)
       {
          EObject element = (EObject) closure.get(i);
@@ -187,7 +187,7 @@ public class MergeUtils
          {
             original = (EObject) map.get(element);
          }
-         
+
          if (original != null)
          {
             MergeAction action = MergeAction.REPLACE;
@@ -198,8 +198,8 @@ public class MergeUtils
                {
                   action = actionId;
                }
-            }            
-                       
+            }
+
             if (action == MergeAction.REUSE)
             {
                reuse.put(element, original);
@@ -218,7 +218,7 @@ public class MergeUtils
             add.add(element);
          }
       }
-      
+
       for (Map.Entry<EObject, EObject> entry : reuse.entrySet())
       {
          EObject element = entry.getKey();
@@ -226,7 +226,7 @@ public class MergeUtils
          // reusing will move original to the new model, so we need to move it back afterwards
          EStructuralFeature containingFeature = original.eContainingFeature();
          EObject eContainer = original.eContainer();
-         List originalContainer = (List) eContainer.eGet(containingFeature); 
+         List originalContainer = (List) eContainer.eGet(containingFeature);
          // replace element with original?
          replace(element, original);
          if (!originalContainer.contains(original))
@@ -234,7 +234,7 @@ public class MergeUtils
             originalContainer.add(original);
          }
       }
-      
+
       for (Map.Entry<EObject, EObject> entry : replace.entrySet())
       {
          EObject element = entry.getKey();
@@ -243,18 +243,10 @@ public class MergeUtils
          {
             linkAttribute.setLinkInfo(element, element != eObject);
          }
-         
-         // collision, set uuid
-         if (reuseReplace != null && ShareUtils.isLockableElement(element))
-         {
-            if (!ShareUtils.isModelShared(targetModel))
-            {
-               UUIDUtils.unsetUUID(element);
-            }               
-         }                  
+
          replace(original, element);
       }
-      
+
       for (int i = 0; i < add.size(); i++)
       {
          EObject element = (EObject) add.get(i);
@@ -262,7 +254,7 @@ public class MergeUtils
          {
             linkAttribute.setLinkInfo(element, element != eObject);
          }
-         
+
          EObject parent = null;
          if(element instanceof TypeDeclarationType)
          {
@@ -272,14 +264,6 @@ public class MergeUtils
          {
             parent = targetModel;
          }
-         // collision, set uuid
-         if (reuseReplace != null && ShareUtils.isLockableElement(element))
-         {
-            if (!ShareUtils.isModelShared(targetModel))
-            {
-               UUIDUtils.unsetUUID(element);
-            }               
-         }         
          Object ref = parent.eGet(element.eContainingFeature());
          if (ref instanceof List)
          {
@@ -290,14 +274,14 @@ public class MergeUtils
             parent.eSet(element.eContainingFeature(), element);
          }
       }
-      
+
       // now restore all references by id
       for (Map.Entry<IdentifiableReference, EObject> entry : refs.entrySet())
       {
          IdentifiableReference ir = entry.getKey();
          EObject element = entry.getValue();
          EObject original = reuse.get(element);
-         
+
          try
          {
             ir.setIdentifiable(original == null ? element : original);
@@ -314,7 +298,7 @@ public class MergeUtils
       {
          EStructuralFeature containingFeature = replacementObject.eContainingFeature();
          EObject eContainer = replacementObject.eContainer();
-         List originalContainer = (List) eContainer.eGet(containingFeature); 
+         List originalContainer = (List) eContainer.eGet(containingFeature);
          replace(object, replacementObject);
          if (!originalContainer.contains(replacementObject))
          {
@@ -326,15 +310,15 @@ public class MergeUtils
          replace(object, replacementObject);
       }
    }
-   
+
    public static void replace(EObject object, EObject replacementObject)
-   {      
+   {
       EObject topContainer = object;
       while (topContainer.eContainer() != null)
       {
          topContainer = topContainer.eContainer();
       }
-      
+
       if(!(replacementObject instanceof TypeDeclarationType))
       {
          replaceReferences(topContainer, object, replacementObject);
@@ -351,8 +335,8 @@ public class MergeUtils
       }
       catch (NullPointerException e)
       {
-      }      
-      
+      }
+
       if(replacementObject instanceof TypeDeclarationType)
       {
          replaceReferences(topContainer, object, replacementObject);
@@ -361,7 +345,7 @@ public class MergeUtils
          {
             replaceReferences((EObject) contents.next(), object, replacementObject);
          }
-      }      
+      }
       if(object instanceof ProcessDefinitionType)
       {
          mergeFormalParameter((ProcessDefinitionType) object, (ProcessDefinitionType) replacementObject);
@@ -412,9 +396,9 @@ public class MergeUtils
 	     }
       }
    }
-   
+
    public static void mergeFormalParameter(ProcessDefinitionType source, ProcessDefinitionType target)
-   {      
+   {
       FormalParameterMappingsType parameterMappings = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
       FormalParametersType formalParameters = XpdlFactory.eINSTANCE.createFormalParametersType();
       FormalParameterMappingsType formalParameterMappings = source.getFormalParameterMappings();
@@ -423,25 +407,25 @@ public class MergeUtils
       {
          return;
       }
-      
+
       for (Iterator<FormalParameterType> i = referencedParametersType.getFormalParameter().iterator(); i.hasNext();) {
          FormalParameterType referencedParameterType = i.next();
          ModeType mode = referencedParameterType.getMode();
-         
-         DataType mappedData = formalParameterMappings.getMappedData(referencedParameterType);         
-         IIdentifiableModelElement modelElement = (IIdentifiableModelElement) getSameModelElement(mappedData, (ModelType) target.eContainer(), null);         
-         
+
+         DataType mappedData = formalParameterMappings.getMappedData(referencedParameterType);
+         IIdentifiableModelElement modelElement = (IIdentifiableModelElement) getSameModelElement(mappedData, (ModelType) target.eContainer(), null);
+
          FormalParameterType parameterType = ModelUtils.cloneFormalParameterType(referencedParameterType, mappedData);
-         
+
          parameterType.setMode(mode);
          formalParameters.addFormalParameter(parameterType);
          parameterMappings.setMappedData(parameterType, (DataType) modelElement);
-      }                        
+      }
       target.setFormalParameters(formalParameters);
-      target.setFormalParameterMappings(parameterMappings);                  
-   }  
-   
-   
+      target.setFormalParameterMappings(parameterMappings);
+   }
+
+
    // not working for diagram children
    // target must be of type Model!!!
    public static EObject getSameModelElement(EObject source, ModelType target,
@@ -621,17 +605,17 @@ public class MergeUtils
       }
       return null;
    }
-   
+
    public static void fixDuplicateOids(ModelType model)
    {
       long highestOid = ModelUtils.getMaxUsedOid(model);
       Set<Long> oids = new HashSet<Long>();
-      
+
       if (model.isSetOid())
       {
          oids.add(model.getOid());
       }
-      
+
       for (TreeIterator i = model.eAllContents(); i.hasNext();)
       {
          EObject obj = (EObject) i.next();
@@ -646,8 +630,8 @@ public class MergeUtils
             else
             {
                oids.add(((IModelElement) obj).getElementOid());
-            }            
+            }
          }
       }
-   }   
+   }
 }
