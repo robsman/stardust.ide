@@ -32,7 +32,7 @@ public class BpmProjectNature implements IProjectNature
          + ".carnotBusinessProcessManagement"; //$NON-NLS-1$
 
    public static final String FACETED_PROJECT_NATURE = "org.eclipse.wst.common.project.facet.core.nature"; //$NON-NLS-1$
-   
+
    public static final String PREFERENCE_AUTO_VALIDATION = ModelingCoreActivator.PLUGIN_ID
          + ".autoValidation"; //$NON-NLS-1$
 
@@ -47,7 +47,7 @@ public class BpmProjectNature implements IProjectNature
 
    public static final String PREFERENCE_AUTO_ID_GENERATION = ModelingCoreActivator.PLUGIN_ID
          + ".autoIdGeneration"; //$NON-NLS-1$
-   
+
    public static final String PREFERENCE_AUTO_SUBPROCESS_NAME_GENERATION = ModelingCoreActivator.PLUGIN_ID
    + ".autoSubprocessNameGeneration"; //$NON-NLS-1$
 
@@ -62,29 +62,29 @@ public class BpmProjectNature implements IProjectNature
 
    public static final String PREFERENCE_MODELING_DIRECTION = ModelingCoreActivator.PLUGIN_ID
          + ".modelingDirection"; //$NON-NLS-1$
-   
+
    public static final String PREFERENCE_CLASSIC_MODE = ModelingCoreActivator.PLUGIN_ID
-         + ".classicMode"; //$NON-NLS-1$   
-   
+         + ".classicMode"; //$NON-NLS-1$
+
    public static final String PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE = ModelingCoreActivator.PLUGIN_ID
-         + ".viewForkOnTraversalMode"; //$NON-NLS-1$   
+         + ".viewForkOnTraversalMode"; //$NON-NLS-1$
    public static final boolean DEFAULT_PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE = false;
-      
+
    // focus for newly created elements
    public static final String PREFERENCE_FOCUS_MODE = ModelingCoreActivator.PLUGIN_ID
-         + ".focusMode"; //$NON-NLS-1$      
-   public static final String PREFERENCE_FOCUS_MODE_ELEMENT = "focusModeElement"; //$NON-NLS-1$      
-   public static final String PREFERENCE_FOCUS_MODE_DIALOG = "focusModeDialog"; //$NON-NLS-1$      
-   public static final String PREFERENCE_FOCUS_MODE_EDITOR = "focusModeEditor"; //$NON-NLS-1$      
+         + ".focusMode"; //$NON-NLS-1$
+   public static final String PREFERENCE_FOCUS_MODE_ELEMENT = "focusModeElement"; //$NON-NLS-1$
+   public static final String PREFERENCE_FOCUS_MODE_DIALOG = "focusModeDialog"; //$NON-NLS-1$
+   public static final String PREFERENCE_FOCUS_MODE_EDITOR = "focusModeEditor"; //$NON-NLS-1$
    public static final String DEFAULT_PREFERENCE_FOCUS_MODE = PREFERENCE_FOCUS_MODE_ELEMENT;
-   
+
    // SnapGrid
    public static final String PREFERENCE_SNAP_GRID_MODE = ModelingCoreActivator.PLUGIN_ID
-         + ".snapGridMode"; //$NON-NLS-1$   
+         + ".snapGridMode"; //$NON-NLS-1$
    public static final String PREFERENCE_SNAP_GRID_PIXEL = ModelingCoreActivator.PLUGIN_ID
-         + ".snapGridPixel"; //$NON-NLS-1$   
+         + ".snapGridPixel"; //$NON-NLS-1$
    public static final String PREFERENCE_VISIBLE_GRID_FACTOR = ModelingCoreActivator.PLUGIN_ID
-         + ".visibleGridFactor"; //$NON-NLS-1$      
+         + ".visibleGridFactor"; //$NON-NLS-1$
    public static final boolean DEFAULT_PREFERENCE_SNAP_GRID_MODE = true;
    public static final int DEFAULT_PREFERENCE_SNAP_GRID_PIXEL = 5;
    public static final int DEFAULT_PREFERENCE_VISIBLE_GRID_FACTOR = 4;
@@ -94,10 +94,10 @@ public class BpmProjectNature implements IProjectNature
    public static final boolean DEFAULT_PREFERENCE_AUTO_ID_GENERATION = true;
 
    public static final String DEFAULT_PREFERENCE_MODELING_DIRECTION = "Vertical"; //$NON-NLS-1$
-   
+
    // better use a boolean value than a string
    public static final boolean DEFAULT_PREFERENCE_CLASSIC_MODE = true;
-   
+
    public static final boolean DEFAULT_PREFERENCE_WARN_SWITCH_ACTIVITY_TYPE = true;
 
    public static final boolean DEFAULT_PREFERENCE_ALWAYS_SWITCH_ACTIVITY_TYPE = false;
@@ -135,23 +135,7 @@ public class BpmProjectNature implements IProjectNature
    public static final boolean DEFAULT_PREFERENCE_REPORT_FORMAT_PDF = false;
 
    public static final boolean DEFAULT_PREFERENCE_REPORT_FORMAT_PROMPT = true;
-   
-   // COLLISION
-   public static final String PREFERENCE_COLLISION_UPDATE = "collisionUpdate"; //$NON-NLS-1$
-   public static final boolean DEFAULT_PREFERENCE_COLLISION_UPDATE = true;
-   
-   public static final String PREFERENCE_COLLISION_REFRESH = "collisionRefresh"; //$NON-NLS-1$
-   public static final boolean DEFAULT_PREFERENCE_COLLISION_REFRESH = true;
-   
-   public static final String PREFERENCE_COLLISION_REFRESH_RATE = "collisionRefreshRate"; //$NON-NLS-1$
-   public static final int DEFAULT_PREFERENCE_COLLISION_REFRESH_RATE = 300;
 
-   public static final String PREFERENCE_COLLISION_CONNECTION_RETRY = "collisionRetry"; //$NON-NLS-1$
-   public static final boolean DEFAULT_PREFERENCE_COLLISION_CONNECTION_RETRY = true;   
-   
-   public static final String PREFERENCE_COLLISION_CONNECTION_RETRY_RATE = "collisionConnectionRetryRate"; //$NON-NLS-1$
-   public static final int DEFAULT_PREFERENCE_COLLISION_CONNECTION_RETRY_RATE = 300;
-   
    //Multi Package Modeling (Surge)
    public static final String PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY = "multiPackageModelingVisibility"; //$NON-NLS-1$
    public static final String DEFAULT_PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY = "Private"; //$NON-NLS-1$
@@ -167,7 +151,7 @@ public class BpmProjectNature implements IProjectNature
    public static final boolean DEFAULT_PREFERENCE_SPLIT_AND = false;
    public static final boolean DEFAULT_PREFERENCE_SPLIT_XOR = false;
    public static final boolean DEFAULT_PREFERENCE_SPLIT_PROMPT = true;
-   
+
    public static final String PREFERENCE_JOIN_AND = ModelingCoreActivator.PLUGIN_ID
 		+ "joinAND"; //$NON-NLS-1$
    public static final String PREFERENCE_JOIN_XOR = ModelingCoreActivator.PLUGIN_ID
@@ -177,7 +161,7 @@ public class BpmProjectNature implements IProjectNature
 
    public static final boolean DEFAULT_PREFERENCE_JOIN_AND = false;
    public static final boolean DEFAULT_PREFERENCE_JOIN_XOR = false;
-   public static final boolean DEFAULT_PREFERENCE_JOIN_PROMPT = true;   
+   public static final boolean DEFAULT_PREFERENCE_JOIN_PROMPT = true;
 
    // deploy
    public static final String PREFERENCE_DEPLOY_realm = ModelingCoreActivator.PLUGIN_ID + "deployRealm"; //$NON-NLS-1$
@@ -186,10 +170,10 @@ public class BpmProjectNature implements IProjectNature
    public static final String PREFERENCE_DEPLOY_password = ModelingCoreActivator.PLUGIN_ID + "deployPassword"; //$NON-NLS-1$
    public static final String PREFERENCE_DEPLOY_domain = ModelingCoreActivator.PLUGIN_ID + "deployDomain"; //$NON-NLS-1$
    public static final String PREFERENCE_DEPLOY_version = ModelingCoreActivator.PLUGIN_ID + "deployVersion"; //$NON-NLS-1$
-   
+
    public static final String DEFAULT_PREFERENCE_DEPLOY_id = "motu"; //$NON-NLS-1$
-   public static final String DEFAULT_PREFERENCE_DEPLOY_password = "motu"; //$NON-NLS-1$   
-   
+   public static final String DEFAULT_PREFERENCE_DEPLOY_password = "motu"; //$NON-NLS-1$
+
    public static void enableBpmNature(IProject project)
    {
       try
