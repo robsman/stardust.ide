@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.*;
 import org.eclipse.gef.commands.Command;
@@ -33,7 +32,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class WorkflowModelTreeEditPartFactory implements EditPartFactory
@@ -186,24 +184,18 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
 
                   protected void showCurrentEditValue(DirectEditRequest request)
                   {
-                  }         
-               });                           
+                  }
+               });
             }
-            
+
             public void performRequest(Request req)
             {
                if (req.getType() == REQ_DIRECT_EDIT)
                {
-                  Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) getModel());
-                  if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-                  {
-                     WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
-                     TreeItem treeItem = (TreeItem) getWidget();
-                     OutlineTreeEditor editor = outline.getOutlineTreeEditor();
-                     editor.setItem(treeItem, getModel());
-                     return;
-                  }
-                  ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
+                  WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
+                  TreeItem treeItem = (TreeItem) getWidget();
+                  OutlineTreeEditor editor = outline.getOutlineTreeEditor();
+                  editor.setItem(treeItem, getModel());
                   return;
                }
                super.performRequest(req);
@@ -290,7 +282,7 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
                catch (NullPointerException e)
                {
                }
-               
+
                switch (n.getEventType())
                {
                   case Notification.ADD:
@@ -382,8 +374,8 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
             (TriggerTypeType) model, editor.getIconFactory().getIconFor((TriggerTypeType) model));
       }
       else if (model instanceof ExternalPackages)
-      {         
-         return new AbstractEObjectTreeEditPart(editor, (ExternalPackages) model, 
+      {
+         return new AbstractEObjectTreeEditPart(editor, (ExternalPackages) model,
                editor.getIconFactory().getIconFor((ExternalPackages) model),
                new EStructuralFeature [] {XpdlPackage.eINSTANCE.getExternalPackages_ExternalPackage()})
          {
@@ -411,24 +403,18 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
 
                   protected void showCurrentEditValue(DirectEditRequest request)
                   {
-                  }         
-               });                           
+                  }
+               });
             }
-            
+
             public void performRequest(Request req)
             {
                if (req.getType() == REQ_DIRECT_EDIT)
                {
-                  Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) editor.getModel());
-                  if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-                  {
-                     WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
-                     TreeItem treeItem = (TreeItem) getWidget();
-                     OutlineTreeEditor editor = outline.getOutlineTreeEditor();
-                     editor.setItem(treeItem, getModel());
-                     return;
-                  }
-                  ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
+                  WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
+                  TreeItem treeItem = (TreeItem) getWidget();
+                  OutlineTreeEditor editor = outline.getOutlineTreeEditor();
+                  editor.setItem(treeItem, getModel());
                   return;
                }
                super.performRequest(req);
@@ -447,8 +433,8 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
          };
       }
       else if (model instanceof TypeDeclarationsType)
-      {         
-         return new AbstractEObjectTreeEditPart(editor, (TypeDeclarationsType) model, 
+      {
+         return new AbstractEObjectTreeEditPart(editor, (TypeDeclarationsType) model,
                editor.getIconFactory().getIconFor((TypeDeclarationsType) model),
                new EStructuralFeature [] {XpdlPackage.eINSTANCE.getTypeDeclarationsType_TypeDeclaration()})
          {
@@ -459,7 +445,7 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
          };
       }
       else if (model instanceof TypeDeclarationType)
-      {         
+      {
          return new AbstractEObjectTreeEditPart(editor, (TypeDeclarationType) model,
                editor.getIconFactory().getIconFor((TypeDeclarationType) model))
          {
@@ -476,24 +462,18 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
 
                   protected void showCurrentEditValue(DirectEditRequest request)
                   {
-                  }         
-               });                           
+                  }
+               });
             }
-            
+
             public void performRequest(Request req)
             {
                if (req.getType() == REQ_DIRECT_EDIT)
                {
-                  Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) getModel());
-                  if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-                  {
-                     WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
-                     TreeItem treeItem = (TreeItem) getWidget();
-                     OutlineTreeEditor editor = outline.getOutlineTreeEditor();
-                     editor.setItem(treeItem, getModel());
-                     return;
-                  }
-                  ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
+                  WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
+                  TreeItem treeItem = (TreeItem) getWidget();
+                  OutlineTreeEditor editor = outline.getOutlineTreeEditor();
+                  editor.setItem(treeItem, getModel());
                   return;
                }
                super.performRequest(req);
@@ -512,5 +492,5 @@ public class WorkflowModelTreeEditPartFactory implements EditPartFactory
          };
       }
       return (EditPart) Platform.getAdapterManager().getAdapter(model, TreeEditPart.class);
-   }   
+   }
 }
