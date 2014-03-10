@@ -656,6 +656,11 @@ public class TypeDeclarationUtils
 
    public static void removeNameSpace(XSDSchema schema, String oldDefName, String modelId)
    {
+      if(oldDefName == null)
+      {
+         return;
+      }
+
       String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
 
       String prefix = getNamespacePrefix(schema, targetNameSpace);
