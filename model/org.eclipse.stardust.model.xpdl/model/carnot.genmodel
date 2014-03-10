@@ -34,6 +34,7 @@
       <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/None"/>
       <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/XOR"/>
       <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/AND"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/OR"/>
     </genEnums>
     <genEnums ecoreEnum="carnot.ecore#//LinkCardinality">
       <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkCardinality/Unknown"/>
@@ -767,6 +768,7 @@
     <genClasses ecoreClass="xpdl.ecore#//LoopMultiInstanceType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/mICondition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/complexMIFlowCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/loopDataRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopMultiInstanceType/mIFlowCondition"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopMultiInstanceType/mIOrdering"/>
     </genClasses>
@@ -809,6 +811,11 @@
     <nestedGenPackages prefix="Extensions" basePackage="xpdl2" resource="XML" disposableProviderFactory="true"
         ecorePackage="xpdl.ecore#//extensions">
       <genClasses ecoreClass="xpdl.ecore#//extensions/ExtendedAnnotationType"/>
+      <genClasses ecoreClass="xpdl.ecore#//extensions/LoopDataRefType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/inputItemRef"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/outputItemRef"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/loopCounterRef"/>
+      </genClasses>
     </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

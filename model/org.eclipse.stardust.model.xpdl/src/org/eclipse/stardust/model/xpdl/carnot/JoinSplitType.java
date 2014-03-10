@@ -53,7 +53,15 @@ public enum JoinSplitType implements Enumerator
     * @generated
     * @ordered
     */
-   AND_LITERAL(2, "AND", "AND"); //$NON-NLS-1$ //$NON-NLS-2$
+   AND_LITERAL(2, "AND", "AND"), /**
+    * The '<em><b>OR</b></em>' literal object.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #OR
+    * @generated
+    * @ordered
+    */
+   OR_LITERAL(3, "OR", "OR"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -107,6 +115,21 @@ public enum JoinSplitType implements Enumerator
    public static final int AND = 2;
 
    /**
+    * The '<em><b>OR</b></em>' literal value.
+    * <!-- begin-user-doc -->
+    * <p>
+    * If the meaning of '<em><b>OR</b></em>' literal object isn't clear,
+    * there really should be more of a description here...
+    * </p>
+    * <!-- end-user-doc -->
+    * @see #OR_LITERAL
+    * @model
+    * @generated
+    * @ordered
+    */
+   public static final int OR = 3;
+
+   /**
     * An array of all the '<em><b>Join Split Type</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -118,6 +141,7 @@ public enum JoinSplitType implements Enumerator
          NONE_LITERAL,
          XOR_LITERAL,
          AND_LITERAL,
+         OR_LITERAL,
       };
 
    /**
@@ -179,6 +203,7 @@ public enum JoinSplitType implements Enumerator
          case NONE: return NONE_LITERAL;
          case XOR: return XOR_LITERAL;
          case AND: return AND_LITERAL;
+         case OR: return OR_LITERAL;
       }
       return null;
    }

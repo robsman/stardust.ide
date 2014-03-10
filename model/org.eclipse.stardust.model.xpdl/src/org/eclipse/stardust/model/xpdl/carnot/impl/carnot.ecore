@@ -2963,6 +2963,7 @@
     <eLiterals name="None"/>
     <eLiterals name="XOR" value="1"/>
     <eLiterals name="AND" value="2"/>
+    <eLiterals name="OR" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LinkCardinality">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
