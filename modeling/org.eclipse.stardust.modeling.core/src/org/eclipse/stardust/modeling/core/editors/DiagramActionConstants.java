@@ -14,40 +14,24 @@ import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 
 public interface DiagramActionConstants
-{   
-   final String LOCK = "org.eclipse.stardust.modeling.core.lockAction"; //$NON-NLS-1$
-   
-   final String LOCK_ALL = "org.eclipse.stardust.modeling.core.lockAllAction"; //$NON-NLS-1$
-
-   final String UN_LOCK_ALL = "org.eclipse.stardust.modeling.core.unlockAllAction"; //$NON-NLS-1$   
-   
-   final String COMMIT_MODEL_ELEMENT = "org.eclipse.stardust.modeling.core.commitModelElementAction"; //$NON-NLS-1$
-
-   final String UPDATE_MODEL = "org.eclipse.stardust.modeling.core.updateModelAction"; //$NON-NLS-1$   
-
-   final String REVERT_CHANGES = "org.eclipse.stardust.modeling.core.revertChangesAction"; //$NON-NLS-1$      
-   
-   final String SHARE_MODEL = "org.eclipse.stardust.modeling.core.shareModelAction"; //$NON-NLS-1$
-   
-   final String UNSHARE_MODEL = "org.eclipse.stardust.modeling.core.unshareModelAction"; //$NON-NLS-1$
-   
+{
    final String CLEANUP_MODEL = "org.eclipse.stardust.modeling.core.cleanupModelAction"; //$NON-NLS-1$
-   
+
    final String SHRINK_TO_FIT = "org.eclipse.stardust.modeling.core.shrinkToFitAction"; //$NON-NLS-1$
 
    final String SHOW_IN_DIAGRAM = "org.eclipse.stardust.modeling.core.showInDiagramAction"; //$NON-NLS-1$
 
    final String SHOW_IN_OUTLINE = "org.eclipse.stardust.modeling.core.showInOutlineAction"; //$NON-NLS-1$
-   
+
    final String COPYSYMBOL = "org.eclipse.stardust.modeling.core.copySymbolAction"; //$NON-NLS-1$
-   
+
    final String PASTESYMBOL = "org.eclipse.stardust.modeling.core.pasteSymbolAction"; //$NON-NLS-1$
-   
+
    final String MODEL_VALIDATE = "org.eclipse.stardust.modeling.core.validateModel"; //$NON-NLS-1$
 
    final String IMPORT_MODEL_ELEMENTS = "org.eclipse.stardust.modeling.modelimport.modelElements"; //$NON-NLS-1$
 
-   final String DEPLOY_MODEL = "org.eclipse.stardust.modeling.core.deployModel"; //$NON-NLS-1$   
+   final String DEPLOY_MODEL = "org.eclipse.stardust.modeling.core.deployModel"; //$NON-NLS-1$
 
    final String DIAGRAM_OPTIMIZE = "org.eclipse.stardust.modeling.core.optimize"; //$NON-NLS-1$
 
@@ -114,24 +98,24 @@ public interface DiagramActionConstants
    final String GROUP_SYMBOLS = "org.eclipse.stardust.modeling.core.groupSymbols"; //$NON-NLS-1$
 
    final String UNGROUP_SYMBOLS = "org.eclipse.stardust.modeling.core.ungroupSymbols"; //$NON-NLS-1$
-   
+
    final String CREATE_ACTIVITY_GRAPH = "org.eclipse.stardust.modeling.core.createActivityGraph"; //$NON-NLS-1$
-   
+
    final String CREATE_ORGANIZATION_HIERARCHY = "org.eclipse.stardust.modeling.core.createOrganizationHierarchy"; //$NON-NLS-1$
 
    final String EXPORT_DIAGRAM = "org.eclipse.stardust.modeling.core.export.diagram"; //$NON-NLS-1$
-   
+
    final String SEARCH = "org.eclipse.stardust.modeling.core.search"; //$NON-NLS-1$
-   final String SEARCH_CONNECTION = "org.eclipse.stardust.modeling.repository.common.search"; //$NON-NLS-1$   
-   
+   final String SEARCH_CONNECTION = "org.eclipse.stardust.modeling.repository.common.search"; //$NON-NLS-1$
+
    final String REFERENCES_SEARCH = "org.eclipse.stardust.modeling.core.referencesSearch"; //$NON-NLS-1$
-   
+
    final String CREATE_CONNECTION = "org.eclipse.stardust.modeling.core.connection"; //$NON-NLS-1$
-   
+
    final String SNAP_TO_GRID = "org.eclipse.stardust.modeling.core.snapToGrid"; //$NON-NLS-1$
 
-   final String CONVERT_GATEWAYS = "org.eclipse.stardust.modeling.core.convertGatewaysAction"; //$NON-NLS-1$      
-   
+   final String CONVERT_GATEWAYS = "org.eclipse.stardust.modeling.core.convertGatewaysAction"; //$NON-NLS-1$
+
    final String[] distributeActions = {
       DISTRIBUTE_HORIZONTAL,
       DISTRIBUTE_VERTICAL
@@ -184,11 +168,11 @@ public interface DiagramActionConstants
    final String CREATE_SUBPROCESS = "org.eclipse.stardust.modeling.core.createSubprocessDefinition"; //$NON-NLS-1$;
 
    final String CREATE_SUBPROCESS_FROM_SELECTION = "org.eclipse.stardust.modeling.core.createSubprocessFromSelection"; //$NON-NLS-1$;
-   
+
    final String RESET_SUBPROCESS = "org.eclipse.stardust.modeling.core.resetSubprocessDefinition"; //$NON-NLS-1$;
 
    final String MODEL_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModel"; //$NON-NLS-1$
-   
+
    final String MODEL_DIAGRAM_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeModelDiagram"; //$NON-NLS-1$
 
    final String DATA_UPGRADE = "org.eclipse.stardust.model.xpdl.upgradeData"; //$NON-NLS-1$
@@ -196,6 +180,4 @@ public interface DiagramActionConstants
    final String FORWARD_DELETE = "org.eclipse.stardust.modeling.core.forwardDelete"; //$NON-NLS-1$
 
    final String PROCESS_DIAGRAM_UPDATE = "org.eclipse.stardust.model.xpdl.updateProcessDiagram"; //$NON-NLS-1$
-   
-   final String GROUP_COLLISION = "org.eclipse.stardust.modeling.core.group.collision"; //$NON-NLS-1$
 }
