@@ -22,16 +22,24 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.modeling.modelimport.Import_Messages;
-import org.eclipse.xsd.XSDSchema;
 
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDSchema;
 
 public class MergeUtil
 {
@@ -60,11 +68,11 @@ public class MergeUtil
       }
 
       public EObject copy(EObject object)
-      {         
+      {
          EObject result;
          if(object instanceof XSDSchema)
          {
-            result = ((XSDSchema) object).cloneConcreteComponent(true, false);                     
+            result = ((XSDSchema) object).cloneConcreteComponent(true, false);
          }
          else
          {
@@ -92,16 +100,16 @@ public class MergeUtil
 
    private static final int DUPLICATE_OID = 1;
    private static final int MISSING_OID = 2;
-   
+
    private static HashMap<Long, EObject> existingElements = new HashMap<Long, EObject>();
    private static ArrayList addedElements = new ArrayList();
-    
+
    private static FixedCopier copier = new FixedCopier();
 
    public static EObject copyAdd(EObject model)
    {
       EObject result = copy(model);
-      
+
       // TODO: (fh) check if it would be okay to copy
       // immediate references to all elements, not only participant types
       if (model instanceof ParticipantType)
@@ -110,7 +118,7 @@ public class MergeUtil
             CarnotWorkflowModelPackage.eINSTANCE.getParticipantType_Participant(),
             model, result);
       }
-      
+
       addedElements.add(result);
       return result;
    }
@@ -143,7 +151,7 @@ public class MergeUtil
             }
          }
          replaceReferencesInAddedElements((EObject) addedElements.get(i));
-         
+
       }
       addedElements.clear();
    }
@@ -173,17 +181,17 @@ public class MergeUtil
          }
       }
    }
-   
-   // called by MergeEditorInput 
+
+   // called by MergeEditorInput
    public static boolean initialize(ModelType newModel, ModelType targetModel, MergeEditorInput input)
    {
       copier.clear();
       existingElements.clear();
-      
-      HashMap matching = new HashMap();      
+
+      HashMap matching = new HashMap();
       XMLResource resource = targetModel.eResource() instanceof XMLResource
          ? (XMLResource) targetModel.eResource() : null;
-      
+
       // collect matching elements.
       // IMPORTANT: this must be done before any attempt to fix the oids
       // newModel: only matching elements are collected in matching
@@ -192,7 +200,7 @@ public class MergeUtil
          EObject child = (EObject) i.next();
          if (child instanceof IModelElement)
          {
-            EObject other = ModelServerUtils.getSameModelElement(child, targetModel, newModel);
+            EObject other = getSameModelElement(child, targetModel, newModel);
             if (other != null)
             {
                // TODO replace with Assert
@@ -205,7 +213,7 @@ public class MergeUtil
       }
 
       long[] nextOid = {Long.MIN_VALUE};
-      
+
       // all oid's
       HashSet globalOids = new HashSet();
 
@@ -224,13 +232,13 @@ public class MergeUtil
       }
       if ((result & DUPLICATE_OID) != 0)
       {
-         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_TARGET);            
+         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_TARGET);
       }
       if ((result & MISSING_OID) != 0)
       {
          errors.add(Import_Messages.MergeUtil_MISSING_OIDS_TARGET);
       }
-      
+
       // collect new oids and fix duplicates
       localOids.clear();
       result = 0;
@@ -245,13 +253,13 @@ public class MergeUtil
       }
       if ((result & DUPLICATE_OID) != 0)
       {
-         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_SOURCE);            
+         errors.add(Import_Messages.MergeUtil_DUPLICATE_OIDS_SOURCE);
       }
       if ((result & MISSING_OID) != 0)
       {
          errors.add(Import_Messages.MergeUtil_MISSING_OIDS_SOURCE);
       }
-      
+
       // an Error occured
       if (!errors.isEmpty())
       {
@@ -260,7 +268,7 @@ public class MergeUtil
          {
             return true;
          }
-      }      
+      }
 
       // fix missing oids
       nextOid[0]++;
@@ -270,7 +278,7 @@ public class MergeUtil
          me.setElementOid(nextOid[0]++);
          updateIdCaches(resource, me);
       }
-      
+
       // match the oids
       for (Iterator i = matching.entrySet().iterator(); i.hasNext();)
       {
@@ -281,7 +289,7 @@ public class MergeUtil
          updateIdCaches(resource, me);
          existingElements.put(new Long(me.getElementOid()), other);
       }
-      
+
       return false;
    }
 
@@ -372,5 +380,60 @@ public class MergeUtil
          parent = getElementInOtherModel(parent, model);
       }
       return parent != null && feature.isMany() ? (List) parent.eGet(feature) : null;
+   }
+
+   private static EObject getSameModelElement(EObject object, ModelType targetModel, ModelType sourceModel)
+   {
+     if (object == null)
+     {
+       return null;
+     }
+     if (object == sourceModel)
+     {
+       return targetModel;
+     }
+     EObject targetParent = getSameModelElement(object.eContainer(), targetModel, sourceModel);
+     if (targetParent != null)
+     {
+        if (object instanceof ExternalPackage)
+        {
+           return ((ExternalPackages) targetParent).getExternalPackage(((ExternalPackage) object).getId());
+        }
+
+         if (object instanceof TypeDeclarationType)
+       {
+          return ((TypeDeclarationsType) targetParent).getTypeDeclaration(((TypeDeclarationType) object).getId());
+       }
+       EStructuralFeature feature = object.eContainingFeature();
+       Object obj = targetParent.eGet(feature);
+       // (fh) not sure if FeatureMap handling is correct
+       if (obj instanceof FeatureMap)
+       {
+         obj = ((FeatureMap) obj).get(object.eContainmentFeature(), true);
+       }
+       if (obj instanceof List)
+       {
+          @SuppressWarnings("unchecked")
+         List<? extends EObject> list = (List<? extends EObject>) obj;
+            if (object instanceof IIdentifiableElement)
+         {
+            return ModelUtils.findElementById(list, ((IIdentifiableElement) object).getId());
+         }
+         else if (object instanceof IModelElement)
+         {
+            return ModelUtils.findElementByOid(list, ((IModelElement) object).getElementOid());
+         }
+         else if (XSDPackage.eINSTANCE.equals(object.eClass().getEPackage()))
+         {
+            return ModelUtils.findElementByFeature(list, object, "name"); //$NON-NLS-1$
+         }
+         // (fh) other cases ?
+       }
+       else if (obj instanceof EObject)
+       {
+         return (EObject) obj;
+       }
+     }
+     return null;
    }
 }
