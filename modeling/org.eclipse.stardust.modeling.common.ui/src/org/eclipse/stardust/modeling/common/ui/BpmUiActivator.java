@@ -10,22 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui;
 
-import java.io.IOException;
-import java.net.URL;
 import java.text.MessageFormat;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.common.config.Parameters;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.engine.api.model.Modules;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.modeling.common.BpmCommonActivator;
-import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPerspectiveDescriptor;
@@ -34,8 +22,15 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PerspectiveAdapter;
 import org.eclipse.ui.PlatformUI;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
+import org.eclipse.stardust.common.config.Parameters;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
+import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.modeling.common.BpmCommonActivator;
+import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -43,7 +38,7 @@ import org.osgi.framework.BundleContext;
 public class BpmUiActivator extends Plugin
 {
    private static final Logger trace = LogManager.getLogger(BpmUiActivator.class);
-   
+
    // The plug-in ID
    public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.common.ui"; //$NON-NLS-1$
 
@@ -113,18 +108,18 @@ public class BpmUiActivator extends Plugin
             BpmProjectNature.DEFAULT_PREFERENCE_CLASSIC_MODE);
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE,
-            BpmProjectNature.DEFAULT_PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE);      
+            BpmProjectNature.DEFAULT_PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE);
       // snapGrid
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_SNAP_GRID_MODE,
             BpmProjectNature.DEFAULT_PREFERENCE_SNAP_GRID_MODE);
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_SNAP_GRID_PIXEL,
-            BpmProjectNature.DEFAULT_PREFERENCE_SNAP_GRID_PIXEL);            
+            BpmProjectNature.DEFAULT_PREFERENCE_SNAP_GRID_PIXEL);
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_VISIBLE_GRID_FACTOR,
-            BpmProjectNature.DEFAULT_PREFERENCE_VISIBLE_GRID_FACTOR);     
-      
+            BpmProjectNature.DEFAULT_PREFERENCE_VISIBLE_GRID_FACTOR);
+
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_DISTRIBUTE_ONE_SYMBOL_GRID,
             BpmProjectNature.DEFAULT_PREFERENCE_DISTRIBUTE_ONE_SYMBOL_GRID);
@@ -143,24 +138,7 @@ public class BpmUiActivator extends Plugin
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_REPORT_FORMAT_PROMPT,
             BpmProjectNature.DEFAULT_PREFERENCE_REPORT_FORMAT_PROMPT);
-      
-      PlatformUI.getPreferenceStore().setDefault(
-            BpmProjectNature.PREFERENCE_COLLISION_UPDATE,
-            BpmProjectNature.DEFAULT_PREFERENCE_COLLISION_UPDATE);
-      PlatformUI.getPreferenceStore().setDefault(
-            BpmProjectNature.PREFERENCE_COLLISION_REFRESH,
-            BpmProjectNature.DEFAULT_PREFERENCE_COLLISION_REFRESH);
-      PlatformUI.getPreferenceStore().setDefault(
-            BpmProjectNature.PREFERENCE_COLLISION_REFRESH_RATE,
-            BpmProjectNature.DEFAULT_PREFERENCE_COLLISION_REFRESH_RATE);      
-      PlatformUI.getPreferenceStore().setDefault(
-            BpmProjectNature.PREFERENCE_COLLISION_CONNECTION_RETRY,
-            BpmProjectNature.DEFAULT_PREFERENCE_COLLISION_CONNECTION_RETRY);      
-      PlatformUI.getPreferenceStore().setDefault(
-            BpmProjectNature.PREFERENCE_COLLISION_CONNECTION_RETRY_RATE,
-            BpmProjectNature.DEFAULT_PREFERENCE_COLLISION_CONNECTION_RETRY_RATE);      
-      
-      
+
       PlatformUI.getPreferenceStore().setDefault(
               BpmProjectNature.PREFERENCE_SPLIT_AND,
               BpmProjectNature.DEFAULT_PREFERENCE_SPLIT_AND);
@@ -170,7 +148,7 @@ public class BpmUiActivator extends Plugin
       PlatformUI.getPreferenceStore().setDefault(
               BpmProjectNature.PREFERENCE_SPLIT_PROMPT,
               BpmProjectNature.DEFAULT_PREFERENCE_SPLIT_PROMPT);
-      
+
       PlatformUI.getPreferenceStore().setDefault(
               BpmProjectNature.PREFERENCE_JOIN_AND,
               BpmProjectNature.DEFAULT_PREFERENCE_JOIN_AND);
@@ -179,19 +157,19 @@ public class BpmUiActivator extends Plugin
               BpmProjectNature.DEFAULT_PREFERENCE_JOIN_XOR);
       PlatformUI.getPreferenceStore().setDefault(
               BpmProjectNature.PREFERENCE_JOIN_PROMPT,
-              BpmProjectNature.DEFAULT_PREFERENCE_JOIN_PROMPT);      
-      
+              BpmProjectNature.DEFAULT_PREFERENCE_JOIN_PROMPT);
+
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_DEPLOY_id,
             BpmProjectNature.DEFAULT_PREFERENCE_DEPLOY_id);
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_DEPLOY_password,
-            BpmProjectNature.DEFAULT_PREFERENCE_DEPLOY_password);      
+            BpmProjectNature.DEFAULT_PREFERENCE_DEPLOY_password);
    }
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
     */
    public void start(BundleContext context) throws Exception
@@ -217,7 +195,7 @@ public class BpmUiActivator extends Plugin
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
     */
    public void stop(BundleContext context) throws Exception
@@ -234,7 +212,7 @@ public class BpmUiActivator extends Plugin
 
    /**
     * Returns the shared instance
-    * 
+    *
     * @return the shared instance
     */
    public static BpmUiActivator getDefault()
@@ -373,7 +351,7 @@ public class BpmUiActivator extends Plugin
    {
       return moduleError;
    }
-   
+
    public static IWorkflowModelEditor findWorkflowModelEditor(ModelType model)
    {
       if (model == null)
@@ -420,5 +398,5 @@ public class BpmUiActivator extends Plugin
       }
       // no matching editor
       return null;
-   }   
+   }
 }

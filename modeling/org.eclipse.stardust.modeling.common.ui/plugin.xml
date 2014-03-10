@@ -52,10 +52,6 @@
             class="org.eclipse.stardust.modeling.common.ui.preferences.DrawingPreferencePage"
             category="org.eclipse.stardust.modeling.common.ui"
             name="%carnotDrawingPreferencePageName"/>
-      <page id="org.eclipse.stardust.modeling.common.ui.collision"
-            class="org.eclipse.stardust.modeling.common.ui.preferences.CollisionPreferencePage"
-            category="org.eclipse.stardust.modeling.common.ui"
-            name="%carnotCollisionPreferencePageName"/>
       <page
             class="org.eclipse.stardust.modeling.common.ui.preferences.DeploymentPreferencePage"
             id="org.eclipse.stardust.modeling.common.ui.deployment"
