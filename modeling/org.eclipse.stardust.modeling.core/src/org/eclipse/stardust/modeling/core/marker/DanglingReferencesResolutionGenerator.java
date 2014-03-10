@@ -22,10 +22,8 @@ import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.ui.IMarkerResolution;
 
-
-public class DanglingReferencesResolutionGenerator implements IResolutionGenerator 
+public class DanglingReferencesResolutionGenerator implements IResolutionGenerator
 {
-
    public void addResolutions(List<IMarkerResolution> list, final WorkflowModelEditor editor, final Issue issue)
    {
       if (issue.getFeature().equals
@@ -41,21 +39,13 @@ public class DanglingReferencesResolutionGenerator implements IResolutionGenerat
                editor.getEditDomain().getCommandStack().execute(cmd);
             }
          }));
-      }      
+      }
    }
 
    public boolean hasResolutions(WorkflowModelEditor editor, Issue issue)
-   {      
-      if (issue.getModelElement() instanceof DataPathType) {          
-         if (editor.getModelServer() != null) {
-            DataPathType dataPath = (DataPathType) issue.getModelElement();
-            ProcessDefinitionType process =  (ProcessDefinitionType) dataPath.eContainer();
-            if (!editor.getModelServer().requireLock(process)) {
-               return issue.getFeature().equals(ValidationService.PKG_CWM.getDataPathType_Data());                                 
-            }            
-         }
+   {
+      if (issue.getModelElement() instanceof DataPathType) {
       }
       return false;
    }
-
 }
