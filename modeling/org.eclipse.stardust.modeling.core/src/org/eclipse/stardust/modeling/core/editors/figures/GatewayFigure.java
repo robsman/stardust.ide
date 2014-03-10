@@ -38,19 +38,21 @@ public class GatewayFigure extends Polygon implements IGraphicalObjectFigure
 
    private int gatewayType;
    private int kind;
-   
+
    private Color borderColor;
+
+   @SuppressWarnings("unused")
    private Color fillColor;
 
    private GatewaySymbolEditPart editPart;
-   
+
    public GatewayFigure(GatewaySymbolEditPart gatewaySymbolEditPart)
    {
       editPart = gatewaySymbolEditPart;
       setOutline(true);
       setFill(true);
    }
-   
+
    public GatewaySymbolEditPart getEditPart()
    {
       return editPart;
@@ -72,11 +74,6 @@ public class GatewayFigure extends Polygon implements IGraphicalObjectFigure
       repaint();
    }
 
-   public void setXorType(int xorType)
-   {
-      // todo
-   }
-
    protected boolean useLocalCoordinates()
    {
       return true;
@@ -95,10 +92,10 @@ public class GatewayFigure extends Polygon implements IGraphicalObjectFigure
    public void setBounds(Rectangle rect)
    {
       removeAllPoints();
-      
+
       // forcing outline to be of uneven width/height to get smooth edges
-      final int width = 2 * ((rect.width + 1) / 2) - 1; 
-      final int height = 2 * ((rect.height + 1) / 2) - 1; 
+      final int width = 2 * ((rect.width + 1) / 2) - 1;
+      final int height = 2 * ((rect.height + 1) / 2) - 1;
 
       // compute points
       int left = rect.x;
@@ -123,16 +120,31 @@ public class GatewayFigure extends Polygon implements IGraphicalObjectFigure
       super.outlineShape(g);
       switch (gatewayType)
       {
-         case GATEWAY_TYPE_AND:
-            g.setLineWidth( 3 * BORDER_LINE_WIDTH);
-            Rectangle rect = getBounds();
-            Point center = rect.getCenter();
-            center.translate( -1, -1);
-            int width = rect.width / 4;
-            int height = rect.height / 4;
-            g.drawLine(center.x - width, center.y, center.x + width, center.y);
-            g.drawLine(center.x, center.y - height, center.x, center.y + height);
-            break;
+      case GATEWAY_TYPE_AND:
+         g.setLineWidth( 3 * BORDER_LINE_WIDTH);
+         Rectangle rect = getBounds();
+         /*Point center = rect.getCenter();
+         center.translate( -1, -1);
+         int width = rect.width / 4;
+         int height = rect.height / 4;
+         g.drawLine(center.x - width, center.y, center.x + width, center.y);
+         g.drawLine(center.x, center.y - height, center.x, center.y + height);*/
+         g.drawLine(Math.round(rect.x + rect.width / 4),
+                    Math.round(rect.y + rect.height / 2),
+                    Math.round(rect.x + rect.width * 3 / 4),
+                    Math.round(rect.y + rect.height / 2));
+         g.drawLine(Math.round(rect.x + rect.width / 2),
+                    Math.round(rect.y + rect.height / 4),
+                    Math.round(rect.x + rect.width / 2),
+                    Math.round(rect.y + rect.height * 3 / 4));
+         break;
+      case GATEWAY_TYPE_OR:
+         g.setLineWidth( 3 * BORDER_LINE_WIDTH);
+         rect = getBounds();
+         g.drawOval(Math.round(rect.x + rect.width / 4),
+                    Math.round(rect.y + rect.height / 4),
+                    Math.round(rect.width / 2),
+                    Math.round(rect.height / 2));
       }
    }
 
