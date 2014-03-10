@@ -130,11 +130,6 @@ public class CreateSymbolRequest extends CreateRequest
       return ((SymbolCreationFactory) getFactory()).isEnabled();
    }
 
-   public boolean isLockRequired()
-   {
-      return ((SymbolCreationFactory) getFactory()).isLockRequired();
-   }
-
    // TODO: merge setFactoryForXXX and use generic emodeling
    private void setFactoryForProcess(final IObjectDescriptor descriptor, final ProcessDefinitionType process)
    {

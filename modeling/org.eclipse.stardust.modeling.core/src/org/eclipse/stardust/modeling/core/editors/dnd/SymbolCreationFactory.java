@@ -26,7 +26,6 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
-
 public abstract class SymbolCreationFactory implements CreationFactory
 {
    private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
@@ -44,13 +43,6 @@ public abstract class SymbolCreationFactory implements CreationFactory
 
    protected WorkflowModelEditor editor;
    
-   private boolean lockRequired;
-
-   public boolean isLockRequired()
-   {
-      return lockRequired;
-   }
-
    public Object getModelElement()
    {
       return modelElement;
@@ -105,8 +97,6 @@ public abstract class SymbolCreationFactory implements CreationFactory
          {
             if (modelElement instanceof EObject)
             {
-               if (!editor.requireLock((EObject) container))
-               {
                   if (modelElement instanceof IObjectDescriptor
                         && PKG.getProcessDefinitionType().equals(
                               ((IObjectDescriptor) modelElement).getType()))
@@ -134,13 +124,8 @@ public abstract class SymbolCreationFactory implements CreationFactory
                   return process == null || container.eContainer() == process
                         || container.eContainer() == ((EObject) modelElement).eContainer();
                }
-               else
-               {
-                  lockRequired = true;         
                }
             }
-         }
-      }
       return false;
    }
 
