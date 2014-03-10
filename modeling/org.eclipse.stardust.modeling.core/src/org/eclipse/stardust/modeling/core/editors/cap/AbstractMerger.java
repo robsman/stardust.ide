@@ -72,7 +72,6 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
-import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.merge.UUIDUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
@@ -110,35 +109,35 @@ import org.w3c.dom.Element;
 public abstract class AbstractMerger
 {
    public static final String AUTHORIZATION_SCOPE = "authorization:"; //$NON-NLS-1$
-   
+
    protected Set structuredData = new HashSet();
    protected List structuredDataNameIdCache = new ArrayList();
-   // if there is already a structured type in the target model with same name 
+   // if there is already a structured type in the target model with same name
    // a new name must be used, we must keep the relation between old and new id
    private Map structuredDataChangedCache = new HashMap();
    private TypeDeclarationsType targetDeclarations;
-   
+
    protected boolean externalReferences = false;
    protected boolean showDialog = false;
    protected Map mergeElements = new HashMap();
-   
+
    protected Map<ProcessDefinitionType, ProcessDefinitionType> processes = new HashMap<ProcessDefinitionType, ProcessDefinitionType>();
    protected Map processChildren = new HashMap();
-   
-   protected Map<DiagramType, DiagramType> diagrams = new HashMap<DiagramType, DiagramType>();  
+
+   protected Map<DiagramType, DiagramType> diagrams = new HashMap<DiagramType, DiagramType>();
 
    protected Map<ActivityType, ActivityType> activities = new HashMap<ActivityType, ActivityType>();
    protected Map<TypeDeclarationType, TypeDeclarationType> typeDeclarationElements =
       new HashMap<TypeDeclarationType, TypeDeclarationType>();
    protected Map elements = new HashMap();
-   protected Map globalElements = new HashMap();   
+   protected Map globalElements = new HashMap();
    protected Map processElements = new HashMap();
-   
+
    // data container for reference value dialog
    protected InputContainer referenceValueInput = new InputContainer();
    // stores content for the dialog
    protected Container container = null;
-   
+
    // to copy an EObject
    protected Copier copier = new EcoreUtil.Copier()
    {
@@ -152,17 +151,17 @@ public abstract class AbstractMerger
             XSDSchema clone = (XSDSchema) original.cloneConcreteComponent(true, false);
             Document doc = clone.updateDocument();
             if(original.getElement() != null)
-            {            
+            {
                Element clonedElement = (Element) doc.importNode(original.getElement(), true);
                doc.appendChild(clonedElement);
                clone.setElement(clonedElement);
             }
-            return clone;                     
+            return clone;
          }
          return super.copy(object);
-      }               
-   };                       
-   
+      }
+   };
+
    // a cache to check for duplicate name/Id (parent, eclass, hashmap)
    protected Map nameIdCache = new HashMap();
    // to set the new oids
@@ -172,38 +171,36 @@ public abstract class AbstractMerger
    // here we store original Model, Diagram, etc.
    protected StoreObject storage;
    // target
-   protected ModelType targetModel;   
+   protected ModelType targetModel;
    protected DiagramType targetDiagram;
-   protected ProcessDefinitionType targetProcess;   
+   protected ProcessDefinitionType targetProcess;
    // only in diagram
-   protected boolean isDiagram = false;   
+   protected boolean isDiagram = false;
    private List<ModelVariable> targetVariables;
-   
+
    protected boolean isSameModel = false;
-   private boolean isCollision = false;   
 
    private IProject targetProject;
    private Set xsdFiles = new HashSet();
-   
+
    // the result of the reference value dialog, keeps the elements to be copied by value
    protected Map<EObject, EObject> changedCache = new HashMap<EObject, EObject>();
 
    public abstract void merge();
-   
+
    public AbstractMerger(ModelType targetModel, StoreObject storage)
    {
       this.storage = storage;
-      this.targetModel = targetModel;      
+      this.targetModel = targetModel;
       // build name/ID cache, set highestOid
-      collectTargetData();     
+      collectTargetData();
       // stores content for the dialog
-      container = referenceValueInput.getContainer();  
+      container = referenceValueInput.getContainer();
       // is it the same model?
       isSameModel = storage.isSameModel();
-      isCollision = storage.isCollision();
       storage.setTargetModel(targetModel);
       targetProject = WorkspaceUtils.getProjectFromEObject(targetModel);
-      
+
       if(!isSameModel)
       {
          VariableContext context = VariableContextHelper.getInstance().getContext(targetModel);
@@ -222,10 +219,10 @@ public abstract class AbstractMerger
    protected void collectTargetData()
    {
       highestOid = ModelUtils.getMaxUsedOid(targetModel);
-      
+
       String id;
-      String name;      
-      // here we scan all children and children of those children 
+      String name;
+      // here we scan all children and children of those children
       for (Iterator i = targetModel.eAllContents(); i.hasNext();)
       {
          EObject child = (EObject) i.next();
@@ -233,7 +230,7 @@ public abstract class AbstractMerger
          EObject parent = child.eContainer();
          Map eClassNameIdCache = new HashMap();
          Object localNameIdCache = null;
-         
+
          if(nameIdCache.containsKey(parent))
          {
             eClassNameIdCache = (HashMap) nameIdCache.get(parent);
@@ -241,11 +238,11 @@ public abstract class AbstractMerger
             {
                if (child instanceof DiagramType)
                {
-                  localNameIdCache = (List) eClassNameIdCache.get(eClass);                  
+                  localNameIdCache = (List) eClassNameIdCache.get(eClass);
                }
                else
                {
-                  localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
+                  localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
                }
             }
          }
@@ -253,45 +250,45 @@ public abstract class AbstractMerger
          {
             if (child instanceof DiagramType)
             {
-               localNameIdCache = new ArrayList();            
-            }    
+               localNameIdCache = new ArrayList();
+            }
             else
             {
-               localNameIdCache = new HashMap();            
-            }            
-         }         
+               localNameIdCache = new HashMap();
+            }
+         }
          if (child instanceof IIdentifiableElement)
          {
             id = ((IIdentifiableElement) child).getId();
             name = ((IIdentifiableElement) child).getName();
-            ((HashMap) localNameIdCache).put(id, name);            
-            eClassNameIdCache.put(eClass, localNameIdCache);            
+            ((HashMap) localNameIdCache).put(id, name);
+            eClassNameIdCache.put(eClass, localNameIdCache);
          }
          else if (child instanceof IModelElement)
          {
             if (child instanceof DiagramType)
             {
-               name = ((DiagramType) child).getName();               
+               name = ((DiagramType) child).getName();
                ((ArrayList) localNameIdCache).add(name);
-               eClassNameIdCache.put(eClass, localNameIdCache);            
+               eClassNameIdCache.put(eClass, localNameIdCache);
             }
-         }         
+         }
          if (child instanceof TypeDeclarationType)
          {
             id = ((TypeDeclarationType) child).getId();
             name = ((TypeDeclarationType) child).getName();
-            ((HashMap) localNameIdCache).put(id, name);            
-            eClassNameIdCache.put(eClass, localNameIdCache);            
-         }         
+            ((HashMap) localNameIdCache).put(id, name);
+            eClassNameIdCache.put(eClass, localNameIdCache);
+         }
          nameIdCache.put(parent, eClassNameIdCache);
       }
-   }   
+   }
 
    public Map<EObject, EObject> getChangedCache()
    {
       return changedCache;
    }
-   
+
    // check to see if we must open a dialog to change name/id
    // check the nameid cache
    protected boolean checkElementInModel(Entry entry)
@@ -301,26 +298,26 @@ public abstract class AbstractMerger
       // we must compare the copy because we may have changed the values already in the other dialog
       EObject copy = (EObject) entry.getValue();
       EClass eClass = copy.eClass();
-      
+
       EObject parent = raw.eContainer();
       EObject checkParent = (EObject) changedCache.get(parent);
       if(checkParent != null)
       {
          parent = checkParent;
-      }      
-      
+      }
+
       parent = CopyPasteUtil.getSameModelElement(parent, targetModel, null);
-      if(!processChildren.isEmpty() && processChildren.containsKey(raw) && 
+      if(!processChildren.isEmpty() && processChildren.containsKey(raw) &&
             (raw instanceof ActivityType
             || raw instanceof TransitionType
-            || raw instanceof TriggerType))            
+            || raw instanceof TriggerType))
       {
-         parent = storage.getTargetProcess();         
+         parent = storage.getTargetProcess();
       }
-      
+
       String id;
       String name;
-      
+
       if(isDiagram)
       {
          if(parent instanceof ProcessDefinitionType
@@ -328,12 +325,12 @@ public abstract class AbstractMerger
                || (raw instanceof TransitionType && parent == null)
                || (raw instanceof TriggerType && parent == null))
          {
-            parent = storage.getTargetProcess();               
+            parent = storage.getTargetProcess();
          }
       }
       Map eClassNameIdCache = new HashMap();
       Object localNameIdCache = null;
-      
+
       if(nameIdCache.containsKey(parent))
       {
          eClassNameIdCache = (HashMap) nameIdCache.get(parent);
@@ -346,115 +343,104 @@ public abstract class AbstractMerger
                if(((ArrayList) localNameIdCache).contains(name))
                {
                   return true;
-               }               
+               }
             }
             else if (copy instanceof IIdentifiableElement)
             {
                id = ((IIdentifiableElement) copy).getId();
-               name = ((IIdentifiableElement) copy).getName();               
-               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
+               name = ((IIdentifiableElement) copy).getName();
+               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
                if(((HashMap) localNameIdCache).containsKey(id)
                      || ((HashMap) localNameIdCache).containsValue(name))
                {
                   return true;
-               }               
+               }
             }
             else if (copy instanceof TypeDeclarationType)
             {
                id = ((TypeDeclarationType) copy).getId();
-               name = ((TypeDeclarationType) copy).getName();               
-               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
+               name = ((TypeDeclarationType) copy).getName();
+               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
                if(((HashMap) localNameIdCache).containsKey(id)
                      || ((HashMap) localNameIdCache).containsValue(name))
                {
                   return true;
-               }               
+               }
             }
          }
       }
-      return false;      
+      return false;
    }
 
    // merge a single element (may open dialog)
    protected boolean mergeElement(Entry<EObject, EObject> entry)
-   {      
+   {
       EObject raw = (EObject) entry.getKey();
-      
+
       // does the other dialog already changed name/id or is there already an element with same name/id
-      if (MergerUtil.getEntryFromMap(changedCache, raw) == null 
-            && checkElementInModel(entry)
-            && (!isCollision || isCollision && storage.getCollisionAction() == StoreObject.COMMIT))
+      if (MergerUtil.getEntryFromMap(changedCache, raw) == null
+            && checkElementInModel(entry))
       {
          // the element copy will change id and name here
          if(!openDialog(entry))
          {
-            modelChanged = false;            
+            modelChanged = false;
             return false;
          }
          else
          {
             changedCache.put(entry.getKey(), entry.getValue());
-         }         
-      }      
+         }
+      }
       // nameidcache must be updated
       // but for now it works without updating the cache
-      
+
       // add the model element
       addModelElement(entry, true);
       return true;
    }
-   
-   // add the model element to the targetModel 
+
+   // add the model element to the targetModel
    // if copyEntry is true, only the element is added
-   // if copyEntry is false, all object references  will be set to the new objects (recursive) 
+   // if copyEntry is false, all object references  will be set to the new objects (recursive)
    protected boolean addModelElement(Entry entry, boolean copyEntry)
    {
       /**
        * in the 1st stage we really add the model element where it belongs to
        * this is necessary because when setting references/objects the elements must be there
-       * 
+       *
        * in the 2nd stage we have the entry and must set objects and references
        * we must take the element from the model and change it in the model
-       * 
+       *
        * use the entry, because it is a reference, seems to work
       */
-      
+
       // raw is the element in the copied model, copy may has changed id and name already
       // we add the copy to the list
       EObject raw = (EObject) entry.getKey();
       EObject copy = (EObject) entry.getValue();
-      
-      if (!copyEntry)
-      {
-         if (ShareUtils.isLockableElement((EObject) copy))
-         {
-            if (!isCollision)
-            {
-               UUIDUtils.unsetUUID(copy);
-            }               
-         }
-      }      
+
       EObject parent = raw.eContainer();
-      
+
       // the copy is already in the model, so we use the copy
       // because search is done by name/id
 
       boolean haveParent = false;
-      if(!processChildren.isEmpty() && processChildren.containsKey(raw) && 
+      if(!processChildren.isEmpty() && processChildren.containsKey(raw) &&
             (raw instanceof ActivityType
             || raw instanceof TransitionType
-            || raw instanceof TriggerType))            
+            || raw instanceof TriggerType))
       {
-         parent = storage.getTargetProcess();         
+         parent = storage.getTargetProcess();
          haveParent = true;
       }
-      
+
       if(!haveParent)
       {
          if(!copyEntry)
          {
-            parent = copy.eContainer();            
-         }      
+            parent = copy.eContainer();
+         }
          else
          {
             EObject checkParent = (EObject) changedCache.get(parent);
@@ -462,11 +448,11 @@ public abstract class AbstractMerger
             {
                parent = checkParent;
             }
-         }         
+         }
       }
-            
+
       if(copyEntry)
-      {         
+      {
          EObject targetObject;
          if(haveParent)
          {
@@ -474,21 +460,21 @@ public abstract class AbstractMerger
          }
          else
          {
-            targetObject = CopyPasteUtil.getSameModelElement(parent, targetModel, changedCache);         
+            targetObject = CopyPasteUtil.getSameModelElement(parent, targetModel, changedCache);
          }
          if(isDiagram)
          {
             if(parent instanceof ProcessDefinitionType)
             {
-               targetObject = storage.getTargetProcess();               
+               targetObject = storage.getTargetProcess();
             }
-         }         
+         }
          // do we need this?
          if(parent instanceof TypeDeclarationsType)
          {
-            targetObject = targetModel.getTypeDeclarations();               
+            targetObject = targetModel.getTypeDeclarations();
          }
-                  
+
          // generic, feature of the container that holds the object
          EStructuralFeature feature = raw.eContainingFeature();
          if(feature != null && targetObject != null)
@@ -498,7 +484,7 @@ public abstract class AbstractMerger
             // add element
             list.add(copy);
             // references later
-            modelChanged = true; 
+            modelChanged = true;
             return true;
          }
          return true;
@@ -525,23 +511,23 @@ public abstract class AbstractMerger
                if(!addModelElement(mergeEntry, false))
                {
                   removeObjects.add(content);
-               }               
-            } 
+               }
+            }
             else
             {
-               // removeObjects.add(content);               
+               // removeObjects.add(content);
             }
          }
-      }   
-      
-      EStructuralFeature feature = copy.eContainingFeature();      
+      }
+
+      EStructuralFeature feature = copy.eContainingFeature();
       for(int i = 0; i < removeObjects.size(); i++)
       {
          EObject remove = (EObject) removeObjects.get(i);
          List list = (List) copy.eGet(feature);
-         list.remove(remove);            
-      }        
-      
+         list.remove(remove);
+      }
+
       if (copy instanceof TypeDeclarationType)
       {
          String uuid = UUIDUtils.getUUID(raw);
@@ -550,9 +536,9 @@ public abstract class AbstractMerger
             UUIDUtils.setUUID((TypeDeclarationType) copy, uuid);
          }
       }
-      
-      if(copy instanceof ProcessDefinitionType         
-            || copy instanceof DataType         
+
+      if(copy instanceof ProcessDefinitionType
+            || copy instanceof DataType
             || copy instanceof ActivityType)
       {
          List<AttributeType> attributes = ((IExtensibleElement) raw).getAttribute();
@@ -567,24 +553,24 @@ public abstract class AbstractMerger
                {
                   IIdentifiableModelElement modelElement = getTargetModelElement(targetModel, (IIdentifiableModelElement) attributeModel);
                   if(modelElement != null)
-                  {  
+                  {
                      // here we must use the same attribute, because more attributes with same id are possible
                      AttributeType targetAttribute = (AttributeType) targetAttributes.get(i);
                      if(targetAttribute != null)
                      {
                         AttributeUtil.setReference(targetAttribute, modelElement);
                      }
-                  }                  
+                  }
                }
-            }            
-         }         
-         
+            }
+         }
+
          if(copy instanceof ProcessDefinitionType)
          {
             MergeUtils.mergeFormalParameter((ProcessDefinitionType) raw, (ProcessDefinitionType) copy);
          }
       }
-      
+
       // EventActionTypeType must be set manual (not done by copier)
       if (copy instanceof BindActionType)
       {
@@ -592,30 +578,30 @@ public abstract class AbstractMerger
          if(rawActionType != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawActionType);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
-               ((BindActionType) copy).setType((EventActionTypeType) modelElement);         
-            }                     
+               ((BindActionType) copy).setType((EventActionTypeType) modelElement);
+            }
          }
-         
-      }            
+
+      }
       if (copy instanceof UnbindActionType)
       {
          EventActionTypeType rawActionType = ((UnbindActionType) raw).getType();
          if(rawActionType != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawActionType);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
-               ((UnbindActionType) copy).setType((EventActionTypeType) modelElement);         
-            }                     
-         }         
-      }            
+               ((UnbindActionType) copy).setType((EventActionTypeType) modelElement);
+            }
+         }
+      }
       if (copy instanceof EventActionType)
       {
          // triggered process is also copied if any, we must set the reference here
          ProcessDefinitionType targetProcess = null;
-         AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) raw, 
+         AttributeType attribute = AttributeUtil.getAttribute((IExtensibleElement) raw,
                PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT);
          if (attribute != null)
          {
@@ -630,7 +616,7 @@ public abstract class AbstractMerger
          }
          if(targetProcess != null)
          {
-            attribute = AttributeUtil.getAttribute((IExtensibleElement) copy, 
+            attribute = AttributeUtil.getAttribute((IExtensibleElement) copy,
                   PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT);
             if (attribute != null)
             {
@@ -644,12 +630,12 @@ public abstract class AbstractMerger
          if(rawActionType != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawActionType);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
-               ((EventActionType) copy).setType((EventActionTypeType) modelElement);         
-            }                     
+               ((EventActionType) copy).setType((EventActionTypeType) modelElement);
+            }
          }
-      }      
+      }
 
       // type must be set manual (not done by copier)
       if (copy instanceof EventHandlerType)
@@ -658,13 +644,13 @@ public abstract class AbstractMerger
          if(rawConditionType != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawConditionType);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
-               ((EventHandlerType) copy).setType((EventConditionTypeType) modelElement);               
+               ((EventHandlerType) copy).setType((EventConditionTypeType) modelElement);
             }
          }
-      }      
-      
+      }
+
       // if it is diagram copy it is not necessary to do recursive calls (???)
       if(copy instanceof ActivityType)
       {
@@ -673,7 +659,7 @@ public abstract class AbstractMerger
          if(rawParticipant != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawParticipant);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
                ((ActivityType) copy).setPerformer((IModelParticipant) modelElement);
             }
@@ -682,31 +668,31 @@ public abstract class AbstractMerger
          if(rawQualityControlParticipant != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawQualityControlParticipant);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
                ((ActivityType) copy).setQualityControlPerformer((IModelParticipant) modelElement);
             }
-         }         
-         
+         }
+
          ApplicationType rawApplication = ((ActivityType) raw).getApplication();
          if(rawApplication != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawApplication);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
                ((ActivityType) copy).setApplication((ApplicationType) modelElement);
             }
-         }         
+         }
          ProcessDefinitionType rawProcess = ((ActivityType) raw).getImplementationProcess();
          if(rawProcess != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawProcess);
-            if(modelElement != null)               
+            if(modelElement != null)
             {
                ((ActivityType) copy).setImplementationProcess((ProcessDefinitionType) modelElement);
             }
          }
-         
+
          EList<Code> rawValidQualityCodes = ((ActivityType) raw).getValidQualityCodes();
          if(rawValidQualityCodes != null && !rawValidQualityCodes.isEmpty())
          {
@@ -717,37 +703,37 @@ public abstract class AbstractMerger
                Code targetCode = MergerUtil.containsQC(targetModel, code);
                if(targetCode != null)
                {
-                  targetValidQualityCodes.add(targetCode);                  
+                  targetValidQualityCodes.add(targetCode);
                }
-            }            
+            }
          }
-      }     
-      
+      }
+
       // when we have a lane symbol the lane may have a participant assigned
-      if(copy instanceof LaneSymbol)         
+      if(copy instanceof LaneSymbol)
       {
          IModelParticipant rawLaneParticipant = ((LaneSymbol) raw).getParticipantReference();
          if(rawLaneParticipant != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawLaneParticipant);
             if(modelElement != null)
-            {            
+            {
                ((LaneSymbol) copy).setParticipantReference((IModelParticipant) modelElement);
             }
-         }         
-      }      
-      
+         }
+      }
+
       if(copy instanceof IModelElementNodeSymbol)
       {
          IIdentifiableModelElement rawModelElement = ((IModelElementNodeSymbol) raw).getModelElement();
          if(rawModelElement != null)
-         {                      
-            IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawModelElement);                     
+         {
+            IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawModelElement);
             if(modelElement != null)
             {
                ((IModelElementNodeSymbol) copy).setModelElement(modelElement);
             }
-         }            
+         }
       }
 
       if(copy instanceof IConnectionSymbol)
@@ -761,13 +747,13 @@ public abstract class AbstractMerger
                if(modelElement != null)
                {
                   ((TransitionConnectionType) copy).setTransition((TransitionType) modelElement);
-               }                  
+               }
             }
-         }         
+         }
       }
 
       if(copy instanceof DataPathType)
-      {         
+      {
          DataType rawDataType = ((DataPathType) raw).getData();
          if(rawDataType != null)
          {
@@ -775,14 +761,14 @@ public abstract class AbstractMerger
             if(modelElement != null)
             {
                ((DataPathType) copy).setData((DataType) modelElement);
-            }                  
+            }
          }
-      }      
-      
+      }
+
       if(copy instanceof TriggerType)
       {
          // set the type here
-         TriggerTypeType rawTriggerType = ((TriggerType) raw).getType(); 
+         TriggerTypeType rawTriggerType = ((TriggerType) raw).getType();
          if(rawTriggerType != null)
          {
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawTriggerType);
@@ -790,8 +776,8 @@ public abstract class AbstractMerger
             {
                ((TriggerType) copy).setType((TriggerTypeType) modelElement);
             }
-         }         
-         
+         }
+
          EList attributes = ((TriggerType) raw).getAttribute();
          for(int a = 0; a < attributes.size(); a++)
          {
@@ -807,9 +793,9 @@ public abstract class AbstractMerger
             }
          }
       }
-      
+
       if (copy instanceof ParameterMappingType)
-      {         
+      {
          DataType rawDataType = ((ParameterMappingType) raw).getData();
          if(rawDataType != null)
          {
@@ -817,13 +803,13 @@ public abstract class AbstractMerger
             if(modelElement != null)
             {
                ((ParameterMappingType) copy).setData((DataType) modelElement);
-            }            
+            }
          }
       }
-      
+
       // attributes
       if (copy instanceof DataType)
-      {         
+      {
          DataTypeType rawDataTypeType = ((DataType) raw).getType();
          if(rawDataTypeType != null)
          {
@@ -831,7 +817,7 @@ public abstract class AbstractMerger
             if(modelElement != null)
             {
                ((DataType) copy).setType((DataTypeType) modelElement);
-            }                              
+            }
             // is type structured data?, maybe also DMS
             if(rawDataTypeType.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
             {
@@ -848,7 +834,7 @@ public abstract class AbstractMerger
                   // set as reference
                   if(typeDeclaration != null)
                   {
-                     AttributeUtil.setReference((IExtensibleElement) copy, StructuredDataConstants.TYPE_DECLARATION_ATT, typeDeclaration);                     
+                     AttributeUtil.setReference((IExtensibleElement) copy, StructuredDataConstants.TYPE_DECLARATION_ATT, typeDeclaration);
                   }
                }
             }
@@ -858,7 +844,7 @@ public abstract class AbstractMerger
             ((DataType) copy).setPredefined(false);
          }
       }
-      
+
       if(copy instanceof ConditionalPerformerType)
       {
          DataType dataType = ((ConditionalPerformerType) raw).getData();
@@ -867,7 +853,7 @@ public abstract class AbstractMerger
             IIdentifiableModelElement modelElement = getTargetModelElement(parent, dataType);
             if(modelElement != null)
             {
-               ((ConditionalPerformerType) copy).setData((DataType) modelElement);               
+               ((ConditionalPerformerType) copy).setData((DataType) modelElement);
             }
          }
          String dataId = AttributeUtil.getAttributeValue((IExtensibleElement) raw, PredefinedConstants.CONDITIONAL_PERFORMER_REALM_DATA);
@@ -876,7 +862,7 @@ public abstract class AbstractMerger
             AttributeUtil.setAttribute((IExtensibleElement) copy, PredefinedConstants.CONDITIONAL_PERFORMER_REALM_DATA, dataId);
          }
       }
-      
+
       // check if this is OK
       if (copy instanceof OrganizationType)
       {
@@ -891,27 +877,27 @@ public abstract class AbstractMerger
                ((OrganizationType) copy).setTeamLead((RoleType) modelElement);
             }
          }
-         
-         // clear the copied participants and set the correct ones 
-         ((OrganizationType) copy).getParticipant().clear();         
+
+         // clear the copied participants and set the correct ones
+         ((OrganizationType) copy).getParticipant().clear();
          for(int i = 0; i < participants.size(); i++)
          {
             IModelParticipant rawParticipant = ((ParticipantType) participants.get(i)).getParticipant();
             if(rawParticipant != null)
             {
-               // we must find the new participant, not raw 
+               // we must find the new participant, not raw
                IIdentifiableModelElement modelElement = getTargetModelElement(parent, rawParticipant);
-               if(modelElement != null)               
+               if(modelElement != null)
                {
                   ParticipantType participantType = CarnotWorkflowModelFactory.eINSTANCE.createParticipantType();
                   participantType.setParticipant((IModelParticipant) modelElement);
-                  ((OrganizationType) copy).getParticipant().add(participantType);               
+                  ((OrganizationType) copy).getParticipant().add(participantType);
                }
             }
          }
-         ((OrganizationType) copy).getOrganizationSymbols().clear();         
-      }         
-      
+         ((OrganizationType) copy).getOrganizationSymbols().clear();
+      }
+
       if(copy instanceof ContextType)
       {
          ApplicationContextTypeType rawApplicationContextType = ((ContextType) raw).getType();
@@ -923,12 +909,12 @@ public abstract class AbstractMerger
                ((ContextType) copy).setType((ApplicationContextTypeType) modelElement);
             }
          }
-      }      
-      
+      }
+
       if (copy instanceof ApplicationType)
       {
          // the access points have the same oids like in the original
-         // extended attributes only if same model?  
+         // extended attributes only if same model?
          ApplicationTypeType rawApplicationType = ((ApplicationType) raw).getType();
          if(rawApplicationType != null)
          {
@@ -939,7 +925,7 @@ public abstract class AbstractMerger
             }
          }
          DataTypeType structuredDataType = ModelUtils.getDataType((IModelElement) copy, StructuredDataConstants.STRUCTURED_DATA);
-         
+
          EList accessPoints = ((ApplicationType) copy).getAccessPoint();
          for(int i = 0; i < accessPoints.size();i++)
          {
@@ -956,14 +942,14 @@ public abstract class AbstractMerger
             }
          }
       }
-      
+
       if(copy instanceof DataMappingType)
       {
          DataType targetDataType = ((DataMappingType) raw).getData();
          IIdentifiableModelElement modelElement = null;
          if(targetDataType != null)
          {
-            modelElement = getTargetModelElement(parent, targetDataType);            
+            modelElement = getTargetModelElement(parent, targetDataType);
             if(modelElement != null)
             {
                ((DataMappingType) copy).setData((DataType) modelElement);
@@ -972,7 +958,7 @@ public abstract class AbstractMerger
             {
                // remove
                return false;
-            }            
+            }
          }
       }
       return true;
@@ -985,26 +971,26 @@ public abstract class AbstractMerger
       Map.Entry entry = MergerUtil.getEntryFromMap(changedCache, rawModelElement);
       if(entry != null)
       {
-         modelElement = (IIdentifiableModelElement) (EObject) entry.getValue();         
+         modelElement = (IIdentifiableModelElement) (EObject) entry.getValue();
       }
       else
       {
          // element belongs to process
-         if(rawModelElement instanceof ActivityType 
-               || rawModelElement instanceof TransitionType 
+         if(rawModelElement instanceof ActivityType
+               || rawModelElement instanceof TransitionType
                || rawModelElement instanceof TriggerType)
          {
             EObject parentModel = parent;
             while(parentModel != null && !(parentModel instanceof ProcessDefinitionType))
             {
-               parentModel = parentModel.eContainer();               
-            }            
+               parentModel = parentModel.eContainer();
+            }
             if(parentModel == null)
             {
                return null;
             }
             modelElement = (IIdentifiableModelElement) CopyPasteUtil.getSameElement(rawModelElement, parentModel);
-         }         
+         }
          else
          {
             modelElement = (IIdentifiableModelElement) CopyPasteUtil.getSameModelElement(rawModelElement, targetModel, changedCache);
@@ -1019,7 +1005,7 @@ public abstract class AbstractMerger
       EObject raw = (EObject) entry.getKey();
       EObject copy = (EObject) entry.getValue();
       EClass eClass = copy.eClass();
-      
+
       EObject parent = raw.eContainer();
       // if is lane and not same model, use target diagram and get pool as parent
       if(copy instanceof LaneSymbol && !isSameModel)
@@ -1028,12 +1014,12 @@ public abstract class AbstractMerger
       }
       else
       {
-         parent = CopyPasteUtil.getSameModelElement(parent, targetModel, null);         
+         parent = CopyPasteUtil.getSameModelElement(parent, targetModel, null);
       }
-      
+
       String id;
       String name;
-      
+
       if(isDiagram)
       {
          if(parent instanceof ProcessDefinitionType
@@ -1041,25 +1027,20 @@ public abstract class AbstractMerger
                || (raw instanceof TransitionType && parent == null)
                || (raw instanceof TriggerType && parent == null))
          {
-            parent = storage.getTargetProcess();               
+            parent = storage.getTargetProcess();
          }
       }
-      
+
       Map eClassNameIdCache = new HashMap();
       Object localNameIdCache = null;
-      
+
       eClassNameIdCache = (HashMap) nameIdCache.get(parent);
       if (copy instanceof DiagramType)
       {
          name = ((DiagramType) copy).getName();
          localNameIdCache = (ArrayList) eClassNameIdCache.get(eClass);
          NameIdDialog nameIdDialog = new NameIdDialog(null, name, (ArrayList) localNameIdCache);
-         if(isCollision)
-         {
-            nameIdDialog.setNamePrefix("_"); //$NON-NLS-1$
-            nameIdDialog.setIdPrefix("_"); //$NON-NLS-1$
-         }
-         
+
          // add modified EObjects to newElements
          if (Dialog.OK == nameIdDialog.open())
          {
@@ -1077,24 +1058,19 @@ public abstract class AbstractMerger
       else if (copy instanceof IIdentifiableElement)
       {
          id = ((IIdentifiableElement) copy).getId();
-         name = ((IIdentifiableElement) copy).getName();               
-         localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
-         
+         name = ((IIdentifiableElement) copy).getName();
+         localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
+
          NameIdDialog nameIdDialog = new NameIdDialog(null, id, name, (HashMap) localNameIdCache);
-         if(isCollision)
-         {
-            nameIdDialog.setNamePrefix("_"); //$NON-NLS-1$
-            nameIdDialog.setIdPrefix("_"); //$NON-NLS-1$
-         }
-         
+
          // add modified EObjects to newElements
          if (Dialog.OK == nameIdDialog.open())
          {
             ((IIdentifiableElement) copy).setId(nameIdDialog.getId());
-            ((IIdentifiableElement) copy).setName(nameIdDialog.getName());            
+            ((IIdentifiableElement) copy).setName(nameIdDialog.getName());
             ((HashMap) localNameIdCache).put(nameIdDialog.getId(), nameIdDialog.getName());
             eClassNameIdCache.put(eClass, localNameIdCache);
-            nameIdCache.put(parent, eClassNameIdCache);            
+            nameIdCache.put(parent, eClassNameIdCache);
             return true;
          }
          else
@@ -1105,35 +1081,30 @@ public abstract class AbstractMerger
       else if (copy instanceof TypeDeclarationType)
       {
          id = ((TypeDeclarationType) copy).getId();
-         name = ((TypeDeclarationType) copy).getName();               
-         localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
-         
+         name = ((TypeDeclarationType) copy).getName();
+         localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
+
          NameIdDialog nameIdDialog = new NameIdDialog(null, id, name, (HashMap) localNameIdCache);
-         if(isCollision)
-         {
-            nameIdDialog.setNamePrefix("_"); //$NON-NLS-1$
-            nameIdDialog.setIdPrefix("_"); //$NON-NLS-1$
-         }
-         
+
          // add modified EObjects to newElements
          if (Dialog.OK == nameIdDialog.open())
          {
             ((TypeDeclarationType) copy).setId(nameIdDialog.getId());
-            ((TypeDeclarationType) copy).setName(nameIdDialog.getName());            
+            ((TypeDeclarationType) copy).setName(nameIdDialog.getName());
             ((HashMap) localNameIdCache).put(nameIdDialog.getId(), nameIdDialog.getName());
             eClassNameIdCache.put(eClass, localNameIdCache);
-            nameIdCache.put(parent, eClassNameIdCache);            
+            nameIdCache.put(parent, eClassNameIdCache);
             return true;
          }
          else
          {
             return false;
          }
-         
+
       }
       return false;
-   }   
-   
+   }
+
    // open dialog and get result from dialog
    protected boolean referenceOrValue()
    {
@@ -1145,43 +1116,43 @@ public abstract class AbstractMerger
          // stop the operation
          return false;
       }
-      
+
       List contentList = (List) referenceValueInput.getContainer().getAllContent();
       for(int i = 0; i < contentList.size(); i++)
-      {      
+      {
          ContentDecorator entry = (ContentDecorator) contentList.get(i);
          // copy by value
          if(!entry.isChecked())
          {
-            // value has a new Name/ID already 
+            // value has a new Name/ID already
             MergerEntry dialogEntry = (MergerEntry) entry.getContent();
-            
+
             EObject raw = (EObject) dialogEntry.getKey();
             EObject copy = (EObject) dialogEntry.getValue();
             EClass eClass = copy.eClass();
-                  
+
             EObject parent = raw.eContainer();
             parent = CopyPasteUtil.getSameModelElement(parent, targetModel, null);
-                        
+
             String id;
             String name;
-            
+
             if(isDiagram)
             {
                if(parent instanceof ProcessDefinitionType)
                {
-                  parent = storage.getTargetProcess();               
+                  parent = storage.getTargetProcess();
                }
-            }            
+            }
             Map eClassNameIdCache = new HashMap();
             Object localNameIdCache = null;
-            
+
             eClassNameIdCache = (HashMap) nameIdCache.get(parent);
             if (copy instanceof DiagramType)
             {
                name = ((DiagramType) copy).getName();
                localNameIdCache = (ArrayList) eClassNameIdCache.get(eClass);
-                     
+
                ((ArrayList) localNameIdCache).add(name);
                eClassNameIdCache.put(eClass, localNameIdCache);
                nameIdCache.put(parent, eClassNameIdCache);
@@ -1189,34 +1160,34 @@ public abstract class AbstractMerger
             else if (copy instanceof IIdentifiableElement)
             {
                id = ((IIdentifiableElement) copy).getId();
-               name = ((IIdentifiableElement) copy).getName();               
-               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);                  
-               
+               name = ((IIdentifiableElement) copy).getName();
+               localNameIdCache = (HashMap) eClassNameIdCache.get(eClass);
+
                ((HashMap) localNameIdCache).put(id, name);
                eClassNameIdCache.put(eClass, localNameIdCache);
-               nameIdCache.put(parent, eClassNameIdCache);            
+               nameIdCache.put(parent, eClassNameIdCache);
             }
             changedCache.put(dialogEntry.getKey(), dialogEntry.getValue());
          }
       }
       return true;
-   }   
-   
+   }
+
    // has model changed (or paste canceled)
    public boolean modelChanged()
    {
       return modelChanged;
    }
-   
+
    // ask for all global elements with same id in new model if copy by value or by reference
    protected void checkForDialog(ModelType targetModel)
    {
       Map tmpGlobalElements = new HashMap();
-      Iterator it = globalElements.entrySet().iterator(); 
-      while (it.hasNext()) 
+      Iterator it = globalElements.entrySet().iterator();
+      while (it.hasNext())
       {
-         IIdentifiableModelElement modelElement = null;                  
-         
+         IIdentifiableModelElement modelElement = null;
+
          Map.Entry entry = (Map.Entry) it.next();
          EObject raw = (EObject) entry.getKey();
          EObject copy = (EObject) entry.getValue();
@@ -1229,7 +1200,7 @@ public abstract class AbstractMerger
                tmpGlobalElements.put(raw, copy);
                MergerEntry dialogEntry = new MergerEntry(raw, copy);
                container.getParticipants().getContent().add(new ContentDecorator(dialogEntry));
-               showDialog = true;            
+               showDialog = true;
             }
          }
          else if(raw instanceof ApplicationType)
@@ -1241,7 +1212,7 @@ public abstract class AbstractMerger
                tmpGlobalElements.put(raw, copy);
                MergerEntry dialogEntry = new MergerEntry(raw, copy);
                container.getApplications().getContent().add(new ContentDecorator(dialogEntry));
-               showDialog = true;            
+               showDialog = true;
             }
          }
          else if(raw instanceof DataType)
@@ -1253,40 +1224,40 @@ public abstract class AbstractMerger
                tmpGlobalElements.put(raw, copy);
                MergerEntry dialogEntry = new MergerEntry(raw, copy);
                container.getDataTypes().getContent().add(new ContentDecorator(dialogEntry));
-               showDialog = true;            
+               showDialog = true;
             }
          }
       }
       if(!tmpGlobalElements.isEmpty())
       {
-         it = tmpGlobalElements.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = tmpGlobalElements.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
             globalElements.remove(raw);
-         }         
+         }
       }
    }
 
    // collect all elements that will be copied by value
    protected void collectElements()
-   {      
+   {
       Map typeTypes = new HashMap();
       // container for all type declarations
       Set tempStructuredData = new HashSet();
       // will be removed from elements as we will copy the type declarations separate
       Map tempStructuredDatas = new HashMap();
-      Map tempEventActionTypeTypes = new HashMap();      
+      Map tempEventActionTypeTypes = new HashMap();
       Map tempQualityControlCodes =  new HashMap();
-      
+
       externalReferences = false;
-      
+
       mergeElements.putAll(globalElements);
       mergeElements.putAll(processes);
       mergeElements.putAll(diagrams);
-      Iterator it = elements.entrySet().iterator(); 
-      while (it.hasNext()) 
+      Iterator it = elements.entrySet().iterator();
+      while (it.hasNext())
       {
          Map.Entry entry = (Map.Entry) it.next();
          EObject raw = (EObject) entry.getKey();
@@ -1300,9 +1271,9 @@ public abstract class AbstractMerger
          }
          if(raw instanceof EventActionTypeType)
          {
-            tempEventActionTypeTypes.put(entry.getKey(), entry.getValue());            
+            tempEventActionTypeTypes.put(entry.getKey(), entry.getValue());
          }
-         
+
          if(!isSameModel)
          {
             if(raw instanceof Code)
@@ -1314,26 +1285,26 @@ public abstract class AbstractMerger
                      targetModel.setQualityControl(CarnotWorkflowModelFactory.eINSTANCE.createQualityControlType());
                   }
                   targetModel.getQualityControl().getCode().add((Code) entry.getValue());
-                  tempQualityControlCodes.put(entry.getKey(), entry.getValue());            
+                  tempQualityControlCodes.put(entry.getKey(), entry.getValue());
                }
             }
-         }         
+         }
       }
-      
+
       if(!tempQualityControlCodes.isEmpty())
       {
-         it = tempQualityControlCodes.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = tempQualityControlCodes.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
             elements.remove(raw);
-         }         
-      }            
+         }
+      }
       if(!tempEventActionTypeTypes.isEmpty())
       {
-         it = tempEventActionTypeTypes.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = tempEventActionTypeTypes.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
@@ -1343,29 +1314,29 @@ public abstract class AbstractMerger
             {
                elements.remove(raw);
             }
-         }         
-      }      
+         }
+      }
       // remove from elements as we will copy them separate
       if(!tempStructuredDatas.isEmpty())
       {
-         it = tempStructuredDatas.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = tempStructuredDatas.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
             elements.remove(raw);
-         }         
+         }
       }
       mergeElements.putAll(elements);
-      
+
       // collect all references from selected data to type declarations (when paste into other model)
-      it = mergeElements.entrySet().iterator(); 
-      while (it.hasNext()) 
+      it = mergeElements.entrySet().iterator();
+      while (it.hasNext())
       {
          Map.Entry entry = (Map.Entry) it.next();
          EObject raw = (EObject) entry.getKey();
-         
-         // check if contains external reference         
+
+         // check if contains external reference
          if(raw instanceof DataType)
          {
             if(((DataType) raw).getExternalReference() != null)
@@ -1378,23 +1349,23 @@ public abstract class AbstractMerger
             if(((ActivityType) raw).getExternalRef() != null)
             {
                externalReferences = true;
-            }            
+            }
          }
          if(raw instanceof ProcessDefinitionType)
          {
             if(((ProcessDefinitionType) raw).getExternalRef() != null)
             {
                externalReferences = true;
-            }  
+            }
             for(ActivityType checkActivity : ((ProcessDefinitionType) raw).getActivity())
             {
                if(checkActivity.getExternalRef() != null)
                {
                   externalReferences = true;
-               }                           
-            }            
-         }         
-         
+               }
+            }
+         }
+
          if(raw instanceof ApplicationType)
          {
             EList contextList = ((ApplicationType) raw).getContext();
@@ -1407,8 +1378,8 @@ public abstract class AbstractMerger
                   ApplicationContextTypeType targetType = (ApplicationContextTypeType) CopyPasteUtil.getSameModelElement(contextType, targetModel, null);
                   if(targetType == null && !typeTypes.containsKey(contextType))
                   {
-                     typeTypes.put(contextType, copier.copy(contextType));                   
-                  }                     
+                     typeTypes.put(contextType, copier.copy(contextType));
+                  }
                }
             }
             EList accessPoints = ((ApplicationType) raw).getAccessPoint();
@@ -1416,34 +1387,34 @@ public abstract class AbstractMerger
             {
                AccessPointType accessPoint = (AccessPointType) accessPoints.get(i);
                DataTypeType accessPointType = accessPoint.getType();
-               DataTypeType accessPointTargetType = (DataTypeType) CopyPasteUtil.getSameModelElement(accessPointType, targetModel, null);         
+               DataTypeType accessPointTargetType = (DataTypeType) CopyPasteUtil.getSameModelElement(accessPointType, targetModel, null);
                if(accessPointTargetType == null && !typeTypes.containsKey(accessPointType))
                {
-                  typeTypes.put(accessPointType, copier.copy(accessPointType));                   
-               }                  
+                  typeTypes.put(accessPointType, copier.copy(accessPointType));
+               }
             }
-            
+
             ApplicationTypeType type = ((ApplicationType) raw).getType();
             if(type != null)
             {
                ApplicationTypeType targetType = (ApplicationTypeType) CopyPasteUtil.getSameModelElement(type, targetModel, null);
                if(targetType == null && !typeTypes.containsKey(type))
                {
-                  typeTypes.put(type, copier.copy(type));                   
-               }                                
+                  typeTypes.put(type, copier.copy(type));
+               }
             }
          }
          else if(raw instanceof DataType)
          {
             DataTypeType type = ((DataType) raw).getType();
             if(type != null)
-            {                  
-               DataTypeType targetType = (DataTypeType) CopyPasteUtil.getSameModelElement(type, targetModel, null);         
+            {
+               DataTypeType targetType = (DataTypeType) CopyPasteUtil.getSameModelElement(type, targetModel, null);
                if(targetType == null && !typeTypes.containsKey(type))
                {
-                  typeTypes.put(type, copier.copy(type));                   
-               }                  
-            }               
+                  typeTypes.put(type, copier.copy(type));
+               }
+            }
             if(type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
             {
                String structuredDataId = AttributeUtil.getAttributeValue((IExtensibleElement) raw, StructuredDataConstants.TYPE_DECLARATION_ATT);
@@ -1459,37 +1430,32 @@ public abstract class AbstractMerger
                {
                   tempStructuredData.add(structuredDataId);
                }
-            }               
-         }            
-      }   
+            }
+         }
+      }
 
       if(!tempStructuredData.isEmpty())
-      {          
-          Set internalStructuredData = new HashSet();             
-          ModelType sourceModel = storage.getOriginalModelCopy();          
-          // now check all children 
+      {
+          Set internalStructuredData = new HashSet();
+          ModelType sourceModel = storage.getOriginalModelCopy();
+          // now check all children
           for (Iterator i = tempStructuredData.iterator(); i.hasNext();)
           {
-              String id = (String) i.next(); 
+              String id = (String) i.next();
               MergerUtil.checkAllXSDImportReferences(sourceModel, id, xsdFiles, internalStructuredData);
           }
           tempStructuredData.addAll(internalStructuredData);
-          
-          internalStructuredData = new HashSet();                       
+
+          internalStructuredData = new HashSet();
           for (Iterator i = tempStructuredData.iterator(); i.hasNext();)
           {
-              String id = (String) i.next(); 
-              MergerUtil.checkAllTypeDeclarationReferences(sourceModel, id, xsdFiles, internalStructuredData);                        
+              String id = (String) i.next();
+              MergerUtil.checkAllTypeDeclarationReferences(sourceModel, id, xsdFiles, internalStructuredData);
           }
-      }         
-      // we need the meta types
-      if(isCollision)
+      }
+      if(!isSameModel)
       {
-         mergeElements.putAll(typeTypes);           
-      }      
-      else if(!isSameModel)
-      {
-         mergeElements.putAll(typeTypes);  
+         mergeElements.putAll(typeTypes);
          // copy all type declarations
          structuredData = tempStructuredData;
       }
@@ -1497,10 +1463,10 @@ public abstract class AbstractMerger
       {
          typeTypes.clear();
       }
-   }   
-   
-   public void mergeConfigurationVariables()   
-   {   
+   }
+
+   public void mergeConfigurationVariables()
+   {
       if(!isSameModel)
       {
          VariableContext targetContext = VariableContextHelper.getInstance().getContext(targetModel);
@@ -1510,13 +1476,13 @@ public abstract class AbstractMerger
             targetContext.refreshVariables(targetModel);
             changedtargetVariables = targetContext.getVariables();
          }
-         
+
          if(targetVariables != null && changedtargetVariables != null)
          {
             List<ModelVariable> findMergedVariables = MergerUtil.findMergedVariables(targetVariables, changedtargetVariables);
             if(findMergedVariables.size() > 0)
             {
-               ModelType sourceModel = storage.getOriginalModelCopy();                            
+               ModelType sourceModel = storage.getOriginalModelCopy();
                VariableContext sourceContext = VariableContextHelper.getInstance().getContext(sourceModel);
                List<ModelVariable> sourceVariables = null;
                if(sourceContext != null)
@@ -1524,7 +1490,7 @@ public abstract class AbstractMerger
                   sourceContext.refreshVariables(sourceModel);
                   sourceVariables = sourceContext.getVariables();
                }
-               
+
                if(sourceVariables != null)
                {
                   for(ModelVariable findMergedVariable : findMergedVariables)
@@ -1534,17 +1500,17 @@ public abstract class AbstractMerger
                      {
                         findMergedVariable.setDescription(findModelVariable.getDescription());
                         findMergedVariable.setDefaultValue(findModelVariable.getDefaultValue());
-                     }                     
+                     }
                   }
                   targetContext.saveVariables();
-               }               
+               }
             }
          }
       }
    }
-   
+
    public boolean mergeGlobal()
-   {	 
+   {
       // 1st check if we have the files in the target project
       if(!xsdFiles.isEmpty() && targetProject != null)
       {
@@ -1555,67 +1521,55 @@ public abstract class AbstractMerger
             if(GenericUtils.getFile(targetProject, filename) == null)
             {
                notFound = true;
-               break;               
+               break;
             }
          }
          if(!notFound)
          {
             xsdFiles.clear();
          }
-      }  
-      
+      }
+
       if(!isSameModel && externalReferences)
       {
          MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
                SWT.ICON_WARNING | SWT.OK);
          messageBox.setText(Diagram_Messages.TXT_CONTAINS_EXTERNAL_REF);
          messageBox.setMessage(Diagram_Messages.MSG_PASTE_NOT_POSSIBLE);
-         messageBox.open();                  
-         return false;         
-      }      
-      
-      if(!isCollision || isCollision && storage.getCollisionAction() == StoreObject.UPDATE)
-      {
-         // if files must be copied, open a dialog
-      	  if(!xsdFiles.isEmpty())
-      	  {
-      	     String message = Diagram_Messages.FileCopyMessage_Text;
-               for (Iterator i = xsdFiles.iterator(); i.hasNext();)
-               {
-                  message += i.next();
-                  message += "\n"; //$NON-NLS-1$
-               }
-      	     
-               MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
-                     SWT.ICON_WARNING | SWT.OK);
-               if(isCollision)
-               {
-                  messageBox.setText(Diagram_Messages.FileUpdateMessage_Title);
-                  messageBox.setMessage(message);
-                  messageBox.open();                  
-               }
-               else
-               {
-                  messageBox.setText(Diagram_Messages.FileCopyMessage_Title);
-                  messageBox.setMessage(message);
-                  messageBox.open();
-                  return false;         
-               }
-      	  }
+         messageBox.open();
+         return false;
       }
-	   
-/////	  
-      
-      targetDeclarations = targetModel.getTypeDeclarations();         
+
+      // if files must be copied, open a dialog
+	  if(!xsdFiles.isEmpty())
+	  {
+	     String message = Diagram_Messages.FileCopyMessage_Text;
+         for (Iterator i = xsdFiles.iterator(); i.hasNext();)
+         {
+            message += i.next();
+            message += "\n"; //$NON-NLS-1$
+         }
+
+         MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
+               SWT.ICON_WARNING | SWT.OK);
+         messageBox.setText(Diagram_Messages.FileCopyMessage_Title);
+         messageBox.setMessage(message);
+         messageBox.open();
+         return false;
+	  }
+
+/////
+
+      targetDeclarations = targetModel.getTypeDeclarations();
       if(!structuredData.isEmpty())
       {
          // we must ask the copy, because on cut we have no longer the source object
          ModelType sourceModel = storage.getOriginalModelCopy();
          TypeDeclarationsType sourceDeclarations = sourceModel.getTypeDeclarations();
-         
+
          for (Iterator i = structuredData.iterator(); i.hasNext();)
          {
-            String id = (String) i.next();    
+            String id = (String) i.next();
             TypeDeclarationType td = sourceDeclarations.getTypeDeclaration(id);
             if(td == null)
             {
@@ -1624,36 +1578,35 @@ public abstract class AbstractMerger
             TypeDeclarationType newDeclaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
             newDeclaration.setId(td.getId());
             newDeclaration.setName(td.getName());
-            typeDeclarationElements.put(td, newDeclaration);            
+            typeDeclarationElements.put(td, newDeclaration);
          }
 
          for (Map.Entry<TypeDeclarationType, TypeDeclarationType> entry : typeDeclarationElements.entrySet())
          {
             TypeDeclarationType raw = entry.getKey();
             TypeDeclarationType copy = entry.getValue();
-            if (MergerUtil.getEntryFromMap(changedCache, raw) == null 
-                  && checkElementInModel(entry)
-                  && (!isCollision || isCollision && storage.getCollisionAction() == StoreObject.COMMIT))
+            if (MergerUtil.getEntryFromMap(changedCache, raw) == null
+                  && checkElementInModel(entry))
             {
                // the element copy will change id and name here
                if(!openDialog(entry))
                {
-                  modelChanged = false;            
+                  modelChanged = false;
                   return false;
                }
                else
                {
                   structuredDataChangedCache.put(raw.getId(), copy.getId());
                   changedCache.put(entry.getKey(), entry.getValue());
-               }                     
+               }
             }
          }
-                  
+
          for (Map.Entry<TypeDeclarationType, TypeDeclarationType> entry : typeDeclarationElements.entrySet())
          {
             TypeDeclarationType raw = entry.getKey();
             TypeDeclarationType newDeclaration = entry.getValue();
-            
+
             XpdlTypeType type = raw.getDataType();
             // copy schema, paste schema
             if (type instanceof SchemaTypeType)
@@ -1663,27 +1616,27 @@ public abstract class AbstractMerger
                 XSDSchema clone = (XSDSchema) schema.cloneConcreteComponent(true, false);
                 Document doc = clone.updateDocument();
                 if(schema.getElement() != null)
-                {                
+                {
                    Element clonedElement = (Element) doc.importNode(schema.getElement(), true);
                    doc.appendChild(clonedElement);
                    clone.setElement(clonedElement);
                 }
-                // we need to adapt the namespace of the import                
+                // we need to adapt the namespace of the import
                 List xsdImports = TypeDeclarationUtils.getImports(clone);
                 if(xsdImports != null)
-                {                	
-                   Iterator imports = xsdImports.iterator(); 
-	             	while (imports.hasNext()) 
+                {
+                   Iterator imports = xsdImports.iterator();
+	             	while (imports.hasNext())
 	             	{
 	             		XSDImport xsdImport = (XSDImport) imports.next();
 	             		String xsdNameSpace = xsdImport.getNamespace();
 	                    int idx = xsdNameSpace.lastIndexOf("/") + 1;  //$NON-NLS-1$
-	                    String elementName = xsdNameSpace.substring(idx, xsdNameSpace.length());	                    
+	                    String elementName = xsdNameSpace.substring(idx, xsdNameSpace.length());
 	                    String newElementName = (String) structuredDataChangedCache.get(elementName);
 	                    if(newElementName == null)
 	                    {
 	                       newElementName = elementName;
-	                    }                        
+	                    }
 	                    else
 	                    {
 	                        xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + newElementName);
@@ -1691,11 +1644,11 @@ public abstract class AbstractMerger
 	                    String newValue = TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newElementName);
 	             		xsdImport.setNamespace(newValue);
 	             	}
-                }                
+                }
                 SchemaTypeType schemaTypeType = XpdlFactory.eINSTANCE.createSchemaTypeType();
                 schemaTypeType.setSchema(clone);
                 newDeclaration.setSchemaType(schemaTypeType);
-                
+
                 XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(newDeclaration, raw.getId());
                 if (component != null)
                 {
@@ -1707,14 +1660,14 @@ public abstract class AbstractMerger
                    if (!element.isElementDeclarationReference() && element.getAnonymousTypeDefinition() == null)
                    {
                       XSDTypeDefinition typeDefinition = element.getTypeDefinition();
-                      // maybe we need to set the new type definition                      
+                      // maybe we need to set the new type definition
                       if (typeDefinition != null && typeDefinition.getSchema() == clone)
                       {
                     	  typeDefinition.setName(newDeclaration.getId());
                       }
                    }
-                }   
-                                
+                }
+
                 // XSDSchema clone = declaration.getSchema();
                 String oldTargetNamespace = clone.getTargetNamespace();
                 clone.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(targetModel.getId(), newDeclaration.getId()));
@@ -1726,22 +1679,14 @@ public abstract class AbstractMerger
             // copy External Reference
             else if (type instanceof ExternalReferenceType)
             {
-                ExternalReferenceType copy = (ExternalReferenceType) copier.copy(type);                   
+                ExternalReferenceType copy = (ExternalReferenceType) copier.copy(type);
                 newDeclaration.setExternalReference(copy);
             }
-            
-            if (ShareUtils.isLockableElement((EObject) newDeclaration))
-            {
-               String uuid = UUIDUtils.getUUID(raw);
-               if (!StringUtils.isEmpty(uuid) && isCollision)
-               {
-                  UUIDUtils.setUUID((TypeDeclarationType) newDeclaration, uuid);
-               }
-            }
+
             targetDeclarations.getTypeDeclaration().add(newDeclaration);
-            modelChanged = true;             
+            modelChanged = true;
          }
-         
+
          for (TypeDeclarationType td : typeDeclarationElements.values())
          {
             XpdlTypeType type = td.getDataType();
@@ -1749,27 +1694,27 @@ public abstract class AbstractMerger
             if (type instanceof SchemaTypeType)
             {
                 MergerUtil.updateTypeDefinition(td, targetModel, structuredDataChangedCache);
-            }            
-         }         
-      }      
-      
+            }
+         }
+      }
+
       // show dialog if global elements shall be copied by value or by reference
       if(showDialog)
       {
          // when the dialog opens modelChanged must be set (cancel dialog shall stop the operation)
          // we must collect the old values somehow to know the elements for the mapping (changedCache)
-         // the dialog may change name and id 
+         // the dialog may change name and id
          if(!referenceOrValue())
          {
             modelChanged = false;
             return false;
          }
-         // changedCache contains only unchecked elements - to be copied by value 
+         // changedCache contains only unchecked elements - to be copied by value
          mergeElements.putAll(changedCache);
       }
-      
-      Iterator it = mergeElements.entrySet().iterator(); 
-      while (it.hasNext()) 
+
+      Iterator it = mergeElements.entrySet().iterator();
+      while (it.hasNext())
       {
          Map.Entry entry = (Map.Entry) it.next();
          if(!mergeElement(entry))
@@ -1778,21 +1723,21 @@ public abstract class AbstractMerger
             return false;
          }
       }
-      it = mergeElements.entrySet().iterator(); 
-      while (it.hasNext()) 
+      it = mergeElements.entrySet().iterator();
+      while (it.hasNext())
       {
          Map.Entry entry = (Map.Entry) it.next();
          addModelElement(entry, false);
       }
       return true;
    }
-   
+
    // collect subprocesses
    protected void collectProcessContent()
    {
       List tmpActivities = new ArrayList();
-      Iterator it = processChildren.entrySet().iterator(); 
-      while (it.hasNext()) 
+      Iterator it = processChildren.entrySet().iterator();
+      while (it.hasNext())
       {
          Map.Entry entry = (Map.Entry) it.next();
          EObject raw = (EObject) entry.getKey();
@@ -1806,9 +1751,9 @@ public abstract class AbstractMerger
          {
             ActivityType activity = (ActivityType) raw;
             tmpActivities.add(activity);
-         }                  
+         }
          if(!isSameModel)
-         {      
+         {
             if(raw instanceof ActivityType)
             {
                ActivityType activity = (ActivityType) raw;
@@ -1820,8 +1765,8 @@ public abstract class AbstractMerger
                MergerUtil.getObjectsFromTrigger(trigger, globalElements, copier);
             }
          }
-      }      
-      
+      }
+
       if(tmpActivities.isEmpty())
       {
          List tmpTransitions = ConnectionUtils.getTransitions(tmpActivities);
@@ -1829,26 +1774,26 @@ public abstract class AbstractMerger
          {
             for(Iterator iter = tmpTransitions.iterator(); iter.hasNext();)
             {
-               TransitionType transition = (TransitionType) iter.next();            
+               TransitionType transition = (TransitionType) iter.next();
                EObject raw = transition;
-               EObject value = copier.copy(transition);               
+               EObject value = copier.copy(transition);
                processChildren.put(raw, value);
                if(!elements.containsKey(raw))
                {
                   // elements like trigger, activities
                   elements.put(raw, value);
                }
-            }            
-         }         
-      }      
-      
+            }
+         }
+      }
+
       // if it is the same model, we use the same objects
       if(!isSameModel)
-      {      
+      {
          // collect all subprocesses
          Map allSubProcesses = new HashMap();
-         it = processes.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = processes.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
@@ -1859,14 +1804,14 @@ public abstract class AbstractMerger
             }
          }
          MergerUtil.mergeProcesses(processes, allSubProcesses);
-         it = processes.entrySet().iterator(); 
-         while (it.hasNext()) 
+         it = processes.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
             MergerUtil.checkAuthorizations(raw, globalElements, copier);
-            
-            MergerUtil.getObjectsFromProcess(raw, processElements, globalElements, copier); 
+
+            MergerUtil.getObjectsFromProcess(raw, processElements, globalElements, copier);
             // collect all activities, needed for dialog check
             EList rawActivities = ((ProcessDefinitionType) raw).getActivity();
             if(!rawActivities.isEmpty())
@@ -1877,24 +1822,24 @@ public abstract class AbstractMerger
                   ActivityType activity = (ActivityType) activitiesIt.next();
                   if(activities != null && !activities.containsKey(activity))
                   {
-                     activities.put(activity, (ActivityType) copier.copy(activity));                         
-                  }                  
-               }               
-            }            
-         }         
-         it = processElements.entrySet().iterator(); 
-         while (it.hasNext()) 
+                     activities.put(activity, (ActivityType) copier.copy(activity));
+                  }
+               }
+            }
+         }
+         it = processElements.entrySet().iterator();
+         while (it.hasNext())
          {
             Map.Entry entry = (Map.Entry) it.next();
             EObject raw = (EObject) entry.getKey();
             if(raw instanceof EventActionTypeType
                   && !elements.containsKey(raw))
             {
-               elements.put(entry.getKey(), entry.getValue());            
+               elements.put(entry.getKey(), entry.getValue());
             }
          }
          // seems that process elements are already there (activities, trigger, data path)
          processElements = new HashMap();
       }
-   }   
+   }
 }

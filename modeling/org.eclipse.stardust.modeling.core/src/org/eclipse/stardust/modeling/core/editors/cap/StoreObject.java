@@ -17,51 +17,32 @@ import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
-
-// object collects several informations needed for copy/paste 
+// object collects several informations needed for copy/paste
 public class StoreObject
 {
    public static int COMMIT = 1;
    public static int UPDATE = 2;
-   
+
    private boolean copySymbols = false;
    // check if all is necessary
    private Point mouseLocation;
-   private ModelType sourceModel;  
+   private ModelType sourceModel;
    private ModelType targetModel;
    private EditPart targetEditPart;
-   private ModelType originalModelCopy;  
-   
+   private ModelType originalModelCopy;
+
    private boolean sameModel = false;
-   private boolean isCollision = false;   
-   private int collisionAction = 0;   
-   
+
    private boolean isDiagram = false;
-   
+
    private DiagramType sourceDiagram;
    private DiagramType targetDiagram;
    private ProcessDefinitionType sourceProcess;
    // targetProcess is the real object
-   private ProcessDefinitionType targetProcess;   
+   private ProcessDefinitionType targetProcess;
    // the target Object (needed ?)
-   private EObject targetObject;   
+   private EObject targetObject;
 
-   public boolean isCollision()
-   {
-      return isCollision;
-   }
-   
-   public void setCollision(int value)
-   {
-      isCollision = true;
-      collisionAction = value;
-   }   
-   
-   public int getCollisionAction()
-   {
-      return collisionAction;
-   }   
-   
    public boolean isCopySymbols()
    {
       return copySymbols;
@@ -69,7 +50,7 @@ public class StoreObject
    public void setCopySymbols(boolean copySymbols)
    {
       this.copySymbols = copySymbols;
-   }   
+   }
    public Point getLocation()
    {
       return mouseLocation;
@@ -101,8 +82,8 @@ public class StoreObject
    public void setSourceProcess(ProcessDefinitionType sourceProcess)
    {
       this.sourceProcess = sourceProcess;
-   }   
-   
+   }
+
    public ModelType getSourceModel()
    {
       return sourceModel;
@@ -119,7 +100,7 @@ public class StoreObject
    public void setTargetModel(ModelType targetModel)
    {
       this.targetModel = targetModel;
-   }   
+   }
 
    public EditPart getTargetEditPart()
    {
@@ -128,16 +109,16 @@ public class StoreObject
    public void setTargetEditPart(EditPart targetEditPart)
    {
       this.targetEditPart = targetEditPart;
-   }   
-   
+   }
+
    public ProcessDefinitionType getTargetProcess()
    {
       return targetProcess;
-   }   
+   }
    public void setTargetProcess(ProcessDefinitionType targetProcess)
    {
       this.targetProcess = targetProcess;
-      
+
    }
    public boolean isSameModel()
    {
@@ -154,7 +135,7 @@ public class StoreObject
    public void setTargetObject(EObject targetObject)
    {
       this.targetObject = targetObject;
-   }   
+   }
    public boolean isDiagram()
    {
       return isDiagram;
