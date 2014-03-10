@@ -53,196 +53,191 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveLan
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNodeSymbolCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveSymbolCommandUtils;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 
 
 public class SymbolContainerEditPolicy extends ContainerEditPolicy
 {
    private Rectangle bounds = new Rectangle(0, 0, 0, 0);
-   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;   
-   
+   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
+
    protected Command getAddCommand(final GroupRequest request)
-   {      
+   {
       Command result = UnexecutableCommand.INSTANCE;
 
       if (getHost().getModel() instanceof ISymbolContainer)
       {
          EditPart hostEP = getHost();
          ISymbolContainer symbolContainer = (ISymbolContainer) hostEP.getModel();
-         
+
          DiagramType diagram = null;
          if(symbolContainer instanceof DiagramType)
          {
             diagram = (DiagramType) symbolContainer;
          }
          else
-         {                  
-            diagram = ModelUtils.findContainingDiagram((IGraphicalObject) symbolContainer);      
-         }         
-         // collision: diagram (or process) must be locked, if model is shared
-         if(ModelServerUtils.isLockedByCurrentUser((EObject) diagram) == null
-               || ModelServerUtils.isLockedByCurrentUser((EObject) diagram).equals(Boolean.TRUE))
-         {         
-            // absolute mouse location
-            Point mouseLocation = ((ChangeBoundsRequest) request).getLocation().getCopy();
-            ISymbolContainer container = (ISymbolContainer) (getHost()).getModel();
-            final IFigure hostFigure = ((AbstractGraphicalEditPart) getHost()).getFigure();
-            
-            // needed for calculation of new coordinates 
-            final Point moveDelta = ((ChangeBoundsRequest) request).getMoveDelta();
-            
-            List parts = request.getEditParts();
-            CompoundCommand addCmds = new CompoundCommand();
-            for (int i = 0; i < parts.size(); i++)
+         {
+            diagram = ModelUtils.findContainingDiagram((IGraphicalObject) symbolContainer);
+         }
+
+         // absolute mouse location
+         Point mouseLocation = ((ChangeBoundsRequest) request).getLocation().getCopy();
+         ISymbolContainer container = (ISymbolContainer) (getHost()).getModel();
+         final IFigure hostFigure = ((AbstractGraphicalEditPart) getHost()).getFigure();
+
+         // needed for calculation of new coordinates
+         final Point moveDelta = ((ChangeBoundsRequest) request).getMoveDelta();
+
+         List parts = request.getEditParts();
+         CompoundCommand addCmds = new CompoundCommand();
+         for (int i = 0; i < parts.size(); i++)
+         {
+            final Object part = parts.get(i);
+            if(getHost() instanceof AbstractSwimlaneEditPart
+                  || getHost() instanceof DiagramEditPart)
             {
-               final Object part = parts.get(i);    
-               if(getHost() instanceof AbstractSwimlaneEditPart
-                     || getHost() instanceof DiagramEditPart)
+               // BPMN Mode on Process Diagram
+               if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
+                     && DiagramUtil.getDefaultPool(diagram) != null)
                {
+                  // a lane cannot be placed on diagram
+                  if(part instanceof LaneEditPart)
+                  {
+                     if(getHost() instanceof DiagramEditPart)
+                     {
+                        return result;
+                     }
+                  }
+                  else
+                  {
+                     // if host contains lanes no other symbols can be placed on host then lanes
+                     if(getHost() instanceof AbstractSwimlaneEditPart && PoolLaneUtils.containsLanes(getHost()))
+                     {
+                        return result;
+                     }
+                  }
+               }
+            }
+            // for old models - a pool should not be moved into pool
+            if(getHost() instanceof PoolEditPart && part instanceof PoolEditPart)
+            {
+               return result;
+            }
+            // not on a collapsed lane
+            if(getHost() instanceof LaneEditPart
+                  && ((LaneEditPart) getHost()).getLaneFigure().isCollapsed())
+            {
+               return result;
+            }
+
+            if (part instanceof LaneEditPart)
+            {
+               if (getRealContainer(container) instanceof ISwimlaneSymbol)
+               {
+                  MoveLaneCommand cmd = new MoveLaneCommand();
+                  cmd.setTarget(((LaneEditPart) part).getLaneModel());
+                  cmd.setContainer((ISwimlaneSymbol) getRealContainer(container));
+                  addCmds.add(cmd);
+
                   // BPMN Mode on Process Diagram
                   if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
                         && DiagramUtil.getDefaultPool(diagram) != null)
                   {
-                     // a lane cannot be placed on diagram
-                     if(part instanceof LaneEditPart)
-                     {                     
-                        if(getHost() instanceof DiagramEditPart)
-                        {
-                           return result;
-                        }                     
-                     }
-                     else
+                     // check for organizations
+                     if(getHost() instanceof LaneEditPart &&
+                           !PoolLaneUtils.canMove((LaneEditPart) getHost(), (LaneEditPart) part))
                      {
-                        // if host contains lanes no other symbols can be placed on host then lanes
-                        if(getHost() instanceof AbstractSwimlaneEditPart && PoolLaneUtils.containsLanes(getHost()))
+                        return UnexecutableCommand.INSTANCE;
+                     }
+                     if(PoolLaneUtils.containsLanes(getHost()))
+                     {
+                        mouseLocation = PoolLaneUtils.getLocation((GraphicalEditPart) getHost(),
+                              ((AbstractSwimlaneEditPart) getHost()).getSwimlaneFigure(), mouseLocation, true);
+                        // location is absolute mouse position
+                        if(!PoolLaneUtils.isSensitiveArea((AbstractSwimlaneEditPart) getHost(), mouseLocation))
                         {
-                           return result;
+                           return UnexecutableCommand.INSTANCE;
                         }
                      }
-                  }
-               }
-               // for old models - a pool should not be moved into pool
-               if(getHost() instanceof PoolEditPart && part instanceof PoolEditPart)
-               {
-                  return result;
-               }                        
-               // not on a collapsed lane
-               if(getHost() instanceof LaneEditPart 
-                     && ((LaneEditPart) getHost()).getLaneFigure().isCollapsed())
-               {
-                  return result;
-               }
-               
-               if (part instanceof LaneEditPart)
-               {
-                  if (getRealContainer(container) instanceof ISwimlaneSymbol)
-                  {
-                     MoveLaneCommand cmd = new MoveLaneCommand();
-                     cmd.setTarget(((LaneEditPart) part).getLaneModel());
-                     cmd.setContainer((ISwimlaneSymbol) getRealContainer(container));
-                     addCmds.add(cmd);
-   
-                     // BPMN Mode on Process Diagram
-                     if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
-                           && DiagramUtil.getDefaultPool(diagram) != null)
+                     else if(PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) getHost()))
                      {
-                        // check for organizations
-                        if(getHost() instanceof LaneEditPart && 
-                              !PoolLaneUtils.canMove((LaneEditPart) getHost(), (LaneEditPart) part))
-                        {
-                           return UnexecutableCommand.INSTANCE;                     
-                        }                        
-                        if(PoolLaneUtils.containsLanes(getHost()))
-                        {            
-                           mouseLocation = PoolLaneUtils.getLocation((GraphicalEditPart) getHost(), 
-                                 ((AbstractSwimlaneEditPart) getHost()).getSwimlaneFigure(), mouseLocation, true);
-                           // location is absolute mouse position
-                           if(!PoolLaneUtils.isSensitiveArea((AbstractSwimlaneEditPart) getHost(), mouseLocation))
-                           {
-                              return UnexecutableCommand.INSTANCE;
-                           }
-                        }
-                        else if(PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) getHost()))
-                        {
-                           // return UnexecutableCommand.INSTANCE;                        
-                        }                        
+                        // return UnexecutableCommand.INSTANCE;
                      }
-                     MoveNodeSymbolCommand moveCmd;                  
-                     moveCmd = new MoveNodeSymbolCommand();
-                     moveCmd.setPart((INodeSymbol) ((AbstractNodeSymbolEditPart) part)
-                           .getModel());
-                     moveCmd.setLocation(mouseLocation);
-                     addCmds.add(moveCmd);
                   }
-                  else
-                  {
-                     addCmds.add(UnexecutableCommand.INSTANCE);
-                  }
-               }
-               else if (part instanceof AbstractNodeSymbolEditPart)
-               {
-                  boolean isValid = true;
-                  // no move if we have an collision
-                  if (checkMoveCollision((ChangeBoundsRequest) request))
-                  {
-                     isValid = false;
-                  }
-                  if(isValid)
-                  {
-                     SetSymbolContainerCommand addCmd = new SetSymbolContainerCommand()
-                     {
-                        private MoveNodeSymbolCommand cmd;
-   
-                        public void execute()
-                        {
-                           // newLocation after moving 
-                           Point oldLocation = ((GraphicalEditPart) part).getFigure().getBounds().getLocation().getCopy();
-                           Point newLocation = moveDelta.getCopy();
-                           newLocation = PoolLaneUtils.getLocation((GraphicalEditPart) part, 
-                                 hostFigure, newLocation, false);  
-                           newLocation.x += oldLocation.x;
-                           newLocation.y += oldLocation.y;
-                           
-                           cmd = new MoveNodeSymbolCommand();
-                           cmd.setPart((INodeSymbol) ((AbstractNodeSymbolEditPart) part)
-                                 .getModel());
-                           cmd.setLocation(newLocation);
-                           getHost().getViewer().getEditDomain().getCommandStack().execute(
-                                 cmd);
-                           super.execute();
-                        }
-   
-                        public void undo()
-                        {
-                           cmd.undo();
-                           super.undo();
-                        }
-   
-                        public void redo()
-                        {
-                           cmd.redo();
-                           super.redo();
-                        }
-                     };
-                     addCmd.setContainer(getRealContainer(container), getHost());
-                     addCmd.setSymbol((IGraphicalObject) ((AbstractNodeSymbolEditPart) part)
-                           .getModel());
-                     // orphan.setLabel();
-                     addCmds.add(addCmd);                  
-                  }
-                  else
-                  {
-                     addCmds.add(UnexecutableCommand.INSTANCE);                  
-                  }
+                  MoveNodeSymbolCommand moveCmd;
+                  moveCmd = new MoveNodeSymbolCommand();
+                  moveCmd.setPart((INodeSymbol) ((AbstractNodeSymbolEditPart) part)
+                        .getModel());
+                  moveCmd.setLocation(mouseLocation);
+                  addCmds.add(moveCmd);
                }
                else
                {
                   addCmds.add(UnexecutableCommand.INSTANCE);
                }
             }
-            result = addCmds.unwrap();
+            else if (part instanceof AbstractNodeSymbolEditPart)
+            {
+               boolean isValid = true;
+               // no move if we have an collision
+               if (checkMoveCollision((ChangeBoundsRequest) request))
+               {
+                  isValid = false;
+               }
+               if(isValid)
+               {
+                  SetSymbolContainerCommand addCmd = new SetSymbolContainerCommand()
+                  {
+                     private MoveNodeSymbolCommand cmd;
+
+                     public void execute()
+                     {
+                        // newLocation after moving
+                        Point oldLocation = ((GraphicalEditPart) part).getFigure().getBounds().getLocation().getCopy();
+                        Point newLocation = moveDelta.getCopy();
+                        newLocation = PoolLaneUtils.getLocation((GraphicalEditPart) part,
+                              hostFigure, newLocation, false);
+                        newLocation.x += oldLocation.x;
+                        newLocation.y += oldLocation.y;
+
+                        cmd = new MoveNodeSymbolCommand();
+                        cmd.setPart((INodeSymbol) ((AbstractNodeSymbolEditPart) part)
+                              .getModel());
+                        cmd.setLocation(newLocation);
+                        getHost().getViewer().getEditDomain().getCommandStack().execute(
+                              cmd);
+                        super.execute();
+                     }
+
+                     public void undo()
+                     {
+                        cmd.undo();
+                        super.undo();
+                     }
+
+                     public void redo()
+                     {
+                        cmd.redo();
+                        super.redo();
+                     }
+                  };
+                  addCmd.setContainer(getRealContainer(container), getHost());
+                  addCmd.setSymbol((IGraphicalObject) ((AbstractNodeSymbolEditPart) part)
+                        .getModel());
+                  // orphan.setLabel();
+                  addCmds.add(addCmd);
+               }
+               else
+               {
+                  addCmds.add(UnexecutableCommand.INSTANCE);
+               }
+            }
+            else
+            {
+               addCmds.add(UnexecutableCommand.INSTANCE);
+            }
          }
+         result = addCmds.unwrap();
       }
 
       return result;
@@ -269,109 +264,104 @@ public class SymbolContainerEditPolicy extends ContainerEditPolicy
       {
          EditPart hostEP = getHost();
          ISymbolContainer symbolContainer = (ISymbolContainer) hostEP.getModel();
-         
+
          DiagramType diagram = null;
          if(symbolContainer instanceof DiagramType)
          {
             diagram = (DiagramType) symbolContainer;
          }
          else
-         {                  
-            diagram = ModelUtils.findContainingDiagram((IGraphicalObject) symbolContainer);      
-         }         
-         
-         // collision: diagram (or process) must be locked, if model is shared
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) diagram);
-         if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
          {
-            Object part = request.getNewObject();
-            if (part instanceof IDiagramCommand)
+            diagram = ModelUtils.findContainingDiagram((IGraphicalObject) symbolContainer);
+         }
+
+         Object part = request.getNewObject();
+         if (part instanceof IDiagramCommand)
+         {
+            ((IDiagramCommand) part).setParent(getRealContainer(symbolContainer));
+            // (fh) moved the actual returning of the command to LayoutEditPolicy,
+            // here we only check for the parent validity
+            cmd = null; // (Command) part;
+         }
+         // no creation on collapsed lane
+         if(hostEP instanceof LaneEditPart)
+         {
+            if(((LaneFigure) ((LaneEditPart) hostEP).getLaneFigure()).isCollapsed())
             {
-               ((IDiagramCommand) part).setParent(getRealContainer(symbolContainer));
-               // (fh) moved the actual returning of the command to LayoutEditPolicy,
-               // here we only check for the parent validity
-               cmd = null; // (Command) part;
+               return UnexecutableCommand.INSTANCE;
             }
-            // no creation on collapsed lane
-            if(hostEP instanceof LaneEditPart)
+         }
+
+         if(hostEP instanceof AbstractSwimlaneEditPart
+               || hostEP instanceof DiagramEditPart)
+         {
+            if(request instanceof CreateRequest)
             {
-               if(((LaneFigure) ((LaneEditPart) hostEP).getLaneFigure()).isCollapsed())
+               CreateSymbolCommand createSymbolCommand = null;
+               Command command = (Command) request.getNewObject();
+               if(command instanceof CompoundCommand)
                {
-                  return UnexecutableCommand.INSTANCE;               
-               }
-            }
-            
-            if(hostEP instanceof AbstractSwimlaneEditPart
-                  || hostEP instanceof DiagramEditPart)
-            {
-               if(request instanceof CreateRequest)
-               {
-                  CreateSymbolCommand createSymbolCommand = null;               
-                  Command command = (Command) request.getNewObject();
-                  if(command instanceof CompoundCommand)
+                  List commands = ((CompoundCommand) command).getCommands();
+                  for(int i = 0; i < commands.size(); i++)
                   {
-                     List commands = ((CompoundCommand) command).getCommands();
-                     for(int i = 0; i < commands.size(); i++)
+                     Command singleCommand = (Command) commands.get(i);
+                     if(singleCommand instanceof CreateSymbolCommand)
                      {
-                        Command singleCommand = (Command) commands.get(i);
-                        if(singleCommand instanceof CreateSymbolCommand)
-                        {
-                           createSymbolCommand = (CreateSymbolCommand) singleCommand;
-                           break;                           
-                        }
+                        createSymbolCommand = (CreateSymbolCommand) singleCommand;
+                        break;
                      }
                   }
-                  else if(command instanceof CreateSymbolCommand)
+               }
+               else if(command instanceof CreateSymbolCommand)
+               {
+                  createSymbolCommand = (CreateSymbolCommand) command;
+               }
+               // BPMN Mode on Process Diagram
+               if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
+                     && DiagramUtil.getDefaultPool(diagram) != null)
+               {
+                  boolean isLane = false;
+                  EClass eClass = createSymbolCommand.getEClass();
+                  if(eClass.equals(PKG.getLaneSymbol()))
                   {
-                     createSymbolCommand = (CreateSymbolCommand) command;
-                  }               
-                  // BPMN Mode on Process Diagram
-                  if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
-                        && DiagramUtil.getDefaultPool(diagram) != null)
+                     isLane = true;
+                  }
+
+                  if(isLane)
                   {
-                     boolean isLane = false;
-                     EClass eClass = createSymbolCommand.getEClass();
-                     if(eClass.equals(PKG.getLaneSymbol()))
-                     {                     
-                        isLane = true;
-                     }                  
-                     
-                     if(isLane)
+                     if(!(hostEP instanceof DiagramEditPart))
                      {
-                        if(!(hostEP instanceof DiagramEditPart))
+                        if(PoolLaneUtils.containsLanes(getHost()))
                         {
-                           if(PoolLaneUtils.containsLanes(getHost()))
-                           {                        
-                              Point location = request.getLocation();
-                              location = PoolLaneUtils.getLocation((GraphicalEditPart) hostEP, 
-                                    ((AbstractSwimlaneEditPart) hostEP).getSwimlaneFigure(), location, true);
-                              // location is absolute
-                              if(!PoolLaneUtils.isSensitiveArea((AbstractSwimlaneEditPart) hostEP, location))
-                              {
-                                 return UnexecutableCommand.INSTANCE;
-                              }  
+                           Point location = request.getLocation();
+                           location = PoolLaneUtils.getLocation((GraphicalEditPart) hostEP,
+                                 ((AbstractSwimlaneEditPart) hostEP).getSwimlaneFigure(), location, true);
+                           // location is absolute
+                           if(!PoolLaneUtils.isSensitiveArea((AbstractSwimlaneEditPart) hostEP, location))
+                           {
+                              return UnexecutableCommand.INSTANCE;
                            }
-                        }
-                        else
-                        {
-                           return UnexecutableCommand.INSTANCE;                        
                         }
                      }
                      else
                      {
-                        if(hostEP instanceof DiagramEditPart)
+                        return UnexecutableCommand.INSTANCE;
+                     }
+                  }
+                  else
+                  {
+                     if(hostEP instanceof DiagramEditPart)
+                     {
+                        return UnexecutableCommand.INSTANCE;
+                     }
+                     else
+                     {
+                        // symbols can be placed only on leaf nodes (lanes)
+                        if(PoolLaneUtils.containsLanes((AbstractSwimlaneEditPart) getHost()))
                         {
                            return UnexecutableCommand.INSTANCE;
-                        }    
-                        else
-                        {
-                           // symbols can be placed only on leaf nodes (lanes)
-                           if(PoolLaneUtils.containsLanes((AbstractSwimlaneEditPart) getHost()))
-                           {
-                              return UnexecutableCommand.INSTANCE;                        
-                           }                        
                         }
-                     }                  
+                     }
                   }
                }
             }
