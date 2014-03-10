@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
@@ -33,13 +34,11 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.modelserver.CompositeUtils;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -154,31 +153,10 @@ public class ExternalPackagePropertyPage extends AbstractModelElementPropertyPag
       }
       return composite;
    }
-   
-  
+
+
    public void createControl(Composite parent){
       super.createControl(parent);
-      if (getEditor().getModelServer().isModelShared())
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(this.getEditor().getWorkflowModel());
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            this.enablePage = enablePage;
-            CompositeUtils.enableContentComposite((Composite) parent, false);
-            //enableContentOutline();      
-            //enableContentButtons();
-            Button applyButton = getApplyButton();           
-            if(applyButton != null)
-            {
-               applyButton.setEnabled(false);
-            }
-            Button defaultsButton = getDefaultsButton();
-            if(defaultsButton != null)
-            {
-               defaultsButton.setEnabled(false);
-            }            
-         }
-      }
    }
 
    private void substituteURI(EObject modelElement, String oldURI, String newURI)
@@ -236,17 +214,6 @@ public class ExternalPackagePropertyPage extends AbstractModelElementPropertyPag
    @Override
    public boolean isValid()
    {
-      if (getEditor().getModelServer().isModelShared())
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(this.getEditor().getWorkflowModel());
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            this.enablePage = false;
-            return false;
-         }
-      }
       return super.isValid();
    }
-   
-   
 }
