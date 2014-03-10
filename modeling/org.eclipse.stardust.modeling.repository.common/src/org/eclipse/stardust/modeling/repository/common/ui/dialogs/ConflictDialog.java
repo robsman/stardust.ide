@@ -17,13 +17,9 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
-import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
 import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
@@ -91,15 +87,6 @@ public class ConflictDialog extends Dialog
          if (data.isPredefined())
          {
             // always reuse predefined data
-            return MergeAction.REUSE;
-         }
-      }
-      ModelType model = ModelUtils.findContainingModel(original);
-      if (model != null)
-      {
-         IWorkflowModelEditor editor = BpmUiActivator.findWorkflowModelEditor(model);
-         if (editor != null && editor.requireLock(original))
-         {
             return MergeAction.REUSE;
          }
       }
