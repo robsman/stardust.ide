@@ -36,11 +36,7 @@ public class Diagram_Messages extends NLS {
 
    public static String LB_SelectTypes;
 
-   public static String LBL_ALL_ELEMENTS;
-
    public static String LBL_CARNOT_AG;
-
-   public static String LBL_COMMENT;
 
    public static String LBL_CONNECTION;
 
@@ -134,8 +130,6 @@ public class Diagram_Messages extends NLS {
 
    public static String MSG_BindAction;
 
-   public static String MSG_BOX_RMS_OPERATION;
-
    public static String MSG_UnbindAction;
 
    public static String MSG_DataMapping;
@@ -190,13 +184,7 @@ public class Diagram_Messages extends NLS {
 
    public static String MSG_ModelFileNameMustBeValid;
 
-   public static String TASK_ANALYZING_DIFFERENCES;
-
    public static String TASK_Creating;
-
-   public static String TASK_LOCK_ALL_ELEMENTS;
-
-   public static String TASK_LOCK_ELEMENTS;
 
    public static String TITLE_NewCarnotWorkflowModel;
 
@@ -235,24 +223,6 @@ public class Diagram_Messages extends NLS {
    public static String NAME_CurrentDate;
 
    public static String TASK_OpeningFileForEditing;
-
-   public static String TASK_PREPARING_FOR_COMMIT;
-
-   public static String TASK_PREPARING_FOR_REVERT;
-
-   public static String TASK_PREPARING_FOR_UPDATE;
-
-   public static String TASK_READING_LOCAL_MD;
-
-   public static String TASK_READING_REMONTE_MD;
-
-   public static String TASK_READING_REMOTE_MD;
-
-   public static String TASK_REMOTE_MD;
-
-   public static String TASK_REVERT_CHANGES;
-
-   public static String TASK_UNLOCK_ALL;
 
    public static String NAME_RenameViewAction;
 
@@ -368,17 +338,11 @@ public class Diagram_Messages extends NLS {
 
    public static String MSG_DIA_DO_YOU_WANT_TO_UPDATE_MD_TO_CURRENT_SPECS_NULL;
 
-   public static String MSG_DIA_ELEMENT_NULL_ONE_MUST_BE_LOCKED_FIRST;
-
-   public static String MSG_DIA_INVALID_ID_NULL_ONE;
-
    public static String MSG_DIA_MODEL_NULL_WAS_CREATED_USING_A_NEWER_VERSION_OF_THE_MODELER_ONE;
 
    public static String MSG_DIA_MOVE_SYMBOLS;
 
    public static String MSG_DIA_NONE;
-
-   public static String MSG_DIA_REPOSITORY_CONNECTION;
 
    public static String MSG_DIA_RETRIEVING_WSDL;
 
@@ -387,12 +351,6 @@ public class Diagram_Messages extends NLS {
    public static String MSG_DIA_SET_PERFORMER;
 
    public static String MSG_DIA_THIS_ACTION_WILL_CAUSE_OVERLAPPING_OF_SYMBOLS_DO_YOU_WANT_TO_CONTINUE;
-
-   public static String MSG_DIA_THIS_OPERATION_REQUIRES_THE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_MD_TO_PROCEED;
-
-   public static String MSG_DIA_THIS_OPERATION_REQUIRES_THE_WHOLE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_WHOLE_MD_TO_PROCEED;
-
-   public static String MSG_DIA_TXT_IMPORT_MD_ELEMENT;
 
    public static String MSG_DIA_UNKNOWN_VERSION_FOR_MD_NULL;
 
@@ -531,10 +489,6 @@ public class Diagram_Messages extends NLS {
    public static String DIA_DO_YOU_WANT_TO_CREATE_CONNECTION_TO_ALL_SYMBOLS_NOR_TO_THE_CLOSEST_CLOSSEST_SYMBOL_ONLY;
 
    public static String DIA_MULTIPLE_CONNECTION_DETECTED;
-
-   public static String DIA_REPOSITORY_CONNECTION;
-
-   public static String DIA_THIS_OPERATION_REQUIRES_THE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_MD_TO_PROCEED;
 
    public static String DIA_TITLE_ELEMENT_SELE;
 
@@ -830,8 +784,6 @@ public class Diagram_Messages extends NLS {
 
    public static String TXT_CloseDiagram;
 
-   public static String TXT_COLLABORATIVE_MODELING_FEED;
-
    public static String TXT_CONTAINS_EXTERNAL_REF;
 
    public static String TXT_NewOrganizaton;
@@ -900,12 +852,6 @@ public class Diagram_Messages extends NLS {
 
    public static String EX_CLASSCAST_ExpectionCompareRectangles;
 
-   public static String EXC_ALREADY_LOCKED_BY;
-
-   public static String EXC_CANNOT_FIND_ASSOCIATED_WORKFLOW_MD_EDITOR;
-
-   public static String EXC_CANNOT_NOT_DELETE_LOCK_FOLDER;
-
    public static String EXC_CANNOT_PARSE_DTD_FILE;
 
    public static String EXC_CANNOT_PARSE_WSDL_FILE;
@@ -916,25 +862,9 @@ public class Diagram_Messages extends NLS {
 
    public static String EXC_CANNOT_SEARCH_AVAILABLE_TYPES;
 
-   public static String EXC_ERROR_INITIALIZING_REPOSITORY_PROVIDER_FOR;
-
-   public static String EXC_JOB_FAILED;
-
    public static String EXC_ORGANIZATION;
 
-   public static String EXC_PROJECT_IS_NOT_SHARED;
-
-   public static String EXC_UNABLE_TO_FIND_LOCK_FOLDER;
-
    public static String EXC_UNABLE_TO_FIND_XPDL_EXPORT_STYLESHEET;
-
-   public static String EXC_UNABLE_TO_READ_REMONTE_MD;
-
-   public static String EXC_UNSUPPORTED_REPOSITORY_PROVIDER_NO_EXTENSION_FOUND_FOR;
-
-   public static String EXC_UPDATE_NEEDED_FOR;
-
-   public static String EXC_USER_CANCELED_COMMIT;
 
    public static String EXC_USER_CANCELLED;
 
@@ -1168,61 +1098,7 @@ public class Diagram_Messages extends NLS {
 
    public static String LB_CleanupModel;
 
-   public static String LB_CommitModelElement;
-
-   public static String LB_ShareModel;
-
-   public static String LB_UnshareModel;
-
-   public static String LB_UpdateModel;
-
-   public static String LB_Refresh;
-
    public static String LB_UnusedModelElements;
-
-   public static String LB_LOCK;
-
-   public static String LB_LOCK_ALL;
-
-   public static String LB_UNLOCK_ALL;
-
-   public static String MSG_UNLOCK_ALL;
-
-   public static String LB_REVERT_CHANGES;
-
-   public static String MSG_LOCKED_BY_OTHER;
-
-   public static String MSG_NO_LOCKING_NOT_SHARED;
-
-   public static String MSG_NOT_LOCKABLE;
-
-   public static String MSG_SAVE_MODEL_NEEDED;
-
-   public static String MSG_LOCK_NEEDED;
-
-   public static String MSG_FLUSH_COMMAND_STACK;
-
-   public static String MSG_MODEL_ALREADY_SHARED;
-
-   public static String MSG_NO_CHANGES;
-
-   public static String MSG_NO_LOCKS;
-
-   public static String MSG_NO_COMMIT_TEXT;
-
-   public static String LB_REFRESH_STATUS_JOB;
-
-   public static String LB_CREATE_CACHE_JOB;
-
-   public static String LB_VCS_FEED_VIEW_REVISION;
-
-   public static String LB_VCS_FEED_VIEW_DATE;
-
-   public static String LB_VCS_FEED_VIEW_AUTHOR;
-
-   public static String LB_VCS_FEED_VIEW_EVENT;
-
-   public static String LB_VCS_FEED_VIEW_COMMENT;
 
    public static String LB_DeployModel;
 
