@@ -17,10 +17,13 @@ import org.eclipse.stardust.common.StringKey;
  */
 public final class JoinSplitType extends StringKey
 {
+   private static final long serialVersionUID = 2L;
+
    public static final JoinSplitType None = new JoinSplitType("None", "None"); //$NON-NLS-1$ //$NON-NLS-2$
    public static final JoinSplitType Xor = new JoinSplitType("XOR", "XOR"); //$NON-NLS-1$ //$NON-NLS-2$
    public static final JoinSplitType And = new JoinSplitType("AND", "And"); //$NON-NLS-1$ //$NON-NLS-2$
-   
+   public static final JoinSplitType Or = new JoinSplitType("OR", "Or"); //$NON-NLS-1$ //$NON-NLS-2$
+
    public static JoinSplitType getKey(String id)
    {
       return (JoinSplitType) getKey(JoinSplitType.class, id);
