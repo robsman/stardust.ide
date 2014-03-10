@@ -11,7 +11,6 @@
 package org.eclipse.stardust.modeling.core.editors.ui;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,10 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
@@ -30,8 +27,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -40,6 +35,7 @@ import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
+
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
@@ -50,8 +46,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -64,31 +58,23 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.BindingManager;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.IValidationEventListener;
 import org.eclipse.stardust.modeling.core.editors.ValidationIssueManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.dialog.ApplyUpdatesCommand;
 import org.eclipse.stardust.modeling.core.editors.ui.validation.PageValidationManager;
-import org.eclipse.stardust.modeling.core.modelserver.CompositeUtils;
-import org.eclipse.stardust.modeling.core.modelserver.LockFileUtils;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
-import org.eclipse.stardust.modeling.core.modelserver.RMSException;
-import org.eclipse.stardust.modeling.core.modelserver.jobs.CollisionState;
-import org.eclipse.stardust.modeling.core.modelserver.jobs.StateCache;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.properties.DataPathPropertyPage;
 import org.eclipse.stardust.modeling.core.properties.VariablesConfigurationPage;
 import org.eclipse.stardust.modeling.core.ui.PreferenceNodeBinding;
-import org.eclipse.stardust.modeling.core.utils.GenericUtils;
+import org.eclipse.stardust.modeling.core.utils.CompositeUtils;
 import org.eclipse.stardust.modeling.core.utils.VerifyingChangeRecorder;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.PropertyPage;
 
@@ -113,13 +99,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
    private WorkflowModelEditor editor;
    private ArrayList<Command> dependentCommands = new ArrayList<Command>();
 
-//   private Button unlock;
-//   private int unlock_btn_id = 55555;
-   private Button lock;
-   private int lock_btn_id = 55556;
-
-   private Integer isLocked = null;
-
    public ModelElementPropertyDialog(WorkflowModelEditor editor, Shell shell,
          PreferenceManager pageManager, IAdaptable element, ChangeRecorder recorder)
    {
@@ -129,7 +108,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       this.changeRecorder = recorder == null
          ? new VerifyingChangeRecorder(editor, issueManager) : recorder;
       startRecording();
-      isLocked();
    }
 
    /*
@@ -386,13 +364,9 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       {
          boolean isExternalReference = isExternalReference(getElement());
 
-         if(isLocked != null || isExternalReference)
+         if(isExternalReference)
          {
             boolean enablePage = false;
-            if((isLocked != null && isLocked.intValue() == 1) && !isExternalReference)
-            {
-               enablePage = true;
-            }
 
             if(page instanceof AbstractModelElementPropertyPage)
             {
@@ -586,49 +560,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       enablePageControl(page);
 
       return page;
-   }
-
-   private void isLocked()
-   {
-      ModelType compareModel = ModelUtils.findContainingModel(ModelUtils.getEObject(this.getElement()));
-      if (!(compareModel instanceof Proxy) && (compareModel == null || GenericUtils.getWorkflowModelEditor(compareModel) == null))
-      {
-         isLocked = null;
-      }
-
-      EObject modelElement = ModelUtils.getEObject(this.getElement());
-      ProcessDefinitionType process = ModelUtils.findContainingProcess(modelElement);
-      if(process != null)
-      {
-         modelElement = process;
-      }
-
-      if(modelElement instanceof IConnection)
-      {
-         modelElement = (EObject) getEditor().getModel();
-      }
-
-      if (ShareUtils.isLockableElement(modelElement)
-            && editor.getModelServer().isModelShared())
-      {
-         IFile file = LockFileUtils.getLockFile(modelElement);
-         if (file != null && file.exists())
-         {
-            int locked = 0;
-            // locked by me
-            StateCache stateCache = editor.getModelServer().getStateCache();
-            if (stateCache.getState(modelElement).getState() == CollisionState.LOCKED_BY_USER)
-            {
-               locked = 1;
-            }
-            boolean shared = editor.getModelServer().isElementShared(modelElement);
-
-            if(shared)
-            {
-               isLocked = new Integer(locked);
-            }
-         }
-      }
    }
 
    private void registerValidation(final CarnotPreferenceNode node,
@@ -891,85 +822,11 @@ public class ModelElementPropertyDialog extends PreferenceDialog
    {
       // create OK and Cancel buttons by default
       super.createButtonsForButtonBar(parent);
-
-      // model or project is not shared
-      ModelServer modelServer = editor.getModelServer();
-      if (!modelServer.isModelShared() || isExternalReference(getElement()))
-      {
-         return;
-      }
-      // TODO: (fh) check the need for that. Added file ?
-      IAdaptable element = getElement();
-      EObject eObject = ModelUtils.getEObject(element);
-      IFile file = LockFileUtils.getLockFile(eObject);
-      if (file == null || !file.exists())
-      {
-         return;
-      }
-
-      // TODO: (fh) check when that happens
-      ModelType compareModel = ModelUtils.findContainingModel(eObject);
-      if (!(compareModel instanceof Proxy) && (compareModel == null || GenericUtils.getWorkflowModelEditor(compareModel) == null))
-      {
-         return;
-      }
-
-      boolean shared = modelServer.isAdaptableShared(element);
-      boolean lockable = modelServer.isLockableElement(element);
-
-      boolean locked = false;
-      boolean lockedByOtherUser = false;
-
-      if (shared && lockable)
-      {
-         StateCache stateCache = editor.getModelServer().getStateCache();
-         if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_OTHER)
-         {
-            lockedByOtherUser = true;
-         }
-         else if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_USER)
-         {
-            locked = true;
-         }
-      }
-
-      lock = createButton(parent, lock_btn_id, Diagram_Messages.LB_LOCK, false);
-      lock.setEnabled(false);
-
-      if (!shared)
-      {
-         lock.setToolTipText(Diagram_Messages.MSG_NO_LOCKING_NOT_SHARED);
-      }
-      else if (!lockable)
-      {
-         lock.setToolTipText(Diagram_Messages.MSG_NOT_LOCKABLE);
-      }
-      else
-      {
-         if (!lockedByOtherUser)
-         {
-            if (!locked)
-            {
-               lock.setEnabled(true);
-            }
-         }
-      }
    }
 
    public void updateButtons()
    {
       super.updateButtons();
-      if(isLocked != null)
-      {
-         if(isLocked.intValue() == 0)
-         {
-            Button okButton = getButton(IDialogConstants.OK_ID);
-            if(okButton != null)
-            {
-               okButton.setEnabled(false);
-            }
-         }
-      }
       if (isExternalReference(getElement())) {
          Button okButton = getButton(IDialogConstants.OK_ID);
          if(okButton != null)
@@ -981,71 +838,6 @@ public class ModelElementPropertyDialog extends PreferenceDialog
 
    protected void buttonPressed(int buttonId)
    {
-      if (buttonId == lock_btn_id)
-      {
-         IRunnableWithProgress op = new IRunnableWithProgress()
-         {
-            public void run(IProgressMonitor monitor) throws InvocationTargetException,
-                  InterruptedException
-            {
-               try
-               {
-                  editor.getModelServer().lock(getElement(), monitor);
-                  Display.getDefault().syncExec(new Runnable()
-                  {
-                     public void run()
-                     {
-                        isLocked = new Integer(1);
-                        updateLockButtons();
-                        notifyPages(true);
-                     }
-                  });
-               }
-               catch (RMSException e)
-               {
-                  throw new InvocationTargetException(e);
-               }
-            }
-         };
-         try
-         {
-            new ProgressMonitorDialog(editor.getSite().getShell()).run(true, true, op);
-         }
-         catch (InvocationTargetException e)
-         {
-            Throwable t = e.getCause();
-            ModelServerUtils.showMessageBox(t.getMessage());
-            // TODO: update status
-         }
-         catch (InterruptedException e)
-         {
-            // TODO handle cancellation
-            e.printStackTrace();
-         }
-      }
-      else
-      {
-         super.buttonPressed(buttonId);
-      }
-   }
-
-   private void updateLockButtons()
-   {
-      boolean lockedByOtherUser = false;
-      boolean locked = false;
-      StateCache stateCache = editor.getModelServer().getStateCache();
-      EObject eObject = ModelUtils.getEObject(getElement());
-      if (eObject != null)
-      {
-         if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_OTHER)
-         {
-            lockedByOtherUser = true;
-         }
-         else if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_USER)
-         {
-            locked = true;
-         }
-         lock.setEnabled(!locked && !lockedByOtherUser);
-      }
+      super.buttonPressed(buttonId);
    }
 }
