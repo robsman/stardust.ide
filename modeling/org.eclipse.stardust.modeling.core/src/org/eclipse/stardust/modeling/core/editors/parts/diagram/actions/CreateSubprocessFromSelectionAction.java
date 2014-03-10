@@ -30,7 +30,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TextSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
@@ -39,12 +38,8 @@ import org.eclipse.stardust.modeling.core.editors.cap.CopyPasteUtil;
 import org.eclipse.stardust.modeling.core.editors.cap.CreateSubprocess;
 import org.eclipse.stardust.modeling.core.editors.cap.DiagramMerger;
 import org.eclipse.stardust.modeling.core.editors.cap.StoreObject;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractNodeSymbolEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.ui.IWorkbenchPart;
-
 
 public class CreateSubprocessFromSelectionAction extends DeleteAction
 {
@@ -72,15 +67,6 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
       }
       if(CopyPasteUtil.validateSelectionForSubprocess(selection))
       {
-         AbstractNodeSymbolEditPart ep = (AbstractNodeSymbolEditPart) selection.get(0);
-         EObject modelElement = (EObject) ep.getModel();
-         WorkflowModelEditor editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel(modelElement));
-         
-         ModelServer server = editor.getModelServer();
-         if(server != null && server.requireLock((EObject) ep.getModel()))
-         {
-            return false;
-         }
          return true;
       }
       return false;
@@ -88,7 +74,7 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
 
    public void run()
    {
-      List content = CopyPasteUtil.createCopySet(new Integer(CopyPasteUtil.SELECTION_GLOBAL_DIAGRAM), 
+      List content = CopyPasteUtil.createCopySet(new Integer(CopyPasteUtil.SELECTION_GLOBAL_DIAGRAM),
             getSelectedObjects(), editor, false);
       copySet = extractStorage(content);
       final EditPart targetEP = PoolLaneUtils.findTargetEditPart((WorkflowModelEditor) getWorkbenchPart());
@@ -96,31 +82,31 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
       final LaneSymbol lane = getLane(targetEP);
       // add gateways if necessary
       List selection = getSelectedObjects();
-      
-      // cut      
+
+      // cut
       List symbols = new ArrayList();
       List modelSymbols = new ArrayList();
       filterSelection(symbols, modelSymbols, selection);
 
       CreateSubprocess createSubprocess = new CreateSubprocess(selection, storage, editor);
       createSubprocess.setLaneSymbol(lane);
-      
+
       // start recording
       ChangeRecorder targetRecorder = new ChangeRecorder();
       targetRecorder.beginRecording(Collections.singleton(storage.getSourceModel()));
-                  
+
       createSubprocess.deleteSymbols(symbols);
       createSubprocess.deleteElements(modelSymbols);
-      
+
       createSubprocess.createElements();
       createSubprocess.updateStorage();
       createSubprocess.reconnectConnections();
 
-      DiagramMerger util = new DiagramMerger(storage.getTargetModel(), copySet, storage, DiagramMerger.CREATE_SUBPROCESS);      
+      DiagramMerger util = new DiagramMerger(storage.getTargetModel(), copySet, storage, DiagramMerger.CREATE_SUBPROCESS);
       util.merge();
       final ChangeDescription change = targetRecorder.endRecording();
       targetRecorder.dispose();
-      
+
       Command cmd = new Command()
       {
          public void execute()
@@ -149,7 +135,7 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
          storage.setLocation(location);
       }
    }
-   
+
    private LaneSymbol getLane(EditPart targetEP)
    {
       if(targetEP.getModel() != null)
@@ -168,7 +154,7 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
       }
       return null;
    }
-   
+
    private List extractStorage(List currentContent)
    {
       List copySet = new ArrayList();
@@ -185,21 +171,21 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
          }
       }
       return copySet;
-   }   
-   
+   }
+
    public static void filterSelection(List symbols, List modelSymbols, List selectionList)
    {
       List gateways = new ArrayList();
       for(int i = 0; i < selectionList.size(); i++)
       {
-         Object entry = selectionList.get(i); 
-         EObject symbol = (EObject) ((AbstractEditPart) entry).getModel();              
+         Object entry = selectionList.get(i);
+         EObject symbol = (EObject) ((AbstractEditPart) entry).getModel();
          if(symbol instanceof AnnotationSymbolType
                || symbol instanceof TextSymbolType)
          {
-            symbols.add(symbol);            
+            symbols.add(symbol);
          }
-         else if((symbol instanceof ActivitySymbolType 
+         else if((symbol instanceof ActivitySymbolType
                || symbol instanceof AbstractEventSymbol)
                && ((IModelElementNodeSymbol) symbol).getModelElement() != null)
          {
@@ -211,7 +197,7 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
                {
                   gateways.addAll(gatewaySymbols);
                }
-            }            
+            }
          }
          else
          {
@@ -225,6 +211,6 @@ public class CreateSubprocessFromSelectionAction extends DeleteAction
          {
             symbols.add(gatewaySymbol);
          }
-      }      
-   }     
+      }
+   }
 }

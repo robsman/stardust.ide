@@ -27,8 +27,6 @@ import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateModelElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
-
 
 public class CreateActivityAction extends SelectionAction
 {
@@ -79,16 +77,8 @@ public class CreateActivityAction extends SelectionAction
    public void run()
    {
       ProcessDefinitionType process = getProcess();
-      Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
-      if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-      {
-         execute(createCommand(process));
-         CreationUtils.showInOutlineAndEdit(activity);
-      }
-      else
-      {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
-      }
+      execute(createCommand(process));
+      CreationUtils.showInOutlineAndEdit(activity);
    }
 
    private CreateModelElementCommand createCommand(ProcessDefinitionType process)

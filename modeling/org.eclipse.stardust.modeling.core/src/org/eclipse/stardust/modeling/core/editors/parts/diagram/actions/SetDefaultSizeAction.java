@@ -29,7 +29,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -65,7 +64,7 @@ public class SetDefaultSizeAction extends SelectionAction
          if(SnapGridUtils.getSnapToHelper((AbstractGraphicalEditPart) part) != null)
          {
             return false;
-         }         
+         }
       }
       return cmd.canExecute();
    }
@@ -123,17 +122,6 @@ public class SetDefaultSizeAction extends SelectionAction
       }
       else if (model instanceof INodeSymbol)
       {
-         EObject container = ModelUtils.findContainingProcess((EObject) model);
-         if (container == null)
-         {
-            container = ModelUtils.findContainingDiagram((IGraphicalObject) model);
-         }
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(container);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            command.add(UnexecutableCommand.INSTANCE);
-         }                  
-         
          INodeSymbol symbol = (INodeSymbol) model;
 
          CompoundCommand cmd = new CompoundCommand();
@@ -159,6 +147,6 @@ public class SetDefaultSizeAction extends SelectionAction
          {
             command.add(cmd);
          }
-      }      
+      }
    }
 }

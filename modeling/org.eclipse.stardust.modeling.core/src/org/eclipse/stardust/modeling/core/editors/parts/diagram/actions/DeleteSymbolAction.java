@@ -12,18 +12,15 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -33,11 +30,8 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteConnectionSymbolCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.AbstractEObjectTreeEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.utils.CheckDeleteConnections;
-import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.ui.IWorkbenchPart;
-
 
 public class DeleteSymbolAction extends SelectionAction
 {
@@ -117,7 +111,7 @@ public class DeleteSymbolAction extends SelectionAction
             return;
          }
       }
-      Command command = createDeleteCommand(getSelectedObjects());      
+      Command command = createDeleteCommand(getSelectedObjects());
       if(command.canExecute())
       {
          execute(command);
@@ -132,40 +126,17 @@ public class DeleteSymbolAction extends SelectionAction
          return null;
       }
       WorkflowModelEditor editor = null;
-      
+
       for (EditPart editPart : objects)
       {
          if (editPart instanceof AbstractConnectionEditPart)
          {
-            if(editor == null)
-            {
-               editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel((EObject) editPart.getModel()));
-            }
-            
-            ModelServer server = editor.getModelServer();
-            if (server != null && server.requireLock((EObject) editPart.getModel()))
-            {
-               return UnexecutableCommand.INSTANCE;
-            }
             cmd.add(new DeleteConnectionSymbolCmd((IConnectionSymbol) editPart.getModel()));
          }
          else if (editPart instanceof AbstractNodeSymbolEditPart)
          {
-            if(editor == null)
-            {
-               editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel((EObject) editPart.getModel()));
-            }
-                        
-            if (editor != null)
-            {
-               ModelServer server = editor.getModelServer();
-               if (server != null && server.requireLock((EObject) editPart.getModel()))
-               {
-                  return UnexecutableCommand.INSTANCE;
-               }
-               cmd.add(DeleteSymbolCommandFactory
-                     .createDeleteSymbolCommand((INodeSymbol) editPart.getModel()));
-            }
+            cmd.add(DeleteSymbolCommandFactory
+                  .createDeleteSymbolCommand((INodeSymbol) editPart.getModel()));
          }
       }
       return cmd;

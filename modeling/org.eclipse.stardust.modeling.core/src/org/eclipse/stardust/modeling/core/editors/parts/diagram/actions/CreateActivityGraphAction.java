@@ -77,7 +77,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateConnectionSymbolCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
 import org.eclipse.stardust.modeling.core.editors.tools.SnapCenterToGrid;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.swt.graphics.Image;
@@ -90,7 +89,7 @@ public class CreateActivityGraphAction extends SelectionAction
 {
    // the real targetEP if bacardi mode (lane or pool)
    private EditPart targetEditPart = null;
-   
+
    public static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
 
    private final WorkflowModelEditor editor;
@@ -133,17 +132,12 @@ public class CreateActivityGraphAction extends SelectionAction
             : false;
       // find real target EP, if bpmn mode
       if (isDiagram && isProcessDiagram)
-      {         
+      {
          DiagramEditPart diagramEditPart = (DiagramEditPart) ((DiagramRootEditPart) getSelectedObjects()
                                              .get(0)).getContents();
          DiagramType diagram = (DiagramType) diagramEditPart.getModel();
          ProcessDefinitionType process = (ProcessDefinitionType) diagram.eContainer();
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            return false;
-         }         
-         
+
          DiagramModeType diagramMode = diagram.getMode();
          if(diagramMode.equals(DiagramModeType.MODE_450_LITERAL))
          {
@@ -153,7 +147,7 @@ public class CreateActivityGraphAction extends SelectionAction
                return false;
             }
             // not on collapsed lane
-            if(targetEditPart instanceof LaneEditPart 
+            if(targetEditPart instanceof LaneEditPart
                   && ((LaneEditPart) targetEditPart).getLaneFigure().isCollapsed())
             {
                return false;
@@ -200,7 +194,7 @@ public class CreateActivityGraphAction extends SelectionAction
 
          createSymbols(cmd, diagramEditPart.getRoot().getViewer());
 
-         // in bpmn, if swimlane, may resize lane         
+         // in bpmn, if swimlane, may resize lane
          if(targetEditPart != null)
          {
             final EditPart useEP = targetEditPart;
@@ -211,7 +205,7 @@ public class CreateActivityGraphAction extends SelectionAction
                   return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) useEP);
                }
             });
-            // here children of siblings must be ordered (if there are any)   
+            // here children of siblings must be ordered (if there are any)
             cmd.add(new DelegatingCommand()
             {
                public Command createDelegate()
@@ -219,7 +213,7 @@ public class CreateActivityGraphAction extends SelectionAction
                   return PoolLaneUtils.reorderSiblings(useEP, null);
                }
             });
-         }         
+         }
          execute(cmd);
          PoolLaneUtils.refreshLaneContent();
       }
@@ -230,7 +224,7 @@ public class CreateActivityGraphAction extends SelectionAction
    {
       return SnapCenterToGrid.CARNOT_DEFAULT_GRID_SIZE;
    }
-   
+
    private void reverseGrid()
    {
       List newRows = new ArrayList();
@@ -691,28 +685,28 @@ public class CreateActivityGraphAction extends SelectionAction
       {
          dim.height++;
       }
-      // if snap2grid is enabled 
+      // if snap2grid is enabled
       if(targetEditPart != null)
       {
-         dim = SnapGridUtils.getSnapDimension(dim, (AbstractGraphicalEditPart) targetEditPart, 2, true);         
-      }      
+         dim = SnapGridUtils.getSnapDimension(dim, (AbstractGraphicalEditPart) targetEditPart, 2, true);
+      }
       return dim;
    }
 
    /*
     * private void setInTransitionAnchors(IFlowObjectSymbol symGateway) { int thisCol =
     * getColumnPlacement(findActivitySymbol(symGateway).getActivity());
-    * 
+    *
     * for (Iterator itrTransitions = symGateway.getInTransitions().iterator();
     * itrTransitions.hasNext();) { TransitionConnectionType transition =
     * (TransitionConnectionType) itrTransitions.next();
-    * 
+    *
     * IFlowObjectSymbol srcSymbol = transition.getSourceActivitySymbol();
     * ActivitySymbolType srcActivity = findActivitySymbol(srcSymbol);
-    * 
+    *
     * if (null != srcActivity) { int colActivity =
     * getColumnPlacement(srcActivity.getActivity());
-    * 
+    *
     * transition.setTargetAnchor((thisCol >= colActivity) ? TransitionConnectionAnchor.TOP :
     * TransitionConnectionAnchor.RIGHT); } } }
     */
@@ -744,7 +738,7 @@ public class CreateActivityGraphAction extends SelectionAction
     * symGateway.getOutTransitions().iterator(); itrTransitions.hasNext();) {
     * TransitionConnectionType transition = (TransitionConnectionType)
     * itrTransitions.next();
-    * 
+    *
     * IFlowObjectSymbol targetSymbol = transition.getTargetActivitySymbol(); ActivityType
     * targetActivity = (targetSymbol instanceof ActivitySymbolType) ?
     * ((ActivitySymbolType) targetSymbol).getActivity() : (targetSymbol instanceof
@@ -778,7 +772,7 @@ public class CreateActivityGraphAction extends SelectionAction
       }
       return locData;
    }
-   
+
    private void createSymbol(CompoundCommand cmd, IIdentifiableModelElement element,
          Point point, IGatewayLocator locator)
    {
@@ -788,15 +782,15 @@ public class CreateActivityGraphAction extends SelectionAction
       factory.setLocation(point);
       factory.setEditor(editor);
       factory.setEditDomain(editor.getEditDomain());
-      
-      // can be lane or pool     
+
+      // can be lane or pool
       if(targetEditPart != null)
-      {         
+      {
          factory.setSymbolContainer((ISymbolContainer) targetEditPart.getModel());
       }
       else
       {
-         factory.setSymbolContainer(diagram);         
+         factory.setSymbolContainer(diagram);
       }
       factory.setTransferredModelElement(element);
       cmd.add((Command) factory.getNewObject());
@@ -807,16 +801,16 @@ public class CreateActivityGraphAction extends SelectionAction
       return new Dialog(getWorkbenchPart().getSite().getShell())
       {
          Button okButton;
-         
+
          protected Control createButtonBar(Composite parent)
          {
             Control control =  super.createButtonBar(parent);
             okButton = getButton(OK);
             okButton.setEnabled(false);
-            
+
             return control;
          }
-         
+
          protected Control createDialogArea(Composite parent)
          {
             getShell().setText(getText());
@@ -859,7 +853,7 @@ public class CreateActivityGraphAction extends SelectionAction
                   .add(getStartActivities(
                         ((ProcessDefinitionType) diagram.eContainer()).getActivity())
                         .toArray());
-            
+
             return composite;
          }
 

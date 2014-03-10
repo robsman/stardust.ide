@@ -30,7 +30,6 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipantSymbol;
@@ -58,23 +57,21 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.Delegat
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNodeSymbolCommand;
 import org.eclipse.stardust.modeling.core.editors.tools.SnapCenterToGrid;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IWorkbenchPart;
 
-
 public class CreateOrganizationHierarchyAction extends SelectionAction
 {
-   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;   
+   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private WorkflowModelEditor editor;
    private EditPart targetEP;
    private List participantList;
    private int downValue = 100;
    private int rightValue = 100;
-   
+
    public CreateOrganizationHierarchyAction(IWorkbenchPart part)
    {
       super(part);
@@ -83,7 +80,7 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
       setToolTipText(Diagram_Messages.LB_CreateOrganizationHierarchy);
       setId(DiagramActionConstants.CREATE_ORGANIZATION_HIERARCHY);
       setImageDescriptor(DiagramPlugin
-            .getImageDescriptor("icons/full/obj16/organization.gif")); //$NON-NLS-1$      
+            .getImageDescriptor("icons/full/obj16/organization.gif")); //$NON-NLS-1$
    }
 
    protected boolean calculateEnabled()
@@ -98,30 +95,22 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
       if (selected != null
             && (selected instanceof DiagramEditPart
             || selected instanceof DiagramRootEditPart))
-      {      
+      {
          // when the target is a lane, we may need to reorder all symbols and resize lane
          if (GenericUtils.getTargetEditPart(editor) == null)
          {
             return false;
-         }         
+         }
       }
       else
       {
          return false;
-      }      
-      
-      DiagramEditorPage diagramEditorPage = (DiagramEditorPage) editor.getCurrentPage();
-      DiagramType diagram = diagramEditorPage.getDiagram();
-      ModelServer server = editor.getModelServer();
-      if (server != null && server.requireLock(diagram))
-      {
-         return false;
       }
-      
+
       ModelType model = (ModelType) editor.getModel();
       return model.getOrganization().size() > 0;
    }
-   
+
    public void run()
    {
       ModelType model = (ModelType) editor.getModel();
@@ -163,14 +152,14 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
          organization = (OrganizationType) organizations.get(0);
       }
       participantList = new ArrayList();
-            
+
       DiagramEditorPage diagramEditorPage = (DiagramEditorPage) editor.getCurrentPage();
-      Point location = diagramEditorPage.getMouseLocation().getCopy();         
+      Point location = diagramEditorPage.getMouseLocation().getCopy();
       CompoundCommand compoundCommand = new CompoundCommand();
-      
+
       // target symbol container can be pool, lane or diagram (if model diagram)
       targetEP = GenericUtils.getTargetEditPart(editor);
-            
+
       drawOrganizationHierarchy(organization, location, compoundCommand);
       Command resizeCmd = resizeSymbols(compoundCommand);
       Command connectionCmd = drawOrganizationHierarchyConnections(compoundCommand, organization);
@@ -184,18 +173,18 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
             {
                return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) targetEP);
             }
-         });                  
-         // here children of siblings must be ordered (if there are any)   
+         });
+         // here children of siblings must be ordered (if there are any)
          compoundCommand.add(new DelegatingCommand()
          {
             public Command createDelegate()
             {
                return PoolLaneUtils.reorderSiblings(targetEP, null);
             }
-         });         
+         });
       }
-      
-      execute(compoundCommand);      
+
+      execute(compoundCommand);
       targetEP.refresh();
    }
 
@@ -209,15 +198,15 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
          /*
          if(SymbolCollisionUtils.isCollision((EditPart) targetEP, useLocation))
          {
-            
+
          }
          */
-         
+
          Command cmd = createSymbol(organization, useLocation);
-         compoundCommand.add(cmd);      
+         compoundCommand.add(cmd);
          useLocation.y += downValue;
       }
-      
+
       RoleType teamLead = organization.getTeamLead();
       if(teamLead != null)
       {
@@ -225,11 +214,11 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
          {
             participantList.add(teamLead);
             Command cmd = createSymbol(teamLead, useLocation);
-            compoundCommand.add(cmd);            
+            compoundCommand.add(cmd);
             useLocation.x += rightValue;
          }
-      }      
-      
+      }
+
       List participants = organization.getParticipant();
       for(Iterator it = participants.iterator(); it.hasNext();)
       {
@@ -244,16 +233,16 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
          {
             if(!participantList.contains(member))
             {
-               participantList.add(member);            
+               participantList.add(member);
                Command cmd = createSymbol(member, useLocation);
-               compoundCommand.add(cmd);            
+               compoundCommand.add(cmd);
                useLocation.x += rightValue;
             }
          }
       }
    }
-   
-   private Command createSymbol(IModelParticipant element, Point location) 
+
+   private Command createSymbol(IModelParticipant element, Point location)
    {
       EClass eClass = null;
       if(element instanceof OrganizationType)
@@ -262,28 +251,28 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
       }
       else if(element instanceof ConditionalPerformerType)
       {
-         eClass = PKG.getConditionalPerformerSymbolType();       
+         eClass = PKG.getConditionalPerformerSymbolType();
       }
       // role
       else
       {
          eClass = PKG.getRoleSymbolType();
       }
-        
+
       IdFactory id = new IdFactory("Symbol", Diagram_Messages.BASENAME_Symbol, element); //$NON-NLS-1$
-      Command cmd = new CreateSymbolCommand(IContainedElementCommand.PARENT, 
-            id, eClass); 
+      Command cmd = new CreateSymbolCommand(IContainedElementCommand.PARENT,
+            id, eClass);
       ((CreateSymbolCommand) cmd).setParent((EObject) targetEP.getModel());
       ((CreateSymbolCommand) cmd).setLocation(new Rectangle(location.x, location.y, -1, -1));
       return cmd;
    }
-      
+
    private Command resizeSymbols(final CompoundCommand cmd)
    {
       return new DelegatingCommand()
       {
          private Map elementToSymbol = new HashMap();
-         
+
          private void collectSymbols()
          {
             for(Iterator i = ((CompoundCommand) cmd).getCommands().iterator(); i.hasNext();)
@@ -293,35 +282,35 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
                {
                   IModelParticipantSymbol symbol = (IModelParticipantSymbol) ((CreateSymbolCommand) child).getModelElement();
                   IIdentifiableModelElement model = symbol.getModelElement();
-                  elementToSymbol.put(model, symbol);                  
+                  elementToSymbol.put(model, symbol);
                }
             }
-         }         
-         
+         }
+
          public Command createDelegate()
          {
             collectSymbols();
             CompoundCommand command = new CompoundCommand();
             resizeSymbols(command);
-            return command;            
-         }         
-         
+            return command;
+         }
+
          /* see SymbolContainerLayoutEditPolicy.getMoveSymbolToCenterCommand
             the EditPolicies should do this in all cases
          */
          private void resizeSymbols(CompoundCommand command)
          {
-            Iterator it = elementToSymbol.entrySet().iterator(); 
-            while (it.hasNext()) 
+            Iterator it = elementToSymbol.entrySet().iterator();
+            while (it.hasNext())
             {
                Map.Entry entry = (Map.Entry) it.next();
                IModelParticipantSymbol symbol = (IModelParticipantSymbol) entry.getValue();
-               
+
                // size depends on snap2grid values
                AbstractGraphicalEditPart editPart = (AbstractGraphicalEditPart) editor.findEditPart(symbol);
                Dimension prefSize = editPart.getFigure().getPreferredSize();
                Dimension size = SnapGridUtils.getSnapDimension(prefSize, (AbstractGraphicalEditPart) targetEP, 2, true);
-               
+
                boolean change = false;
                if(size.height < prefSize.height)
                {
@@ -335,40 +324,40 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
                }
                if(change)
                {
-                  size = SnapGridUtils.getSnapDimension(prefSize, 
-                        (AbstractGraphicalEditPart) targetEP, 2, true);                        
+                  size = SnapGridUtils.getSnapDimension(prefSize,
+                        (AbstractGraphicalEditPart) targetEP, 2, true);
                }
-               
+
                Point newLocation = new Point(new Long(symbol.getXPos()).intValue()
                      - size.width / 2, new Long(symbol.getYPos()).intValue()
-                     - size.height / 2);               
+                     - size.height / 2);
                // new location if snaptogrid is enabled
-               Point setLocation = SnapGridUtils.getSnapLocation((AbstractGraphicalEditPart) targetEP, 
-                     (AbstractNodeSymbolEditPart) editPart, null, size, newLocation);    
-               
+               Point setLocation = SnapGridUtils.getSnapLocation((AbstractGraphicalEditPart) targetEP,
+                     (AbstractNodeSymbolEditPart) editPart, null, size, newLocation);
+
                // only if snap2grid is enabled
                if(SnapGridUtils.getSnapToHelper((AbstractGraphicalEditPart) targetEP) != null)
-               {      
+               {
                   Rectangle rect = new Rectangle();
                   rect.setLocation(setLocation);
                   rect.setSize(size);
-                  
+
                   MoveNodeSymbolCommand moveCommand = new MoveNodeSymbolCommand();
                   moveCommand.setPart(symbol);
                   moveCommand.setBounds(rect);
                   command.add(moveCommand);
                }
             }
-         }         
-      };      
-   }      
-   
+         }
+      };
+   }
+
    private Command drawOrganizationHierarchyConnections(final CompoundCommand cmd, final OrganizationType organization)
    {
       return new DelegatingCommand()
       {
          private Map elementToSymbol = new HashMap();
-         
+
          private void collectSymbols()
          {
             for(Iterator i = ((CompoundCommand) cmd).getCommands().iterator(); i.hasNext();)
@@ -378,34 +367,34 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
                {
                   IModelParticipantSymbol symbol = (IModelParticipantSymbol) ((CreateSymbolCommand) child).getModelElement();
                   IIdentifiableModelElement model = symbol.getModelElement();
-                  elementToSymbol.put(model, symbol);                  
+                  elementToSymbol.put(model, symbol);
                }
             }
-         }         
-         
+         }
+
          public Command createDelegate()
          {
             collectSymbols();
             CompoundCommand command = new CompoundCommand();
             drawOrganizationHierarchyConnection(organization, command);
-            return command;            
-         }         
-         
+            return command;
+         }
+
          private void drawOrganizationHierarchyConnection(OrganizationType organization, CompoundCommand command)
          {
             OrganizationSymbolType organizationSymbol = (OrganizationSymbolType) elementToSymbol.get(organization);
             RoleType teamLead = organization.getTeamLead();
             if(teamLead != null)
             {
-               RoleSymbolType roleSymbol = (RoleSymbolType) elementToSymbol.get(teamLead);               
+               RoleSymbolType roleSymbol = (RoleSymbolType) elementToSymbol.get(teamLead);
                CreateConnectionSymbolCommand connectionCmd = new CreateConnectionSymbolCommand(
                      null, PKG.getTeamLeadConnectionType());
                connectionCmd.setParent((EObject) targetEP.getModel());
                connectionCmd.setTargetSymbol((INodeSymbol) organizationSymbol);
                connectionCmd.setSourceSymbol(roleSymbol);
                command.add(connectionCmd);
-            }      
-            
+            }
+
             List participants = organization.getParticipant();
             for(Iterator it = participants.iterator(); it.hasNext();)
             {
@@ -431,8 +420,8 @@ public class CreateOrganizationHierarchyAction extends SelectionAction
                   connectionCmd.setSourceSymbol(participantSymbol);
                   command.add(connectionCmd);
                }
-            }            
-         }         
-      };      
-   }   
+            }
+         }
+      };
+   }
 }

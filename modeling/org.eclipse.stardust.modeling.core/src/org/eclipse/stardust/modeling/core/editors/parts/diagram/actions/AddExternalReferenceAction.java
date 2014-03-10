@@ -24,7 +24,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -43,8 +42,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
@@ -122,19 +119,6 @@ public class AddExternalReferenceAction extends SelectionAction
 
    public void run()
    {
-      WorkflowModelEditor editor = (WorkflowModelEditor) getWorkbenchPart();      
-      ModelServer modelServer = editor.getModelServer();
-      if(modelServer.isModelShared())
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(modelType);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            MessageDialog.openInformation(null, Diagram_Messages.DIA_REPOSITORY_CONNECTION,
-            Diagram_Messages.DIA_THIS_OPERATION_REQUIRES_THE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_MD_TO_PROCEED);            
-            return;
-         }
-      }
-      
       Shell shell = Display.getDefault().getActiveShell();
       FileConnectionSelectionDialog dialog = new FileConnectionSelectionDialog(shell);
       if (selectedConnection == null && dialog.open() == Window.OK)
@@ -308,5 +292,4 @@ public class AddExternalReferenceAction extends SelectionAction
       }
       return pkg;
    }
-
 }

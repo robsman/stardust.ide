@@ -19,7 +19,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractSwimlaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -37,7 +36,7 @@ public class ShrinkToFitAction extends SelectionAction
       setText(Diagram_Messages.LB_SHRINK_TO_FIT);
       setId(DiagramActionConstants.SHRINK_TO_FIT);
    }
-   
+
    protected boolean calculateEnabled()
    {
       return getSelectedObjects().size() == 1
@@ -51,18 +50,7 @@ public class ShrinkToFitAction extends SelectionAction
       {
          return false;
       }
-      
-      ISwimlaneSymbol symbol = editPart.getSwimlaneModel();
-      EObject container = ModelUtils.findContainingProcess(symbol);
-      if (container != null)
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(container);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            return false;                  
-         }
-      }      
-      
+
       // if container contains only collapsed lanes
       if(!PoolLaneUtils.canChange(editPart))
       {
@@ -79,7 +67,7 @@ public class ShrinkToFitAction extends SelectionAction
       {
          return false;
       }
-      
+
       // is there enough space to shrink the container?
       int[] currentSpace = new int[] {-1, -1, -1, -1};
       if(!PoolLaneUtils.canShrink(editPart, currentSpace))
@@ -88,7 +76,7 @@ public class ShrinkToFitAction extends SelectionAction
       }
       return true;
    }
-         
+
    // execute as command
    public void run()
    {

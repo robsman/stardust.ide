@@ -33,7 +33,6 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.search.ElementReferenceSearcher;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.swt.SWT;
@@ -41,7 +40,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
-
 
 public class DeleteExternalReferenceAction extends SelectionAction
 {
@@ -67,11 +65,6 @@ public class DeleteExternalReferenceAction extends SelectionAction
       selectedPackages = getSelectedPackages();
       if (selectedPackages != null && selectedPackages.size() == 1)
       {
-         ModelServer server = editor.getModelServer();
-         if (server != null && server.requireLock(modelType))
-         {
-            return false;
-         }
          return true;
       }
       return false;
@@ -108,7 +101,7 @@ public class DeleteExternalReferenceAction extends SelectionAction
    {
       MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
             SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-      messageBox.setText(Diagram_Messages.TXT_WR);      
+      messageBox.setText(Diagram_Messages.TXT_WR);
       String message = Diagram_Messages.MSG_THIS_OPERATION_WILL_REMOVE_ALL_REFERENCES_TO_NULL_FROM_MODEL;
       messageBox.setMessage(MessageFormat.format(message, new Object[]{((ExternalPackage) selectedPackages.get(0)).getHref()}));
       if (messageBox.open() == SWT.OK)

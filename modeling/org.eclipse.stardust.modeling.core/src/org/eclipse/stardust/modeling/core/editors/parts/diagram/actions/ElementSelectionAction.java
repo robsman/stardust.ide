@@ -20,14 +20,11 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IFilter;
@@ -60,19 +57,8 @@ public class ElementSelectionAction extends SelectionAction
    {
       WorkflowModelEditor editor = (WorkflowModelEditor) getWorkbenchPart();
       ModelType model = editor.getWorkflowModel();
-      
-      ModelServer modelServer = editor.getModelServer();
-      if(modelServer.isModelShared())
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(model);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            MessageDialog.openInformation(null, Diagram_Messages.MSG_DIA_REPOSITORY_CONNECTION,
-            Diagram_Messages.MSG_DIA_THIS_OPERATION_REQUIRES_THE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_MD_TO_PROCEED);            
-            return;
-         }
-      }      
-      
+
+
       Connection connection = getConnection();
       ConnectionManager manager = (ConnectionManager) getWorkbenchPart().getAdapter(
             ConnectionManager.class);
@@ -81,7 +67,7 @@ public class ElementSelectionAction extends SelectionAction
          manager.open(connection);
          List<IObjectDescriptor> content = ConnectionQueryUtils.select(connection, manager, new IFilter[0]);
          List<IObjectDescriptor> result = select(getWorkbenchPart().getSite().getShell(), connection, content);
-         
+
          // call the manager with the selection (and connection? )
          Command cmd = ConnectionEditUtils.linkObject(model, result.toArray(new IObjectDescriptor[0]), manager);
          execute(cmd);
@@ -116,16 +102,16 @@ public class ElementSelectionAction extends SelectionAction
             if(selection.length == 1)
             {
                // must be a description so we changed the descriptor
-               description = ((IObjectDescriptor) selection[0]).getDescription();     
+               description = ((IObjectDescriptor) selection[0]).getDescription();
             }
             return new Status(Status.OK, ObjectRepositoryActivator.PLUGIN_ID, 0, description == null ? "" : description, null); //$NON-NLS-1$
          }
       });
       if (dialog.open() == Window.OK)
-      {  
+      {
          Object[] entries = dialog.getResult();
          List<IObjectDescriptor> dialogResult = CollectionUtils.newList();
-         for (int i = 0; i < entries.length; i++) 
+         for (int i = 0; i < entries.length; i++)
          {
             if (entries[i] instanceof IObjectDescriptor)
             {
@@ -144,7 +130,7 @@ public class ElementSelectionAction extends SelectionAction
    {
       return getConnection() != null;
    }
-   
+
    private Connection getConnection()
    {
       List<?> objects = getSelectedObjects();

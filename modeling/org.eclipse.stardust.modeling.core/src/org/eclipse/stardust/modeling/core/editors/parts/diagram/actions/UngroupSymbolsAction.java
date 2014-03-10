@@ -28,7 +28,6 @@ import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.SymbolGroupEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.ui.IWorkbenchPart;
 
 
@@ -41,11 +40,11 @@ public class UngroupSymbolsAction extends SelectionAction
    public UngroupSymbolsAction(IWorkbenchPart part)
    {
       super(part);
-      
+
       setId(DiagramActionConstants.UNGROUP_SYMBOLS);
       setText(Diagram_Messages.UNGROUP_SYMBOLS_LABEL);
    }
-   
+
    protected boolean calculateEnabled()
    {
       Command cmd = createUngroupSymbolsCommand();
@@ -60,38 +59,26 @@ public class UngroupSymbolsAction extends SelectionAction
    private Command createUngroupSymbolsCommand()
    {
       CompoundCommand result = new CompoundCommand();
-      
+
       if ((1 == getSelectedObjects().size())
             && (getSelectedObjects().get(0) instanceof SymbolGroupEditPart))
       {
          GroupSymbolType group = (GroupSymbolType) ((SymbolGroupEditPart) getSelectedObjects().get(
                0)).getModel();
-         
-         EObject container = ModelUtils.findContainingProcess(group);
-         if (container == null)
-         {
-            container = ModelUtils.findContainingDiagram(group);
-         }
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(container);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            return UnexecutableCommand.INSTANCE;                  
-         }
-         
-         
+
          if (group.eContainer() instanceof ISymbolContainer)
          {
             CompoundCommand cmdAddToDiagram = new CompoundCommand();
-            
+
             for (Iterator i = group.getNodes().valueListIterator(); i.hasNext();)
             {
                INodeSymbol node = (INodeSymbol) i.next();
-               
+
                if (null != node.eContainmentFeature())
                {
                   // remove from group
                   result.add(new DeleteValueCmd(group, node, node.eContainmentFeature()));
-                  
+
                   // adjust coordinates
                   cmdAddToDiagram.add(new SetValueCmd(node,
                         CarnotWorkflowModelPackage.eINSTANCE.getINodeSymbol_XPos(),
@@ -99,7 +86,7 @@ public class UngroupSymbolsAction extends SelectionAction
                   cmdAddToDiagram.add(new SetValueCmd(node,
                         CarnotWorkflowModelPackage.eINSTANCE.getINodeSymbol_YPos(),
                         new Long(node.getYPos() + group.getYPos())));
-                  
+
                   // add to group's parent
                   cmdAddToDiagram.add(new SetValueCmd(group.eContainer(),
                         node.eContainmentFeature(), node));
@@ -109,17 +96,17 @@ public class UngroupSymbolsAction extends SelectionAction
                   result.add(UnexecutableCommand.INSTANCE);
                }
             }
-            
+
             for (Iterator i = group.getConnections().valueListIterator(); i.hasNext();)
             {
                IConnectionSymbol connection = (IConnectionSymbol) i.next();
-               
+
                if (null != connection.eContainmentFeature())
                {
                   // remove from group
                   result.add(new DeleteValueCmd(group, connection,
                         connection.eContainmentFeature()));
-                  
+
                   // add to group's parent
                   result.add(new SetValueCmd(group.eContainer(),
                         connection.eContainmentFeature(), connection));
@@ -132,7 +119,7 @@ public class UngroupSymbolsAction extends SelectionAction
 
             result.add(new DeleteValueCmd(group.eContainer(), group,
                   CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_GroupSymbol()));
-            
+
             result.add(cmdAddToDiagram);
          }
          else

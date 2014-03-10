@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -41,14 +40,11 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode.Spec;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
-
 
 public class CreateRepositoryConnectionAction extends SelectionAction
 {
@@ -56,15 +52,12 @@ public class CreateRepositoryConnectionAction extends SelectionAction
    protected DataType data;
 
    private ConnectionManager manager;
-   private ModelType modelType;
-   
+
    public CreateRepositoryConnectionAction(IConfigurationElement config, WorkflowModelEditor part)
    {
       super(part);
-      modelType = (ModelType) part.getModel();
-      
       this.config = config;
-      
+
       setId(ObjectRepositoryActivator.CREATE_REPOSITORY_CONNECTION_ACTION + config.getAttribute(SpiConstants.ID));
       setText(config.getAttribute(SpiConstants.NAME));
       setImageDescriptor(DiagramPlugin.getImageDescriptor(config));
@@ -73,9 +66,9 @@ public class CreateRepositoryConnectionAction extends SelectionAction
    // when to view
    protected boolean calculateEnabled()
    {
-      return !getSelectedObjects().isEmpty() && isConnectionCategory();      
-   }   
-   
+      return !getSelectedObjects().isEmpty() && isConnectionCategory();
+   }
+
    private boolean isConnectionCategory()
    {
       Object selection = getSelectedObjects().get(0);
@@ -99,29 +92,17 @@ public class CreateRepositoryConnectionAction extends SelectionAction
    {
       WorkflowModelEditor editor = (WorkflowModelEditor) getWorkbenchPart();
       manager = editor.getConnectionManager();
-      
-      ModelServer modelServer = editor.getModelServer();
-      if(modelServer.isModelShared())
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(modelType);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            MessageDialog.openInformation(null, Diagram_Messages.MSG_DIA_REPOSITORY_CONNECTION,
-            Diagram_Messages.MSG_DIA_THIS_OPERATION_REQUIRES_THE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_MD_TO_PROCEED);            
-            return;
-         }
-      }
-      
+
       // a flag that will be set when the activation of the bundle failed
       boolean create = true;
       try
       {
-         
+
          ChangeRecorder recorder = new ChangeRecorder();
          recorder.beginRecording(Collections.singleton(manager.getRepository()));
-         
+
          Connection connection = manager.create(config.getAttribute(SpiConstants.ID));
-         
+
          EditPart part = editor.findEditPart(connection);
          // open blocking properties dialog !
 
@@ -129,7 +110,7 @@ public class CreateRepositoryConnectionAction extends SelectionAction
          // otherwise save it
 
          final StructuredSelection selection = new StructuredSelection(part);
-         ShowPropertiesAction propDlgAction = new ShowPropertiesAction(editor, 
+         ShowPropertiesAction propDlgAction = new ShowPropertiesAction(editor,
                new ISelectionProvider() {
                   public void addSelectionChangedListener(ISelectionChangedListener listener)
                   {
@@ -151,7 +132,7 @@ public class CreateRepositoryConnectionAction extends SelectionAction
                      // ignore
                   }
          });
-         
+
          // activate bundle
          String contributor = config.getNamespace();
          if(contributor != null)
@@ -179,7 +160,7 @@ public class CreateRepositoryConnectionAction extends SelectionAction
             }
             return;
          }
-            
+
          PreferenceDialog dlg = propDlgAction.createDialog(recorder);
          if (dlg != null)
          {
@@ -203,6 +184,6 @@ public class CreateRepositoryConnectionAction extends SelectionAction
       {
          // TODO Auto-generated catch block
          e.printStackTrace();
-      }   
+      }
    }
 }

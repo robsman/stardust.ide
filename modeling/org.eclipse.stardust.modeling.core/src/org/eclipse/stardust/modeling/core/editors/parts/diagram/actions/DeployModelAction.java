@@ -16,14 +16,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
+
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.deploy.DeployUtil;
-
 
 /**
  * @author barry.grotjahn
@@ -57,7 +57,7 @@ public class DeployModelAction extends SelectionAction
    
    public static boolean deploy(ModelType model)
    {
-      IFile modelFile = ModelServerUtils.getModelFile(model);
+      IFile modelFile = GenericUtils.getModelFile(model);
       return DeployUtil.deployModel(Collections.<IResource>singletonList(modelFile), null, null);      
    }
 
