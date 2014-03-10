@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -33,7 +32,6 @@ import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LoopType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
@@ -46,8 +44,6 @@ import org.eclipse.stardust.modeling.core.editors.figures.EventFigure;
 import org.eclipse.stardust.modeling.core.editors.figures.IIconFigure;
 import org.eclipse.stardust.modeling.core.editors.figures.ILabeledFigure;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 
 public class AbstractModelElementNodeSymbolEditPart
       extends AbstractNodeSymbolEditPart
@@ -60,21 +56,6 @@ public class AbstractModelElementNodeSymbolEditPart
 
    public Command getCommand(Request request)
    {
-      if (RequestConstants.REQ_CONNECTION_START.equals(request.getType())
-            || RequestConstants.REQ_CONNECTION_END.equals(request.getType())
-            || ReloadConnectionsAction.REQ_RELOAD_CONNECTIONS.equals(request.getType()))
-      {
-         Object model = getModel();
-
-         if (model instanceof INodeSymbol)
-         {
-            ModelServer modelServer = getEditor().getModelServer();
-            if (modelServer != null && modelServer.requireLock((INodeSymbol) model))
-            {
-               return null;
-            }
-         }
-      }
       return super.getCommand(request);
    }
 

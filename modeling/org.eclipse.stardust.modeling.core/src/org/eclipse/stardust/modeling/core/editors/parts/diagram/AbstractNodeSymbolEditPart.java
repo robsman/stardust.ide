@@ -49,7 +49,6 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.decoration.DecorationUtils;
 import org.eclipse.stardust.modeling.core.decoration.IDecoratablePart;
 import org.eclipse.stardust.modeling.core.decoration.IDecorationProvider;
@@ -65,7 +64,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.NodeSym
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.NodeSymbolGraphicalNodeEditPolicy;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.DefaultPropSheetCmdFactory;
 import org.eclipse.stardust.modeling.core.editors.tools.SnapCenterToGrid;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.swt.events.DisposeEvent;
@@ -76,15 +74,14 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-
 public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
       implements IHighliteableGraphicalObject, IDecoratablePart, IFeedbackFigureFactory
 {
    private boolean showingConnections = true;
-   
+
    private Color highliteBorderColor;
    private Color highliteFillColor;
-   
+
    private Map decorations = new HashMap();
 
    private ConnectionAnchor anchor;
@@ -101,7 +98,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
    {
       return null;
    }
-   
+
    public boolean isShowingConnections()
    {
       return showingConnections;
@@ -110,7 +107,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
    public void setShowingConnections(boolean showingConnections)
    {
       this.showingConnections = showingConnections;
-      
+
       if (null != getParent())
       {
          refreshSourceConnections();
@@ -123,7 +120,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
       this.highliteBorderColor = color;
       refreshVisuals();
    }
-   
+
    public void resetHighliteBorderColor()
    {
       setHighliteBorderColor(null);
@@ -134,7 +131,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
       this.highliteFillColor = color;
       refreshVisuals();
    }
-   
+
    public void resetHighliteFillColor()
    {
       setHighliteFillColor(null);
@@ -168,7 +165,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
                locator = new RelativeLocator(getFigure(), PositionConstants.SOUTH);
             }
             decorationLayer.add(decorationFigure, locator);
-            
+
             // TODO move into createFigure
             final IFigure theDecorationFigure = decorationFigure;
             getFigure().addFigureListener(new FigureListener()
@@ -206,7 +203,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
       }
       decorators.remove(decoration);
    }
-   
+
    public IFigure createFeedbackFigure()
    {
       IFigure figure = createFigure();
@@ -252,13 +249,6 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
       {
          if (getDirectEditFeature() != null && canDirectEdit(req))
          {
-            Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(getCastedModel());
-            if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-            {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
-               return;
-            }            
-            
             performDirectEdit();
             return;
          }
@@ -308,14 +298,14 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
             {
                Rectangle bounds = getEditingBounds();
                org.eclipse.swt.graphics.Rectangle trim = ((Text) editor.getControl())
-                  .computeTrim(bounds.x, bounds.y, bounds.width, bounds.height); 
+                  .computeTrim(bounds.x, bounds.y, bounds.width, bounds.height);
                editor.getControl().setBounds(trim.x, trim.y, trim.width, trim.height);
             }
          };
          manager = new DirectEditManager(this, TextCellEditor.class, locator)
          {
             private boolean snapToGrid = false;
-            private Rectangle symbolRect;            
+            private Rectangle symbolRect;
             private Dimension oldSize;
             private Point oldPos;
             private Font font;
@@ -341,7 +331,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
                oldPos = symbolRect.getLocation();
                if(SnapGridUtils.getSnapToHelper((AbstractGraphicalEditPart) this.getEditPart()) != null)
                {
-                  snapToGrid = true;   
+                  snapToGrid = true;
                }
                return editor;
             }
@@ -368,7 +358,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
             public void showFeedback()
             {
                super.showFeedback();
-               
+
                INodeSymbol symbol = getCastedModel();
                Rectangle figureBounds = symbolRect.getCopy();
                Dimension after = getFigure().getPreferredSize().getCopy();
@@ -377,17 +367,17 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
                {
                   after.width = figureBounds.width;
                }
-               
+
                int deltaX = (after.width - oldSize.width) / 2;
                if (deltaX != 0)
                {
                   figureBounds.x = oldPos.x - deltaX;
-                  figureBounds.width = after.width;                  
+                  figureBounds.width = after.width;
                }
                Dimension size;
                // size to snap to grid
                if(snapToGrid)
-               {                  
+               {
                   size = SnapGridUtils.getSnapDimension(new Dimension(figureBounds.width, figureBounds.height), AbstractNodeSymbolEditPart.this, 2, false);
                   double difference = new Double((size.width - oldSize.width)).doubleValue();
                   int widthDifference = (int) Math.round(difference/SnapCenterToGrid.CARNOT_DEFAULT_GRID_SIZE);
@@ -397,32 +387,32 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
                      widthDifference /= 2;
                      if(deltaX > 0)
                      {
-                        figureBounds.x = oldPos.x - SnapCenterToGrid.CARNOT_DEFAULT_GRID_SIZE * widthDifference;                     
-                     }                  
+                        figureBounds.x = oldPos.x - SnapCenterToGrid.CARNOT_DEFAULT_GRID_SIZE * widthDifference;
+                     }
                   }
                }
                else
                {
                   size = new Dimension(figureBounds.width, figureBounds.height);
                }
-               
+
                // do not change height
                if(symbol.getHeight() != -1)
                {
-                  size.height = symbol.getHeight(); 
+                  size.height = symbol.getHeight();
                }
                else
                {
-                  size.height = figureBounds.height;                                    
+                  size.height = figureBounds.height;
                }
-               
-               Point newLocation = new Point(figureBounds.x, figureBounds.y);  
+
+               Point newLocation = new Point(figureBounds.x, figureBounds.y);
                Rectangle newBounds = new Rectangle(newLocation, size);
-               
+
                // new location if snaptogrid is enabled
-               Point setLocation = SnapGridUtils.getSnapLocation(AbstractNodeSymbolEditPart.this, AbstractNodeSymbolEditPart.this, 
-                     new PrecisionRectangle(newBounds), null, null);               
-               
+               Point setLocation = SnapGridUtils.getSnapLocation(AbstractNodeSymbolEditPart.this, AbstractNodeSymbolEditPart.this,
+                     new PrecisionRectangle(newBounds), null, null);
+
                if (deltaX != 0)
                {
                   getFigure().setBounds(new Rectangle(setLocation, size));
@@ -498,7 +488,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
    protected void refreshVisuals()
    {
       super.refreshVisuals();
-      
+
       Point loc = new Point(getCastedModel().getXPos(), getCastedModel().getYPos());
 
       Dimension dim = new Dimension(-1, -1);
@@ -534,7 +524,7 @@ public abstract class AbstractNodeSymbolEditPart extends AbstractNodeEditPart
          refreshTargetConnections();
          break;
       }
-      
+
       super.handleNotification(notification);
    }
 
