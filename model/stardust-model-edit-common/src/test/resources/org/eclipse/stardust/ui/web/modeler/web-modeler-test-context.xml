@@ -48,6 +48,9 @@
    <bean class="org.eclipse.stardust.ui.web.modeler.utils.test.MockServiceFactoryLocator"
    	  scope="session" />
 
+   <bean class="org.eclipse.stardust.ui.web.modeler.utils.test.MockModelRepositoryManager"
+        scope="session" />
+
    <bean name="webModelerModelManagementStrategy" class="org.eclipse.stardust.ui.web.modeler.service.DefaultModelManagementStrategy"
    	  scope="prototype" />
 
