@@ -55,6 +55,11 @@ public class ActivityCommandHandler
             ModelerConstants.MODEL_ELEMENT_PROPERTY, ModelerConstants.ACTIVITY_TYPE);
       String taskType = extractString(request, ModelerConstants.MODEL_ELEMENT_PROPERTY,
             ModelerConstants.TASK_TYPE);
+      String activityId = null;
+      if (request.get(ModelerConstants.MODEL_ELEMENT_PROPERTY).getAsJsonObject().has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+         activityId = extractString(request, ModelerConstants.MODEL_ELEMENT_PROPERTY, ModelerConstants.CLONE_ID_PROPERTY);
+      }
       String activityName = extractString(request,
             ModelerConstants.MODEL_ELEMENT_PROPERTY, ModelerConstants.NAME_PROPERTY);
       String participantFullID = extractString(request,
@@ -73,7 +78,7 @@ public class ActivityCommandHandler
       {
          EObjectUUIDMapper mapper = modelService().uuidMapper();
          ActivityType activity = getModelBuilderFacade().createActivity(model,
-               processDefinition, activityType, taskType, null, activityName, participantFullID,
+               processDefinition, activityType, taskType, activityId, activityName, participantFullID,
                applicationFullID, subProcessID);
 
          mapper.map(activity);

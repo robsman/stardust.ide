@@ -11,6 +11,7 @@
 
 package org.eclipse.stardust.ui.web.modeler.edit.diagram.node;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractString;
 
@@ -29,6 +30,7 @@ import org.eclipse.stardust.ui.web.modeler.edit.spi.OnCommand;
 import org.eclipse.stardust.ui.web.modeler.edit.utils.CommandHandlerUtils;
 import org.eclipse.stardust.ui.web.modeler.service.ModelService;
 import org.eclipse.stardust.ui.web.modeler.spi.ModelBinding;
+
 import org.springframework.context.ApplicationContext;
 
 import com.google.gson.JsonObject;
@@ -51,16 +53,29 @@ public class GatewayCommandHandler
       {
          EObjectUUIDMapper mapper = modelService().uuidMapper();
          // encode Gateway as Route Activity (default configuration)
+         String gatewayId = null;
+         if (request.get(ModelerConstants.MODEL_ELEMENT_PROPERTY).getAsJsonObject().has(ModelerConstants.CLONE_ID_PROPERTY))
+         {
+            gatewayId = extractString(request, ModelerConstants.MODEL_ELEMENT_PROPERTY, ModelerConstants.CLONE_ID_PROPERTY);
+            if ( !isEmpty(gatewayId) && !gatewayId.startsWith("gateway"))
+            {
+               gatewayId = "gateway" + gatewayId;
+            }
+         }
          String name = extractString(request, ModelerConstants.MODEL_ELEMENT_PROPERTY, ModelerConstants.NAME_PROPERTY);
          if(StringUtils.isEmpty(name))
          {
             name = "gateway"; //$NON-NLS-1$
          }
-         
+
          ActivityType gateway = newRouteActivity(processDefinition) //
-               .withIdAndName(null, name)
+               .withIdAndName(gatewayId, name)
                .usingControlFlow(JoinSplitType.XOR_LITERAL, JoinSplitType.XOR_LITERAL).build();
-         gateway.setName(""); //$NON-NLS-1$
+         if (isEmpty(gatewayId))
+         {
+            // force ID update according to name
+            gateway.setName(""); //$NON-NLS-1$
+         }
          mapper.map(gateway);
          // add gateway to model
          processDefinition.getActivity().add(gateway);

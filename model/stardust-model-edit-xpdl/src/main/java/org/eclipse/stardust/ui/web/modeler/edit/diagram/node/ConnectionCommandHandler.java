@@ -11,6 +11,7 @@
 
 package org.eclipse.stardust.ui.web.modeler.edit.diagram.node;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.findIdentifiableElement;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractAsString;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractBoolean;
@@ -79,10 +80,15 @@ public class ConnectionCommandHandler
             {
                JsonObject controlFlowJson = request.getAsJsonObject(ModelerConstants.MODEL_ELEMENT_PROPERTY);
 
+               String connectionId = extractString(controlFlowJson, ModelerConstants.ID_PROPERTY);
+               if (controlFlowJson.has(ModelerConstants.CLONE_ID_PROPERTY))
+               {
+                  connectionId = extractString(controlFlowJson, ModelerConstants.CLONE_ID_PROPERTY);
+               }
                TransitionConnectionType transitionConnectionType = getModelBuilderFacade().createControlFlowConnection(
                      processDefinition, fromActivitySymbol,
                      ModelBuilderFacade.findActivitySymbol(diagram, toSymbolOid),
-                     extractString(controlFlowJson, ModelerConstants.ID_PROPERTY),
+                     connectionId,
                      extractString(controlFlowJson, ModelerConstants.NAME_PROPERTY),
                      extractString(controlFlowJson, ModelerConstants.DESCRIPTION_PROPERTY),
                      hasNotJsonNull(controlFlowJson, ModelerConstants.OTHERWISE_PROPERTY)
@@ -228,7 +234,7 @@ public class ConnectionCommandHandler
                            mapAnchorOrientation(extractInt(request,
                                  ModelerConstants.TO_ANCHOR_POINT_ORIENTATION_PROPERTY)),
                            PredefinedConstants.DEFAULT_CONTEXT, null);
-               
+
                mapper.map(dataConnectionType);
             }
             else
@@ -439,7 +445,7 @@ public class ConnectionCommandHandler
                   ModelerConstants.FROM_ANCHOR_POINT_ORIENTATION_PROPERTY)),
             mapAnchorOrientation(extractInt(connectionJson,
                   ModelerConstants.TO_ANCHOR_POINT_ORIENTATION_PROPERTY)));
-      
+
       mapper.map(transitionConnectionType);
    }
 
@@ -456,7 +462,7 @@ public class ConnectionCommandHandler
          ActivitySymbolType sourceActivitySymbol, AbstractEventSymbol targetEventSymbol, EObjectUUIDMapper mapper)
    {
       TransitionType transition = null;
-      
+
       ActivityType hostActivity = EventMarshallingUtils.resolveHostActivity(targetEventSymbol);
 
       if (null != hostActivity)
@@ -483,7 +489,7 @@ public class ConnectionCommandHandler
                   ModelerConstants.FROM_ANCHOR_POINT_ORIENTATION_PROPERTY)),
             mapAnchorOrientation(extractInt(connectionJson,
                   ModelerConstants.TO_ANCHOR_POINT_ORIENTATION_PROPERTY)));
-      
+
       mapper.map(transitionConnectionType);
    }
 
@@ -498,7 +504,7 @@ public class ConnectionCommandHandler
          AbstractEventSymbol targetEventSymbol, EObjectUUIDMapper mapper)
    {
       TransitionType transition = null;
-      
+
       ActivityType targetHostActivity = EventMarshallingUtils.resolveHostActivity(targetEventSymbol);
       ActivityType sourceHostActivity = EventMarshallingUtils.resolveHostActivity(sourceEventSymbol);
 
@@ -569,5 +575,5 @@ public class ConnectionCommandHandler
    {
       return springContext.getBean(ModelService.class);
    }
-   
+
 }

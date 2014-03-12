@@ -45,6 +45,7 @@ public class ModelerConstants
    public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
    public static final String NAME_PROPERTY = "name";
    public static final String ID_PROPERTY = "id";
+   public static final String CLONE_ID_PROPERTY = "clone-id";
    public static final String DEF_LANE_ID = "DefaultLane";
    public static final String DEF_LANE_NAME = "Default Lane";
    public static final String ORIENTATION_PROPERTY = "orientation";

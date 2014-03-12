@@ -595,7 +595,9 @@ public class ModelConverter
          }
       }
 
-      // remove ID to trigger creation of underlying activity
+      // remove ID to trigger creation of underlying activity, but with the original ID
+      activityJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+            extractString(activityJson, ModelerConstants.ID_PROPERTY));
       activityJson.remove(ModelerConstants.ID_PROPERTY);
 
       JsonObject changesJson = applyChange(newModelId, "activitySymbol.create",
@@ -632,7 +634,9 @@ public class ModelConverter
 
       }
 
-      // remove ID to trigger creation of underlying gateway
+      // remove ID to trigger creation of underlying gateway, but with the original ID
+      gatewayJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+            extractString(gatewayJson, ModelerConstants.ID_PROPERTY));
       gatewayJson.remove(ModelerConstants.ID_PROPERTY);
 
       gatewaySymbolJson.addProperty(ModelerConstants.PARENT_SYMBOL_ID_PROPERTY,
@@ -759,6 +763,9 @@ public class ModelConverter
       JsonObject  connectionJson = connectionSymbolJson.getAsJsonObject(ModelerConstants.MODEL_ELEMENT_PROPERTY);
 
       String oldElementId = extractString(connectionJson, ModelerConstants.ID_PROPERTY);
+      // recreate connection with the original ID
+      connectionJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+            extractString(connectionJson, ModelerConstants.ID_PROPERTY));
       connectionJson.remove(ModelerConstants.ID_PROPERTY);
 
       Long fromElementOid = extractLong(connectionSymbolJson,
