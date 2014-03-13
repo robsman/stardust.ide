@@ -44,7 +44,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -701,97 +700,35 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 	private void addActivityMenuEntries(final ActivityType activity,
 			IMenuManager manager)
 	{
-		EditDomain domain = getViewer().getEditDomain();
-		MenuManager join = new MenuManager(
-				Diagram_Messages.TXT_MENU_MANAGER_JoinBehavior);
-		SetActivityControlFlowAction[] joinActions = new SetActivityControlFlowAction[] {
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.JOIN_LITERAL,
-						JoinSplitType.NONE_LITERAL),
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.JOIN_LITERAL,
-						JoinSplitType.XOR_LITERAL),
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.JOIN_LITERAL,
-						JoinSplitType.AND_LITERAL) };
-		for (int i = 0; i < joinActions.length; i++) {
-			SetActivityControlFlowAction action = joinActions[i];
-			if (action.getControlFlowType().equals(activity.getJoin())) {
-				action.setChecked(true);
+      addActivityControlFlowMenuEntries(activity, manager);
+      addActivityImplementationMenuEntries(activity, manager);
+      addActivitySubprocessMenuEntries(activity, manager);
 			}
-			if (!ActivityUtil.hasStartEvent(activity)) {
-				join.add(action);
-			}
-		}
-		manager.appendToGroup(GEFActionConstants.GROUP_EDIT, join);
 
-		MenuManager split = new MenuManager(
-				Diagram_Messages.TXT_MENU_MANAGER_SplitBehavior);
-		SetActivityControlFlowAction[] splitActions = new SetActivityControlFlowAction[] {
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.SPLIT_LITERAL,
-						JoinSplitType.NONE_LITERAL),
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.SPLIT_LITERAL,
-						JoinSplitType.XOR_LITERAL),
-				new SetActivityControlFlowAction(editor, domain, activity,
-						FlowControlType.SPLIT_LITERAL,
-						JoinSplitType.AND_LITERAL) };
-		for (int i = 0; i < splitActions.length; i++) {
-			SetActivityControlFlowAction action = splitActions[i];
-			if (action.getControlFlowType().equals(activity.getSplit())) {
-				action.setChecked(true);
-			}
-			if (!ActivityUtil.hasEndEvent(activity)) {
-				split.add(action);
-			}
-		}
-		manager.appendToGroup(GEFActionConstants.GROUP_EDIT, split);
-
-
-      MenuManager implementation = new MenuManager(
-            Diagram_Messages.TXT_MENU_MANAGER_Implementation);
-      SetActivityImplementationAction[] actions = new SetActivityImplementationAction[] {
-            new SetActivityImplementationAction(
-                  ActivityImplementationType.ROUTE_LITERAL, activity, domain),
-            new SetActivityImplementationAction(
-                  ActivityImplementationType.MANUAL_LITERAL, activity, domain),
-            new SetActivityImplementationAction(
-                  ActivityImplementationType.APPLICATION_LITERAL, activity, domain),
-            new SetActivityImplementationAction(
-                  ActivityImplementationType.SUBPROCESS_LITERAL, activity, domain)};
-      for (int i = 0; i < actions.length; i++ )
+   private void addActivitySubprocessMenuEntries(final ActivityType activity, IMenuManager manager)
       {
-         SetActivityImplementationAction action = actions[i];
-         if (action.getImplType().equals(activity.getImplementation()))
+      if (ActivityImplementationType.SUBPROCESS_LITERAL == activity.getImplementation())
          {
-            action.setChecked(true);
-         }
-         implementation.add(action);
-      }
-      manager.appendToGroup(GEFActionConstants.GROUP_EDIT, implementation);
-
-
-		if (ActivityImplementationType.SUBPROCESS_LITERAL
-						.equals(activity.getImplementation())) {
 			MenuManager subprocess = new MenuManager(
 					Diagram_Messages.WorkflowModelEditorContextMenuProvider_TXT_MENU_MANAGER_Subprocess);
 
 			ResetSubprocessAction resetSubprocessAction = (ResetSubprocessAction) getAction(DiagramActionConstants.RESET_SUBPROCESS);
 			resetSubprocessAction.setActivity(activity);
-			if (resetSubprocessAction.isEnabled()) {
+         if (resetSubprocessAction.isEnabled())
+         {
 				subprocess.add(resetSubprocessAction);
 				subprocess.add(new Separator());
 			}
 
-			for (Iterator iter = ModelUtils.findContainingModel(activity)
-					.getProcessDefinition().iterator(); iter.hasNext();) {
-				ProcessDefinitionType process = (ProcessDefinitionType) iter
-						.next();
-				if (!process.equals(activity.eContainer())) {
-					SetActivitySubprocessAction action = new SetActivitySubprocessAction(
-							activity, process, editor);
-					if (process.equals(activity.getImplementationProcess())) {
+         ModelType model = ModelUtils.findContainingModel(activity);
+         ProcessDefinitionType implementationProcess = activity.getImplementationProcess();
+         for (ProcessDefinitionType process : model.getProcessDefinition())
+         {
+            if (process != activity.eContainer())
+            {
+               SetActivitySubprocessAction action = new SetActivitySubprocessAction(activity, process, editor);
+               if (process == implementationProcess)
+               {
 						action.setChecked(true);
 					}
 					subprocess.add(action);
@@ -800,11 +737,74 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 			CreateSubprocessAction subprocessAction = (CreateSubprocessAction) getAction(DiagramActionConstants.CREATE_SUBPROCESS);
 			subprocessAction.setActivity(activity);
 			subprocess.add(subprocessAction);
-			manager
-					.appendToGroup(GEFActionConstants.GROUP_EDIT,
-							subprocess);
+         manager.appendToGroup(GEFActionConstants.GROUP_EDIT, subprocess);
 		}
 	}
+
+   private void addActivityImplementationMenuEntries(ActivityType activity, IMenuManager manager)
+   {
+      MenuManager implementationMenu = new MenuManager(Diagram_Messages.TXT_MENU_MANAGER_Implementation);
+
+      EditDomain domain = getViewer().getEditDomain();
+      ActivityImplementationType type = activity.getImplementation();
+      for (ActivityImplementationType value : ActivityImplementationType.values())
+      {
+         IAction action = new SetActivityImplementationAction(value, activity, domain);
+         if (value == type)
+         {
+            action.setChecked(true);
+         }
+         implementationMenu.add(action);
+      }
+      manager.appendToGroup(GEFActionConstants.GROUP_EDIT, implementationMenu);
+   }
+
+   private void addActivityControlFlowMenuEntries(ActivityType activity, IMenuManager manager)
+   {
+      for (FlowControlType flow : FlowControlType.values())
+      {
+         if (flow != FlowControlType.NONE_LITERAL)
+         {
+            manager.appendToGroup(GEFActionConstants.GROUP_EDIT,
+              createJoinSplitMenu(flow, activity));
+         }
+      }
+   }
+
+   private MenuManager createJoinSplitMenu(FlowControlType flow, ActivityType activity)
+   {
+      String title;
+      switch (flow)
+      {
+      case JOIN_LITERAL:
+         title = Diagram_Messages.TXT_MENU_MANAGER_JoinBehavior;
+         break;
+      case SPLIT_LITERAL:
+         title = Diagram_Messages.TXT_MENU_MANAGER_SplitBehavior;
+         break;
+      default:
+         title = "";
+      }
+
+      MenuManager joinSplitMenu = new MenuManager(title);
+
+      if (flow == FlowControlType.JOIN_LITERAL && !ActivityUtil.hasStartEvent(activity)
+            || flow == FlowControlType.SPLIT_LITERAL && !ActivityUtil.hasEndEvent(activity))
+      {
+         EditDomain domain = getViewer().getEditDomain();
+         JoinSplitType type = activity.getJoin();
+         for (JoinSplitType value : JoinSplitType.values())
+         {
+            IAction action = new SetActivityControlFlowAction(editor, domain, activity, flow, value);
+            if (value == type)
+            {
+               action.setChecked(true);
+            }
+            joinSplitMenu.add(action);
+         }
+      }
+      return joinSplitMenu;
+   }
 
 	private void addConnectionMenuEntries(IConnectionSymbol connection,
 			IMenuManager manager)
