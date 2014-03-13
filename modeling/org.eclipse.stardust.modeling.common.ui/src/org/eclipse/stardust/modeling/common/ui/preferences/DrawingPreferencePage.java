@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui.preferences;
 
+import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
+import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
+import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
+import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.UI_Messages;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -39,29 +44,25 @@ public class DrawingPreferencePage extends PreferencePage
    private Button chkVerticalModeling;
 
    private Button chkClassicModeOn;
-   
+
    private Button chkClassicModeOff;
-   
+
    private Button radioOneSymbolToGrid;
 
    private Button radioAllSymbolsToGrid;
 
    private Button radioPromptGrid;
 
-   private Button chkViewForkOnTraversal;   
-   
+   private Button chkViewForkOnTraversal;
+
    // SnapGrid
    private Button chkEnableSnapGrid;
    private LabeledText snapGridPixel;
    private LabeledText visibleGridFactor;
-   
-   private Button splitAND;
-   private Button splitXOR;
-   private Button splitPrompt;
 
-   private Button joinAND;
-   private Button joinXOR;
-   private Button joinPrompt;   
+   private Button[] splitButtons;
+
+   private Button[] joinButtons;
 
    public DrawingPreferencePage()
    {}
@@ -84,7 +85,7 @@ public class DrawingPreferencePage extends PreferencePage
          if(!validateSnapGridValues(snapGridPixel.getText().getText())
                && !validateSnapGridValues(visibleGridFactor.getText().getText()))
          {
-            setErrorMessage(UI_Messages.WorkbenchPreferencePage_SnapGridValidationErrorMessage);            
+            setErrorMessage(UI_Messages.WorkbenchPreferencePage_SnapGridValidationErrorMessage);
             setValid(false);
          }
          else if(!validateSnapGridValues(snapGridPixel.getText().getText()))
@@ -104,7 +105,7 @@ public class DrawingPreferencePage extends PreferencePage
          }
       }
    };
-   
+
    // validate if values for snap grid are of type integer and not empty
    private boolean validateSnapGridValues(String input)
    {
@@ -123,27 +124,27 @@ public class DrawingPreferencePage extends PreferencePage
          Matcher pixelMatcher = pattern.matcher(input);
          if(!pixelMatcher.matches())
          {
-            valid = false;            
+            valid = false;
          }
          else
          {
             int value = Integer.parseInt(input);
             if(value <= 0)
             {
-               valid = false;               
+               valid = false;
             }
          }
       }
       return valid;
    }
-   
+
    protected Control createContents(Composite parent)
    {
       Composite panel = FormBuilder.createComposite(parent, 3);
 
       this.chkViewForkOnTraversal = FormBuilder.createCheckBox(panel,
             UI_Messages.WorkbenchPreferencePage_ViewForkOnTraversalLabel, 3);
-      
+
       this.chkEnableSnapGrid = FormBuilder.createCheckBox(panel,
             UI_Messages.WorkbenchPreferencePage_EnableSnapToGridLabel, 3);
 
@@ -152,7 +153,7 @@ public class DrawingPreferencePage extends PreferencePage
       groupSnapGrid.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData(3));
       this.snapGridPixel = FormBuilder.createLabeledText(groupSnapGrid, UI_Messages.WorkbenchPreferencePage_SnapGridPixelLabel);
       this.visibleGridFactor = FormBuilder.createLabeledText(groupSnapGrid, UI_Messages.WorkbenchPreferencePage_VisibleGridFactorLabel);
-      
+
       Group group = FormBuilder.createGroup(panel,
             UI_Messages.WorkbenchPreferencePage_ModelingDirectionLabel, 3, 3);
       group.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData(3));
@@ -176,8 +177,8 @@ public class DrawingPreferencePage extends PreferencePage
       Button dummyRadioButtonForAligningVintage = FormBuilder.createRadioButton(groupClassicMode,
             "ignore me"); //$NON-NLS-1$
       dummyRadioButtonForAligningVintage.setEnabled(false);
-      dummyRadioButtonForAligningVintage.setVisible(false);      
-      
+      dummyRadioButtonForAligningVintage.setVisible(false);
+
       Group groupDistributeOption = FormBuilder.createGroup(panel,
             UI_Messages.LB_AutoDistribute, 3, 3);
       groupDistributeOption.setLayoutData(FormBuilder
@@ -188,53 +189,55 @@ public class DrawingPreferencePage extends PreferencePage
             UI_Messages.LB_SnapAllSymbols);
       radioPromptGrid = FormBuilder.createRadioButton(groupDistributeOption,
             UI_Messages.LB_Prompt);
-      
-      Group splitType = FormBuilder.createGroup(panel,
-              UI_Messages.LB_DefaultSplitType, 3, 3);
-      splitType.setLayoutData(FormBuilder
-    		  .createDefaultSingleLineWidgetGridData(3));                
-      splitAND = FormBuilder.createRadioButton(splitType,
-              UI_Messages.LB_AND);
-      splitXOR = FormBuilder.createRadioButton(splitType,
-              UI_Messages.LB_XOR);
-      splitPrompt = FormBuilder.createRadioButton(splitType,
-              UI_Messages.LB_Prompt);
-      
-      Group joinType = FormBuilder.createGroup(panel,
-                UI_Messages.LB_DefaultJoinType, 3, 3);
-      joinType.setLayoutData(FormBuilder
-    		  .createDefaultSingleLineWidgetGridData(3));
-      joinAND = FormBuilder.createRadioButton(joinType,
-              UI_Messages.LB_AND);
-      joinXOR = FormBuilder.createRadioButton(joinType,
-              UI_Messages.LB_XOR);
-      joinPrompt = FormBuilder.createRadioButton(joinType,
-              UI_Messages.LB_Prompt);
-      
+
+      splitButtons = createJoinSplitButtons(panel, FlowControlType.SPLIT_LITERAL);
+      joinButtons = createJoinSplitButtons(panel, FlowControlType.JOIN_LITERAL);
+
       updateCheckbox();
-      updateSpitJoin();
+      updateSplitJoin();
       updateAutoDistributeGroup();
 
       return panel;
    }
 
-   private void updateSpitJoin()
+   private Button[] createJoinSplitButtons(Composite panel, FlowControlType flow)
    {
-	   splitAND.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_SPLIT_AND));
-	   splitXOR.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_SPLIT_XOR));
-	   splitPrompt.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_SPLIT_PROMPT));
-	   
-	   joinAND.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_JOIN_AND));
-	   joinXOR.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_JOIN_XOR));
-	   joinPrompt.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-	              BpmProjectNature.PREFERENCE_JOIN_PROMPT));	   
-   }   
-   
+      Button[] buttons = new Button[JoinSplitType.values().length];
+      Group group = FormBuilder.createGroup(panel, MessageFormat.format(
+              UI_Messages.LB_DefaultJoinSplitType, BpmUiActivator.i18n(flow)), JoinSplitType.values().length, 3);
+      group.setLayoutData(FormBuilder
+            .createDefaultSingleLineWidgetGridData(3));
+      int i = 0;
+      for (JoinSplitType type : JoinSplitType.values())
+      {
+         if (type != JoinSplitType.NONE_LITERAL)
+         {
+            buttons[i++] = FormBuilder.createRadioButton(group, BpmUiActivator.i18n(type));
+         }
+      }
+      buttons[i] = FormBuilder.createRadioButton(group, UI_Messages.LB_Prompt);
+      return buttons;
+   }
+
+   private void updateSplitJoin()
+   {
+      updateJoinSplitButtons(splitButtons, FlowControlType.SPLIT_LITERAL);
+      updateJoinSplitButtons(joinButtons, FlowControlType.JOIN_LITERAL);
+   }
+
+   private void updateJoinSplitButtons(Button[] buttons, FlowControlType flow)
+   {
+      int i = 0;
+      for (JoinSplitType type : JoinSplitType.values())
+      {
+         if (type != JoinSplitType.NONE_LITERAL)
+         {
+            buttons[i++].setSelection(PlatformUI.getPreferenceStore().getBoolean(getFlowPreferencesKey(flow, type)));
+         }
+      }
+      buttons[i].setSelection(PlatformUI.getPreferenceStore().getBoolean(getFlowPreferencesKey(flow)));
+   }
+
    private void updateAutoDistributeGroup()
    {
       radioOneSymbolToGrid.setSelection(PlatformUI.getPreferenceStore().getBoolean(
@@ -248,8 +251,8 @@ public class DrawingPreferencePage extends PreferencePage
    private void updateCheckbox()
    {
       chkViewForkOnTraversal.setSelection(PlatformUI.getPreferenceStore()
-            .getBoolean(BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE));      
-      
+            .getBoolean(BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE));
+
       // Snap To Grid
       chkEnableSnapGrid.setSelection(PlatformUI.getPreferenceStore()
             .getBoolean(BpmProjectNature.PREFERENCE_SNAP_GRID_MODE));
@@ -259,18 +262,18 @@ public class DrawingPreferencePage extends PreferencePage
             .getString(BpmProjectNature.PREFERENCE_VISIBLE_GRID_FACTOR));
       snapGridPixel.getText().addModifyListener(snapGridListener);
       visibleGridFactor.getText().addModifyListener(snapGridListener);
-      
+
       String direction = PlatformUI.getPreferenceStore().getString(
             BpmProjectNature.PREFERENCE_MODELING_DIRECTION);
       chkVerticalModeling.setSelection(OrientationType.VERTICAL_LITERAL.toString()
             .equals(direction));
       chkHorizontalModeling.setSelection(OrientationType.HORIZONTAL_LITERAL.toString()
             .equals(direction));
-      
+
       boolean classicMode = PlatformUI.getPreferenceStore().getBoolean(
                BpmProjectNature.PREFERENCE_CLASSIC_MODE);
       chkClassicModeOn.setSelection(classicMode);
-      chkClassicModeOff.setSelection(!classicMode);      
+      chkClassicModeOff.setSelection(!classicMode);
    }
 
    public void init(IWorkbench workbench)
@@ -280,18 +283,18 @@ public class DrawingPreferencePage extends PreferencePage
    {
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_VIEW_FORK_ON_TRAVERSAL_MODE,
-            chkViewForkOnTraversal.getSelection());      
-      
+            chkViewForkOnTraversal.getSelection());
+
       // Snap To Grid
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_SNAP_GRID_MODE,
-            chkEnableSnapGrid.getSelection());      
+            chkEnableSnapGrid.getSelection());
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_SNAP_GRID_PIXEL,
-            snapGridPixel.getText().getText());      
+            snapGridPixel.getText().getText());
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_VISIBLE_GRID_FACTOR,
-            visibleGridFactor.getText().getText());      
+            visibleGridFactor.getText().getText());
 
       String direction = BpmProjectNature.DEFAULT_PREFERENCE_MODELING_DIRECTION;
       if (chkVerticalModeling.getSelection())
@@ -317,7 +320,7 @@ public class DrawingPreferencePage extends PreferencePage
       }
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_CLASSIC_MODE, classicMode);
-      
+
       PlatformUI.getPreferenceStore().setValue(
             BpmProjectNature.PREFERENCE_DISTRIBUTE_ONE_SYMBOL_GRID,
             radioOneSymbolToGrid.getSelection());
@@ -328,27 +331,38 @@ public class DrawingPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_DISTRIBUTE_PROMPT_GRID,
             radioPromptGrid.getSelection());
 
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_SPLIT_AND,
-              splitAND.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_SPLIT_XOR,
-              splitXOR.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_SPLIT_PROMPT,
-              splitPrompt.getSelection());
-      
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_JOIN_AND,
-              joinAND.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_JOIN_XOR,
-              joinXOR.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-              BpmProjectNature.PREFERENCE_JOIN_PROMPT,
-              joinPrompt.getSelection());
-      
+      saveSplitJoin();
+
       return true;
+   }
+
+   private void saveSplitJoin()
+   {
+      saveJoinSplit(splitButtons, FlowControlType.SPLIT_LITERAL);
+      saveJoinSplit(joinButtons, FlowControlType.JOIN_LITERAL);
+   }
+
+   private void saveJoinSplit(Button[] buttons, FlowControlType flow)
+   {
+      int i = 0;
+      for (JoinSplitType type : JoinSplitType.values())
+      {
+         if (type != JoinSplitType.NONE_LITERAL)
+         {
+            PlatformUI.getPreferenceStore().setValue(getFlowPreferencesKey(flow, type), buttons[i++].getSelection());
+         }
+      }
+      PlatformUI.getPreferenceStore().setValue(getFlowPreferencesKey(flow), buttons[i].getSelection());
+   }
+
+   private String getFlowPreferencesKey(FlowControlType flow)
+   {
+      return ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + "Prompt";
+   }
+
+   private String getFlowPreferencesKey(FlowControlType flow, JoinSplitType type)
+   {
+      return ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + type.getLiteral();
    }
 
    protected void performDefaults()
@@ -356,8 +370,8 @@ public class DrawingPreferencePage extends PreferencePage
       PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_MODELING_DIRECTION);
       PlatformUI.getPreferenceStore().setToDefault(
-            BpmProjectNature.PREFERENCE_CLASSIC_MODE);      
-      
+            BpmProjectNature.PREFERENCE_CLASSIC_MODE);
+
       PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_DISTRIBUTE_ONE_SYMBOL_GRID);
       PlatformUI.getPreferenceStore().setToDefault(
@@ -366,7 +380,7 @@ public class DrawingPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_DISTRIBUTE_PROMPT_GRID);
 
       updateCheckbox();
-      updateSpitJoin();
+      updateSplitJoin();
       updateAutoDistributeGroup();
    }
 }

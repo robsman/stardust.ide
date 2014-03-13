@@ -23,14 +23,16 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PerspectiveAdapter;
 import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.BundleContext;
-
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.Modules;
+import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
+import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.BpmCommonActivator;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
+import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -139,25 +141,22 @@ public class BpmUiActivator extends Plugin
             BpmProjectNature.PREFERENCE_REPORT_FORMAT_PROMPT,
             BpmProjectNature.DEFAULT_PREFERENCE_REPORT_FORMAT_PROMPT);
 
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_SPLIT_AND,
-              BpmProjectNature.DEFAULT_PREFERENCE_SPLIT_AND);
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_SPLIT_XOR,
-              BpmProjectNature.DEFAULT_PREFERENCE_SPLIT_XOR);
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_SPLIT_PROMPT,
-              BpmProjectNature.DEFAULT_PREFERENCE_SPLIT_PROMPT);
-
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_JOIN_AND,
-              BpmProjectNature.DEFAULT_PREFERENCE_JOIN_AND);
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_JOIN_XOR,
-              BpmProjectNature.DEFAULT_PREFERENCE_JOIN_XOR);
-      PlatformUI.getPreferenceStore().setDefault(
-              BpmProjectNature.PREFERENCE_JOIN_PROMPT,
-              BpmProjectNature.DEFAULT_PREFERENCE_JOIN_PROMPT);
+      for (FlowControlType flow : FlowControlType.values())
+      {
+         if (flow != FlowControlType.NONE_LITERAL)
+         {
+            PlatformUI.getPreferenceStore().setDefault(
+                  ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + "Prompt", true); //$NON-NLS-1$
+            for (JoinSplitType type : JoinSplitType.values())
+            {
+               if (type != JoinSplitType.NONE_LITERAL)
+               {
+                  PlatformUI.getPreferenceStore().setDefault(
+                        ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + type.getLiteral(), false);
+               }
+            }
+         }
+      }
 
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_DEPLOY_id,
@@ -350,6 +349,29 @@ public class BpmUiActivator extends Plugin
    public String getModuleError()
    {
       return moduleError;
+   }
+
+   public static String i18n(FlowControlType flow)
+   {
+      switch (flow)
+      {
+      case JOIN_LITERAL: return UI_Messages.LB_Join;
+      case SPLIT_LITERAL: return UI_Messages.LB_Split;
+      case NONE_LITERAL: return UI_Messages.LB_None;
+      }
+      return null;
+   }
+
+   public static String i18n(JoinSplitType type)
+   {
+      switch (type)
+      {
+      case AND_LITERAL: return UI_Messages.LB_AND;
+      case XOR_LITERAL: return UI_Messages.LB_XOR;
+      case OR_LITERAL: return UI_Messages.LB_OR;
+      case NONE_LITERAL: return UI_Messages.LB_None;
+      }
+      return null;
    }
 
    public static IWorkflowModelEditor findWorkflowModelEditor(ModelType model)

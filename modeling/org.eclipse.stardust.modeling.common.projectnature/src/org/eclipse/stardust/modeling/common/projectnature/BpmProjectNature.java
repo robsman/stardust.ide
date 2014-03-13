@@ -140,29 +140,6 @@ public class BpmProjectNature implements IProjectNature
    public static final String PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY = "multiPackageModelingVisibility"; //$NON-NLS-1$
    public static final String DEFAULT_PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY = "Private"; //$NON-NLS-1$
 
-   // split/join
-   public static final String PREFERENCE_SPLIT_AND = ModelingCoreActivator.PLUGIN_ID
-   		+ "splitAND"; //$NON-NLS-1$
-   public static final String PREFERENCE_SPLIT_XOR = ModelingCoreActivator.PLUGIN_ID
-   		+ "splitXOR"; //$NON-NLS-1$
-   public static final String PREFERENCE_SPLIT_PROMPT = ModelingCoreActivator.PLUGIN_ID
-   		+ "splitPrompt"; //$NON-NLS-1$
-
-   public static final boolean DEFAULT_PREFERENCE_SPLIT_AND = false;
-   public static final boolean DEFAULT_PREFERENCE_SPLIT_XOR = false;
-   public static final boolean DEFAULT_PREFERENCE_SPLIT_PROMPT = true;
-
-   public static final String PREFERENCE_JOIN_AND = ModelingCoreActivator.PLUGIN_ID
-		+ "joinAND"; //$NON-NLS-1$
-   public static final String PREFERENCE_JOIN_XOR = ModelingCoreActivator.PLUGIN_ID
-		+ "joinXOR"; //$NON-NLS-1$
-   public static final String PREFERENCE_JOIN_PROMPT = ModelingCoreActivator.PLUGIN_ID
-		+ "joinPrompt"; //$NON-NLS-1$
-
-   public static final boolean DEFAULT_PREFERENCE_JOIN_AND = false;
-   public static final boolean DEFAULT_PREFERENCE_JOIN_XOR = false;
-   public static final boolean DEFAULT_PREFERENCE_JOIN_PROMPT = true;
-
    // deploy
    public static final String PREFERENCE_DEPLOY_realm = ModelingCoreActivator.PLUGIN_ID + "deployRealm"; //$NON-NLS-1$
    public static final String PREFERENCE_DEPLOY_partition = ModelingCoreActivator.PLUGIN_ID + "deployPartition"; //$NON-NLS-1$

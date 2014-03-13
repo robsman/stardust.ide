@@ -80,6 +80,7 @@ public static String BpmUiActivator_noLicenseIsPresent;
    public static String LB_Always;
 
    public static String LB_Never;
+   public static String LB_None;
 
    public static String LB_ShowWarning;
 
@@ -88,14 +89,15 @@ public static String BpmUiActivator_noLicenseIsPresent;
    public static String LB_SnapLastSymbol;
 
    public static String LB_SnapAllSymbols;
+   public static String LB_Split;
 
    public static String LB_Prompt;
 
-   public static String LB_DefaultSplitType;
-
-   public static String LB_DefaultJoinType;
+   public static String LB_DefaultJoinSplitType;
 
    public static String LB_AND;
+   public static String LB_Join;
+   public static String LB_OR;
 
    public static String LB_XOR;
 

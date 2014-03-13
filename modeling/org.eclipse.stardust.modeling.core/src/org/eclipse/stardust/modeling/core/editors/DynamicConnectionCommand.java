@@ -33,6 +33,7 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.*;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
+import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.SelectionPopup;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -248,9 +249,9 @@ public class DynamicConnectionCommand extends Command
          // view a message - user can confirm or cancel to change the performer
          if(originalPerformer != null && !originalPerformer.equals(newPerformer))
          {
-        	 String message = MessageFormat.format(Diagram_Messages.MSG_Replace_performer_with_performer_for_activity,
-        			     new Object[]{LaneParticipantCommandFactory.getPerformerName(originalPerformer),
-        			     LaneParticipantCommandFactory.getPerformerName(newPerformer),activity.getName()});
+            String message = MessageFormat.format(Diagram_Messages.MSG_Replace_performer_with_performer_for_activity,
+                     new Object[]{LaneParticipantCommandFactory.getPerformerName(originalPerformer),
+                     LaneParticipantCommandFactory.getPerformerName(newPerformer),activity.getName()});
             if(!MessageDialog.openQuestion(editor.getSite().getShell(),Diagram_Messages.MSG_DIA_SET_PERFORMER, message)) {
                 cancelCommand();
 
@@ -439,79 +440,43 @@ public class DynamicConnectionCommand extends Command
       {
          return true;
       }
-      
+
       return false;
    }
-      
+
    private Command getSetActivityControlFlowCmd(ActivityType activity,
          FlowControlType flow)
    {
-	   JoinSplitType type = JoinSplitType.XOR_LITERAL;
+      JoinSplitType type = JoinSplitType.XOR_LITERAL;
 
-	   if(flow.equals(FlowControlType.SPLIT_LITERAL))
-	   {
-		   if(PlatformUI.getPreferenceStore().getBoolean(
-				   BpmProjectNature.PREFERENCE_SPLIT_PROMPT))
-		   {
-			   SplitJoinDialog dialog = new SplitJoinDialog(Display.getDefault().getActiveShell(), flow);
-			   if (Dialog.OK == dialog.open())
-			   {
-					if(SplitJoinDialog.isAnd())
-					{
-						type = JoinSplitType.AND_LITERAL;
-					}
-					else
-					{
-						type = JoinSplitType.XOR_LITERAL;
-					}
-			   }
-			   else
-			   {
-			      return UnexecutableCommand.INSTANCE;
-			   }
-		   }
-		   else if(PlatformUI.getPreferenceStore().getBoolean(
-				   BpmProjectNature.PREFERENCE_SPLIT_AND))
-		   {
-			   type = JoinSplitType.AND_LITERAL;
-		   }
-		   else
-		   {
-			   type = JoinSplitType.XOR_LITERAL;
-		   }
-		}
-		else
-		{
-			if(PlatformUI.getPreferenceStore().getBoolean(
-					BpmProjectNature.PREFERENCE_JOIN_PROMPT))
-			{
-				SplitJoinDialog dialog = new SplitJoinDialog(Display.getDefault().getActiveShell(), flow);
-				if (Dialog.OK == dialog.open())
-				{
-					if(SplitJoinDialog.isAnd())
-					{
-						type = JoinSplitType.AND_LITERAL;
-					}
-					else
-					{
-						type = JoinSplitType.XOR_LITERAL;
-					}
-				}
-				else
-				{
-               return UnexecutableCommand.INSTANCE;				   
-				}
-			}
-			else if(PlatformUI.getPreferenceStore().getBoolean(
-		              BpmProjectNature.PREFERENCE_JOIN_AND))
-			{
-				type = JoinSplitType.AND_LITERAL;
-			}
-			else
-			{
-				type = JoinSplitType.XOR_LITERAL;
-			}
-		}
+      if (PlatformUI.getPreferenceStore().getBoolean(
+            ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + "Prompt"))
+      {
+          SplitJoinDialog dialog = new SplitJoinDialog(Display.getDefault().getActiveShell(), flow);
+          if (Dialog.OK == dialog.open())
+          {
+             type = dialog.getSelectedType();
+          }
+          else
+          {
+             return UnexecutableCommand.INSTANCE;
+          }
+      }
+      else
+      {
+         for (JoinSplitType value : JoinSplitType.values())
+         {
+            if (value != JoinSplitType.NONE_LITERAL)
+            {
+               if (PlatformUI.getPreferenceStore().getBoolean(
+                     ModelingCoreActivator.PLUGIN_ID + flow.getLiteral() + value.getLiteral()))
+               {
+                  type = value;
+                  break;
+               }
+            }
+         }
+      }
 
       Command cmd = new SetActivityControlFlowCmd(editor, activity, flow, type)
       {
@@ -654,7 +619,7 @@ public class DynamicConnectionCommand extends Command
       {
          accessPointId = getAccessPoint(activity, accessPoints, data);
       }
-      
+
       if (accessPointId == null)
       {
          // get type of the data
@@ -1445,7 +1410,7 @@ public class DynamicConnectionCommand extends Command
       ActivityType activity = (ActivityType) extractModelElement(targetSymbol);
 /*      // special check if Container is a LaneSymbol
       if (activity != null && activity.getPerformer() != null &&
-    		  targetSymbol.eContainer() instanceof LaneSymbol)
+            targetSymbol.eContainer() instanceof LaneSymbol)
       {
          // and has a participant
          // and this participant is the same as the one from the container
