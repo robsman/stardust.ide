@@ -227,6 +227,8 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
            return org.eclipse.stardust.engine.api.model.JoinSplitType.And;
        } else if (aAdapter.getJoin().equals(JoinSplitType.NONE_LITERAL)) {
            return org.eclipse.stardust.engine.api.model.JoinSplitType.None;
+       } else if (aAdapter.getJoin().equals(JoinSplitType.OR_LITERAL)) {
+          return org.eclipse.stardust.engine.api.model.JoinSplitType.Or;
        } else if (aAdapter.getJoin().equals(JoinSplitType.XOR_LITERAL)) {
            return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor;
        } else {
@@ -265,6 +267,8 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
            return org.eclipse.stardust.engine.api.model.JoinSplitType.And;
        } else if (aAdapter.getSplit().equals(JoinSplitType.NONE_LITERAL)) {
            return org.eclipse.stardust.engine.api.model.JoinSplitType.None;
+       } else if (aAdapter.getSplit().equals(JoinSplitType.OR_LITERAL)) {
+          return org.eclipse.stardust.engine.api.model.JoinSplitType.Or;
        } else if (aAdapter.getSplit().equals(JoinSplitType.XOR_LITERAL)) {
            return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor;
        } else {
