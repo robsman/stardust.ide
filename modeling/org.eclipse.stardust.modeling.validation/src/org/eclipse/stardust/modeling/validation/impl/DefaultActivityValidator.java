@@ -33,8 +33,6 @@ public class DefaultActivityValidator implements IModelElementValidator
    private static final int JOIN = 0;
    private static final int SPLIT = 1;
 
-   private Set<ActivityType> checkedActivities;
-
    protected boolean performFullCheck()
    {
       return true;
@@ -107,9 +105,7 @@ public class DefaultActivityValidator implements IModelElementValidator
          }
       }
 
-      checkedActivities = new HashSet<ActivityType>();
-      ActivityType blockingActivity = checkXORANDBlock(activity, activity);
-
+      ActivityType blockingActivity = checkXORANDBlock(activity, activity, new HashSet<ActivityType>());
       if (blockingActivity != null)
       {
          result.add(Issue.warning(activity, MessageFormat.format(
@@ -259,29 +255,29 @@ public class DefaultActivityValidator implements IModelElementValidator
       }
    }
 
-   private ActivityType checkXORANDBlock(ActivityType startActivity,
-         ActivityType currentActivity)
+   private ActivityType checkXORANDBlock(ActivityType startActivity, ActivityType currentActivity,
+         HashSet<ActivityType> checkedActivities)
    {
 
       for (TransitionType outTransition : currentActivity.getOutTransitions())
       {
          currentActivity = outTransition.getTo();
          if (JoinSplitType.AND_LITERAL.equals(currentActivity.getJoin())
-               && checkBackXORANDBlock(startActivity, currentActivity, outTransition))
+               && checkBackXORANDBlock(startActivity, currentActivity, outTransition, checkedActivities))
          {
             return currentActivity;
          }
          if (!checkedActivities.contains(currentActivity))
          {
             checkedActivities.add(currentActivity);
-            return checkXORANDBlock(startActivity, currentActivity);
+            return checkXORANDBlock(startActivity, currentActivity, checkedActivities);
          }
       }
       return null;
    }
 
-   private boolean checkBackXORANDBlock(ActivityType startActivity,
-         ActivityType currentActivity, TransitionType outTransition)
+   private boolean checkBackXORANDBlock(ActivityType startActivity, ActivityType currentActivity,
+         TransitionType outTransition, HashSet<ActivityType> checkedActivities)
    {
       for (TransitionType inTransition : currentActivity.getInTransitions())
       {
@@ -303,7 +299,7 @@ public class DefaultActivityValidator implements IModelElementValidator
             if (!checkedActivities.contains(currentActivity))
             {
                checkedActivities.add(currentActivity);
-               return checkBackXORANDBlock(startActivity, currentActivity, outTransition);
+               return checkBackXORANDBlock(startActivity, currentActivity, outTransition, checkedActivities);
             }
          }
       }

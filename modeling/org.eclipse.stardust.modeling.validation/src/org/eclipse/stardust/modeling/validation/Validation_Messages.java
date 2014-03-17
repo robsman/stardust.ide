@@ -449,6 +449,8 @@ public static String Validation_MSG_JNDIPathNotSpecified;
 
    public static String Msg_XORSplitANDJoinBlock;
 
+   public static String Msg_PotentialDeadlock;
+
    public static String MSG_StartEventSymbolWrongConnected;
 
    public static String ERR_Invalid_TeamLeadConnection;

@@ -16,13 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.engine.core.model.utils.ExclusionComputer;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
@@ -116,11 +111,15 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
             }
 
             allActivities.removeAll(visitedActivities);
-            if ( !allActivities.isEmpty())
+            if (!allActivities.isEmpty())
             {
                result.add(Issue.error(proc, MessageFormat.format(
                      Validation_Messages.MSG_PROCDEF_DisconnectedActivityGraph,
                      new Object[] {new Integer(allActivities.size())})));
+            }
+            else
+            {
+               checkForDeadlocks(result, proc);
             }
          }
 
@@ -165,6 +164,30 @@ public class DefaultProcessDefinitionValidator implements IModelElementValidator
       }
 
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
+   }
+
+   private void checkForDeadlocks(List<Issue> result, ProcessDefinitionType proc)
+   {
+      ExclusionComputer<ActivityType, TransitionType> computer = new ExclusionComputer<ActivityType, TransitionType>()
+      {
+         protected ActivityType getFrom(TransitionType transition) {return transition.getFrom();}
+         protected ActivityType getTo(TransitionType transition) {return transition.getTo();}
+         protected Iterable<TransitionType> getIn(ActivityType activity) {return activity.getInTransitions();}
+         protected boolean isInclusiveJoin(ActivityType activity) {return activity.getJoin() == JoinSplitType.AND_LITERAL
+               || activity.getJoin() == JoinSplitType.OR_LITERAL;}
+      };
+      for (ActivityType activity : proc.getActivity())
+      {
+         ActivityType blockingActivity = computer.getBlockingActivity(activity);
+         // we want to show the deadlock only once.
+         if (blockingActivity != null && activity.getId().compareTo(blockingActivity.getId()) < 0)
+         {
+            result.add(Issue.warning(proc, MessageFormat.format(
+                  Validation_Messages.Msg_PotentialDeadlock,
+                     activity.getName(), blockingActivity.getName()),
+                  ValidationService.PKG_CWM.getProcessDefinitionType()));
+         }
+      }
    }
 
    private boolean findDuplicateId(ProcessDefinitionType proc)
