@@ -792,7 +792,8 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
             || flow == FlowControlType.SPLIT_LITERAL && !ActivityUtil.hasEndEvent(activity))
       {
          EditDomain domain = getViewer().getEditDomain();
-         JoinSplitType type = activity.getJoin();
+         JoinSplitType type = flow == FlowControlType.JOIN_LITERAL ?
+               activity.getJoin() : activity.getSplit();
          for (JoinSplitType value : JoinSplitType.values())
          {
             IAction action = new SetActivityControlFlowAction(editor, domain, activity, flow, value);
