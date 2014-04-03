@@ -298,7 +298,7 @@ public class IdentifiableReferenceImpl extends EObjectImpl
       if (thisModel != otherModel)
       {
          String feature = identifiable.eContainingFeature().getName();
-         id = feature + ":{" + otherModel.getId() + "}" + id;
+         id = feature + ":{" + otherModel.getId() + "}" + id; //$NON-NLS-1$ //$NON-NLS-2$
       }
       return id;
    }

@@ -17,6 +17,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelAp
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDroolsApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newMessageTransformationApplication;
@@ -329,6 +330,15 @@ public class ModelBuilderFacade
          ProcessDefinitionType processInterface, DataType data, String id, String name,
          String primitiveTypeID, ModeType mode)
    {
+      return createPrimitiveParameter(processInterface, data, id, name, primitiveTypeID, mode, null);
+   }
+
+   public FormalParameterType createPrimitiveParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String primitiveTypeID, ModeType mode, String structTypeFullID)
+   {
+      String refModelId = null;
+      String structTypeId = null;
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
       
       FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
@@ -341,12 +351,33 @@ public class ModelBuilderFacade
       }
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = XpdlFactory.eINSTANCE.createDataTypeType();
-      BasicTypeType basicType = xpdlFactory.createBasicTypeType();
-      if ( !StringUtils.isEmpty(primitiveTypeID))
+
+      // For Primitive ENUM, create DeclaredTypeType
+      if (StringUtils.isNotEmpty(structTypeFullID))
       {
-      basicType.setType(getPrimitiveType(primitiveTypeID));
+         String[] splittedIds = structTypeFullID.split(":");
+         if (splittedIds.length > 1)
+         {
+            refModelId = splittedIds[0];
+            structTypeId = splittedIds[1];
+         }
+         else
+         {
+            structTypeId = splittedIds[0];
+         }
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
       }
-      dataTypeType.setBasicType(basicType);
+      else
+      {
+         BasicTypeType basicType = xpdlFactory.createBasicTypeType();
+         if ( !StringUtils.isEmpty(primitiveTypeID))
+         {
+            basicType.setType(getPrimitiveType(primitiveTypeID));
+         }
+         dataTypeType.setBasicType(basicType);
+      }
       parameterType.setDataType(dataTypeType);
       String typeId = PredefinedConstants.PRIMITIVE_DATA;
       dataTypeType.setCarnotType(typeId);
@@ -376,11 +407,71 @@ public class ModelBuilderFacade
          String structTypeFullID, ModeType mode)
    {
       XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
+      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
+      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
+      String typeId = PredefinedConstants.STRUCTURED_DATA;
+
+      parameterType.setDataType(dataTypeType);
+      dataTypeType.setCarnotType(typeId);
+
+      String refModelId = null;
+      String structTypeId = null;
+      String[] splittedIds = structTypeFullID.split(":");
+      if (splittedIds.length > 1)
+      {
+         refModelId = splittedIds[0];
+         structTypeId = splittedIds[1];
+      }
+      else
+      {
+         structTypeId = splittedIds[0];
+      }
+
+      ModelType model = ModelUtils.findContainingModel(processInterface);
+      if (refModelId == null || model != null && refModelId.equals(model.getId()))
+      {
+         DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
+         declaredType.setId(structTypeId);
+         dataTypeType.setDeclaredType(declaredType);
+      }
+      else if (model != null)
+      {
+         ModelType ref = findModel(refModelId);
+         updateReferences(model, ref);
+         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
+         extRef.setLocation(refModelId);
+         //extRef.setNamespace("TypeDeclarations");
+         extRef.setXref(structTypeId);
+         dataTypeType.setExternalReference(extRef);
+      }
+
+      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
+
+      if (parameterMappingsType == null)
+      {
+         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
+      }
+
+      if (data != null)
+      {
+         parameterMappingsType.setMappedData(parameterType, data);
+      }
+
+      processInterface.setFormalParameterMappings(parameterMappingsType);
+
+      return parameterType;
+   }
+
+   public FormalParameterType createDocumentParameter(
+         ProcessDefinitionType processInterface, DataType data, String id, String name,
+         String structTypeFullID, ModeType mode)
+   {
+      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
 
       FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
 
       org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
-      String typeId = PredefinedConstants.STRUCTURED_DATA;
+      String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
 
       parameterType.setDataType(dataTypeType);
       dataTypeType.setCarnotType(typeId);
@@ -454,9 +545,9 @@ public class ModelBuilderFacade
       if (parametersType == null)
       {
          parametersType = xpdlFactory.createFormalParametersType();
-         processInterface.setFormalParameters(parametersType);         
+         processInterface.setFormalParameters(parametersType);
       }
-      
+
       FormalParameterType parameterType = parametersType.getFormalParameter(id);
 
       if (parameterType == null)
@@ -488,45 +579,6 @@ public class ModelBuilderFacade
          parameterType.setMode(mode);
       }
       
-      return parameterType;
-   }
-
-   public FormalParameterType createDocumentParameter(
-         ProcessDefinitionType processInterface, DataType data, String id, String name,
-         String structTypeFullID, ModeType mode)
-   {
-      XpdlFactory xpdlFactory = XpdlPackage.eINSTANCE.getXpdlFactory();
-
-      FormalParameterType parameterType = createFormalParameter(processInterface, id, name, mode, xpdlFactory);
-
-      org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType dataTypeType = xpdlFactory.createDataTypeType();
-      String typeId = ModelerConstants.DOCUMENT_DATA_TYPE_KEY;
-
-      parameterType.setDataType(dataTypeType);
-      dataTypeType.setCarnotType(typeId);
-
-      DeclaredTypeType declaredType = xpdlFactory.createDeclaredTypeType();
-      // declaredType.setId(AttributeUtil.getAttributeValue(data,
-      // StructuredDataConstants.TYPE_DECLARATION_ATT));
-
-      declaredType.setId(stripFullId(structTypeFullID));
-
-      dataTypeType.setDeclaredType(declaredType);
-
-      FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
-
-      if (parameterMappingsType == null)
-      {
-         parameterMappingsType = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
-      }
-
-      if (data != null)
-      {
-         parameterMappingsType.setMappedData(parameterType, data);
-      }
-
-      processInterface.setFormalParameterMappings(parameterMappingsType);
-
       return parameterType;
    }
 
@@ -719,6 +771,28 @@ public class ModelBuilderFacade
    }
 
    /**
+    *
+    * @param dataJson
+    * @param data
+    */
+   public void updateTypeForPrimitive(DataType data, String typeFullID)
+   {
+      ModelType model = ModelUtils.findContainingModel(data);
+      String declaredTypeID = null;
+      String sourceModelID = getModelId(typeFullID);
+      String declarationID = stripFullId(typeFullID);
+      if (sourceModelID.equals(model.getId()))
+      {
+         declaredTypeID = declarationID;
+      }
+      else
+      {
+         declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
+      }
+      AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
+   }
+
+   /**
     * Update the type declaration a structured data refers to.
     *
     * <p>
@@ -789,10 +863,10 @@ public class ModelBuilderFacade
       String sourceModelID = getModelId(typeFullID);
       ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
             sourceModelID);
-      
+
       if (typeDeclarationModel != null)
       {
-         String qualifiedId = null;         
+         String qualifiedId = null;
          String declarationID = stripFullId(typeFullID);
          TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
 
@@ -802,9 +876,9 @@ public class ModelBuilderFacade
             AttributeType attribute = AttributeUtil.setAttribute(data,
                   DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, declarationID);
             ModelUtils.setReference(attribute, model, "struct");
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);            
+            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
             qualifiedId = typeDeclaration.getId();
-         }         
+         }
          else
          {
             String fileConnectionId = WebModelerConnectionManager.createFileConnection(
@@ -833,10 +907,10 @@ public class ModelBuilderFacade
             }
             reference.setXref(declarationID);
             data.setExternalReference(reference);
-            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";            
+            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";
          }
-         
-         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);               
+
+         AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);
       }
    }
 
@@ -893,6 +967,10 @@ public class ModelBuilderFacade
       {
          type = Type.Money;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.ENUM_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Enumeration;
+      }
 
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
             .ofType(type)
@@ -947,7 +1025,7 @@ public class ModelBuilderFacade
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
          ModelType loadModel = getModelManagementStrategy().loadModel(
-               dataModelId + ".xpdl");
+               dataModelId);
          // DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
          DataType dataCopy = findData(dataModel, stripFullId(dataFullID));
          // if (dataCopy == null)
@@ -1071,7 +1149,7 @@ public class ModelBuilderFacade
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID + ".xpdl");
+                  participantModelID);
             /*
              * IModelParticipant participantCopy = findParticipant(loadModel,
              * stripFullId(participantFullID));
@@ -1339,6 +1417,17 @@ public class ModelBuilderFacade
       if (applicationTypeID.equalsIgnoreCase(ModelerConstants.CAMEL_APPLICATION_TYPE_ID))
       {
          return newCamelApplication(model).withIdAndName(applicationID, applicationName)
+               .build();
+      }
+      // This application is "hidden" and implicitly created when for a task activity the
+      // task type is changed to "Rules"
+      if (applicationTypeID.equalsIgnoreCase(ModelerConstants.DROOLS_APPLICATION_TYPE_ID))
+      {
+         IdFactory idFactory = new IdFactory(applicationID, applicationName);
+         idFactory.computeNames(model.getApplication(), true);
+         applicationID = idFactory.getId();
+         applicationName = idFactory.getName();
+         return newDroolsApplication(model).withIdAndName(applicationID, applicationName)
                .build();
       }
       return null;
@@ -3221,6 +3310,34 @@ public class ModelBuilderFacade
       return false;
    }
 
+   /**
+    *
+    * @param typeDeclaration
+    * @return
+    */
+   public boolean isEnumerationJavaBound(TypeDeclarationType typeDeclaration)
+   {
+      try
+      {
+         if (null != typeDeclaration && null != typeDeclaration.getExtendedAttributes())
+         {
+            for (ExtendedAttributeType extendedAttrType : typeDeclaration.getExtendedAttributes()
+                  .getExtendedAttribute())
+            {
+               if (extendedAttrType.getName().equals(PredefinedConstants.CLASS_NAME_ATT))
+               {
+                  return true;
+               }
+            }
+         }
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+      return false;
+   }
+
    public void updateTeamLead(OrganizationType organization, String participantFullID)
    {
       // Set team leader to null if participantFullID is set to "TO_BE_DEFINED"
@@ -3259,7 +3376,7 @@ public class ModelBuilderFacade
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
 
             ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID + ".xpdl");
+                  participantModelID);
             /*
              * IModelParticipant participantCopy = findParticipant(loadModel,
              * stripFullId(participantFullID));
@@ -3478,60 +3595,21 @@ public class ModelBuilderFacade
 
    /**
     *
-    * @param sourceOid
-    * @param targetOid
-    * @param processDefinition
-    */
-   private void deleteDuplicateConnections(long sourceOid, long targetOid,
-         ProcessDefinitionType processDefinition)
-   {
-      List<TransitionConnectionType> tobeRemoved = new ArrayList<TransitionConnectionType>();
-
-      EList<TransitionConnectionType> transitionConnections = processDefinition.getDiagram()
-            .get(0)
-            .getPoolSymbols()
-            .get(0)
-            .getTransitionConnection();
-
-      for (TransitionConnectionType transitionConnectionType : transitionConnections)
-      {
-         if (transitionConnectionType.getSourceActivitySymbol().getElementOid() == sourceOid
-               && transitionConnectionType.getTargetActivitySymbol().getElementOid() == targetOid)
-         {
-            tobeRemoved.add(transitionConnectionType);
-         }
-      }
-
-      for (TransitionConnectionType transitionConnectionType : tobeRemoved)
-      {
-         transitionConnections.remove(transitionConnectionType);
-         processDefinition.getTransition().remove(
-               transitionConnectionType.getTransition());
-      }
-   }
-
-   /**
-    *
     * @param sourceActivitySymbol
     * @param targetActivitySymbol
     * @throws JSONException
     */
-   public void createControlFlowConnection(ProcessDefinitionType processDefinition,
+   public TransitionConnectionType createControlFlowConnection(ProcessDefinitionType processDefinition,
          ActivitySymbolType sourceActivitySymbol,
          ActivitySymbolType targetActivitySymbol, String id, String name,
          String description, boolean otherwise, String condition, String fromAnchor,
          String toAnchor)
    {
-      // Remove duplicate transition connections
-
-      deleteDuplicateConnections(sourceActivitySymbol.getElementOid(),
-            targetActivitySymbol.getElementOid(), processDefinition);
-
       TransitionType transition = createTransition(processDefinition,
             sourceActivitySymbol.getActivity(), targetActivitySymbol.getActivity(), id,
             name, description, otherwise, condition);
 
-      createTransitionSymbol(processDefinition, sourceActivitySymbol,
+      return createTransitionSymbol(processDefinition, sourceActivitySymbol,
             targetActivitySymbol, transition, fromAnchor, toAnchor);
    }
 

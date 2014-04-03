@@ -97,8 +97,8 @@ public class RoleSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_performedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_performedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__PERFORMED_ACTIVITIES,
              true,
              false,
@@ -120,8 +120,8 @@ public class RoleSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__TRIGGERED_EVENTS,
              true,
              false,
@@ -143,8 +143,8 @@ public class RoleSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleSymbolType_role_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_role_feature", "_UI_RoleSymbolType_type"),
+             getString("_UI_RoleSymbolType_role_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_role_feature", "_UI_RoleSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_SYMBOL_TYPE__ROLE,
              true,
              false,
@@ -166,8 +166,8 @@ public class RoleSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleSymbolType_organizationMemberships_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_organizationMemberships_feature", "_UI_RoleSymbolType_type"),
+             getString("_UI_RoleSymbolType_organizationMemberships_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_organizationMemberships_feature", "_UI_RoleSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_SYMBOL_TYPE__ORGANIZATION_MEMBERSHIPS,
              true,
              false,
@@ -189,8 +189,8 @@ public class RoleSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_RoleSymbolType_teams_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_teams_feature", "_UI_RoleSymbolType_type"),
+             getString("_UI_RoleSymbolType_teams_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_RoleSymbolType_teams_feature", "_UI_RoleSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ROLE_SYMBOL_TYPE__TEAMS,
              true,
              false,
@@ -209,7 +209,7 @@ public class RoleSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/RoleSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/RoleSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -222,7 +222,7 @@ public class RoleSymbolTypeItemProvider
    public String getText(Object object)
    {
       RoleSymbolType roleSymbolType = (RoleSymbolType)object;
-      return getString("_UI_RoleSymbolType_type") + " " + roleSymbolType.getElementOid();
+      return getString("_UI_RoleSymbolType_type") + " " + roleSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

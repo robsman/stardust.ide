@@ -22,7 +22,7 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.thirdparty.gface" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.gface" type="jar" conf="bom" />
    </publications>
 
    <dependencies>

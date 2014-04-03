@@ -105,8 +105,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -128,8 +128,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -151,8 +151,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -174,8 +174,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessDefinitionType_executingActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_executingActivities_feature", "_UI_ProcessDefinitionType_type"),
+             getString("_UI_ProcessDefinitionType_executingActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_executingActivities_feature", "_UI_ProcessDefinitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__EXECUTING_ACTIVITIES,
              true,
              false,
@@ -197,8 +197,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessDefinitionType_processSymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_processSymbols_feature", "_UI_ProcessDefinitionType_type"),
+             getString("_UI_ProcessDefinitionType_processSymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_processSymbols_feature", "_UI_ProcessDefinitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__PROCESS_SYMBOLS,
              true,
              false,
@@ -220,8 +220,8 @@ public class ProcessDefinitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessDefinitionType_defaultPriority_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_defaultPriority_feature", "_UI_ProcessDefinitionType_type"),
+             getString("_UI_ProcessDefinitionType_defaultPriority_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessDefinitionType_defaultPriority_feature", "_UI_ProcessDefinitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__DEFAULT_PRIORITY,
              true,
              false,
@@ -283,7 +283,7 @@ public class ProcessDefinitionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ProcessDefinitionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ProcessDefinitionType")); //$NON-NLS-1$
    }
 
    /**
@@ -297,8 +297,8 @@ public class ProcessDefinitionTypeItemProvider
    {
       String label = ((ProcessDefinitionType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_ProcessDefinitionType_type") :
-         getString("_UI_ProcessDefinitionType_type") + " " + label;
+         getString("_UI_ProcessDefinitionType_type") : //$NON-NLS-1$
+         getString("_UI_ProcessDefinitionType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

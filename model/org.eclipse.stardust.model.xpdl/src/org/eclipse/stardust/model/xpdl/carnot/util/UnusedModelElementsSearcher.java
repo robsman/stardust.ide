@@ -455,7 +455,9 @@ public class UnusedModelElementsSearcher
       {
          DataType data = (DataType) i.next();
          DataTypeType type = data.getType();
-         if(type != null && type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
+         if(type != null &&
+               (type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
+               || type.getId().equals(PredefinedConstants.PRIMITIVE_DATA))
          {
             String structuredDataId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if(!StringUtils.isEmpty(structuredDataId) && structuredDataId.equals(element.getId()))

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.properties;
 
+import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.forEachReferencedModel;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
@@ -19,38 +21,21 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
-import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -61,20 +46,9 @@ import org.eclipse.stardust.modeling.core.editors.ui.TableUtil;
 import org.eclipse.stardust.modeling.core.properties.IProcessInterfaceInvocationGenerator.IProcessDefinitionTypeProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.*;
 
 public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPage
       implements IButtonManager
@@ -883,44 +857,23 @@ public class ProcessInterfacePropertyPage extends AbstractModelElementPropertyPa
       }
    }
 
-   private java.util.List<ProcessDefinitionType> collectReferencedProcessDefinitions(ModelType model)
+   private List<ProcessDefinitionType> collectReferencedProcessDefinitions(ModelType model)
    {
-      java.util.List<ProcessDefinitionType> processesList = CollectionUtils.newList();
-      ExternalPackages packages = model.getExternalPackages();
-      if (packages != null)
+      final List<ProcessDefinitionType> processesList = CollectionUtils.newList();
+      forEachReferencedModel(model, new Predicate<ModelType>()
       {
-         for (ExternalPackage pkg : packages.getExternalPackage())
+         public boolean accept(ModelType externalModel)
          {
-            String uri = ExtendedAttributeUtil.getAttributeValue(pkg,
-                  IConnectionManager.URI_ATTRIBUTE_NAME);
-            if (!StringUtils.isEmpty(uri))
+            for (ProcessDefinitionType externalProcess : externalModel.getProcessDefinition())
             {
-               IConnectionManager manager = model.getConnectionManager();
-               if (manager != null)
+               if (externalProcess.getFormalParameters() != null)
                {
-                  EObject externalModel = manager.find(uri);
-                  if (externalModel instanceof IObjectReference)
-                  {
-                     externalModel = ((IObjectReference) externalModel).getEObject();
-                  }
-                  if (externalModel instanceof ModelType)
-                  {
-                     java.util.List<ProcessDefinitionType> externalDeclarations = ((ModelType) externalModel)
-                           .getProcessDefinition();
-                     if (externalDeclarations != null)
-                     {
-                        for (Iterator<ProcessDefinitionType> i = externalDeclarations.iterator(); i.hasNext();) {
-                           ProcessDefinitionType externalProcess = i.next();
-                           if (externalProcess.getFormalParameters() != null) {
-                              processesList.add(externalProcess);                              
-                           }
-                        }
-                     }
-                  }
+                  processesList.add(externalProcess);                              
                }
             }
+            return true;
          }
-      }
+      });
       return processesList;
    }
 

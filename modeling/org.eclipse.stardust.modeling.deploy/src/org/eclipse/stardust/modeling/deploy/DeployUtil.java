@@ -35,8 +35,8 @@ import org.eclipse.ui.PlatformUI;
 
 public class DeployUtil
 {
-   private static final String DUSER_REGION_ARG = " -Duser.region=";
-   private static final String DUSER_LANGUAGE_ARG = " -Duser.language=";
+   private static final String DUSER_REGION_ARG = " -Duser.region="; //$NON-NLS-1$
+   private static final String DUSER_LANGUAGE_ARG = " -Duser.language="; //$NON-NLS-1$
 
    public static boolean deployModel(List<IResource> resources, String carnotHome, String carnotWork)
    {

@@ -15,23 +15,11 @@ import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -46,73 +34,24 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDSchema;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.xsd.XSDSchema;
 
 public class ModelUtils
 {
@@ -878,7 +817,7 @@ public class ModelUtils
       }
 
       // resolve declared references
-      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference"); //$NON-NLS-1$
       if (configs != null)
       {
          for(IConfigurationElement config : configs)
@@ -933,9 +872,9 @@ public class ModelUtils
                {
                   model = otherModel;
                   scopeList = id.substring(0, ix);
-                  if ("typeDeclaration".equals(scopeList))
+                  if ("typeDeclaration".equals(scopeList)) //$NON-NLS-1$
                   {
-                     scopeList = "struct";
+                     scopeList = "struct"; //$NON-NLS-1$
                   }
                   id = qname.getLocalPart();
                }
@@ -1293,6 +1232,25 @@ public class ModelUtils
       }
       return true;
    }
+   
+   public static <T extends Predicate<ModelType>> void forEachReferencedModel(ModelType model, T predicate)
+   {
+      ExternalPackages packages = model.getExternalPackages();
+      if (packages != null)
+      {
+         for (ExternalPackage pkg : packages.getExternalPackage())
+         {
+            ModelType externalModel = getExternalModel(pkg);
+            if (externalModel != null)
+            {
+               if (!predicate.accept(externalModel))
+               {
+                  break;
+               }
+            }
+         }
+      }
+   }
 
    public static ModelType getExternalModel(ExternalPackage pack)
    {
@@ -1625,11 +1583,11 @@ public class ModelUtils
       if (model != null && model.getConnectionManager() != null)
       {
          EObject connectionObject = model.getConnectionManager().find(
-               proxyUri.scheme() + "://" + proxyUri.authority() + "/");
+               proxyUri.scheme() + "://" + proxyUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
          if (connectionObject != null)
          {
             referencedModel = (ModelType) Reflect.getFieldValue(connectionObject,
-                  "eObject");
+                  "eObject"); //$NON-NLS-1$
          }
       }
       return referencedModel;

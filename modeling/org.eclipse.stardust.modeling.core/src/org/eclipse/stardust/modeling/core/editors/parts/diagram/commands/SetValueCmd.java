@@ -27,9 +27,9 @@ public class SetValueCmd extends ContainedElementCommand
 
    public SetValueCmd(int parentLevel, EStructuralFeature feature, Object object)
    {
-	  this(parentLevel, null, feature, -1, object);
+   this(parentLevel, null, feature, -1, object);
    }
-   
+
    public SetValueCmd(EObject parent, EStructuralFeature feature, Object object)
    {
       this(IContainedElementCommand.PARENT, parent, feature, -1, object);
@@ -37,12 +37,12 @@ public class SetValueCmd extends ContainedElementCommand
 
    public SetValueCmd(EObject parent, EStructuralFeature feature, int position, Object object)
    {
-	  this(IContainedElementCommand.PARENT, parent, feature, position, object);
+   this(IContainedElementCommand.PARENT, parent, feature, position, object);
    }
-   
+
    public SetValueCmd(int parentLevel, EObject parent, EStructuralFeature feature, int position, Object object)
    {
-	  super(parentLevel);
+   super(parentLevel);
       setParent(parent);
       this.value = object;
       this.feature = feature;
@@ -53,7 +53,7 @@ public class SetValueCmd extends ContainedElementCommand
    {
       this(parent, feature, -1, value ? Boolean.TRUE : Boolean.FALSE);
    }
-   
+
    public void execute()
    {
       redo();
@@ -61,19 +61,21 @@ public class SetValueCmd extends ContainedElementCommand
 
    public void redo()
    {
-	  EObject parent = getContainer();
+      EObject parent = getContainer();
       if (parent != null)
       {
          Object ref = parent.eGet(feature);
          if (ref instanceof List)
          {
+            @SuppressWarnings("unchecked")
+            List<Object> list = (List<Object>) ref;
             if (position < 0)
             {
-               ((List) ref).add(getValue());
+               list.add(getValue());
             }
             else
             {
-               ((List) ref).add(position, getValue());
+               list.add(position, getValue());
             }
          }
          else
@@ -87,20 +89,19 @@ public class SetValueCmd extends ContainedElementCommand
                      getValue().toString());
             }
             parent.eSet(feature, getValue());
-            
          }
       }
    }
 
    public void undo()
    {
-	  EObject parent = getContainer();
+      EObject parent = getContainer();
       if (parent != null)
       {
          Object ref = parent.eGet(feature);
          if (ref instanceof List)
          {
-            ((List) ref).remove(getValue());
+            ((List<?>) ref).remove(getValue());
          }
          else
          {
@@ -126,9 +127,9 @@ public class SetValueCmd extends ContainedElementCommand
    {
       return value;
    }
-   
+
    public Object getUndoValue()
    {
       return undoValue;
-   }      
+   }
 }

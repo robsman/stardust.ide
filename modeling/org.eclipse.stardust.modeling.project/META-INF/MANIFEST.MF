@@ -10,7 +10,6 @@ Require-Bundle: org.eclipse.stardust.modeling.common.ui,
  org.eclipse.stardust.ide.thirdparty.gface,
  org.eclipse.draw2d,
  org.eclipse.jface,
- org.eclipse.emf.ecore.editor,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.stardust.model.xpdl,
  org.eclipse.stardust.modeling.common.ui.jface

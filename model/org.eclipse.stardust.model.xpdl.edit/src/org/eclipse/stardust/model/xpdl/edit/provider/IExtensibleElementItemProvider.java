@@ -125,7 +125,7 @@ public class IExtensibleElementItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/IExtensibleElement"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/IExtensibleElement")); //$NON-NLS-1$
    }
 
    /**
@@ -137,7 +137,7 @@ public class IExtensibleElementItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_IExtensibleElement_type");
+      return getString("_UI_IExtensibleElement_type"); //$NON-NLS-1$
    }
 
    /**

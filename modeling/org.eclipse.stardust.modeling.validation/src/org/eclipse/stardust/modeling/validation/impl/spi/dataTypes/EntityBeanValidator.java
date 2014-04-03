@@ -12,20 +12,11 @@ package org.eclipse.stardust.modeling.validation.impl.spi.dataTypes;
 
 import java.util.List;
 
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.modeling.validation.BridgeObject;
-import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
-import org.eclipse.stardust.modeling.validation.IModelElementValidator;
-import org.eclipse.stardust.modeling.validation.Issue;
-import org.eclipse.stardust.modeling.validation.ValidationConstants;
-import org.eclipse.stardust.modeling.validation.ValidationException;
-
+import org.eclipse.stardust.modeling.validation.*;
 
 public class EntityBeanValidator implements IModelElementValidator, IBridgeObjectProvider
 {
@@ -67,18 +58,13 @@ public class EntityBeanValidator implements IModelElementValidator, IBridgeObjec
       return null;
    }
 
-   private String getVersionAttribute(List attributes)
+   private String getVersionAttribute(List<AttributeType> attributes)
    {
       String style = VERSION_3_X;
       if (!attributes.isEmpty())
       {
          style = AttributeUtil.getAttributeValue(attributes, VERSION_ATT);
-         if (style == null)
-         {
-            // old style app
-            style = VERSION_2_X;
-         }
       }
-      return style;
+      return style == null ? VERSION_2_X : VERSION_3_X;
    }
 }

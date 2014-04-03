@@ -18,13 +18,10 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
@@ -35,6 +32,7 @@ import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.osgi.framework.Bundle;
 
@@ -50,16 +48,15 @@ public class TypeFinder
 
    private SearchJob finder;
 
-   private MethodFilter methodFilter;
-
    private IJavaSearchScope scope;
 
    private IJavaProject project;
 
    private static final String PLUGIN_ID = "org.eclipse.stardust.modeling.common.platform"; //$NON-NLS-1$
-   
+
    private EObject modelElement;
 
+   private MethodFilter filter;
 
    public TypeFinder(IJavaProject project)
    {
@@ -93,37 +90,9 @@ public class TypeFinder
    {
       if (eObject != null)
       {
-         Resource eResource = eObject.eResource();
-         if (eResource != null)
-         {
-            URI eUri = eResource.getURI();
-            IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-                  eUri.segment(1));
-            if (resource instanceof IProject)
-            {
-               return (IProject) resource;
-            }
-            else if (resource != null)
-            {
-               return resource.getProject();
-            }
-         }
+         return ModelUtils.getProjectFromEObject(eObject);
       }
       return null;
-   }
-
-   public void findExactType(String proto, TypeFinderListener listener)
-   {
-      stop();
-      if (proto.length() != 0 && proto.charAt(proto.length() - 1) != '.')
-      {
-         int ix = proto.lastIndexOf('.');
-         String packageName = ix < 0 ? null : proto.substring(0, ix);
-         String typeName = ix < 0 ? proto : proto.substring(ix + 1);
-         finder = new SearchJob(packageName, typeName, scope,
-               SearchPattern.R_EXACT_MATCH, listener);
-      }
-      schedule(listener);
    }
 
    public void findTypes(String prefix, TypeFinderListener listener)
@@ -162,7 +131,7 @@ public class TypeFinder
       }
    }
 
-   public IType findExactType(String proto)
+   IType findExactType(String proto)
    {
       Class<?> primitiveWrapper = getPrimitiveWrapper(proto);
       if (null != primitiveWrapper)
@@ -204,57 +173,6 @@ public class TypeFinder
          finder.run(null);
       }
       return result[0];
-   }
-
-   public List<MethodInfo> getMethods(IType type, String hint)
-   {
-      return codeComplete(type, hint.toCharArray());
-   }
-
-   public List<MethodInfo> getMethods(IType type)
-   {
-      return codeComplete(type, new char[0]);
-   }
-
-   public List<MethodInfo> getConstructors(IType type)
-   {
-      return codeComplete(type,
-            ("new " + type.getFullyQualifiedName() + "(").toCharArray()); //$NON-NLS-1$ //$NON-NLS-2$
-   }
-
-   private List<MethodInfo> codeComplete(IType type, final char[] snippet)
-   {
-      final List<MethodInfo> methods = CollectionUtils.newList();
-      try
-      {
-         type.codeComplete(snippet, -1, snippet.length, new char[0][0], new char[0][0],
-               new int[0], false, new CompletionRequestor()
-               {
-                  public void accept(CompletionProposal proposal)
-                  {
-                     if (proposal.getKind() == CompletionProposal.METHOD_REF)
-                     {
-                        MethodInfo info = new MethodInfo(snippet.length > 0, proposal
-                              .getName(), proposal.getSignature(), Flags
-                              .isPublic(proposal.getFlags()));
-                        if (methodFilter == null || methodFilter.accept(info))
-                        {
-                           methods.add(info);
-                        }
-                     }
-                  }
-               });
-      }
-      catch (JavaModelException e)
-      {
-         log(e.getJavaModelStatus());
-      }
-      return methods;
-   }
-
-   public void setMethodFilter(MethodFilter filter)
-   {
-      methodFilter = filter;
    }
 
    public boolean implementsInterface(String className, String interfaceName)
@@ -385,6 +303,7 @@ public class TypeFinder
       }
    }
 
+   @SuppressWarnings("deprecation")
    public static String getClassFromAbbreviatedName(String className)
    {
       Class<?> resolvedClass = null;
@@ -466,7 +385,7 @@ public class TypeFinder
       }
    }
 
-   public MethodInfo getConstructor(IType type, String ctorName)
+   public MethodInfo getConstructor(TypeInfo type, String ctorName)
    {
       String compactCtorName = StringUtils.replace(ctorName, ", ", ","); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -480,14 +399,11 @@ public class TypeFinder
       return null;
    }
 
-   public MethodInfo getMethod(IType type, String methodName)
+   public MethodInfo getMethod(TypeInfo type, String methodName)
    {
       String compactMethodName = StringUtils.replace(methodName, ", ", ","); //$NON-NLS-1$ //$NON-NLS-2$
 
-      int idxBrace = compactMethodName.indexOf('(');
-      String baseName = compactMethodName.substring(0, idxBrace + 1);
-
-      for (MethodInfo candidate : getMethods(type, baseName))
+      for (MethodInfo candidate : getMethods(type))
       {
          if (compactMethodName.equals(StringUtils.replace(candidate.getEncoded(), ", ", //$NON-NLS-1$
                ","))) //$NON-NLS-1$
@@ -552,11 +468,11 @@ public class TypeFinder
       return result;
    }
 
-   public List<MethodInfo> getMethods(TypeInfo type, String fragmentName)
+   public List<MethodInfo> getMethods(TypeInfo type)
    {
       try
       {
-         return type.getMethods();
+         return filter(type.getMethods());
       }
       catch (JavaModelException e)
       {
@@ -569,7 +485,7 @@ public class TypeFinder
    {
       try
       {
-         return type.getConstructors();
+         return filter(type.getConstructors());
       }
       catch (JavaModelException e)
       {
@@ -577,9 +493,31 @@ public class TypeFinder
       }
       return Collections.emptyList();
    }
-   
+
+   private List<MethodInfo> filter(List<MethodInfo> list)
+   {
+      if (filter == null)
+      {
+         return list;
+      }
+      List<MethodInfo> result = CollectionUtils.newList(list.size());
+      for (MethodInfo info : list)
+      {
+         if (filter.accept(info))
+         {
+            result.add(info);
+         }
+      }
+      return result;
+   }
+
    public EObject getModelElement()
    {
       return modelElement;
+   }
+
+   public void setMethodFilter(MethodFilter filter)
+   {
+      this.filter = filter;
    }
 }

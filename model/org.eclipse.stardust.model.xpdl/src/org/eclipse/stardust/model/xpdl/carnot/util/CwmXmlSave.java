@@ -124,7 +124,7 @@ public class CwmXmlSave extends XMLSaveImpl
        {
          if (remote instanceof IIdentifiableModelElement)
          {
-            doc.addAttribute("id", ((IIdentifiableModelElement) remote).getId());
+            doc.addAttribute("id", ((IIdentifiableModelElement) remote).getId()); //$NON-NLS-1$
          }
          doc.addAttribute(WorkflowModelManager.PROXY_ATT, href);
          if (eObjectToExtensionMap != null)
@@ -148,7 +148,7 @@ public class CwmXmlSave extends XMLSaveImpl
        {
          if (remote instanceof IIdentifiableModelElement)
          {
-            ((Element)currentNode).setAttributeNS(null, "id", ((IIdentifiableModelElement) remote).getId());
+            ((Element)currentNode).setAttributeNS(null, "id", ((IIdentifiableModelElement) remote).getId()); //$NON-NLS-1$
          }
          ((Element)currentNode).setAttributeNS(null, WorkflowModelManager.PROXY_ATT, href);
          if (eObjectToExtensionMap != null)

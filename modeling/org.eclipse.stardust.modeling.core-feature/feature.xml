@@ -491,7 +491,7 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>         
+         unpack="false"/>
          
    <plugin
          id="org.eclipse.stardust.modeling.transformation"
@@ -528,6 +528,6 @@
          install-size="0"
          version="0.0.0"
          fragment="true"
-         unpack="false"/>                
+         unpack="false"/>
 
 </feature>

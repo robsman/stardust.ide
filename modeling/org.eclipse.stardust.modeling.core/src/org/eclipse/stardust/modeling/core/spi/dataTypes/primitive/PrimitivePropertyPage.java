@@ -11,47 +11,55 @@
 package org.eclipse.stardust.modeling.core.spi.dataTypes.primitive;
 
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
+import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.forEachReferencedModel;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.viewers.*;
+
+import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.Predicate;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.IBindingMediator;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtButtonAdapter;
-import org.eclipse.stardust.modeling.common.ui.jface.databinding.SwtComboAdapter;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.common.ui.jface.databinding.*;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.Verifier;
 import org.eclipse.stardust.modeling.core.VerifierFactory;
+import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.SwtDatePickerAdapter;
 import org.eclipse.stardust.modeling.core.editors.ui.SwtVerifierTextAdapter;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataModelAdapter;
 import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
+import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDEnumerationFacet;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
 import com.gface.date.DatePickerCombo;
 
@@ -63,9 +71,7 @@ import com.gface.date.DatePickerCombo;
 public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       implements IDataPropertyPage
 {
-   private static final Type[] TYPES = {
-         Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
-         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short};
+   private static final Type[] TYPES = fetchTypes();
 
    private ComboViewer typeViewer;
 
@@ -73,20 +79,102 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
    private Map<Type, Object> valueControlsMap = newHashMap();
 
-   public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
+   private Label enumLabel;
+
+   private Tree enumTree;
+
+   private TreeViewer enumViewer;
+
+   private ComboViewer enumComboViewer;
+
+   private Button enumSorter;
+
+   private Label enumSorterLabel;
+
+   protected boolean grouped;
+
+   private static Type[] fetchTypes()
    {
+      List<Type> types = Type.getTypes();
+      Type[] array = types.toArray(new Type[types.size()]);
+      Arrays.sort(array);
+      return array;
+   }
+
+   public void loadFieldsFromElement(IModelElementNodeSymbol symbol, final IModelElement element)
+   {
+      String dataType = AttributeUtil.getAttributeValue((DataType) element, PredefinedConstants.TYPE_ATT);
+      String typeId = ((DataType) element).getType().getId();
+      if(dataType == null && PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT,
+               "org.eclipse.stardust.engine.core.pojo.data.Type", Type.Enumeration.getId()); //$NON-NLS-1$
+      }
+
       WidgetBindingManager binding = getWidgetBindingManager();
 
       // bind types, typeViewer and valueComposites
-      binding.getModelBindingManager().bind(
+      BindingManager mgr = binding.getModelBindingManager();
+      mgr.bind(
             new PrimitiveDataModelAdapter(ModelUtils.findContainingModel(element), Arrays
                   .asList(TYPES), (IExtensibleElement) element),
-            new PrimitiveDataWidgetAdapter(typeViewer, valueComposite, valueControlsMap));
+            new PrimitiveDataWidgetAdapter(typeViewer, valueComposite, valueControlsMap)
+            {
+               public void updateModel(Object value)
+               {
+                  super.updateModel(value);
+                  if (!Type.Enumeration.equals(value))
+                  {
+                     ModelType model = ModelUtils.findContainingModel(element);
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                  }
+               }
+            }
+            );
 
       // bind typeViewer and type attribute of DataType
-      binding.getModelBindingManager().bind(
+      mgr.bind(
             WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
                   CarnotConstants.TYPE_ATT, false), getSwtComboAdapter());
+
+      mgr.bind(
+            WidgetBindingManager.createModelAdapter((IExtensibleElement) element, "carnot:engine:dataType",  //$NON-NLS-1$
+                  ExtensibleElementValueAdapter.INSTANCE),
+            new StructuredViewerAdapter(enumViewer)
+            {
+               public void updateModel(Object value)
+               {
+                  super.updateModel(value);
+
+                  if (element.eIsProxy())
+                  {
+                     return;
+                  }
+
+                  ModelType model = ModelUtils.findContainingModel(element);
+                  TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
+
+                  // for cross model, no selection on page open
+                  if (value == null && decl != null)
+                  {
+                     updateControl(decl);
+                  }
+
+                  if (decl == null  // (fh) real primitive
+                        || TypeDeclarationUtils.isEnumeration(decl, true)) // (fh) java bound enumeration
+                  {
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                     valueComposite.setEnabled(true);
+                  }
+                  else // (fh) simple type data
+                  {
+                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
+                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                     valueComposite.setEnabled(false);
+                  }
+               }
+            });
 
       // bind valueComposites and value attribute of DataType
       for (int i = 0; i < TYPES.length; i++)
@@ -98,7 +186,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             DatePickerCombo datePickerCombo;
             datePickerCombo = ((DatePickerComposite) control).getCalendarCombo();
             resetBtn = ((DatePickerComposite) control).getResetBtn();
-            binding.getModelBindingManager().bind(
+            mgr.bind(
                   WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
                         CarnotConstants.DEFAULT_VALUE_ATT, false),
                   getSwtDatePickerAdapter(datePickerCombo, resetBtn));
@@ -106,18 +194,31 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          else if (TYPES[i].equals(Type.Boolean))
          {
             Button button = (Button) control;
-            binding.getModelBindingManager().bind(
+            mgr.bind(
                WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
                   // The default value of a primitive is always stored in the model
                   // as of type String and never boolean
                   CarnotConstants.DEFAULT_VALUE_ATT, false),
                   getSwtButtonAdapter(button));
          }
+         else if (TYPES[i].equals(Type.Enumeration))
+         {
+            // TODO: (fh) investigate if we can't use the same adapter for all default value controls.
+            IModelAdapter modelAdapter = WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
+                  CarnotConstants.DEFAULT_VALUE_ATT, false);
+            mgr.bind(modelAdapter, new SwtComboAdapter((Combo) control));
+            IStructuredSelection selection = (IStructuredSelection) enumComboViewer.getSelection();
+            if (!selection.isEmpty())
+            {
+               Object item = selection.getFirstElement();
+               modelAdapter.updateModel(item);
+            }
+         }
          else
          {
             final Type type = TYPES[i];
             Text text = (Text) control;
-            binding.getModelBindingManager().bind(
+            mgr.bind(
                   WidgetBindingManager.createModelAdapter((IExtensibleElement) element,
                         CarnotConstants.DEFAULT_VALUE_ATT, false),
                   getSwtVerifierTextAdapter(type, text));
@@ -167,10 +268,10 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
 
          public void updateControl(Object value)
          {
-        	if (value != null && !(value instanceof Boolean))
-        	{
-        	   value = "true".equalsIgnoreCase(value.toString()) ? Boolean.TRUE : Boolean.FALSE; //$NON-NLS-1$
-        	}
+         if (value != null && !(value instanceof Boolean))
+         {
+            value = "true".equalsIgnoreCase(value.toString()) ? Boolean.TRUE : Boolean.FALSE; //$NON-NLS-1$
+         }
             Type selectedType = (Type) ((IStructuredSelection) typeViewer
                   .getSelection()).getFirstElement();
             if (Type.Boolean.equals(selectedType))
@@ -214,16 +315,30 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   : (Control) object;
 
             valueComposite.layout();
+            exclude(selectedType != Type.Enumeration, enumLabel, enumTree, enumSorterLabel, enumSorter);
+            enumLabel.getParent().layout();
          }
       };
+   }
+
+   private void exclude(boolean exclude, Control... controls)
+   {
+      if (controls != null)
+      {
+         for (Control control : controls)
+         {
+            GridData gd = (GridData) control.getLayoutData();
+            gd.exclude = exclude;
+            control.setVisible(!exclude);
+         }
+      }
    }
 
    private void disableControls()
    {
       typeViewer.getCombo().setEnabled(false);
-      for (Iterator iter = valueControlsMap.values().iterator(); iter.hasNext();)
+      for (Object obj : valueControlsMap.values())
       {
-         Object obj = iter.next();
          Control control = obj instanceof DatePickerComposite
                ? ((DatePickerComposite) obj).getCalendarComposite()
                : (Control) obj;
@@ -241,6 +356,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
             ((DatePickerCombo) control).setEnabled(false);
          }
       }
+      enumTree.setEnabled(false);
    }
 
    private boolean isPredefined(IModelElement element)
@@ -249,7 +365,13 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
-   {}
+   {
+      String typeId = ((DataType) element).getType().getId();
+      if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         AttributeUtil.setAttribute((DataType) element, PredefinedConstants.TYPE_ATT, null);
+      }
+   }
 
    public Control createBody(Composite parent)
    {
@@ -264,6 +386,22 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
          public String getText(Object type)
          {
             return ((Type) type).getId();
+         }
+      });
+
+      enumLabel = FormBuilder.createLabel(composite, "Structure: "); //$NON-NLS-1$
+      enumTree = createEnumTree(composite);
+      enumViewer = createEnumViewer(enumTree);
+      enumSorterLabel = FormBuilder.createLabel(composite, "");
+      enumSorter = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_GroupModelElements);
+      enumSorter.addSelectionListener(new SelectionListener()
+      {
+         public void widgetDefaultSelected(SelectionEvent e) {}
+
+         public void widgetSelected(SelectionEvent e)
+         {
+            grouped = enumSorter.getSelection();
+            enumViewer.refresh(true);
          }
       });
 
@@ -282,45 +420,239 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       StackLayout layout = new StackLayout();
       valueComposite.setLayout(layout);
 
-      DatePickerComposite calendarComposite = createDatePickerComposite();
-      
-      valueControlsMap.put(TYPES[0], calendarComposite);
+      valueControlsMap.put(TYPES[0], createDatePickerComposite());
 
-      valueControlsMap.put(TYPES[1], FormBuilder.createText(valueComposite));
+      Combo enumCombo = FormBuilder.createCombo(valueComposite);
+      enumComboViewer = new ComboViewer(enumCombo);
+      enumComboViewer.setContentProvider(new ArrayContentProvider());
+      valueControlsMap.put(TYPES[1], enumCombo);
 
-      DatePickerComposite timestampComposite = createDatePickerComposite();
-      valueControlsMap.put(TYPES[2], timestampComposite);
+      valueControlsMap.put(TYPES[2], FormBuilder.createText(valueComposite));
 
-      valueControlsMap.put(TYPES[3], new Button(valueComposite, SWT.CHECK));
+      valueControlsMap.put(TYPES[3], createDatePickerComposite());
 
-      valueControlsMap.put(TYPES[4], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[4]))
-            .addVerifyListener(VerifierFactory.byteVerifier);
+      valueControlsMap.put(TYPES[4], new Button(valueComposite, SWT.CHECK));
 
-      valueControlsMap.put(TYPES[5], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[5])).setTextLimit(1);
+      valueControlsMap.put(TYPES[5], createVerifiedText(VerifierFactory.byteVerifier));
 
-      valueControlsMap.put(TYPES[6], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[6]))
-            .addVerifyListener(VerifierFactory.doubleVerifier);
+      valueControlsMap.put(TYPES[6], createLimitedText(1));
 
-      valueControlsMap.put(TYPES[7], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[7]))
-            .addVerifyListener(VerifierFactory.floatVerifier);
+      valueControlsMap.put(TYPES[7], createVerifiedText(VerifierFactory.doubleVerifier));
 
-      valueControlsMap.put(TYPES[8], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[8]))
-            .addVerifyListener(VerifierFactory.intVerifier);
+      valueControlsMap.put(TYPES[8], createVerifiedText(VerifierFactory.floatVerifier));
 
-      valueControlsMap.put(TYPES[9], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[9]))
-            .addVerifyListener(VerifierFactory.longVerifier);
+      valueControlsMap.put(TYPES[9], createVerifiedText(VerifierFactory.intVerifier));
 
-      valueControlsMap.put(TYPES[10], FormBuilder.createText(valueComposite));
-      ((Text) valueControlsMap.get(TYPES[10]))
-            .addVerifyListener(VerifierFactory.shortVerifier);
+      valueControlsMap.put(TYPES[10], createVerifiedText(VerifierFactory.longVerifier));
+
+      valueControlsMap.put(TYPES[11], createVerifiedText(VerifierFactory.shortVerifier));
 
       return composite;
+   }
+
+   private Tree createEnumTree(Composite parent)
+   {
+      Tree tree = FormBuilder.createTree(parent, SWT.SINGLE | SWT.FULL_SELECTION
+            | SWT.BORDER);
+      tree.setLayoutData(FormBuilder.createDefaultMultiLineWidgetGridData());
+      return tree;
+   }
+
+   private TreeViewer createEnumViewer(Tree tree)
+   {
+      final TreeViewer viewer = new TreeViewer(tree);
+      viewer.setUseHashlookup(true);
+      viewer.setContentProvider(getEnumContentProvider());
+      viewer.setLabelProvider(new EObjectLabelProvider(getEditor()));
+      viewer.setSorter(new ViewerSorter());
+      viewer.addSelectionChangedListener(new ISelectionChangedListener()
+      {
+         @Override
+         public void selectionChanged(SelectionChangedEvent event)
+         {
+            Object[] facets = StructuredTypeUtils.emptyArray;
+            IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+            if (!selection.isEmpty())
+            {
+               Object value = selection.getFirstElement();
+               if (value instanceof TypeDeclarationType)
+               {
+                  Object[] content = StructuredTypeUtils.emptyArray;
+                  content = StructuredTypeUtils.getFacets((TypeDeclarationType) value);
+                  facets = new Object[content.length + 1];
+                  facets[0] = ""; //$NON-NLS-1$
+                  System.arraycopy(content, 0, facets, 1, content.length);
+               }
+            }
+            enumComboViewer.setInput(facets);
+            if (facets.length > 0)
+            {
+               enumComboViewer.setSelection(new StructuredSelection(facets[0]), true);
+            }
+         }
+      });
+      viewer.setInput(Collections.singleton(getEditor().getWorkflowModel()));
+      return viewer;
+   }
+
+   private ITreeContentProvider getEnumContentProvider()
+   {
+      return new ITreeContentProvider()
+      {
+         @Override
+         public void dispose()
+         {
+            // nothing to do here
+         }
+
+         @Override
+         public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
+         {
+            // nothing to do here
+         }
+
+         @Override
+         public Object[] getElements(Object inputElement)
+         {
+            final List<EObject> result = CollectionUtils.newList();
+            if (inputElement instanceof Collection)
+            {
+               for (Object object : (Collection<?>) inputElement)
+               {
+                  addContent(result, object);
+               }
+            }
+            else
+            {
+               addContent(result, inputElement);
+            }
+            return result.isEmpty() ? StructuredTypeUtils.emptyArray : result.toArray();
+         }
+
+         private void addContent(final List<EObject> result, Object inputElement)
+         {
+            if (inputElement instanceof ModelType)
+            {
+               ModelType model = (ModelType) inputElement;
+               if (grouped)
+               {
+                  addModel(result, model);
+                  forEachReferencedModel(model, new Predicate<ModelType>()
+                  {
+                     public boolean accept(ModelType externalModel)
+                     {
+                        addModel(result, externalModel);
+                        return true;
+                     }
+                  });
+               }
+               else
+               {
+                  addTypeDeclarations(result, model);
+                  forEachReferencedModel(model, new Predicate<ModelType>()
+                  {
+                     public boolean accept(ModelType externalModel)
+                     {
+                        addTypeDeclarations(result, externalModel);
+                        return true;
+                     }
+                  });
+               }
+            }
+         }
+
+         private void addTypeDeclarations(final List<EObject> result, ModelType model)
+         {
+            TypeDeclarationsType declarations = model.getTypeDeclarations();
+            if (declarations != null)
+            {
+               for (TypeDeclarationType decl : declarations.getTypeDeclaration())
+               {
+                  if (TypeDeclarationUtils.isEnumeration(decl, false))
+                  {
+                     result.add(decl);
+                  }
+               }
+            }
+         }
+
+         @Override
+         public Object[] getChildren(Object parentElement)
+         {
+            if (parentElement instanceof ModelType)
+            {
+               List<EObject> result = CollectionUtils.newList();
+               addTypeDeclarations(result, (ModelType) parentElement);
+               return result.toArray();
+            }
+            return StructuredTypeUtils.emptyArray;
+         }
+
+         @Override
+         public Object getParent(Object element)
+         {
+            if (element instanceof TypeDeclarationType)
+            {
+               return ModelUtils.findContainingModel((EObject) element);
+            }
+            return null;
+         }
+
+         @Override
+         public boolean hasChildren(Object element)
+         {
+            return element instanceof ModelType;
+         }
+
+         private void addModel(final List<EObject> result, ModelType model)
+         {
+            TypeDeclarationsType declarations = model.getTypeDeclarations();
+            if (declarations != null)
+            {
+               for (TypeDeclarationType decl : declarations.getTypeDeclaration())
+               {
+                  if (TypeDeclarationUtils.isEnumeration(decl, false))
+                  {
+                     result.add(model);
+                     break;
+                  }
+               }
+            }
+         }
+      };
+   }
+
+   protected boolean isEnumeration(TypeDeclarationType decl)
+   {
+      XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(decl);
+      if (component instanceof XSDElementDeclaration)
+      {
+         component = ((XSDElementDeclaration) component).getTypeDefinition();
+      }
+      if (component instanceof XSDSimpleTypeDefinition)
+      {
+         XSDEnumerationFacet effectiveFacet = ((XSDSimpleTypeDefinition) component).getEffectiveEnumerationFacet();
+         if(effectiveFacet != null)
+         {
+            List<?> values = effectiveFacet.getValue();
+            return !values.isEmpty();
+         }
+      }
+      return false;
+   }
+
+   private Text createVerifiedText(Verifier verifier)
+   {
+      Text text = FormBuilder.createText(valueComposite);
+      text.addVerifyListener(verifier);
+      return text;
+   }
+
+   private Text createLimitedText(int limit)
+   {
+      Text text = FormBuilder.createText(valueComposite);
+      text.setTextLimit(limit);
+      return text;
    }
 
    private DatePickerComposite createDatePickerComposite()
@@ -338,13 +670,13 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       GridData gdDP = new GridData();
       gdDP.grabExcessHorizontalSpace = true;
       gdDP.horizontalAlignment = SWT.FILL;
-      
+
       final DatePickerCombo calendarCombo = new DatePickerCombo(calendarComposite, SWT.BORDER);
       calendarCombo.setLayoutData(gdDP);
       calendarCombo.setEditable(false);
       calendarCombo.setDateFormat(new SimpleDateFormat(Diagram_Messages.SIMPLE_DATE_FORMAT,
             Locale.GERMANY));
-      
+
       Button resetButton = new Button(calendarComposite, SWT.NONE);
       resetButton.setText(Diagram_Messages.BUT_RESET);
       GridData gdBtn = new GridData();
@@ -353,7 +685,7 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
       DatePickerComposite datePickerComposite = new DatePickerComposite(calendarComposite, calendarCombo, resetButton);
       return datePickerComposite;
    }
-   
+
    public class DatePickerComposite
    {
       private final Composite calendarComposite;

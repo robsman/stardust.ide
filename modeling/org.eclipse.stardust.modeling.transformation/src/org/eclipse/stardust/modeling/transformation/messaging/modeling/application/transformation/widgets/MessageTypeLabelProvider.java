@@ -150,7 +150,7 @@ public class MessageTypeLabelProvider extends LabelProvider
             AccessPointType messageType = (AccessPointType) element;
             String displayString = messageType.getId();
             if (displayString.startsWith("@")) { //$NON-NLS-1$
-               displayString = displayString.replace("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
+               displayString = displayString.length() == 1 ? "<value>" : displayString.replace("@", ""); //$NON-NLS-1$ //$NON-NLS-2$
             }
             return displayString;
          }

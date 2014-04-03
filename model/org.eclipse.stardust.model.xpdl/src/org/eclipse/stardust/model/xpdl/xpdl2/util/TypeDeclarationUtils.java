@@ -20,13 +20,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
+
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
@@ -41,7 +44,7 @@ public class TypeDeclarationUtils
 
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
 
-   private static Set<String> reservedPrefixes = reserve("xml", "xsd");
+   private static Set<String> reservedPrefixes = reserve("xml", "xsd"); //$NON-NLS-1$ //$NON-NLS-2$
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -291,13 +294,13 @@ public class TypeDeclarationUtils
       ResourceSet resourceSet = XSDSchemaImpl.createResourceSet();
       // make sure we can load schemas in WSDL documents.
       Map<String, Object> extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd"));
+      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd")); //$NON-NLS-1$ //$NON-NLS-2$
       URIConverter converter = defaultURIConverter.get();
       if (converter != null)
       {
          resourceSet.setURIConverter(converter);
       }
-      Resource resource = resourceSet.createResource(URI.createURI("*.xsd"));
+      Resource resource = resourceSet.createResource(URI.createURI("*.xsd")); //$NON-NLS-1$
       resource.setURI(uri);
       resource.load(options);
 
@@ -702,5 +705,31 @@ public class TypeDeclarationUtils
             }
          }
       }
+   }
+
+   public static boolean isEnumeration(TypeDeclarationType decl, boolean isJava)
+   {
+      int type = TypeDeclarationUtils.COMPLEX_TYPE;
+      try
+      {
+         type = TypeDeclarationUtils.getType(decl);
+      }
+      catch(IllegalArgumentException e)
+      {
+      }
+      if(type == TypeDeclarationUtils.SIMPLE_TYPE)
+      {
+         if(!isJava)
+         {
+            return true;
+         }
+
+         if(ExtendedAttributeUtil.getAttribute(decl, CarnotConstants.CLASS_NAME_ATT) != null)
+         {
+            return true;
+         }
+      }
+
+      return false;
    }
 }

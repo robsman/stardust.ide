@@ -283,7 +283,7 @@ public class AttributeUtil
 
    public static boolean isReference(IExtensibleElement element, String feature)
    {
-      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(element, "elementReference");
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(element, "elementReference"); //$NON-NLS-1$
       if (configs != null)
       {
          for(IConfigurationElement config : configs)

@@ -89,11 +89,15 @@ public class TypeSelectionComposite
             }
             if ((null == type) || !CompareHelper.areEqual(type.getFullName(), newType))
             {
-               if ((browser != null) && (browser.length > 0))
+               if (finder != null)
+               {
+                  type = finder.findType(newType);
+               }
+               else if ((browser != null) && (browser.length > 0))
                {
                   type = browser[0].getTypeFinder().findType(newType);
-                  updateType();
                }
+               updateType();
             }
          }
       });
@@ -209,10 +213,10 @@ public class TypeSelectionComposite
    public void setType(TypeInfo type)
    {
       this.type = type;
-      typeText.setText(type.getFullName());
+      typeText.setText(type == null ? "" : type.getFullName()); //$NON-NLS-1$
    }
 
-   public void setFilter(Class clazz)
+   public void setFilter(Class<?> clazz)
    {
       filter = finder.findType(clazz.getName());
    }

@@ -95,8 +95,8 @@ public class ConditionalPerformerSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_performedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_performedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_performedActivities_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__PERFORMED_ACTIVITIES,
              true,
              false,
@@ -118,8 +118,8 @@ public class ConditionalPerformerSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"),
+             getString("_UI_IModelParticipantSymbol_triggeredEvents_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipantSymbol_triggeredEvents_feature", "_UI_IModelParticipantSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT_SYMBOL__TRIGGERED_EVENTS,
              true,
              false,
@@ -141,8 +141,8 @@ public class ConditionalPerformerSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ConditionalPerformerSymbolType_participant_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ConditionalPerformerSymbolType_participant_feature", "_UI_ConditionalPerformerSymbolType_type"),
+             getString("_UI_ConditionalPerformerSymbolType_participant_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ConditionalPerformerSymbolType_participant_feature", "_UI_ConditionalPerformerSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.CONDITIONAL_PERFORMER_SYMBOL_TYPE__PARTICIPANT,
              true,
              false,
@@ -161,7 +161,7 @@ public class ConditionalPerformerSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ConditionalPerformerSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ConditionalPerformerSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -174,7 +174,7 @@ public class ConditionalPerformerSymbolTypeItemProvider
    public String getText(Object object)
    {
       ConditionalPerformerSymbolType conditionalPerformerSymbolType = (ConditionalPerformerSymbolType)object;
-      return getString("_UI_ConditionalPerformerSymbolType_type") + " " + conditionalPerformerSymbolType.getElementOid();
+      return getString("_UI_ConditionalPerformerSymbolType_type") + " " + conditionalPerformerSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -105,8 +105,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -128,8 +128,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -151,8 +151,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -174,8 +174,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_performedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedActivities_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_performedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedActivities_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PERFORMED_ACTIVITIES,
              true,
              false,
@@ -197,8 +197,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_performedSwimlanes_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedSwimlanes_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_performedSwimlanes_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_performedSwimlanes_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PERFORMED_SWIMLANES,
              true,
              false,
@@ -220,8 +220,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelParticipant_participantAssociations_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_participantAssociations_feature", "_UI_IModelParticipant_type"),
+             getString("_UI_IModelParticipant_participantAssociations_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelParticipant_participantAssociations_feature", "_UI_IModelParticipant_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_PARTICIPANT__PARTICIPANT_ASSOCIATIONS,
              false,
              false,
@@ -243,8 +243,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationType_organizationSymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationType_organizationSymbols_feature", "_UI_OrganizationType_type"),
+             getString("_UI_OrganizationType_organizationSymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationType_organizationSymbols_feature", "_UI_OrganizationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_TYPE__ORGANIZATION_SYMBOLS,
              true,
              false,
@@ -266,8 +266,8 @@ public class OrganizationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_OrganizationType_teamLead_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationType_teamLead_feature", "_UI_OrganizationType_type"),
+             getString("_UI_OrganizationType_teamLead_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_OrganizationType_teamLead_feature", "_UI_OrganizationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ORGANIZATION_TYPE__TEAM_LEAD,
              true,
              false,
@@ -321,7 +321,7 @@ public class OrganizationTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/OrganizationType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/OrganizationType")); //$NON-NLS-1$
    }
 
    /**
@@ -335,8 +335,8 @@ public class OrganizationTypeItemProvider
    {
       String label = ((OrganizationType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_OrganizationType_type") :
-         getString("_UI_OrganizationType_type") + " " + label;
+         getString("_UI_OrganizationType_type") : //$NON-NLS-1$
+         getString("_UI_OrganizationType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

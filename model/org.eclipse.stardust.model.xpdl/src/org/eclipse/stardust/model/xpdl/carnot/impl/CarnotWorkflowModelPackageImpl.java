@@ -5063,7 +5063,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       URL url = getClass().getResource(packageFilename);
       if (url == null)
       {
-         throw new RuntimeException("Missing serialized package: " + packageFilename);
+         throw new RuntimeException("Missing serialized package: " + packageFilename); //$NON-NLS-1$
       }
       URI uri = URI.createURI(url.toString());
       Resource resource = new EcoreResourceFactoryImpl().createResource(uri);
@@ -5109,7 +5109,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    protected void fixInstanceClass(EClassifier eClassifier) {
       if (eClassifier.getInstanceClassName() == null)
       {
-         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot." + eClassifier.getName());
+         eClassifier.setInstanceClassName("org.eclipse.stardust.model.xpdl.carnot." + eClassifier.getName()); //$NON-NLS-1$
          setGeneratedClassName(eClassifier);
       }
    }

@@ -5,6 +5,7 @@
 	and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
 	SunGard CSA LLC - initial API and implementation and/or initial documentation
 -->
+
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -80,11 +81,6 @@
       <artifactId>quartz</artifactId>
       <version>${quartz.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.restlet.jse</groupId>
-      <artifactId>org.restlet</artifactId>
-      <version>${org.restlet.version}</version>
-    </dependency>
   </dependencies>
   
   <build>
@@ -98,7 +94,7 @@
             <configuration>
               <includeArtifactIds>
                 camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
-                quartz,org.restlet,camel-mail,camel-http
+                quartz,camel-mail,camel-http
               </includeArtifactIds>
             </configuration>
           </execution>
@@ -114,4 +110,3 @@
     </plugins>
   </build>  
 </project>
-

@@ -115,11 +115,11 @@ public class ModelElementPropertyDialog extends PreferenceDialog
 
 //   private Button unlock;
 //   private int unlock_btn_id = 55555;
-   private Button lock;   
+   private Button lock;
    private int lock_btn_id = 55556;
-   
-   private Integer isLocked = null;   
-   
+
+   private Integer isLocked = null;
+
    public ModelElementPropertyDialog(WorkflowModelEditor editor, Shell shell,
          PreferenceManager pageManager, IAdaptable element, ChangeRecorder recorder)
    {
@@ -134,7 +134,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.jface.window.Window#createBody(org.eclipse.swt.widgets.Composite)
     */
    protected Control createContents(Composite parent)
@@ -153,24 +153,24 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                   String cat2 = ((CarnotPreferenceNode) e2).category;
                   String id1 = ((CarnotPreferenceNode) e1).getId();
                   String id2 = ((CarnotPreferenceNode) e2).getId();
-                  
+
                   // if empty we compare by getSortOrder()
                   if (!StringUtils.isEmpty(cat2) && !StringUtils.isEmpty(cat1))
                   {
                      if(id1.equals("_cwm_general_")) //$NON-NLS-1$
                      {
                         return -1;
-                     }               
+                     }
                      if(id2.equals("_cwm_general_")) //$NON-NLS-1$
                      {
                         return 1;
-                     }                     
-                                          
+                     }
+
                      if(cat1.equals(cat2))
-                     {                        
-                        return id1.compareTo(id2);               
-                     }            
-                     
+                     {
+                        return id1.compareTo(id2);
+                     }
+
                      for (int i = 0; i < CarnotPropertyPageContributor.CATEGORIES.length; i++)
                      {
                         if (CarnotPropertyPageContributor.CATEGORIES[i].equals(cat1))
@@ -184,7 +184,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                      }
                      return cat1.compareTo(cat2);
                   }
-                  
+
                   int c1 = ((CarnotPreferenceNode) e1).getSortOrder();
                   int c2 = ((CarnotPreferenceNode) e2).getSortOrder();
                   if (c1 >= 0)
@@ -274,7 +274,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
     */
    protected void cancelPressed()
@@ -289,7 +289,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       {
          apply();
          executeCommands();
-         startRecording();         
+         startRecording();
       }
       notifyPages(false);
       if (!(getCurrentPage() instanceof VariablesConfigurationPage))
@@ -385,7 +385,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       if(page instanceof PropertyPage)
       {
          boolean isExternalReference = isExternalReference(getElement());
-        
+
          if(isLocked != null || isExternalReference)
          {
             boolean enablePage = false;
@@ -400,12 +400,12 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                {
                   if(((DataPathPropertyPage) page).isEditable())
                   {
-                     ((AbstractModelElementPropertyPage) page).setEnablePage(enablePage);                                    
+                     ((AbstractModelElementPropertyPage) page).setEnablePage(enablePage);
                   }
                }
                else
                {
-                  ((AbstractModelElementPropertyPage) page).setEnablePage(enablePage);               
+                  ((AbstractModelElementPropertyPage) page).setEnablePage(enablePage);
                }
             }
             else if(page instanceof PropertyPage)
@@ -420,14 +420,14 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                   }
                }
             }
-            
+
             Button okButton = getButton(IDialogConstants.OK_ID);
             if(okButton != null)
             {
-               okButton.setEnabled(enablePage);            
+               okButton.setEnabled(enablePage);
             }
          }
-      }      
+      }
    }
 
    private boolean isExternalReference(IAdaptable adaptable)
@@ -454,13 +454,28 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                         IConnectionManager.URI_ATTRIBUTE_NAME) != null)
                   {
                      return true;
-                  }         
+                  }
                }
                else
                {
-               return false;
+                  return false;
+               }
             }
-         }
+            if (dataType.getType().getId().equals(PredefinedConstants.PRIMITIVE_DATA))
+            {
+               if (dataType.getExternalReference() == null)
+               {
+                  if (AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
+                        IConnectionManager.URI_ATTRIBUTE_NAME) != null)
+                  {
+                     return true;
+                  }
+               }
+               else
+               {
+                  return false;
+               }
+            }
          }
          String uri = null;
          if (modelElement instanceof IExtensibleElement)
@@ -527,10 +542,10 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       {
          return (EObject) model;
       }
-      
+
       return null;
    }
-   
+
    private IPreferencePage initializePageControl(CarnotPreferenceNode node)
    {
       final IPreferencePage page = getPage(node);
@@ -539,7 +554,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       registerValidation(node, page);
       // init
       enablePageControl(page);
-      
+
       // Ensure that the page control has been created
       // (this allows lazy page control creation)
       if (page.getControl() == null)
@@ -569,7 +584,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       }
 
       enablePageControl(page);
-      
+
       return page;
    }
 
@@ -580,19 +595,19 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       {
          isLocked = null;
       }
-      
+
       EObject modelElement = ModelUtils.getEObject(this.getElement());
       ProcessDefinitionType process = ModelUtils.findContainingProcess(modelElement);
       if(process != null)
       {
          modelElement = process;
       }
-      
+
       if(modelElement instanceof IConnection)
       {
          modelElement = (EObject) getEditor().getModel();
-      }      
-      
+      }
+
       if (ShareUtils.isLockableElement(modelElement)
             && editor.getModelServer().isModelShared())
       {
@@ -607,7 +622,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                locked = 1;
             }
             boolean shared = editor.getModelServer().isElementShared(modelElement);
-                     
+
             if(shared)
             {
                isLocked = new Integer(locked);
@@ -615,7 +630,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
          }
       }
    }
-   
+
    private void registerValidation(final CarnotPreferenceNode node,
          final IPreferencePage page)
    {
@@ -757,7 +772,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
          IPreferenceNode node = list.get(i);
          if (node instanceof CarnotPreferenceNode)
          {
-            CarnotPreferenceNode cpn = (CarnotPreferenceNode) node;            
+            CarnotPreferenceNode cpn = (CarnotPreferenceNode) node;
             if (selection.equals(cpn.getAdaptable().getAdapter(IModelElement.class)))
             {
                selectPage(node);;
@@ -768,7 +783,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
             	if (proxy.equals(selection)) {
                     selectPage(node);
                     break;
-            	}            	
+            	}
             }
          }
       }
@@ -871,12 +886,12 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       Button cancelButton = getButton(IDialogConstants.CANCEL_ID);
       cancelButton.setText(okButton.getText());
    }
-   
+
    protected void createButtonsForButtonBar(Composite parent)
    {
       // create OK and Cancel buttons by default
       super.createButtonsForButtonBar(parent);
-      
+
       // model or project is not shared
       ModelServer modelServer = editor.getModelServer();
       if (!modelServer.isModelShared() || isExternalReference(getElement()))
@@ -889,19 +904,19 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       IFile file = LockFileUtils.getLockFile(eObject);
       if (file == null || !file.exists())
       {
-         return;         
-      }      
-      
+         return;
+      }
+
       // TODO: (fh) check when that happens
       ModelType compareModel = ModelUtils.findContainingModel(eObject);
       if (!(compareModel instanceof Proxy) && (compareModel == null || GenericUtils.getWorkflowModelEditor(compareModel) == null))
       {
          return;
       }
-      
+
       boolean shared = modelServer.isAdaptableShared(element);
       boolean lockable = modelServer.isLockableElement(element);
-      
+
       boolean locked = false;
       boolean lockedByOtherUser = false;
 
@@ -910,16 +925,16 @@ public class ModelElementPropertyDialog extends PreferenceDialog
          StateCache stateCache = editor.getModelServer().getStateCache();
          if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_OTHER)
          {
-            lockedByOtherUser = true;                                 
+            lockedByOtherUser = true;
          }
          else if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_USER)
          {
-            locked = true;                                 
+            locked = true;
          }
       }
-      
+
       lock = createButton(parent, lock_btn_id, Diagram_Messages.LB_LOCK, false);
-      lock.setEnabled(false);         
+      lock.setEnabled(false);
 
       if (!shared)
       {
@@ -928,19 +943,19 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       else if (!lockable)
       {
          lock.setToolTipText(Diagram_Messages.MSG_NOT_LOCKABLE);
-      }  
+      }
       else
       {
          if (!lockedByOtherUser)
          {
             if (!locked)
             {
-               lock.setEnabled(true);                                    
-            }               
-         }            
-      }         
+               lock.setEnabled(true);
+            }
+         }
+      }
    }
-   
+
    public void updateButtons()
    {
       super.updateButtons();
@@ -951,16 +966,16 @@ public class ModelElementPropertyDialog extends PreferenceDialog
             Button okButton = getButton(IDialogConstants.OK_ID);
             if(okButton != null)
             {
-               okButton.setEnabled(false);            
-            }            
+               okButton.setEnabled(false);
+            }
          }
-      }      
+      }
       if (isExternalReference(getElement())) {
          Button okButton = getButton(IDialogConstants.OK_ID);
          if(okButton != null)
          {
-            okButton.setEnabled(false);            
-         }  
+            okButton.setEnabled(false);
+         }
       }
    }
 
@@ -981,10 +996,10 @@ public class ModelElementPropertyDialog extends PreferenceDialog
                      public void run()
                      {
                         isLocked = new Integer(1);
-                        updateLockButtons();                                             
+                        updateLockButtons();
                         notifyPages(true);
                      }
-                  }); 
+                  });
                }
                catch (RMSException e)
                {
@@ -1007,7 +1022,7 @@ public class ModelElementPropertyDialog extends PreferenceDialog
             // TODO handle cancellation
             e.printStackTrace();
          }
-      }      
+      }
       else
       {
          super.buttonPressed(buttonId);
@@ -1024,11 +1039,11 @@ public class ModelElementPropertyDialog extends PreferenceDialog
       {
          if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_OTHER)
          {
-            lockedByOtherUser = true;                                 
+            lockedByOtherUser = true;
          }
          else if (stateCache.getState(eObject).getState() == CollisionState.LOCKED_BY_USER)
          {
-            locked = true;                                 
+            locked = true;
          }
          lock.setEnabled(!locked && !lockedByOtherUser);
       }

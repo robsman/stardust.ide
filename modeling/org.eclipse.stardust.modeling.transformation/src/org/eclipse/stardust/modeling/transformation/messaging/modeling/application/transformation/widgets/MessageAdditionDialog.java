@@ -13,6 +13,7 @@ package org.eclipse.stardust.modeling.transformation.messaging.modeling.applicat
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;

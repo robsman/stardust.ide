@@ -55,6 +55,14 @@
      </reference>
      <reference
            class="org.eclipse.stardust.model.xpdl.carnot.DataType"
+           meta="primitive">           
+        <attribute
+              attributeName="carnot:engine:dataType"
+              scope="struct">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.DataType"
            meta="struct">           
         <attribute
               attributeName="carnot:engine:dataType"

@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
+import java.util.Collections;
+import java.util.Map;
+
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -23,16 +22,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.xsd.XSDSchema;
@@ -258,14 +253,29 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
              StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
     }
 
+    // TODO: (fh) remove the cache, instead use an unique ResourceSet to load all the schemas (and perhaps models)
+    private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
+          CollectionUtils.<String, XSDSchema>newHashMap());
 
     private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
     {
-       if(StringUtils.isNotEmpty(schemaLocation))
+       if (StringUtils.isNotEmpty(schemaLocation))
        {
           try
           {
-             return TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
+             String key = '{' + namespaceURI + '}' + location;
+             key = key.intern();
+
+             synchronized (key)
+             {
+                if (externalSchemaCache.containsKey(key))
+                {
+                   return externalSchemaCache.get(key);
+                }
+                schema = TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
+                externalSchemaCache.put(key, schema);
+             }
+             return schema;
           }
           catch (Exception e1)
           {}

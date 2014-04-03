@@ -99,8 +99,8 @@ public class ViewTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -122,8 +122,8 @@ public class ViewTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ViewType_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ViewType_name_feature", "_UI_ViewType_type"),
+             getString("_UI_ViewType_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ViewType_name_feature", "_UI_ViewType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.VIEW_TYPE__NAME,
              true,
              false,
@@ -178,7 +178,7 @@ public class ViewTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ViewType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ViewType")); //$NON-NLS-1$
    }
 
    /**
@@ -192,8 +192,8 @@ public class ViewTypeItemProvider
    {
       String label = ((ViewType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_ViewType_type") :
-         getString("_UI_ViewType_type") + " " + label;
+         getString("_UI_ViewType_type") : //$NON-NLS-1$
+         getString("_UI_ViewType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -100,8 +100,8 @@ public class DiagramTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -123,8 +123,8 @@ public class DiagramTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DiagramType_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_name_feature", "_UI_DiagramType_type"),
+             getString("_UI_DiagramType_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_name_feature", "_UI_DiagramType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DIAGRAM_TYPE__NAME,
              true,
              false,
@@ -146,8 +146,8 @@ public class DiagramTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DiagramType_orientation_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_orientation_feature", "_UI_DiagramType_type"),
+             getString("_UI_DiagramType_orientation_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_orientation_feature", "_UI_DiagramType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DIAGRAM_TYPE__ORIENTATION,
              true,
              false,
@@ -169,8 +169,8 @@ public class DiagramTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DiagramType_mode_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_mode_feature", "_UI_DiagramType_type"),
+             getString("_UI_DiagramType_mode_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DiagramType_mode_feature", "_UI_DiagramType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DIAGRAM_TYPE__MODE,
              true,
              false,
@@ -222,7 +222,7 @@ public class DiagramTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DiagramType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DiagramType")); //$NON-NLS-1$
    }
 
    /**
@@ -236,8 +236,8 @@ public class DiagramTypeItemProvider
    {
       String label = ((DiagramType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_DiagramType_type") :
-         getString("_UI_DiagramType_type") + " " + label;
+         getString("_UI_DiagramType_type") : //$NON-NLS-1$
+         getString("_UI_DiagramType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

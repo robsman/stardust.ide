@@ -64,7 +64,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    private ComboBoxCellEditorViewer comboViewer;
    private ComboBoxCellEditorViewer attributeComboViewer;
    private DelegateCellEditor defaultValueCellEditor;
-   
+
    private StructLabelProvider labelProvider;
    private StructContentProvider contentProvider;
    private Comparator<XSDNamedComponent> typesComparator;
@@ -80,7 +80,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    private HashMap<String, String> namespace2prefix = new HashMap<String, String>();
    // TODO: verify usage, maybe can be removed
    private HashSet<String> prefixes = new HashSet<String>();
-   
+
    private ArrayList<XSDNamedComponent> internalTypes = null;
    private ArrayList<XSDSimpleTypeDefinition> predefinedTypes = null;
    private HashMap<XSDNamedComponent, TypeDeclarationType> internalTypes2declarations = null;
@@ -90,18 +90,18 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    private SashForm form;
    private Map<XSDElementDeclaration, Map<IAnnotation, Object>> defaultAnnotationMap = new HashMap<XSDElementDeclaration, Map<IAnnotation,Object>>();
    //private Link baseTypeLink;
-   
+
    public void performDefaults()
-   {	  	   
-	  resetAnnotationSettings();
-	  try
-      {    	     	    	         
-         super.performDefaults(); 
-      }      
+   {
+   resetAnnotationSettings();
+   try
+      {
+         super.performDefaults();
+      }
       catch(Exception e)
-      {         
-      }      
-      totalRefresh();      
+      {
+      }
+      totalRefresh();
    }
 
    private void totalRefresh()
@@ -112,32 +112,32 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          updateButtons();
          Object[] exp = viewer.getExpandedElements();
          viewer.collapseAll();
-         viewer.setExpandedElements(exp);		
+         viewer.setExpandedElements(exp);
       }
    }
 
    protected void performApply()
    {
-	   defaultAnnotationMap.clear();
-	   super.performApply();
+      defaultAnnotationMap.clear();
+      super.performApply();
    }
 
    public boolean performCancel()
    {
-	   this.performDefaults();
-	   return super.performCancel();
+      this.performDefaults();
+      return super.performCancel();
    }
 
    public static final boolean isNewType(Object candidate)
    {
-      return (candidate instanceof XSDElementDeclaration) 
-         && NEW_ELEMENT_PLACEHOLDER == ((XSDElementDeclaration) candidate).getName();     
+      return (candidate instanceof XSDElementDeclaration)
+         && NEW_ELEMENT_PLACEHOLDER == ((XSDElementDeclaration) candidate).getName();
    }
 
    public static final boolean isAnonymous(XSDElementDeclaration candidate)
    {
       String name = candidate.getName();
-      return name == null || name.length() == 0;     
+      return name == null || name.length() == 0;
    }
 
    public void elementChanged()
@@ -146,7 +146,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       DefaultValueModifier.setDeclaration(declaration);
       try
       {
-         type = TypeDeclarationUtils.getComplexType(declaration);            
+         type = TypeDeclarationUtils.getComplexType(declaration);
       }
       catch(IllegalArgumentException e)
       {
@@ -157,26 +157,26 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             if(!StringUtils.isEmpty(externalUrl))
             {
                setMessage(MessageFormat.format(Structured_Messages.ComplexTypePropertyPage_ResourceNotFound,
-                     new Object [] {externalUrl}), ERROR);                                        
+                     new Object [] {externalUrl}), ERROR);
             }
-         }         
+         }
       }
-      
+
       if(type != null)
       {
          type.updateElement(true);
-         annotationViewer.setDeclaration(declaration);      
-         addPlaceholders(type, new HashSet<XSDComponent>());      
+         annotationViewer.setDeclaration(declaration);
+         addPlaceholders(type, new HashSet<XSDComponent>());
          viewer.setInput(type);
          if (!viewer.getTree().isEnabled()) {
-        	 viewer.expandAll();
+            viewer.expandAll();
          }
       }
       updateButtons();
    }
-     
+
    private void addPlaceholders(XSDComponent type, HashSet<XSDComponent> visited)
-   {      
+   {
       if (!TypeDeclarationUtils.isInternalSchema(declaration)
             || visited.contains(type))
       {
@@ -192,7 +192,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       {
          addPlaceholders((XSDComponent) children[i], visited);
       }
-   }      
+   }
 
    private XSDElementDeclaration createNewElement()
    {
@@ -211,9 +211,9 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
    public Control createBody(Composite parent)
    {
-	  DefaultAnnotationModifier.INSTANCE.addAnnotationChangedListener(this);
-	  
-	  Composite composite = FormBuilder.createComposite(parent, 1);
+   DefaultAnnotationModifier.INSTANCE.addAnnotationChangedListener(this);
+
+   Composite composite = FormBuilder.createComposite(parent, 1);
       /*baseTypeLink = FormBuilder.createLink(composite, "Extension of sfi:<a>Pix</a>");
       baseTypeLink.addSelectionListener(new SelectionAdapter()
       {
@@ -228,7 +228,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       form.setLayoutData(FormBuilder.createDefaultLimitedMultiLineWidgetGridData(400));
 
       Tree tree = FormBuilder.createTree(form, SWT.SINGLE | SWT.FULL_SELECTION
-            | SWT.BORDER);      
+            | SWT.BORDER);
       tree.setHeaderVisible(true);
 //      tree.setLinesVisible(true);
 
@@ -330,7 +330,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             return labelProvider.getText(element);
          }
       });
-      
+
       tree.addSelectionListener(new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e)
@@ -348,9 +348,9 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                   viewer.update(previous, StructLabelProvider.COMPLEX_TYPE_COLUMNS);
                }
             }
-         }         
+         }
       });
-      
+
       typesComparator = new Comparator<XSDNamedComponent>()
       {
          public int compare(XSDNamedComponent arg0, XSDNamedComponent arg1)
@@ -360,10 +360,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             return s0.compareToIgnoreCase(s1);
          }
       };
-      
+
       annotationViewer = new AnnotationViewer();
       annotationViewer.createControl(form, viewer);
-      
+
       viewer.addSelectionChangedListener(new ISelectionChangedListener()
       {
          public void selectionChanged(SelectionChangedEvent event)
@@ -385,7 +385,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       });
 
       form.setWeights(new int[] {50,50});
-      
+
       return composite;
    }
 
@@ -416,7 +416,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       }
       return prefix;
    }
-   
+
    protected void updateButtons()
    {
       boolean canBeDeleted = false;
@@ -446,7 +446,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             }
          }
       }
-      
+
       XpdlTypeType type = declaration.getDataType();
       if (type instanceof ExternalReferenceType)
       {
@@ -459,7 +459,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             isLast = true;
          }
       }
-      
+
       deleteButton.setEnabled(canBeDeleted);
       moveUpButton.setEnabled(!isFirst);
       moveDownButton.setEnabled(!isLast);
@@ -471,9 +471,9 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       EObject parent = item.eContainer();
       return (List<?>) parent.eGet(reference);
    }
-   
+
    private boolean validateNumericAnnotation(String annotationValue, String javaTypeName)
-   {     
+   {
       if(javaTypeName.equals(Float.class.getName()))
       {
          try
@@ -483,9 +483,9 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          catch(NumberFormatException e)
          {
             setMessage(MessageFormat.format(Structured_Messages.DefaultValueValidation_NotFloat,
-                  new Object [] {annotationValue}), ERROR);         
+                  new Object [] {annotationValue}), ERROR);
             setValid(false);
-            return false;            
+            return false;
          }
       }
       else if(javaTypeName.equals(Double.class.getName()))
@@ -497,10 +497,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          catch(NumberFormatException e)
          {
             setMessage(MessageFormat.format(Structured_Messages.DefaultValueValidation_NotDouble,
-                  new Object [] {annotationValue}), ERROR);         
+                  new Object [] {annotationValue}), ERROR);
             setValid(false);
-            return false;            
-         }         
+            return false;
+         }
       }
       else if(javaTypeName.equals(Byte.class.getName()))
       {
@@ -511,10 +511,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          catch(NumberFormatException e)
          {
             setMessage(MessageFormat.format(Structured_Messages.DefaultValueValidation_NotByte,
-                  new Object [] {annotationValue}), ERROR);         
+                  new Object [] {annotationValue}), ERROR);
             setValid(false);
-            return false;            
-         }                  
+            return false;
+         }
       }
       else if(javaTypeName.equals(Date.class.getName()))
       {
@@ -522,9 +522,9 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             dateFormat.parse(annotationValue);
          } catch (ParseException e) {
             setMessage(MessageFormat.format(Structured_Messages.DefaultValueValidation_NotDate,
-                  new Object [] {annotationValue}), ERROR);         
+                  new Object [] {annotationValue}), ERROR);
             setValid(false);
-            return false;            
+            return false;
          }
       }
       else
@@ -536,26 +536,26 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          catch(NumberFormatException e)
          {
             setMessage(MessageFormat.format(Structured_Messages.DefaultValueValidation_NotNumber,
-                  new Object [] {annotationValue}), ERROR);         
+                  new Object [] {annotationValue}), ERROR);
             setValid(false);
-            return false;            
-         }                           
+            return false;
+         }
       }
-             
+
       setMessage(null);
-      setValid(true);      
-      
+      setValid(true);
+
       return true;
-   }   
+   }
 
    private void validateInput()
-   {     
+   {
       List<String> messages = ElementValidator.validateElements(declaration);
       if (messages != null && !messages.isEmpty())
       {
          setMessage(messages.get(0), ERROR);
          setValid(false);
-         return;            
+         return;
       }
       setMessage(null);
       setValid(true);
@@ -616,7 +616,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
    protected void deleteField()
    {
       XSDSchema schema = ComplexTypePropertyPage.this.type.getSchema();
-      
+
       Object selection = ((IStructuredSelection) viewer.getSelection()).getFirstElement();
       XSDTypeDefinition oldDef = null;
       if (selection instanceof XSDElementDeclaration)
@@ -628,7 +628,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       {
          if(!XSDElementCheckForType.needsType(ComplexTypePropertyPage.this.declaration, oldDef))
          {
-            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema());
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
          }
       }
@@ -666,10 +666,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          }
          if (element instanceof XSDAttributeDeclaration)
          {
-/*            
+/*
             if(StructLabelProvider.COMPLEX_TYPE_COLUMNS[3].equals(property))
             {
-               XSDTypeDefinition typeDefinition = ((XSDAttributeDeclaration) element).getTypeDefinition();            
+               XSDTypeDefinition typeDefinition = ((XSDAttributeDeclaration) element).getTypeDefinition();
                if(typeDefinition.getComplexType() == null)
                {
                   String javaTypeName = XSDMapping.getJavaTypeForXSDType(typeDefinition.getName());
@@ -690,13 +690,13 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                      {
                         defaultValueCellEditor.enableEditor(true);
                         return true;
-                     }                  
+                     }
                   }
                }
                return false;
-            }      
-*/                  
-            return true;
+            }
+*/
+            return isLocal((XSDAttributeDeclaration) element);
          }
          else if (element instanceof XSDModelGroup)
          {
@@ -712,10 +712,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             return StructLabelProvider.COMPLEX_TYPE_COLUMNS[0].equals(property);
          }
-/*         
+/*
          if(StructLabelProvider.COMPLEX_TYPE_COLUMNS[3].equals(property))
          {
-            XSDTypeDefinition typeDefinition = entry.getTypeDefinition();            
+            XSDTypeDefinition typeDefinition = entry.getTypeDefinition();
             if(typeDefinition.getComplexType() == null)
             {
                String javaTypeName = XSDMapping.getJavaTypeForXSDType(typeDefinition.getName());
@@ -736,12 +736,12 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                   {
                      defaultValueCellEditor.enableEditor(true);
                      return true;
-                  }                  
+                  }
                }
             }
             return false;
          }
-*/         
+*/
          return isLocal(entry);
       }
 
@@ -763,7 +763,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                return getCardinalityIndex(entry);
             }
             else if(StructLabelProvider.COMPLEX_TYPE_COLUMNS[3].equals(property))
-            {               
+            {
                return DefaultValueModifier.getValueForElement(entry);
             }
          }
@@ -776,7 +776,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          return (term instanceof XSDTerm || term instanceof XSDAttributeDeclaration) ?
                new Integer(XsdTextProvider.getCardinalityIndex((XSDConcreteComponent) term)) : null;
       }
-      
+
       private void updateAvailableCardinality(EObject term)
       {
          if (term instanceof XSDElementDeclaration)
@@ -785,13 +785,13 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          }
          else if (term instanceof XSDAttributeDeclaration)
          {
-            attributeComboViewer.setInput(XSDAttributeUseCategory.VALUES.toArray());            
+            attributeComboViewer.setInput(XSDAttributeUseCategory.VALUES.toArray());
          }
          else
          {
-            attributeComboViewer.setInput(Collections.EMPTY_LIST);            
+            attributeComboViewer.setInput(Collections.EMPTY_LIST);
          }
-      }      
+      }
 
       private Integer getTypeIndex(EObject term)
       {
@@ -831,10 +831,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             // add all predefined types
             types.addAll(getPredefinedTypes());
-            
+
             // add all simple internal types: SchemaTypes and ExternalReferences that are to internal SchemaTypes
             types.addAll(getInternalTypes(true));
-            
+
             // add conversions
             types.add(ELEMENT_TYPE);
          }
@@ -853,10 +853,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             // add all predefined types
             types.addAll(getPredefinedTypes());
-            
+
             // add all internal types: SchemaTypes and ExternalReferences that are to internal SchemaTypes
             types.addAll(getInternalTypes(false));
-            
+
             // add conversions
             types.add(XSDCompositor.SEQUENCE_LITERAL);
             types.add(XSDCompositor.CHOICE_LITERAL);
@@ -959,7 +959,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          }
          else if (StructLabelProvider.COMPLEX_TYPE_COLUMNS[1].equals(property))
          {
-            setType(element, comboViewer.findObject((Integer) value));            
+            setType(element, comboViewer.findObject((Integer) value));
          }
          else if (StructLabelProvider.COMPLEX_TYPE_COLUMNS[2].equals(property))
          {
@@ -969,15 +969,15 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             }
             else if(element instanceof XSDAttributeDeclaration)
             {
-               setCardinality((XSDAttributeDeclaration) element, ((Integer) value).intValue());               
+               setCardinality((XSDAttributeDeclaration) element, ((Integer) value).intValue());
             }
          }
          else if (StructLabelProvider.COMPLEX_TYPE_COLUMNS[3].equals(property))
          {
-            String javaTypeName = null;            
+            String javaTypeName = null;
             if (element instanceof XSDElementDeclaration)
             {
-               XSDTypeDefinition typeDefinition = ((XSDElementDeclaration) element).getTypeDefinition();            
+               XSDTypeDefinition typeDefinition = ((XSDElementDeclaration) element).getTypeDefinition();
                if(typeDefinition.getComplexType() == null)
                {
                   javaTypeName = XSDMapping.getJavaTypeForXSDType(typeDefinition.getName());
@@ -985,12 +985,12 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             }
             else if (element instanceof XSDAttributeDeclaration)
             {
-               XSDTypeDefinition typeDefinition = ((XSDAttributeDeclaration) element).getTypeDefinition();            
+               XSDTypeDefinition typeDefinition = ((XSDAttributeDeclaration) element).getTypeDefinition();
                if (typeDefinition.getComplexType() == null)
                {
                   javaTypeName = XSDMapping.getJavaTypeForXSDType(typeDefinition.getName());
-               }               
-            }   
+               }
+            }
             String annotationValue = (String) value;
             if(!StringUtils.isEmpty(annotationValue)
                   && !StringUtils.isEmpty(javaTypeName))
@@ -1000,7 +1000,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                   Class<?> clazz = Class.forName(javaTypeName);
                   String superClass = ((Class<?>) clazz.getSuperclass()).getName();
                   if(superClass.equals(Number.class.getName())
-                        || javaTypeName.equals(Date.class.getName()))                     
+                        || javaTypeName.equals(Date.class.getName()))
                   {
                      if (!validateNumericAnnotation(annotationValue, javaTypeName))
                      {
@@ -1010,10 +1010,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                }
                catch (ClassNotFoundException e)
                {
-               }               
+               }
             }
             DefaultValueModifier.setOrRemoveAnnotation(element, value);
-            viewer.update(element, StructLabelProvider.COMPLEX_TYPE_COLUMNS);                           
+            viewer.update(element, StructLabelProvider.COMPLEX_TYPE_COLUMNS);
          }
       }
 
@@ -1045,7 +1045,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             return;
          }
-         
+
          if (newType == ANONYMOUS_TYPE)
          {
             changeElementToAnonymous(decl);
@@ -1069,7 +1069,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          if (!XSDElementCheckForType.needsType(declaration, oldDef))
          {
             XSDSchema schema = type.getSchema();
-            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema());
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
             schema.updateElement(true);
          }
@@ -1083,7 +1083,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             XSDModelGroup newModelGroup = XSDFactory.eINSTANCE.createXSDModelGroup();
             newModelGroup.setCompositor(compositor);
-            
+
             // transfer content
             if (decl.getAnonymousTypeDefinition() != null)
             {
@@ -1104,7 +1104,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                   }
                }
             }
-            
+
             XSDParticle newParticle = XSDFactory.eINSTANCE.createXSDParticle();
             newParticle.setContent(newModelGroup);
 
@@ -1114,7 +1114,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             parent.getContents().remove(oldParticle);
             parent.getContents().add(index, newParticle);
             parent.updateElement(true);
-            
+
             contentProvider.setNewElement(newModelGroup, createNewElement());
             viewer.refresh(parent);
          }
@@ -1157,27 +1157,27 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       private void changeElementToAttribute(XSDElementDeclaration decl)
       {
          decl.updateElement(true);
-         
+
          XSDSimpleTypeDefinition simpleType = (XSDSimpleTypeDefinition) decl.getTypeDefinition();
 
          XSDParticle particle = (XSDParticle) decl.eContainer();
          XSDModelGroup modelGroup = (XSDModelGroup) particle.eContainer();
          modelGroup.getContents().remove(particle);
-         
+
          XSDParticle modelGroupParticle = (XSDParticle) modelGroup.eContainer();
          XSDComplexTypeDefinition complexType = (XSDComplexTypeDefinition) modelGroupParticle.eContainer();
-         
+
          XSDAttributeDeclaration attribute = XSDFactory.eINSTANCE.createXSDAttributeDeclaration();
          attribute.setName(decl.getName());
          decl.setTypeDefinition(null);
          attribute.setTypeDefinition(simpleType);
-         
+
          XSDAttributeUse use = XSDFactory.eINSTANCE.createXSDAttributeUse();
          use.setContent(attribute);
          complexType.getAttributeContents().add(use);
-         
+
          complexType.updateElement(true);
-         
+
          if (!(complexType == ComplexTypePropertyPage.this.type))
          {
             viewer.refresh(complexType);
@@ -1187,20 +1187,46 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
       private void updateImports(XSDSchema schema, XSDNamedComponent component)
       {
-         if (!schema.getQNamePrefixToNamespaceMap().values().contains(component.getTargetNamespace()))
+         TypeDeclarationType typeDecl = (TypeDeclarationType) internalTypes2declarations.get(component);
+         if (typeDecl != null)
          {
-            TypeDeclarationType typeDecl = (TypeDeclarationType) internalTypes2declarations.get(component);
-            if (typeDecl != null)
+            XSDImport xsdImport = findImport(schema, component.getSchema());
+            if (xsdImport == null)
+            {
+               xsdImport = XSDFactory.eINSTANCE.createXSDImport();
+            }
+            String tns = component.getTargetNamespace();
+            xsdImport.setNamespace(tns);
+            xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + typeDecl.getId());
+            if (xsdImport.eContainer() != schema)
+            {
+               schema.getContents().add(0, xsdImport);
+            }
+            if (!schema.getQNamePrefixToNamespaceMap().values().contains(tns))
             {
                String prefix = computePrefix(typeDecl.getId(), component.getSchema());
-               schema.getQNamePrefixToNamespaceMap().put(prefix, component.getTargetNamespace());
-               XSDImport xsdImport = XSDFactory.eINSTANCE.createXSDImport();
-               xsdImport.setNamespace(component.getTargetNamespace());
-               xsdImport.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + typeDecl.getId());
-               schema.getContents().add(0, xsdImport);
-               schema.updateElement(true);
+               schema.getQNamePrefixToNamespaceMap().put(prefix, tns);
+            }
+            schema.updateElement(true);
+         }
+      }
+
+      private XSDImport findImport(XSDSchema schema, XSDSchema otherSchema)
+      {
+         if (otherSchema != null)
+         {
+            for (XSDSchemaContent item : schema.getContents())
+            {
+               if (item instanceof XSDImport)
+               {
+                  if (otherSchema.equals(((XSDImport) item).getResolvedSchema()))
+                  {
+                     return (XSDImport) item;
+                  }
+               }
             }
          }
+         return null;
       }
 
       private void changeElementToAnonymous(XSDElementDeclaration decl)
@@ -1220,7 +1246,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
             decl.setAnonymousTypeDefinition(complexTypeDefinition);
             decl.updateElement(true);
-            
+
             contentProvider.setNewElement(modelGroup, createNewElement());
             viewer.refresh(decl);
          }
@@ -1234,7 +1260,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             return;
          }
-         
+
          decl.updateElement(true);
          if (newType == ELEMENT_TYPE)
          {
@@ -1268,7 +1294,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          if (!XSDElementCheckForType.needsType(declaration, oldDef))
          {
             XSDSchema schema = type.getSchema();
-            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema()); 
+            TypeDeclarationUtils.removeImport(schema, oldDef.getSchema());
             TypeDeclarationUtils.removeNameSpace(schema, oldDef.getName(), ((ModelType) declaration.eContainer().eContainer()).getId());
             schema.updateElement(true);
          }
@@ -1307,10 +1333,10 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
 
          XSDComplexTypeDefinition complexTypeDefinition = XSDFactory.eINSTANCE.createXSDComplexTypeDefinition();
          complexTypeDefinition.setContent(particle);
-         
+
          XSDElementDeclaration decl = XSDFactory.eINSTANCE.createXSDElementDeclaration();
          decl.setAnonymousTypeDefinition(complexTypeDefinition);
-         
+
          XSDParticle oldParticle = (XSDParticle) modelGroup.eContainer();
          XSDModelGroup parent = (XSDModelGroup) oldParticle.eContainer();
          List<XSDParticle> list = parent.getContents();
@@ -1323,7 +1349,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          list.remove(oldParticle);
          list.add(ix, newParticle);
          parent.updateElement(true);
-         
+
          contentProvider.removeNewElement(modelGroup);
          contentProvider.setNewElement(newModelGroup, createNewElement());
          viewer.refresh(parent);
@@ -1338,7 +1364,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          decl.updateElement();
          viewer.update(decl, StructLabelProvider.COMPLEX_TYPE_COLUMNS);
       }
-      
+
       private void setCardinality(XSDElementDeclaration decl, int cardinality)
       {
          decl.updateElement(true);
@@ -1446,90 +1472,90 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
       }
       return false;
    }
-   
-   public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue) {	
-	   DefaultAnnotationModifier.stopNotifying();
-	   if (annotationViewer.isChangeAllMode()) {
-		   if (newValue == null) {			   
-			   try {				   
-				   deleteAllAnnotations(declaration, annotation);				    			   				   
-			   } catch (Throwable t) {				   
-			   } 
-			   totalRefresh();			   		   
-		   } else {
-			   handleAllAnnotationChange(this.type, annotation, oldValue);
-		   }
-	   } else {
-		   CategoryAnnotation root = (CategoryAnnotation) DefaultAnnotationModifier.getRootAnnotation(annotation);
-		   handleDefaultValueChange(annotation, oldValue, root.getElement());
-	   }	
-	   DefaultAnnotationModifier.startNotifying();	
-   }
-   
-   private void deleteAllAnnotations(Object element, IAnnotation annotation) {
-	   Object[] children = contentProvider.getChildren(element);
-	   for (int i = 0; i < children.length; i++) {
-		   Object child = children[i]; 
-		   if (child instanceof XSDElementDeclaration) {
-			   XSDElementDeclaration decl = (XSDElementDeclaration) child;	
-			   annotationViewer.setInput(decl);
-			   if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
-				   handleDefaultValueChange(annotation, DefaultAnnotationModifier.getAnnotationValue(annotation), child);
-				   DefaultAnnotationModifier.deleteAnnotation(annotation);	   
-		       }			   
-		   } 
-		   deleteAllAnnotations(child, annotation);		
-	   }
+
+   public void annotationChanged(IAnnotation annotation, Object oldValue, Object newValue) {
+      DefaultAnnotationModifier.stopNotifying();
+      if (annotationViewer.isChangeAllMode()) {
+         if (newValue == null) {
+            try {
+               deleteAllAnnotations(declaration, annotation);
+            } catch (Throwable t) {
+            }
+            totalRefresh();
+         } else {
+            handleAllAnnotationChange(this.type, annotation, oldValue);
+         }
+      } else {
+         CategoryAnnotation root = (CategoryAnnotation) DefaultAnnotationModifier.getRootAnnotation(annotation);
+         handleDefaultValueChange(annotation, oldValue, root.getElement());
+      }
+      DefaultAnnotationModifier.startNotifying();
    }
 
-   private void addDefaultValue(IAnnotation annotation, Map<IAnnotation, Object> defaultList, Object value) {	
-	   Object defaultValue = defaultList.get(annotation);
-	   if (defaultValue == null) {
-		   defaultList.put(annotation, value);
-	   }
+   private void deleteAllAnnotations(Object element, IAnnotation annotation) {
+      Object[] children = contentProvider.getChildren(element);
+      for (int i = 0; i < children.length; i++) {
+         Object child = children[i];
+         if (child instanceof XSDElementDeclaration) {
+            XSDElementDeclaration decl = (XSDElementDeclaration) child;
+            annotationViewer.setInput(decl);
+            if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
+               handleDefaultValueChange(annotation, DefaultAnnotationModifier.getAnnotationValue(annotation), child);
+               DefaultAnnotationModifier.deleteAnnotation(annotation);
+            }
+         }
+         deleteAllAnnotations(child, annotation);
+      }
    }
-    
+
+   private void addDefaultValue(IAnnotation annotation, Map<IAnnotation, Object> defaultList, Object value) {
+      Object defaultValue = defaultList.get(annotation);
+      if (defaultValue == null) {
+         defaultList.put(annotation, value);
+      }
+   }
+
    private void handleAllAnnotationChange(Object element, IAnnotation annotation, Object oldValue) {
-	   Object[] children = contentProvider.getChildren(element);
-	   for (int i = 0; i < children.length; i++) {
-		   Object child = children[i]; 
-		   if (child instanceof XSDElementDeclaration) {
-			   XSDElementDeclaration decl = (XSDElementDeclaration) child;
-			   if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
-				   handleDefaultValueChange(annotation, oldValue, child);				   
-		       }			   
-		   } 
-		   handleAllAnnotationChange(child, annotation, oldValue);		
-	   }
-   }  
-   
+      Object[] children = contentProvider.getChildren(element);
+      for (int i = 0; i < children.length; i++) {
+         Object child = children[i];
+         if (child instanceof XSDElementDeclaration) {
+            XSDElementDeclaration decl = (XSDElementDeclaration) child;
+            if (decl.getTypeDefinition() instanceof XSDSimpleTypeDefinition && !(ComplexTypePropertyPage.isNewType(child))) {
+               handleDefaultValueChange(annotation, oldValue, child);
+            }
+         }
+         handleAllAnnotationChange(child, annotation, oldValue);
+      }
+   }
+
    private void handleDefaultValueChange(IAnnotation annotation, Object oldValue,
-		   Object child) {
-	   Map<IAnnotation, Object> defaultList = defaultAnnotationMap.get((XSDElementDeclaration) child);
-	   if (defaultList == null) {
-		   defaultList = new HashMap<IAnnotation,Object>();						
-		   defaultAnnotationMap.put((XSDElementDeclaration) child, defaultList);		
-	   }  
-	   addDefaultValue(annotation, defaultList, oldValue);
+         Object child) {
+      Map<IAnnotation, Object> defaultList = defaultAnnotationMap.get((XSDElementDeclaration) child);
+      if (defaultList == null) {
+         defaultList = new HashMap<IAnnotation,Object>();
+         defaultAnnotationMap.put((XSDElementDeclaration) child, defaultList);
+      }
+      addDefaultValue(annotation, defaultList, oldValue);
    }
 
    private void resetAnnotationSettings()
    {
-	   DefaultAnnotationModifier.stopNotifying();
-	   for (Iterator<XSDElementDeclaration> i = defaultAnnotationMap.keySet().iterator(); i.hasNext();) {
-		   XSDElementDeclaration decl = i.next();
-		   annotationViewer.setInput(decl);
-		   Map<IAnnotation,Object> map = defaultAnnotationMap.get(decl);
-		   for (Iterator<IAnnotation> j = map.keySet().iterator(); j.hasNext();) {
-			   IAnnotation annotation = j.next();          		         		 
-			   Object value =  map.get(annotation);
-			   if (value == null) {
-				   DefaultAnnotationModifier.deleteAnnotation(annotation);
-			   } else {
-				   DefaultAnnotationModifier.INSTANCE.setValue(annotation, value);        			 
-			   }  	     
-		   }
-	   }
-	   DefaultAnnotationModifier.startNotifying();
-   } 
+      DefaultAnnotationModifier.stopNotifying();
+      for (Iterator<XSDElementDeclaration> i = defaultAnnotationMap.keySet().iterator(); i.hasNext();) {
+         XSDElementDeclaration decl = i.next();
+         annotationViewer.setInput(decl);
+         Map<IAnnotation,Object> map = defaultAnnotationMap.get(decl);
+         for (Iterator<IAnnotation> j = map.keySet().iterator(); j.hasNext();) {
+            IAnnotation annotation = j.next();
+            Object value =  map.get(annotation);
+            if (value == null) {
+               DefaultAnnotationModifier.deleteAnnotation(annotation);
+            } else {
+               DefaultAnnotationModifier.INSTANCE.setValue(annotation, value);
+            }
+         }
+      }
+      DefaultAnnotationModifier.startNotifying();
+   }
 }

@@ -14,5 +14,4 @@ Bundle-ClassPath: lib/camel-core.jar,
  lib/camel-sql.jar,
  lib/camel-http.jar,
  lib/camel-mail.jar,
- lib/quartz.jar,
- lib/org.restlet.jar
+ lib/quartz.jar

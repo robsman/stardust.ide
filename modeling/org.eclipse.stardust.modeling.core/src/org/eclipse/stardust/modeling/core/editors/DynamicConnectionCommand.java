@@ -12,12 +12,7 @@ package org.eclipse.stardust.modeling.core.editors;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -31,76 +26,19 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.model.beans.TransitionBean;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipantSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.PerformsConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.*;
+import org.eclipse.stardust.model.xpdl.carnot.util.*;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.SelectionPopup;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.figures.anchors.TransitionConnectionAnchor;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateConnectionSymbolCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateModelElementCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteConnectionSymbolCmd;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetActivityControlFlowCmd;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetAttributeReferenceCmd;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.tools.CommandCanceledException;
@@ -109,6 +47,9 @@ import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 public class DynamicConnectionCommand extends Command
 {
@@ -494,7 +435,7 @@ public class DynamicConnectionCommand extends Command
    {
       XmlTextNode type = transition.getExpression();
       String expression = type == null ? null : ModelUtils.getCDataString(transition.getExpression().getMixed());
-      if (expression != null && expression.startsWith(TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "("))
+      if (expression != null && expression.startsWith(TransitionBean.ON_BOUNDARY_EVENT_PREDICATE + "(")) //$NON-NLS-1$
       {
          return true;
       }
@@ -703,42 +644,50 @@ public class DynamicConnectionCommand extends Command
          final DirectionType direction, final String context)
    {
       String accessPointId = null;
-      // get type of the data
-      String referenceClassName = GenericUtils.getReferenceClassName(data);
-      Object dataClass = null;
-      if(referenceClassName != null)
-      {
-         try
-         {
-            dataClass = Class.forName(referenceClassName);
-         }
-         catch (ClassNotFoundException e)
-         {
-            if(GenericUtils.dataHasClassAssigned(data))
-            {
-               dataClass = referenceClassName;
-            }
-         }
-      }
 
       // get all access points for activity
-      List accessPoints = ActivityUtil.getAccessPoints(activity,
-            DirectionType.IN_LITERAL.equals(direction), context);
+      List<AccessPointType> accessPoints = ActivityUtil.getAccessPoints(activity,
+            DirectionType.IN_LITERAL.equals(direction), false, context);
 
       // special case for primitive types
       if (data.getType().getId().equals(PredefinedConstants.PRIMITIVE_DATA))
       {
          accessPointId = getAccessPoint(activity, accessPoints, data);
       }
+      
+      if (accessPointId == null)
+      {
+         // get type of the data
+         String[] referenceClassNames = GenericUtils.getReferenceClassNames(data);
+         for (String referenceClassName : referenceClassNames)
+         {
+            Object dataClass = null;
+            if (referenceClassName != null)
+            {
+               try
+               {
+                  dataClass = Class.forName(referenceClassName);
+               }
+               catch (ClassNotFoundException e)
+               {
+                  if (GenericUtils.dataHasClassAssigned(data))
+                  {
+                     dataClass = referenceClassName;
+                  }
+               }
+            }
 
-      // 1st iteration check for types
-      if(accessPointId == null)
-      {
-         accessPointId = getAccessPoint(activity, dataClass, accessPoints, true, data);
-      }
-      if(accessPointId == null)
-      {
-         accessPointId = getAccessPoint(activity, dataClass, accessPoints, false, data);
+            // 1st iteration check for types
+            accessPointId = getAccessPoint(activity, dataClass, accessPoints, true, data);
+            if (accessPointId == null)
+            {
+               accessPointId = getAccessPoint(activity, dataClass, accessPoints, false, data);
+            }
+            if (accessPointId != null)
+            {
+               break;
+            }
+         }
       }
       return accessPointId;
    }
@@ -746,31 +695,31 @@ public class DynamicConnectionCommand extends Command
    //
 
    private String getAccessPoint(final ActivityType activity,
-         Object dataClass, List accessPoints, boolean checkType, DataType data)
+         Object dataClass, List<AccessPointType> accessPoints, boolean checkType, DataType data)
    {
       TypeFinder typeFinder = new TypeFinder((EObject) activity);
 
-      for (Iterator i = accessPoints.iterator(); i.hasNext();)
+      for (Iterator<AccessPointType> i = accessPoints.iterator(); i.hasNext();)
       {
          AccessPointType accessPoint = (AccessPointType) i.next();
          DirectionType accessPointDirection = accessPoint.getDirection();
          String attrValue = AccessPointUtil.getTypeAttributeValue(accessPoint);
 
          // DMS
-         if(GenericUtils.isDMSDataType(data))
+         if (GenericUtils.isDMSDataType(data))
          {
             DataTypeType type = accessPoint.getType();
-            if(type != null && type.getId().equals(data.getType().getId()))
+            if (type != null && type.getId().equals(data.getType().getId()))
             {
                return accessPoint.getId();
             }
          }
          // Knitware
-         else if(GenericUtils.isStructuredDataType(data))
+         else if (GenericUtils.isStructuredDataType(data))
          {
             String structuredTypeData = GenericUtils.getReferenceClassName(data);
             String structuredType = AttributeUtil.getAttributeValue(accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
-            if(!StringUtils.isEmpty(structuredTypeData)
+            if (!StringUtils.isEmpty(structuredTypeData)
                   && !StringUtils.isEmpty(structuredType)
                   && structuredTypeData.equals(structuredType))
             {
@@ -780,29 +729,29 @@ public class DynamicConnectionCommand extends Command
 
          // compare types
          // should not be connected already!
-         if(!GenericUtils.isConnected(activity, accessPoint.getId())
+         if (!GenericUtils.isConnected(activity, accessPoint.getId())
                && dataClass != null)
          {
-            if(attrValue != null)
+            if (attrValue != null)
             {
-               if(dataClass instanceof Class)
+               if (dataClass instanceof Class)
                {
-                  Class applicationClass;
+                  Class<?> applicationClass;
                   try
                   {
                      applicationClass = Class.forName(attrValue);
-                     if(((Class) dataClass).isInterface())
+                     if (((Class<?>) dataClass).isInterface())
                      {
-                        if(DirectionType.IN_LITERAL == accessPointDirection)
+                        if (DirectionType.IN_LITERAL == accessPointDirection)
                         {
-                           if(applicationClass.isAssignableFrom((Class) dataClass))
+                           if (applicationClass.isAssignableFrom((Class<?>) dataClass))
                            {
                               return accessPoint.getId();
                            }
                         }
                         else
                         {
-                           if(((Class) dataClass).isAssignableFrom(applicationClass))
+                           if (((Class<?>) dataClass).isAssignableFrom(applicationClass))
                            {
                               return accessPoint.getId();
                            }
@@ -811,25 +760,25 @@ public class DynamicConnectionCommand extends Command
                      else
                      {
                         // 1st iteration
-                        if(checkType)
+                        if (checkType)
                         {
-                           if(applicationClass.equals(dataClass))
+                           if (applicationClass.equals(dataClass))
                            {
                               return accessPoint.getId();
                            }
                         }
                         else
                         {
-                           if(DirectionType.IN_LITERAL == accessPointDirection)
+                           if (DirectionType.IN_LITERAL == accessPointDirection)
                            {
-                              if(applicationClass.isAssignableFrom((Class) dataClass))
+                              if (applicationClass.isAssignableFrom((Class<?>) dataClass))
                               {
                                  return accessPoint.getId();
                               }
                            }
                            else
                            {
-                              if(((Class) dataClass).isAssignableFrom(applicationClass))
+                              if (((Class<?>) dataClass).isAssignableFrom(applicationClass))
                               {
                                  return accessPoint.getId();
                               }
@@ -840,7 +789,7 @@ public class DynamicConnectionCommand extends Command
                   catch (ClassNotFoundException e)
                   {
                      TypeInfo typeInfo = typeFinder.findType(attrValue);
-                     if(typeInfo != null && typeInfo.isSameType(((Class) dataClass).getName()))
+                     if (typeInfo != null && typeInfo.isSameType(((Class<?>) dataClass).getName()))
                      {
                         return accessPoint.getId();
                      }
@@ -849,7 +798,7 @@ public class DynamicConnectionCommand extends Command
                else
                {
                   TypeInfo typeInfo = typeFinder.findType(attrValue);
-                  if(typeInfo != null && typeInfo.isSameType((String) dataClass))
+                  if (typeInfo != null && typeInfo.isSameType((String) dataClass))
                   {
                      return accessPoint.getId();
                   }
@@ -862,27 +811,38 @@ public class DynamicConnectionCommand extends Command
 
    // special case for primitive data
    private String getAccessPoint(final ActivityType activity,
-         List accessPoints, DataType data)
+         List<AccessPointType> accessPoints, DataType data)
    {
-      String dataType = AttributeUtil.getAttributeValue(data, PredefinedConstants.TYPE_ATT);
-
-      // 1st iteration, check for parameter
-      for (Iterator i = accessPoints.iterator(); i.hasNext();)
+      String[] dataTypes = GenericUtils.getReferenceClassNames(data);
+      for (String dataType : dataTypes)
       {
-         AccessPointType accessPoint = (AccessPointType) i.next();
+         String accessPointId = findFirstMatchingAccessPoint(activity, accessPoints, dataType);
+         if (accessPointId != null)
+         {
+            return accessPointId;
+         }
+      }
+      return null;
+   }
+
+   private String findFirstMatchingAccessPoint(final ActivityType activity, List<AccessPointType> accessPoints,
+         String dataType)
+   {
+      for (AccessPointType accessPoint : accessPoints)
+      {
          String attrValue = AccessPointUtil.getTypeAttributeValue(accessPoint);
          String accessPointId = accessPoint.getId();
 
          // should not be connected already!
-         if(!GenericUtils.isConnected(activity, accessPoint.getId()))
+         if (!GenericUtils.isConnected(activity, accessPoint.getId()))
          {
-            if(attrValue != null)
+            if (attrValue != null)
             {
                // is parameter, not method (prefer)
-               if(accessPointId.indexOf("(") == -1) //$NON-NLS-1$
+               if (accessPointId.indexOf("(") == -1) //$NON-NLS-1$
                {
                   // attrValue could be something like 'long', parameter
-                  if(attrValue.equals(dataType))
+                  if (attrValue.equals(dataType))
                   {
                      return accessPointId;
                   }
@@ -984,9 +944,8 @@ public class DynamicConnectionCommand extends Command
       final ActivityType targetActivity = (ActivityType) extractModelElement(targetSymbol);
       if (sourceActivity != null && targetActivity != null)
       {
-         for (Iterator i = sourceActivity.getOutTransitions().iterator(); i.hasNext();)
+         for (TransitionType transition : sourceActivity.getOutTransitions())
          {
-            TransitionType transition = (TransitionType) i.next();
             if (transition.getTo() == targetActivity)
             {
                return null;

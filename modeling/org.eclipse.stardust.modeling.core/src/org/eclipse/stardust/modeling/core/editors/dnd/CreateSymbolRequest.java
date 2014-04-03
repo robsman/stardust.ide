@@ -22,7 +22,9 @@ import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.CreateRequest;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -49,6 +51,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -59,9 +62,11 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateM
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateModelElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateSymbolCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
+
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -78,16 +83,16 @@ public class CreateSymbolRequest extends CreateRequest
       this.editor = editor;
       Object transferElement = transfer.getObject();
       SymbolCreationFactory factory = null;
-      factory = ModelElementSymbolCreationFactory.getFactory(transferElement);         
-      
-      // here we need the modelelement 
+      factory = ModelElementSymbolCreationFactory.getFactory(transferElement);
+
+      // here we need the modelelement
       factory.setEditor(editor);
       if(transferElement instanceof IIdentifiableModelElement
             || transferElement instanceof IObjectDescriptor)
       {
          factory.setTransferredModelElement(transferElement);
       }
-      
+
       factory.setEditDomain(editDomain);
       setFactory(factory);
       @SuppressWarnings("unchecked")
@@ -220,7 +225,7 @@ public class CreateSymbolRequest extends CreateRequest
       setFactory(new CommandHolder(id, command, CarnotWorkflowModelPackage.eINSTANCE
             .getActivitySymbolType()));
    }
-   
+
    public void setFactoryForDescriptor(IObjectDescriptor descriptor)
    {
       Object type = descriptor.getType();
@@ -310,24 +315,35 @@ public class CreateSymbolRequest extends CreateRequest
       setFactory(new CommandHolder(id, command, CarnotWorkflowModelPackage.eINSTANCE
             .getActivitySymbolType()));
    }
-   
+
    private void setFactoryForData(final IObjectDescriptor descriptor)
    {
+      final boolean javaEnumeration = TypeDeclarationUtils.isEnumeration((TypeDeclarationType) ((IObjectReference) descriptor).getEObject(), true);
+
       CompoundDiagramCommand command = new CompoundDiagramCommand();
       final ModelType model = editor.getWorkflowModel();
       ConnectionManager cm = editor.getConnectionManager();
 
       String name = Diagram_Messages.TXT_STRUCTURED_DATA;
-      final org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] struct = 
+      if(javaEnumeration)
+      {
+         name = Diagram_Messages.TXT_PRIMITIVE_DATA;
+      }
+
+      final org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] struct =
          new org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] {
             (org.eclipse.stardust.model.xpdl.carnot.DataTypeType) ModelUtils.findIdentifiableElement(
             model.getDataType(), PredefinedConstants.STRUCTURED_DATA)};
-      if (struct[0] == null)
+      if (struct[0] == null && !javaEnumeration)
       {
          Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
                CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
 
          IConfigurationElement config = (IConfigurationElement) dataExtensions.get(PredefinedConstants.STRUCTURED_DATA);
+         if(javaEnumeration)
+         {
+            config = (IConfigurationElement) dataExtensions.get(PredefinedConstants.PRIMITIVE_DATA);
+         }
          if (null != config)
          {
             name = config.getAttribute(SpiConstants.NAME);
@@ -374,6 +390,11 @@ public class CreateSymbolRequest extends CreateRequest
          e.printStackTrace();
       }
       IdFactory id = new IdFactory(PredefinedConstants.STRUCTURED_DATA, name);
+      if(javaEnumeration)
+      {
+         id = new IdFactory(PredefinedConstants.PRIMITIVE_DATA, name);
+      }
+
       command.add(new CreateModelElementCommand(IContainedElementCommand.MODEL, id,
             CarnotWorkflowModelPackage.eINSTANCE.getDataType())
       {
@@ -382,9 +403,21 @@ public class CreateSymbolRequest extends CreateRequest
             DataType data = (DataType) super.createModelElement();
             if (data != null)
             {
-               data.setType(struct[0]);
+               if(!javaEnumeration)
+               {
+                  data.setType(struct[0]);
+               }
+               else
+               {
+                  data.setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                  AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
+                        "org.eclipse.stardust.engine.core.pojo.data.Type", Type.Enumeration.getId()); //$NON-NLS-1$
+                  AttributeUtil.setReference(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
+                        (TypeDeclarationType) ((IObjectReference) descriptor).getEObject());
+               }
+
                AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-               AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
+               AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
 
                TypeDeclarationsType declarations = model.getTypeDeclarations();
                List<TypeDeclarationType> list = Collections.emptyList();

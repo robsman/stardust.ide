@@ -74,6 +74,8 @@ public class ValidatorRegistry
    
    public static IBridgeObjectProvider getBridgeObjectProvider(ITypedElement modelElement)
    {
+      // (fh) DO NOT CACHE
+      
       IMetaType type = modelElement.getMetaType();
       if (type != null)
       {

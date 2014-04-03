@@ -89,10 +89,15 @@ public class BridgeObject
    {
       BridgeObject result;
 
+      // (fh) DO NOT CACHE
       IBridgeObjectProvider bridgeProvider = ValidatorRegistry
             .getBridgeObjectProvider(ap);
       if (null != bridgeProvider)
       {
+         if (bridgeProvider instanceof AccessPathEvaluationContext.Aware)
+         {
+            ((AccessPathEvaluationContext.Aware) bridgeProvider).setContext(context);
+         }
          result = bridgeProvider.getBridgeObject(ap, path, direction);
       }
       else

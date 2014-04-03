@@ -248,14 +248,14 @@ public class SpiExtensionRegistry
       
       Class<? extends IExtensibleElement> extensibleClass = extensible.getClass();
       
-      List<IConfigurationElement> extensions = instance().getExtensionList("org.eclipse.stardust.model.xpdl", id);
+      List<IConfigurationElement> extensions = instance().getExtensionList("org.eclipse.stardust.model.xpdl", id); //$NON-NLS-1$
       if (extensions != null)
       {
          List<IConfigurationElement> matching = new ArrayList<IConfigurationElement>();
          for(IConfigurationElement element : extensions)
          {               
-            String classValue = element.getAttribute("class");
-            String meta = element.getAttribute("meta");
+            String classValue = element.getAttribute("class"); //$NON-NLS-1$
+            String meta = element.getAttribute("meta"); //$NON-NLS-1$
 
             try
             {
@@ -327,7 +327,7 @@ public class SpiExtensionRegistry
    public static boolean isMatchingClass(Object element, String classAttributeName, IConfigurationElement template) throws ClassNotFoundException
    {
       Contributor pageContributor = contributors.get(template);
-      String pageContributorEnabled = template.getAttribute("pageContributor");
+      String pageContributorEnabled = template.getAttribute("pageContributor"); //$NON-NLS-1$
       if (pageContributor == null && pageContributorEnabled == null)
       {
          pageContributor = new Contributor(template);

@@ -8,21 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Code;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -43,43 +34,47 @@ public class NameIdUtils
     */
    public static String createIdFromName(Object container, EObject element, String base)
    {
-      if(container == null)
+      if (container == null)
       {
          container = findContainer(element);
       }
 
-      if(base == null)
+      if (base == null)
       {
-         if(element instanceof Code)
+         if (element instanceof Code)
          {
             base = ((Code) element).getName();
          }
-         if(element instanceof IIdentifiableElement)
+         if (element instanceof IIdentifiableElement)
          {
             base = ((IIdentifiableElement) element).getName();
          }
-         if(element instanceof FormalParameterType)
+         if (element instanceof FormalParameterType)
          {
             base = ((FormalParameterType) element).getName();
          }
-         else if(element instanceof TypeDeclarationType)
+         else if (element instanceof TypeDeclarationType)
          {
             base = ((TypeDeclarationType) element).getName();
          }
       }
 
-      if(StringUtils.isEmpty(base))
+      if (StringUtils.isEmpty(base))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = null;
-      if(element instanceof Code)
+      if (element instanceof Code)
       {
          factory = new IdFactory(base, base,
                      CarnotWorkflowModelPackage.eINSTANCE.getCode(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Code(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Name());
+      }
+      else if (element instanceof IIdentifiableElement)
+      {
+         factory = new IdFactory(base, base);
       }
       else if (element instanceof FormalParameterType)
       {
@@ -88,17 +83,13 @@ public class NameIdUtils
                XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
                XpdlPackage.eINSTANCE.getFormalParameterType_Name());
       }
-      else if(element instanceof IIdentifiableElement)
-      {
-         factory = new IdFactory(base, base);
-      }
-      else if(element instanceof TypeDeclarationType)
+      else if (element instanceof TypeDeclarationType)
       {
          factory = new IdFactory(base);
       }
 
       List list = null;
-      if(element instanceof RoleType
+      if (element instanceof RoleType
             || element instanceof OrganizationType
             || element instanceof ConditionalPerformerType)
       {
@@ -108,19 +99,21 @@ public class NameIdUtils
          list.addAll(containingModel.getOrganization());
          list.addAll(containingModel.getConditionalPerformer());
       }
-      else if(container instanceof EObject
+      else if (container instanceof EObject
             && !(element instanceof AccessPointType)
             && !(element instanceof ModelType))
       {
-         list = (List) computeIdNames(element.eClass(), (EObject) container);
+         list = computeIdNames(element.eClass(), (EObject) container);
       }
-      else if(container instanceof EList)
+      else if (container instanceof List)
       {
          list = (List) container;
       }
-      if(list != null)
+      if (list != null)
       {
-         factory.computeNames(list, false);
+         List clone = CollectionUtils.newList(list);
+         clone.remove(element);
+         factory.computeNames(clone, false);
       }
 
       return factory.getId();
@@ -135,32 +128,30 @@ public class NameIdUtils
    {
       if(StringUtils.isEmpty(name))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = new IdFactory(name, name);
       return factory.getId();
    }
 
-   private static List computeIdNames(EClass eClass, EObject container)
+   private static List<?> computeIdNames(EClass eClass, EObject container)
    {
-      return (List) container.eGet(getContainingFeature(eClass, container));
+      return (List<?>) container.eGet(getContainingFeature(eClass, container));
    }
 
    private static EStructuralFeature getContainingFeature(EClass eClass, EObject container)
    {
-      List containingFeatureList = container.eClass().getEAllStructuralFeatures();
-      return findContainmentFeature(containingFeatureList, eClass);
+      return findContainmentFeature(container.eClass().getEAllStructuralFeatures(), eClass);
    }
 
-   private static EStructuralFeature findContainmentFeature(List containingFeatures,
+   private static EStructuralFeature findContainmentFeature(List<EStructuralFeature> containingFeatures,
          EClass eClass)
    {
       EStructuralFeature result = null;
 
-      for (Iterator i = containingFeatures.iterator(); i.hasNext();)
+      for (EStructuralFeature feature : containingFeatures)
       {
-         EStructuralFeature feature = (EStructuralFeature) i.next();
          if ((!feature.isTransient()
             || feature.getEContainingClass().equals(CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer())
             || feature.getEContainingClass().equals(XpdlPackage.eINSTANCE.getTypeDeclarationsType()))
@@ -181,7 +172,7 @@ public class NameIdUtils
    {
       if(StringUtils.isEmpty(name))
       {
-         return "";
+         return ""; //$NON-NLS-1$
       }
 
       IdFactory factory = new IdFactory(name, name);

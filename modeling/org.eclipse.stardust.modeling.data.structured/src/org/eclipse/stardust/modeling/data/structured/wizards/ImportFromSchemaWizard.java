@@ -13,12 +13,7 @@ package org.eclipse.stardust.modeling.data.structured.wizards;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -46,11 +41,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.SchemaLocatorAdapter;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -59,11 +50,7 @@ import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.*;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.xml.sax.InputSource;
 
@@ -230,6 +217,9 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          }
       }
 
+      ChangeRecorder recorder = new ChangeRecorder();
+      recorder.beginRecording(Collections.singleton(typeDeclarations));
+
       for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
@@ -247,17 +237,12 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                if (typesPage.mustSaveSchema() && !schema2location.containsKey(schema))
                {
                   ((InternalEObject) schema).eSetResource((Resource.Internal) typeDeclarations.eResource(), null);
-                  String location = StructuredDataConstants.URN_INTERNAL_PREFIX + id;
-                  List<XSDSchemaDirective> referencingDirectives = schema.getReferencingDirectives();
-                  for (int j = 0; j < referencingDirectives.size(); j++)
-                  {
-                     XSDSchemaDirective directive = (XSDSchemaDirective) referencingDirectives.get(j);
-                     directive.setSchemaLocation(location);
-                  }
-                  schema2location.put(schema, location);
+                  schema2location.put(schema, fixSchemaLocation(schema, id));
                   SchemaTypeType schemaType = XpdlFactory.eINSTANCE.createSchemaTypeType();
                   declaration.setSchemaType(schemaType);
                   schemaType.setSchema(schema);
+
+                  resolveImportedSchemasToLocalSchemas(schema);
                }
                else
                {
@@ -281,7 +266,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
                }
 
                // write workspace relative path for resolving within eclipse environment
-               if(xsdFileInWorkspace != null)
+               if (xsdFileInWorkspace != null)
                {
                   ExtendedAttributeUtil.setAttribute(declaration,
                         StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE,
@@ -291,8 +276,7 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             }
          }
       }
-      ChangeRecorder recorder = new ChangeRecorder();
-      recorder.beginRecording(Collections.singleton(typeDeclarations));
+
       for (int i = 0; i < declarations.size(); i++)
       {
          TypeDeclarationType declaration = (TypeDeclarationType) declarations.get(i);
@@ -303,13 +287,13 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          }
          typeDeclarations.getTypeDeclaration().add(declaration);
       }
-      ChangeDescription recording = recorder.endRecording();
-      command = new ApplyUpdatesCommand(recording);
+
       for (Map.Entry<XSDSchema, String> entry : schema2location.entrySet())
       {
          XSDSchema schema = entry.getKey();
          schema.setSchemaLocation(entry.getValue());
          schema.reset();
+         resolveLocalSchemasToImportedSchema(schema);
       }
 
       for (XSDSchema schema : schema2location.keySet())
@@ -321,7 +305,81 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
          // are correctly propagated to the schema
          prefixes.putAll(copy);
       }
+      ChangeDescription recording = recorder.endRecording();
+      command = new ApplyUpdatesCommand(recording);
       return true;
+   }
+
+   private void resolveLocalSchemasToImportedSchema(XSDSchema schema)
+   {
+      for (TypeDeclarationType decl : typeDeclarations.getTypeDeclaration())
+      {
+         XpdlTypeType type = decl.getDataType();
+         if (type instanceof SchemaTypeType)
+         {
+            XSDSchema otherSchema = ((SchemaTypeType) type).getSchema();
+            boolean fixed = false;
+            for (XSDSchemaContent object : otherSchema.getContents())
+            {
+               if (object instanceof XSDImport)
+               {
+                  XSDImport xsdImport = (XSDImport) object;
+                  String namespace = xsdImport.getNamespace();
+                  if (!StringUtils.isEmpty(namespace))
+                  {
+                     if (namespace.equals(schema.getTargetNamespace()))
+                     {
+                        xsdImport.setSchemaLocation(schema.getSchemaLocation());
+                        xsdImport.setResolvedSchema(schema);
+                        fixed = true;
+                     }
+                  }
+               }
+            }
+            if (fixed)
+            {
+               otherSchema.reset();
+            }
+         }
+      }
+   }
+
+   private void resolveImportedSchemasToLocalSchemas(XSDSchema schema)
+   {
+      for (XSDSchemaContent object : schema.getContents())
+      {
+         if (object instanceof XSDImport)
+         {
+            XSDImport xsdImport = (XSDImport) object;
+            String namespace = xsdImport.getNamespace();
+            if (!StringUtils.isEmpty(namespace))
+            {
+               for (TypeDeclarationType decl : typeDeclarations.getTypeDeclaration())
+               {
+                  XpdlTypeType type = decl.getDataType();
+                  if (type instanceof SchemaTypeType)
+                  {
+                     XSDSchema otherSchema = ((SchemaTypeType) type).getSchema();
+                     if (namespace.equals(otherSchema.getTargetNamespace()))
+                     {
+                        xsdImport.setSchemaLocation(otherSchema.getSchemaLocation());
+                        xsdImport.setResolvedSchema(otherSchema);
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   private String fixSchemaLocation(XSDSchema schema, String id)
+   {
+      String location = StructuredDataConstants.URN_INTERNAL_PREFIX + id;
+      for (XSDSchemaDirective directive : schema.getReferencingDirectives())
+      {
+         directive.setSchemaLocation(location);
+      }
+      return location;
    }
 
    private IFile doSaveExternalModel()

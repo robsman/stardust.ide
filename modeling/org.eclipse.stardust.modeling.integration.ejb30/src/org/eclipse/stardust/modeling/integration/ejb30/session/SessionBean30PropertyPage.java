@@ -39,23 +39,21 @@ import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-
-
 /**
- * 
+ *
  * @author herinean
  * @version $Revision$
  */
 public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
 {
    private static final String BLANK_STRING = " "; //$NON-NLS-1$
-   
+
    private static final String[] FILTERABLES = {
       Serializable.class.getName(),
       Externalizable.class.getName(),
    };
    private static final List<String> FILTERABLES_LIST = Arrays.asList(FILTERABLES);
-   
+
    private TypeSelector.TextSelector beanBrowser;
    private TypeSelector.ComboSelector interfaceBrowser;
    private MethodSelector creationBrowser;
@@ -77,16 +75,16 @@ public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
       wBndMgr.bind(beanText, (IExtensibleElement) element, CarnotConstants.CLASS_NAME_ATT);
       wBndMgr.bind(interfaceCombo, (IExtensibleElement) element, CarnotConstants.REMOTE_INTERFACE_ATT);
       wBndMgr.bind(jndiText, (IExtensibleElement) element, CarnotConstants.JNDI_PATH_ATT);
-      
+
 //      wBndMgr.bind(creationCombo, (IExtensibleElement) element, CarnotConstants.CREATE_METHOD_NAME_ATT);
 //      wBndMgr.bind(completionCombo, (IExtensibleElement) element, CarnotConstants.METHOD_NAME_ATT);
       wBndMgr.getValidationBindingManager().bind(element, CarnotConstants.CREATE_METHOD_NAME_ATT, creationLabel);
       wBndMgr.getValidationBindingManager().bind(element, CarnotConstants.METHOD_NAME_ATT, completionLabel);
-      
+
       creationBrowser.setMethodName(AttributeUtil.getAttributeValue(
             (IExtensibleElement) element, CarnotConstants.CREATE_METHOD_NAME_ATT));
       completionBrowser.setMethodName(AttributeUtil.getAttributeValue(
-            (IExtensibleElement) element, CarnotConstants.METHOD_NAME_ATT)); 
+            (IExtensibleElement) element, CarnotConstants.METHOD_NAME_ATT));
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
@@ -101,7 +99,7 @@ public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(final Composite parent)
    {
       TypeFinder finder = new TypeFinder(getModelElement());
-      
+
       Composite composite = FormBuilder.createComposite(parent, 2);
 
       // bean class
@@ -114,13 +112,13 @@ public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
 
       // remote interface
       LabelWithStatus remoteLabel = FormBuilder.createLabelWithRightAlignedStatus(
-         composite, EJB30_Messages.SESSION_BEAN30_PROPERTY_PAGE_LABEL_BUSINESS_INTERFACE); //$NON-NLS-1$      
+         composite, EJB30_Messages.SESSION_BEAN30_PROPERTY_PAGE_LABEL_BUSINESS_INTERFACE); //$NON-NLS-1$
       interfaceBrowser = new TypeSelector.ComboSelector(finder, composite,
             EJB30_Messages.SESSION_BEAN30_PROPERTY_PAGE_TITLE_BUSINESS_INTERFACE, //$NON-NLS-1$
             IJavaElementSearchConstants.CONSIDER_INTERFACES);
-      
+
       interfaceCombo = new LabeledCombo(interfaceBrowser.getComboControl(), remoteLabel);
-      
+
       // jndi path
       jndiText = FormBuilder.createLabeledText(composite,
          EJB30_Messages.SESSION_BEAN30_PROPERTY_PAGE_LABEL_JNDI_PATH); //$NON-NLS-1$
@@ -157,7 +155,6 @@ public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
       return composite;
    }
 
-   @SuppressWarnings("unchecked")
    protected void updateMethods(TypeInfo type)
    {
       List<MethodInfo> allMethods = Collections.emptyList();
@@ -169,7 +166,7 @@ public class SessionBean30PropertyPage extends AbstractModelElementPropertyPage
       {
          // ignore
       }
-      
+
       List<MethodInfo> copy = new ArrayList<MethodInfo>(allMethods);
       filter(copy, DirectionType.IN_LITERAL);
       creationBrowser.setMethodsList(copy);

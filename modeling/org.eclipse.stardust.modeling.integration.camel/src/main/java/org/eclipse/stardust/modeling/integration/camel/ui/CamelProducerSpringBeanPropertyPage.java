@@ -70,7 +70,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
             Camel_Messages.label_Include_Process_Context_Headers);
       includeProcessContextHeaders.setSelection(true);
       //getProcessContextHeaderValue(PROCESS_CONTEXT_HEADERS_EXT_ATT,includeProcessContextHeaders);
-      FormBuilder.createLabel(composite, "");
+      FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
       FormBuilder.createLabel(composite, Camel_Messages.label_Route);
       routeEntry = FormBuilder.createTextArea(composite, 2);
       return composite;
