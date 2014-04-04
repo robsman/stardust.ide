@@ -190,7 +190,7 @@ public class TypeInfo
             }
             String returnSignature = method.getReturnType();
             String returnType = resolveSignature(returnSignature);
-            boolean accessible = Flags.isPublic(method.getFlags());
+            boolean accessible = Flags.isPublic(method.getFlags()) || type.isInterface();
             MethodInfo info = new MethodInfo(constructors, methodName,
                   parameterSignatures, parameterTypes, parameterNames,
                   returnSignature, returnType, accessible);
