@@ -26,7 +26,7 @@ public class Model_Messages
    private Model_Messages()
    {}
 
-   public static String MSG_ATTRIBUTE_CATEGORY_EXISTS = getString("MSG_ATTRIBUTE_CATEGORY_EXISTS"); //$NON-NLS-1$
+   public static final String MSG_ATTRIBUTE_CATEGORY_EXISTS = getString("MSG_ATTRIBUTE_CATEGORY_EXISTS"); //$NON-NLS-1$
 
    public static String MSG_ATTRIBUTE_EXISTS = getString("MSG_ATTRIBUTE_EXISTS"); //$NON-NLS-1$
 

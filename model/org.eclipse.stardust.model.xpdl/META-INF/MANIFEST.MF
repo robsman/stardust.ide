@@ -24,7 +24,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.stardust.ide.engine.core;visibility:=reexport,
  org.eclipse.stardust.ide.thirdparty.javascript,
- org.eclipse.core.resources,
- org.eclipse.xsd,
- org.eclipse.team.core
+ org.eclipse.xsd
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

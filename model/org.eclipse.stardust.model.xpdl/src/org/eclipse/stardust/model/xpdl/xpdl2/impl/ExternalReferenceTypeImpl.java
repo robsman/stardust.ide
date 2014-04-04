@@ -13,7 +13,6 @@ package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import java.util.List;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
