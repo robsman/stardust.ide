@@ -64,7 +64,13 @@ public class DataChangeCommandHandler
    {
       String name = extractString(request, ModelerConstants.NAME_PROPERTY);
       String primitiveType = extractString(request, ModelerConstants.PRIMITIVE_TYPE);
-      DataType data = getModelBuilderFacade().createPrimitiveData(model, null, name, primitiveType);
+
+      String dataId = null;
+      if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+         dataId = request.get(ModelerConstants.CLONE_ID_PROPERTY).getAsString();
+      }
+      DataType data = getModelBuilderFacade().createPrimitiveData(model, dataId, name, primitiveType);
 
       //Map newly created data element to a UUID
       EObjectUUIDMapper mapper = modelService().uuidMapper();

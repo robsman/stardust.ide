@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 6 for Microsoft Visio (http://www.itp-commerce.com) -->
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Modeler 6 for Microsoft Visio"
+	exporterVersion="6.3530.15758 "
+	name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="07.10.2013 09:16:35"
+	itp:modificationDate="07.10.2013 09:50:51"
+	itp:createdWithVersion="6.3530.15758 "
+	itp:conformanceSubClass="Full"
+	xmlns:stardust="http://www.eclipse.org/stardust"
+	id="_d7e80b97-a1fb-42ad-b1a5-262fa2bf7c26"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+	<process
+		id="_b704ffe9-074e-415f-844c-ae9c5181308c"
+		name="Hauptprozess"
+		processType="None"
+		itp:isMainProcess="true">
+
+		<interface
+			id="StardustScriptTaskApp"
+			name="Script Task Application">
+			<extensionElements>
+				<stardust:StardustInterface>
+					{
+					"applicationType": "",
+					"stardustApplication": {
+					"elementOid": 10055,
+					"id": "StardustScriptTaskApp",
+					},
+					"contexts": [{}]}
+					}
+				</stardust:StardustInterface>
+			</extensionElements>
+			<operation
+				id="complete"
+				name="complete">
+				<inMessageRef>void</inMessageRef>
+			</operation>
+			<operation
+				id="getCustomerData"
+				name="getCustomerData">
+				<inMessageRef>void</inMessageRef>
+				<outMessageRef>getCustomerDataOutputMessage</outMessageRef>
+			</operation>
+		</interface>
+
+		<dataObject id="dataObjectScriptInput">
+		</dataObject>
+		<dataObject id="dataObjectScriptOutput">
+		</dataObject>
+		<dataObject id="dataObjectSriptIO">
+		</dataObject>
+		<scriptTask
+			id="testScriptTask"
+			name="scriptTask"
+			scriptFormat="application/javascript">
+			<extensionElements>
+				<stardust:ScriptTask>
+					{
+					"applicationRef": "StardustScriptTaskApp"
+					}
+				</stardust:ScriptTask>
+			</extensionElements>
+			<script>alert('Hello World");</script>
+			<ioSpecification>
+				<dataInput id="scriptTaskDataInputFromInputObject">
+				</dataInput>
+				<dataInput id="scriptTaskDataInputFromIOObject">
+				</dataInput>
+				<dataOutput id="scriptTaskDataOutputToIOObject">
+				</dataOutput>
+				<dataOutput id="scriptTaskDataOutputToOutputObject">
+				</dataOutput>
+				<inputSet>
+					<dataInputRefs>scriptTaskDataInputFromInputObject</dataInputRefs>
+					<dataInputRefs>scriptTaskDataInputFromIOObject</dataInputRefs>
+				</inputSet>
+				<outputSet>
+					<dataOutputRefs>scriptTaskDataOutputToOutputObject</dataOutputRefs>
+					<dataOutputRefs>scriptTaskDataOutputToIOObject</dataOutputRefs>
+				</outputSet>
+			</ioSpecification>
+			<dataInputAssociation id="_deb45c52-bd93-449e-9876-9d1b7dca54f8">
+				<sourceRef>dataObjectRefScriptInput</sourceRef>
+				<targetRef>scriptTaskDataInputFromInputObject</targetRef>
+			</dataInputAssociation>
+			<dataInputAssociation id="_bc994c35-bd6d-478e-91e4-554cef43c36c">
+				<sourceRef>dataObjectRefScriptIO</sourceRef>
+				<targetRef>scriptTaskDataInputFromIOObject</targetRef>
+			</dataInputAssociation>
+			<dataOutputAssociation id="_5913cf41-3644-4f42-b9fb-d68eb806259d">
+				<sourceRef>scriptTaskDataOutputToOutputObject</sourceRef>
+				<targetRef>dataObjectRefScriptOutput</targetRef>
+			</dataOutputAssociation>
+			<dataOutputAssociation id="_10b2c0a1-a712-48ef-a0ae-a67fd19f30f7">
+				<sourceRef>scriptTaskDataOutputToIOObject</sourceRef>
+				<targetRef>dataObjectRefScriptIO</targetRef>
+			</dataOutputAssociation>
+
+		</scriptTask>
+		<dataObjectReference
+			id="dataObjectRefScriptInput"
+			name="scriptInput"
+			dataObjectRef="dataObjectScriptInput">
+		</dataObjectReference>
+		<dataObjectReference
+			id="dataObjectRefScriptOutput"
+			name="scriptOutput"
+			dataObjectRef="dataObjectScriptOutput">
+		</dataObjectReference>
+		<dataObjectReference
+			id="dataObjectRefScriptIO"
+			name="scriptIO"
+			dataObjectRef="dataObjectSriptIO">
+		</dataObjectReference>
+	</process>
+	<bpmndi:BPMNDiagram
+		name="Mein Diagramm (1)"
+		resolution="72">
+		<bpmndi:BPMNPlane
+			id="_1"
+			bpmnElement="_b704ffe9-074e-415f-844c-ae9c5181308c">
+			<bpmndi:BPMNShape
+				id="_D6F69AEC-3765-492D-AF13-56085B43C368"
+				bpmnElement="testScriptTask"
+				itp:label="scriptTask"
+				itp:elementType="scriptTask">
+				<dc:Bounds
+					x="141.73228346456696"
+					y="148.81889763779532"
+					width="85.039370078740163"
+					height="42.519685039370081" />
+				<bpmndi:BPMNLabel labelStyle="_eb7969cc-8ce3-415c-abbd-abf7dc62b76f">
+					<dc:Bounds
+						x="158.04"
+						y="162.915590551181"
+						width="52.56"
+						height="13.68" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_C70CA11C-FF6E-4662-96EB-F1884DE83E46"
+				bpmnElement="dataObjectRefScriptInput"
+				itp:label="scriptInput"
+				itp:elementType="dataObjectReference">
+				<dc:Bounds
+					x="92.125984251968518"
+					y="85.03937007874022"
+					width="21.259842519685041"
+					height="28.346456692913389" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="82.8"
+						y="117.555590551181"
+						width="38.88"
+						height="9.36" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_7C1537F0-9D71-4DD9-936D-982BE9770D4A"
+				bpmnElement="dataObjectRefScriptOutput"
+				itp:label="scriptOutput"
+				itp:elementType="dataObjectReference">
+				<dc:Bounds
+					x="262.20472440944883"
+					y="85.03937007874022"
+					width="21.259842519685041"
+					height="28.346456692913389" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="249.48"
+						y="117.555590551181"
+						width="45.36"
+						height="9.36" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge
+				id="_C302B8F1-76B7-4F24-8ACB-F02ABA93603C"
+				bpmnElement="_deb45c52-bd93-449e-9876-9d1b7dca54f8"
+				itp:label="(unbenannt)"
+				itp:elementType="dataInputAssociation"
+				targetElement="_D6F69AEC-3765-492D-AF13-56085B43C368">
+				<di:waypoint
+					x="102.75590551181104"
+					y="113.38582677165357" />
+				<di:waypoint
+					x="102.75590551181104"
+					y="155.90551181102364" />
+				<di:waypoint
+					x="141.73228346456693"
+					y="155.90551181102364" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="101.88"
+						y="141.675590551181"
+						width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_C913D097-EF1E-4C03-A6B8-38731C4EB122"
+				bpmnElement="_5913cf41-3644-4f42-b9fb-d68eb806259d"
+				itp:label="(unbenannt)"
+				itp:elementType="dataOutputAssociation"
+				sourceElement="_D6F69AEC-3765-492D-AF13-56085B43C368">
+				<di:waypoint
+					x="226.77165354330711"
+					y="155.90551181102364" />
+				<di:waypoint
+					x="269.29133858267716"
+					y="155.90551181102364" />
+				<di:waypoint
+					x="269.29133858267716"
+					y="113.38582677165357" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="261"
+						y="143.115590551181"
+						width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNShape
+				id="_FF2B5E4F-8977-4EF8-AC89-145F75999BDF"
+				bpmnElement="dataObjectRefScriptIO"
+				itp:label="scriptIO"
+				itp:elementType="dataObjectReference">
+				<dc:Bounds
+					x="173.62204724409452"
+					y="70.866141732283452"
+					width="21.259842519685041"
+					height="28.346456692913389" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="169.56"
+						y="108.195590551181"
+						width="29.52"
+						height="9.36" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge
+				id="_5DE2E0DD-95DC-4B47-B2CC-823E2C635F50"
+				bpmnElement="_10b2c0a1-a712-48ef-a0ae-a67fd19f30f7"
+				itp:label="(unbenannt)"
+				itp:elementType="dataOutputAssociation"
+				sourceElement="_D6F69AEC-3765-492D-AF13-56085B43C368">
+				<di:waypoint
+					x="184.25196850393704"
+					y="148.81889763779532" />
+				<di:waypoint
+					x="184.25196850393704"
+					y="99.212598425196916" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="183.96"
+						y="115.035590551181"
+						width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_301E1968-93CC-4886-BBEC-C7B91676CD67"
+				bpmnElement="_bc994c35-bd6d-478e-91e4-554cef43c36c"
+				itp:label="(unbenannt)"
+				itp:elementType="dataInputAssociation"
+				targetElement="_D6F69AEC-3765-492D-AF13-56085B43C368">
+				<di:waypoint
+					x="184.25196850393704"
+					y="99.212598425196916" />
+				<di:waypoint
+					x="184.25196850393704"
+					y="148.81889763779532" />
+				<bpmndi:BPMNLabel labelStyle="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+					<dc:Bounds
+						x="190.44"
+						y="115.035590551181"
+						width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_eb7969cc-8ce3-415c-abbd-abf7dc62b76f">
+			<dc:Font
+				name="Arial"
+				size="10"
+				isBold="false"
+				isItalic="false"
+				isUnderline="false"
+				isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+		<bpmndi:BPMNLabelStyle id="_a9af5772-5dba-4ec9-abe2-e3c5c1837c78">
+			<dc:Font
+				name="Arial"
+				size="8"
+				isBold="false"
+				isItalic="false"
+				isUnderline="false"
+				isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
+</definitions>

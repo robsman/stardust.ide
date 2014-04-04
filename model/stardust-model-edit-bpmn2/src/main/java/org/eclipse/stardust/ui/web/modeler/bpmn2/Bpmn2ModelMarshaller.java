@@ -10,7 +10,9 @@ import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.findParticipa
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils.getExtensionElement;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ElementRefUtils.encodeReference;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractAsString;
+import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.hasNotJsonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +24,14 @@ import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.CallableElement;
 import org.eclipse.bpmn2.Collaboration;
+import org.eclipse.bpmn2.ComplexGateway;
+import org.eclipse.bpmn2.DataAssociation;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataOutputAssociation;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
@@ -34,10 +42,13 @@ import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElement;
+import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.Import;
+import org.eclipse.bpmn2.InclusiveGateway;
+import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
@@ -76,18 +87,20 @@ import org.eclipse.dd.di.Shape;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.util.XSDConstants;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2DataflowUtil;
+import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2DatatypeUtil;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils;
+import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ModelInfo;
+import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.XSDType2StardustMapping;
 import org.eclipse.stardust.ui.web.modeler.integration.ExternalXmlSchemaManager;
 import org.eclipse.stardust.ui.web.modeler.marshaling.JsonMarshaller;
 import org.eclipse.stardust.ui.web.modeler.marshaling.ModelMarshaller;
@@ -113,6 +126,13 @@ import org.eclipse.stardust.ui.web.modeler.model.di.PoolSymbolJto;
 import org.eclipse.stardust.ui.web.modeler.model.di.ProcessDiagramJto;
 import org.eclipse.stardust.ui.web.modeler.model.di.ShapeJto;
 import org.eclipse.stardust.ui.web.modeler.service.XsdSchemaUtils;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.util.XSDConstants;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class Bpmn2ModelMarshaller implements ModelMarshaller
 {
@@ -318,14 +338,14 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
             {
                if (flowElement instanceof DataObject)
                {
-                  modelJto.dataItems.put(root.getId(), toJto((DataObject) flowElement));
+                  modelJto.dataItems.put(flowElement.getId(), toJto((DataObject) flowElement));
                }
             }
 
             // expose process properties as global data (see BPMN2 -> WS-BPEL mapping)
             for (Property property : ((Process) root).getProperties())
             {
-               modelJto.dataItems.put(root.getId(), toJto((Process) root, property));
+               modelJto.dataItems.put(property.getId(), toJto((Process) root, property));
             }
          }
       }
@@ -739,6 +759,42 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
             }
 
             jto.connections.put(symbolJto.modelElement.id, symbolJto);
+
+         } else if (edge.getBpmnElement() instanceof DataAssociation) {
+             ConnectionSymbolJto symbolJto = new ConnectionSymbolJto();
+             DataAssociation dataFlow = (DataAssociation) edge.getBpmnElement();
+
+             BPMNShape sourceNode = nodeSymbolPerElement.get(dataFlow.getSourceRef());
+             BPMNShape targetNode = nodeSymbolPerElement.get(dataFlow.getTargetRef());
+             if ((null == sourceNode) || (null == targetNode))
+             {
+                // quick exist to cater for currently unsupported node types
+                continue;
+             }
+
+             symbolJto.type = ModelerConstants.DATA_FLOW_CONNECTION_LITERAL;
+             symbolJto.modelElement = toJto(dataFlow);
+
+             symbolJto.fromModelElementOid = bpmn2Binding.findOid((Definitions) model,
+                   sourceNode);
+
+//             symbolJto.fromModelElementType = encodeNodeKind(dataFlow.getSourceRef());
+//             symbolJto.toModelElementOid = bpmn2Binding.findOid((Definitions) model,
+//                   targetNode);
+//             symbolJto.toModelElementType = encodeNodeKind(dataFlow.getTargetRef());
+
+             if ( !isEmpty(edge.getWaypoint()) && (2 <= edge.getWaypoint().size()))
+             {
+                // use original coordinates to avoid having to adjust waypoints as well
+                // (see determineShapeBounds)
+                symbolJto.fromAnchorPointOrientation = determineAnchorPoint(sourceNode,
+                      edge.getWaypoint().get(0), edge.getWaypoint().get(1));
+                symbolJto.toAnchorPointOrientation = determineAnchorPoint(targetNode,
+                      edge.getWaypoint().get(edge.getWaypoint().size() - 1),
+                      edge.getWaypoint().get(edge.getWaypoint().size() - 2));
+             }
+
+             jto.connections.put(symbolJto.modelElement.id, symbolJto);
          }
       }
 
@@ -793,6 +849,11 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       }
 
       return jto;
+   }
+
+   private ModelElementJto toJto(DataAssociation dataFlow) {
+
+	   return null;
    }
 
    private static boolean isWithinBounds(Bounds symbolBounds, ShapeJto bounds)
@@ -1033,7 +1094,9 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       loadDescription(variable, jto);
       loadExtensions(variable, jto);
 
-      if (null != variable.getItemSubjectRef())
+      boolean isBpmnXmlPrimitiveType = Bpmn2DatatypeUtil.refersToPrimitiveType(variable);
+
+      if (null != variable.getItemSubjectRef() && !isBpmnXmlPrimitiveType)
       {
          // TODO
          jto.dataType = ModelerConstants.STRUCTURED_DATA_TYPE_KEY;
@@ -1043,6 +1106,16 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       else
       {
          JsonObject extJson = Bpmn2ExtensionUtils.getExtensionAsJson(variable, "core");
+         if (!extJson.has(ModelerConstants.DATA_TYPE_PROPERTY) && isBpmnXmlPrimitiveType) {
+        	// non instrumented external bpmn - initialize with xml datatype mapping
+          	URI uri = Bpmn2DatatypeUtil.getDataStructureURI(variable);
+            String typeName = uri.fragment();
+        	XSDType2StardustMapping byXsdName = XSDType2StardustMapping.byXsdName(typeName);
+        	if (null != byXsdName && null != byXsdName.getType()) {
+        		extJson.addProperty(ModelerConstants.DATA_TYPE_PROPERTY, ModelerConstants.PRIMITIVE_DATA_TYPE_KEY);
+        		extJson.addProperty(ModelerConstants.PRIMITIVE_DATA_TYPE_PROPERTY, byXsdName.getType());
+        	}
+         }
          if (extJson.has(ModelerConstants.DATA_TYPE_PROPERTY))
          {
             jto.dataType = extJson.get(ModelerConstants.DATA_TYPE_PROPERTY).getAsString();
@@ -1069,6 +1142,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
 
       loadDescription(activity, jto);
       loadExtensions(activity, jto);
+
+      String dataApContext = "default";
 
 //      if (activity instanceof NoneTask)
 //      {
@@ -1131,6 +1206,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
             }
          }
       }
+
+//      addDataFlows(activity, jto, dataApContext);
 
       return jto;
    }
@@ -1226,12 +1303,43 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          // TODO otherwise
          jto.conditionExpression = ((FormalExpression) sFlow.getConditionExpression()).getBody();
       }
-      else if ( !isEmpty(sFlow.getName()))
-      {
-         jto.conditionExpression = sFlow.getName();
+      else if (null != sFlow.getConditionExpression()) {
+    	  String informal = "";
+          List<Documentation> documentation = sFlow.getConditionExpression().getDocumentation();
+          if (documentation != null) {
+              for (Documentation doc : documentation) {
+            	  informal = informal.concat(doc.getText());
+              }
+          }
+          jto.conditionExpression = informal;
+      } else if (isDefaultSequenceOfSource(sFlow)) {
+    	  jto.otherwise = true;
       }
+// nikles, 2014-03-17: BPMN supports informal expressions; is it really useful to preset the name value into the condition field?
+//      else if ( !isEmpty(sFlow.getName()))
+//      {
+//         jto.conditionExpression = sFlow.getName();
+//      }
 
       return jto;
+   }
+
+
+   private boolean isDefaultSequenceOfSource(SequenceFlow sFlow) {
+	   SequenceFlow defaultSequence = null;
+	   FlowNode sourceNode = sFlow.getSourceRef();
+		if (null != sourceNode) {
+			if (sourceNode instanceof Activity) {
+				defaultSequence = ((Activity)sourceNode).getDefault();
+			} else if (sourceNode instanceof ExclusiveGateway) {
+				defaultSequence = ((ExclusiveGateway)sourceNode).getDefault();
+			} else if (sourceNode instanceof InclusiveGateway) {
+				defaultSequence = ((InclusiveGateway)sourceNode).getDefault();
+			} else if (sourceNode instanceof ComplexGateway) {
+				defaultSequence = ((ComplexGateway)sourceNode).getDefault();
+			}
+		}
+		return sFlow == defaultSequence;
    }
 
    public String getFullId(BaseElement element)

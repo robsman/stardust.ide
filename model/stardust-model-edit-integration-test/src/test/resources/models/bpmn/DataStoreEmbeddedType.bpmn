@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Created by Process Modeler 6 for Microsoft Visio (http://www.itp-commerce.com) -->
+<definitions
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:_0="http://www.itp-commerce.com"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:stardust="http://www.eclipse.org/stardust"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd http://www.omg.org/spec/DD/20100524/DC http://www.omg.org/spec/DD/20100524/DC-XMI http://www.omg.org/spec/DD/20100524/DI http://www.omg.org/spec/DD/20100524/DI-XMI http://www.omg.org/spec/BPMN/20100524/DI http://www.omg.org/spec/BPMN/20100524/DI-XMI http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd"
+	id="Stardust2BpmnTestModelDatastore"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="03.05.2013 09:48:36"
+	itp:modificationDate="03.05.2013 09:53:34"
+	itp:createdWithVersion="6.3326.15438 "
+	itp:conformanceSubClass="Full"
+	exporter="Process Modeler 6 for Microsoft Visio"
+	exporterVersion="6.3326.15438 "
+	name="Mein Diagramm"
+	xmlns:embed="http://eclipse.org/stardust/embeddedSchema"
+	targetNamespace="http://www.itp-commerce.com">
+	<import
+		importType="http://www.w3.org/2001/XMLSchema"
+		location="http://eclipse.org/stardust/embeddedSchema#EmbeddedDataStructure"
+		namespace="http://eclipse.org/stardust/embeddedSchema" />
+	<itemDefinition id="DmsItemDefinition" />
+	<itemDefinition
+		id="TypedDmsDocItemDefinition"
+		structureRef="embed:XSDDataStructure1">
+		<extensionElements>
+			<xsd:schema
+				id="EmbeddedDataStructure"
+				xmlns:emb="http://eclipse.org/stardust/embeddedSchema"
+				targetNamespace="http://eclipse.org/stardust/embeddedSchema">
+				<xsd:complexType
+					name="EmbeddedXSDType">
+					<xsd:sequence >
+						<xsd:element
+							name="First"
+							type="xsd:string" />
+						<xsd:element
+							name="Second"
+							type="xsd:long" />
+						<xsd:element
+							name="Last"
+							type="xsd:date" />
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:element
+					name="XSDDataStructure1"
+					type="emb:EmbeddedXSDType" />
+			</xsd:schema>
+		</extensionElements>
+	</itemDefinition>
+	<dataStore
+		id="DmsDataStoreSimple"
+		name="Test Basic Document Datastore">
+		<extensionElements>
+			<stardust:core >{"dataType":"dmsDocument","structuredDataTypeFullId":"","attributes":{}}
+			</stardust:core>
+		</extensionElements>
+	</dataStore>
+	<dataStore
+		id="TypedDmsDocDatastore"
+		itemSubjectRef="TypedDmsDocItemDefinition"
+		name="Test Typed Document Datastore">
+		<extensionElements>
+			<stardust:core >{"dataType":"dmsDocument","structuredDataTypeFullId":"TypedDmsDocItemDefinition","attributes":{}}
+			</stardust:core>
+		</extensionElements>
+	</dataStore>
+
+	<process
+		id="TestModelMainProcess"
+		name="Hauptprozess">
+		<task
+			id="TestModelTaskA"
+			name="a">
+			<outgoing>_0:SequenceFlow_1</outgoing>
+			<ioSpecification id="_Xvc00OWAEeKLCsUUnJB1Jg">
+				<dataOutput id="DataOutputTaskA" />
+				<inputSet id="_Xvc00uWAEeKLCsUUnJB1Jg" />
+				<outputSet id="_Xvc00eWAEeKLCsUUnJB1Jg">
+					<dataOutputRefs>DataOutputTaskA</dataOutputRefs>
+				</outputSet>
+			</ioSpecification>
+			<dataOutputAssociation id="DataOutputAssocTaskA">
+				<sourceRef>DataOutputTaskA</sourceRef>
+				<targetRef>DmsDataStoreSimpleRef</targetRef>
+			</dataOutputAssociation>
+		</task>
+		<task
+			id="TestModelTaskB"
+			name="b">
+			<incoming>_0:SequenceFlow_1</incoming>
+			<outgoing>_0:SequenceFlow_2</outgoing>
+			<ioSpecification id="_Xvdb4OWAEeKLCsUUnJB1Jg">
+				<dataInput id="DataInputTaskB" />
+				<inputSet id="_Xvdb4eWAEeKLCsUUnJB1Jg">
+					<dataInputRefs>DataInputTaskB</dataInputRefs>
+				</inputSet>
+				<outputSet id="_Xvdb4uWAEeKLCsUUnJB1Jg" />
+			</ioSpecification>
+			<dataInputAssociation id="DataInputAssocTaskB">
+				<sourceRef>DmsDataStoreSimpleRef</sourceRef>
+				<targetRef>DataInputTaskB</targetRef>
+			</dataInputAssociation>
+		</task>
+		<task
+			id="TestModelTaskC"
+			name="c">
+			<incoming>_0:SequenceFlow_2</incoming>
+			<outgoing>_0:SequenceFlow_3</outgoing>
+			<ioSpecification id="_Xvdb4-WAEeKLCsUUnJB1Jg">
+				<dataOutput id="DataOutputTaskC" />
+				<inputSet id="_Xvdb5eWAEeKLCsUUnJB1Jg" />
+				<outputSet id="_Xvdb5OWAEeKLCsUUnJB1Jg">
+					<dataOutputRefs>DataOutputTaskC</dataOutputRefs>
+				</outputSet>
+			</ioSpecification>
+			<dataOutputAssociation id="DataOutputAssocTaskC">
+				<sourceRef>DataOutputTaskC</sourceRef>
+				<targetRef>DmsRef</targetRef>
+			</dataOutputAssociation>
+		</task>
+		<task
+			id="TestModelTaskD"
+			name="d">
+			<incoming>_0:SequenceFlow_3</incoming>
+			<ioSpecification id="_Xvdb5uWAEeKLCsUUnJB1Jg">
+				<dataInput id="DataInputTaskD" />
+				<inputSet id="_Xvdb5-WAEeKLCsUUnJB1Jg">
+					<dataInputRefs>DataInputTaskD</dataInputRefs>
+				</inputSet>
+				<outputSet id="_Xvdb6OWAEeKLCsUUnJB1Jg" />
+			</ioSpecification>
+			<dataInputAssociation id="DataInputAssocTaskD">
+				<sourceRef>DmsRef</sourceRef>
+				<targetRef>DataInputTaskD</targetRef>
+			</dataInputAssociation>
+		</task>
+		<dataStoreReference
+			id="DmsDataStoreSimpleRef"
+			name="Simple"
+			dataStoreRef="DmsDataStoreSimple">
+			<documentation id="_Xvdb6eWAEeKLCsUUnJB1Jg">
+			</documentation>
+		</dataStoreReference>
+		<dataStoreReference
+			id="DmsRef"
+			name="DMS"
+			dataStoreRef="TypedDmsDocDatastore" />
+		<sequenceFlow
+			id="SequenceFlow_1"
+			name=""
+			sourceRef="TestModelTaskA"
+			targetRef="TestModelTaskB" />
+		<sequenceFlow
+			id="SequenceFlow_2"
+			name=""
+			sourceRef="TestModelTaskB"
+			targetRef="TestModelTaskC" />
+		<sequenceFlow
+			id="SequenceFlow_3"
+			name=""
+			sourceRef="TestModelTaskC"
+			targetRef="TestModelTaskD" />
+	</process>
+	<bpmndi:BPMNDiagram
+		id="_Xvdb6uWAEeKLCsUUnJB1Jg"
+		name="Mein Diagramm (1)"
+		resolution="72.0">
+		<bpmndi:BPMNPlane
+			id="_1"
+			bpmnElement="_0:TestModelMainProcess">
+			<bpmndi:BPMNShape
+				id="_C27B1043-AA69-4706-8779-045F5DA9A97C"
+				bpmnElement="_0:TestModelTaskA">
+				<dc:Bounds
+					height="42.0"
+					width="85.0"
+					x="87.0"
+					y="162.0" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb6-WAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_6d13ebc3-f530-4c70-ab7c-f07ecb683ec1">
+					<dc:Bounds
+						height="13.68"
+						width="12.24"
+						x="124.2"
+						y="177.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_B24AEA4D-9B6B-44E0-B6CD-D70CA0709741"
+				bpmnElement="_0:TestModelTaskB">
+				<dc:Bounds
+					height="42.0"
+					width="85.0"
+					x="235.0"
+					y="162.0" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb7OWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_6d13ebc3-f530-4c70-ab7c-f07ecb683ec1">
+					<dc:Bounds
+						height="13.68"
+						width="12.24"
+						x="271.8"
+						y="177.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_22C70280-C35F-49C6-B3EE-48833D0C406A"
+				bpmnElement="_0:TestModelTaskC">
+				<dc:Bounds
+					height="42.0"
+					width="85.0"
+					x="382.0"
+					y="162.0" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb7eWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_6d13ebc3-f530-4c70-ab7c-f07ecb683ec1">
+					<dc:Bounds
+						height="13.68"
+						width="11.52"
+						x="419.76"
+						y="177.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_9BF47C23-7EE0-445A-BC11-09C778353590"
+				bpmnElement="_0:DmsDataStoreSimpleRef">
+				<dc:Bounds
+					height="34.015747"
+					width="51.02362"
+					x="172.91339"
+					y="266.4567" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb7uWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="48.96"
+						x="174.24"
+						y="274.87558" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge
+				id="_7292E051-F62B-41BA-99A4-F697DA19B95C"
+				bpmnElement="_0:_4c37faec-15ea-4d15-8109-cea65abb60e6">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="172.91339"
+					y="184.25197" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="235.27559"
+					y="184.25197" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb7-WAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="201.24"
+						y="168.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_20BCB1B1-8782-4DD6-B759-2E8ED6E3EF59"
+				bpmnElement="_0:_011742c6-0892-4468-988f-49c950ceec8f">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="320.31497"
+					y="184.25197" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="382.67715"
+					y="184.25197" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb8OWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="348.84"
+						y="168.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNShape
+				id="_67AEC515-0D7E-4174-89D0-BE5C159E5247"
+				bpmnElement="_0:DmsRef">
+				<dc:Bounds
+					height="34.015747"
+					width="51.02362"
+					x="484.7244"
+					y="266.4567" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb8eWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="28.08"
+						x="496.44"
+						y="274.87558" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape
+				id="_8F4BBFE3-EF6B-4289-B280-B7F6133B9B70"
+				bpmnElement="_0:TestModelTaskD">
+				<dc:Bounds
+					height="42.0"
+					width="85.0"
+					x="555.0"
+					y="162.0" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb8uWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_6d13ebc3-f530-4c70-ab7c-f07ecb683ec1">
+					<dc:Bounds
+						height="13.68"
+						width="12.24"
+						x="592.2"
+						y="177.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge
+				id="_98CC642C-B9D4-4F05-BB86-74E77CEEC7FF"
+				bpmnElement="_0:_179946fa-5856-481b-8d08-2233f5a6a906">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="467.71652"
+					y="184.25197" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="555.5906"
+					y="184.25197" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb8-WAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="509.4"
+						y="168.3156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_F09EC379-9B42-41E0-8914-227985552812"
+				bpmnElement="_0:DataOutputAssocTaskA"
+				sourceElement="_0:_C27B1043-AA69-4706-8779-045F5DA9A97C">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="130.3937"
+					y="205.51181" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="130.3937"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="172.91339"
+					y="283.46457" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb9OWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="129.96"
+						y="255.4356" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_EFCEB8A3-F51F-41C8-9381-372CF8D5FB13"
+				bpmnElement="_0:DataInputAssocTaskB"
+				targetElement="_0:_B24AEA4D-9B6B-44E0-B6CD-D70CA0709741">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="223.93701"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="277.7953"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="277.7953"
+					y="205.51181" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb9eWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="270.36"
+						y="261.1956" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_75A9FC9C-0AEF-481D-8950-59BCD8ED414F"
+				bpmnElement="_0:DataOutputAssocTaskC"
+				sourceElement="_0:_22C70280-C35F-49C6-B3EE-48833D0C406A">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="425.19684"
+					y="205.51181" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="425.19684"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="484.7244"
+					y="283.46457" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb9uWAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="424.44"
+						y="264.0756" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="_FBC5F903-9E87-49EC-81F5-6A5B591EEBAE"
+				bpmnElement="_0:DataInputAssocTaskD"
+				targetElement="_0:_8F4BBFE3-EF6B-4289-B280-B7F6133B9B70">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="535.74805"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="598.1102"
+					y="283.46457" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="598.1102"
+					y="205.51181" />
+				<bpmndi:BPMNLabel
+					id="_Xvdb9-WAEeKLCsUUnJB1Jg"
+					labelStyle="_0:_3cac9041-0791-432f-bd8f-94b4b626b64b">
+					<dc:Bounds
+						height="17.28"
+						width="7.92"
+						x="590.76"
+						y="265.5156" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="BPMNEdge_SequenceFlow_1"
+				bpmnElement="_0:SequenceFlow_1"
+				sourceElement="_0:_C27B1043-AA69-4706-8779-045F5DA9A97C"
+				targetElement="_0:_B24AEA4D-9B6B-44E0-B6CD-D70CA0709741">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="172.0"
+					y="183.0" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="235.0"
+					y="183.0" />
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="BPMNEdge_SequenceFlow_2"
+				bpmnElement="_0:SequenceFlow_2"
+				sourceElement="_0:_B24AEA4D-9B6B-44E0-B6CD-D70CA0709741"
+				targetElement="_0:_22C70280-C35F-49C6-B3EE-48833D0C406A">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="320.0"
+					y="183.0" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="382.0"
+					y="183.0" />
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge
+				id="BPMNEdge_SequenceFlow_3"
+				bpmnElement="_0:SequenceFlow_3"
+				sourceElement="_0:_22C70280-C35F-49C6-B3EE-48833D0C406A"
+				targetElement="_0:_8F4BBFE3-EF6B-4289-B280-B7F6133B9B70">
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="467.0"
+					y="183.0" />
+				<di:waypoint
+					xsi:type="dc:Point"
+					x="555.0"
+					y="183.0" />
+			</bpmndi:BPMNEdge>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_6d13ebc3-f530-4c70-ab7c-f07ecb683ec1">
+			<dc:Font
+				name="Arial"
+				size="10.0" />
+		</bpmndi:BPMNLabelStyle>
+		<bpmndi:BPMNLabelStyle id="_3cac9041-0791-432f-bd8f-94b4b626b64b">
+			<dc:Font
+				name="Arial"
+				size="8.0" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="30.11.2012 08:13:59" itp:modificationDate="30.11.2012 08:42:08" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_cab4b5fe-1603-46b2-a175-8fd32aaaea52" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="TestModelMainProcess" name="Hauptprozess" processType="None">
+    <task id="TestModelTaskA" name="a">
+    </task>
+    <task id="TestModelTaskB" name="b">
+    </task>
+    <sequenceFlow id="TestModelAToTimer" sourceRef="TestModelTaskA" targetRef="TestModelIntermediateTimer">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelTimerToB" sourceRef="TestModelIntermediateTimer" targetRef="TestModelTaskB">
+    </sequenceFlow>
+    <intermediateCatchEvent id="TestModelIntermediateTimer" name="1H30M">
+      <timerEventDefinition>
+      	<timeCycle xsi:type="tFormalExpression">P0Y0M0DT1H30M0S</timeCycle>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="TestModelMainProcess">
+      <bpmndi:BPMNShape id="_4E14969D-4254-4805-927C-E5F7C7E0AC74" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="56.6929133858268" y="148.818897637795" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_2002dd33-b993-469b-8b8e-5faf34446fa2">
+          <dc:Bounds x="93.24" y="162.915590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_29DB53BA-7392-4C5C-8A77-928EB4E6A396" bpmnElement="TestModelTaskB" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="235.275590551181" y="148.818897637795" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_2002dd33-b993-469b-8b8e-5faf34446fa2">
+          <dc:Bounds x="271.8" y="162.915590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_0FB5C48F-D4E1-4B6F-B21A-8BCFF3210B3A" bpmnElement="TestModelAToTimer" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="141.732283464567" y="170.07874015748" />
+        <di:waypoint x="175.748031496063" y="170.07874015748" />
+        <bpmndi:BPMNLabel labelStyle="_8511ae49-1b51-4024-b1ce-0f7edbd93a70">
+          <dc:Bounds x="155.16" y="154.635590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_91770AFF-E18C-4549-9196-E2345C2A703F" bpmnElement="TestModelTimerToB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="192.755905511811" y="170.07874015748" />
+        <di:waypoint x="235.275590551181" y="170.07874015748" />
+        <bpmndi:BPMNLabel labelStyle="_8511ae49-1b51-4024-b1ce-0f7edbd93a70">
+          <dc:Bounds x="210.6" y="154.635590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_A359F852-144A-46B7-88B3-42278968DE18" bpmnElement="TestModelIntermediateTimer" itp:label="1H30M" itp:elementType="intermediateCatchEvent">
+        <dc:Bounds x="175.748031496063" y="161.574803149606" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_8511ae49-1b51-4024-b1ce-0f7edbd93a70">
+          <dc:Bounds x="170.28" y="180.195590551181" width="28.08" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_2002dd33-b993-469b-8b8e-5faf34446fa2">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_8511ae49-1b51-4024-b1ce-0f7edbd93a70">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

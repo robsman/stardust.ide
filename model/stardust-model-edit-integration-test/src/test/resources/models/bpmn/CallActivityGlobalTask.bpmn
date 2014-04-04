@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="21.01.2013 08:52:51" itp:modificationDate="21.01.2013 08:56:44" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_d45666f4-5bb5-4ca2-bc54-9f642a1e8bea" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="CallingProcessId" name="Hauptprozess" processType="None">
+    <userTask id="TestModelUserTask" name="UserTask" implementation="unspecified">
+    </userTask>
+    <callActivity id="TestModelCallActivityA" name="GlobalTask" calledElement="TestModelGlobalTask">
+    </callActivity>
+    <callActivity id="TestModelCallActivityB" name="GlobalTask" calledElement="TestModelGlobalTask">
+    </callActivity>
+    <sequenceFlow id="TestModelSeqUserTaskCallA" sourceRef="TestModelUserTask" targetRef="TestModelCallActivityA">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSeqUserTaskCallB" sourceRef="TestModelUserTask" targetRef="TestModelCallActivityB">
+    </sequenceFlow>
+  </process>
+  <globalUserTask id="TestModelGlobalTask" name="GlobalTask">
+  </globalUserTask>
+
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="CallingProcessId">
+      <bpmndi:BPMNShape id="_D933EB1E-C316-4C57-9611-69C07806F917" bpmnElement="TestModelUserTask" itp:label="UserTask" itp:elementType="userTask">
+        <dc:Bounds x="56.6929133858268" y="198.425196850394" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_81179a2a-3c21-4f7e-abf8-a1cdf3442003">
+          <dc:Bounds x="74.52" y="212.595590551181" width="49.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_88AC9DE1-998F-4C4C-BA5B-FC96AC6D5122" bpmnElement="TestModelCallActivityA" itp:label="GlobalTask" itp:elementType="callActivity">
+        <dc:Bounds x="209.763779527559" y="148.818897637795" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_81179a2a-3c21-4f7e-abf8-a1cdf3442003">
+          <dc:Bounds x="223.2" y="162.915590551181" width="57.6" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_E41BB09E-1FD7-4F4A-93CC-962333373529" bpmnElement="TestModelCallActivityB" itp:label="GlobalTask" itp:elementType="callActivity">
+        <dc:Bounds x="212.59842519685" y="255.118110236221" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_81179a2a-3c21-4f7e-abf8-a1cdf3442003">
+          <dc:Bounds x="252.72" y="269.475590551181" width="4.32" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_B3F67B7F-0F8E-43FE-9D19-47AE5977D593" bpmnElement="TestModelSeqUserTaskCallA" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="141.732283464567" y="219.685039370079" />
+        <di:waypoint x="152.362204724409" y="219.685039370079" />
+        <di:waypoint x="152.362204724409" y="170.07874015748" />
+        <di:waypoint x="209.763779527559" y="170.07874015748" />
+        <bpmndi:BPMNLabel labelStyle="_0ee6895c-00bd-4ddb-94af-124996de7070">
+          <dc:Bounds x="153" y="162.555590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_CE280A5A-6B5C-4947-AFF3-E047BD6F06E4" bpmnElement="TestModelSeqUserTaskCallB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="141.732283464567" y="219.685039370079" />
+        <di:waypoint x="152.362204724409" y="219.685039370079" />
+        <di:waypoint x="152.362204724409" y="276.377952755906" />
+        <di:waypoint x="212.59842519685" y="276.377952755906" />
+        <bpmndi:BPMNLabel labelStyle="_0ee6895c-00bd-4ddb-94af-124996de7070">
+          <dc:Bounds x="151.56" y="264.795590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_81179a2a-3c21-4f7e-abf8-a1cdf3442003">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_0ee6895c-00bd-4ddb-94af-124996de7070">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

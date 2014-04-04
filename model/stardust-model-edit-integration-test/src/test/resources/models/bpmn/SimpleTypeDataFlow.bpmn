@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+ xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+ exporter="Process Manager 6 for Microsoft Visio"
+ exporterVersion="5.2769.13758 "
+ itp:name="Mein Diagramm"
+ itp:version="1.0"
+ itp:author="simon nikles"
+ itp:creationDate="10.09.2012 11:01:10"
+ itp:modificationDate="26.09.2012 15:31:02"
+ itp:createdWithVersion="5.2769.13758 "
+ itp:conformanceSubClass="Full"
+ id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
+ xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+ xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+ xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+
+  <itemDefinition id="TestStringItem" itemKind="Information" isCollection="false" structureRef="xsd:string">
+  </itemDefinition>
+  <itemDefinition id="TestIntegerItem" itemKind="Information" isCollection="false" structureRef="xsd:int"></itemDefinition>
+
+  <process id="TestModelProcessPrimitiveData" name="Hauptprozess" processType="None">
+    <userTask id="TestModelTaskA" name="Enter string for number" implementation="unspecified">
+      <ioSpecification>
+        <dataInput id="TestModelDataInputTaskA">
+        </dataInput>
+        <dataOutput id="TestModelDataOutputTaskA">
+        </dataOutput>
+        <inputSet>
+          <dataInputRefs>TestModelDataInputTaskA</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>TestModelDataOutputTaskA</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation id="TestModelNumberDataInputAssociationTaskA">
+        <sourceRef>TestModelNumberDataInputObjectReference</sourceRef>
+        <targetRef>TestModelDataInputTaskA</targetRef>
+      </dataInputAssociation>
+      <dataOutputAssociation id="TestModelStringDataOutputAssociationTaskA">
+        <sourceRef>TestModelDataOutputTaskA</sourceRef>
+        <targetRef>TestModelStringDataOutputObjectReference</targetRef>
+      </dataOutputAssociation>
+    </userTask>
+
+	<dataObjectReference
+		id="TestModelNumberDataInputObjectReference"
+		name="NumberIn"
+		dataObjectRef="TestModelNumberDataInputObject">
+	</dataObjectReference>
+	<dataObject
+		id="TestModelNumberDataInputObject"
+		itemSubjectRef="TestIntegerItem">
+	</dataObject>
+
+	<dataObjectReference
+		id="TestModelStringDataOutputObjectReference"
+		name="StringOut"
+		dataObjectRef="TestModelStringDataOutputObject">
+	</dataObjectReference>
+	<dataObject
+		id="TestModelStringDataOutputObject"
+		itemSubjectRef="TestStringItem">
+	</dataObject>
+
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="TestModelProcessPrimitiveData">
+      <bpmndi:BPMNShape id="_0E2299D7-95B1-4B6C-A9D0-54276665CAD6" bpmnElement="TestModelTaskA" itp:label="Enter string for numer" itp:elementType="userTask">
+        <dc:Bounds x="104.88188976378" y="184.251968503937" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_fd51ea6b-b53a-4cf5-b7b9-82ded8903786">
+          <dc:Bounds x="111.24" y="193.875590551181" width="72.72" height="23.76" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_751DB10E-B7EB-4479-A6EB-24DD2D18BE43" bpmnElement="TestModelNumberDataInputAssociationTaskA" itp:label="(unbenannt)" itp:elementType="dataInputAssociation" targetElement="_0E2299D7-95B1-4B6C-A9D0-54276665CAD6">
+        <di:waypoint x="219.685039370079" y="205.511811023622" />
+        <di:waypoint x="189.92125984252" y="205.511811023622" />
+        <bpmndi:BPMNLabel labelStyle="_c77c40a2-0e1b-45f0-b1a7-074da5f3b996">
+          <dc:Bounds x="200.52" y="192.795590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_3459FC2D-6536-407A-A695-FA0C795F1E24" bpmnElement="TestModelStringDataOutputAssociationTaskA" itp:label="(unbenannt)" itp:elementType="dataOutputAssociation" sourceElement="_0E2299D7-95B1-4B6C-A9D0-54276665CAD6">
+        <di:waypoint x="147.40157480315" y="226.771653543307" />
+        <di:waypoint x="147.40157480315" y="255.11811023622" />
+        <di:waypoint x="219.685039370079" y="255.11811023622" />
+        <di:waypoint x="219.685039370079" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_c77c40a2-0e1b-45f0-b1a7-074da5f3b996">
+          <dc:Bounds x="166.68" y="243.195590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_237E53DE-D275-422E-97C7-6EEC1B515F55" bpmnElement="TestModelNumberDataInputObjectReference" itp:label="NumberIn" itp:elementType="dataObjectReference">
+        <dc:Bounds x="219.685039370079" y="191.338582677165" width="21.259842519685" height="28.3464566929134" />
+        <bpmndi:BPMNLabel labelStyle="_c77c40a2-0e1b-45f0-b1a7-074da5f3b996">
+          <dc:Bounds x="210.96" y="224.115590551181" width="37.44" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_EAA62984-80F7-465B-8A4C-6987249A1FA2" bpmnElement="TestModelStringDataOutputObjectReference" itp:label="StringOut" itp:elementType="dataObjectReference">
+        <dc:Bounds x="219.685039370079" y="240.944881889764" width="21.259842519685" height="28.3464566929134" />
+        <bpmndi:BPMNLabel labelStyle="_c77c40a2-0e1b-45f0-b1a7-074da5f3b996">
+          <dc:Bounds x="211.68" y="273.795590551181" width="36" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_fd51ea6b-b53a-4cf5-b7b9-82ded8903786">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_c77c40a2-0e1b-45f0-b1a7-074da5f3b996">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

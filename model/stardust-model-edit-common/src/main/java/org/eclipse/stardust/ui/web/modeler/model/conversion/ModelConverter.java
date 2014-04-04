@@ -182,6 +182,10 @@ public class ModelConverter
       newVariableJson.addProperty(ModelerConstants.NAME_PROPERTY,
             extractAsString(variableJson, ModelerConstants.NAME_PROPERTY));
 
+      newVariableJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+              extractString(variableJson, ModelerConstants.ID_PROPERTY));
+      newVariableJson.remove(ModelerConstants.ID_PROPERTY);
+
       String commandId;
       if (ModelerConstants.STRUCTURED_DATA_TYPE_KEY.equals(extractAsString(variableJson, ModelerConstants.DATA_TYPE_PROPERTY)))
       {
@@ -215,6 +219,8 @@ public class ModelConverter
                extractString(newVariableJson,
                      ModelerConstants.PRIMITIVE_DATA_TYPE_PROPERTY));
       }
+
+
       JsonObject createVariableChanges = applyChange(modelConversionContext.newModelId(),
             commandId, modelConversionContext.newModelId(), newVariableJson);
 
@@ -228,11 +234,13 @@ public class ModelConverter
       {
          newVariablesJson = createVariableChanges.getAsJsonArray("modified");
       }
-      String variableUuid = extractAsString(newVariablesJson.get(0).getAsJsonObject(),
-            "uuid");
+//      try {
+      String variableUuid = extractAsString(newVariablesJson.get(0).getAsJsonObject(), "uuid");
+
       String variableId = extractAsString(newVariablesJson.get(0).getAsJsonObject(), "id");
 
       modelConversionContext.registerNewDataId(extractString(variableJson, ModelerConstants.ID_PROPERTY), variableId);
+//      } catch(Exception e) {}
    }
 
    private void recreateParticipants(JsonObject participantsJson,
@@ -589,8 +597,13 @@ public class ModelConverter
          {
             if ( !activityJson.has(ModelerConstants.APPLICATION_FULL_ID_PROPERTY))
             {
-               // no valid application, reset to None task
-               activityJson.addProperty(ModelerConstants.TASK_TYPE, ModelerConstants.NONE_TASK_KEY);
+            	if (ModelerConstants.USER_TASK_KEY.equals(extractString(activityJson, ModelerConstants.TASK_TYPE))) {
+            		// Set user task to manual task (= automatically generated GUI), if no application is configured
+            		activityJson.addProperty(ModelerConstants.TASK_TYPE, ModelerConstants.MANUAL_TASK_KEY);
+            	} else {
+	               // no valid application, reset to None task
+	               activityJson.addProperty(ModelerConstants.TASK_TYPE, ModelerConstants.NONE_TASK_KEY);
+            	}
             }
          }
       }

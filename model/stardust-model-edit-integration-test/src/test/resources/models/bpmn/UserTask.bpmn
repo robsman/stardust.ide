@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 13:54:38" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_9xx861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+ xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
+>
+
+  <process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess" processType="None">
+
+    <userTask id="TestModelTaskA" name="Task A" implementation="unspecified">
+    </userTask>
+    <userTask id="TestModelTaskB" name="Task B" implementation="unspecified">
+    </userTask>
+    <userTask id="TestModelTaskC" name="Task C" implementation="unspecified">
+    </userTask>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">
+      <bpmndi:BPMNShape id="_9758DD46-72C0-4A6C-BE0E-7B5ADC5EEFDF" bpmnElement="TestModelTaskA" itp:label="UserTask" itp:elementType="userTask">
+        <dc:Bounds x="116.220472440945" y="126.141732283465" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_32afcc3f-70c6-4c78-931e-fbb1d248dce5">
+          <dc:Bounds x="133.56" y="140.595590551181" width="49.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_9858DD46-72C0-4A6C-BE0E-7B5ADC5EEFDF" bpmnElement="TestModelTaskB" itp:label="UserTask" itp:elementType="userTask">
+        <dc:Bounds x="206.220472440945" y="126.141732283465" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_32afcc3f-70c6-4c78-931e-fbb1d248dce5">
+          <dc:Bounds x="223.56" y="140.595590551181" width="49.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_9958DD46-72C0-4A6C-BE0E-7B5ADC5EEFDF" bpmnElement="TestModelTaskC" itp:label="UserTask" itp:elementType="userTask">
+        <dc:Bounds x="296.220472440945" y="126.141732283465" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_32afcc3f-70c6-4c78-931e-fbb1d248dce5">
+          <dc:Bounds x="313.56" y="140.595590551181" width="49.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_32afcc3f-70c6-4c78-931e-fbb1d248dce5">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

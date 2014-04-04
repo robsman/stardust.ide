@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	itp:author="simon nikles"
+	id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.eclipse.org/stardust"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd_1="http://www.infinity.com/bpm/model/Application/InAccesspoints"
+	xmlns:xsd_2="http://www.infinity.com/bpm/model/Application/OutAccesspoints"
+	xmlns:xsd_3="http://www.infinity.com/bpm/model/Application/CityAddressItem"
+	>
+
+	<itemDefinition id="CityNameItem" structureRef="xsd:string" />
+	<itemDefinition id="CountryNameItem" structureRef="xsd:string" />
+	<itemDefinition id="WeatherResponseItem" structureRef="xsd:string" />
+
+	<itemDefinition id="tCityAddressItem" structureRef="xsd_3:tCityAddressItem">
+		<extensionElements>
+			<xsd:schema
+				targetNamespace="http://www.infinity.com/bpm/model/Application/CityAddressItem">
+				<xsd:complexType name="tCityAddressItem">
+					<xsd:sequence>
+						<xsd:element name="Body" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:element name="cityAddressItem" type="xsd_3:tCityAddressItem"></xsd:element>
+			</xsd:schema>
+		</extensionElements>
+	</itemDefinition>
+
+	<itemDefinition stardust:synthetic="true" id="apInItem" structureRef="xsd_1:apInStructure">
+		<extensionElements>
+			<xsd:schema
+				id="apInStructureId"
+				xmlns:sdt="http://www.infinity.com/bpm/model/Application/InAccesspoints"
+				targetNamespace="http://www.infinity.com/bpm/model/Application/InAccesspoints">
+				<xsd:complexType name="tApplicationAccessPoints">
+					<xsd:sequence>
+						<xsd:element name="carnot:engine:endpointAddress" type="xsd:string" stardust:browsable="true" />
+						<xsd:element name="CityName" type="xsd:string" />
+						<xsd:element name="CityAddressItem" type="xsd_3:tCityAddressItem" />
+						<xsd:element name="CountryName" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:element name="apInStructure" type="sdt:tApplicationAccessPoints"></xsd:element>
+			</xsd:schema>
+		</extensionElements>
+	</itemDefinition>
+	<itemDefinition id="apOutItem" structureRef="xsd_2:apOutStructure">
+		<extensionElements>
+			<xsd:schema
+				id="apOutStructureId"
+				xmlns:sdt="http://www.infinity.com/bpm/model/Application/OutAccesspoints"
+				targetNamespace="http://www.infinity.com/bpm/model/Application/OutAccesspoints">
+				<xsd:complexType name="tApplicationAccessPoints">
+					<xsd:sequence>
+						<xsd:element name="Body" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+				<xsd:element name="apOutStructure" type="sdt:tApplicationAccessPoints"></xsd:element>
+			</xsd:schema>
+		</extensionElements>
+	</itemDefinition>
+
+	<message id="getWeatherInputMessage" name="getWeatherInAccessPoints" itemRef="apInItem"></message>
+	<message id="getWeatherOutputMessage" name="getWeatherOutAccessPoints" itemRef="apOutItem"></message>
+
+	<interface id="WeatherAppInterface" name="WeatherAppInterface" implementationRef="weatherApp">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{ "applicationType": "webservice",
+				  "stardustApplication": {
+				  		"elementOid": 10058,
+				  		"id": "weatherApp",
+				  		"name": "Weather App",
+				  		"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:wsRuntime": "jaxws",
+							"carnot:engine:wsdlUrl": "http://www.webservicex.net/globalweather.asmx?WSDL",
+							"carnot:engine:wsServiceName": "{http://www.webserviceX.NET}GlobalWeather",
+							"carnot:engine:wsPortName": "GlobalWeatherHttpGet",
+							"carnot:engine:wsOperationName": "GetWeather",
+							"carnot:engine:wsSoapProtocol": "SOAP 1.1 Protocol",
+							"carnot:engine:wsInputOrder": "CityName,CountryName",
+							"carnot:engine:wsOutputOrder": "Body",
+							"synchronous:retry:enable": false
+				  		},
+	                  "accessPoints": [
+		                     { "elementOid": 83 "id": "carnot:engine:endpointAddress", "name": "Endpoint Address", "direction": "IN" "typeRef": "serializable",
+								"attributes": { "carnot:engine:className": "java.lang.String",
+												"carnot:engine:browsable": true }
+							},
+							{ "elementOid": 108, "id": "CityName", "name": "CityName", "direction": "IN", "typeRef": "plainXML",
+								"attributes": { "carnot:engine:browsable": true }
+							},
+							{ "elementOid": 109, "id": "CountryName", "name": "CountryName", "direction": "IN", "typeRef": "plainXML",
+								"attributes": { "carnot:engine:browsable": true }
+							},
+							{ "elementOid": 110, "id": "Body", "name": "Body", "direction": "OUT", "typeRef": "plainXML" }
+					  ]
+					}
+				}
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="OperationGetWeather" name="GetWeather">
+			<inMessageRef>getWeatherInputMessage</inMessageRef>
+			<outMessageRef>getWeatherOutputMessage</outMessageRef>
+		</operation>
+	</interface>
+
+	<process id="TestProcessWebServiceApplication" name="Hauptprozess" processType="None">
+
+		<dataObject id="WeatherServiceRequestCity" itemSubjectRef="CityNameItem" />
+		<dataObjectReference id="WeatherServiceRequestCityRef" dataObjectRef="WeatherServiceRequestCity" />
+
+		<dataObject id="WeatherServiceRequestCountry" itemSubjectRef="CountryNameItem" />
+		<dataObjectReference id="WeatherServiceRequestCountryRef" dataObjectRef="WeatherServiceRequestCountry" />
+
+		<dataObject id="WeatherResponseResultData" itemSubjectRef="WeatherResponseItem" />
+		<dataObjectReference id="WeatherResponseResultDataRef" dataObjectRef="WeatherResponseResultData" />
+
+		<serviceTask id="WeatherServiceTask" name="Weather Task" implementation="##WebService" operationRef="OperationGetWeather">
+			<ioSpecification>
+				<dataInput id="WeatherServiceTaskInput"  itemSubjectRef="apInItem"></dataInput> <!-- 'populates the operation-in-message' -->
+				<dataOutput id="WeatherServiceTaskOutput" itemSubjectRef="apOutItem"></dataOutput> <!-- 'populated from operation-out-message' -->
+				<inputSet>
+					<dataInputRefs>WeatherServiceTaskInput</dataInputRefs>
+				</inputSet>
+				<outputSet>
+					<dataOutputRefs>WeatherServiceTaskOutput</dataOutputRefs>
+				</outputSet>
+			</ioSpecification>
+
+			<dataInputAssociation id="WeatherTaskCityInputAssociation">
+				<sourceRef>WeatherServiceRequestCityRef</sourceRef>
+				<targetRef>WeatherServiceTaskInput</targetRef>
+				<assignment id="InputAssignmentCity">
+					<from language="" xsi:type="tFormalExpression">WeatherServiceRequestCityRef</from>
+					<to xsi:type="tFormalExpression">WeatherServiceTaskInput/apInStructure/CityName</to>
+				</assignment>
+			</dataInputAssociation >
+			<dataInputAssociation id="WeatherTaskCountryInputAssociation">
+				<sourceRef>WeatherServiceRequestCountryRef</sourceRef>
+				<targetRef>WeatherServiceTaskInput</targetRef>
+				<assignment id="InputAssignmentCountry">
+					<from xsi:type="tFormalExpression">WeatherServiceRequestCountryRef</from>
+					<to xsi:type="tFormalExpression">WeatherServiceTaskInput/apInStructure/CountryName</to>
+				</assignment>
+			</dataInputAssociation >
+
+			<dataOutputAssociation id="WeatherTaskOutputAssociation">
+				<sourceRef>WeatherServiceTaskOutput</sourceRef>
+				<targetRef>WeatherResponseResultDataRef</targetRef>
+				<assignment id="ResultAssignment">
+					<from xsi:type="tFormalExpression">WeatherServiceTaskOutput/apOutStructure/Body</from>
+					<to xsi:type="tFormalExpression">WeatherResponseResultDataRef</to>
+				</assignment>
+			</dataOutputAssociation>
+		</serviceTask>
+	</process>
+
+  <bpmndi:BPMNDiagram name="Hauptprozess" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessWebServiceApplication">
+      <bpmndi:BPMNShape id="_25C6DF10-042B-410B-9D8F-798C0DB7E28A" bpmnElement="WeatherServiceRequestCityRef" itp:label="(unbenannt)" itp:elementType="dataObjectReference">
+        <dc:Bounds x="379.1338582677165" y="223.93700787401579" width="21.259842519685041" height="28.346456692913389" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="388.8" y="256.515590551181" width="0" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_394F40EA-33BD-41F5-93A6-F96CF5E7509A" bpmnElement="WeatherServiceRequestCountryRef" itp:label="(unbenannt)" itp:elementType="dataObjectReference">
+        <dc:Bounds x="421.85599370078734" y="223.93700787401579" width="21.259842519685041" height="28.346456692913389" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="432" y="256.515590551181" width="0" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_ADFA4855-647B-4725-A984-DCE925FD6ABB" bpmnElement="WeatherResponseResultDataRef" itp:label="(unbenannt)" itp:elementType="dataObjectReference">
+        <dc:Bounds x="407.48031496062993" y="377.00787401574803" width="21.259842519685041" height="28.346456692913389" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="417.6" y="409.875590551181" width="0" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_460A4691-2898-44B2-B26A-68CB10A63DFB" bpmnElement="WeatherServiceTask" itp:label="Weather Task" itp:elementType="serviceTask">
+        <dc:Bounds x="375.5905511811024" y="297.63779527559058" width="85.039370078740163" height="42.519685039370081" />
+        <bpmndi:BPMNLabel labelStyle="_c024cb42-74ca-46e5-a3cd-f6ca0460ea98">
+          <dc:Bounds x="383.76" y="311.955590551181" width="69.12" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_60B0A9AB-59C2-458B-885D-EF4518F9BA8B" bpmnElement="WeatherTaskCityInputAssociation" itp:label="(unbenannt)" itp:elementType="dataInputAssociation" targetElement="_460A4691-2898-44B2-B26A-68CB10A63DFB">
+        <di:waypoint x="389.76377952755905" y="252.28346456692918" />
+        <di:waypoint x="389.76377952755905" y="297.63779527559058" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="396.36" y="266.235590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_FBD62E0D-18AA-4097-96E3-EE684D5A9195" bpmnElement="WeatherTaskCountryInputAssociation" itp:label="(unbenannt)" itp:elementType="dataInputAssociation" targetElement="_460A4691-2898-44B2-B26A-68CB10A63DFB">
+        <di:waypoint x="432.48591496062988" y="252.28346456692918" />
+        <di:waypoint x="432.28346456692913" y="297.63779527559058" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="424.44" y="266.235590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_D2F03A58-B235-4CBB-8F13-8E2FE171CC8C" bpmnElement="WeatherTaskOutputAssociation" itp:label="(unbenannt)" itp:elementType="dataOutputAssociation" sourceElement="_460A4691-2898-44B2-B26A-68CB10A63DFB">
+        <di:waypoint x="418.11023622047247" y="340.15748031496065" />
+        <di:waypoint x="418.11023622047247" y="377.00787401574803" />
+        <bpmndi:BPMNLabel labelStyle="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+          <dc:Bounds x="424.44" y="349.755590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_c87917fd-65e0-4bd4-8dec-8e218c0f1084">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_c024cb42-74ca-46e5-a3cd-f6ca0460ea98">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com) -->
+<definitions targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7"
+	itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles"
+	itp:creationDate="28.06.2012 09:29:58" itp:modificationDate="28.06.2012 09:37:13"
+	itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full"
+	id="_9be861c8-bb4a-4f30-a848-d7f4eb178051" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.eclipse.org/stardust">
+	<interface id="camelTimerTriggerId" name="Stardust Camel Timer Trigger">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{
+				"applicationType": "camel",
+				"stardustTrigger": {
+					"elementOid": 1234,
+					"id": "CamelTimerTrigger",
+					"name": "Camel Timer Trigger",
+					"attributes": {
+						"carnot:engine:integration::overlay": "timerEvent",
+						"eventClass":"timer",
+						"throwing":"false",
+						"interrupting":"true",
+						"carnot:engine:camel::camelContextId":"defaultCamelContext",
+						"carnot:engine:camel::camelRouteExt": "",
+						"carnot:engine:camel::username":"",
+						"carnot:engine:camel::password":""
+					}
+				}}
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="camelTriggerOperation" name="operation">
+			<outMessageRef>dummy</outMessageRef>
+		</operation>
+	</interface>
+
+	<process id="_a1d182de-7971-4662-9009-cab25f298bdd" name="Hauptprozess"
+		processType="None">
+		<extensionElements>
+		</extensionElements>
+		<startEvent id="TestModelStartEventCamel" name="CamelTimerStartEvent">
+			<documentation>Documentation: Timer Start Event</documentation>
+			<timerEventDefinition>
+				<extensionElements>
+					<stardust:core>
+						{"stardustTriggerInterfaceRef":"camelTimerTriggerId"}
+					</stardust:core>
+				</extensionElements>
+			</timerEventDefinition>
+		</startEvent>
+	</process>
+	<bpmndi:BPMNDiagram name="Mein Diagramm (1)"
+		resolution="72">
+		<bpmndi:BPMNPlane id="_1"
+			bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">
+			<bpmndi:BPMNShape id="_B962DEFE-088F-483D-8CDE-4B5A8CDDE82E"
+				bpmnElement="TestModelStartEventCamel"
+				itp:elementType="startEvent">
+				<dc:Bounds x="76.5354330708661" y="119.055118110236"
+					width="17.007874015748" height="17.007874015748" />
+				<bpmndi:BPMNLabel labelStyle="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+					<dc:Bounds x="30" y="159.629653930664" width="21.1732330322266"
+						height="3.74070143699646" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_d0ad1082-aeb8-4706-b536-8c1fb9156842">
+			<dc:Font name="Arial" size="8" isBold="false" isItalic="false"
+				isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
+</definitions>

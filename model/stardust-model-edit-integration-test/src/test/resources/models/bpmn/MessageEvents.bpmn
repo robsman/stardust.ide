@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="05.10.2012 16:41:15" itp:modificationDate="08.10.2012 12:23:03" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_45fb976a-d97f-4101-8904-1b395fe0930d" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.eclipse.org/stardust"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
+
+	<interface id="SendRequest" name="SendRequest" implementationRef="SendRequest">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustApplication": {
+						"elementOid": 10073,
+						"id": "SendRequest",
+						"name": "send request",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "out" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:queue.jndiName": "java:comp/env/jms/CarnotApplicationQueue",
+							"carnot:engine:messageProvider": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider",
+							"carnot:engine:requestMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10085,
+								"id": "content",
+								"name": "Content",
+								"direction": "IN",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": false,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="SendRequestOperation" name="SendRequestOperation">
+			<inMessageRef>SendRequestOperationInput</inMessageRef>
+			<outMessageRef>SendRequestOperationOutput</outMessageRef>
+		</operation>
+	</interface>
+	<interface id="ReceiveResponse" name="ReceiveResponse" implementationRef="ReceiveResponse">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustApplication": {
+						"elementOid": 10076,
+						"id": "ReceiveResponse",
+						"name": "receive response",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "in" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:messageAcceptor": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor",
+							"carnot:engine:responseMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10086,
+								"id": "content",
+								"name": "Content",
+								"direction": "OUT",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": true,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="ReceiveResponseOperation" name="ReceiveResponseOperation">
+			<inMessageRef>ReceiveResponseOperationInput</inMessageRef>
+			<outMessageRef>ReceiveResponseOperationOutput</outMessageRef>
+		</operation>
+	</interface>
+	<interface id="SendOrder" name="SendOrder" implementationRef="SendOrder">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustApplication": {
+						"elementOid": 10079,
+						"id": "SendOrder",
+						"name": "send order",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "out" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:queue.jndiName": "java:comp/env/jms/CarnotApplicationQueue",
+							"carnot:engine:messageProvider": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider",
+							"carnot:engine:requestMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10094,
+								"id": "content",
+								"name": "Content",
+								"direction": "IN",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": false,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="SendOrderOperation" name="SendOrder">
+			<inMessageRef>SendOrderOperationInput</inMessageRef>
+			<outMessageRef>SendOrderOperationOutput</outMessageRef>
+		</operation>
+	</interface>
+	<interface id="ReceiveOffer" name="ReceiveOffer">
+		<extensionElements>
+			<stardust:StardustInterface>
+				{
+					"applicationType": "jms",
+					"stardustTrigger": {
+						"elementOid": 10048,
+						"id": "ReceiveOffer",
+						"name": "Receive Offer",
+						"attributes": {
+							"carnot:engine:visibility": "Public",
+							"carnot:engine:type": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection", "value": "in" },
+							"carnot:engine:queueConnectionFactory.jndiName": "java:comp/env/jms/CarnotXAConnectionFactory",
+							"carnot:engine:messageAcceptor": "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor",
+							"carnot:engine:responseMessageType": { "type": "org.eclipse.stardust.engine.extensions.jms.app.MessageType", "value": "Text" },
+							"carnot:engine:includeOidHeaders": true
+						},
+						"accessPoints": [
+							{
+								"elementOid": 10084,
+								"id": "content",
+								"name": "Content",
+								"direction": "OUT",
+								"typeRef": "serializable",
+								"attributes": {
+									"carnot:engine:className": "java.lang.String",
+									"carnot:engine:browsable": true,
+									"carnot:engine:jms.location": { "type": "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation", "value": "BODY" }
+								}
+							 }
+						 ]
+					 }
+				 }
+			</stardust:StardustInterface>
+		</extensionElements>
+		<operation id="ReceiveOfferOperation" name="ReceiveOfferOperation">
+			<inMessageRef>ReceiveOfferOperationInput</inMessageRef>
+			<outMessageRef>ReceiveOfferOperationOutput</outMessageRef>
+		</operation>
+	</interface>
+
+  <process id="_cf986081-5a6e-4429-a2d0-cc8c336c60ce" name="Hauptprozess" processType="None">
+
+    <startEvent id="TestModelStartEvent" name="ReceiveOffer">
+      <dataOutput id="TestModelStartEventOutput">
+      </dataOutput>
+      <dataOutputAssociation id="_5e8d0c47-d08c-4496-9a99-d73802377485">
+        <sourceRef>TestModelStartEventOutput</sourceRef>
+		<targetRef>TestModelDataObjectRefA</targetRef>
+		<assignment id="TestAssignmentOutputTaskA" stardust:parameterMappingOid="10093">
+			<from stardust:applicationAccessPointRef="content"></from>
+			<to></to>
+		</assignment>
+      </dataOutputAssociation>
+      <outputSet>
+        <dataOutputRefs>TestModelStartEventOutput</dataOutputRefs>
+      </outputSet>
+      <messageEventDefinition >
+      	<operationRef>ReceiveOfferOperation</operationRef>
+      </messageEventDefinition>
+    </startEvent>
+
+    <endEvent id="TestModelEndEvent" name="SendOrder">
+      <messageEventDefinition>
+      	<operationRef>SendOrderOperation</operationRef>
+      </messageEventDefinition>
+    </endEvent>
+
+    <task id="TestModelTaskA" name="a">
+    </task>
+    <task id="TestModelTaskB" name="b">
+    </task>
+    <task id="TestModelTaskC" name="c">
+    </task>
+
+    <intermediateThrowEvent id="TestModelSendEvent" name="SendRequest">
+      <messageEventDefinition>
+      	<operationRef>SendRequestOperation</operationRef>
+      </messageEventDefinition>
+    </intermediateThrowEvent>
+    <intermediateCatchEvent id="TestModelReceiveEvent" name="ReceiveResponse">
+      <messageEventDefinition>
+      	<operationRef>ReceiveResponseOperation</operationRef>
+      </messageEventDefinition>
+    </intermediateCatchEvent>
+
+    <dataObjectReference id="TestModelDataObjectRefA" name="UFN" dataObjectRef="TestModelDataObjectA">
+    </dataObjectReference>
+    <dataObject name="UFN" id="TestModelDataObjectA" itemSubjectRef="TestModelStringDataType">
+    </dataObject>
+
+    <sequenceFlow id="TestModelSequenceAtoSendEvent" sourceRef="TestModelTaskA" targetRef="TestModelSendEvent">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceStarttoA" sourceRef="TestModelStartEvent" targetRef="TestModelTaskA">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceSendEventtoB" sourceRef="TestModelSendEvent" targetRef="TestModelTaskB">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceBtoReceiveEvent" sourceRef="TestModelTaskB" targetRef="TestModelReceiveEvent">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceReceiveEventtoC" sourceRef="TestModelReceiveEvent" targetRef="TestModelTaskC">
+    </sequenceFlow>
+    <sequenceFlow id="TestModelSequenceCtoEnd" sourceRef="TestModelTaskC" targetRef="TestModelEndEvent">
+    </sequenceFlow>
+
+  </process>
+
+  <collaboration id="_de1f6d16-a2d2-44f2-895d-2694581f8767">
+    <participant id="_42743947-1a5f-4e83-8f90-b6fa16d22664" name="Supplier">
+    </participant>
+    <messageFlow id="_f77bafc5-37c7-4cde-beed-ca232e8d44c0" name="Offer" sourceRef="_42743947-1a5f-4e83-8f90-b6fa16d22664" targetRef="TestModelStartEvent">
+    </messageFlow>
+    <messageFlow id="_13be99a7-6483-4444-be4b-88a2a99c0e4c" name="Request" sourceRef="TestModelSendEvent" targetRef="_42743947-1a5f-4e83-8f90-b6fa16d22664">
+    </messageFlow>
+    <messageFlow id="_22c7e690-d683-42aa-be8b-7976eb2befee" name="Response" sourceRef="_42743947-1a5f-4e83-8f90-b6fa16d22664" targetRef="TestModelReceiveEvent">
+    </messageFlow>
+    <messageFlow id="_f20e739b-48e8-41db-878b-b020ce23308d" name="Order" sourceRef="TestModelEndEvent" targetRef="_42743947-1a5f-4e83-8f90-b6fa16d22664">
+    </messageFlow>
+  </collaboration>
+
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_de1f6d16-a2d2-44f2-895d-2694581f8767">
+      <bpmndi:BPMNShape id="_1B3A4B99-4F03-4B0D-8B7F-27716ADE6074" bpmnElement="TestModelStartEvent" itp:label="ReceiveOffer" itp:elementType="startEvent">
+        <dc:Bounds x="110.551181102362" y="246.614173228346" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="94.32" y="265.155590551181" width="48.96" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_DF73FE51-236F-4250-A39B-D97FE4F661FD" bpmnElement="TestModelEndEvent" itp:label="SendOrder" itp:elementType="endEvent">
+        <dc:Bounds x="564.094488188976" y="246.614173228346" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="551.88" y="265.155590551181" width="41.04" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_3F32D090-9C53-41E2-A82F-863525065029" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="145.984251968504" y="233.858267716535" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_2ea4cd59-f54d-4dd1-88dd-c1a8ac305d70">
+          <dc:Bounds x="182.52" y="248.595590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_38D531E9-8506-41E4-A6AD-F43F6144AE8C" bpmnElement="TestModelTaskB" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="284.88188976378" y="233.858267716535" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_2ea4cd59-f54d-4dd1-88dd-c1a8ac305d70">
+          <dc:Bounds x="321.48" y="248.595590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_FAA55AF0-8BB7-43EE-91EF-ABA60D9421E4" bpmnElement="TestModelTaskC" itp:label="c" itp:elementType="task">
+        <dc:Bounds x="445.03937007874" y="233.858267716535" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_2ea4cd59-f54d-4dd1-88dd-c1a8ac305d70">
+          <dc:Bounds x="481.68" y="248.595590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_ABAB4564-6BDD-4A7B-9CBE-B6BE8CAD8F6A" bpmnElement="TestModelSequenceAtoSendEvent" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="231.023622047244" y="255.118110236221" />
+        <di:waypoint x="249.448818897638" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="236.52" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_9A1EB46F-DD1D-4C49-A33A-57B814F31FC8" bpmnElement="TestModelSequenceStarttoA" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="127.55905511811" y="255.118110236221" />
+        <di:waypoint x="145.984251968504" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="132.84" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_35CBEE70-1A2C-4034-B3EF-C0010C345ADC" bpmnElement="TestModelSequenceSendEventtoB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="266.456692913386" y="255.118110236221" />
+        <di:waypoint x="284.88188976378" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="271.8" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_BF532F4B-D12C-48C0-BCE0-5E760F2422DD" bpmnElement="TestModelSequenceBtoReceiveEvent" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="369.92125984252" y="255.118110236221" />
+        <di:waypoint x="399.685039370079" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="381.24" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_78AD0939-CABA-40AF-8D30-4D9D42948B06" bpmnElement="TestModelSequenceReceiveEventtoC" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="416.692913385827" y="255.118110236221" />
+        <di:waypoint x="445.03937007874" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="427.32" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_F21B85D8-7693-49B9-B771-5B234BD42842" bpmnElement="TestModelSequenceCtoEnd" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="530.07874015748" y="255.118110236221" />
+        <di:waypoint x="564.094488188976" y="255.118110236221" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="543.96" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_D40FCDF1-31C1-43BF-90BA-3E1B33A7FECF" bpmnElement="TestModelSendEvent" itp:label="SendRequest" itp:elementType="intermediateThrowEvent">
+        <dc:Bounds x="249.448818897638" y="246.614173228346" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="232.56" y="265.155590551181" width="50.4" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_91D86C69-CE22-4090-98EB-93DD8BD842BE" bpmnElement="TestModelReceiveEvent" itp:label="ReceiveResponse" itp:elementType="intermediateCatchEvent">
+        <dc:Bounds x="399.685039370079" y="246.614173228346" width="17.007874015748" height="17.007874015748" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="374.76" y="265.155590551181" width="66.96" height="10.8" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_442841B9-273B-4FC0-B2D5-85104BBBC7C4" bpmnElement="_f77bafc5-37c7-4cde-beed-ca232e8d44c0" itp:label="Offer" itp:elementType="messageFlow">
+        <di:waypoint x="119.05508976378" y="182.834645669291" />
+        <di:waypoint x="119.055118110236" y="246.614173228346" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="111.96" y="207.195590551181" width="28.08" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_0B19D741-FFBF-4BE8-9C9B-C65FF7A08E75" bpmnElement="_13be99a7-6483-4444-be4b-88a2a99c0e4c" itp:label="Request" itp:elementType="messageFlow">
+        <di:waypoint x="257.952755905512" y="246.614173228346" />
+        <di:waypoint x="257.952755905512" y="182.834645669291" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="244.8" y="205.035590551181" width="40.32" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_89481394-5B2E-45D4-B695-045614AB4E6E" bpmnElement="_22c7e690-d683-42aa-be8b-7976eb2befee" itp:label="Response" itp:elementType="messageFlow">
+        <di:waypoint x="408.188976377953" y="182.834645669291" />
+        <di:waypoint x="408.188976377953" y="246.614173228346" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="392.4" y="207.195590551181" width="46.08" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_C8DFC66B-1F55-4308-9820-B1489EBB112A" bpmnElement="_f20e739b-48e8-41db-878b-b020ce23308d" itp:label="Order" itp:elementType="messageFlow">
+        <di:waypoint x="572.59842519685" y="246.614173228346" />
+        <di:waypoint x="572.59842519685" y="182.834645669291" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="564.12" y="205.035590551181" width="30.96" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_8BB26D3B-1D5E-40F0-8032-8317B04E42F6" bpmnElement="_42743947-1a5f-4e83-8f90-b6fa16d22664" isHorizontal="true" itp:label="Supplier" itp:elementType="participant">
+        <dc:Bounds x="139.128122834646" y="113.385826771654" width="441.974211023622" height="69.4488188976378" />
+        <bpmndi:BPMNLabel labelStyle="_3582fc2b-de84-4a03-941c-365688d1f5cf">
+          <dc:Bounds x="117.36" y="122.595590551181" width="14.4" height="51.12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_2C00563C-F7DB-481C-9889-AA08921BE068" bpmnElement="TestModelDataObjectRefA" itp:label="UFN" itp:elementType="dataObjectReference">
+        <dc:Bounds x="108.425196850394" y="320.314960629921" width="21.259842519685" height="28.3464566929134" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="108.72" y="352.995590551181" width="18.72" height="9.36" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_BE6B1F32-60AD-4EF6-A188-D64B8D33944C" bpmnElement="_5e8d0c47-d08c-4496-9a99-d73802377485" itp:label="(unbenannt)" itp:elementType="dataOutputAssociation" sourceElement="_1B3A4B99-4F03-4B0D-8B7F-27716ADE6074">
+        <di:waypoint x="119.055118110236" y="263.622047244094" />
+        <di:waypoint x="119.055118110236" y="263.622047244094" />
+        <di:waypoint x="119.055118110236" y="274.251968503937" />
+        <di:waypoint x="115.511811023622" y="274.251968503937" />
+        <di:waypoint x="115.511811023622" y="320.314960629921" />
+        <bpmndi:BPMNLabel labelStyle="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+          <dc:Bounds x="109.08" y="282.795590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_0da595a2-c04c-497d-83fb-fe2f29292a41">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_2ea4cd59-f54d-4dd1-88dd-c1a8ac305d70">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_3582fc2b-de84-4a03-941c-365688d1f5cf">
+      <dc:Font name="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

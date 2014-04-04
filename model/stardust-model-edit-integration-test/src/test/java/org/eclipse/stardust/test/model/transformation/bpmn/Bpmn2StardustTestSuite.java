@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -18,7 +20,6 @@ import javax.annotation.Resource;
 
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.TransitionUtil;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
@@ -31,7 +32,7 @@ import org.eclipse.stardust.ui.web.modeler.common.ModelRepository;
 import org.eclipse.stardust.ui.web.modeler.edit.model.ModelConversionService;
 import org.eclipse.stardust.ui.web.modeler.utils.test.MockModelRepositoryManager;
 import org.eclipse.stardust.ui.web.modeler.utils.test.MockServiceFactoryLocator;
-
+import org.eclipse.stardust.ui.web.modeler.xpdl.XpdlPersistenceHandler;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,37 +42,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Simon Nikles
  *
  */
-//@RunWith(Suite.class)
-//@Suite.SuiteClasses(
-//        {TestUserTaskDataFlow2Stardust.class,
-//         TestGateways2Stardust.class,
-//         TestSequences2Stardust.class,
-//         TestStartEvents2Stardust.class,
-//         TestSubprocesses2Stardust.class,
-//         TestSwimlanes2Stardust.class,
-//         TestTasks2Stardust.class,
-//         TestWebServiceTask2Stardust.class,
-//         TestUserTaskWebApp2Stardust.class,
-//         TestSimpleTypeDataFlow2Stardust.class,
-//         TestSequencesUncontrolledFlow2Stardust.class,
-//         TestSequencesConditionalWithDefault2Stardust.class,
-//         TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
-//         TestSequencesConditionalPlusGateways2Stardust.class,
-//         TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
-//         TestMessageEvents2Stardust.class,
-//         TestProcessStart2Stardust.class,
-//         TestIntermediateTimerEvent2Stardust.class,
-//         TestBoundaryEvents2Stardust.class,
-//         TestDataStoreDataFlow2Stardust.class,
-//         TestCallActivities2Stardust.class,
-//         TestSendReceiveTasks2Stardust.class,
-//
-//        })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"../../../../ui/web/modeler/web-modeler-test-context.xml"})
 public abstract class Bpmn2StardustTestSuite {
 
-    public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
+    //public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
     public static final String TEST_ID_START_EVENT = "TestModelStartEventId";
     public static final String TEST_ID_START_EVENT_TIMER_DATE = "TestModelTimerStartEventTime";
     public static final String TEST_ID_START_EVENT_TIMER_CYCLE_STOP = "TestModelStartEventCycleStop";
@@ -108,6 +83,9 @@ public abstract class Bpmn2StardustTestSuite {
     private ModelConversionService modelConversionService;
 
     @Resource
+    private XpdlPersistenceHandler persistenceHandler;
+
+    @Resource
     private ModelRepository modelRepository;
 
     public Bpmn2StardustTestSuite() {
@@ -122,6 +100,7 @@ public abstract class Bpmn2StardustTestSuite {
     public ModelType transformModel(Definitions definitions) {
         try {
             EObject xpdlModel = modelConversionService.convertModel(definitions, "xpdl");
+            debugToFile((ModelType)xpdlModel);
             return (ModelType)xpdlModel;
         } catch (RuntimeException rte) {
             throw rte;
@@ -130,7 +109,24 @@ public abstract class Bpmn2StardustTestSuite {
         }
     }
 
-    public Definitions loadBpmnModel(String bpmnFile) {
+    private void debugToFile(ModelType xpdlModel) {
+        try {
+        	String path = TestSequences2Stardust.class.getClassLoader().getResource("").getPath();
+        	FileOutputStream target = new FileOutputStream(new File(path+"/"+xpdlModel.getName()+".xpdl"));
+        	persistenceHandler.saveModel(xpdlModel, target);
+//        	System.out.println(path);
+//            target.write(XpdlModelIoUtils.saveModel(xpdlModel));
+//            target.flush();
+            target.close();
+        } catch (FileNotFoundException e) {
+        	throw new RuntimeException("Failed write model output.", e);
+        } catch (IOException e) {
+        	throw new RuntimeException("Failed write model output.", e);
+        }
+
+	}
+
+	public Definitions loadBpmnModel(String bpmnFile) {
         Definitions definitions = null;
         for (EObject model : modelRepository.getAllModels()) {
             if (bpmnFile.equals(modelRepository.getModelFileName(model))) {
