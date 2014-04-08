@@ -20,10 +20,10 @@ public class Repository_Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.repository.common.repository-messages"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+   private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
+         .getBundle(BUNDLE_NAME);
 
-	public static final String BUT_REPLACE_EXISTING_ELEMENT_WITH_NEW_ONE = getString("BUT_REPLACE_EXISTING_ELEMENT_WITH_NEW_ONE"); //$NON-NLS-1$
+   public static final String BUT_REPLACE_EXISTING_ELEMENT_WITH_NEW_ONE = getString("BUT_REPLACE_EXISTING_ELEMENT_WITH_NEW_ONE"); //$NON-NLS-1$
 	public static final String BUT_REUSE_ELEMENT_IN_THE_MD = getString("BUT_REUSE_ELEMENT_IN_THE_MD"); //$NON-NLS-1$
 	public static final String BUT_USE_OPTION_FOR_ALL_DUPLICATE_ELEMENTS = getString("BUT_USE_OPTION_FOR_ALL_DUPLICATE_ELEMENTS"); //$NON-NLS-1$
 	public static final String DIA_ERROR = getString("DIA_ERROR"); //$NON-NLS-1$
