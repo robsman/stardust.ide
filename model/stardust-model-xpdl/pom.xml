@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.stardust.modeling.model</groupId>
+  <artifactId>ipp-bpm-model</artifactId>
+
+  <parent>
+    <groupId>org.eclipse.stardust</groupId>
+    <artifactId>product-parent</artifactId>
+    <version>9.9.9-SNAPSHOT</version>
+    <relativePath>../../../product/product-parent/pom.xml</relativePath>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.ecore</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.emf</groupId>
+      <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.xsd</groupId>
+      <artifactId>org.eclipse.xsd</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.stardust.engine</groupId>
+      <artifactId>carnot-base</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.stardust.engine</groupId>
+      <artifactId>carnot-engine</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.equinox</groupId>
+      <artifactId>org.eclipse.equinox.common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.equinox</groupId>
+      <artifactId>org.eclipse.equinox.registry</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.core</groupId>
+      <artifactId>org.eclipse.core.runtime</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <sourceDirectory>../org.eclipse.stardust.model.xpdl/src</sourceDirectory>
+
+    <resources>
+      <resource>
+        <directory>../org.eclipse.stardust.model.xpdl/src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  </build>
+</project>

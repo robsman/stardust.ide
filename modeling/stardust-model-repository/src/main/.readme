@@ -1,0 +1,2 @@
+This directory is needed as parent for the java/ and resources/ linked resources
+as defined in the .project file.
