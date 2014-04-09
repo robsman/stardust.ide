@@ -10,23 +10,22 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
+import static org.eclipse.stardust.common.StringUtils.isEmpty;
+
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.spi.IResourceResolver;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
@@ -332,61 +331,18 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        }
        if (!url.toLowerCase().startsWith("http://")) //$NON-NLS-1$
        {
-         try
-         {
-            IProject project = ModelUtils.getProjectFromEObject(declaration);
-            if (project != null)
-            {
-               url = getFileUrl(project, url);
-            }
-            else
-            {
-               IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-               for (int i = 0; i < projects.length; i++)
-               {
-                  IProject proj = projects[i];
-                  url = getFileUrl(proj, url);
-               }
-            }
-         } catch (Throwable t)
-         {
-            return url;
-         }
-       }
-       return url;
-    }
-
-   private String getFileUrl(IProject project, String url)
-   {
-      try
-       {
-          if (project.hasNature(JavaCore.NATURE_ID))
+          List<IResourceResolver> resourceResolvers = ModelUtils.getResourceResolvers();
+          for (IResourceResolver resolver : resourceResolvers)
           {
-             IJavaProject javaProject = JavaCore.create(project);
-             IPackageFragmentRoot[] roots = javaProject.getPackageFragmentRoots();
-             for (int i = 0; i < roots.length; i++)
+             String localUri = resolver.resolveToLocalUri(url, declaration);
+             if (!isEmpty(localUri))
              {
-                IResource resource = roots[i].getCorrespondingResource();
-                if (resource instanceof IFolder)
-                {
-                   IFolder folder = (IFolder) resource;
-                   IFile file = folder.getFile(url);
-                   if (file.exists())
-                   {
-                      url = file.toString().substring(1); // strip type identifier
-                      break;
-                   }
-                }
+                return localUri;
              }
           }
        }
-       catch (CoreException e)
-       {
-          // TODO: handle
-          e.printStackTrace();
-       }
-      return url;
-   }
+       return url;
+    }
 
     /**
     * <!-- begin-user-doc -->

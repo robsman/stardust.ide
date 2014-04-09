@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.debugger.Debugger;
 
@@ -83,7 +83,7 @@ public class LaunchConfigUtils
    {
       configuration.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROGRAM_ARGUMENTS,
          MessageFormat.format("\"{0}{1}\" \"{2}{3}\"", //$NON-NLS-1$
-            Constants.CMDLINE_ARG_MODEL_FILE, ModelUtils.getFileSystemPath(trimToNull(project), trimToNull(modelFile)),
+            Constants.CMDLINE_ARG_MODEL_FILE, WorkspaceUtils.resolveAbsolutePath(trimToNull(project), trimToNull(modelFile)),
             Constants.CMDLINE_ARG_PROCESS_DEFINITION_ID, trimToNull(processDefinitionId)));
    }
 

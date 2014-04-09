@@ -29,7 +29,7 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -153,7 +153,7 @@ public class VersionRepository extends ViewPart
                            if (o instanceof EObject)
                            {
                               // System.out.println("EObject");
-                              project = ModelUtils.getProjectFromEObject((EObject) o);
+                              project = WorkspaceUtils.getProjectFromEObject((EObject) o);
                            }
                            /*
                             * else { System.out.println("Edit Part"); }
@@ -251,7 +251,7 @@ public class VersionRepository extends ViewPart
       WorkflowModelEditor editor = getActiveEditor();
       if (editor != null)
       {
-         setProject(ModelUtils.getProjectFromEObject(editor.getWorkflowModel()));
+         setProject(WorkspaceUtils.getProjectFromEObject(editor.getWorkflowModel()));
       }
       else
       {

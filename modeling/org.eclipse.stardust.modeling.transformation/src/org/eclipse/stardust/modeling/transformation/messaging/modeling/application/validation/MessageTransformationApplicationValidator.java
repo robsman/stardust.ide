@@ -24,6 +24,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.javascript.editor.EditorUtils;
 import org.eclipse.stardust.modeling.javascript.editor.JavaScriptValidator;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.Modeling_Messages;
@@ -57,7 +58,7 @@ public class MessageTransformationApplicationValidator implements IModelElementV
 
       controller.initializeMappings(element);        
             
-      IProject project = ModelUtils.getProjectFromEObject(element);      
+      IProject project = WorkspaceUtils.getProjectFromEObject(element);
       IJavaScriptProject javaProject = JavaScriptCore.create(project);
       try
       {

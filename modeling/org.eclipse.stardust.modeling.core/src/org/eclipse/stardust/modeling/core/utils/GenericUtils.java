@@ -40,6 +40,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
@@ -94,7 +95,7 @@ public class GenericUtils
    public static IFile cleanFileStructure(EObject modelElement, String filename)
    {
       ModelType model = ModelUtils.findContainingModel(modelElement);
-      IProject project = ModelUtils.getProjectFromEObject(modelElement);
+      IProject project = WorkspaceUtils.getProjectFromEObject(modelElement);
 
       EditorUtils.deleteFileStructure(project, model);      
       try

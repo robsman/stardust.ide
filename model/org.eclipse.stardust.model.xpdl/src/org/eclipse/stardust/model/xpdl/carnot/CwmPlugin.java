@@ -10,40 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot;
 
-import org.eclipse.core.runtime.Plugin;
-import org.osgi.framework.BundleContext;
-
-public class CwmPlugin extends Plugin
+public class CwmPlugin
 {
    public static final String PLUGIN_ID = "org.eclipse.stardust.model.xpdl"; //$NON-NLS-1$
 
    public static final String EXTENSION_POINT_MODEL_ADAPTER_FACTORY = "modelAdapterFactory"; //$NON-NLS-1$
 
-   private static CwmPlugin instance;
-
-   public static CwmPlugin getDefault()
+   private CwmPlugin()
    {
-      return instance;
+      // constant holder
    }
-
-   public CwmPlugin()
-   {
-      // TODO Auto-generated constructor stub
-   }
-
-   public void start(BundleContext context) throws Exception
-   {
-      super.start(context);
-
-      // TODO improve safeness against race conditions
-      instance = this;
-   }
-
-   public void stop(BundleContext context) throws Exception
-   {
-      instance = null;
-
-      super.stop(context);
-   }
-
 }

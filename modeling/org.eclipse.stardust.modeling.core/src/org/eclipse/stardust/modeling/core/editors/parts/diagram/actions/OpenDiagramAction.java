@@ -29,6 +29,7 @@ import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
@@ -116,7 +117,7 @@ public class OpenDiagramAction extends UpdateDiagramAction
             
             if (Dialog.OK == dialog.open())
             {               
-               Path path = new Path(ModelUtils.getLocation(containingModel));
+               Path path = new Path(WorkspaceUtils.getLocation(containingModel));
                IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                IAdaptable file = path.isAbsolute() ? root.getFileForLocation(path) : root.getFile(path);
                if (file == null)

@@ -30,6 +30,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.debug.Debug_Messages;
@@ -490,7 +491,7 @@ public class UiAccessor
 
    public static WorkflowModelEditor getEditorForModel(Set<String> visited, ModelType model, String namespace)
    {
-      String location = ModelUtils.getLocation(model);
+      String location = WorkspaceUtils.getLocation(model);
       if (!visited.contains(location))
       {
          visited.add(location);
@@ -504,7 +505,7 @@ public class UiAccessor
                   ModelType externalModel = ModelUtils.getExternalModel(pack);
                   if (externalModel != null)
                   {
-                     Path path = new Path(ModelUtils.getLocation(externalModel));
+                     Path path = new Path(WorkspaceUtils.getLocation(externalModel));
                      IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                      IFile file = path.isAbsolute() ? root.getFileForLocation(path) : root.getFile(path);
                      if (file.exists())

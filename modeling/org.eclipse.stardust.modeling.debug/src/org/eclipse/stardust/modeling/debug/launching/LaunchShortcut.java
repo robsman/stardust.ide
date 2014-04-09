@@ -43,6 +43,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.editors.DiagramEditorPage;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.debug.Constants;
@@ -150,7 +151,7 @@ public class LaunchShortcut implements ILaunchShortcut
             ModelType externalModel = ModelUtils.getExternalModel(pack);
             if (externalModel != null && !visited.contains(externalModel))
             {
-               String location = ModelUtils.getLocation((ModelType) externalModel);
+               String location = WorkspaceUtils.getLocation((ModelType) externalModel);
                if (location != null)
                {
                   deps.add(location);
