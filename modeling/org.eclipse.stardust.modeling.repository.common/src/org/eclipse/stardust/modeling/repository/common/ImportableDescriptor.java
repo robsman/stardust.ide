@@ -11,9 +11,8 @@
 package org.eclipse.stardust.modeling.repository.common;
 
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 
 public interface ImportableDescriptor
 {
-   void importElements(IconFactory iconFactory, ModelType targetModel, boolean asLink);
+   void importElements(ModelType targetModel, ImportStrategy strategy);
 }

@@ -65,6 +65,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContai
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 import org.eclipse.ui.PlatformUI;
@@ -157,13 +158,13 @@ public class CreateSymbolRequest extends CreateRequest
       {
          try
          {
-            if (descriptor instanceof IObjectReference && cm.mustLink(descriptor))
+            if (descriptor instanceof IObjectReference && ConnectionEditUtils.mustLink(descriptor, cm))
             {
                remoteProcess[0] = ((IObjectReference) descriptor).getEObject();
             }
             else
             {
-               Command cmd = cm.linkObject(model, new IObjectDescriptor[] {descriptor});
+               Command cmd = ConnectionEditUtils.linkObject(model, new IObjectDescriptor[] {descriptor}, cm);
                if (cmd != null)
                {
                   command.add(cmd);
@@ -253,13 +254,13 @@ public class CreateSymbolRequest extends CreateRequest
       final ApplicationType[] remoteApplication = new ApplicationType[] {null};
       try
       {
-         if (descriptor instanceof IObjectReference && cm.mustLink(descriptor))
+         if (descriptor instanceof IObjectReference && ConnectionEditUtils.mustLink(descriptor, cm))
          {
             remoteApplication[0] = ((IObjectReference) descriptor).getEObject();
          }
          else
          {
-            Command cmd = cm.linkObject(model, new IObjectDescriptor[] {descriptor});
+            Command cmd = ConnectionEditUtils.linkObject(model, new IObjectDescriptor[] {descriptor}, cm);
             if (cmd != null)
             {
                command.add(cmd);
@@ -371,13 +372,13 @@ public class CreateSymbolRequest extends CreateRequest
       final TypeDeclarationType[] remoteDeclaration = new TypeDeclarationType[] {null};
       try
       {
-         if (descriptor instanceof IObjectReference && cm.mustLink(descriptor))
+         if (descriptor instanceof IObjectReference && ConnectionEditUtils.mustLink(descriptor, cm))
          {
             remoteDeclaration[0] = ((IObjectReference) descriptor).getEObject();
          }
          else
          {
-            Command cmd = cm.linkObject(model, new IObjectDescriptor[] {descriptor});
+            Command cmd = ConnectionEditUtils.linkObject(model, new IObjectDescriptor[] {descriptor}, cm);
             if (cmd != null)
             {
                command.add(cmd);

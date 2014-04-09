@@ -40,6 +40,7 @@ import org.eclipse.stardust.modeling.repository.common.*;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.InteractiveImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class FileConnectionHandler implements ConnectionHandler
@@ -159,7 +160,7 @@ public class FileConnectionHandler implements ConnectionHandler
          {
             try
             {
-               ((ImportableDescriptor) descriptor).importElements(IconFactory.getDefault(), model, asLink);
+               ((ImportableDescriptor) descriptor).importElements(model, new InteractiveImportStrategy(asLink, IconFactory.getDefault()));
             }
             catch (Exception f)
             {

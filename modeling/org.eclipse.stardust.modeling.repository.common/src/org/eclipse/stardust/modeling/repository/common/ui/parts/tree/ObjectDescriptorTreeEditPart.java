@@ -14,7 +14,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.IconDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.swt.graphics.Image;
 
 
@@ -27,7 +30,13 @@ public class ObjectDescriptorTreeEditPart extends LazyLoadingTreeEditPart
 
    protected Image doGetImage()
    {
-      return ((IObjectDescriptor) getModel()).getIcon();
+      IconDescriptor iconDescriptor = ((IObjectDescriptor) getModel()).getIcon();
+      if (iconDescriptor.getBundleId() == null || iconDescriptor.getIconPath() == null)
+      {
+         return null;
+      }
+      IImageManager im = ImageUtil.getImageManager(iconDescriptor.getBundleId());
+      return im.getPlainIcon(iconDescriptor.getIconPath());
    }
    
    protected String doGetText()
