@@ -5,6 +5,8 @@
   <groupId>org.eclipse.stardust.modeling.core</groupId>
   <artifactId>ipp-bpm-repository</artifactId>
 
+  <name>BPM Model Repository</name>
+
   <parent>
     <groupId>org.eclipse.stardust</groupId>
     <artifactId>product-parent</artifactId>
