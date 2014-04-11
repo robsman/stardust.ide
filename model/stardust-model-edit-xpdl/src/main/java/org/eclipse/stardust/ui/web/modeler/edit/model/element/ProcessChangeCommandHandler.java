@@ -34,7 +34,12 @@ public class ProcessChangeCommandHandler
    @OnCommand(commandId = "process.create")
    public void createProcess(ModelType model, JsonObject request)
    {
-      ProcessDefinitionType processDefinition = getModelBuilderFacade().createProcess(model, null, extractString(request, ModelerConstants.NAME_PROPERTY), 
+      String processId = null;
+      if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+         processId = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+      }
+      ProcessDefinitionType processDefinition = getModelBuilderFacade().createProcess(model, processId, extractString(request, ModelerConstants.NAME_PROPERTY),
             extractString(request, "defaultLaneName"), extractString(request, "defaultPoolName"));
 
       // Add process definition to UUID map.

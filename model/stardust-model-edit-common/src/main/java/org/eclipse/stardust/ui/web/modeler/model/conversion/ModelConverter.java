@@ -399,6 +399,7 @@ public class ModelConverter
    {
       JsonObject newProcessJson = new JsonObject();
       newProcessJson.addProperty(ModelerConstants.NAME_PROPERTY, processJto.name);
+      newProcessJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY, processJto.id);
       newProcessJson.addProperty("defaultPoolName", "Default Pool");
       newProcessJson.addProperty("defaultLaneName", "Default Lane");
       JsonObject createProcessChanges = applyChange(newModelId, "process.create",
