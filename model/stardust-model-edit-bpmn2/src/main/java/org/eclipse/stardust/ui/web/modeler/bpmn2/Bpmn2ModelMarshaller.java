@@ -879,6 +879,11 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          {
             schemaLocation = proxyURI.trimFragment().toString();
             typeId = proxyURI.fragment();
+
+            if ( !isEmpty(schemaLocation) && schemaLocation.startsWith("istream:///"))
+            {
+               schemaLocation = schemaLocation.substring("istream:///".length());
+            }
          }
       }
 

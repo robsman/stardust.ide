@@ -58,7 +58,7 @@ public class Bpmn2PersistenceHandler implements ModelPersistenceHandler<Definiti
          try
          {
             DirectStreamsURIHandler streamsUriHandler = new DirectStreamsURIHandler();
-            URI resourceStreamUri = streamsUriHandler.registerInputStream(modelContent);
+            URI resourceStreamUri = streamsUriHandler.registerInputStream(modelContent, contentName);
 
             ResourceSet context = new ResourceSetImpl();
             context.getResourceFactoryRegistry()

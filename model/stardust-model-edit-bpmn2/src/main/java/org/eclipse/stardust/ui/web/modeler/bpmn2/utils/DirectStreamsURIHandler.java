@@ -12,22 +12,30 @@ import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
 
 public class DirectStreamsURIHandler extends URIHandlerImpl
 {
-   private final UUID authority = UUID.randomUUID();
-
    private final Map<String, InputStream> inStreams = new HashMap<String, InputStream>();
 
    private final Map<String, OutputStream> outStreams = new HashMap<String, OutputStream>();
 
    public URI registerInputStream(InputStream inStream)
    {
-      URI streamUri = createStreamUri("istream", UUID.randomUUID().toString());
+      return registerInputStream(inStream, UUID.randomUUID().toString());
+   }
+
+   public URI registerInputStream(InputStream inStream, String resourceName)
+   {
+      URI streamUri = createStreamUri("istream", resourceName);
       inStreams.put(streamUri.toString(), inStream);
       return streamUri;
    }
 
    public URI registerOutputStream(OutputStream outStream)
    {
-      URI streamUri = createStreamUri("ostream", UUID.randomUUID().toString());
+      return registerOutputStream(outStream, UUID.randomUUID().toString());
+   }
+
+   public URI registerOutputStream(OutputStream outStream, String resourceName)
+   {
+      URI streamUri = createStreamUri("ostream", resourceName);
       outStreams.put(streamUri.toString(), outStream);
       return streamUri;
    }
@@ -54,7 +62,7 @@ public class DirectStreamsURIHandler extends URIHandlerImpl
 
    private URI createStreamUri(String scheme, String streamId)
    {
-      return URI.createHierarchicalURI(scheme, authority.toString(), null,
+      return URI.createHierarchicalURI(scheme, "", null,
             new String[] {streamId}, null, null);
    }
 }

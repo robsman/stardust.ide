@@ -71,6 +71,7 @@ public class ExternalXmlSchemaManager
 
       try
       {
+         resourceSet.getResources().add(xsdResource);
          xsdResource.load(singletonMap(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE));
          for (EObject eObject : xsdResource.getContents())
          {
