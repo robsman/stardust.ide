@@ -7,6 +7,7 @@ import static org.eclipse.stardust.common.CollectionUtils.newHashSet;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.findContainingModel;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.findParticipatingProcesses;
+import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.getModelUuid;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils.getExtensionElement;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ElementRefUtils.encodeReference;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractAsString;
@@ -914,6 +915,7 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
                   jto.typeDeclaration.schema = XsdSchemaUtils.toSchemaJson(importedSchema);
                   jto.typeDeclaration.type.classifier = "ExternalReference";
                   jto.typeDeclaration.type.location = importSpec.getLocation();
+                  jto.typeDeclaration.type.namespace = importSpec.getNamespace();
                   jto.typeDeclaration.type.xref = typeDefinition.getQName(importedSchema);
                }
             }
@@ -1105,7 +1107,7 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       {
          // TODO
          jto.dataType = ModelerConstants.STRUCTURED_DATA_TYPE_KEY;
-         jto.structuredDataTypeFullId = findContainingModel(variable).getId() + ":"
+         jto.structuredDataTypeFullId = getModelUuid(findContainingModel(variable)) + ":"
                + variable.getItemSubjectRef().getId();
       }
       else

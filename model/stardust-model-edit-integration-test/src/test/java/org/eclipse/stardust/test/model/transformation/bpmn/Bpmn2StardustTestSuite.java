@@ -88,12 +88,19 @@ public abstract class Bpmn2StardustTestSuite {
     @Resource
     private ModelRepository modelRepository;
 
-    public Bpmn2StardustTestSuite() {
+    private final String modelsPackage;
+
+    protected Bpmn2StardustTestSuite() {
+       this("models/bpmn");
+    }
+
+    protected Bpmn2StardustTestSuite(String modelsPackage) {
+      this.modelsPackage = modelsPackage;
     }
 
     @Before
     public void initModelRepository() throws IOException {
-        mockModelRepositoryManager.loadModelsFromPackage("models/bpmn");
+        mockModelRepositoryManager.loadModelsFromPackage(modelsPackage);
     }
 
 

@@ -23,6 +23,7 @@ public class TypeDeclarationJto extends ModelElementJto
       {
          public String classifier;
          public String location;
+         public String namespace;
          public String xref;
       }
    }

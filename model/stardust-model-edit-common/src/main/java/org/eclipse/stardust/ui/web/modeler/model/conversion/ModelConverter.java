@@ -106,7 +106,7 @@ public class ModelConverter
                ModelerConstants.TYPE_PROPERTY));
 
          // TODO map new to old ID
-         //recreateTypeDeclaration(typeJson, conversionContext);
+         recreateTypeDeclaration(typeJson, conversionContext);
       }
 
       for (Map.Entry<String, JsonElement> variableEntry : modelJto.dataItems.entrySet())
@@ -138,41 +138,41 @@ public class ModelConverter
    private void recreateTypeDeclaration(JsonObject typeJson,
          ModelConversionContext modelConversionContext)
    {
-      if (0 < System.currentTimeMillis())
-      {
-         throw new UnsupportedOperationException("Not yet implemented.");
-      }
-
       JsonObject newTypeJson = new JsonObject();
       newTypeJson.addProperty(ModelerConstants.NAME_PROPERTY,
             extractAsString(typeJson, ModelerConstants.NAME_PROPERTY));
+      newTypeJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+            extractAsString(typeJson, ModelerConstants.ID_PROPERTY));
 
-      // TODO handle non-primitive types as well
-      newTypeJson.addProperty(ModelerConstants.PRIMITIVE_TYPE,
-            extractAsString(typeJson, ModelerConstants.PRIMITIVE_TYPE));
-      if (null == extractAsString(newTypeJson, ModelerConstants.PRIMITIVE_TYPE))
+      String commandId = "structuredDataType.create";
+      if (typeJson.has(ModelerConstants.TYPE_DECLARATION_PROPERTY))
       {
-         newTypeJson.addProperty(ModelerConstants.PRIMITIVE_TYPE,
-               ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+         commandId = "typeDeclaration.create";
+         newTypeJson.add(ModelerConstants.TYPE_DECLARATION_PROPERTY,
+               typeJson.get(ModelerConstants.TYPE_DECLARATION_PROPERTY));
       }
-      JsonObject createVariableChanges = applyChange(modelConversionContext.newModelId(),
-            "primitiveData.create", modelConversionContext.newModelId(), newTypeJson);
+
+      JsonObject createTypeDeclarationChanges = applyChange(
+            modelConversionContext.newModelId(), commandId,
+            modelConversionContext.newModelId(), newTypeJson);
 
       if (trace.isDebugEnabled())
       {
-         trace.debug("Create data response: " + createVariableChanges);
+         trace.debug("Create structured data type response: " + createTypeDeclarationChanges);
       }
 
-      JsonArray newVariablesJson = createVariableChanges.getAsJsonArray("added");
-      if (0 == newVariablesJson.size())
-      {
-         newVariablesJson = createVariableChanges.getAsJsonArray("modified");
-      }
-      String variableUuid = extractAsString(newVariablesJson.get(0).getAsJsonObject(),
-            "uuid");
-      String variableId = extractAsString(newVariablesJson.get(0).getAsJsonObject(), "id");
+      JsonArray addedElementsJson = createTypeDeclarationChanges.getAsJsonArray("added");
 
-      modelConversionContext.registerNewDataId(extractString(typeJson, ModelerConstants.ID_PROPERTY), variableId);
+      String newTypeDeclarationUuid = extractString(addedElementsJson.get(0)
+            .getAsJsonObject(), "uuid");
+      String newTypeDeclarationId = extractString(addedElementsJson.get(0)
+            .getAsJsonObject(), "id");
+
+      modelConversionContext.registerNewStructuredTypeId(extractString(typeJson, ModelerConstants.ID_PROPERTY), newTypeDeclarationId);
+
+      // update type declaration content
+      applyChange(modelConversionContext.newModelId(), "modelElement.update",
+            newTypeDeclarationUuid, typeJson);
    }
 
    private void recreateVariable(JsonObject variableJson,

@@ -59,6 +59,11 @@ public class ModelConversionContext
       modelIdMapping.put(originalModelId, newModelId);
    }
 
+   public void registerNewStructuredTypeId(String originalId, String newId)
+   {
+      structuredTypeIdMapping.put(originalId, newId);
+   }
+
    public void registerNewDataId(String originalDataId, String newDataId)
    {
       dataIdMapping.put(originalDataId, newDataId);

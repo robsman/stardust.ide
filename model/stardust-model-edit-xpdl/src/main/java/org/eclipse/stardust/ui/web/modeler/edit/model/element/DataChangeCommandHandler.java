@@ -89,8 +89,12 @@ public class DataChangeCommandHandler
       String id = extractString(request, ModelerConstants.ID_PROPERTY);
       if (isEmpty(id))
       {
-         // must keep the original name as ID as otherwise the type can't be resolved from the schema
-         id = name;
+         id = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+         if (isEmpty(id))
+         {
+            // must keep the original name as ID as otherwise the type can't be resolved from the schema
+            id = name;
+         }
       }
 
       TypeDeclarationsType declarations = model.getTypeDeclarations();
