@@ -51,6 +51,30 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <activation>
+        <property>
+          <name>stardust-overlay-root</name>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-patch-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>apply-overlay-patches</id>
+                  <configuration>
+                    <strip>3</strip>
+                  </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <build>
