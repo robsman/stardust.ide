@@ -69,10 +69,11 @@
                   <configuration>
                     <strip>3</strip>
                   </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
   </profiles>
