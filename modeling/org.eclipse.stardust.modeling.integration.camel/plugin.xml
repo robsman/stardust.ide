@@ -67,7 +67,7 @@
             <filter name="metaType" value="camelSpringProducerApplication" />
             <filter name="!perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective" />
         </modelElementValidator>
-        <modelElementValidator class="org.eclipse.stardust.modeling.integration.camel.validator.CamelProducerModelValidator" id="ag.carnot.workflow.model.validation.camelProducerApplication" metaTypeId="camelSpringProducerApplication" targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+        <modelElementValidator class="org.eclipse.stardust.modeling.integration.camel.validator.CamelProducerModelValidator" id="ag.carnot.workflow.model.validation.camelProducerApplication" metaTypeId="camelConsumerApplication" targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
             <filter name="metaType" value="camelConsumerApplication" />
             <filter name="!perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective" />
         </modelElementValidator>

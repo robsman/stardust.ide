@@ -1,6 +1,5 @@
 package org.eclipse.stardust.modeling.integration.camel.validator;
 
-import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.CONSUMER_ROUTE_ATT;
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_PATTERN_EXT_ATT;
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_TYPE_EXT_ATT;
 
@@ -52,7 +51,7 @@ public class CamelProducerModelValidator implements IModelElementValidator
          routeDefinition = AttributeUtil.getAttributeValue((IExtensibleElement) element,
                CamelConstants.PRODUCER_ROUTE_ATT);
 
-
+      if(!StringUtils.isEmpty(routeDefinition))
       routeDefinition= replaceRemoveMultipleSpaces(routeDefinition);
 
       String invocationPattern = AttributeUtil.getAttributeValue((IExtensibleElement) element,
@@ -68,6 +67,10 @@ public class CamelProducerModelValidator implements IModelElementValidator
          // backward compatiblity
          if (StringUtils.isEmpty(routeDefinition))
          {
+            if(isConsumerApplication(((ApplicationTypeImpl) (IExtensibleElement) element)))
+               result.add(Issue
+                     .error(element, Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));
+            else
             result.add(Issue
                   .error(element, Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
          }
@@ -85,7 +88,7 @@ public class CamelProducerModelValidator implements IModelElementValidator
          if (invocationPattern.equals(CamelConstants.InvocationPatterns.RECEIVE))
          {
 
-            if (AttributeUtil.getAttributeValue((IExtensibleElement) element, CONSUMER_ROUTE_ATT) == null)
+            if (StringUtils.isEmpty(routeDefinition))
             {
                result.add(Issue.error(element,
                      Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));

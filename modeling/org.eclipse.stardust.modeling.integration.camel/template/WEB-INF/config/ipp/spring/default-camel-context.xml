@@ -64,6 +64,9 @@
 
    <bean id="sqlPrepareStatementStrategy"
       class="org.eclipse.stardust.engine.extensions.camel.sql.SqlPrepareStatementStrategy" />
+   
+   <bean name="addAttachmentProcessor"
+	  class="org.eclipse.stardust.engine.extensions.camel.attachment.AddAttachmentProcessor" />
       
 	<camelContext id="defaultCamelContext" trace="true"
 		xmlns="http://camel.apache.org/schema/spring">
