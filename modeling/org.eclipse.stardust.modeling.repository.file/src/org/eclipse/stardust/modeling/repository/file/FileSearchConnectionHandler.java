@@ -24,6 +24,7 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.SearchConnectionHandler;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionQueryUtils;
 import org.eclipse.stardust.modeling.repository.file.search.SearchDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -48,7 +49,7 @@ public class FileSearchConnectionHandler implements SearchConnectionHandler
                // the dialog can search
                try
                {
-                  List<IObjectDescriptor> descriptors = cm.select(connection, null);
+                  List<IObjectDescriptor> descriptors = ConnectionQueryUtils.select(connection, cm, null);
                   final List<IObjectDescriptor> result = dialog.searchEntries(descriptors);
                   // we take the selection and update the cache 
                   if(result != null)

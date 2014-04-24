@@ -95,8 +95,8 @@ public class ProcessSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessSymbolType_process_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_process_feature", "_UI_ProcessSymbolType_type"),
+             getString("_UI_ProcessSymbolType_process_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_process_feature", "_UI_ProcessSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_SYMBOL_TYPE__PROCESS,
              true,
              false,
@@ -118,8 +118,8 @@ public class ProcessSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessSymbolType_subProcesses_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_subProcesses_feature", "_UI_ProcessSymbolType_type"),
+             getString("_UI_ProcessSymbolType_subProcesses_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_subProcesses_feature", "_UI_ProcessSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_SYMBOL_TYPE__SUB_PROCESSES,
              true,
              false,
@@ -141,8 +141,8 @@ public class ProcessSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ProcessSymbolType_parentProcesses_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_parentProcesses_feature", "_UI_ProcessSymbolType_type"),
+             getString("_UI_ProcessSymbolType_parentProcesses_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ProcessSymbolType_parentProcesses_feature", "_UI_ProcessSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.PROCESS_SYMBOL_TYPE__PARENT_PROCESSES,
              true,
              false,
@@ -161,7 +161,7 @@ public class ProcessSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ProcessSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ProcessSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -174,7 +174,7 @@ public class ProcessSymbolTypeItemProvider
    public String getText(Object object)
    {
       ProcessSymbolType processSymbolType = (ProcessSymbolType)object;
-      return getString("_UI_ProcessSymbolType_type") + " " + processSymbolType.getElementOid();
+      return getString("_UI_ProcessSymbolType_type") + " " + processSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

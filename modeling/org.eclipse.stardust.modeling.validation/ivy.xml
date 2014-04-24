@@ -30,6 +30,6 @@
 
    <dependencies>
       <!-- ipp-bpm-model-validation-runtime -->
-      <dependency org="org.eclipse.stardust.modeling.model" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-validation-runtime->ipp-bpm-model-runtime"/>
+      <dependency org="org.eclipse.stardust.modeling.model" name="ipp-bpm-model" rev="${ipp.version.full}" conf="ipp-bpm-model-validation-runtime->default"/>
    </dependencies>
 </ivy-module>

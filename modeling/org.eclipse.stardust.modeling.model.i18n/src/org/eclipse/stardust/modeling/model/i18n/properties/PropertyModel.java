@@ -60,6 +60,7 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 
 public class PropertyModel
 {
@@ -536,7 +537,7 @@ public class PropertyModel
          baseName = "ag.carnot." + model.getId(); //$NON-NLS-1$
       }
       
-      IProject project = ModelUtils.getProjectFromEObject(model);
+      IProject project = WorkspaceUtils.getProjectFromEObject(model);
       sourceFolders = collectSourceFolders(JavaCore.create(project));
       
       List<IContainer> folders = CollectionUtils.newList(sourceFolders.size());

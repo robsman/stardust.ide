@@ -245,8 +245,8 @@ public class DeployModelDialog extends AbstractDialog implements ActionListener
    protected JPanel createButtonPanel()
    {
       JPanel buttonPanel = super.createButtonPanel();
-      okButton.setText(Deploy_Messages.getString("BUT_TXT_OK"));
-      cancelButton.setText(Deploy_Messages.getString("BUT_TXT_CANCEL"));
+      okButton.setText(Deploy_Messages.getString("BUT_TXT_OK")); //$NON-NLS-1$
+      cancelButton.setText(Deploy_Messages.getString("BUT_TXT_CANCEL")); //$NON-NLS-1$
       return buttonPanel;
    }
 }

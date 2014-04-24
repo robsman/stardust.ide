@@ -199,7 +199,7 @@ public class LockUtil
          }
          catch (IOException e)
          {
-            throw new RMSException("...", RMSException.DEFAULT);         
+            throw new RMSException("...", RMSException.DEFAULT);          //$NON-NLS-1$
          }
          localModel = manager.getModel();
       }

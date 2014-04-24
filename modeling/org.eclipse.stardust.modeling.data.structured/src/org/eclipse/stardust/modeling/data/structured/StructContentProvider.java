@@ -52,6 +52,11 @@ public class StructContentProvider implements ITreeContentProvider
       xsdProvider.newElements.put(parent, newElement);
    }
 
+   public void removeNewElement(XSDSimpleTypeDefinition parent)
+   {
+      xsdProvider.newElements.remove(parent);
+   }
+
    public void removeNewElement(XSDModelGroup parent)
    {
       xsdProvider.newElements.remove(parent);

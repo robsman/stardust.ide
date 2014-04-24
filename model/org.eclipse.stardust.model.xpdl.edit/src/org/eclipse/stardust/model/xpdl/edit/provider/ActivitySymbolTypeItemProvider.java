@@ -97,8 +97,8 @@ public class ActivitySymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivitySymbolType_activity_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_activity_feature", "_UI_ActivitySymbolType_type"),
+             getString("_UI_ActivitySymbolType_activity_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_activity_feature", "_UI_ActivitySymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ACTIVITY_SYMBOL_TYPE__ACTIVITY,
              true,
              false,
@@ -120,8 +120,8 @@ public class ActivitySymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivitySymbolType_performsConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_performsConnections_feature", "_UI_ActivitySymbolType_type"),
+             getString("_UI_ActivitySymbolType_performsConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_performsConnections_feature", "_UI_ActivitySymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ACTIVITY_SYMBOL_TYPE__PERFORMS_CONNECTIONS,
              true,
              false,
@@ -143,8 +143,8 @@ public class ActivitySymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivitySymbolType_executedByConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_executedByConnections_feature", "_UI_ActivitySymbolType_type"),
+             getString("_UI_ActivitySymbolType_executedByConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_executedByConnections_feature", "_UI_ActivitySymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ACTIVITY_SYMBOL_TYPE__EXECUTED_BY_CONNECTIONS,
              true,
              false,
@@ -166,8 +166,8 @@ public class ActivitySymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivitySymbolType_dataMappings_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_dataMappings_feature", "_UI_ActivitySymbolType_type"),
+             getString("_UI_ActivitySymbolType_dataMappings_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_dataMappings_feature", "_UI_ActivitySymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ACTIVITY_SYMBOL_TYPE__DATA_MAPPINGS,
              true,
              false,
@@ -189,8 +189,8 @@ public class ActivitySymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivitySymbolType_gatewaySymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_gatewaySymbols_feature", "_UI_ActivitySymbolType_type"),
+             getString("_UI_ActivitySymbolType_gatewaySymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivitySymbolType_gatewaySymbols_feature", "_UI_ActivitySymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ACTIVITY_SYMBOL_TYPE__GATEWAY_SYMBOLS,
              true,
              false,
@@ -209,7 +209,7 @@ public class ActivitySymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ActivitySymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ActivitySymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -222,7 +222,7 @@ public class ActivitySymbolTypeItemProvider
    public String getText(Object object)
    {
       ActivitySymbolType activitySymbolType = (ActivitySymbolType)object;
-      return getString("_UI_ActivitySymbolType_type") + " " + activitySymbolType.getElementOid();
+      return getString("_UI_ActivitySymbolType_type") + " " + activitySymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

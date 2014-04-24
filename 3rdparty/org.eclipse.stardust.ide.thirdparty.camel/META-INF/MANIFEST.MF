@@ -3,7 +3,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.ide.thirdparty.camel;singleton:=true
-Bundle-Version: 2.9.2
+Bundle-Version: 2.12.1.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-ClassPath: lib/camel-core.jar,
@@ -11,5 +11,7 @@ Bundle-ClassPath: lib/camel-core.jar,
  lib/camel-jms.jar,
  lib/camel-quartz.jar,
  lib/camel-script.jar,
- lib/quartz.jar,
- lib/org.restlet.jar
+ lib/camel-sql.jar,
+ lib/camel-http.jar,
+ lib/camel-mail.jar,
+ lib/quartz.jar

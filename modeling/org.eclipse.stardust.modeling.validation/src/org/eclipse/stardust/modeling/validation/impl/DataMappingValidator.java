@@ -123,9 +123,16 @@ public class DataMappingValidator implements IModelElementValidator
             }
             catch (Exception e)
             {
-               result.add(Issue.warning(dataMapping,
-                     Validation_Messages.MSG_DATAMAPPING_NoValidDataPath,
-                     ValidationService.PKG_CWM.getDataMappingType_DataPath()));
+               if (PredefinedConstants.STRUCTURED_DATA.equals(dataMapping.getData().getMetaType().getId()))
+               {
+                  checkValidXPath(dataMapping);
+               }
+               else
+               {
+                  result.add(Issue.warning(dataMapping,
+                        Validation_Messages.MSG_DATAMAPPING_NoValidDataPath,
+                        ValidationService.PKG_CWM.getDataMappingType_DataPath()));
+               }
             }
          }
       }
@@ -166,6 +173,15 @@ public class DataMappingValidator implements IModelElementValidator
             {
                if (!xPathMap.containsXPath(dataPath))
                {
+                  int ix = dataPath.lastIndexOf('/');
+                  while (ix >= 0)
+                  {
+                     dataPath = dataPath.substring(0, ix);
+                     if (xPathMap.containsXPath(dataPath) && xPathMap.getXPath(dataPath).hasWildcards())
+                     {
+                        return;
+                     }
+                  }
                   throw new ValidationException(
                         Validation_Messages.MSG_DATAMAPPING_NoValidDataPath, dataPath);
                }
@@ -300,8 +316,15 @@ public class DataMappingValidator implements IModelElementValidator
          }
          catch (ValidationException e)
          {
-            result.add(Issue.warning(dataMapping, e.getMessage(),
+            if (PredefinedConstants.STRUCTURED_DATA.equals(dataMapping.getData().getMetaType().getId()))
+            {
+               checkValidXPath(dataMapping);
+            }
+            else
+            {
+               result.add(Issue.warning(dataMapping, e.getMessage(),
                   ValidationService.PKG_CWM.getDataMappingType_DataPath()));
+            }
          }
       }
    }

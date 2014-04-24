@@ -111,8 +111,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -134,8 +134,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_accessPathEditor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_accessPathEditor_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_accessPathEditor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_accessPathEditor_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__ACCESS_PATH_EDITOR,
              true,
              false,
@@ -157,8 +157,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_evaluator_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_evaluator_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_evaluator_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_evaluator_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__EVALUATOR,
              true,
              false,
@@ -180,8 +180,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -203,8 +203,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_instanceClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_instanceClass_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_instanceClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_instanceClass_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__INSTANCE_CLASS,
              true,
              false,
@@ -226,8 +226,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -249,8 +249,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IMetaType_isPredefined_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"),
+             getString("_UI_IMetaType_isPredefined_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMETA_TYPE__IS_PREDEFINED,
              true,
              false,
@@ -272,8 +272,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_panelClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_panelClass_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_panelClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_panelClass_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__PANEL_CLASS,
              true,
              false,
@@ -295,8 +295,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_readable_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_readable_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_readable_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_readable_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__READABLE,
              true,
              false,
@@ -318,8 +318,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_storageStrategy_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_storageStrategy_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_storageStrategy_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_storageStrategy_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__STORAGE_STRATEGY,
              true,
              false,
@@ -341,8 +341,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_validatorClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_validatorClass_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_validatorClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_validatorClass_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__VALIDATOR_CLASS,
              true,
              false,
@@ -364,8 +364,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_valueCreator_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_valueCreator_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_valueCreator_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_valueCreator_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__VALUE_CREATOR,
              true,
              false,
@@ -387,8 +387,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_writable_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_writable_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_writable_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_writable_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__WRITABLE,
              true,
              false,
@@ -410,8 +410,8 @@ public class DataTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataTypeType_data_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_data_feature", "_UI_DataTypeType_type"),
+             getString("_UI_DataTypeType_data_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataTypeType_data_feature", "_UI_DataTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE_TYPE__DATA,
              true,
              false,
@@ -464,7 +464,7 @@ public class DataTypeTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataTypeType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataTypeType")); //$NON-NLS-1$
    }
 
    /**
@@ -478,8 +478,8 @@ public class DataTypeTypeItemProvider
    {
       String label = ((DataTypeType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_DataTypeType_type") :
-         getString("_UI_DataTypeType_type") + " " + label;
+         getString("_UI_DataTypeType_type") : //$NON-NLS-1$
+         getString("_UI_DataTypeType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

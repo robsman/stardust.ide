@@ -14,7 +14,7 @@
    xmlns:m="http://ant.apache.org/ivy/maven"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-   <info organisation="org.eclipse.stardust.modeling.engine" module="engine"
+   <info organisation="org.eclipse.stardust.ide.engine" module="engine"
       revision="${ipp.version.full}" />
 
    <configurations>
@@ -22,11 +22,10 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.modeling.engine" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.engine.core" type="jar" conf="bom" />
    </publications>
 
    <dependencies>
       <dependency org="org.eclipse.stardust.engine" name="infinity-process-engine-module" rev="${ipp.version.full}" transitive="false" conf="bom->engine-module-runtime"/>
-      <dependency org="org.eclipse.stardust.engine" name="infinity-process-engine-module" rev="${ipp.version.full}" transitive="false" conf="bom->carnot-emf-xsd-module-runtime"/>
    </dependencies>
 </ivy-module>

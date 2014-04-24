@@ -25,51 +25,8 @@
 
   <packaging>eclipse-plugin</packaging>
 
-  <properties>
-    <ipp-bpm-model.artifactId>ipp-bpm-model</ipp-bpm-model.artifactId>
-  </properties>
-  
   <build>
     <plugins>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>ant-compile</id>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </execution>
-          <execution>
-            <id>ant-package</id>
-            <configuration>
-              <target name="set-package-properties">
-                <property name="build.lib" location="${project.build.directory}"/>
-                <property name="maven.created.jar" location="${project.build.directory}/${project.build.finalName}.jar"/>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>ant-install</id>
-            <configuration>
-              <target name="set-install-properties">
-                <property name="ipp-bpm-model.jar" location="${project.build.directory}/${project.build.finalName}.jar"/>
-                <property name="ipp-bpm-model.pom" location="${project.build.directory}/${ipp-bpm-model.artifactId}.pom"/>
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>ant-deploy</id>
-            <configuration>
-              <target name="set-deploy-properties">
-                <property name="ipp-bpm-model.jar" location="${project.build.directory}/${project.build.finalName}.jar"/>
-                <property name="ipp-bpm-model.pom" location="${project.build.directory}/${ipp-bpm-model.artifactId}.pom"/>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>

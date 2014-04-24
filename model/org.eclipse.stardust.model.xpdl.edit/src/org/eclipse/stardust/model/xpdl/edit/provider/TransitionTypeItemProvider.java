@@ -105,8 +105,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -128,8 +128,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TransitionType_condition_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_condition_feature", "_UI_TransitionType_type"),
+             getString("_UI_TransitionType_condition_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_condition_feature", "_UI_TransitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRANSITION_TYPE__CONDITION,
              true,
              false,
@@ -151,8 +151,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TransitionType_forkOnTraversal_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_forkOnTraversal_feature", "_UI_TransitionType_type"),
+             getString("_UI_TransitionType_forkOnTraversal_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_forkOnTraversal_feature", "_UI_TransitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRANSITION_TYPE__FORK_ON_TRAVERSAL,
              true,
              false,
@@ -174,8 +174,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TransitionType_from_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_from_feature", "_UI_TransitionType_type"),
+             getString("_UI_TransitionType_from_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_from_feature", "_UI_TransitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRANSITION_TYPE__FROM,
              true,
              false,
@@ -197,8 +197,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -220,8 +220,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -243,8 +243,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TransitionType_to_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_to_feature", "_UI_TransitionType_type"),
+             getString("_UI_TransitionType_to_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_to_feature", "_UI_TransitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRANSITION_TYPE__TO,
              true,
              false,
@@ -266,8 +266,8 @@ public class TransitionTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_TransitionType_transitionConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_transitionConnections_feature", "_UI_TransitionType_type"),
+             getString("_UI_TransitionType_transitionConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_TransitionType_transitionConnections_feature", "_UI_TransitionType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.TRANSITION_TYPE__TRANSITION_CONNECTIONS,
              true,
              false,
@@ -321,7 +321,7 @@ public class TransitionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/TransitionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/TransitionType")); //$NON-NLS-1$
    }
 
    /**
@@ -335,8 +335,8 @@ public class TransitionTypeItemProvider
    {
       String label = ((TransitionType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_TransitionType_type") :
-         getString("_UI_TransitionType_type") + " " + label;
+         getString("_UI_TransitionType_type") : //$NON-NLS-1$
+         getString("_UI_TransitionType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

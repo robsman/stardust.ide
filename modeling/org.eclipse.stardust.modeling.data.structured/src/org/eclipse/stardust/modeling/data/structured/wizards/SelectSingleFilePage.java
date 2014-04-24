@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -35,7 +35,7 @@ public class SelectSingleFilePage extends WizardPage
       super("SelectSingleFilePage"); //$NON-NLS-1$
       this.workbench = workbench;
       selectSingleFileView = new SelectSingleFileView(selection, isFileMandatory,
-            ModelUtils.getProjectFromEObject(importFromSchemaWizard.getTypeDeclarations()));
+            WorkspaceUtils.getProjectFromEObject(importFromSchemaWizard.getTypeDeclarations()));
    }
 
    public void setVisible(boolean visible)

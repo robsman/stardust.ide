@@ -93,8 +93,8 @@ public class ModelerSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelerSymbolType_modeler_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelerSymbolType_modeler_feature", "_UI_ModelerSymbolType_type"),
+             getString("_UI_ModelerSymbolType_modeler_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelerSymbolType_modeler_feature", "_UI_ModelerSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODELER_SYMBOL_TYPE__MODELER,
              true,
              false,
@@ -113,7 +113,7 @@ public class ModelerSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelerSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelerSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -126,7 +126,7 @@ public class ModelerSymbolTypeItemProvider
    public String getText(Object object)
    {
       ModelerSymbolType modelerSymbolType = (ModelerSymbolType)object;
-      return getString("_UI_ModelerSymbolType_type") + " " + modelerSymbolType.getElementOid();
+      return getString("_UI_ModelerSymbolType_type") + " " + modelerSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

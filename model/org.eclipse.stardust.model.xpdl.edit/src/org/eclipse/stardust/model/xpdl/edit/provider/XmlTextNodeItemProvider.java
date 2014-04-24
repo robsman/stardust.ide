@@ -127,7 +127,7 @@ public class XmlTextNodeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/XmlTextNode"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/XmlTextNode")); //$NON-NLS-1$
    }
 
    /**
@@ -139,7 +139,7 @@ public class XmlTextNodeItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_XmlTextNode_type");
+      return getString("_UI_XmlTextNode_type"); //$NON-NLS-1$
    }
 
    /**
@@ -180,14 +180,14 @@ public class XmlTextNodeItemProvider
             (CarnotWorkflowModelPackage.Literals.XML_TEXT_NODE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.XML_TEXT_NODE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
@@ -201,7 +201,7 @@ public class XmlTextNodeItemProvider
             (CarnotWorkflowModelPackage.Literals.XML_TEXT_NODE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA,
-                "")));
+                ""))); //$NON-NLS-1$
    }
 
    /**

@@ -15,7 +15,7 @@ import org.eclipse.osgi.util.NLS;
 public class Structured_Messages extends NLS
 {
    private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.data.structured.structured-messages"; //$NON-NLS-1$
-   
+
    public static String SYNCHRONIZE_NAMESPACE_AND_ID;
 
    public static String ACTION_DELETE;
@@ -55,7 +55,7 @@ public class Structured_Messages extends NLS
    public static String ComplexTypePropertyPage_ElementPlaceholder;
 
    public static String ComplexTypePropertyPage_InvalidFieldIdentifierErrorMessage;
-   
+
    public static String ERROR_MSG_IMPORTED;
 
    public static String ERROR_MSG_SELE_CONTAINS_ELEM_WITH_REF_IN_SCHEMAS_NOT_INCLUDED_IN_SELE;
@@ -182,6 +182,12 @@ public class Structured_Messages extends NLS
 
    public static String SimpleTypePropertyPage_MinLengthLongValue;
 
+   public static String SimpleTypePropertyPage_EnumClass;
+
+   public static String SimpleTypePropertyPage_JavaEnumClass;
+
+   public static String SimpleTypePropertyPage_JavaBound;
+
    public static String SpecifyURLMessage;
 
    public static String STRINGBUFFER_REFERENCED_SCHEMA_SPECIFIED_AT_THE_FOLLOWING_LOCATION_WERE_NOT_FOUND;
@@ -225,18 +231,23 @@ public class Structured_Messages extends NLS
    public static String ImportIdDialog_DuplicateId;
 
    public static String ImportIdDialog_EmptyId;
-   
+
    public static String LBL_Sequence;
-   
+
    public static String TypeDeclarationPropertyPage_EmptyValuesMessage;
 
    public static String TypeDeclarationPropertyPage_DuplicateValueMessage;
-   
+
    public static String TypeDeclarationPropertyPage_InvalidIdentifierErrorMessage;
 
+   public static String ERROR_MSG_NO_CLASSNAME;
 
-public static String Question;   
-   
+   public static String ERROR_MSG_INVALID_CLASSNAME;
+
+   public static String Question;
+
+   public static String MSG_TypeDeclarationJavaBoundEnum;
+
    static
    {
       // initialize resource bundle

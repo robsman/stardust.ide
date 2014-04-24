@@ -44,6 +44,7 @@ import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
+import org.eclipse.stardust.modeling.validation.util.WorkspaceValidationUtils;
 import org.eclipse.wst.jsdt.core.IJavaScriptProject;
 import org.eclipse.wst.jsdt.core.JavaScriptCore;
 import org.eclipse.wst.jsdt.core.compiler.IProblem;
@@ -92,7 +93,7 @@ public class TransitionValidator implements IModelElementValidator
             }
             else
             {
-               IProject project = ModelUtils.getProjectFromEObject(element);
+               IProject project = WorkspaceValidationUtils.getProjectFromEObject(element);
                IJavaScriptProject javaProject = JavaScriptCore.create(project);
                try
                {
@@ -204,10 +205,10 @@ public class TransitionValidator implements IModelElementValidator
             else if (PredefinedConstants.PRIMITIVE_DATA.equals(data.getType().getId()))
             {
                PrimitiveAccessPathEvaluator pojoEvaluator = new PrimitiveAccessPathEvaluator();
-               result = pojoEvaluator.createDefaultValue(data.getAllAttributes());
+               result = pojoEvaluator.createDefaultValue(data, null);
                if (null == result)
                {
-                  result = pojoEvaluator.createInitialValue(data.getAllAttributes());
+                  result = pojoEvaluator.createInitialValue(data, null);
                }
             }
          }

@@ -106,7 +106,7 @@
             targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
          <filter
                name="metaType"
-               value="visualRulesEngineBean"/>
+               value="messageParsingBean"/>
       </modelElementValidator>
       <modelElementValidator
             class="org.eclipse.stardust.modeling.transformation.messaging.modeling.application.validation.MessageSerializationApplicationValidator"

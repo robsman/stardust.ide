@@ -127,7 +127,7 @@ public class DescriptionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DescriptionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DescriptionType")); //$NON-NLS-1$
    }
 
    /**
@@ -139,7 +139,7 @@ public class DescriptionTypeItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_DescriptionType_type");
+      return getString("_UI_DescriptionType_type"); //$NON-NLS-1$
    }
 
    /**
@@ -180,14 +180,14 @@ public class DescriptionTypeItemProvider
             (CarnotWorkflowModelPackage.Literals.DESCRIPTION_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.DESCRIPTION_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
@@ -201,7 +201,7 @@ public class DescriptionTypeItemProvider
             (CarnotWorkflowModelPackage.Literals.DESCRIPTION_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA,
-                "")));
+                ""))); //$NON-NLS-1$
    }
 
    /**

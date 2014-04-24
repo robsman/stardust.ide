@@ -6,7 +6,6 @@ Bundle-Version: 9.9.9.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.stardust.ide.thirdparty.runtime.xml,
  org.eclipse.stardust.ide.thirdparty.log4j;resolution:=optional
 Bundle-ClassPath: lib/carnot-base.jar
 Eclipse-BuddyPolicy: registered

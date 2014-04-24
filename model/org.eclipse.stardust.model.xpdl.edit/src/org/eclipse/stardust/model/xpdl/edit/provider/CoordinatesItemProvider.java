@@ -97,8 +97,8 @@ public class CoordinatesItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_Coordinates_xPos_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_Coordinates_xPos_feature", "_UI_Coordinates_type"),
+             getString("_UI_Coordinates_xPos_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_Coordinates_xPos_feature", "_UI_Coordinates_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.COORDINATES__XPOS,
              true,
              false,
@@ -120,8 +120,8 @@ public class CoordinatesItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_Coordinates_yPos_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_Coordinates_yPos_feature", "_UI_Coordinates_type"),
+             getString("_UI_Coordinates_yPos_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_Coordinates_yPos_feature", "_UI_Coordinates_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.COORDINATES__YPOS,
              true,
              false,
@@ -140,7 +140,7 @@ public class CoordinatesItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/Coordinates"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/Coordinates")); //$NON-NLS-1$
    }
 
    /**
@@ -153,7 +153,7 @@ public class CoordinatesItemProvider
    public String getText(Object object)
    {
       Coordinates coordinates = (Coordinates)object;
-      return getString("_UI_Coordinates_type") + " " + coordinates.getXPos();
+      return getString("_UI_Coordinates_type") + " " + coordinates.getXPos(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

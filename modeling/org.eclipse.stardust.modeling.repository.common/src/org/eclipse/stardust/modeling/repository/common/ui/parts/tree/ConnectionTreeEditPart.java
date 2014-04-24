@@ -28,6 +28,7 @@ import org.eclipse.stardust.modeling.repository.common.IFilter;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionQueryUtils;
 import org.eclipse.stardust.modeling.repository.common.ui.DeleteValueCmd;
 import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.swt.SWT;
@@ -61,8 +62,8 @@ public class ConnectionTreeEditPart extends LazyLoadingTreeEditPart implements D
       {
          ConnectionManager manager = ConnectionManager.getConnectionManager(connection);
          manager.open(connection);
-         // can be categories but also solutions, etc. 
-         return manager.select(connection,
+         // can be categories but also solutions, etc.
+         return ConnectionQueryUtils.select(connection, manager,
                (IFilter[]) connection.getProperty("filters")); //$NON-NLS-1$
       }
       catch (CoreException e)

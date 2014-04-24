@@ -41,6 +41,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationUtils;
@@ -183,7 +184,7 @@ public class MessageSerializationApplicationPropertyPage extends
 	                        ILaunchConfiguration[] launchConfigurations = lm.getLaunchConfigurations(ct);
 	                        ILaunchConfigurationWorkingCopy workingCopy = ct.newInstance(null, "New Messaging Test" + launchConfigurations.length); //$NON-NLS-1$
 	                                            
-	                        IProject project = ModelUtils.getProjectFromEObject(modelType);
+	                        IProject project = WorkspaceUtils.getProjectFromEObject(modelType);
 	                        workingCopy.setAttribute(ProcessingLauncherConstants.MODEL_URI, modelType.eResource().getURI().toString());
 	                        workingCopy.setAttribute(ProcessingLauncherConstants.IPP_PROJECT, project.getName());
 	                        workingCopy.setAttribute(ProcessingLauncherConstants.MODEL_NAME, modelType.eResource().getURI().lastSegment());

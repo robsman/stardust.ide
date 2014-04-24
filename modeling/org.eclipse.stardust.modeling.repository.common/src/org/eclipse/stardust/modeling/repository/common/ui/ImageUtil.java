@@ -12,7 +12,11 @@ package org.eclipse.stardust.modeling.repository.common.ui;
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.common.ui.jface.ImageManager;
 
@@ -33,5 +37,20 @@ public class ImageUtil
          managers.put(bundleId, im);
       }
       return im;
+   }
+
+   // image for tree edit part
+   public static Image getImage(IconFactory iconFactory, EObject eObject)
+   {
+      String icon = iconFactory.getIconFor(eObject);
+      String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+      if (icon != null && icon.length() > 0 && icon.charAt(0) == '{')
+      {
+         int ix = icon.indexOf('}', 1);
+         bundleId = icon.substring(1, ix);
+         icon = icon.substring(ix + 1);
+      }
+      IImageManager manager = ImageUtil.getImageManager(bundleId);
+      return manager.getPlainIcon(icon);
    }
 }

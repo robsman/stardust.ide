@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -884,9 +885,18 @@ public class WebModelerConnectionManager implements IConnectionManager
 
       WebModelerConnectionManager jcrConnectionManager = (WebModelerConnectionManager) model.getConnectionManager();
 
+      String filename = null;
       Resource refRes = referencedModel.eResource();
-      String filename = refRes == null ? referencedModel.getId() + ".xpdl" : refRes.getURI().toString();
+      if (refRes != null)
+      {
+         filename = refRes.getURI().toString();
+      }
+      if (StringUtils.isEmpty(filename) || filename.equals("temp.xpdl"))
+      {
+         filename = referencedModel.getId() + ".xpdl";
+      }
       IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(filename);
+
 
       if (findConnection == null)
       {

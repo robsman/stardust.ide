@@ -54,7 +54,7 @@ public class ModelOidUtil extends EContentAdapter
       {
          if (!valid && enabled)
          {
-            throw new DuplicateOidException("invalid setting of oid!");
+            throw new DuplicateOidException("invalid setting of oid!"); //$NON-NLS-1$
          }         
          else
          {

@@ -893,6 +893,20 @@
       </page>
       <page
             category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitivePropertyPage"
+            icon="icons/full/obj16/primitive_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPagePrimitiveData">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+               <test property="com.infinity.properties.metaType" value="struct"/>
+               <test property="com.infinity.properties.structType" value="simple"/>
+            </and>
+         </enabledWhen>
+      </page>
+      <page
+            category="spi"
             class="org.eclipse.stardust.modeling.core.spi.dataTypes.serializable.SerializablePropertyPage"
             icon="icons/full/obj16/serializable_data.gif"
             id="_cwm_spi_data_"

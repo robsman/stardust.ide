@@ -12,12 +12,11 @@ package org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes;
 
 import java.net.URL;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
@@ -26,12 +25,12 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
+import org.eclipse.stardust.modeling.validation.util.WorkspaceValidationUtils;
 import org.eclipse.stardust.modeling.validation.util.ProjectClassLoader;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 
@@ -46,17 +45,15 @@ public class WebserviceApplicationValidator implements IModelElementValidator
 
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
 
       result.addAll(checkProperty(element, PredefinedConstants.WS_WSDL_URL_ATT));
       result.addAll(checkProperty(element, PredefinedConstants.WS_SERVICE_NAME_ATT));
       result.addAll(checkProperty(element, PredefinedConstants.WS_PORT_NAME_ATT));
       result.addAll(checkProperty(element, PredefinedConstants.WS_OPERATION_NAME_ATT));
 
-      for (Iterator i = ((IExtensibleElement) element).getAttribute().iterator(); i
-            .hasNext();)
+      for (AttributeType attribute : ((IExtensibleElement) element).getAttribute())
       {
-         AttributeType attribute = (AttributeType) i.next();
          String key = attribute.getName();
 
          if (key.startsWith(PredefinedConstants.WS_MAPPING_ATTR_PREFIX))
@@ -73,36 +70,34 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          }
       }
 
-      return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
+      return result.toArray(Issue.ISSUE_ARRAY);
    }
 
-   private List checkTypeMapping(IModelElement element, AttributeType attribute)
+   private List<Issue> checkTypeMapping(IModelElement element, AttributeType attribute)
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
       String key = attribute.getName();
       String xmlType = key.substring(PredefinedConstants.WS_MAPPING_ATTR_PREFIX.length());
       String clazz = attribute.getValue();
 
       if (StringUtils.isEmpty(clazz))
       {
-         result.add(Issue.warning(element, MessageFormat.format(messages[0],
-               new String[] {xmlType})));
+         result.add(Issue.warning(element, MessageFormat.format(messages[0], xmlType)));
       }
       else
       {
          TypeFinder finder = new TypeFinder(element);
-         if (finder.findExactType(clazz) == null)
+         if (finder.findType(clazz) == null)
          {
-            result.add(Issue.warning(element, MessageFormat.format(messages[1],
-                  new String[] {xmlType, clazz})));
+            result.add(Issue.warning(element, MessageFormat.format(messages[1], xmlType, clazz)));
          }
       }
       return result;
    }
 
-   private List checkXmlTemplate(IModelElement element, AttributeType attribute)
+   private List<Issue> checkXmlTemplate(IModelElement element, AttributeType attribute)
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
       String key = attribute.getName();
       String name = key.substring(PredefinedConstants.WS_TEMPLATE_ATTR_PREFIX.length());
       String xml = attribute.getValue();
@@ -115,16 +110,15 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          }
          catch (Exception ex)
          {
-            result.add(Issue.warning(element, MessageFormat.format(messages[2],
-                  new String[] {name})));
+            result.add(Issue.warning(element, MessageFormat.format(messages[2], name)));
          }
       }
       return result;
    }
 
-   private List checkWsdlUrl(IModelElement element, AttributeType attribute)
+   private List<Issue> checkWsdlUrl(IModelElement element, AttributeType attribute)
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
       String uri = attribute.getValue();
       if (uri != null)
       {
@@ -140,7 +134,7 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          {
             if (Platform.isRunning())
             {
-               IProject project = ModelUtils.getProjectFromEObject(element);
+               IProject project = WorkspaceValidationUtils.getProjectFromEObject(element);
                Thread.currentThread().setContextClassLoader(
                      new ProjectClassLoader(XmlUtils.class.getClassLoader(), project,
                            uri.startsWith("/") //$NON-NLS-1$
@@ -151,8 +145,7 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          }
          catch (Exception ex)
          {
-            result.add(Issue.warning(element, MessageFormat.format(messages[3],
-                  new String[] {uri})));
+            result.add(Issue.warning(element, MessageFormat.format(messages[3], uri)));
          }
          finally
          {
@@ -163,15 +156,14 @@ public class WebserviceApplicationValidator implements IModelElementValidator
       return result;
    }
 
-   private List checkProperty(IModelElement element, String name)
+   private List<Issue> checkProperty(IModelElement element, String name)
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
       String property = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             name);
       if (StringUtils.isEmpty(property))
       {
-         result.add(Issue.error(element, MessageFormat.format(messages[4],
-               new String[] {name}), name));
+         result.add(Issue.error(element, MessageFormat.format(messages[4], name), name));
       }
       return result;
    }

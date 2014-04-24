@@ -95,8 +95,8 @@ public class StartEventSymbolItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_StartEventSymbol_trigger_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_trigger_feature", "_UI_StartEventSymbol_type"),
+             getString("_UI_StartEventSymbol_trigger_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_trigger_feature", "_UI_StartEventSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.START_EVENT_SYMBOL__TRIGGER,
              true,
              false,
@@ -118,8 +118,8 @@ public class StartEventSymbolItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_StartEventSymbol_triggersConnections_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_triggersConnections_feature", "_UI_StartEventSymbol_type"),
+             getString("_UI_StartEventSymbol_triggersConnections_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_triggersConnections_feature", "_UI_StartEventSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.START_EVENT_SYMBOL__TRIGGERS_CONNECTIONS,
              true,
              false,
@@ -141,8 +141,8 @@ public class StartEventSymbolItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_StartEventSymbol_startActivity_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_startActivity_feature", "_UI_StartEventSymbol_type"),
+             getString("_UI_StartEventSymbol_startActivity_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_StartEventSymbol_startActivity_feature", "_UI_StartEventSymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.START_EVENT_SYMBOL__START_ACTIVITY,
              true,
              false,
@@ -161,7 +161,7 @@ public class StartEventSymbolItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/StartEventSymbol"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/StartEventSymbol")); //$NON-NLS-1$
    }
 
    /**
@@ -174,7 +174,7 @@ public class StartEventSymbolItemProvider
    public String getText(Object object)
    {
       StartEventSymbol startEventSymbol = (StartEventSymbol)object;
-      return getString("_UI_StartEventSymbol_type") + " " + startEventSymbol.getElementOid();
+      return getString("_UI_StartEventSymbol_type") + " " + startEventSymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

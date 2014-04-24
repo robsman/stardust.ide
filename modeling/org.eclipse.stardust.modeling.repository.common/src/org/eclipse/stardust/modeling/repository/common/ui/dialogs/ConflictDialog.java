@@ -26,6 +26,7 @@ import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -63,7 +64,7 @@ public class ConflictDialog extends Dialog
       GridLayout layout = (GridLayout) composite.getLayout();
       layout.numColumns = 2;
       Label label = FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
-      label.setImage(ImportUtils.getImage(iconFactory, eObject));
+      label.setImage(ImageUtil.getImage(iconFactory, eObject));
       FormBuilder.createLabel(composite, ImportUtils.getLabel(eObject));
       String message = Repository_Messages.LBL_ANOTHER_TYPE_WITH_ID_ALREADY_EXISTS_IN_MODEL;
       message = MessageFormat.format(message, new Object[]{getType(eObject), MergeUtils.getId(eObject)});

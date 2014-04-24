@@ -26,21 +26,18 @@ import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.IconDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
+import org.eclipse.stardust.modeling.repository.common.ImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
-import org.eclipse.stardust.modeling.repository.common.ui.dialogs.ClosureDisplayDialog;
 import org.eclipse.stardust.modeling.repository.common.util.CreateClosures;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-import org.eclipse.swt.graphics.Image;
 
 public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor, IObjectReference, ImportableDescriptor
 {
@@ -101,14 +98,9 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
       return null;
    }
 
-   public Image getIcon()
+   public IconDescriptor getIcon()
    {
-      if (iconBundleId == null || iconPath == null)
-      {
-         return null;
-      }
-      IImageManager im = ImageUtil.getImageManager(iconBundleId);
-      return im.getPlainIcon(iconPath);
+      return new IconDescriptor(iconBundleId, iconPath);
    }
 
    public String getLabel()
@@ -167,11 +159,11 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
       return (T) eObject;
    }
 
-   public void importElements(IconFactory iconFactory, ModelType targetModel, boolean asLink)
+   public void importElements(ModelType targetModel, ImportStrategy strategy)
    {
       // compute all objects that are referenced by the source object
       List<EObject> closure;
-      if (asLink)
+      if (strategy.isImportAsLink())
       {
          closure = CollectionUtils.newList();
          closure.add(eObject);
@@ -182,7 +174,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          closure = createClosures.computeClosure(eObject, targetModel);
          if (closure.size() > 1)
          {
-            if (!ClosureDisplayDialog.acceptClosure(null, iconFactory, eObject, closure))
+            if ( !strategy.acceptClosure(eObject, closure))
             {
                throw new ImportCancelledException();
             }
@@ -199,7 +191,7 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          }
          else
          {
-            reuseReplace = ImportUtils.reuseReplaceMap(map, iconFactory, asLink);
+            reuseReplace = ImportUtils.reuseReplaceMap(map, strategy);
          }
          // CANCEL pressed
          if (reuseReplace == null)
@@ -213,8 +205,8 @@ public class EObjectDescriptor extends EObjectImpl implements IObjectDescriptor,
          }
       }
 
-      LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), asLink, isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);
-      if (asLink && !(eObject instanceof Extensible))
+      LinkAttribute linkAttribute = new LinkAttribute(getRootURI(), strategy.isImportAsLink(), isQualifyUri(), IConnectionManager.URI_ATTRIBUTE_NAME);
+      if (strategy.isImportAsLink() && !(eObject instanceof Extensible))
       {
          ModelType thisModel = ModelUtils.findContainingModel(eObject);
          if (!thisModel.getId().equals(targetModel.getId()))

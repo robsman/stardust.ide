@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.eclipse.core.expressions.EvaluationContext;
-import org.eclipse.core.expressions.EvaluationResult;
-import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.expressions.ExpressionConverter;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -32,7 +28,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.osgi.framework.Bundle;
 
 /**
  * @author fherinean
@@ -47,7 +42,6 @@ public class SpiExtensionRegistry
 
    private Map<String, Map<String, IConfigurationElement>> registry = CollectionUtils.newMap();      
    private Map<String, List<IConfigurationElement>> registry_ = CollectionUtils.newMap();         
-   private static Map<IConfigurationElement, Contributor> contributors = CollectionUtils.newMap();
 
    public static SpiExtensionRegistry instance()
    {
@@ -248,14 +242,14 @@ public class SpiExtensionRegistry
       
       Class<? extends IExtensibleElement> extensibleClass = extensible.getClass();
       
-      List<IConfigurationElement> extensions = instance().getExtensionList("org.eclipse.stardust.model.xpdl", id);
+      List<IConfigurationElement> extensions = instance().getExtensionList("org.eclipse.stardust.model.xpdl", id); //$NON-NLS-1$
       if (extensions != null)
       {
          List<IConfigurationElement> matching = new ArrayList<IConfigurationElement>();
          for(IConfigurationElement element : extensions)
          {               
-            String classValue = element.getAttribute("class");
-            String meta = element.getAttribute("meta");
+            String classValue = element.getAttribute("class"); //$NON-NLS-1$
+            String meta = element.getAttribute("meta"); //$NON-NLS-1$
 
             try
             {
@@ -324,167 +318,7 @@ public class SpiExtensionRegistry
       return !hasFilter;
    }
 
-   public static boolean isMatchingClass(Object element, String classAttributeName, IConfigurationElement template) throws ClassNotFoundException
-   {
-      Contributor pageContributor = contributors.get(template);
-      String pageContributorEnabled = template.getAttribute("pageContributor");
-      if (pageContributor == null && pageContributorEnabled == null)
-      {
-         pageContributor = new Contributor(template);
-         contributors.put(template, pageContributor);
-      }
-      if (pageContributor != null && !pageContributor.isApplicableTo(element, classAttributeName))
-      {
-         return false;
-      }
-
-      String objectClass = template.getAttribute(classAttributeName);
-      if (StringUtils.isEmpty(objectClass))
-      {
-         return true;
-      }
-      
-      // legacy support of the objectClass
-      Class<?> targetClass = null;
-      String bundleId = null;
-      if(template.getContributor() != null)
-      {         
-         bundleId = template.getContributor().getName();
-      }
-      if (bundleId != null)
-      {
-         Bundle bundle = Platform.getBundle(bundleId);
-         if (bundle != null && bundle.getState() == Bundle.ACTIVE)
-         {
-            targetClass = bundle.loadClass(objectClass);
-         }
-      }
-      if (targetClass == null)
-      {
-         targetClass = Class.forName(objectClass);
-      }
-      return targetClass.isInstance(element);
-   }
-   
-   public static boolean isMatchingElement(EObject element, String classAttributeName,
-         Map<String, String> filterValues, IConfigurationElement template)
-   {
-      try
-      {
-         if (isMatchingClass(element, classAttributeName, template))
-         {
-            IConfigurationElement[] filters = template.getChildren("filter"); //$NON-NLS-1$
-            for (Map.Entry<String, String> entry : filterValues.entrySet())
-            {
-               if (!matchFilter(filters, entry.getKey(), entry.getValue()))
-               {
-                  return false;
-               }
-            }
-            for (int j = 0; j < filters.length; j++)
-            {
-               boolean notOperator = false;
-               String name = filters[j].getAttribute(SpiConstants.NAME);
-               String value = filters[j].getAttribute(SpiConstants.ATTR_VALUE);
-               if (name.startsWith("!")) //$NON-NLS-1$
-               {
-                  notOperator = true;
-                  name = name.substring(1);
-               }
-               if ("metaType".equals(name)) //$NON-NLS-1$
-               {
-                  if (!(element instanceof ITypedElement))
-                  {
-                     return false; // (fh) metaType filter requires an ITypedElement instance object
-                  }
-                  IMetaType metaType = ((ITypedElement) element).getMetaType();
-                  if (!matchFilterValue(notOperator, metaType == null ? null : metaType.getId(), value))
-                  {
-                     return false;
-                  }
-               }
-               if (name.startsWith(FEATURE_PREFIX))
-               {
-                  String featureName = name.substring(FEATURE_PREFIX.length());
-                     Object featureValue = getFeatureValue(element, featureName);
-                     if(featureValue == null)
-                  {
-                     return false;
-                     }                     
-                     
-                  if (!matchFilterValue(notOperator, featureValue == null ? null : featureValue.toString(), value))
-                  {
-                     return false;
-                  }
-               }
-            }
-            return true;
-         }
-      }
-      catch (ClassNotFoundException e)
-      {
-         // do nothing
-         // e.printStackTrace();
-      }
-      return false;
-   }
-   
-   private static class Contributor
-   {
-      private static final String CHILD_ENABLED_WHEN = "enabledWhen"; //$NON-NLS-1$
-      
-      private Expression enablementExpression;
-
-      public Contributor(IConfigurationElement template)
-      {
-         initializeEnablement(template);
-      }
-
-      public boolean isApplicableTo(Object element, String classAttributeName)
-      {
-         if (enablementExpression == null)
-         {
-            return true;
-         }
-         try
-         {
-            EvaluationContext context = new EvaluationContext(null, element);
-            context.setAllowPluginActivation(true);
-            return enablementExpression.evaluate(context).equals(EvaluationResult.TRUE);
-         }
-         catch (CoreException e)
-         {
-//          WorkbenchPlugin.log(e);
-            return false;
-         }
-      }
-      
-      private void initializeEnablement(IConfigurationElement template)
-      {
-         IConfigurationElement[] elements = template.getChildren(CHILD_ENABLED_WHEN);
-
-         if (elements.length == 0)
-         {
-            return;
-         }
-
-         try
-         {
-            IConfigurationElement[] enablement = elements[0].getChildren();
-            if (enablement.length == 0)
-            {
-               return;
-            }
-            enablementExpression = ExpressionConverter.getDefault().perform(enablement[0]);
-         }
-         catch (CoreException e)
-         {
-//          WorkbenchPlugin.log(e);
-         }
-      }
-   }
-
-   private static Object getFeatureValue(EObject element, String featureName)
+   public static Object getFeatureValue(EObject element, String featureName)
    {
       String[] featureNames = featureName.split("\\."); //$NON-NLS-1$
       if(featureNames.length > 1)

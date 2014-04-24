@@ -41,8 +41,7 @@ import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.*;
 
 /**
  * @author rsauer
@@ -51,7 +50,7 @@ import org.eclipse.xsd.XSDSchema;
 public class StructuredTypeUtils
 {
    public static final Pattern TRANSFORMATION_PATTERN = Pattern.compile("(DOM) *\\((.*)\\)"); //$NON-NLS-1$
-   
+
    public static IXPathMap getXPathMap(DataType data)
    {
       String dataTypeId = data.getType().getId();
@@ -61,7 +60,7 @@ public class StructuredTypeUtils
          TypeDeclarationType typeDeclarationType = getTypeDeclaration(data);
          if (typeDeclarationType == null)
          {
-        	 String message = Model_Messages.EXC_NO_TYPE_DECLARATION_SPECIFIED_FOR_DATA_NULL;
+            String message = Model_Messages.EXC_NO_TYPE_DECLARATION_SPECIFIED_FOR_DATA_NULL;
             throw new PublicException( MessageFormat.format(message, new Object[]{data.getId()}));
          }
          return getXPathMap(typeDeclarationType);
@@ -76,7 +75,7 @@ public class StructuredTypeUtils
          {
             metadataXsdComponent = TypeDeclarationUtils.findElementOrTypeDeclaration(metadataTypeDeclaration);
          }
-         
+
          Map<Object, Object> parameters = CollectionUtils.newMap();
          parameters.put(DmsSchemaProvider.PARAMETER_METADATA_TYPE, metadataXsdComponent);
 
@@ -84,7 +83,7 @@ public class StructuredTypeUtils
                ISchemaTypeProvider.Factory.class).iterator(); i.hasNext();)
          {
             ISchemaTypeProvider.Factory stpFactory = i.next();
-            
+
             ISchemaTypeProvider provider = stpFactory.getSchemaTypeProvider(dataTypeId);
             if (null != provider)
             {
@@ -115,7 +114,7 @@ public class StructuredTypeUtils
             if (model != declarationModel)
             {
                typeDeclaration = getTypeDeclaration(model, declarationModel.getId(), typeDeclaration.getId());
-      }
+            }
          }
       }
       else
@@ -142,14 +141,14 @@ public class StructuredTypeUtils
          }
       return null;
    }
-   
+
    private static TypeDeclarationType getCustomMetadataType(IExtensibleElement element, ModelType model)
    {
       if (null != element)
       {
          final String metadataSchema = AttributeUtil.getAttributeValue(element,
                DmsConstants.RESOURCE_METADATA_SCHEMA_ATT);
-         
+
          if (!StringUtils.isEmpty(metadataSchema))
          {
             return model.getTypeDeclarations().getTypeDeclaration(metadataSchema);
@@ -175,8 +174,8 @@ public class StructuredTypeUtils
          allXPaths = XPathFinder.findAllXPaths(schema, component);
       }
       else
-      {	
-    	 String message = Model_Messages.EXC_NEITHER_EXTERNAL_REFERENCE_NOR_SCHEME_TYPE_IS_SET_FOR_NULL;
+      {
+      String message = Model_Messages.EXC_NEITHER_EXTERNAL_REFERENCE_NOR_SCHEME_TYPE_IS_SET_FOR_NULL;
          throw new RuntimeException(MessageFormat.format(message, new Object[]{typeDeclaration.getId()}));
       }
       return new ClientXPathMap(allXPaths);
@@ -185,10 +184,10 @@ public class StructuredTypeUtils
    public static XSDSchema loadExternalSchemaFromClasspath(String schemaLocation)
    {
       ResourceSet resourceSet = new ResourceSetImpl();
-      
+
       Map<Object, Object> options = CollectionUtils.newMap();
       options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-       
+
       resourceSet.setURIConverter(new ClasspathUriConverter());
       Resource resource = resourceSet.createResource(URI.createURI(ClasspathUriConverter.CLASSPATH_SCHEME+":/"+schemaLocation)); //$NON-NLS-1$
       try
@@ -199,16 +198,16 @@ public class StructuredTypeUtils
       {
          throw new RuntimeException(e);
       }
-      
+
       List<?> l = resource.getContents();
-      return (XSDSchema) l.get(0);  
+      return (XSDSchema) l.get(0);
    }
 
    public static void setStructuredAccessPointAttributes(IExtensibleElement accessPoint, TypeDeclarationType type)
    {
       setStructuredAccessPointAttributes(accessPoint, type, null);
    }
-   
+
    public static void setStructuredAccessPointAttributes(IExtensibleElement accessPoint, TypeDeclarationType type, String transformationType)
    {
       AttributeUtil.setReference(accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT, type);
@@ -219,22 +218,22 @@ public class StructuredTypeUtils
       AttributeUtil.setAttribute(accessPoint, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR);  //$NON-NLS-1$
       AttributeUtil.setBooleanAttribute(accessPoint, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
    }
-   
+
    public static TypeDeclarationType getStructuredAccessPointTypeDeclaration(IExtensibleElement accessPoint)
    {
       return (TypeDeclarationType) AttributeUtil.getIdentifiable(accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
    }
-   
+
    public static boolean isValidDomAccessPath(DataType dataType, String accessPath)
-   {      
+   {
       //Remove enclosing DOM() from access path
       accessPath = accessPath.substring(4);
-      accessPath = accessPath.substring(0, accessPath.length() - 1);      
-      IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataType); 
+      accessPath = accessPath.substring(0, accessPath.length() - 1);
+      IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataType);
       boolean listOrPrimitive = (StructuredDataXPathUtils.canReturnList(accessPath.toString(), xPathMap) || StructuredDataXPathUtils.returnsSinglePrimitive(accessPath.toString(), xPathMap));
       return !listOrPrimitive;
    }
-   
+
    public static TypeDeclarationType getResourceTypeDeclaration()
    {
       TypeDeclarationType typeDeclaration = XpdlFactory.eINSTANCE
@@ -247,10 +246,31 @@ public class StructuredTypeUtils
       typeDeclaration.setSchemaType(schemaType);
       return typeDeclaration;
    }
-   
+
+   // TODO: unify with other empty arrays
+   public static final Object[] emptyArray = new Object[0];
+
    private StructuredTypeUtils()
    {
       // utility class
+   }
+
+   public static Object[] getFacets(TypeDeclarationType decl)
+   {
+      XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(decl);
+      if (component instanceof XSDElementDeclaration)
+      {
+         component = ((XSDElementDeclaration) component).getTypeDefinition();
+      }
+      if (component instanceof XSDSimpleTypeDefinition)
+      {
+         XSDEnumerationFacet effectiveFacet = ((XSDSimpleTypeDefinition) component).getEffectiveEnumerationFacet();
+         if(effectiveFacet != null)
+         {
+            return effectiveFacet.getValue().toArray();
+         }
+      }
+      return emptyArray;
    }
 
 }

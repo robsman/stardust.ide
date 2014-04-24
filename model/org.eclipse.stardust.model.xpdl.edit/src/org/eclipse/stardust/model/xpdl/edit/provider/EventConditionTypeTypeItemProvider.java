@@ -109,8 +109,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -132,8 +132,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_activityCondition_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_activityCondition_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_activityCondition_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_activityCondition_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__ACTIVITY_CONDITION,
              true,
              false,
@@ -155,8 +155,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_binderClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_binderClass_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_binderClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_binderClass_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__BINDER_CLASS,
              true,
              false,
@@ -178,8 +178,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -201,8 +201,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_implementation_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_implementation_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_implementation_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_implementation_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__IMPLEMENTATION,
              true,
              false,
@@ -224,8 +224,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -247,8 +247,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IMetaType_isPredefined_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"),
+             getString("_UI_IMetaType_isPredefined_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMETA_TYPE__IS_PREDEFINED,
              true,
              false,
@@ -270,8 +270,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_panelClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_panelClass_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_panelClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_panelClass_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__PANEL_CLASS,
              true,
              false,
@@ -293,8 +293,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_processCondition_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_processCondition_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_processCondition_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_processCondition_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__PROCESS_CONDITION,
              true,
              false,
@@ -316,8 +316,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_pullEventEmitterClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_pullEventEmitterClass_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_pullEventEmitterClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_pullEventEmitterClass_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__PULL_EVENT_EMITTER_CLASS,
              true,
              false,
@@ -339,8 +339,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_rule_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_rule_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_rule_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_rule_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__RULE,
              true,
              false,
@@ -362,8 +362,8 @@ public class EventConditionTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_EventConditionTypeType_eventHandlers_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_eventHandlers_feature", "_UI_EventConditionTypeType_type"),
+             getString("_UI_EventConditionTypeType_eventHandlers_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_EventConditionTypeType_eventHandlers_feature", "_UI_EventConditionTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.EVENT_CONDITION_TYPE_TYPE__EVENT_HANDLERS,
              true,
              false,
@@ -416,7 +416,7 @@ public class EventConditionTypeTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/EventConditionTypeType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/EventConditionTypeType")); //$NON-NLS-1$
    }
 
    /**
@@ -430,8 +430,8 @@ public class EventConditionTypeTypeItemProvider
    {
       String label = ((EventConditionTypeType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_EventConditionTypeType_type") :
-         getString("_UI_EventConditionTypeType_type") + " " + label;
+         getString("_UI_EventConditionTypeType_type") : //$NON-NLS-1$
+         getString("_UI_EventConditionTypeType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

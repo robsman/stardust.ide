@@ -108,8 +108,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -131,8 +131,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -154,8 +154,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -177,8 +177,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_dataMappings_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataMappings_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_dataMappings_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataMappings_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__DATA_MAPPINGS,
              true,
              false,
@@ -200,8 +200,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_predefined_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_predefined_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_predefined_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_predefined_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__PREDEFINED,
              true,
              false,
@@ -223,8 +223,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_type_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_type_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_type_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_type_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__TYPE,
              true,
              false,
@@ -246,8 +246,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_dataSymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataSymbols_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_dataSymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataSymbols_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__DATA_SYMBOLS,
              true,
              false,
@@ -269,8 +269,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_conditionalPerformers_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_conditionalPerformers_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_conditionalPerformers_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_conditionalPerformers_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__CONDITIONAL_PERFORMERS,
              true,
              false,
@@ -292,8 +292,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_dataPaths_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataPaths_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_dataPaths_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_dataPaths_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__DATA_PATHS,
              true,
              false,
@@ -315,8 +315,8 @@ public class DataTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_DataType_parameterMappings_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_DataType_parameterMappings_feature", "_UI_DataType_type"),
+             getString("_UI_DataType_parameterMappings_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_DataType_parameterMappings_feature", "_UI_DataType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.DATA_TYPE__PARAMETER_MAPPINGS,
              true,
              false,
@@ -370,7 +370,7 @@ public class DataTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DataType")); //$NON-NLS-1$
    }
 
    /**
@@ -384,8 +384,8 @@ public class DataTypeItemProvider
    {
       String label = ((DataType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_DataType_type") :
-         getString("_UI_DataType_type") + " " + label;
+         getString("_UI_DataType_type") : //$NON-NLS-1$
+         getString("_UI_DataType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

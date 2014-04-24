@@ -86,7 +86,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
    private TypeSelectionComposite classBrowser;
    private Label genericInfoLabel;
    private TreeViewer viewer;
-   
+
    private TypeFinder finder;
    private TypeModel model;
    private HashMap typeCache = new HashMap();
@@ -97,16 +97,16 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement node)
    {
       finder = new TypeFinder(node);
-      classBrowser.setTypeFinder(finder); 
+      classBrowser.setTypeFinder(finder);
       classBrowser.setModel((ModelType) node.eContainer());
-      
+
       String fullClassName = AttributeUtil.getAttributeValue(
             (IExtensibleElement) node, PredefinedConstants.CLASS_NAME_ATT);
 
       boolean autoInitialize = AttributeUtil.getBooleanValue(
             (IExtensibleElement) node, PredefinedConstants.AUTO_INSTANTIATE_ATT);
-      autoInitializeCheckBox.setSelection(autoInitialize);      
-      
+      autoInitializeCheckBox.setSelection(autoInitialize);
+
       if(!StringUtils.isEmpty(fullClassName))
          {
          if (fullClassName.indexOf("${") > -1) //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
          fullClassName = VariableContextHelper.getInstance().getContext(
                (ModelType) this.getModelElement().eContainer())
                .replaceAllVariablesByDefaultValue(fullClassName);
-      
+
          findType(fullClassName);
          if (model != null)
          {
@@ -129,7 +129,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
       }
 
       setViewerInput();
-      
+
       if (isPredefined(node))
       {
          disableControls();
@@ -165,7 +165,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
                Diagram_Messages.SerializablePropertyPage_ParametersTableLabel, new Object[] {model.getSimpleName()}));
          viewer.setInput(model);
          viewer.getTree().setVisible(hasParams);
-         
+
          boolean hasDefaultConstructor = model == null ? false : model.hasDefaultConstructor();
          if (hasDefaultConstructor)
          {
@@ -236,14 +236,14 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
       classLabel = FormBuilder.createLabelWithRightAlignedStatus(
             composite, Diagram_Messages.LB_ClassName);
       classBrowser = new TypeSelectionComposite(composite, browserTitle);
-      
+
       FormBuilder.createLabel(composite, BLANK_STRING);
       autoInitializeCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.SerializablePropertyPage_AutoInstantiateLabel);
-      
+
       FormBuilder.createLabel(composite, BLANK_STRING, 2); // empty line
-      
+
       genericInfoLabel = FormBuilder.createLabel(composite, BLANK_STRING, 2);
-      
+
       classBrowser.getText().addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -273,7 +273,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
             }
          }
       });
-      
+
       Tree table = FormBuilder.createTree(composite, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER,
             columnProperties , new int[] {25, 70}, 2);
       table.setVisible(false);
@@ -312,7 +312,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
 
       return composite;
    }
-   
+
    private class CellModifier implements ICellModifier
    {
       public boolean canModify(Object element, String property)
@@ -338,7 +338,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
          }
       }
    }
-   
+
    private class ParameterContentProvider extends ArrayContentProvider implements ITreeContentProvider
    {
       public Object[] getElements(Object inputElement)
@@ -417,7 +417,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
          return result == null ? "" : result; //$NON-NLS-1$
       }
    }
-   
+
    private class TypeModel
    {
       private TypeInfo type;
@@ -432,15 +432,8 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
       {
          try
          {
-            List constructors = type.getConstructors();
-            if(constructors == null || constructors.size() == 0)
+            for (MethodInfo ctor : type.getConstructors())
             {
-               return true;
-            }            
-            
-            for (int i = 0; i < constructors.size(); i++)
-            {
-               MethodInfo ctor = (MethodInfo) constructors.get(i);
                if (ctor.getParameterCount() == 0)
                {
                   return true;
@@ -489,7 +482,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
          return parameters;
       }
    }
-   
+
    private class ParameterModel
    {
       private Object parent;
@@ -497,7 +490,7 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
       private ITypeParameter param;
       private TypeInfo type;
       private ParameterModel[] parameters;
-      
+
       public ParameterModel(Object parent, TypeInfo owner, ITypeParameter param)
       {
          this.parent = parent;

@@ -8,8 +8,7 @@
 
 	<bean id="camelTriggerLoader"
 		class="org.eclipse.stardust.engine.extensions.camel.trigger.CamelTriggerLoader">
-		<property name="forkingService" ref="carnotForkingService" />
-
+	 	<property name="forkingService" ref="carnotForkingService" />
 		<property name="dataConverters">
 			<list>
 				<ref bean="documentDataConverter" />
@@ -21,9 +20,9 @@
 
 	<bean id="camelApplicationLoader"
 		class="org.eclipse.stardust.engine.extensions.camel.app.CamelApplicationLoader">
-		<property name="forkingService" ref="carnotForkingService" />
+		 <property name="forkingService" ref="carnotForkingService" />
 	</bean>
-
+	
 	<bean id="structuredDataTranslator"
 		class="org.eclipse.stardust.engine.extensions.camel.util.converter.StructuredDataTranslator">
 		<property name="forkingService" ref="carnotForkingService" />
@@ -63,6 +62,9 @@
 	<bean name="mapAppenderProcessor"
 		class="org.eclipse.stardust.engine.extensions.camel.enricher.MapAppenderProcessor" />
 
+   <bean id="sqlPrepareStatementStrategy"
+      class="org.eclipse.stardust.engine.extensions.camel.sql.SqlPrepareStatementStrategy" />
+      
 	<camelContext id="defaultCamelContext" trace="true"
 		xmlns="http://camel.apache.org/schema/spring">
 	</camelContext>

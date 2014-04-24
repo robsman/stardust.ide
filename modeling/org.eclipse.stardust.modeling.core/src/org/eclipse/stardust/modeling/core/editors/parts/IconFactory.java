@@ -17,6 +17,7 @@ import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
@@ -49,6 +50,8 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ViewType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
@@ -59,6 +62,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 
 /**
  * @author fherinean
@@ -122,7 +126,19 @@ public class IconFactory implements org.eclipse.stardust.model.xpdl.carnot.util.
          {
             return "icons/full/obj16/data.gif"; //$NON-NLS-1$
          }
-         return getIcon(((DataType) model).getType(), "icons/full/obj16/data.gif"); //$NON-NLS-1$
+
+         DataTypeType metaType = ((DataType) model).getType();
+         TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) model);
+         if(decl != null)
+         {
+            if(TypeDeclarationUtils.isEnumeration(decl, false))
+            {
+               ModelType containingModel = ModelUtils.findContainingModel(model);
+               metaType = GenericUtils.getDataTypeType(containingModel, PredefinedConstants.PRIMITIVE_DATA);
+            }
+         }
+
+         return getIcon(metaType, "icons/full/obj16/data.gif"); //$NON-NLS-1$
       }
       if (model instanceof TypeDeclarationsType)
       {

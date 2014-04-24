@@ -18,7 +18,6 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 
-
 public class Path
 {
    private List<PathEntry> segments = new ArrayList<PathEntry>();

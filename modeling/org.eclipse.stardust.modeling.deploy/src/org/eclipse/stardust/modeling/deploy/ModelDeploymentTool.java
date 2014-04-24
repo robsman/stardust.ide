@@ -31,6 +31,7 @@ import org.eclipse.stardust.engine.api.runtime.*;
 import org.eclipse.stardust.engine.cli.common.DeploymentCallback;
 import org.eclipse.stardust.engine.cli.common.DeploymentUtils;
 import org.eclipse.stardust.engine.core.compatibility.gui.ErrorDialog;
+import org.eclipse.stardust.engine.core.compatibility.gui.ValidationExceptionDialog;
 import org.eclipse.stardust.engine.core.model.beans.DefaultConfigurationVariablesProvider;
 import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
 import org.eclipse.stardust.engine.core.model.beans.IConfigurationVariablesProvider;
@@ -119,7 +120,7 @@ public class ModelDeploymentTool
       }
 
       trace.info(Deploy_Messages.getString("MSG_DeployModel") + modelFiles); //$NON-NLS-1$
-      
+
       // Activate below section if debugging is needed.
       /*trace.info("Waiting 30 sek for the debugger to connect...");
       try
@@ -169,7 +170,7 @@ public class ModelDeploymentTool
                e.printStackTrace();
             }
          }
-         
+
          // 2. order models and prepare overrides
          if (runtimeEnvironment == null)
          {
@@ -180,14 +181,14 @@ public class ModelDeploymentTool
          runtimeEnvironment.setModelOverrides(overrides);
          for (String modelId : orderModels(infoMap))
          {
-            IConfigurationVariablesProvider confVarProvider 
+            IConfigurationVariablesProvider confVarProvider
                = new DefaultConfigurationVariablesProvider();
             File file = fileMap.get(modelId);
             IModel model = null;
             if (file.getName().endsWith(XpdlUtils.EXT_XPDL))
             {
                model = XpdlUtils.loadXpdlModel(file, confVarProvider, false);
-               
+
             }
             else
             {
@@ -254,9 +255,15 @@ public class ModelDeploymentTool
          List<Inconsistency> inconsistencies = model.checkConsistency();
          if (inconsistencies.size() > 0)
          {
+            Inconsistency inc = inconsistencies.get(0);
+            String message = inc.getMessage();
+            if (inc.getError() != null)
+            {
+               message = ValidationExceptionDialog.getMessageFromErrorCase(inc.getError());
+            }
             int dialogResult = JOptionPane.showConfirmDialog(null,
                /*Internal_ExportMessages.getString("MSG_InconsistentVersion")*/ //$NON-NLS-1$
-                  inconsistencies.get(0).getMessage() + " " //$NON-NLS-1$
+                  message + " " //$NON-NLS-1$
                   + Deploy_Messages.getString("MSG_Continue"), //$NON-NLS-1$
                   Deploy_Messages.getString("MSG_ModelVersionDeployment"), //$NON-NLS-1$
                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

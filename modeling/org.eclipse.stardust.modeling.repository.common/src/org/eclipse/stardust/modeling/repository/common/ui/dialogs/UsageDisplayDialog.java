@@ -29,6 +29,7 @@ import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -78,7 +79,7 @@ public class UsageDisplayDialog extends Dialog
       GridLayout layout = (GridLayout) composite.getLayout();
       layout.numColumns = 2;
       Label label = FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
-      label.setImage(ImportUtils.getImage(iconFactory, eObject));
+      label.setImage(ImageUtil.getImage(iconFactory, eObject));
       FormBuilder.createLabel(composite, ImportUtils.getLabel(eObject));
       /*FormBuilder.createLabel(composite, Repository_Messages.LBL_ANOTHER + getType(eObject)
             + Repository_Messages.LBL_WITH_ID + MergeUtils.getId(eObject)

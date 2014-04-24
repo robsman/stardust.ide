@@ -107,8 +107,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_author_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_author_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_author_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_author_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__AUTHOR,
              true,
              false,
@@ -130,8 +130,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_carnotVersion_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_carnotVersion_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_carnotVersion_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_carnotVersion_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__CARNOT_VERSION,
              true,
              false,
@@ -153,8 +153,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_created_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_created_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_created_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_created_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__CREATED,
              true,
              false,
@@ -176,8 +176,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -199,8 +199,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_modelOID_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_modelOID_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_modelOID_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_modelOID_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__MODEL_OID,
              true,
              false,
@@ -222,8 +222,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -245,8 +245,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_typeDeclarations_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_typeDeclarations_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_typeDeclarations_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_typeDeclarations_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__TYPE_DECLARATIONS,
              true,
              false,
@@ -268,8 +268,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_oid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_oid_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_oid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_oid_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__OID,
              true,
              false,
@@ -291,8 +291,8 @@ public class ModelTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ModelType_vendor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_vendor_feature", "_UI_ModelType_type"),
+             getString("_UI_ModelType_vendor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ModelType_vendor_feature", "_UI_ModelType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.MODEL_TYPE__VENDOR,
              true,
              false,
@@ -363,7 +363,7 @@ public class ModelTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelType")); //$NON-NLS-1$
    }
 
    /**
@@ -377,8 +377,8 @@ public class ModelTypeItemProvider
    {
       String label = ((ModelType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_ModelType_type") :
-         getString("_UI_ModelType_type") + " " + label;
+         getString("_UI_ModelType_type") : //$NON-NLS-1$
+         getString("_UI_ModelType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.preferences.configurationvariables.ConfigurationVariableScope;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
@@ -31,7 +32,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
-
 
 public class VariableContext
 {
@@ -58,7 +58,7 @@ public class VariableContext
       List<AttributeType> allAttributes = model.getAttribute();
       for(AttributeType at: allAttributes)
       {
-         if(at.getName().startsWith("ipp:variables"))
+         if(at.getName().startsWith("ipp:variables")) //$NON-NLS-1$
          {
             elements.add(at);
          }
@@ -283,20 +283,30 @@ public class VariableContext
                String ref = modelElement.toString().substring(matcher.start(),
                      matcher.end());
                ref = ref.trim();
-               if (!variableExists(ref))
+
+               ModelVariable modelVariable = null;
+               List<EObject> refList = null;
+
+               if ( !variableExists(ref))
                {
-                  List<EObject> refList = variableReferences.get(ref);
-                  if (refList == null)
-                  {
-                     refList = new ArrayList<EObject>();
-                     variableReferences.put(ref, refList);
-                     ModelVariable modelVariable = new ModelVariable(ref, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
-                     variables.add(modelVariable);
-                  }
-                  if (!containedReference(modelElement, refList))
-                  {
-                     refList.add(modelElement);
-                  }
+                  modelVariable = new ModelVariable(ref, "", ""); //$NON-NLS-1$ //$NON-NLS-2$
+                  variables.add(modelVariable);
+               }
+               else
+               {
+                  modelVariable = getVariable(ref);
+                  refList = getReferences(modelVariable);
+               }
+
+               if (refList == null)
+               {
+                  refList = new ArrayList<EObject>();
+                  variableReferences.put(ref, refList);
+               }
+
+               if ( !containedReference(modelElement, refList))
+               {
+                  refList.add(modelElement);
                }
             }
          }
@@ -312,12 +322,25 @@ public class VariableContext
       for (Iterator<ModelVariable> i = variables.iterator(); i.hasNext();)
       {
          ModelVariable variable = i.next();
-         if (variable.getName().equalsIgnoreCase(ref))
+         if(variableEquals(variable.getName(), ref))
          {
             return true;
          }
       }
       return false;
+   }
+
+   private ModelVariable getVariable(String ref)
+   {
+      for (Iterator<ModelVariable> i = variables.iterator(); i.hasNext();)
+      {
+         ModelVariable variable = i.next();
+         if (variableEquals(variable.getName(), ref))
+         {
+            return variable;
+         }
+      }
+      return null;
    }
 
    private boolean containedReference(EObject modelElement, List<EObject> refList)
@@ -338,9 +361,16 @@ public class VariableContext
       return variables;
    }
 
-   public Map<String, List<EObject>> getVariableReferences()
+   public List<EObject> getReferences(ModelVariable modelVariable)
    {
-      return variableReferences;
+
+      String typelessName = "${" + modelVariable.getStrippedName().split(":")[0] + "}";
+      List<EObject> references = variableReferences.get(modelVariable.getName());
+      if (references == null || references.isEmpty())
+      {
+         references = variableReferences.get(typelessName);
+      }
+      return references;
    }
 
    public boolean hasVariable(IModelElement modelElement)
@@ -468,7 +498,7 @@ public class VariableContext
 
    public void replaceVariable(ModelVariable modelVariable, String newValue)
    {
-      List<EObject> refList = getVariableReferences().get(modelVariable.getName());
+      List<EObject> refList = getReferences(modelVariable);
       if (refList != null)
       {
          for (Iterator<EObject> k = refList.iterator(); k.hasNext();)
@@ -479,25 +509,37 @@ public class VariableContext
       }
       if (!newValue.equals(modelVariable.getName()))
       {
-         getVariableReferences().put(newValue, refList);
-         getVariableReferences().remove(modelVariable.getName());
+         variableReferences.put(newValue, refList);
+         variableReferences.remove(modelVariable.getName());
       }
    }
 
    public String replace(ModelVariable modelVariable, String newValue, String value)
    {
-      List<String> list1 = new ArrayList<String>();
-      String n = modelVariable.getName();
-      String tobeReplaced = ""; //$NON-NLS-1$
-      String replacement = ""; //$NON-NLS-1$
+      String literal = modelVariable.getName();
+      value = replaceLiteral(literal, value, newValue);
+      if (modelVariable.getStrippedName().endsWith(":String"))
+      {
+         String typelessName = modelVariable.getStrippedName().split(":")[0];
+         literal = "${" + typelessName + "}";
+         value = replaceLiteral(literal, value, newValue);
+      }
+      return value;
+   }
+
+   private String replaceLiteral(String literal, String value, String newValue)
+   {
+      String tobeReplaced = "";
+      String replacement = "";
       if (!newValue.startsWith("${")) //$NON-NLS-1$
       {
-         tobeReplaced = n.substring(2, n.length() - 1);
+         tobeReplaced = literal.substring(2, literal.length() - 1);
          replacement = newValue;
          if (replacement.indexOf("$") > -1) //$NON-NLS-1$
          {
             replacement = replacement.replace("$", "\\$"); //$NON-NLS-1$ //$NON-NLS-2$
          }
+         List<String> list1 = new ArrayList<String>();
          while (value.indexOf("${" + tobeReplaced + "}") > -1) //$NON-NLS-1$ //$NON-NLS-2$
          {
             int idx = value.indexOf("${" + tobeReplaced + "}"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -519,7 +561,7 @@ public class VariableContext
       }
       else
       {
-         tobeReplaced = n.substring(2, n.length() - 1);
+         tobeReplaced = literal.substring(2, literal.length() - 1);
          replacement = newValue.substring(2, newValue.length() - 1);
          if (replacement.indexOf("$") > -1) //$NON-NLS-1$
          {
@@ -530,6 +572,40 @@ public class VariableContext
                + replacement + "\\}"); //$NON-NLS-1$
       }
       return value;
+   }
+
+   public boolean isSecurityContext(String name)
+   {
+      if (name.startsWith("${")) //$NON-NLS-1$
+      {
+         name = name.substring(2, name.length() - 1);
+      }
+      String type = VariableContextHelper.getType(name);
+      if(type.equals(ConfigurationVariableScope.Password.name()))
+      {
+         return true;
+      }
+
+      return false;
+   }
+
+   public boolean isValidType(String name)
+   {
+      if (name.startsWith("${")) //$NON-NLS-1$
+      {
+         name = name.substring(2, name.length() - 1);
+      }
+      String type = VariableContextHelper.getType(name);
+      ConfigurationVariableScope[] scopes = ConfigurationVariableScope.values();
+      for(ConfigurationVariableScope scope : scopes)
+      {
+         if(scope.name().equals(type))
+         {
+            return true;
+         }
+      }
+
+      return false;
    }
 
    public boolean isValidName(String name)
@@ -546,6 +622,14 @@ public class VariableContext
       {
          return false;
       }
+
+      String[] parts = name.split(":");
+      if(parts.length > 2)
+      {
+         return false;
+      }
+
+      name = VariableContextHelper.getName(name);
       if (!StringUtils.isValidIdentifier(name))
       {
          return false;
@@ -563,4 +647,30 @@ public class VariableContext
       this.criticalityFormulaChanged = criticalityFormulaChanged;
    }
 
+   private boolean variableEquals(String left, String right)
+   {
+      if (left.startsWith("${")) //$NON-NLS-1$
+      {
+         left = left.substring(2, left.length() - 1);
+      }
+      if (right.startsWith("${")) //$NON-NLS-1$
+      {
+         right = right.substring(2, right.length() - 1);
+      }
+      String leftType = VariableContextHelper.getType(left);
+      String rightType = VariableContextHelper.getType(right);
+      if(!leftType.equals(rightType))
+      {
+         return false;
+      }
+
+      String leftName = VariableContextHelper.getName(left);
+      String rightName = VariableContextHelper.getName(right);
+      if(leftName.equalsIgnoreCase(rightName))
+      {
+         return true;
+      }
+
+      return false;
+   }
 }

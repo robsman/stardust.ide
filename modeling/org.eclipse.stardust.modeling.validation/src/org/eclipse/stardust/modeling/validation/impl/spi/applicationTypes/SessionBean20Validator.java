@@ -11,17 +11,16 @@
 package org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jdt.core.IType;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
@@ -29,6 +28,7 @@ import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 
 public class SessionBean20Validator implements IModelElementValidator
 {
@@ -47,17 +47,14 @@ public class SessionBean20Validator implements IModelElementValidator
 
    private final static String[] methodNames = {"Creation", "Completion"}; //$NON-NLS-1$ //$NON-NLS-2$
 
-   private ModelType model;
-
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
 
       if (element instanceof ApplicationType)
       {
          ApplicationType sessionBean = (ApplicationType) element;
 
-         ModelType model = (ModelType) element.eContainer();
          String createdTypeName = checkMethod(sessionBean, HOME, result);
          checkMethod(sessionBean, REMOTE, result);
 
@@ -69,10 +66,10 @@ public class SessionBean20Validator implements IModelElementValidator
                && !StringUtils.isEmpty(componentTypeName))
          {
             TypeFinder typeFinder = new TypeFinder(sessionBean);
-            IType createdType = typeFinder.findExactType(createdTypeName);
-            IType componentType = typeFinder.findExactType(componentTypeName);
+            TypeInfo createdType = typeFinder.findType(createdTypeName);
+            TypeInfo componentType = typeFinder.findType(componentTypeName);
 
-            if (!TypeFinder.isAssignable(componentType, createdType))
+            if (!TypeFinder.isAssignable(componentType.getType(), createdType.getType()))
             {
                result.add(Issue.warning(sessionBean,
                      Validation_Messages.SessionBean_IncompatibleCreatedType,
@@ -85,82 +82,87 @@ public class SessionBean20Validator implements IModelElementValidator
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }
 
-   private void checkJndiPath(List result, IExtensibleElement element)
+   private void checkJndiPath(List<Issue> result, IExtensibleElement element)
    {
       if (AttributeUtil.getAttributeValue(element, classAttrNames[2]) == null)
       {
-         result.add(Issue.warning((IModelElement) element, MessageFormat.format(
-               Validation_Messages.Validation_MSG_JNDIPathNotSpecified, new String[] {}),
+         result.add(Issue.warning((IModelElement) element,
+               Validation_Messages.Validation_MSG_JNDIPathNotSpecified,
                classAttrNames[2]));
       }
    }
 
-   private String checkMethod(ApplicationType sessionBean, int type, List issues)
+   private String checkMethod(ApplicationType sessionBean, int type, List<Issue> issues)
    {
       TypeFinder typeFinder = new TypeFinder(sessionBean);
-      IType iType = null;
+      TypeInfo iType = null;
 
       boolean isLocal = AttributeUtil.getBooleanValue(sessionBean,
             PredefinedConstants.IS_LOCAL_ATT);
 
       String className = AttributeUtil.getAttributeValue(sessionBean,
             classAttrNames[type]);
-      
-      className = VariableContextHelper.getInstance().getContext(model)
-            .replaceAllVariablesByDefaultValue(className);
+
+      VariableContext variableContext = VariableContextHelper.getInstance().getContext(sessionBean);
+      className = variableContext.replaceAllVariablesByDefaultValue(className);
 
       String rType = null;
 
       if (className == null)
       {
-         issues.add(Issue.warning(sessionBean, MessageFormat.format(
-               Validation_Messages.MSG_InterfaceNotSpecified,
-               new String[] {interfaceNames[type]}), classAttrNames[type]));
+         issues.add(Issue.warning(sessionBean,
+               MessageFormat.format(Validation_Messages.MSG_InterfaceNotSpecified, interfaceNames[type]),
+               classAttrNames[type]));
       }
       else
       {
-         iType = typeFinder.findExactType(className);
+         iType = typeFinder.findType(className);
       }
 
       if (null == iType)
       {
          issues.add(Issue.error(sessionBean, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                classAttrNames[type]));
       }
       else
       {
          if (!isLocal)
          {
-            String[] interfaces = type == REMOTE ? new String[] {
-                  className, javax.ejb.EJBObject.class.getName(),
-                  javax.ejb.EJBLocalObject.class.getName()} : new String[] {
-                  className, javax.ejb.EJBHome.class.getName(),
-                  javax.ejb.EJBLocalHome.class.getName()};
-            if (!typeFinder.implementsInterface(iType, interfaces[1])
-                  && !typeFinder.implementsInterface(iType, interfaces[2]))
+            Object[] interfaces = type == REMOTE
+                  ? new Object[] {
+                        className,
+                        javax.ejb.EJBObject.class.getName(),
+                        javax.ejb.EJBLocalObject.class.getName()}
+                  : new Object[] {
+                        className,
+                        javax.ejb.EJBHome.class.getName(),
+                        javax.ejb.EJBLocalHome.class.getName()};
+            if (!iType.implementsInterface((String) interfaces[1])
+                  && !iType.implementsInterface((String) interfaces[2]))
             {
-               issues.add(Issue.warning(sessionBean, MessageFormat.format(
-                     Validation_Messages.MSG_SessionBean_InvalidEjbTypeSignature,
-                     interfaces), classAttrNames[type]));
+               issues.add(Issue.warning(sessionBean,
+                     MessageFormat.format(Validation_Messages.MSG_SessionBean_InvalidEjbTypeSignature, interfaces),
+                     classAttrNames[type]));
             }
          }
          String method = AttributeUtil.getAttributeValue(sessionBean,
                methodAttrNames[type]);
          if (StringUtils.isEmpty(method))
          {
-            issues.add(Issue.warning(sessionBean, MessageFormat.format(
-                  Validation_Messages.MSG_MethodNotSpecified,
-                  new String[] {methodNames[type]}), methodAttrNames[type]));
+            issues.add(Issue.warning(sessionBean,
+                  MessageFormat.format(Validation_Messages.MSG_MethodNotSpecified, methodNames[type]),
+                  methodAttrNames[type]));
          }
          else
          {
             MethodInfo info = typeFinder.getMethod(iType, method);
             if (info == null)
             {
-               issues.add(Issue.warning(sessionBean, MessageFormat.format(
-                     Validation_Messages.MSG_CantFindMethodInClass, new Object[] {
-                           method, iType.getElementName()}), methodAttrNames[type]));
+               issues.add(Issue.warning(sessionBean,
+                     MessageFormat.format(Validation_Messages.MSG_CantFindMethodInClass,
+                           method, iType.getType().getElementName()),
+                     methodAttrNames[type]));
             }
             else
             {

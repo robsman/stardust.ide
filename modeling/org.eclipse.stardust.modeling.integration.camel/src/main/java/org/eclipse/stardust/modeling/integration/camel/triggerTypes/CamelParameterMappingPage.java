@@ -30,7 +30,7 @@ import org.eclipse.stardust.modeling.core.spi.triggerTypes.ParameterMappingPage;
 */
 public class CamelParameterMappingPage extends ParameterMappingPage implements NotificationAdaptee
 {
-   private static final String BODY_ACCESS_POINT_ID = "message";
+   private static final String BODY_ACCESS_POINT_ID = "message"; //$NON-NLS-1$
    
    private NotificationAdapter adapter = new NotificationAdapter(this);
    

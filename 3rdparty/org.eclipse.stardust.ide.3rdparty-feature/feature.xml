@@ -37,7 +37,8 @@
          id="org.eclipse.stardust.ide.thirdparty.runtime.j2ee"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.gface"
@@ -102,19 +103,22 @@
          id="org.eclipse.stardust.ide.thirdparty.log4j"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false" />
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.javax.jcr"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.runtime.xml"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.cxf"
@@ -126,6 +130,12 @@
          id="org.eclipse.stardust.ide.thirdparty.camel"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>         
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.stardust.ide.thirdparty.javascript"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>

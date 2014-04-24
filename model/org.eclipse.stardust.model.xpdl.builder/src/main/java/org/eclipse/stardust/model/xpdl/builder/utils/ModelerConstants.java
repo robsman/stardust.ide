@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-
 public class ModelerConstants
 {
+   public static final String RULE_SET_ID = "ruleSetId";
+   public static final String RULE_SET_CONTEXT = "ruleSet";
    public static final String DATA_ID_PROPERTY = "dataId";
    public static final String DATA_NAME_PROPERTY = "dataName";
    public static final String DATA_FULL_ID_PROPERTY = "dataFullId";
@@ -26,6 +27,7 @@ public class ModelerConstants
    public static final String DOUBLE_PRIMITIVE_DATA_TYPE = "double";
    public static final String DECIMAL_PRIMITIVE_DATA_TYPE = "decimal";
    public static final String LONG_PRIMITIVE_DATA_TYPE = "long";
+   public static final String ENUM_PRIMITIVE_DATA_TYPE = "Enumeration";
    public static final String CALENDAR_PRIMITIVE_DATA_TYPE = "Calendar";
    public static final String STRUCTURED_DATA_TYPE_KEY = "struct";
    public static final String DOCUMENT_DATA_TYPE_KEY = "dmsDocument";
@@ -138,6 +140,7 @@ public class ModelerConstants
    public static final String WEB_SERVICE_APPLICATION_TYPE_ID = "webservice";
    public static final String MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID = "messageTransformationBean";
    public static final String CAMEL_APPLICATION_TYPE_ID = "camelSpringProducerApplication";
+   public static final String DROOLS_APPLICATION_TYPE_ID = "rulesEngineBean";
    public static final String CAMEL_CONSUMER_APPLICATION_TYPE_ID = "camelConsumerApplication";
    public static final String CAMEL_TRIGGER_TYPE_ID = "camel";
    public static final String MAIL_APPLICATION_TYPE_ID = "mailBean";
@@ -199,6 +202,7 @@ public class ModelerConstants
    public static final String COMMENTS_PROPERTY = "comments";
    public static final String EXTERNAL_REFERENCE_PROPERTY = "externalReference";
    public static final String ACCESS_POINT_ID_PROPERTY = "accessPointId";
+   public static final String ACCESS_POINT_PATH_PROPERTY = "accessPointPath";
    public static final String ACCESS_POINT_CONTEXT_PROPERTY = "accessPointContext";
    public static final String ATTRIBUTE_MODIFIED = "ipp:model:modified";
    public static final String APPLICATION_CONTEXT_TYPE_KEY = "application";

@@ -51,7 +51,7 @@ public class PrimitiveDataInitializer implements IDataInitializer
       {Date.class.getName(), "Timestamp"}, //$NON-NLS-1$
    };
 
-   public List initialize(DataType data, List attributes)
+   public List<AttributeType> initialize(DataType data, List<AttributeType> attributes)
    {
       String typeName = null;
       for (int i = 0; i < attributes.size(); i++)

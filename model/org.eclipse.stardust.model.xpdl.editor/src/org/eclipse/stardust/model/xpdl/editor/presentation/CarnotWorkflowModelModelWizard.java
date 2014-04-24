@@ -103,7 +103,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
     * @generated
     */
    public static final List<String> FILE_EXTENSIONS =
-      Collections.unmodifiableList(Arrays.asList(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameExtensions").split("\\s*,\\s*")));
+      Collections.unmodifiableList(Arrays.asList(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameExtensions").split("\\s*,\\s*"))); //$NON-NLS-1$ //$NON-NLS-2$
 
    /**
     * A formatted list of supported file extensions, suitable for display.
@@ -112,7 +112,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
     * @generated
     */
    public static final String FORMATTED_FILE_EXTENSIONS =
-      CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", ");
+      CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
    /**
     * This caches an instance of the model package.
@@ -180,8 +180,8 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
    {
       this.workbench = workbench;
       this.selection = selection;
-      setWindowTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_Wizard_label"));
-      setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(CarnotWorkflowModelEditorPlugin.INSTANCE.getImage("full/wizban/NewCarnotWorkflowModel")));
+      setWindowTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_Wizard_label")); //$NON-NLS-1$
+      setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(CarnotWorkflowModelEditorPlugin.INSTANCE.getImage("full/wizban/NewCarnotWorkflowModel"))); //$NON-NLS-1$
    }
 
    /**
@@ -322,7 +322,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
          }
          catch (PartInitException exception)
          {
-            MessageDialog.openError(workbenchWindow.getShell(), CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage());
+            MessageDialog.openError(workbenchWindow.getShell(), CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage()); //$NON-NLS-1$
             return false;
          }
 
@@ -368,7 +368,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
             String extension = new Path(getFileName()).getFileExtension();
             if (extension == null || !FILE_EXTENSIONS.contains(extension))
             {
-               String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension";
+               String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension"; //$NON-NLS-1$ //$NON-NLS-2$
                setErrorMessage(CarnotWorkflowModelEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
                return false;
             }
@@ -451,7 +451,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
 
          Label containerLabel = new Label(composite, SWT.LEFT);
          {
-            containerLabel.setText(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_ModelObject"));
+            containerLabel.setText(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_ModelObject")); //$NON-NLS-1$
 
             GridData data = new GridData();
             data.horizontalAlignment = GridData.FILL;
@@ -479,7 +479,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
 
          Label encodingLabel = new Label(composite, SWT.LEFT);
          {
-            encodingLabel.setText(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_XMLEncoding"));
+            encodingLabel.setText(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_XMLEncoding")); //$NON-NLS-1$
 
             GridData data = new GridData();
             data.horizontalAlignment = GridData.FILL;
@@ -592,7 +592,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
       {
          try
          {
-            return CarnotWorkflowModelEditPlugin.INSTANCE.getString("_UI_DocumentRoot_" + featureName + "_feature");
+            return CarnotWorkflowModelEditPlugin.INSTANCE.getString("_UI_DocumentRoot_" + featureName + "_feature"); //$NON-NLS-1$ //$NON-NLS-2$
          }
          catch(MissingResourceException mre)
          {
@@ -611,7 +611,7 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
          if (encodings == null)
          {
             encodings = new ArrayList<String>();
-            for (StringTokenizer stringTokenizer = new StringTokenizer(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); )
+            for (StringTokenizer stringTokenizer = new StringTokenizer(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) //$NON-NLS-1$
             {
                encodings.add(stringTokenizer.nextToken());
             }
@@ -631,10 +631,10 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
    {
       // Create a page, set the title, and the initial model file name.
       //
-      newFileCreationPage = new CarnotWorkflowModelModelWizardNewFileCreationPage("Whatever", selection);
-      newFileCreationPage.setTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_label"));
-      newFileCreationPage.setDescription(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_description"));
-      newFileCreationPage.setFileName(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0));
+      newFileCreationPage = new CarnotWorkflowModelModelWizardNewFileCreationPage("Whatever", selection); //$NON-NLS-1$
+      newFileCreationPage.setTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_label")); //$NON-NLS-1$
+      newFileCreationPage.setDescription(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_description")); //$NON-NLS-1$
+      newFileCreationPage.setFileName(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0)); //$NON-NLS-1$ //$NON-NLS-2$
       addPage(newFileCreationPage);
 
       // Try and get the resource selection to determine a current directory for the file dialog.
@@ -664,20 +664,20 @@ public class CarnotWorkflowModelModelWizard extends Wizard implements INewWizard
 
                // Make up a unique new name here.
                //
-               String defaultModelBaseFilename = CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameDefaultBase");
+               String defaultModelBaseFilename = CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelEditorFilenameDefaultBase"); //$NON-NLS-1$
                String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
-               String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension;
+               String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension; //$NON-NLS-1$
                for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i)
                {
-                  modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension;
+                  modelFilename = defaultModelBaseFilename + i + "." + defaultModelFilenameExtension; //$NON-NLS-1$
                }
                newFileCreationPage.setFileName(modelFilename);
             }
          }
       }
-      initialObjectCreationPage = new CarnotWorkflowModelModelWizardInitialObjectCreationPage("Whatever2");
-      initialObjectCreationPage.setTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_label"));
-      initialObjectCreationPage.setDescription(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description"));
+      initialObjectCreationPage = new CarnotWorkflowModelModelWizardInitialObjectCreationPage("Whatever2"); //$NON-NLS-1$
+      initialObjectCreationPage.setTitle(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_CarnotWorkflowModelModelWizard_label")); //$NON-NLS-1$
+      initialObjectCreationPage.setDescription(CarnotWorkflowModelEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description")); //$NON-NLS-1$
       addPage(initialObjectCreationPage);
    }
 

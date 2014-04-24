@@ -42,6 +42,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -257,7 +258,7 @@ public class MessageTransformationApplicationControlsManager
          
          model = ModelUtils.findContainingModel(modelElement);
 
-         project = ModelUtils.getProjectFromEObject(modelElement);
+         project = WorkspaceUtils.getProjectFromEObject(modelElement);
 
          FillLayout parentLayout = new FillLayout();
          parent.setLayout(parentLayout);
