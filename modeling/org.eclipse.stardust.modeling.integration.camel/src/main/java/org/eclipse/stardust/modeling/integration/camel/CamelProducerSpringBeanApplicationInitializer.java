@@ -1,7 +1,10 @@
 package org.eclipse.stardust.modeling.integration.camel;
 
+import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.DEFAULT_CAMEL_CONTEXT_ID;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.camel.CamelConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
@@ -46,6 +49,7 @@ public class CamelProducerSpringBeanApplicationInitializer extends JavaApplicati
          }
 
       }
+      result = addAttribute(result, CamelConstants.CAMEL_CONTEXT_ID_ATT, DEFAULT_CAMEL_CONTEXT_ID);
 
       return result;
    }
