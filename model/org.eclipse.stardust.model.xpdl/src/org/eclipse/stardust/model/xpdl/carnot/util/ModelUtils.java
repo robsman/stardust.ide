@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
+import static org.eclipse.stardust.common.CollectionUtils.newArrayList;
+
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -19,7 +20,6 @@ import java.util.*;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -46,6 +45,7 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.spi.IResourceResolver;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
@@ -617,53 +617,35 @@ public class ModelUtils
       return result;
    }
 
-   // TODO: duplicate method VersionRepository, need to put it in a common place
-   public static IProject getProjectFromEObject(EObject eObject)
+   public static List<IResourceResolver> getResourceResolvers()
    {
-      if (eObject instanceof ContextType)
-      {
-         ContextType contextType = (ContextType) eObject;
-         if (contextType.getType() != null)
-         {
-            eObject = contextType.getType().eContainer();
-         }
-      }
-      if (eObject != null)
-      {
-         Resource eResource = eObject.eResource();
-         if (eResource != null)
-         {
-            URI eUri = eResource.getURI();
+      List<IResourceResolver> resolvers = newArrayList();
 
-            if (eUri.isFile())
+      SpiExtensionRegistry registry = SpiExtensionRegistry.instance();
+      Map<String, IConfigurationElement> extensions = registry.getExtensions(
+            CarnotConstants.STARDUST_XPDL_PLUGIN_ID,
+            CarnotConstants.RESOURCE_RESOLVER_EXTENSION_POINT_ID);
+      for (Map.Entry<String, IConfigurationElement> extension : extensions.entrySet())
+      {
+         try
+         {
+            Object rawResolver = (IResourceResolver) extension.getValue().createExecutableExtension("class");
+            if (rawResolver instanceof IResourceResolver)
             {
-               String fileString = eUri.toFileString();
-               java.net.URI netModelUri = new File(fileString).toURI();
-               IContainer[] containers = ResourcesPlugin.getWorkspace().getRoot()
-                     .findContainersForLocationURI(netModelUri);
-               if (containers != null && containers.length > 0)
-               {
-                  IContainer container = containers[0];
-                  return container.getProject();
-               }
+               resolvers.add((IResourceResolver) rawResolver);
             }
-
-            if (eUri.segmentCount() > 1)
+            else
             {
-               IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-                  eUri.segment(1));
-               if (resource instanceof IProject)
-               {
-                  return (IProject) resource;
-               }
-               else if (resource != null)
-               {
-                  return resource.getProject();
-               }
+               // TODO invalid type
             }
          }
+         catch (CoreException e)
+         {
+            //e.printStackTrace();
+         }
       }
-      return null;
+
+      return resolvers;
    }
 
    public static IIdentifiableModelElement getIdentifiableModelProxy(
@@ -1272,69 +1254,6 @@ public class ModelUtils
             }
          }
       }
-      return null;
-   }
-
-   public static String getLocation(ModelType model)
-   {
-      String projectName = null;
-      String modelFilePath = null;
-      Resource eResource = model.eResource();
-      if (eResource != null)
-      {
-         URI eUri = eResource.getURI();
-         if (!eUri.isPlatform())
-         {
-            return eUri.toFileString();
-         }
-         URI projectUri = eUri.trimSegments(eUri.segmentCount() - 2);
-         URI modelUri = eUri.deresolve(projectUri);
-         IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-            eUri.segment(1));
-         IProject project = null;
-         if (resource instanceof IProject)
-         {
-            project = (IProject) resource;
-         }
-         else if (resource != null)
-         {
-            project = resource.getProject();
-         }
-         if (project != null)
-         {
-            projectName = project.getName();
-            modelFilePath = modelUri.toString();
-            if (modelFilePath.startsWith(projectName + "/")) //$NON-NLS-1$
-            {
-               modelFilePath = modelFilePath.substring(projectName.length() + 1);
-            }
-         }
-      }
-      if (modelFilePath == null || projectName == null)
-      {
-         return null;
-      }
-      return getFileSystemPath(projectName, modelFilePath);
-   }
-
-   public static String getFileSystemPath(String project, String fullPath)
-   {
-      IWorkspaceRoot wspRoot = ResourcesPlugin.getWorkspace().getRoot();
-
-      if (null != wspRoot && null != project)
-      {
-         IProject wspProject = wspRoot.getProject(project);
-         if (null != wspProject && null != fullPath)
-         {
-            IResource resource = wspProject.findMember(fullPath);
-
-            if (null != resource)
-            {
-               return resource.getLocation().toFile().getAbsolutePath();
-            }
-         }
-      }
-
       return null;
    }
 

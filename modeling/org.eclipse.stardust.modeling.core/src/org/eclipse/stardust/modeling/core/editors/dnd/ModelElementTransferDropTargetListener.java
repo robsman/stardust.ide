@@ -28,6 +28,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
 import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Tree;
@@ -95,7 +96,7 @@ public class ModelElementTransferDropTargetListener
                + descriptor.getURI().authority() + "/"; //$NON-NLS-1$
          ModelType model = editor.getWorkflowModel();
          ConnectionManager cm = editor.getConnectionManager();         
-         if (cm.mustLink(descriptor)
+         if (ConnectionEditUtils.mustLink(descriptor, cm)
                && ModelUtils.referenceToAnotherVersionExists(model, uri))
          {
             return false;

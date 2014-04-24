@@ -10,13 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.repository.common;
 
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
-
 /**
  * The activator class controls the plug-in life cycle
  */
-public class ObjectRepositoryActivator extends AbstractUIPlugin {
+public class ObjectRepositoryActivator {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.stardust.modeling.repository.common"; //$NON-NLS-1$
@@ -37,39 +34,4 @@ public class ObjectRepositoryActivator extends AbstractUIPlugin {
        return "{" + PLUGIN_ID + "}icons/external_model.gif"; //$NON-NLS-1$ //$NON-NLS-2$
     }        
 
-	// The shared instance
-	private static ObjectRepositoryActivator plugin;
-	
-	/**
-	 * The constructor
-	 */
-	public ObjectRepositoryActivator() {
-		plugin = this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static ObjectRepositoryActivator getDefault() {
-		return plugin;
-	}
 }

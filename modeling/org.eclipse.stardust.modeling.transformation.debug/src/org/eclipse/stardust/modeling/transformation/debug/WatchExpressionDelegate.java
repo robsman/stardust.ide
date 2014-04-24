@@ -27,10 +27,10 @@ import org.eclipse.stardust.modeling.transformation.debug.model.NullElementVaria
 import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataListVariable;
 import org.eclipse.stardust.modeling.transformation.debug.model.StructuredDataMapVariable;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextAction;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Scriptable;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.Debugger;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextAction;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.debug.Debugger;
 
 /**
  * Delegate class which is responsible for evaluation expression entered in the 

@@ -22,7 +22,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jdt.core.*;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
@@ -32,7 +38,6 @@ import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
 import org.osgi.framework.Bundle;
 
@@ -90,7 +95,7 @@ public class TypeFinder
    {
       if (eObject != null)
       {
-         return ModelUtils.getProjectFromEObject(eObject);
+         return WorkspaceValidationUtils.getProjectFromEObject(eObject);
       }
       return null;
    }

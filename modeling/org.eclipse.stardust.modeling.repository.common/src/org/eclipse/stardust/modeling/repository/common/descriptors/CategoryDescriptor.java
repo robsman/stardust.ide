@@ -12,10 +12,8 @@ package org.eclipse.stardust.modeling.repository.common.descriptors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.stardust.modeling.repository.common.IconDescriptor;
 
 
 public class CategoryDescriptor extends EObjectImpl implements IObjectDescriptor
@@ -48,14 +46,9 @@ public class CategoryDescriptor extends EObjectImpl implements IObjectDescriptor
       return null;
    }
 
-   public Image getIcon()
+   public IconDescriptor getIcon()
    {
-      if (iconBundleId == null || iconPath == null)
-      {
-         return null;
-      }
-      IImageManager im = ImageUtil.getImageManager(iconBundleId);
-      return im.getPlainIcon(iconPath);
+      return new IconDescriptor(iconBundleId, iconPath);
    }
 
    public String getLabel()

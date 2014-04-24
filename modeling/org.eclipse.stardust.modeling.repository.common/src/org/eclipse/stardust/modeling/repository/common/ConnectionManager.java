@@ -10,11 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.repository.common;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,26 +21,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.change.ChangeDescription;
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.gef.commands.Command;
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -52,102 +36,11 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnection;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
 
 public class ConnectionManager implements IConnectionManager
 {
-   private static final IFilter BY_REF_FILTER = new IFilter()
-   {
-      public boolean accept(Object object)
-      {
-         if (object instanceof EObjectDescriptor)
-         {
-            EObjectDescriptor eObjectdescriptor = (EObjectDescriptor) object;
-            if (eObjectdescriptor.getEObject() instanceof TypeDeclarationType)
-            {
-               TypeDeclarationType typeDeclaration = eObjectdescriptor.getEObject();
-               ExtendedAttributeType visibility = ExtendedAttributeUtil.getAttribute(
-                     typeDeclaration.getExtendedAttributes(),
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof ApplicationType)
-            {
-               ApplicationType applicationType = eObjectdescriptor.getEObject();
-               AttributeType visibility = AttributeUtil.getAttribute(
-                     (IExtensibleElement) applicationType,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof RoleType)
-            {
-               RoleType roleType = eObjectdescriptor.getEObject();
-               AttributeType visibility = AttributeUtil.getAttribute(
-                     (IExtensibleElement) roleType,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof OrganizationType)
-            {
-               OrganizationType orgType = eObjectdescriptor.getEObject();
-               AttributeType visibility = AttributeUtil.getAttribute(
-                     (IExtensibleElement) orgType,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof ConditionalPerformerType)
-            {
-               ConditionalPerformerType conPerfType = eObjectdescriptor.getEObject();
-               AttributeType visibility = AttributeUtil.getAttribute(
-                     (IExtensibleElement) conPerfType,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof DataType)
-            {
-               DataType dataType = eObjectdescriptor.getEObject();
-               AttributeType visibility = AttributeUtil.getAttribute(
-                     (IExtensibleElement) dataType,
-                     PredefinedConstants.MODELELEMENT_VISIBILITY);
-               if (visibility != null && "Private".equals(visibility.getValue())) //$NON-NLS-1$
-               {
-                  return false;
-               }
-            }
-            if (eObjectdescriptor.getEObject() instanceof ProcessDefinitionType)
-            {
-               ProcessDefinitionType process = (ProcessDefinitionType) eObjectdescriptor
-                     .getEObject();
-               if (process.getFormalParameters() == null)
-               {
-                  return false;
-               }
-            }
-         }
-         return true;
-      }
-   };
-   
    private Repository repository;
 
    private Map<Connection, ConnectionHandler> handlers = CollectionUtils.newMap();
@@ -430,118 +323,6 @@ public class ConnectionManager implements IConnectionManager
       return repository;
    }
 
-   public List<IObjectDescriptor> select(Connection connection, IFilter[] filters)
-         throws CoreException
-   {
-      /*if (isLinked)
-      {
-         filters = new IFilter[] {new LinkedFilter(filters)};
-      }*/
-      filters = getFilters(filters, "true".equals(connection.getAttribute(BY_REFERENCE))); //$NON-NLS-1$
-      ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
-      if (handler != null)
-      {
-         List<IObjectDescriptor> result = handler.select(filters);
-         return filters == null ? result : decorateWithFilters(result, filters);
-      }
-      String message = MessageFormat.format(Repository_Messages.MSG_FORMAT_CONNECTION_NULL_IS_CLOSED,
-            new Object[] {connection.getId()});
-      throw new CoreException(new Status(IStatus.ERROR,
-            ObjectRepositoryActivator.PLUGIN_ID, 0, message, null));
-   }
-
-   private List<IObjectDescriptor> decorateWithFilters(List<IObjectDescriptor> result, IFilter[] filters)
-   {
-      List<IObjectDescriptor> descriptors = CollectionUtils.newList(result.size());
-      for (IObjectDescriptor desc : result)
-      {
-         descriptors.add(getFilteredObjectDescriptor(desc, filters));
-      }
-      return descriptors;
-   }
-
-   private IObjectDescriptor getFilteredObjectDescriptor(final IObjectDescriptor desc,
-         final IFilter[] filters)
-   {
-      InvocationHandler handler = new InvocationHandler()
-      {
-         public Object invoke(Object proxy, Method method, Object[] args)
-               throws Throwable
-         {
-            if (IObjectDescriptor.class.equals(method.getDeclaringClass()) && "getChildren".equals(method.getName())) //$NON-NLS-1$
-            {
-               IObjectDescriptor[] children = desc.getChildren();
-               List<IObjectDescriptor> filtered = CollectionUtils.newList();
-               for (int i = 0; i < children.length; i++)
-               {
-                  if (BY_REF_FILTER.accept(children[i]))
-                  {
-                     filtered.add(getFilteredObjectDescriptor(children[i], filters));
-                  }
-               }
-               return filtered.toArray(new IObjectDescriptor[filtered.size()]);
-            }
-            return method.invoke(desc, args);
-         }
-      };
-      ClassLoader classLoader = desc.getClass().getClassLoader();
-      Class<?>[] interfaces = getInterfaces(desc);                
-      return (IObjectDescriptor) Proxy.newProxyInstance(classLoader, interfaces, handler);
-   }
-   
-
-   private Class< ? >[] getInterfaces(IObjectDescriptor desc)
-   {
-      List<Class< ? >> result = new ArrayList<Class< ? >>();
-      Class< ? >[] interfaces = desc.getClass().getInterfaces();
-      for (int i = 0; i < interfaces.length; i++)
-      {
-         result.add(interfaces[i]);
-      }
-      if (desc.getClass().getSuperclass() != null)
-      {
-         interfaces = desc.getClass().getSuperclass().getInterfaces();
-         for (int i = 0; i < interfaces.length; i++)
-         {
-            result.add(interfaces[i]);
-         }
-      }
-      return (Class< ? >[]) result.toArray((new Class< ? >[result.size()]));
-   }
-
-   /**
-    * TODO describe
-    * @param filters
-    * @param byReference 
-    * @return
-    */
-   private IFilter[] getFilters(IFilter[] filters, boolean byReference)
-   {
-      if (filters != null || byReference)
-      {
-         List<IFilter> list = CollectionUtils.newList();
-         if (filters != null)
-         {
-            for (int i = 0; i < filters.length; i++)
-            {
-               if (filters[i] != null)
-               {
-                  list.add(filters[i]);
-               }
-            }
-         }
-         if (byReference)
-         {
-            list.add(BY_REF_FILTER);
-         }
-         if (list.size() > 0)
-         {
-            return list.toArray(new IFilter[list.size()]);
-         }
-      }
-      return null;
-   }
-
    public static URI makeURI(Connection connection)
    {
       String id = connection.getId();
@@ -605,139 +386,6 @@ public class ConnectionManager implements IConnectionManager
          return getConnection(id);
       }
       return null;
-   }
-
-   public boolean mustLink(IObjectDescriptor descriptor)
-   {
-      URI uri = descriptor.getURI();
-      String id = uri.authority();
-      Connection connection = getConnection(id);
-      if (connection == null)
-      {
-         return false;
-      }
-      return "true".equals(connection.getAttribute(BY_REFERENCE)); //$NON-NLS-1$
-   }
-
-   public Command linkObject(ModelType model, IObjectDescriptor[] descriptors)
-         throws CoreException
-   {
-      ArrayList<Connection> connections = new ArrayList<Connection>();
-      UsageDisplayDialog.setUsage(null);
-      
-      ChangeRecorder recorder = new ChangeRecorder(model);
-
-      String id;
-      IObjectDescriptor[] entryValues;
-      Map<String, ArrayList<IObjectDescriptor>> container = CollectionUtils.newMap();
-      Connection connection;
-
-      // collect descriptors for each connection
-      sortDescriptors(descriptors, container);
-
-      // here loop through all connections found
-      Iterator<Map.Entry<String, ArrayList<IObjectDescriptor>>> it = container.entrySet()
-            .iterator();
-      while (it.hasNext())
-      {
-         Map.Entry<String, ArrayList<IObjectDescriptor>> entry = it.next();
-         id = entry.getKey();
-         entryValues = (IObjectDescriptor[]) entry.getValue().toArray(
-               new IObjectDescriptor[0]);
-
-         connection = getConnection(id);
-         if (connection == null)
-         {
-            String message = MessageFormat.format(Repository_Messages.MSG_FORMAT_CONNECTION_NULL_DOES_NOT_EXIST,
-                  new Object[] {id});
-            throw new CoreException(new Status(IStatus.ERROR,
-                  ObjectRepositoryActivator.PLUGIN_ID, 0, message, null));
-         }         
-         connections.add(connection);
-         ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
-         if (handler != null)
-         {
-            try
-            {
-               handler.importObject(model, entryValues, "true".equals(connection //$NON-NLS-1$
-                     .getAttribute(BY_REFERENCE)));
-            }
-            catch (ImportCancelledException ice)
-            {
-               recorder.dispose();
-               return null;
-            }
-         }
-      }
-      final ChangeDescription changes = recorder.endRecording();
-      //rp: Workaround for CRNT-23880
-      reloadConnections(connections);
-      return new Command()
-      {
-         public void execute()
-         {
-         // nothing to be done as the changes are already applied
-         }
-
-         public void undo()
-         {
-            changes.applyAndReverse();
-         }
-
-         public void redo()
-         {
-            changes.applyAndReverse();
-         }
-      };
-   }
-   
-   private void reloadConnections(ArrayList<Connection> connections)
-   {
-      for (Iterator<Connection> i = connections.iterator(); i.hasNext();)
-      {
-         Connection connection = i.next();
-         ConnectionManager manager = ConnectionManager.getConnectionManager(connection);
-         if (manager != null)
-         {
-            try
-            {
-               manager.close(connection);
-            }
-            catch (CoreException e)
-            {
-
-            }
-            connection.eNotify(new NotificationImpl(Notification.REMOVE, null, null, 0));
-         }
-      }
-   }
-
-   private void sortDescriptors(IObjectDescriptor[] descriptors,
-         Map<String, ArrayList<IObjectDescriptor>> container)
-   {
-      URI uri;
-      String id;
-      IObjectDescriptor descriptor;
-      ArrayList<IObjectDescriptor> descriptorValues;
-      for (int i = 0; i < descriptors.length; i++)
-      {
-         descriptor = descriptors[i];
-         uri = descriptor.getURI();
-         id = uri.authority();
-         // is the key inside?
-         if (container.containsKey(id))
-         {
-            descriptorValues = container.get(id);
-            descriptorValues.add(descriptors[i]);
-            container.put(id, descriptorValues);
-         }
-         else
-         {
-            descriptorValues = new ArrayList<IObjectDescriptor>();
-            descriptorValues.add(descriptors[i]);
-            container.put(id, descriptorValues);
-         }
-      }
    }
 
    public void resolve()

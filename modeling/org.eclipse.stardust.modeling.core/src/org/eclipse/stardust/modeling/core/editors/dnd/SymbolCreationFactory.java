@@ -24,6 +24,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
 
 public abstract class SymbolCreationFactory implements CreationFactory
@@ -112,7 +113,7 @@ public abstract class SymbolCreationFactory implements CreationFactory
                   {
                      ModelType model = editor.getWorkflowModel();
                      return model.getDiagram().contains(container) &&
-                        !editor.getConnectionManager().mustLink((IObjectDescriptor) modelElement);
+                        !ConnectionEditUtils.mustLink((IObjectDescriptor) modelElement, editor.getConnectionManager());
                   }
                   if (modelElement instanceof IObjectDescriptor
                         && XPKG.getTypeDeclarationType().equals(
@@ -126,7 +127,7 @@ public abstract class SymbolCreationFactory implements CreationFactory
                   {
                      ModelType model = editor.getWorkflowModel();
                      return model.getDiagram().contains(container) &&
-                        !editor.getConnectionManager().mustLink((IObjectDescriptor) modelElement);
+                        !ConnectionEditUtils.mustLink((IObjectDescriptor) modelElement, editor.getConnectionManager());
                   }
                   ProcessDefinitionType process = ModelUtils
                         .findContainingProcess((EObject) modelElement);

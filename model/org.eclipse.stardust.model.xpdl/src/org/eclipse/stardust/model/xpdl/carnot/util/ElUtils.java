@@ -34,14 +34,14 @@ import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.CompilerEnvirons;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ContextFactory;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ErrorReporter;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Node;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Parser;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.ScriptOrFnNode;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Token;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ContextFactory;
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.Node;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.ScriptOrFnNode;
+import org.mozilla.javascript.Token;
 
 /**
  * @author rsauer

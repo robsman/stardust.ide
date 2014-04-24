@@ -76,6 +76,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.modeling.common.platform.utils.ExtensionsResolver;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.actions.EditDomainAwareAction;
@@ -1034,7 +1035,7 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 		if (!StringUtils.isEmpty(typeName)) {
 			matches = !searchList.isEmpty();
 			for (Iterator i = searchList.iterator(); i.hasNext();) {
-				matches &= SpiExtensionRegistry.isMatchingClass(i.next(),
+            matches &= ExtensionsResolver.isMatchingClass(i.next(),
 						attributeName, extension);
 			}
 		} else {

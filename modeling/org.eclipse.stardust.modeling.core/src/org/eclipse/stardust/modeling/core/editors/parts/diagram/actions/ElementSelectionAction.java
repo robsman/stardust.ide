@@ -33,6 +33,8 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IFilter;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionQueryUtils;
 import org.eclipse.stardust.modeling.repository.common.ui.ObjectDescriptorLabelProvider;
 import org.eclipse.stardust.modeling.repository.common.ui.ObjectDescriptorListContentProvider;
 import org.eclipse.swt.widgets.Shell;
@@ -77,11 +79,11 @@ public class ElementSelectionAction extends SelectionAction
       try
       {
          manager.open(connection);
-         List<IObjectDescriptor> content = manager.select(connection, new IFilter[0]);
+         List<IObjectDescriptor> content = ConnectionQueryUtils.select(connection, manager, new IFilter[0]);
          List<IObjectDescriptor> result = select(getWorkbenchPart().getSite().getShell(), connection, content);
          
          // call the manager with the selection (and connection? )
-         Command cmd = manager.linkObject(model, result.toArray(new IObjectDescriptor[0]));
+         Command cmd = ConnectionEditUtils.linkObject(model, result.toArray(new IObjectDescriptor[0]), manager);
          execute(cmd);
       }
       catch (CoreException e)

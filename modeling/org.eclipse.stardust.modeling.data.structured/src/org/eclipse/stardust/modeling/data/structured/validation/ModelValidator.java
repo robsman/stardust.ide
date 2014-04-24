@@ -32,6 +32,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.stardust.modeling.validation.IModelValidator;
@@ -84,7 +85,7 @@ public class ModelValidator implements IModelValidator
    // validate references
    public Issue[] validate(ModelType model) throws ValidationException
    {
-      IProject project = ModelUtils.getProjectFromEObject(model);
+      IProject project = WorkspaceUtils.getProjectFromEObject(model);
 
       List<Issue> result = CollectionUtils.newList();
       TypeDeclarationsType declarations = model.getTypeDeclarations();

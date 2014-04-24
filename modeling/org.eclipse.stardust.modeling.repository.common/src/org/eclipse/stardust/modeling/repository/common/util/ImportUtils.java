@@ -31,15 +31,11 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
-import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
-import org.eclipse.stardust.modeling.repository.common.ui.dialogs.UsageDisplayDialog;
-import org.eclipse.stardust.modeling.repository.common.ui.dialogs.ConflictDialog;
-import org.eclipse.swt.graphics.Image;
 
 public final class ImportUtils
 {
@@ -47,7 +43,7 @@ public final class ImportUtils
 
    private ImportUtils() {}
 
-   public static Map<EObject, MergeAction> reuseReplaceMap(Map<EObject, EObject> map, IconFactory iconFactory, boolean asLink)
+   public static Map<EObject, MergeAction> reuseReplaceMap(Map<EObject, EObject> map, ImportStrategy strategy)
    {
       Map<EObject, MergeAction> reuseReplace = new HashMap<EObject, MergeAction>();
       for (Map.Entry<EObject, EObject> entry : map.entrySet())
@@ -56,29 +52,13 @@ public final class ImportUtils
          EObject original = entry.getValue();
          if (original != null)
          {
-            if(asLink)
+            MergeAction action = strategy.decideMergeOrReplace(element, original);
+            if (null != action)
             {
-               MergeAction action = ConflictDialog.acceptClosure(null, iconFactory, element, original);
-               if (action == null)
-               {
-                  UsageDisplayDialog.setUsage(null);
-                  return null;
-               }
-               reuseReplace.put(original, action);               
+               reuseReplace.put(original, action);
             }
-            else
-            {
-               MergeAction action = UsageDisplayDialog.acceptClosure(null, iconFactory, element, original);
-               if (action == null)
-               {
-                  UsageDisplayDialog.setUsage(null);
-                  return null;
-               }
-               reuseReplace.put(original, action);                              
-            }            
          }
-      }      
-      UsageDisplayDialog.setUsage(null);
+      }
       return reuseReplace;
    }   
 
@@ -95,21 +75,6 @@ public final class ImportUtils
          }
       }      
       return reuseReplace;
-   }   
-   
-   // image for tree edit part
-   public static Image getImage(IconFactory iconFactory, EObject eObject)
-   {
-      String icon = iconFactory.getIconFor(eObject);
-      String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-      if (icon != null && icon.length() > 0 && icon.charAt(0) == '{')
-      {
-         int ix = icon.indexOf('}', 1);
-         bundleId = icon.substring(1, ix);
-         icon = icon.substring(ix + 1);
-      }
-      IImageManager manager = ImageUtil.getImageManager(bundleId);
-      return manager.getPlainIcon(icon);
    }
 
    public static String getLabel(EObject eObject)

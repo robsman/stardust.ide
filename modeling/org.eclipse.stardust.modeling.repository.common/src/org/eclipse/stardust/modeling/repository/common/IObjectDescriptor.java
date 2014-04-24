@@ -12,7 +12,6 @@ package org.eclipse.stardust.modeling.repository.common;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * <!-- begin-user-doc -->
@@ -48,7 +47,7 @@ public interface IObjectDescriptor extends EObject
     * @model kind="operation"
     * @generated NOT
     */
-   Image getIcon();
+   IconDescriptor getIcon();
 
    /**
     * <!-- begin-user-doc -->

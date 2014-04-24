@@ -21,6 +21,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.modeling.validation.util.ExtensionsResolver;
 
 public class ValidatorRegistry
 {
@@ -115,7 +116,7 @@ public class ValidatorRegistry
       for (int i = 0; i < extensions.length; i++)
       {
          IConfigurationElement extension = extensions[i];
-         if (SpiExtensionRegistry.isMatchingElement(element, ValidationConstants.EP_ATTR_TARGET_TYPE, getFilters(), extension))
+         if (ExtensionsResolver.isMatchingElement(element, ValidationConstants.EP_ATTR_TARGET_TYPE, getFilters(), extension))
          {
             try
             {

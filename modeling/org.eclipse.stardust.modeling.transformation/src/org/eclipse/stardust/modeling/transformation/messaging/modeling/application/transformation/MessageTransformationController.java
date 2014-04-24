@@ -52,6 +52,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.struct.StructAccessPointType;
 import org.eclipse.stardust.modeling.core.ui.AccessPathBrowserContentProvider;
@@ -169,7 +170,7 @@ public class MessageTransformationController {
 	public void intializeModel(ModelType model, IModelElementNodeSymbol symbol,
 			IModelElement element) {
 
-	    mtaUtils = new MessageTransformationUtils(ModelUtils.getProjectFromEObject(element), element, model);
+	    mtaUtils = new MessageTransformationUtils(WorkspaceUtils.getProjectFromEObject(element), element, model);
 		String xmlString = AttributeUtil.getAttributeValue((IExtensibleElement) element, Constants.TRANSFORMATION_PROPERTY);
 		if (xmlString != null) {
 			trafoProp = (TransformationProperty) MappingModelUtil.transformXML2Ecore(xmlString);

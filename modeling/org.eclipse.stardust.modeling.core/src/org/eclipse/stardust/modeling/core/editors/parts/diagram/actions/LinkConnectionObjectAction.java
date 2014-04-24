@@ -25,6 +25,7 @@ import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
 
 public class LinkConnectionObjectAction extends SelectionAction
@@ -90,8 +91,8 @@ public class LinkConnectionObjectAction extends SelectionAction
          
          // call the manager with the selection (and connection? )
          Command cmd;
-            cmd = manager.linkObject(model, 
-                  (IObjectDescriptor[]) result.toArray(new IObjectDescriptor[0]));
+            cmd = ConnectionEditUtils.linkObject(model,
+                  (IObjectDescriptor[]) result.toArray(new IObjectDescriptor[0]), manager);
             execute(cmd);
       }
       catch (CoreException e)

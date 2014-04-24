@@ -81,6 +81,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -864,7 +865,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
       ClassLoader cclBackup = Thread.currentThread().getContextClassLoader();
       try
       {
-         IProject project = ModelUtils.getProjectFromEObject(getApplication());
+         IProject project = WorkspaceUtils.getProjectFromEObject(getApplication());
          String resource = getWsdlResource();
          // strip leading slash if any
          if (resource.startsWith("/")) //$NON-NLS-1$
@@ -1072,7 +1073,7 @@ public class JaxWSPropertyPage extends AbstractModelElementPropertyPage
 
    public String getWsdlLocation()
    {
-      IProject project = ModelUtils.getProjectFromEObject(getApplication());
+      IProject project = WorkspaceUtils.getProjectFromEObject(getApplication());
       String resource = wsdlText.getText().getText().trim();
       ProjectClassLoader cl = new ProjectClassLoader(
             XmlUtils.class.getClassLoader(), project, resource.startsWith("/") //$NON-NLS-1$

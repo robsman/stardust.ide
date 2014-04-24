@@ -25,12 +25,12 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
+import org.eclipse.stardust.modeling.validation.util.WorkspaceValidationUtils;
 import org.eclipse.stardust.modeling.validation.util.ProjectClassLoader;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 
@@ -134,7 +134,7 @@ public class WebserviceApplicationValidator implements IModelElementValidator
          {
             if (Platform.isRunning())
             {
-               IProject project = ModelUtils.getProjectFromEObject(element);
+               IProject project = WorkspaceValidationUtils.getProjectFromEObject(element);
                Thread.currentThread().setContextClassLoader(
                      new ProjectClassLoader(XmlUtils.class.getClassLoader(), project,
                            uri.startsWith("/") //$NON-NLS-1$

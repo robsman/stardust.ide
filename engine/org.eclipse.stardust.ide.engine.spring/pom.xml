@@ -32,7 +32,7 @@
       <exclusions>
          <exclusion>
             <groupId>org.eclipse.stardust.engine</groupId>
-            <artifactId>engine-module</artifactId>
+            <artifactId>carnot-engine</artifactId>
          </exclusion>
       </exclusions>
     </dependency>

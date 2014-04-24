@@ -50,6 +50,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.SymbolC
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
 public class ModelElementSymbolCreationFactory
 {
@@ -93,7 +94,7 @@ public class ModelElementSymbolCreationFactory
                ConnectionManager cm = editor.getConnectionManager();
                try
                {
-                  Command cmd = cm.linkObject(model, new IObjectDescriptor[] {(IObjectDescriptor) transferElement});
+                  Command cmd = ConnectionEditUtils.linkObject(model, new IObjectDescriptor[] {(IObjectDescriptor) transferElement}, cm);
                   if (cmd != null)
                   {
                      compound.add(cmd);

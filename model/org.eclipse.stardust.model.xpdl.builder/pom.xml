@@ -1,5 +1,5 @@
 <!--
-    Copyright (c) 2012 SunGard CSA LLC and others.
+    Copyright (c) 2014 SunGard CSA LLC and others.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
@@ -20,135 +20,74 @@
    </parent>
 
    <groupId>org.eclipse.stardust.modeling.model</groupId>
-   <artifactId>org.eclipse.stardust.model.xpdl.builder</artifactId>
-   <version>0.0.1-SNAPSHOT</version>
-
+   <artifactId>ipp-bpm-model-builder</artifactId>
    <packaging>jar</packaging>
 
-   <dependencies>
-      <!-- IMPORTANT: these dependencies must be in sync with those of ivy.xml -->
+   <name>Model XPDL Builder</name>
 
+   <dependencies>
       <dependency>
          <groupId>org.eclipse.stardust.engine</groupId>
          <artifactId>carnot-engine</artifactId>
-         <version>${ipp.version}</version>
+         <version>${project.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.stardust.modeling.model</groupId>
          <artifactId>ipp-bpm-model</artifactId>
-         <version>${ipp.version}</version>
+         <version>${project.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.stardust.modeling.core</groupId>
          <artifactId>ipp-bpm-repository</artifactId>
-         <version>${ipp.version}</version>
+         <version>${project.version}</version>
       </dependency>
 
-      <!-- The following Eclipse dependencies are part of Eclipse 4.3.1 -->
       <dependency>
          <groupId>org.eclipse.emf</groupId>
          <artifactId>org.eclipse.emf.common</artifactId>
-         <version>${org.eclipse.emf.common.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.emf</groupId>
          <artifactId>org.eclipse.emf.ecore</artifactId>
-         <version>${org.eclipse.emf.ecore.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>org.eclipse.emf</groupId>
-               <artifactId>org.eclipse.emf.common</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.emf</groupId>
          <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-         <version>${org.eclipse.emf.ecore.xmi.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>org.eclipse.emf</groupId>
-               <artifactId>org.eclipse.emf.ecore</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.emf</groupId>
          <artifactId>org.eclipse.emf.ecore.change</artifactId>
-         <version>${org.eclipse.emf.ecore.change.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>org.eclipse.emf</groupId>
-               <artifactId>org.eclipse.emf.ecore</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.xsd</groupId>
          <artifactId>org.eclipse.xsd</artifactId>
-         <version>${org.eclipse.xsd.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.osgi</groupId>
          <artifactId>org.eclipse.osgi</artifactId>
-         <version>${org.eclipse.osgi.version}</version>
          <scope>runtime</scope>
       </dependency>
-
       <dependency>
          <groupId>org.eclipse.core</groupId>
          <artifactId>org.eclipse.core.runtime</artifactId>
-         <version>${org.eclipse.core.runtime.version}</version>
          <scope>runtime</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.eclipse.core</groupId>
-               <artifactId>org.eclipse.core.contenttype</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.eclipse.equinox</groupId>
-               <artifactId>org.eclipse.equinox.app</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      <dependency>
-         <groupId>org.eclipse.core</groupId>
-         <artifactId>org.eclipse.core.resources</artifactId>
-         <version>${org.eclipse.core.resources.version}</version>
-         <scope>runtime</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.eclipse.ant</groupId>
-               <artifactId>org.eclipse.ant.core</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.eclipse.core</groupId>
-               <artifactId>org.eclipse.core.expressions</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.eclipse.core</groupId>
-               <artifactId>org.eclipse.core.filesystem</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.equinox</groupId>
          <artifactId>org.eclipse.equinox.common</artifactId>
-         <version>${org.eclipse.equinox.common.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.eclipse.equinox</groupId>
          <artifactId>org.eclipse.equinox.registry</artifactId>
-         <version>${org.eclipse.equinox.registry.version}</version>
          <exclusions>
             <exclusion>
                <groupId>org.eclipse.core</groupId>
@@ -160,33 +99,14 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>${junit.version}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.hamcrest</groupId>
+         <artifactId>hamcrest-core</artifactId>
          <scope>test</scope>
       </dependency>
 
    </dependencies>
-
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.3.2</version>
-            <configuration>
-               <encoding>UTF-8</encoding>
-               <source>1.6</source>
-               <target>1.6</target>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>2.4.3</version>
-            <configuration>
-               <encoding>UTF-8</encoding>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
 
 </project>

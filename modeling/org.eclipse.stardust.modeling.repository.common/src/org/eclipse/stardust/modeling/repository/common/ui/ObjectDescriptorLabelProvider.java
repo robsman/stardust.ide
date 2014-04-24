@@ -12,7 +12,9 @@ package org.eclipse.stardust.modeling.repository.common.ui;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.IconDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 
@@ -22,7 +24,13 @@ public class ObjectDescriptorLabelProvider extends LabelProvider
    {
       if (element instanceof IObjectDescriptor)
       {
-         return ((IObjectDescriptor) element).getIcon();
+         IconDescriptor iconDescriptor = ((IObjectDescriptor) element).getIcon();
+         if (iconDescriptor.getBundleId() == null || iconDescriptor.getIconPath() == null)
+         {
+            return null;
+         }
+         IImageManager im = ImageUtil.getImageManager(iconDescriptor.getBundleId());
+         return im.getPlainIcon(iconDescriptor.getIconPath());
       }
       return super.getImage(element);
    }

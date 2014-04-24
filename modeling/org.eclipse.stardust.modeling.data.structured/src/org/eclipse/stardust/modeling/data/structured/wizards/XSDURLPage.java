@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -90,7 +90,7 @@ public class XSDURLPage extends WizardPage implements SelectionListener
       final Button cb = FormBuilder.createCheckBox(client, Structured_Messages.SaveResourceLabel, 2);
 
       folderView = new SelectSingleFolderView(null, true,
-            ModelUtils.getProjectFromEObject(importFromSchemaWizard.getTypeDeclarations()));
+            WorkspaceUtils.getProjectFromEObject(importFromSchemaWizard.getTypeDeclarations()));
       SelectSingleFolderView.Listener listener = new SelectSingleFolderView.Listener()
       {
          public void setControlComplete(boolean isComplete)

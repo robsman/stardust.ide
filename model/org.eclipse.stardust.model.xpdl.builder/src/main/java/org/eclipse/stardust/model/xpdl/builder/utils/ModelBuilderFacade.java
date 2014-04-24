@@ -149,6 +149,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
@@ -1036,8 +1037,7 @@ public class ModelBuilderFacade
 
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                uri, dataCopy, bundleId, null, true);
-         PepperIconFactory iconFactory = new PepperIconFactory();
-         descriptor.importElements(iconFactory, model, true);
+         descriptor.importElements(model, new SimpleImportStrategy(true));
          data = findData(model, stripFullId(dataFullID));
       }
       return data;
@@ -1165,8 +1165,7 @@ public class ModelBuilderFacade
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
-            PepperIconFactory iconFactory = new PepperIconFactory();
-            descriptor.importElements(iconFactory, model, true);
+            descriptor.importElements(model, new SimpleImportStrategy(true));
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
 
@@ -3391,8 +3390,7 @@ public class ModelBuilderFacade
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
-            PepperIconFactory iconFactory = new PepperIconFactory();
-            descriptor.importElements(iconFactory, model, true);
+            descriptor.importElements(model, new SimpleImportStrategy(true));
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
          setTeamLeader(organization, (RoleType) modelParticipant);

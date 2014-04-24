@@ -53,6 +53,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.CodeCompletionHelper;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.spi.dataTypes.plainXML.PlainXMLAccessPointType;
@@ -1199,7 +1200,7 @@ synchronized private String findParentXPath(String xPath)
    }
 
    private String getFullQualifiedName(String type, String className) {
-      IJavaProject jp = JavaCore.create(ModelUtils.getProjectFromEObject(this.model));
+      IJavaProject jp = JavaCore.create(WorkspaceUtils.getProjectFromEObject(this.model));
       JSClassLoader cl = new JSClassLoader(jp);
       Class clazz;
 	try {

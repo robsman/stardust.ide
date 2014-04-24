@@ -21,6 +21,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -127,7 +128,7 @@ public class ActivityCriticalityPropertyPage extends AbstractModelElementPropert
             .getActiveWorkbenchWindow().getActivePage().getActiveEditor();
       IEditorSite editorSite = editor.getEditorSite();
 
-      project = ModelUtils.getProjectFromEObject(getModelElement());
+      project = WorkspaceUtils.getProjectFromEObject(getModelElement());
 
       criticalityFormula = FormBuilder.createLabel(composite,
             Diagram_Messages.LBL_Formula, 2);

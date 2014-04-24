@@ -12,10 +12,10 @@ package org.eclipse.stardust.modeling.transformation.debug.debugger;
 
 import org.eclipse.stardust.modeling.transformation.debug.model.JsDebugTarget;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebugFrame;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.DebuggableScript;
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.debug.Debugger;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.debug.DebugFrame;
+import org.mozilla.javascript.debug.DebuggableScript;
+import org.mozilla.javascript.debug.Debugger;
 
 
 public class RhinoDebugger implements Debugger

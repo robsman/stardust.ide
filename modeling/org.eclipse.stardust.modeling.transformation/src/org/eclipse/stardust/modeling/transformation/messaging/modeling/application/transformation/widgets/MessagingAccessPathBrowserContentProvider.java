@@ -35,7 +35,7 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.ui.AccessPathBrowserContentProvider;
 import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationUtils;
@@ -289,7 +289,7 @@ public Object getParent(Object element)
    }
    
    private String getFullQualifiedName(DataTypeType dataType, String type, String className) {
-	      IJavaProject jp = JavaCore.create(ModelUtils.getProjectFromEObject(dataType));
+	      IJavaProject jp = JavaCore.create(WorkspaceUtils.getProjectFromEObject(dataType));
 	      MTAClassLoader cl = new MTAClassLoader(jp);
 	      Class clazz;
 		try {

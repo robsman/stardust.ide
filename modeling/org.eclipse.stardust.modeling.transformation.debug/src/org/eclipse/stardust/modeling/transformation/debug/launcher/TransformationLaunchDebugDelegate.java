@@ -18,7 +18,7 @@ import org.eclipse.stardust.modeling.transformation.debug.debugger.RhinoDebugger
 import org.eclipse.stardust.modeling.transformation.debug.model.JsDebugTarget;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.application.transformation.launch.TransformationLaunchDelegate;
 
-import com.infinity.bpm.thirdparty.org.mozilla.javascript.Context;
+import org.mozilla.javascript.Context;
 
 
 
