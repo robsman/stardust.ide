@@ -116,15 +116,14 @@ public class DebugServiceFactory extends DefaultServiceFactory
       setCredentials(credentials);
    }
 
-   public Object getService(Class service)
+   public <T extends Service> T getService(Class<T> type)
    {
-
-      Service result = getServiceFromPool(service);
+      T result = getServiceFromPool(type);
       if (result != null)
       {
          return result;
       }
-      String serviceName = service.getName();
+      String serviceName = type.getName();
       int dot = serviceName.lastIndexOf(".");  //$NON-NLS-1$
       String packageName = serviceName.substring(0, dot).replace(".api.", ".core."); //$NON-NLS-1$ //$NON-NLS-2$
       String className = serviceName.substring(dot + 1);
@@ -140,9 +139,9 @@ public class DebugServiceFactory extends DefaultServiceFactory
          throw new InternalException(e);
       }
       InvocationManager manager = new DebugInvocationManager(inner);
-      result = (Service) Proxy.newProxyInstance(service.getClassLoader(), new Class[] {
-            service, ManagedService.class}, manager);
-      putServiceToPool(service, result);
+      result = (T) Proxy.newProxyInstance(type.getClassLoader(),
+            new Class[] {type, ManagedService.class}, manager);
+      putServiceToPool(type, result);
 
       Map props = new HashMap();
       props.put(SecurityProperties.PARTITION, DEBUG_ACCOUNT);
@@ -203,7 +202,7 @@ public class DebugServiceFactory extends DefaultServiceFactory
             loadRuntimeOidRegistry(rtOidRegistry, model);
          }
       }
-      
+
       private void loadRuntimeOidRegistry(IRuntimeOidRegistry rtOidRegistry, IModel model)
       {
          // debug mode runtime OID is just the model element's element OIDs
@@ -298,7 +297,7 @@ public class DebugServiceFactory extends DefaultServiceFactory
          return new TransformingIterator<IModel, ModelPersistorBean>(models.iterator(), new Functor<IModel, ModelPersistorBean>()
          {
             int currentModelOid = 1;
-            
+
             public ModelPersistorBean execute(final IModel source)
             {
                final int modelOid = currentModelOid++;
