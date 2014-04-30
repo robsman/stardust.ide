@@ -10,48 +10,14 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPointProvider;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
@@ -129,7 +95,7 @@ public class ActivityUtil
       if (isSubprocessActivity(activity) && activity.getImplementationProcess() != null
             && activity.getImplementationProcess().getFormalParameters() != null)
       {
-         addContext(PredefinedConstants.PROCESSINTERFACE_CONTEXT, model, contexts);   
+         addContext(PredefinedConstants.PROCESSINTERFACE_CONTEXT, model, contexts);
       }
       if (isApplicationActivity(activity))
       {
@@ -218,7 +184,7 @@ public class ActivityUtil
    {
       return getAccessPoints(activity, isIn, true, contextId);
    }
-   
+
    public static List<AccessPointType> getAccessPoints(ActivityType activity,
          boolean isIn, boolean includeBrowsables, String contextId)
    {
@@ -317,7 +283,7 @@ public class ActivityUtil
          {
             accessPoints.add(AccessPointUtil.createAccessPoint(fpt, mappingsType.getMappedData(fpt)));
          }
-      }      
+      }
       return accessPoints;
    }
 
@@ -352,7 +318,7 @@ public class ActivityUtil
    {
       return getExplicitAccessPoints(activity, isIn, true, contextId);
    }
-   
+
    public static List<AccessPointType> getExplicitAccessPoints(ActivityType activity, boolean isIn,
          boolean includeBrowsables, String contextId)
    {
@@ -484,11 +450,9 @@ public class ActivityUtil
    {
       List<DataMappingConnectionType> deleted = CollectionUtils.newList();
       // collect the list of data mapping connections to delete
-      List symbols = DiagramUtil.getSymbols(diagram,
-            CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_DataMappingConnection(), null);
-      for (Iterator i = symbols.iterator(); i.hasNext();)
+      for (DataMappingConnectionType connection : DiagramUtil.<DataMappingConnectionType>getSymbols(diagram,
+            CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_DataMappingConnection(), null))
       {
-         DataMappingConnectionType connection = (DataMappingConnectionType) i.next();
          DataSymbolType dataSymbol = connection.getDataSymbol();
          ActivitySymbolType activitySymbol = connection.getActivitySymbol();
          if (activitySymbol != null && activitySymbol.getActivity().equals(activity)
@@ -514,11 +478,9 @@ public class ActivityUtil
    {
       // find if there is a connection already
       boolean found = false;
-      List symbols = DiagramUtil.getSymbols(diagram, 
-            CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_DataMappingConnection(), null);
-      for (Iterator i = symbols.iterator(); i.hasNext();)
+      for (DataMappingConnectionType connection : DiagramUtil.<DataMappingConnectionType>getSymbols(diagram,
+            CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_DataMappingConnection(), null))
       {
-         DataMappingConnectionType connection = (DataMappingConnectionType) i.next();
          DataSymbolType dataSymbol = connection.getDataSymbol();
          ActivitySymbolType activitySymbol = connection.getActivitySymbol();
          if (activitySymbol != null && activitySymbol.getActivity().equals(activity)
@@ -532,11 +494,10 @@ public class ActivityUtil
       // create new connection
       if (!found)
       {
-         for (Iterator i = DiagramUtil.getSymbols(diagram,
+         for (ActivitySymbolType activitySymbol : DiagramUtil.<ActivitySymbolType>getSymbols(diagram,
                CarnotWorkflowModelPackage.eINSTANCE.getISymbolContainer_ActivitySymbol(),
-               activity).iterator(); i.hasNext();)
+               activity))
          {
-            ActivitySymbolType activitySymbol = (ActivitySymbolType) i.next();
             DataSymbolType dataSymbol = (DataSymbolType) DiagramUtil.getClosestSymbol(
                   activitySymbol, CarnotWorkflowModelPackage.eINSTANCE
                         .getISymbolContainer_DataSymbol(), data);
@@ -546,7 +507,7 @@ public class ActivityUtil
                      .createDataMappingConnectionType();
                connection.setActivitySymbol(activitySymbol);
                connection.setDataSymbol(dataSymbol);
-               PoolSymbol defaultPool = DiagramUtil.getDefaultPool(diagram);               
+               PoolSymbol defaultPool = DiagramUtil.getDefaultPool(diagram);
                defaultPool.getDataMappingConnection().add(connection);
             }
          }
@@ -560,7 +521,7 @@ public class ActivityUtil
             || CarnotConstants.APPLICATION_CONTEXT_ID.equals(id)
             || CarnotConstants.PROCESSINTERFACE_CONTEXT_ID.equals(id);
    }
-   
+
    public static List<ActivityType> getOutActivities(ActivityType activity)
    {
       List<ActivityType> list = CollectionUtils.newList();

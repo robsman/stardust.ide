@@ -18,21 +18,11 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.edit.provider.*;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 
 
 /**
@@ -43,12 +33,12 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
  */
 public class ActivityTypeItemProvider
    extends ItemProviderAdapter
-   implements	
-      IEditingDomainItemProvider,	
-      IStructuredItemContentProvider,	
-      ITreeItemContentProvider,	
-      IItemLabelProvider,	
-      IItemPropertySource		
+   implements
+      IEditingDomainItemProvider,
+      IStructuredItemContentProvider,
+      ITreeItemContentProvider,
+      IItemLabelProvider,
+      IItemPropertySource
 {
    /**
     * <!-- begin-user-doc -->
@@ -658,6 +648,11 @@ public class ActivityTypeItemProvider
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__EXTERNAL_REF,
              CarnotWorkflowModelFactory.eINSTANCE.createIdRef()));
+
+      newChildDescriptors.add
+         (createChildParameter
+            (CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__LOOP,
+             XpdlFactory.eINSTANCE.createLoopType()));
    }
 
    /**

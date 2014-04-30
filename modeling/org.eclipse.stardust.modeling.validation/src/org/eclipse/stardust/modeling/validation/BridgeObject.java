@@ -12,24 +12,28 @@ package org.eclipse.stardust.modeling.validation;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
-
 
 public class BridgeObject
 {
    private IType endClass;
-
    private final DirectionType direction;
-   
    private final String label;
 
    public BridgeObject(IType endClass, DirectionType direction)
@@ -76,7 +80,7 @@ public class BridgeObject
 
       return TypeFinder.isAssignable(getEndClass(), rhs.getEndClass());
    }
-   
+
    public static BridgeObject getBridge(ITypedElement ap, String path,
          DirectionType direction) throws ValidationException
    {
@@ -107,15 +111,22 @@ public class BridgeObject
       }
       return result;
    }
-   
+
    public static void checkMapping(ITypedElement left, String leftPath,
          ITypedElement right, String rightPath) throws ValidationException
    {
-      checkMapping(left, leftPath, right, rightPath, null);
+      checkMapping(left, leftPath, right, rightPath, null, null);
    }
 
    public static void checkMapping(ITypedElement left, String leftPath,
-         ITypedElement right, String rightPath, ActivityType activity)
+         ITypedElement right, String rightPath, ActivityType activity) throws ValidationException
+   {
+      checkMapping(left, leftPath, right, rightPath, activity, null);
+   }
+
+   public static void checkMapping(ITypedElement left, String leftPath,
+         ITypedElement right, String rightPath, ActivityType activity,
+         DataMappingType dataMapping)
          throws ValidationException
    {
       BridgeObject leftBridge = getBridge(left, leftPath, DirectionType.IN_LITERAL,
@@ -126,11 +137,55 @@ public class BridgeObject
       // (fh) special case of VisualRules application activities
       if (StructDataMappingUtils.isVizRulesApplication(activity)
             && ((isAssignable(rightBridge.getEndClass(), Map.class) //
-                  && isAssignable(leftBridge.getEndClass(), Serializable.class)) // 
-               || (isAssignable(rightBridge.getEndClass(), Serializable.class)//  
+                  && isAssignable(leftBridge.getEndClass(), Serializable.class)) //
+               || (isAssignable(rightBridge.getEndClass(), Serializable.class)//
                   && isAssignable(leftBridge.getEndClass(), Map.class))))
       {
          return;
+      }
+
+      if (activity != null && activity.getLoop() != null)
+      {
+         LoopType loop = activity.getLoop();
+         LoopTypeType loopType = loop.getLoopType();
+         if(loopType.equals(LoopTypeType.MULTI_INSTANCE))
+         {
+            LoopMultiInstanceType loopMultiInstance = loop.getLoopMultiInstance();
+            LoopDataRefType loopDataRef = loopMultiInstance.getLoopDataRef();
+
+            String paramId = loopDataRef.getInputItemRef();
+            IType endClass = rightBridge.getEndClass();
+            // out
+            if(left instanceof DataType)
+            {
+               paramId = loopDataRef.getOutputItemRef();
+               endClass = leftBridge.getEndClass();
+            }
+
+            String compare = null;
+            if(dataMapping != null)
+            {
+               compare = dataMapping.getContext() + ":" + dataMapping.getApplicationAccessPoint(); //$NON-NLS-1$
+            }
+
+            if(paramId != null && compare != null)
+            {
+               Class<? > compareclass = null;
+               try
+               {
+                  compareclass = Class.forName(endClass.getFullyQualifiedName());
+               }
+               catch (ClassNotFoundException e)
+               {
+               }
+
+               if(paramId.equals(compare) && compareclass != null
+                     && (List.class.isAssignableFrom(compareclass) || compareclass.isArray()))
+               {
+                  return;
+               }
+            }
+         }
       }
 
       if ( !leftBridge.acceptAssignmentFrom(rightBridge))
@@ -148,11 +203,11 @@ public class BridgeObject
       {
          return false;
       }
-   
+
       try
       {
          ITypeHierarchy typeHierarchy = type.newSupertypeHierarchy(null);
-         IType clazzType = JavaDataTypeUtils.getTypeFromCurrentProject(clazz.getName());            
+         IType clazzType = JavaDataTypeUtils.getTypeFromCurrentProject(clazz.getName());
          return typeHierarchy.contains(clazzType);
       }
       catch (JavaModelException e)

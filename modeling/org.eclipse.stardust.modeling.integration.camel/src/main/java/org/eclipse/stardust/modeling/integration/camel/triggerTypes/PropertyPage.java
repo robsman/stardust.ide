@@ -1,35 +1,15 @@
 package org.eclipse.stardust.modeling.integration.camel.triggerTypes;
 
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.*;
-//import static org.eclipse.stardust.engine.extensions.camel.RouteHelper.initializeEndpoint;
-import java.util.Map;
-
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.engine.extensions.camel.CamelConstants;
-//import org.eclipse.stardust.engine.extensions.camel.runtime.Endpoint;
-
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.impl.TriggerTypeImpl;
-import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.spi.triggerTypes.ParameterMappingTablePage;
@@ -41,13 +21,9 @@ public class PropertyPage extends AbstractModelElementPropertyPage
 {
 
    public static final String PARAMETER_MAPPING_TABLE_ID = ParameterMappingTablePage.PARAMETER_MAPPING_TABLE_ID;
-   // private static final String ENDPOINT_PKG =
-   // "org.eclipse.stardust.engine.extensions.camel.runtime";
    private static final String HEADERS_ACCESS_POINT_ID = "headers"; //$NON-NLS-1$
 
    private Text camelContextId;
-   // private Text endpointUri;
-  // private ComboViewer endpointType;
    private Text routeExtension;
    private Text additionalBeans;
 //   private Endpoint camelEndpoint;
@@ -57,27 +33,13 @@ public class PropertyPage extends AbstractModelElementPropertyPage
    private static final String CAMEL_TRIGGER_EVENTCLASS = "eventClass"; //$NON-NLS-1$
    // extended attribute value
    private static final String CAMEL_TRIGGER_USERNAME_CV = "${camelTriggerUsername}"; //$NON-NLS-1$
-   private static final String CAMEL_TRIGGER_PASSWORD_CV = "${camelTriggerPassword}"; //$NON-NLS-1$
+   private static final String CAMEL_TRIGGER_PASSWORD_CV = "${camelTriggerPassword:Password}"; //$NON-NLS-1$
    private static final String CAMEL_TRIGGER_EVENTCLASS_CV = "message"; //$NON-NLS-1$
 
    private TriggerTypeImpl getApplication()
    {
       return (TriggerTypeImpl) getModelElement();
    }
-
-//   private String mapTypeToEndpointClass(String type)
-//   {
-//      if (type == null || type.isEmpty())
-//         return GENERIC_ENDPOINT;
-//      Map<String, String> endpoints = getManagedEndpoints();
-//      return (endpoints.containsKey(type)) ? endpoints.get(type) : GENERIC_ENDPOINT;
-//   }
-
-//   private String reverseMapingEndpointClassToType(String className)
-//   {
-//      Map<String, String> endpoints = getManagedEndpoints();
-//      return (endpoints.containsValue(className)) ? getKeyByValue(endpoints, className) : GENERIC_ENDPOINT_KEY;
-//   }
 
    /**
     * (fh) This method is invoked only once when the dialog is created. You can use
@@ -96,35 +58,6 @@ public class PropertyPage extends AbstractModelElementPropertyPage
       endpointUriSettingGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData(2));
       FormBuilder.createLabel(endpointUriSettingGroup, Camel_Messages.label_CamelContextId);
       this.camelContextId = FormBuilder.createText(endpointUriSettingGroup);
-      //FormBuilder.createLabel(endpointUriSettingGroup, Camel_Messages.label_Endpoint_Type);
-//      endpointType = new ComboViewer(FormBuilder.createCombo(endpointUriSettingGroup));
-//      endpointType.setContentProvider(ArrayContentProvider.getInstance());
-////      for (String key : getManagedEndpoints().keySet())
-////         endpointType.add(key);
-//
-//      endpointType.setSelection(new StructuredSelection(GENERIC_ENDPOINT_KEY));
-//      endpointType.addSelectionChangedListener(new ISelectionChangedListener()
-//      {
-//         @Override
-//         public void selectionChanged(SelectionChangedEvent event)
-//         {
-//            IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-////            String selectedEndpointType = mapTypeToEndpointClass("Generic Endpoint");
-//            TriggerTypeImpl application = getApplication();
-////            if (selection == null || selection.getFirstElement() == null)
-////               selectedEndpointType = mapTypeToEndpointClass("Generic Endpoint");
-////            else
-////            {
-////               selectedEndpointType = mapTypeToEndpointClass((String) selection.getFirstElement());
-////            }
-////            AttributeUtil.setAttribute(application, CamelConstants.ENDPOINT_TYPE_CLASS_ATT, selectedEndpointType);
-//         }
-//      });
-      // this.endpointUri = FormBuilder.createText(endpointUriSettingGroup);
-
-      // Label componentsLabel = FormBuilder.createLabel(composite,
-      // "http://camel.apache.org/components.html");
-      // componentsLabel.setAlignment(SWT.RIGHT);
 
       // TODO i18n
       // Diagram_Messages.GROUP_RouteSetting, 2
@@ -189,31 +122,6 @@ public class PropertyPage extends AbstractModelElementPropertyPage
             break;
          }
       }
-      // if (this.camelEndpoint == null)
-      // {
-      // try
-      // {
-      // if (endpointTypeClass == null)
-      // endpointTypeClass = GENERIC_ENDPOINT;
-      //
-      // camelEndpoint = initializeEndpoint(endpointTypeClass);
-      // }
-      // catch (Exception e)
-      // {
-      // // logger.error("Error Occured"+e.getMessage());
-      // System.out.println(e.getMessage());
-      // }
-      //
-      // }
-//      if (this.camelEndpoint != null)
-//      {
-//         if (!StringUtils.isEmpty(endpointTypeClass))
-//         {
-//            AccessPointType specificAccessPointType = createSpecificAccessPoints();
-//            if (specificAccessPointType != null)
-//               ((TriggerType) modelElement).getAccessPoint().add(specificAccessPointType);
-//         }
-//      }
    }
 
    /**
@@ -239,13 +147,6 @@ public class PropertyPage extends AbstractModelElementPropertyPage
 
       }
 
-//      String endpointTypeClass = AttributeUtil.getAttributeValue((IExtensibleElement) modelElement,
-//            ENDPOINT_TYPE_CLASS_ATT);
-//      if (!StringUtils.isEmpty(endpointTypeClass))
-//      {
-//         endpointType.setSelection(new StructuredSelection(reverseMapingEndpointClassToType(endpointTypeClass)));
-//      }
-
       String routeExtContent = AttributeUtil.getAttributeValue((IExtensibleElement) modelElement, ROUTE_EXT_ATT);
 
       if (!StringUtils.isEmpty(routeExtContent))
@@ -265,12 +166,6 @@ public class PropertyPage extends AbstractModelElementPropertyPage
             break;
          }
       }
-//      if (this.camelEndpoint != null)
-//      {
-//         AccessPointType specificAccessPointType = createSpecificAccessPoints();
-//         if (specificAccessPointType != null)
-//            ((TriggerType) modelElement).getAccessPoint().add(specificAccessPointType);
-//      }
    }
 
    private TriggerType getTrigger()
@@ -286,15 +181,4 @@ public class PropertyPage extends AbstractModelElementPropertyPage
       }
       return element instanceof TriggerType ? (TriggerType) element : null;
    }
-
-//   private AccessPointType createSpecificAccessPoints()
-//   {
-//      AccessPointType ap = AccessPointUtil.createIntrinsicAccessPoint(HEADERS_ACCESS_POINT_ID,
-//            HEADERS_ACCESS_POINT_ID, //$NON-NLS-1$ //$NON-NLS-2$
-//            camelEndpoint.getMessageAccessPointProvider(), DirectionType.OUT_LITERAL, true, null,
-//            ModelUtils.getDataType(getTrigger(), CarnotConstants.SERIALIZABLE_DATA_ID));
-//
-//      return ap;
-//   }
-
 }

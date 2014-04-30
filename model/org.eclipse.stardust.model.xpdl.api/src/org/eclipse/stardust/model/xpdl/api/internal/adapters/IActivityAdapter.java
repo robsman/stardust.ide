@@ -83,34 +83,34 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
 
    public Iterator getAllInTransitions()
    {
-       List result = new LinkedList(); 
-       
+       List result = new LinkedList();
+
        for (Iterator i = aAdapter.getInTransitions().iterator(); i.hasNext(); ) {
            TransitionType transitionType = (TransitionType)i.next();
            result.add((ITransition) ModelApiPlugin.getAdapterRegistry().getAdapter(
                    transitionType, ITransitionAdapter.FACTORY));
        }
-       
-       return result.iterator();   
+
+       return result.iterator();
    }
 
    public Iterator getAllOutTransitions()
    {
-       List result = new LinkedList(); 
-       
+       List result = new LinkedList();
+
        for (Iterator i = aAdapter.getOutTransitions().iterator(); i.hasNext(); ) {
            TransitionType transitionType = (TransitionType)i.next();
            result.add((ITransition) ModelApiPlugin.getAdapterRegistry().getAdapter(
                    transitionType, ITransitionAdapter.FACTORY));
        }
-       
-       return result.iterator(); 
+
+       return result.iterator();
    }
 
    public Iterator getAllDataMappings()
    {
        // TODO implement
-      throw new RuntimeException("Not implemented yet");    //$NON-NLS-1$   
+      throw new RuntimeException("Not implemented yet");    //$NON-NLS-1$
    }
 
    public Iterator getAllInDataMappings()
@@ -121,8 +121,8 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
 
    public Iterator getAllOutDataMappings()
    {
-       List result = new LinkedList(); 
-       
+       List result = new LinkedList();
+
        for (Iterator i = aAdapter.getDataMapping().iterator(); i.hasNext(); ) {
            DataMappingType dataMappingType = (DataMappingType)i.next();
            if (dataMappingType.getDirection().equals(DirectionType.OUT_LITERAL) ||
@@ -131,8 +131,8 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
                    dataMappingType, IDataMappingAdapter.FACTORY));
            }
        }
-       
-       return result.iterator(); 
+
+       return result.iterator();
    }
 
    public Iterator findDataMappings(IData data, Direction direction)
@@ -224,11 +224,11 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
    public org.eclipse.stardust.engine.api.model.JoinSplitType getJoinType()
    {
        if (aAdapter.getJoin().equals(JoinSplitType.AND_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.And; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.And;
        } else if (aAdapter.getJoin().equals(JoinSplitType.NONE_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.None; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.None;
        } else if (aAdapter.getJoin().equals(JoinSplitType.XOR_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor;
        } else {
            throw new RuntimeException("Unexpected split type <"+aAdapter.getJoin()+">"); //$NON-NLS-1$ //$NON-NLS-2$
        }
@@ -243,7 +243,7 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
 
    public String getLoopCondition()
    {
-       return aAdapter.getLoopCondition();
+       return null; //aAdapter.getLoopCondition();
    }
 
    public IModelParticipant getPerformer()
@@ -262,11 +262,11 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
    public org.eclipse.stardust.engine.api.model.JoinSplitType getSplitType()
    {
        if (aAdapter.getSplit().equals(JoinSplitType.AND_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.And; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.And;
        } else if (aAdapter.getSplit().equals(JoinSplitType.NONE_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.None; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.None;
        } else if (aAdapter.getSplit().equals(JoinSplitType.XOR_LITERAL)) {
-           return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor; 
+           return org.eclipse.stardust.engine.api.model.JoinSplitType.Xor;
        } else {
            throw new RuntimeException("Unexpected split type <"+aAdapter.getSplit()+">"); //$NON-NLS-1$ //$NON-NLS-2$
        }
@@ -282,7 +282,7 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
           return SubProcessModeKey.SYNC_SHARED;
       } else {
           throw new RuntimeException("Unexpected SubProcessModeKey <"+aAdapter.getSubProcessMode()+">"); //$NON-NLS-1$ //$NON-NLS-2$
-      } 
+      }
    }
 
    public boolean isHibernateOnCreation()
@@ -303,13 +303,13 @@ public class IActivityAdapter extends AbstractIdentifiableModelElementAdapter
 public void addToDataMappings(IDataMapping arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void checkConsistency(Vector arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public IDataMapping createDataMapping(String arg0, IData arg1, Direction arg2) {
@@ -325,78 +325,78 @@ public IDataMapping createDataMapping(String arg0, IData arg1, Direction arg2, S
 public void removeAllDataMappings() {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void removeFromDataMappings(IDataMapping arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setAllowsAbortByPerformer(boolean arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setApplication(IApplication arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setHibernateOnCreation(boolean arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setImplementationProcessDefinition(IProcessDefinition arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setImplementationType(ImplementationType arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setJoinType(org.eclipse.stardust.engine.api.model.JoinSplitType arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setLoopCondition(String arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setLoopType(LoopType arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setPerformer(IModelParticipant arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setSplitType(org.eclipse.stardust.engine.api.model.JoinSplitType arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 
 public void setSubProcessMode(SubProcessModeKey arg0) {
     // TODO implement this method!
     throw new RuntimeException("NIY"); //$NON-NLS-1$
-    
+
 }
 }

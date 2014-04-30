@@ -53,18 +53,18 @@ public class DataMappingValidator implements IModelElementValidator
    {
       List<Issue> result = new ArrayList<Issue>();
       DataMappingType dataMapping = (DataMappingType) element;
-      
+
       if(StringUtils.isEmpty(dataMapping.getId()))
       {
          result.add(Issue.error(dataMapping,
                Validation_Messages.ERR_ELEMENT_EmptyId,
-               ValidationService.PKG_CWM.getIIdentifiableElement_Id()));         
+               ValidationService.PKG_CWM.getIIdentifiableElement_Id()));
       }
       if(StringUtils.isEmpty(dataMapping.getName()))
       {
          result.add(Issue.warning(dataMapping,
                Validation_Messages.MSG_ELEMENT_EmptyName,
-               ValidationService.PKG_CWM.getIIdentifiableElement_Name()));         
+               ValidationService.PKG_CWM.getIIdentifiableElement_Name()));
       }
 
       checkActivitySupportsDataMapppings(result, dataMapping);
@@ -136,7 +136,7 @@ public class DataMappingValidator implements IModelElementValidator
             }
          }
       }
-      
+
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }
 
@@ -163,7 +163,7 @@ public class DataMappingValidator implements IModelElementValidator
                   }
                }
             }
-            
+
             IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(dataMapping.getData());
             if (dataPath.indexOf("[") > -1) //$NON-NLS-1$
             {
@@ -268,12 +268,12 @@ public class DataMappingValidator implements IModelElementValidator
                if (AccessPointUtil.isIn(dataMapping.getDirection()))
                {
                   BridgeObject.checkMapping(point, dataMapping.getApplicationPath(),
-                        dataMapping.getData(), dataMapping.getDataPath(), activity);
+                        dataMapping.getData(), dataMapping.getDataPath(), activity, dataMapping);
                }
                else
                {
                   BridgeObject.checkMapping(dataMapping.getData(), dataMapping
-                        .getDataPath(), point, dataMapping.getApplicationPath(), activity);
+                        .getDataPath(), point, dataMapping.getApplicationPath(), activity, dataMapping);
                }
                try
                {

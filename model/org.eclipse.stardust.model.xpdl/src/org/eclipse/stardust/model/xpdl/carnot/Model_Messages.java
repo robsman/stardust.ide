@@ -86,6 +86,8 @@ public class Model_Messages
 
    public static String JOIN_SPLIT_LOOP_AND = getString("JOIN_SPLIT_LOOP_AND"); //$NON-NLS-1$
 
+   public static String JOIN_SPLIT_LOOP_MULTI_INSTANCE = getString("JOIN_SPLIT_LOOP_MULTI_INSTANCE"); //$NON-NLS-1$
+
    public static String JOIN_SPLIT_LOOP_XOR = getString("JOIN_SPLIT_LOOP_XOR"); //$NON-NLS-1$
 
    public static String JOIN_SPLIT_LOOP_NONE = getString("JOIN_SPLIT_LOOP_NONE"); //$NON-NLS-1$
@@ -95,6 +97,8 @@ public class Model_Messages
    public static String JOIN_SPLIT_LOOP_WHILE = getString("JOIN_SPLIT_LOOP_WHILE"); //$NON-NLS-1$
 
    public static String JOIN_SPLIT_LOOP_REPEAT = getString("JOIN_SPLIT_LOOP_REPEAT"); //$NON-NLS-1$
+
+   public static String JOIN_SPLIT_LOOP_STANDARD = getString("JOIN_SPLIT_LOOP_STANDARD"); //$NON-NLS-1$
 
    public static String JOIN_SPLIT_LOOP_UNKNOWN = getString("JOIN_SPLIT_LOOP_UNKNOWN"); //$NON-NLS-1$
 

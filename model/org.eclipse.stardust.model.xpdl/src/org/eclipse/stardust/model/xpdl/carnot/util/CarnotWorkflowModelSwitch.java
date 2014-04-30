@@ -10,101 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.AbstractEventAction;
-import org.eclipse.stardust.model.xpdl.carnot.AbstractEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Code;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.Coordinates;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.ExecutedByConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.GroupSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IEventHandlerOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IFlowObjectSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipantSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISwimlaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.PartOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.PerformsConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.QualityControlType;
-import org.eclipse.stardust.model.xpdl.carnot.RefersToConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TeamLeadConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TextSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.TextType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggersConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewableType;
-import org.eclipse.stardust.model.xpdl.carnot.WorksForConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 
 
 /**
@@ -116,7 +25,7 @@ import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
  * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage
  * @generated
  */
-public class CarnotWorkflowModelSwitch<T> 
+public class CarnotWorkflowModelSwitch<T> extends Switch<T>
 {
    /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -145,14 +54,17 @@ public class CarnotWorkflowModelSwitch<T>
    }
 
    /**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-    * <!-- begin-user-doc --> <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
+    * Checks whether this is a switch for the given package.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @parameter ePackage the package in question.
+    * @return whether this is a switch for the given package.
     * @generated
     */
-   public T doSwitch(EObject theEObject)
+   @Override
+   protected boolean isSwitchFor(EPackage ePackage)
    {
-      return doSwitch(theEObject.eClass(), theEObject);
+      return ePackage == modelPackage;
    }
 
    /**
@@ -161,28 +73,7 @@ public class CarnotWorkflowModelSwitch<T>
     * @return the first non-null result returned by a <code>caseXXX</code> call.
     * @generated
     */
-   protected T doSwitch(EClass theEClass, EObject theEObject)
-   {
-      if (theEClass.eContainer() == modelPackage)
-      {
-         return doSwitch(theEClass.getClassifierID(), theEObject);
-      }
-      else
-      {
-         List<EClass> eSuperTypes = theEClass.getESuperTypes();
-         return
-            eSuperTypes.isEmpty() ?
-               defaultCase(theEObject) :
-               doSwitch(eSuperTypes.get(0), theEObject);
-      }
-   }
-
-   /**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-    * <!-- begin-user-doc --> <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
-    * @generated
-    */
+   @Override
    protected T doSwitch(int classifierID, EObject theEObject)
    {
       switch (classifierID)
@@ -2413,6 +2304,7 @@ public class CarnotWorkflowModelSwitch<T>
     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
     * @generated
     */
+   @Override
    public T defaultCase(EObject object)
    {
       return null;

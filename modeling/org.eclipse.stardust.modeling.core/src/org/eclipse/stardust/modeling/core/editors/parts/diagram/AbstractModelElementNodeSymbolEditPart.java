@@ -36,6 +36,8 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.LoopType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.figures.AbstractLabeledIconFigure;
@@ -68,10 +70,10 @@ public class AbstractModelElementNodeSymbolEditPart
          {
             ModelServer modelServer = getEditor().getModelServer();
             if (modelServer != null && modelServer.requireLock((INodeSymbol) model))
-            {            
-               return null;                  
-            }                        
-         }         
+            {
+               return null;
+            }
+         }
       }
       return super.getCommand(request);
    }
@@ -91,7 +93,7 @@ public class AbstractModelElementNodeSymbolEditPart
       setSourceConnectionFeatures(sourceConnectionFeatures);
       setTargetConnectionFeatures(targetConnectionFeatures);
    }
-   
+
    protected void refreshFigure(IFigure figure)
    {
       super.refreshFigure(figure);
@@ -124,7 +126,7 @@ public class AbstractModelElementNodeSymbolEditPart
             name = Diagram_Messages.MSG_EDITOR_unidentifiedModelElement;
          }
          ((ILabeledFigure) figure).setName(name);
-         
+
          if ((element instanceof ActivityType)
                && (getFigure() instanceof ActivitySymbolFigure))
          {
@@ -132,8 +134,7 @@ public class AbstractModelElementNodeSymbolEditPart
             if (null != activity)
             {
                ActivitySymbolFigure activityFigure = (ActivitySymbolFigure) figure;
-               activityFigure.setLoopActivity((null != activity.getLoopType())
-                     && !LoopType.NONE_LITERAL.equals(activity.getLoopType()));
+               activityFigure.setLoopActivity(getLoopType(activity), isSequential(activity));
                activityFigure.setSubProcActivity(ActivityImplementationType.SUBPROCESS_LITERAL
                      .equals(activity.getImplementation()));
                activityFigure.setEventHandlerType(!activity.getEventHandler().isEmpty(), activity);
@@ -146,18 +147,43 @@ public class AbstractModelElementNodeSymbolEditPart
             if(trigger != null)
             {
                EventFigure eventFigure = (EventFigure) figure;
-               eventFigure.setText(trigger.getName() == null ? trigger.getId() : trigger.getName());               
+               eventFigure.setText(trigger.getName() == null ? trigger.getId() : trigger.getName());
             }
          }
       }
-      
+
       if (figure instanceof IIconFigure)
       {
          ((IIconFigure) figure).setIconPath(getIconFactory()
                .getIconFor(getModelElement()));
       }
    }
-   
+
+   private boolean isSequential(ActivityType activity)
+   {
+      org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop = activity.getLoop();
+      return loop == null || loop.getLoopType() != LoopTypeType.MULTI_INSTANCE || (
+            loop.getLoopMultiInstance() != null && loop.getLoopMultiInstance().getMIOrdering() != MIOrderingType.PARALLEL);
+   }
+
+   private LoopTypeType getLoopType(ActivityType activity)
+   {
+      org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop = activity.getLoop();
+      if (loop == null)
+      {
+         LoopType loopType = activity.getLoopType();
+         if (loopType != null && (loopType == LoopType.REPEAT_LITERAL || loopType == LoopType.WHILE_LITERAL))
+         {
+            return LoopTypeType.STANDARD;
+         }
+      }
+      else
+      {
+         return loop.getLoopType();
+      }
+      return null;
+   }
+
    protected EStructuralFeature getDirectEditFeature()
    {
       if (getModelElement() instanceof IIdentifiableModelElement)
@@ -165,9 +191,9 @@ public class AbstractModelElementNodeSymbolEditPart
          // check if predefined
          if(getModel() instanceof IModelElementNodeSymbol
                && ((IModelElementNodeSymbol) getModel()).getModelElement() != null
-               && ((IModelElementNodeSymbol) getModel()).getModelElement() instanceof DataType 
+               && ((IModelElementNodeSymbol) getModel()).getModelElement() instanceof DataType
                && ((DataType) ((IModelElementNodeSymbol) getModel()).getModelElement()).isPredefined())
-         {         
+         {
             return null;
          }
          else
@@ -274,7 +300,7 @@ public class AbstractModelElementNodeSymbolEditPart
    public void handleNotification(Notification notification)
    {
       EStructuralFeature eFtr = (EStructuralFeature) notification.getFeature();
-      
+
       if (null != sourceConnectionFeatures)
       {
          for (int i = 0; i < sourceConnectionFeatures.length; i++)

@@ -39,6 +39,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getOutTransitions <em>Out Transitions</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getValidQualityCodes <em>Valid Quality Codes</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoop <em>Loop</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,9 +77,9 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   Determines whether the activity is allowed to be aborted.
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Allows Abort By Performer</em>' attribute.
     * @see #isSetAllowsAbortByPerformer()
@@ -132,10 +133,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The model id of the application to execute when the attribute
     *                   "implementation" is set to "Application".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Application</em>' reference.
     * @see #setApplication(ApplicationType)
@@ -163,10 +164,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   Determines whether an activity instance is hibernated immediately after
     *                   beeing created.
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Hibernate On Creation</em>' attribute.
     * @see #isSetHibernateOnCreation()
@@ -223,7 +224,7 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * Description of how the activity is implemented. Valid values are
     *  "Application", "Subprocess", "Route" or
     *  "Manual".
-    *  
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Implementation</em>' attribute.
     * @see org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType
@@ -252,10 +253,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The model id of the subprocess implementing the activity when the
     *                   attribute "implementation" is set to "Subprocess".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Implementation Process</em>' reference.
     * @see #setImplementationProcess(ProcessDefinitionType)
@@ -285,10 +286,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The type of activity join. Valid values are: "None",
     *                   "XOR" or "AND".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Join</em>' attribute.
     * @see org.eclipse.stardust.model.xpdl.carnot.JoinSplitType
@@ -343,10 +344,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   Logical condition for the loop when attribute loopType is
     *                   "WHILE" or "REPEAT".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Loop Condition</em>' attribute.
     * @see #setLoopCondition(String)
@@ -374,10 +375,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   Description of whether the activity shall be executed in a loop. Valid
     *                   values are "NO LOOP", "WHILE" or "REPEAT".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Loop Type</em>' attribute.
     * @see org.eclipse.stardust.model.xpdl.carnot.LoopType
@@ -433,10 +434,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The model id of a participant (role, organization or conditional
     *                   performer) who is assigned to the activity.
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Performer</em>' reference.
     * @see #setPerformer(IModelParticipant)
@@ -464,10 +465,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The model id of a participant (role, organization or conditional
     *                   performer) who is assigned to the activity.
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Quality Control Performer</em>' reference.
     * @see #setQualityControlPerformer(IModelParticipant)
@@ -496,10 +497,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The type of activity split. Valid values are: "None",
     *                   "XOR" or "AND".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Split</em>' attribute.
     * @see org.eclipse.stardust.model.xpdl.carnot.JoinSplitType
@@ -556,13 +557,13 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   The execution mode of the subprocess. "sync_shared" executes
     *                   the process synchronously (the default mode).
     *                   "asynch_separate" just triggers a fully independent instance
     *                   of the implementing process. This attribute is valid only when the
     *                   attribute "implementation" is set to "Subprocess".
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Sub Process Mode</em>' attribute.
     * @see org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType
@@ -717,10 +718,10 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * <!-- begin-model-doc -->
-    * 
+    *
     *                   Determines whether an activity instance is hibernated immediately after
     *                   beeing created.
-    *                
+    *
     * <!-- end-model-doc -->
     * @return the value of the '<em>Valid Quality Codes</em>' reference list.
     * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getActivityType_ValidQualityCodes()
@@ -728,5 +729,31 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * @generated
     */
    EList<Code> getValidQualityCodes();
+
+   /**
+    * Returns the value of the '<em><b>Loop</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * <!-- begin-model-doc -->
+    * Reference to the xpdl loop information.
+    * <!-- end-model-doc -->
+    * @return the value of the '<em>Loop</em>' containment reference.
+    * @see #setLoop(org.eclipse.stardust.model.xpdl.xpdl2.LoopType)
+    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getActivityType_Loop()
+    * @model containment="true"
+    *        extendedMetaData="kind='element' name='Loop' namespace='http://www.wfmc.org/2008/XPDL2.1'"
+    * @generated
+    */
+   org.eclipse.stardust.model.xpdl.xpdl2.LoopType getLoop();
+
+   /**
+    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoop <em>Loop</em>}' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @param value the new value of the '<em>Loop</em>' containment reference.
+    * @see #getLoop()
+    * @generated
+    */
+   void setLoop(org.eclipse.stardust.model.xpdl.xpdl2.LoopType value);
 
 } // ActivityType

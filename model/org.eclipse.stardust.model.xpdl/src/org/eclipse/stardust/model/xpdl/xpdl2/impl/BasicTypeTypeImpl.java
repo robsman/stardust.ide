@@ -48,7 +48,7 @@ public class BasicTypeTypeImpl extends EObjectImpl implements BasicTypeType {
     * @generated
     * @ordered
     */
-	protected static final TypeType TYPE_EDEFAULT = TypeType.STRING_LITERAL;
+	protected static final TypeType TYPE_EDEFAULT = TypeType.STRING;
 
 	/**
     * The cached value of the '{@link #getType() <em>Type</em>}' attribute.

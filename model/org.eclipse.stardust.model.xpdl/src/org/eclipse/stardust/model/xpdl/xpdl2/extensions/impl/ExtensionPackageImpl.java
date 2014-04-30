@@ -13,13 +13,16 @@ package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 
 
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType;
 import org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl;
 import org.eclipse.xsd.XSDPackage;
 
@@ -45,6 +48,13 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
 	private EClass extendedAnnotationTypeEClass = null;
 
 	/**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   private EClass loopDataRefTypeEClass = null;
+
+   /**
     * Creates an instance of the model <b>Package</b>, registered with
     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
     * package URI value.
@@ -71,22 +81,12 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
 	private static boolean isInited = false;
 
 	/**
-    * Creates, registers, and initializes the <b>Package</b> for this
-    * model, and for any others upon which it depends.  Simple
-    * dependencies are satisfied by calling this method on all
-    * dependent packages before doing anything else.  This method drives
-    * initialization for interdependent packages directly, in parallel
-    * with this package, itself.
-    * <p>Of this package and its interdependencies, all packages which
-    * have not yet been registered by their URI values are first created
-    * and registered.  The packages are then initialized in two steps:
-    * meta-model objects for all of the packages are created before any
-    * are initialized, since one package's meta-model objects may refer to
-    * those of another.
-    * <p>Invocation of this method will not affect any packages that have
-    * already been initialized.
+    * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+    *
+    * <p>This method is used to initialize {@link ExtensionPackage#eINSTANCE} when that field is accessed.
+    * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	* <!-- end-user-doc -->
     * @see #eNS_URI
     * @see #createPackageContents()
     * @see #initializePackageContents()
@@ -96,12 +96,13 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
       if (isInited) return (ExtensionPackage)EPackage.Registry.INSTANCE.getEPackage(ExtensionPackage.eNS_URI);
 
       // Obtain or create and register package
-      ExtensionPackageImpl theExtensionPackage = (ExtensionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ExtensionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ExtensionPackageImpl());
+      ExtensionPackageImpl theExtensionPackage = (ExtensionPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExtensionPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExtensionPackageImpl());
 
       isInited = true;
 
       // Initialize simple dependencies
       XSDPackage.eINSTANCE.eClass();
+      XMLTypePackage.eINSTANCE.eClass();
 
       // Obtain or create and register interdependencies
       XpdlPackageImpl theXpdlPackage = (XpdlPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(XpdlPackage.eNS_URI) instanceof XpdlPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(XpdlPackage.eNS_URI) : XpdlPackage.eINSTANCE);
@@ -117,6 +118,9 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
       // Mark meta-data to indicate it can't be changed
       theExtensionPackage.freeze();
 
+
+      // Update the registry and return the package
+      EPackage.Registry.INSTANCE.put(ExtensionPackage.eNS_URI, theExtensionPackage);
       return theExtensionPackage;
    }
 
@@ -130,6 +134,46 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
    }
 
 	/**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EClass getLoopDataRefType()
+   {
+      return loopDataRefTypeEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EAttribute getLoopDataRefType_InputItemRef()
+   {
+      return (EAttribute)loopDataRefTypeEClass.getEStructuralFeatures().get(0);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EAttribute getLoopDataRefType_OutputItemRef()
+   {
+      return (EAttribute)loopDataRefTypeEClass.getEStructuralFeatures().get(1);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EAttribute getLoopDataRefType_LoopCounterRef()
+   {
+      return (EAttribute)loopDataRefTypeEClass.getEStructuralFeatures().get(2);
+   }
+
+   /**
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
     * @generated
@@ -158,6 +202,11 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
 
       // Create classes and their features
       extendedAnnotationTypeEClass = createEClass(EXTENDED_ANNOTATION_TYPE);
+
+      loopDataRefTypeEClass = createEClass(LOOP_DATA_REF_TYPE);
+      createEAttribute(loopDataRefTypeEClass, LOOP_DATA_REF_TYPE__INPUT_ITEM_REF);
+      createEAttribute(loopDataRefTypeEClass, LOOP_DATA_REF_TYPE__OUTPUT_ITEM_REF);
+      createEAttribute(loopDataRefTypeEClass, LOOP_DATA_REF_TYPE__LOOP_COUNTER_REF);
    }
 
 	/**
@@ -185,6 +234,7 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
 
       // Obtain other dependent packages
       XSDPackage theXSDPackage = (XSDPackage)EPackage.Registry.INSTANCE.getEPackage(XSDPackage.eNS_URI);
+      XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
       // Create type parameters
 
@@ -194,7 +244,12 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
       extendedAnnotationTypeEClass.getESuperTypes().add(theXSDPackage.getXSDAnnotation());
 
       // Initialize classes and features; add operations and parameters
-      initEClass(extendedAnnotationTypeEClass, ExtendedAnnotationType.class, "ExtendedAnnotationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+      initEClass(extendedAnnotationTypeEClass, ExtendedAnnotationType.class, "ExtendedAnnotationType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+      initEClass(loopDataRefTypeEClass, LoopDataRefType.class, "LoopDataRefType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+      initEAttribute(getLoopDataRefType_InputItemRef(), theXMLTypePackage.getString(), "inputItemRef", null, 0, 1, LoopDataRefType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getLoopDataRefType_OutputItemRef(), theXMLTypePackage.getString(), "outputItemRef", null, 0, 1, LoopDataRefType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getLoopDataRefType_LoopCounterRef(), theXMLTypePackage.getString(), "loopCounterRef", null, 0, 1, LoopDataRefType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       // Create annotations
       // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
@@ -208,14 +263,49 @@ public class ExtensionPackageImpl extends EPackageImpl implements ExtensionPacka
     * @generated
     */
 	protected void createExtendedMetaDataAnnotations() {
-      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		 //$NON-NLS-1$
+      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
       addAnnotation
         (extendedAnnotationTypeEClass, 
          source, 
          new String[] 
          {
-          "name", "ExternalAnnotation_._type", //$NON-NLS-1$ //$NON-NLS-2$
-          "kind", "empty" //$NON-NLS-1$ //$NON-NLS-2$
+          "name", "ExternalAnnotation_._type",
+          "kind", "empty"
+         });
+      addAnnotation
+        (loopDataRefTypeEClass,
+         source,
+         new String[]
+         {
+          "name", "LoopDataRef_._type",
+          "kind", "elementOnly"
+         });
+      addAnnotation
+        (getLoopDataRefType_InputItemRef(),
+         source,
+         new String[]
+         {
+          "kind", "element",
+          "name", "InputItemRef",
+          "namespace", "##targetNamespace"
+         });
+      addAnnotation
+        (getLoopDataRefType_OutputItemRef(),
+         source,
+         new String[]
+         {
+          "kind", "element",
+          "name", "OutputItemRef",
+          "namespace", "##targetNamespace"
+         });
+      addAnnotation
+        (getLoopDataRefType_LoopCounterRef(),
+         source,
+         new String[]
+         {
+          "kind", "element",
+          "name", "LoopCounterRef",
+          "namespace", "##targetNamespace"
          });
    }
 

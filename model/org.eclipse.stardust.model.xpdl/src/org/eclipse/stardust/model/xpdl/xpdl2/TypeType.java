@@ -35,7 +35,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   STRING_LITERAL(0, "STRING", "STRING"), //$NON-NLS-1$ //$NON-NLS-2$
+   STRING(0, "STRING", "STRING"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>FLOAT</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -44,7 +44,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   FLOAT_LITERAL(1, "FLOAT", "FLOAT"), //$NON-NLS-1$ //$NON-NLS-2$
+   FLOAT(1, "FLOAT", "FLOAT"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>INTEGER</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -53,7 +53,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   INTEGER_LITERAL(2, "INTEGER", "INTEGER"), //$NON-NLS-1$ //$NON-NLS-2$
+   INTEGER(2, "INTEGER", "INTEGER"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>REFERENCE</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -62,7 +62,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   REFERENCE_LITERAL(3, "REFERENCE", "REFERENCE"), //$NON-NLS-1$ //$NON-NLS-2$
+   REFERENCE(3, "REFERENCE", "REFERENCE"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>DATETIME</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -71,7 +71,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   DATETIME_LITERAL(4, "DATETIME", "DATETIME"), //$NON-NLS-1$ //$NON-NLS-2$
+   DATETIME(4, "DATETIME", "DATETIME"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>BOOLEAN</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -80,7 +80,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   BOOLEAN_LITERAL(5, "BOOLEAN", "BOOLEAN"), //$NON-NLS-1$ //$NON-NLS-2$
+   BOOLEAN(5, "BOOLEAN", "BOOLEAN"), //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * The '<em><b>PERFORMER</b></em>' literal object.
     * <!-- begin-user-doc -->
@@ -89,7 +89,7 @@ public enum TypeType implements Enumerator
     * @generated
     * @ordered
     */
-   PERFORMER_LITERAL(6, "PERFORMER", "PERFORMER"); //$NON-NLS-1$ //$NON-NLS-2$
+   PERFORMER(6, "PERFORMER", "PERFORMER"); //$NON-NLS-1$ //$NON-NLS-2$
    /**
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -105,12 +105,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #STRING_LITERAL
+    * @see #STRING
     * @model
     * @generated
     * @ordered
     */
-	public static final int STRING = 0;
+	public static final int STRING_VALUE = 0;
 
    /**
     * The '<em><b>FLOAT</b></em>' literal value.
@@ -120,12 +120,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #FLOAT_LITERAL
+    * @see #FLOAT
     * @model
     * @generated
     * @ordered
     */
-	public static final int FLOAT = 1;
+	public static final int FLOAT_VALUE = 1;
 
    /**
     * The '<em><b>INTEGER</b></em>' literal value.
@@ -135,12 +135,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #INTEGER_LITERAL
+    * @see #INTEGER
     * @model
     * @generated
     * @ordered
     */
-	public static final int INTEGER = 2;
+	public static final int INTEGER_VALUE = 2;
 
    /**
     * The '<em><b>REFERENCE</b></em>' literal value.
@@ -150,12 +150,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #REFERENCE_LITERAL
+    * @see #REFERENCE
     * @model
     * @generated
     * @ordered
     */
-	public static final int REFERENCE = 3;
+	public static final int REFERENCE_VALUE = 3;
 
    /**
     * The '<em><b>DATETIME</b></em>' literal value.
@@ -165,12 +165,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #DATETIME_LITERAL
+    * @see #DATETIME
     * @model
     * @generated
     * @ordered
     */
-	public static final int DATETIME = 4;
+	public static final int DATETIME_VALUE = 4;
 
    /**
     * The '<em><b>BOOLEAN</b></em>' literal value.
@@ -180,12 +180,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #BOOLEAN_LITERAL
+    * @see #BOOLEAN
     * @model
     * @generated
     * @ordered
     */
-	public static final int BOOLEAN = 5;
+	public static final int BOOLEAN_VALUE = 5;
 
    /**
     * The '<em><b>PERFORMER</b></em>' literal value.
@@ -195,12 +195,12 @@ public enum TypeType implements Enumerator
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-    * @see #PERFORMER_LITERAL
+    * @see #PERFORMER
     * @model
     * @generated
     * @ordered
     */
-	public static final int PERFORMER = 6;
+	public static final int PERFORMER_VALUE = 6;
 
    /**
     * An array of all the '<em><b>Type Type</b></em>' enumerators.
@@ -211,13 +211,13 @@ public enum TypeType implements Enumerator
 	private static final TypeType[] VALUES_ARRAY =
 		new TypeType[]
       {
-         STRING_LITERAL,
-         FLOAT_LITERAL,
-         INTEGER_LITERAL,
-         REFERENCE_LITERAL,
-         DATETIME_LITERAL,
-         BOOLEAN_LITERAL,
-         PERFORMER_LITERAL,
+         STRING,
+         FLOAT,
+         INTEGER,
+         REFERENCE,
+         DATETIME,
+         BOOLEAN,
+         PERFORMER,
       };
 
    /**
@@ -273,13 +273,13 @@ public enum TypeType implements Enumerator
 	public static TypeType get(int value) {
       switch (value)
       {
-         case STRING: return STRING_LITERAL;
-         case FLOAT: return FLOAT_LITERAL;
-         case INTEGER: return INTEGER_LITERAL;
-         case REFERENCE: return REFERENCE_LITERAL;
-         case DATETIME: return DATETIME_LITERAL;
-         case BOOLEAN: return BOOLEAN_LITERAL;
-         case PERFORMER: return PERFORMER_LITERAL;
+         case STRING_VALUE: return STRING;
+         case FLOAT_VALUE: return FLOAT;
+         case INTEGER_VALUE: return INTEGER;
+         case REFERENCE_VALUE: return REFERENCE;
+         case DATETIME_VALUE: return DATETIME;
+         case BOOLEAN_VALUE: return BOOLEAN;
+         case PERFORMER_VALUE: return PERFORMER;
       }
       return null;
    }

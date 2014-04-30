@@ -25,14 +25,10 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Predicate;
@@ -51,6 +47,7 @@ import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlUtil;
 import org.eclipse.xsd.XSDSchema;
 
 public class ModelUtils
@@ -259,32 +256,9 @@ public class ModelUtils
       {
          return null;
       }
-      DescriptionType descriptionType =
-         CarnotWorkflowModelFactory.eINSTANCE.createDescriptionType();
+      DescriptionType descriptionType = CarnotWorkflowModelFactory.eINSTANCE.createDescriptionType();
       setCDataString(descriptionType.getMixed(), description);
       return descriptionType;
-   }
-
-   public static void setCDataString(FeatureMap mixed, String description)
-   {
-      setCDataString(mixed, description, false);
-   }
-
-   public static void setCDataString(FeatureMap mixed, String description,
-         boolean normalizeCrLf)
-   {
-      if (normalizeCrLf)
-      {
-         description = StringUtils.replace(description, "\r\n", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-
-      // clean up any pending previous non-CDATA content (i.e. from XPDL load)
-      if (mixed.isSet(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text()))
-      {
-         mixed.unset(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text());
-      }
-      mixed.set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), Collections
-            .singleton(description));
    }
 
    public static String getDescriptionText(DescriptionType desc)
@@ -296,34 +270,24 @@ public class ModelUtils
       return getCDataString(desc.getMixed());
    }
 
+   public static void setCDataString(FeatureMap mixed, String description)
+   {
+      setCDataString(mixed, description, false);
+   }
+
+   public static void setCDataString(FeatureMap mixed, String text,
+         boolean normalizeCrLf)
+   {
+      if (normalizeCrLf)
+      {
+         text = StringUtils.replace(text, "\r\n", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+      XpdlUtil.setText(mixed, text, true);
+   }
+
    public static String getCDataString(FeatureMap featureMap)
    {
-      String result = null;
-
-      Collection<?> parts = (Collection<?>) featureMap.get(
-            XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), false);
-      if (parts == null || parts.isEmpty())
-      {
-         parts = (Collection<?>) featureMap.get(
-               XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), false);
-      }
-      if (parts != null && !parts.isEmpty())
-      {
-         if (parts.size() == 1)
-         {
-            result = parts.iterator().next().toString();
-         }
-         else
-         {
-            StringBuffer sb = new StringBuffer();
-            for (Object o : parts)
-            {
-               sb.append(o.toString());
-            }
-            result = sb.toString();
-         }
-      }
-      return result;
+      return XpdlUtil.getText(featureMap, true);
    }
 
    public static IIdentifiableElement findIdentifiableElement(EObject parent,
@@ -977,49 +941,49 @@ public class ModelUtils
 
    public static IModelElement findElementByOid(List<?> list, long elementOid)
    {
-	  for (Object object : list)
-	  {
-		 if (object instanceof IModelElement)
-		 {
-			if (((IModelElement) object).getElementOid() == elementOid)
-			{
-			   return (IModelElement) object;
-			}
-		 }
-	  }
-	  return null;
+   for (Object object : list)
+   {
+      if (object instanceof IModelElement)
+      {
+         if (((IModelElement) object).getElementOid() == elementOid)
+         {
+            return (IModelElement) object;
+         }
+      }
+   }
+   return null;
    }
 
    public static EObject findElementByFeature(List<?> list, Object prototype, String featureName)
    {
-	  if (!(prototype instanceof EObject))
-	  {
-		 return null;
-	  }
-	  EClass class1 = ((EObject) prototype).eClass();
-	  EStructuralFeature feature = class1.getEStructuralFeature(featureName);
-	  if(feature == null)
-	  {
-	     return null;
-	  }
+   if (!(prototype instanceof EObject))
+   {
+      return null;
+   }
+   EClass class1 = ((EObject) prototype).eClass();
+   EStructuralFeature feature = class1.getEStructuralFeature(featureName);
+   if(feature == null)
+   {
+      return null;
+   }
 
-	  Object value1 = ((EObject) prototype).eGet(feature);
-	  for (Object object : list)
-	  {
-		 if (object instanceof EObject)
-		 {
-			EClass class2 = ((EObject) object).eClass();
-			if (class2.equals(class1))
-			{
-			   Object value2 = ((EObject) object).eGet(feature);
-			   if (CompareHelper.areEqual(value1, value2))
-			   {
-				  return (EObject) object;
-			   }
-			}
-		 }
-	  }
-	  return null;
+   Object value1 = ((EObject) prototype).eGet(feature);
+   for (Object object : list)
+   {
+      if (object instanceof EObject)
+      {
+         EClass class2 = ((EObject) object).eClass();
+         if (class2.equals(class1))
+         {
+            Object value2 = ((EObject) object).eGet(feature);
+            if (CompareHelper.areEqual(value1, value2))
+            {
+            return (EObject) object;
+            }
+         }
+      }
+   }
+   return null;
    }
 
    public static IModelParticipant findParticipant(String participantId, List<? extends IModelParticipant>... participants)
@@ -1116,10 +1080,10 @@ public class ModelUtils
       Map<String, TypeType> typeMapping;
 
       typeMapping = CollectionUtils.newMap();
-      typeMapping.put(Type.String.getId(), TypeType.STRING_LITERAL);
-      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN_LITERAL);
-      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME_LITERAL);
+      typeMapping.put(Type.String.getId(), TypeType.STRING);
+      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN);
+      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME);
 
       return typeMapping;
    }
@@ -1156,9 +1120,8 @@ public class ModelUtils
    public static FormalParameterType cloneFormalParameterType(
          FormalParameterType referencedParameterType, DataType mappedData)
    {
-      FormalParameterType parameterType = XpdlFactory.eINSTANCE
-            .createFormalParameterType();
-      if(mappedData != null)
+      FormalParameterType parameterType = XpdlFactory.eINSTANCE.createFormalParameterType();
+      if (mappedData != null)
       {
          parameterType.setDataType(createDataType(mappedData));
       }
@@ -1214,7 +1177,7 @@ public class ModelUtils
       }
       return true;
    }
-   
+
    public static <T extends Predicate<ModelType>> void forEachReferencedModel(ModelType model, T predicate)
    {
       ExternalPackages packages = model.getExternalPackages();
@@ -1385,6 +1348,22 @@ public class ModelUtils
       if (literal.equals("No Loop")) //$NON-NLS-1$
       {
          return Model_Messages.JOIN_SPLIT_LOOP_NOLOOP;
+      }
+      if (literal.equals("Standard")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_STANDARD;
+      }
+      if (literal.equals("MultiInstance")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_MULTI_INSTANCE;
+      }
+      if (literal.equals("After")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_REPEAT;
+      }
+      if (literal.equals("Before")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_WHILE;
       }
       if (literal.equals("Repeat")) //$NON-NLS-1$
       {

@@ -357,13 +357,27 @@ public class Validation_Messages extends NLS
 
    public static String ERR_JDT_MethodEmpty;
 
+   public static String ERR_ACTIVITY_UndefinedLoopType;
+
+   public static String ERR_ACTIVITY_UndefinedStandardLoop;
+
+   public static String ERR_ACTIVITY_InvalidMultiInstanceLoop;
+
+   public static String ERR_ACTIVITY_NoStandardLoopExecutionType;
+
    public static String ERR_ACTIVITY_NoLoopCondition;
 
    public static String ERR_ACTIVITY_InvalidLoopCondition;
 
+   public static String ERR_ACTIVITY_NoMultiInstanceLoopOrderingType;
+
+   public static String ERR_ACTIVITY_IncompatibleSubProcessMode;
+
+   public static String ERR_ACTIVITY_NoInputLoopDataSpecified;
+
    public static String BridgeObject_assignmentNotCompatible;
 
-public static String CSL_ERR_UNABLE_TO_RESOLVE_CL;
+   public static String CSL_ERR_UNABLE_TO_RESOLVE_CL;
 
    public static String JavaDataTypeUtils_segmentProcessingError;
 

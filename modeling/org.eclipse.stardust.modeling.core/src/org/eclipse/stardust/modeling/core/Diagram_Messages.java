@@ -322,6 +322,8 @@ public class Diagram_Messages extends NLS {
 
    public static String LB_ACTION_NoLoop;
 
+   public static String LB_ACTION_ChangeDataType;
+
    public static String LB_ACTION_DelDataMapping;
 
    public static String LB_ACTION_AdjustReferenceID;
@@ -1020,8 +1022,8 @@ public class Diagram_Messages extends NLS {
 
    public static String COL_NAME_Name;
 
-   public static String COL_NAME_Type;   
-   
+   public static String COL_NAME_Type;
+
    public static String TXT_MENU_MANAGER_Implementation;
 
    public static String ID_Activity;
@@ -1625,7 +1627,7 @@ public class Diagram_Messages extends NLS {
    public static String PROVIDE_ERROR_IS_NOT_A_VALID_VARIABLE_NAME;
 
    public static String PROVIDE_ERROR_IS_NOT_A_VALID_VARIABLE_NAME_TYPE;
-   
+
    public static String PROVIDE_ERROR_PROVIDE_A_VALID_NAME_FOR_NEW_VARIABLE;
 
    public static String ADDRESS;

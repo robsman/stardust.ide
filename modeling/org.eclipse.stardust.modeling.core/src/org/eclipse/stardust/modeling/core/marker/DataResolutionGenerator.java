@@ -22,18 +22,26 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
+import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeDataAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.ui.IMarkerResolution;
 
@@ -43,10 +51,16 @@ public class DataResolutionGenerator implements IResolutionGenerator
 
    public boolean hasResolutions(WorkflowModelEditor editor, Issue issue)
    {
+      if (notJavaBoundEnumerationIssue(issue))
+      {
+         return true;
+      }
+
       if (isPrimitiveDefaultValueIssue(issue))
       {
          return true;
       }
+
       EObject element = issue.getModelElement();
       if (element instanceof DataType)
       {
@@ -56,6 +70,23 @@ public class DataResolutionGenerator implements IResolutionGenerator
             return true;
          }
       }
+      return false;
+   }
+
+   private boolean notJavaBoundEnumerationIssue(Issue issue)
+   {
+      EObject element = issue.getModelElement();
+      if (element instanceof DataType
+         && PredefinedConstants.PRIMITIVE_DATA.equals(((DataType) element).getType().getId())
+         && Type.Enumeration.getId().equals(AttributeUtil.getAttributeValue((DataType) element, PredefinedConstants.TYPE_ATT)))
+      {
+         EObject ref = AttributeUtil.getIdentifiable((IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if(ref != null && ref instanceof TypeDeclarationType)
+         {
+            return TypeDeclarationUtils.isEnumeration((TypeDeclarationType) ref, false);
+         }
+      }
+
       return false;
    }
 
@@ -114,6 +145,54 @@ public class DataResolutionGenerator implements IResolutionGenerator
             list.add(new MarkerResolution(action, DiagramPlugin.getImage(
                   editor.getIconFactory().getIconFor(issue.getModelElement()))));
          }
+      }
+      else if (notJavaBoundEnumerationIssue(issue))
+      {
+         Action action = new SelectionAction(editor)
+         {
+            public void run()
+            {
+               DataType data = (DataType) issue.getModelElement();
+               ModelType model = ModelUtils.findContainingModel(data);
+
+               Command cmd = null;
+               AttributeType attribute = AttributeUtil.getAttribute(data, PredefinedConstants.DEFAULT_VALUE_ATT);
+               if (attribute != null)
+               {
+                  cmd = new DeleteValueCmd(attribute.eContainer(), attribute, attribute.eContainingFeature());
+               }
+               if (cmd != null)
+               {
+                  execute(cmd);
+               }
+
+               attribute = AttributeUtil.getAttribute(data, PredefinedConstants.TYPE_ATT);
+               if (attribute != null)
+               {
+                  cmd = new DeleteValueCmd(attribute.eContainer(), attribute, attribute.eContainingFeature());
+               }
+               if (cmd != null)
+               {
+                  execute(cmd);
+               }
+
+               cmd = new SetValueCmd(data, CarnotWorkflowModelPackage.eINSTANCE.getDataType_Type(), GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
+               if (cmd != null)
+               {
+                  execute(cmd);
+               }
+            }
+
+            @Override
+            protected boolean calculateEnabled()
+            {
+               return true;
+            }
+         };
+
+         action.setText(Diagram_Messages.LB_ACTION_ChangeDataType);
+         list.add(new MarkerResolution(action, DiagramPlugin.getImage(
+               editor.getIconFactory().getIconFor(issue.getModelElement()))));
       }
       else
       {

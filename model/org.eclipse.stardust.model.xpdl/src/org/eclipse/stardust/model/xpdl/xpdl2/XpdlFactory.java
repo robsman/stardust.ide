@@ -65,6 +65,15 @@ public interface XpdlFactory extends EFactory
 	DeclaredTypeType createDeclaredTypeType();
 
    /**
+    * Returns a new object of class '<em>Expression Type</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return a new object of class '<em>Expression Type</em>'.
+    * @generated
+    */
+   ExpressionType createExpressionType();
+
+   /**
     * Returns a new object of class '<em>Extended Attributes Type</em>'.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -117,6 +126,33 @@ public interface XpdlFactory extends EFactory
     * @generated
     */
    FormalParameterType createFormalParameterType();
+
+   /**
+    * Returns a new object of class '<em>Loop Multi Instance Type</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return a new object of class '<em>Loop Multi Instance Type</em>'.
+    * @generated
+    */
+   LoopMultiInstanceType createLoopMultiInstanceType();
+
+   /**
+    * Returns a new object of class '<em>Loop Standard Type</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return a new object of class '<em>Loop Standard Type</em>'.
+    * @generated
+    */
+   LoopStandardType createLoopStandardType();
+
+   /**
+    * Returns a new object of class '<em>Loop Type</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return a new object of class '<em>Loop Type</em>'.
+    * @generated
+    */
+   LoopType createLoopType();
 
    /**
     * Returns a new object of class '<em>Formal Parameters Type</em>'.

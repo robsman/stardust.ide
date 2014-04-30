@@ -20,95 +20,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Code;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.Coordinates;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.ExecutedByConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.GroupSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.ImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.LinkCardinality;
-import org.eclipse.stardust.model.xpdl.carnot.LinkColor;
-import org.eclipse.stardust.model.xpdl.carnot.LinkEndStyle;
-import org.eclipse.stardust.model.xpdl.carnot.LinkLineStyle;
-import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.LoopType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.PartOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.PerformsConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.QualityControlType;
-import org.eclipse.stardust.model.xpdl.carnot.RefersToConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.RoutingType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TeamLeadConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TextSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.TextType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggersConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewableType;
-import org.eclipse.stardust.model.xpdl.carnot.WorksForConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
-
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -140,7 +51,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    {
       try
       {
-         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1");  //$NON-NLS-1$
+         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory(CarnotWorkflowModelPackage.eNS_URI);
          if (theCarnotWorkflowModelFactory != null)
          {
             return theCarnotWorkflowModelFactory;

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.xsd.XSDPackage;
@@ -162,6 +163,53 @@ public interface ExtensionPackage extends EPackage {
 
 
 	/**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.LoopDataRefTypeImpl <em>Loop Data Ref Type</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.LoopDataRefTypeImpl
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.ExtensionPackageImpl#getLoopDataRefType()
+    * @generated
+    */
+   int LOOP_DATA_REF_TYPE = 1;
+
+   /**
+    * The feature id for the '<em><b>Input Item Ref</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_DATA_REF_TYPE__INPUT_ITEM_REF = 0;
+
+   /**
+    * The feature id for the '<em><b>Output Item Ref</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_DATA_REF_TYPE__OUTPUT_ITEM_REF = 1;
+
+   /**
+    * The feature id for the '<em><b>Loop Counter Ref</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_DATA_REF_TYPE__LOOP_COUNTER_REF = 2;
+
+   /**
+    * The number of structural features of the '<em>Loop Data Ref Type</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_DATA_REF_TYPE_FEATURE_COUNT = 3;
+
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType <em>Extended Annotation Type</em>}'.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -172,6 +220,49 @@ public interface ExtensionPackage extends EPackage {
 	EClass getExtendedAnnotationType();
 
 	/**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType <em>Loop Data Ref Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Loop Data Ref Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType
+    * @generated
+    */
+   EClass getLoopDataRefType();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getInputItemRef <em>Input Item Ref</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Input Item Ref</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getInputItemRef()
+    * @see #getLoopDataRefType()
+    * @generated
+    */
+   EAttribute getLoopDataRefType_InputItemRef();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getOutputItemRef <em>Output Item Ref</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Output Item Ref</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getOutputItemRef()
+    * @see #getLoopDataRefType()
+    * @generated
+    */
+   EAttribute getLoopDataRefType_OutputItemRef();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getLoopCounterRef <em>Loop Counter Ref</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Loop Counter Ref</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType#getLoopCounterRef()
+    * @see #getLoopDataRefType()
+    * @generated
+    */
+   EAttribute getLoopDataRefType_LoopCounterRef();
+
+   /**
     * Returns the factory that creates the instances of the model.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -202,6 +293,36 @@ public interface ExtensionPackage extends EPackage {
        * @generated
        */
 		EClass EXTENDED_ANNOTATION_TYPE = eINSTANCE.getExtendedAnnotationType();
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.LoopDataRefTypeImpl <em>Loop Data Ref Type</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.LoopDataRefTypeImpl
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.ExtensionPackageImpl#getLoopDataRefType()
+       * @generated
+       */
+      EClass LOOP_DATA_REF_TYPE = eINSTANCE.getLoopDataRefType();
+      /**
+       * The meta object literal for the '<em><b>Input Item Ref</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_DATA_REF_TYPE__INPUT_ITEM_REF = eINSTANCE.getLoopDataRefType_InputItemRef();
+      /**
+       * The meta object literal for the '<em><b>Output Item Ref</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_DATA_REF_TYPE__OUTPUT_ITEM_REF = eINSTANCE.getLoopDataRefType_OutputItemRef();
+      /**
+       * The meta object literal for the '<em><b>Loop Counter Ref</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_DATA_REF_TYPE__LOOP_COUNTER_REF = eINSTANCE.getLoopDataRefType_LoopCounterRef();
 
 }
 

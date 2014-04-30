@@ -12,15 +12,12 @@ package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -252,34 +249,17 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
              StructuredDataConstants.RESOURCE_MAPPING_ELIPSE_WORKSPACE_FILE);
     }
 
-    // TODO: (fh) remove the cache, instead use an unique ResourceSet to load all the schemas (and perhaps models)
-    private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
-          CollectionUtils.<String, XSDSchema>newHashMap());
-
     private XSDSchema loadSchema(String schemaLocation, String namespaceURI)
     {
        if (StringUtils.isNotEmpty(schemaLocation))
        {
           try
           {
-             String key = '{' + namespaceURI + '}' + location;
-             key = key.intern();
-
-             synchronized (key)
-             {
-                if (externalSchemaCache.containsKey(key))
-                {
-                   return externalSchemaCache.get(key);
-                }
-                schema = TypeDeclarationUtils.getSchema(schemaLocation, namespaceURI);
-                externalSchemaCache.put(key, schema);
-             }
-             return schema;
+             return schema = TypeDeclarationUtils.loadAndCacheSchema('{' + namespaceURI + '}' + location, schemaLocation, namespaceURI);
           }
-          catch (Exception e1)
+          catch (Exception ex)
           {}
        }
-
        return null;
     }
 

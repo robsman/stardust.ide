@@ -46,6 +46,15 @@ public interface ExtensionFactory extends EFactory {
 	ExtendedAnnotationType createExtendedAnnotationType();
 
 	/**
+    * Returns a new object of class '<em>Loop Data Ref Type</em>'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return a new object of class '<em>Loop Data Ref Type</em>'.
+    * @generated
+    */
+   LoopDataRefType createLoopDataRefType();
+
+   /**
     * Returns the package supported by this factory.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

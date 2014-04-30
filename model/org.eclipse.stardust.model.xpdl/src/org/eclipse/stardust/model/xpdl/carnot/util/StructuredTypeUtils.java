@@ -113,13 +113,19 @@ public class StructuredTypeUtils
             ModelType declarationModel = ModelUtils.findContainingModel(typeDeclaration);
             if (model != declarationModel)
             {
-               typeDeclaration = getTypeDeclaration(model, declarationModel.getId(), typeDeclaration.getId());
+               if(model != null)
+               {
+                  typeDeclaration = getTypeDeclaration(model, declarationModel.getId(), typeDeclaration.getId());
+               }
             }
          }
       }
       else
       {
-         typeDeclaration = getTypeDeclaration(model, ref.getLocation(), ref.getXref());
+         if(model != null)
+         {
+            typeDeclaration = getTypeDeclaration(model, ref.getLocation(), ref.getXref());
+         }
       }
       return typeDeclaration;
    }

@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
+import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -47,7 +47,6 @@ import org.eclipse.stardust.modeling.core.ui.PrimitiveDataWidgetAdapter;
 import org.eclipse.stardust.modeling.core.utils.ExtensibleElementValueAdapter;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -128,6 +127,12 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                      ModelType model = ModelUtils.findContainingModel(element);
                      ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                      AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                     valueComposite.setEnabled(true);
+                     AttributeUtil.setAttribute((IExtensibleElement) element, StructuredDataConstants.TYPE_DECLARATION_ATT, null);
+                  }
+                  else
+                  {
+                     valueComposite.setEnabled(false);
                   }
                }
             }
@@ -146,12 +151,6 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                public void updateModel(Object value)
                {
                   super.updateModel(value);
-
-                  if (element.eIsProxy())
-                  {
-                     return;
-                  }
-
                   ModelType model = ModelUtils.findContainingModel(element);
                   TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration((DataType) element);
 
@@ -161,17 +160,30 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                      updateControl(decl);
                   }
 
-                  if (decl == null  // (fh) real primitive
-                        || TypeDeclarationUtils.isEnumeration(decl, true)) // (fh) java bound enumeration
+                  if (element.eIsProxy())
                   {
-                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
-                     valueComposite.setEnabled(true);
+                     return;
                   }
-                  else // (fh) simple type data
+
+                  TypeDeclarationType checkValue = decl;
+                  if(value != null)
                   {
-                     ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
-                     AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
-                     valueComposite.setEnabled(false);
+                     checkValue = (TypeDeclarationType) value;
+                  }
+
+                  if(checkValue != null && TypeDeclarationUtils.isEnumeration(checkValue, false))
+                  {
+                     if (TypeDeclarationUtils.isEnumeration((TypeDeclarationType) checkValue, true))
+                     {
+                        ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
+                        valueComposite.setEnabled(true);
+                     }
+                     else // simple type enumeration
+                     {
+                        ((DataType) element).setType(GenericUtils.getDataTypeType(model, PredefinedConstants.STRUCTURED_DATA));
+                        AttributeUtil.setAttribute((IExtensibleElement) element, CarnotConstants.DEFAULT_VALUE_ATT, null);
+                        valueComposite.setEnabled(false);
+                     }
                   }
                }
             });
@@ -208,8 +220,14 @@ public class PrimitivePropertyPage extends AbstractModelElementPropertyPage
                   CarnotConstants.DEFAULT_VALUE_ATT, false);
             mgr.bind(modelAdapter, new SwtComboAdapter((Combo) control));
             IStructuredSelection selection = (IStructuredSelection) enumComboViewer.getSelection();
+
             if (!selection.isEmpty())
             {
+               if (element.eIsProxy())
+               {
+                  return;
+               }
+
                Object item = selection.getFirstElement();
                modelAdapter.updateModel(item);
             }

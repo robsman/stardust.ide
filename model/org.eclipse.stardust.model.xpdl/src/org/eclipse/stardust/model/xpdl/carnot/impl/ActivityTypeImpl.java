@@ -23,29 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Code;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IEventHandlerOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.LoopType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
@@ -83,6 +61,7 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getOutTransitions <em>Out Transitions</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getValidQualityCodes <em>Valid Quality Codes</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getLoop <em>Loop</em>}</li>
  * </ul>
  * </p>
  *
@@ -539,6 +518,16 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
    protected EList<Code> validQualityCodes;
 
    /**
+    * The cached value of the '{@link #getLoop() <em>Loop</em>}' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getLoop()
+    * @generated
+    * @ordered
+    */
+   protected org.eclipse.stardust.model.xpdl.xpdl2.LoopType loop;
+
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -965,7 +954,7 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
    public NotificationChain basicSetImplementationProcess(ProcessDefinitionType newImplementationProcess, NotificationChain msgs)
    {
       ProcessDefinitionType oldImplementationProcess = implementationProcess;
-      
+
       ModelType thisModel = ModelUtils.findContainingModel(this);
       ModelType otherModel = ModelUtils.findContainingModel(newImplementationProcess);
       if (thisModel == otherModel || otherModel == null ||
@@ -988,7 +977,7 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          String uri = AttributeUtil.getAttributeValue(newImplementationProcess, IConnectionManager.URI_ATTRIBUTE_NAME);
          AttributeUtil.setAttribute(this, IConnectionManager.URI_ATTRIBUTE_NAME, uri);
       }
-      
+
       if (eNotificationRequired())
       {
          ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.ACTIVITY_TYPE__IMPLEMENTATION_PROCESS, oldImplementationProcess, newImplementationProcess);
@@ -1482,6 +1471,54 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
+    * @generated
+    */
+   public org.eclipse.stardust.model.xpdl.xpdl2.LoopType getLoop()
+   {
+      return loop;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public NotificationChain basicSetLoop(org.eclipse.stardust.model.xpdl.xpdl2.LoopType newLoop, NotificationChain msgs)
+   {
+      org.eclipse.stardust.model.xpdl.xpdl2.LoopType oldLoop = loop;
+      loop = newLoop;
+      if (eNotificationRequired())
+      {
+         ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP, oldLoop, newLoop);
+         if (msgs == null) msgs = notification; else msgs.add(notification);
+      }
+      return msgs;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public void setLoop(org.eclipse.stardust.model.xpdl.xpdl2.LoopType newLoop)
+   {
+      if (newLoop != loop)
+      {
+         NotificationChain msgs = null;
+         if (loop != null)
+            msgs = ((InternalEObject)loop).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP, null, msgs);
+         if (newLoop != null)
+            msgs = ((InternalEObject)newLoop).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP, null, msgs);
+         msgs = basicSetLoop(newLoop, msgs);
+         if (msgs != null) msgs.dispatch();
+      }
+      else if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP, newLoop, newLoop));
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
     */
    public EList getSymbols()
    {
@@ -1557,6 +1594,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return ((InternalEList<?>)getOutTransitions()).basicRemove(otherEnd, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
             return basicSetExternalRef(null, msgs);
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
+            return basicSetLoop(null, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -1621,6 +1660,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return getExternalRef();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             return getValidQualityCodes();
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
+            return getLoop();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -1719,6 +1760,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             getValidQualityCodes().clear();
             getValidQualityCodes().addAll((Collection<? extends Code>)newValue);
             return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
+            setLoop((org.eclipse.stardust.model.xpdl.xpdl2.LoopType)newValue);
+            return;
       }
       super.eSet(featureID, newValue);
    }
@@ -1808,6 +1852,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             getValidQualityCodes().clear();
             return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
+            setLoop((org.eclipse.stardust.model.xpdl.xpdl2.LoopType)null);
+            return;
       }
       super.eUnset(featureID);
    }
@@ -1872,6 +1919,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return externalRef != null;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             return validQualityCodes != null && !validQualityCodes.isEmpty();
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
+            return loop != null;
       }
       return super.eIsSet(featureID);
    }

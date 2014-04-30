@@ -33,6 +33,14 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 
    private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
 
+    /* (non-Javadoc)
+     * @see org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy#initialize(java.util.Map)
+     */
+    public void initialize(Map<String, Object> params)
+    {
+       // NOP
+    }
+
 	/**
 	 *
 	 */

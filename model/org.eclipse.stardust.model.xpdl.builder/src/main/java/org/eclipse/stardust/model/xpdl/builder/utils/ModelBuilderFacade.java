@@ -1981,7 +1981,11 @@ public class ModelBuilderFacade
    public TypeDeclarationType findTypeDeclaration(String fullTypeID)
    {
       String[] ids = fullTypeID.split(":");
-      return findTypeDeclaration(findModel(ids[0]), ids[1]);
+      if (ids.length > 1)
+      {
+	  return findTypeDeclaration(findModel(ids[0]), ids[1]);
+      }
+      return null;
    }
 
    /**
@@ -2837,35 +2841,35 @@ public class ModelBuilderFacade
       TypeType type = null;
       if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.STRING_LITERAL;
+         type = TypeType.STRING;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DATE_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.DATETIME_LITERAL;
+         type = TypeType.DATETIME;
       }
       else if (primitiveTypeID.equals("int"))
       {
-         type = TypeType.INTEGER_LITERAL;
+         type = TypeType.INTEGER;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.FLOAT_LITERAL;
+         type = TypeType.FLOAT;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.FLOAT_LITERAL;
+         type = TypeType.FLOAT;
       }
       else if (primitiveTypeID.equals(ModelerConstants.BOOLEAN_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.BOOLEAN_LITERAL;
+         type = TypeType.BOOLEAN;
       }
       else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.DATETIME_LITERAL;
+         type = TypeType.DATETIME;
       }
       else if (primitiveTypeID.equals(ModelerConstants.LONG_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.INTEGER_LITERAL;
+         type = TypeType.INTEGER;
       }
 
       return type;

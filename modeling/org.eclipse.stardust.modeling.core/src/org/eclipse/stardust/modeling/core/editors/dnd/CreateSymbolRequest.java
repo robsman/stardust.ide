@@ -335,7 +335,7 @@ public class CreateSymbolRequest extends CreateRequest
          new org.eclipse.stardust.model.xpdl.carnot.DataTypeType[] {
             (org.eclipse.stardust.model.xpdl.carnot.DataTypeType) ModelUtils.findIdentifiableElement(
             model.getDataType(), PredefinedConstants.STRUCTURED_DATA)};
-      if (struct[0] == null && !javaEnumeration)
+      if (struct[0] == null)
       {
          Map<String, IConfigurationElement> dataExtensions = SpiExtensionRegistry.instance().getExtensions(
                CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
@@ -410,11 +410,12 @@ public class CreateSymbolRequest extends CreateRequest
                }
                else
                {
+                  AttributeUtil.setReference(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
+                        (TypeDeclarationType) ((IObjectReference) descriptor).getEObject());
+
                   data.setType(GenericUtils.getDataTypeType(model, PredefinedConstants.PRIMITIVE_DATA));
                   AttributeUtil.setAttribute(data, PredefinedConstants.TYPE_ATT,
                         "org.eclipse.stardust.engine.core.pojo.data.Type", Type.Enumeration.getId()); //$NON-NLS-1$
-                  AttributeUtil.setReference(data, StructuredDataConstants.TYPE_DECLARATION_ATT,
-                        (TypeDeclarationType) ((IObjectReference) descriptor).getEObject());
                }
 
                AttributeUtil.setAttribute(data, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
@@ -440,6 +441,7 @@ public class CreateSymbolRequest extends CreateRequest
                   AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
                   ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
                   ModelType processModel = ModelUtils.findContainingModel(decl);
+
                   if (processModel != null)
                   {
                      reference.setLocation(ImportUtils.getPackageRef(descriptor, model, processModel).getId());

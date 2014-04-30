@@ -141,15 +141,15 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       implementingProcess = getProcess();
       nameText.getText().removeModifyListener(listener);
       typeMapping = CollectionUtils.newMap();
-      typeMapping.put(Type.String.getId(), TypeType.STRING_LITERAL);
-      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN_LITERAL);
-      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME_LITERAL);
-      typeMapping.put(Type.Timestamp.getId(), TypeType.DATETIME_LITERAL);
-      typeMapping.put(Type.Long.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Double.getId(), TypeType.FLOAT_LITERAL);
-      typeMapping.put(Type.Short.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Byte.getId(), TypeType.INTEGER_LITERAL);
+      typeMapping.put(Type.String.getId(), TypeType.STRING);
+      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN);
+      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME);
+      typeMapping.put(Type.Timestamp.getId(), TypeType.DATETIME);
+      typeMapping.put(Type.Long.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Double.getId(), TypeType.FLOAT);
+      typeMapping.put(Type.Short.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Byte.getId(), TypeType.INTEGER);
 
       WidgetBindingManager binding = getWidgetBindingManager();
       parameterType = (FormalParameterType) element;

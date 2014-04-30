@@ -10,13 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions.util;
 
-
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.*;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -36,76 +33,58 @@ import org.eclipse.xsd.XSDSchemaContent;
  * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage
  * @generated
  */
-public class ExtensionSwitch<T> {
-	/**
+public class ExtensionSwitch<T> extends Switch<T> {
+
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
-	/**
+   /**
     * The cached model package
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	protected static ExtensionPackage modelPackage;
+   protected static ExtensionPackage modelPackage;
 
-	/**
+   /**
     * Creates an instance of the switch.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public ExtensionSwitch() {
+   public ExtensionSwitch() {
       if (modelPackage == null)
       {
          modelPackage = ExtensionPackage.eINSTANCE;
       }
    }
 
-	/**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+   /**
+    * Checks whether this is a switch for the given package.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
+    * <!-- end-user-doc -->
+    * @parameter ePackage the package in question.
+    * @return whether this is a switch for the given package.
     * @generated
     */
-	public T doSwitch(EObject theEObject) {
-      return doSwitch(theEObject.eClass(), theEObject);
+   @Override
+   protected boolean isSwitchFor(EPackage ePackage) {
+      return ePackage == modelPackage;
    }
 
-	/**
+   /**
     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @return the first non-null result returned by a <code>caseXXX</code> call.
     * @generated
     */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-      if (theEClass.eContainer() == modelPackage)
-      {
-         return doSwitch(theEClass.getClassifierID(), theEObject);
-      }
-      else
-      {
-         List<EClass> eSuperTypes = theEClass.getESuperTypes();
-         return
-            eSuperTypes.isEmpty() ?
-               defaultCase(theEObject) :
-               doSwitch(eSuperTypes.get(0), theEObject);
-      }
-   }
-
-	/**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
-    * @generated
-    */
-	protected T doSwitch(int classifierID, EObject theEObject) {
+   @Override
+   protected T doSwitch(int classifierID, EObject theEObject) {
       switch (classifierID)
       {
          case ExtensionPackage.EXTENDED_ANNOTATION_TYPE:
@@ -115,8 +94,15 @@ public class ExtensionSwitch<T> {
             if (result == null) result = caseXSDAnnotation(extendedAnnotationType);
             if (result == null) result = caseXSDComponent(extendedAnnotationType);
             if (result == null) result = caseXSDRedefineContent(extendedAnnotationType);
-            if (result == null) result = caseXSDConcreteComponent(extendedAnnotationType);
             if (result == null) result = caseXSDSchemaContent(extendedAnnotationType);
+            if (result == null) result = caseXSDConcreteComponent(extendedAnnotationType);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
+         case ExtensionPackage.LOOP_DATA_REF_TYPE:
+         {
+            LoopDataRefType loopDataRefType = (LoopDataRefType)theEObject;
+            T result = caseLoopDataRefType(loopDataRefType);
             if (result == null) result = defaultCase(theEObject);
             return result;
          }
@@ -124,108 +110,125 @@ public class ExtensionSwitch<T> {
       }
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Extended Annotation Type</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Extended Annotation Type</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseExtendedAnnotationType(ExtendedAnnotationType object) {
+   public T caseExtendedAnnotationType(ExtendedAnnotationType object) {
       return null;
    }
 
-	/**
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Loop Data Ref Type</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Loop Data Ref Type</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseLoopDataRefType(LoopDataRefType object)
+   {
+      return null;
+   }
+
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Concrete Component</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Concrete Component</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseXSDConcreteComponent(XSDConcreteComponent object) {
+   public T caseXSDConcreteComponent(XSDConcreteComponent object) {
       return null;
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Component</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Component</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseXSDComponent(XSDComponent object) {
+   public T caseXSDComponent(XSDComponent object) {
       return null;
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Schema Content</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Schema Content</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseXSDSchemaContent(XSDSchemaContent object) {
+   public T caseXSDSchemaContent(XSDSchemaContent object) {
       return null;
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Redefine Content</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Redefine Content</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseXSDRedefineContent(XSDRedefineContent object) {
+   public T caseXSDRedefineContent(XSDRedefineContent object) {
       return null;
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Annotation</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>Annotation</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
     * @generated
     */
-	public T caseXSDAnnotation(XSDAnnotation object) {
+   public T caseXSDAnnotation(XSDAnnotation object) {
       return null;
    }
 
-	/**
+   /**
     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
     * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch, but this is the last case anyway.
-	 * <!-- end-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch, but this is the last case anyway.
+   * <!-- end-user-doc -->
     * @param object the target of the switch.
     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
     * @generated
     */
-	public T defaultCase(EObject object) {
+   @Override
+   public T defaultCase(EObject object) {
       return null;
    }
 

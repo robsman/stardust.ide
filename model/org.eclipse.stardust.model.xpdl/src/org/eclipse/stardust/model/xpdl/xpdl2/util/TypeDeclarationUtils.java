@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
@@ -29,7 +28,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
-
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
 import org.eclipse.xsd.impl.XSDSchemaImpl;
@@ -731,5 +729,31 @@ public class TypeDeclarationUtils
       }
 
       return false;
+   }
+
+   // TODO: (fh) remove the cache, instead use an unique ResourceSet to load all the schemas (and perhaps models)
+   private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
+         CollectionUtils.<String, XSDSchema>newHashMap());
+
+   public static XSDSchema loadAndCacheSchema(String key, String schemaLocation,
+         String namespaceURI) throws IOException
+   {
+      key = key.intern();
+      synchronized (key)
+      {
+         if (externalSchemaCache.containsKey(key))
+         {
+            return externalSchemaCache.get(key);
+         }
+         XSDSchema someSchema = getSchema(schemaLocation,
+               namespaceURI);
+         externalSchemaCache.put(key, someSchema);
+         return someSchema;
+      }
+   }
+
+   public static void clearExternalSchemaCache()
+   {
+      externalSchemaCache.clear();
    }
 }

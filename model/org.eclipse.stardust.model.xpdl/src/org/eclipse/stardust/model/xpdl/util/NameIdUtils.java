@@ -76,13 +76,6 @@ public class NameIdUtils
       {
          factory = new IdFactory(base, base);
       }
-      else if (element instanceof FormalParameterType)
-      {
-         factory = new IdFactory(base, base,
-               XpdlPackage.eINSTANCE.getFormalParameterType(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
-               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
-      }
       else if (element instanceof TypeDeclarationType)
       {
          factory = new IdFactory(base);
