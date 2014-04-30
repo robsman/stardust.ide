@@ -895,7 +895,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
             for (int i = 0; i < declarations.size(); i++)
             {
                TypeDeclarationType decl = (TypeDeclarationType) declarations.get(i);
-               if (decl != declaration && isInternal(decl))
+               if (decl != declaration)
                {
                   XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(decl);
                   if (component instanceof XSDTypeDefinition)
@@ -1066,7 +1066,7 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
          {
             setElementType(decl, (XSDTypeDefinition) newType);
          }
-         if (!XSDElementCheckForType.needsType(declaration, oldDef))
+         if (!XSDElementCheckForType.needsType(declaration, oldDef) && oldDef != null)
          {
             XSDSchema schema = type.getSchema();
             TypeDeclarationUtils.removeImport(schema, oldDef.getSchema());
@@ -1454,21 +1454,6 @@ public class ComplexTypePropertyPage extends AbstractModelElementPropertyPage
                return true;
             }
          }
-      }
-      return false;
-   }
-
-   public boolean isInternal(TypeDeclarationType decl)
-   {
-      XpdlTypeType dataType = decl.getDataType();
-      if (dataType instanceof SchemaTypeType)
-      {
-         return true;
-      }
-      if (dataType instanceof ExternalReferenceType)
-      {
-         String location = ((ExternalReferenceType) dataType).getLocation();
-         return location != null && location.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX);
       }
       return false;
    }

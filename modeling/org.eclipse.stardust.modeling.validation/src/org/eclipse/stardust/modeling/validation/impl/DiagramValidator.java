@@ -84,9 +84,9 @@ public class DiagramValidator implements IModelElementValidator
       result.addAll(Arrays.asList(vs.validateModelElements(diagram.getPoolSymbols())));
       // validate start event symbols
       result.addAll(Arrays.asList(vs.validateModelElements(
-            DiagramUtil.getSymbols(diagram, 
+            DiagramUtil.getSymbols(diagram,
                   ValidationService.PKG_CWM.getISymbolContainer_StartEventSymbols(), null))));
-      
+
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }
 
@@ -137,15 +137,15 @@ public class DiagramValidator implements IModelElementValidator
             result.add(Issue.warning(connection, msg, ValidationService.PKG_CWM
                   .getIConnectionSymbol()));
          }
-         
-         if(connection instanceof TeamLeadConnectionType)            
+
+         if(connection instanceof TeamLeadConnectionType)
          {
             OrganizationSymbolType target = (OrganizationSymbolType) ((TeamLeadConnectionType) connection).getTargetNode();
-            OrganizationType organization = target.getOrganization();            
-            
+            OrganizationType organization = target.getOrganization();
+
             if(organization.getTeamLead() == null)
             {
-               result.add(Issue.error(organization, Validation_Messages.ERR_Invalid_TeamLeadConnection, ValidationService.PKG_CWM.getTeamLeadConnectionType_TeamLeadSymbol()));               
+               result.add(Issue.error(organization, Validation_Messages.ERR_Invalid_TeamLeadConnection, ValidationService.PKG_CWM.getTeamLeadConnectionType_TeamLeadSymbol()));
             }
          }
       }
@@ -172,11 +172,6 @@ public class DiagramValidator implements IModelElementValidator
             {
                result.add(Issue.warning(connection, getMessage(eventSymbol, 3)));
             }
-            else if (activity.getJoin() != null
-                  && activity.getJoin().getValue() != JoinSplitType.NONE)
-            {
-               result.add(Issue.warning(activity, getMessage(eventSymbol, 4)));
-            }
          }
       }
    }
@@ -201,11 +196,6 @@ public class DiagramValidator implements IModelElementValidator
             if (activity == null)
             {
                result.add(Issue.warning(connection, getMessage(eventSymbol, 6)));
-            }
-            else if (activity.getSplit() != null
-                  && activity.getSplit().getValue() != JoinSplitType.NONE)
-            {
-               result.add(Issue.warning(activity, getMessage(eventSymbol, 7)));
             }
          }
       }
@@ -233,14 +223,14 @@ public class DiagramValidator implements IModelElementValidator
       {
          ActivitySymbolType symbol = (ActivitySymbolType) activitySymbols.get(i);
          ActivityType activity = symbol.getActivity();
-                  
+
          if (activity != null)
          {
-            String activityId = activity.getId();            
+            String activityId = activity.getId();
             if(!StringUtils.isEmpty(activityId)
                   && !activityId.matches("^(?i)gateway.*")) //$NON-NLS-1$
             {
-               
+
                if (activity.getJoin() != JoinSplitType.NONE_LITERAL
                      && !hasGateway(symbol, FlowControlType.JOIN_LITERAL))
                {

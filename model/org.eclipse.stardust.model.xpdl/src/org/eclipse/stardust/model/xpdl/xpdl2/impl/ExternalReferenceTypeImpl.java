@@ -254,7 +254,7 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
        {
           try
           {
-             return schema = TypeDeclarationUtils.loadAndCacheSchema('{' + namespaceURI + '}' + location, schemaLocation, namespaceURI);
+             return schema = TypeDeclarationUtils.loadAndCacheSchema('{' + namespaceURI + '}' + location, schemaLocation, namespaceURI, this);
           }
           catch (Exception ex)
           {}
@@ -271,25 +271,24 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
      */
     private synchronized XSDSchema getReferencedSchema()
     {
-       if (schema == null)
+       schema = null;
+
+       String namespaceURI = QNameUtil.parseNamespaceURI(xref);
+       //try load xsd from eclipse workspace
+       String workspacePath = getWorkspaceRelativePath();
+       schema = loadSchema(workspacePath, namespaceURI);
+
+       //try getting from alternate url attribute - for legacy reason
+       if(schema == null)
        {
-          String namespaceURI = QNameUtil.parseNamespaceURI(xref);
-          //try load xsd from eclipse workspace
-          String workspacePath = getWorkspaceRelativePath();
-          schema = loadSchema(workspacePath, namespaceURI);
+          String alternateUrl = getAlternateURL();
+          schema = loadSchema(alternateUrl, namespaceURI);
+       }
 
-          //try getting from alternate url attribute - for legacy reason
-          if(schema == null)
-          {
-             String alternateUrl = getAlternateURL();
-             schema = loadSchema(alternateUrl, namespaceURI);
-          }
-
-          //fall back to default value
-          if(schema == null)
-          {
-             schema = loadSchema(location, namespaceURI);
-          }
+       //fall back to default value
+       if(schema == null)
+       {
+          schema = loadSchema(location, namespaceURI);
        }
 
        return schema;

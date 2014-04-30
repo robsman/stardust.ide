@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -740,21 +742,81 @@ public class TypeDeclarationUtils
    private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
          CollectionUtils.<String, XSDSchema>newHashMap());
 
-   public static XSDSchema loadAndCacheSchema(String key, String schemaLocation,
-         String namespaceURI) throws IOException
+   public static void clearSchemaCache(String key)
    {
       key = key.intern();
+
       synchronized (key)
       {
          if (externalSchemaCache.containsKey(key))
          {
+            externalSchemaCache.remove(key);
+         }
+      }
+   }
+
+   public static XSDSchema loadAndCacheSchema(String key, String schemaLocation,
+         String namespaceURI, ExternalReferenceType externalReference) throws IOException
+   {
+      key = key.intern();
+
+      synchronized (key)
+      {
+         if(Platform.isRunning() && !schemaLocation.toLowerCase().startsWith("http://")) //$NON-NLS-1$
+         {
+            long timeStamp = getTimeStamp(schemaLocation, externalReference);
+            if(timeStamp == 0)
+            {
+               return null;
+            }
+            key += timeStamp;
+         }
+
+         if (externalSchemaCache.containsKey(key))
+         {
             return externalSchemaCache.get(key);
          }
-         XSDSchema someSchema = getSchema(schemaLocation,
-               namespaceURI);
-         externalSchemaCache.put(key, someSchema);
+
+         XSDSchema someSchema = getSchema(schemaLocation, namespaceURI);
+         if(someSchema != null)
+         {
+            externalSchemaCache.put(key, someSchema);
+         }
+
          return someSchema;
       }
+   }
+
+   public static long getTimeStamp(String location, ExternalReferenceType externalReference)
+   {
+      if(location.toLowerCase().startsWith("http://")) //$NON-NLS-1$
+      {
+         return 0;
+      }
+
+      IProject project = ModelUtils.getProjectFromEObject(externalReference);
+
+      String filePath = "/"; //$NON-NLS-1$
+      String[] parts = location.split("/"); //$NON-NLS-1$
+      if(parts.length > 2)
+      {
+         for(int i = 2; i < parts.length; i++)
+         {
+            filePath += parts[i];
+            if(i < parts.length - 1)
+            {
+               filePath += "/"; //$NON-NLS-1$
+            }
+         }
+
+         IFile file = project.getFile(filePath);
+         if(file.exists())
+         {
+            return file.getModificationStamp();
+         }
+      }
+
+      return 0;
    }
 
    public static void clearExternalSchemaCache()

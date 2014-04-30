@@ -213,6 +213,9 @@ public class WorkflowModelEditorContextMenuProvider extends ContextMenuProvider 
 
 		// addCreateConnectionMenuEntries(manager, selection.getFirstElement());
 
+      addActionToMenu(manager, DiagramActionConstants.RELOAD_SCHEMA,
+            GEFActionConstants.GROUP_EDIT);
+
 		addActionToMenu(manager, DiagramActionConstants.DELETE_SYMBOL,
 				GEFActionConstants.GROUP_EDIT);
 

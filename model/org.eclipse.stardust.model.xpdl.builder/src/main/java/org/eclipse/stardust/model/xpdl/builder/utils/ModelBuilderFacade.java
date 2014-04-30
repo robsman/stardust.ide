@@ -126,6 +126,7 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
+import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -3276,7 +3277,9 @@ public class ModelBuilderFacade
                if (connection != null)
                {
                   String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
-                  if (importString != null && importString.equalsIgnoreCase("false")) //$NON-NLS-1$
+                  if (importString == null
+                        || (importString != null && importString
+                              .equalsIgnoreCase("false"))) //$NON-NLS-1$
                   {
                      return false;
                   }
@@ -3640,6 +3643,12 @@ public class ModelBuilderFacade
       dataMapping.setName(data.getName());
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
+
+      if (context.equalsIgnoreCase(PredefinedConstants.DEFAULT_CONTEXT))
+      {
+         context = getDefaultContext(activity, direction);
+      }
+
       dataMapping.setContext(context);
 
       if (activityAccessPointId != null)
@@ -3668,6 +3677,18 @@ public class ModelBuilderFacade
       return dataMappingConnection;
    }
 
+
+   public String getDefaultContext(ActivityType activity, DirectionType direction)
+   {
+      List<ApplicationContextTypeType> contextTypes = ActivityUtil.getContextTypes(
+            activity, direction);
+      if (!contextTypes.isEmpty())
+      {
+         return contextTypes.get(0).getId();
+      }
+      return PredefinedConstants.DEFAULT_CONTEXT;
+   }
+
    /**
     * Create a Data Mapping Connection with zero, one or two Data Mappings.
     *
@@ -3688,10 +3709,6 @@ public class ModelBuilderFacade
          String outputContextId, String outputAccessPointId, String fromAnchor,
          String toAnchor)
    {
-      // return createDataFlowConnection(
-      // processDefinition, activitySymbol,
-      // dataSymbol, DirectionType.IN_LITERAL, fromAnchor,
-      // toAnchor);
 
       DataType data = dataSymbol.getData();
       ActivityType activity = activitySymbol.getActivity();
@@ -3710,7 +3727,6 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(inputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-         // data.getDataMappings().add(dataMapping);
       }
 
       if (outputAccessPointId != null)
@@ -3725,7 +3741,6 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(outputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-         // data.getDataMappings().add(dataMapping);
       }
 
       DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();

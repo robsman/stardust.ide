@@ -72,7 +72,6 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
@@ -145,6 +144,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.PasteAct
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReferencesSearchAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.RefreshConnectionObjectAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadSchemaAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ResetSubprocessAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchConnectionAction;
@@ -420,6 +420,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       addEditPartAction(new CreateOrganizationAction(this));
 
       addEditPartAction(new ExportDiagramAction(this));
+      addEditPartAction(new ReloadSchemaAction(this));
    }
 
    protected boolean canDelete(ISelection selection)

@@ -116,6 +116,8 @@ public interface DiagramActionConstants
 
    final String CONVERT_GATEWAYS = "org.eclipse.stardust.modeling.core.convertGatewaysAction"; //$NON-NLS-1$
 
+   final String RELOAD_SCHEMA = "org.eclipse.stardust.modeling.core.reloadSchema"; //$NON-NLS-1$
+
    final String[] distributeActions = {
       DISTRIBUTE_HORIZONTAL,
       DISTRIBUTE_VERTICAL

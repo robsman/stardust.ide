@@ -596,6 +596,8 @@ public class Diagram_Messages extends NLS {
 
    public static String LB_ACTION_RemoveSymbol;
 
+   public static String LB_RELOAD_SCHEMA;
+
    public static String LB_SUBMENU_NewActivity;
 
    public static String LB_SUBMENU_NewParticipant;

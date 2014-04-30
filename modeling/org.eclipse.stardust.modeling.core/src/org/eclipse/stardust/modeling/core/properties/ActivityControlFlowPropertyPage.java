@@ -20,6 +20,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.LoopType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
@@ -41,6 +42,7 @@ import org.eclipse.stardust.modeling.core.utils.XpdlFeatureAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -89,12 +91,17 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
 
    private String outContext;
 
+   private Button limitCheckBox;
+
+   private LabeledText maxBatchSizeText;
+
    protected void performDefaults()
    {
       super.performDefaults();
       setSelectedButton(joinButtons, getActivity().getJoin().getValue());
       setSelectedButton(splitButtons, getActivity().getSplit().getValue());
       setSelectedButton(loopButtons, getLoopButtonIndex());
+      updateLimitCheckBox();
    }
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
@@ -137,6 +144,7 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
          if (ordering != null)
          {
             multiLoopButtons[ordering.getValue()].setSelection(true);
+            updateLimitVisibility(ordering);
          }
 
          wBndMgr.bind(inputViewer, loopMulti.getLoopDataRef(),
@@ -148,6 +156,8 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
          wBndMgr.bind(outputViewer, loopMulti.getLoopDataRef(),
                ExtensionPackage.eINSTANCE.getLoopDataRefType_OutputItemRef(),
                new AccessPointFeatureAdapter(outputViewer, outContext));
+         wBndMgr.bind(maxBatchSizeText, getActivity(), PredefinedConstants.ACTIVITY_MI_BATCH_SIZE_ATT);
+         updateLimitCheckBox();
       }
 
       if (isStartActivity())
@@ -159,6 +169,20 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       {
          disableButtons(splitButtons);
       }
+   }
+
+   private void updateLimitCheckBox()
+   {
+      try
+      {
+         limitCheckBox.setSelection(Integer.parseInt(AttributeUtil.getAttributeValue(getActivity(), PredefinedConstants.ACTIVITY_MI_BATCH_SIZE_ATT)) > 0);
+      }
+      catch (Exception ex)
+      {
+         limitCheckBox.setSelection(false);
+         maxBatchSizeText.getText().setText("");
+      }
+      maxBatchSizeText.getText().setEnabled(limitCheckBox.getSelection());
    }
 
    private boolean isEndActivity()
@@ -352,7 +376,9 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
 
       loopGroup = createGroup(composite, LOOP, loopTypes);
       standardLoopGroup = createStandardLoopGroup(loopGroup);
+      standardLoopGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData(loopTypes.size()));
       multiLoopGroup = createMultiLoopGroup(loopGroup);
+      multiLoopGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData(loopTypes.size()));
 
       SelectionAdapter listener = new SelectionAdapter()
       {
@@ -421,9 +447,7 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
 
    private Composite createMultiLoopGroup(Group loopGroup)
    {
-      int cols = MIOrderingType.values().length + 1;
-
-      Composite multiGroup = createLoopTypePanel(loopGroup, cols);
+      Composite multiGroup = createLoopTypePanel(loopGroup, 3);
 
       FormBuilder.createLabel(multiGroup, " ");
       multiLoopButtons = new Button[MIOrderingType.values().length];
@@ -449,6 +473,7 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
                         mb.open();
                         getActivity().setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
                      }
+                     updateLimitVisibility(ordering);
                   }
                }
             }
@@ -483,6 +508,44 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       inputViewer = createCombo(multiGroup, labelProvider, inputLabel, inAPs);
       counterViewer = createCombo(multiGroup, labelProvider, counterLabel, inAPs);
       outputViewer = createCombo(multiGroup, labelProvider, outputLabel, outAPs);
+
+      limitCheckBox = FormBuilder.createCheckBox(multiGroup, "Limit Transaction Batch Size", 3);
+      limitCheckBox.addSelectionListener(new SelectionListener()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            selectionChanged();
+         }
+
+         public void widgetDefaultSelected(SelectionEvent e)
+         {
+            selectionChanged();
+         }
+
+         private void selectionChanged()
+         {
+            boolean enabled = limitCheckBox.getSelection();
+            maxBatchSizeText.getText().setEnabled(enabled);
+            if (enabled)
+            {
+               if (maxBatchSizeText.getText().getText().trim().isEmpty())
+               {
+                  maxBatchSizeText.getText().setText("1");
+               }
+            }
+            else
+            {
+               maxBatchSizeText.getText().setText("");
+            }
+         }
+      });
+
+      Composite maxBatchSizePanel = FormBuilder.createComposite(multiGroup, 2, 3);
+      ((GridLayout) maxBatchSizePanel.getLayout()).marginWidth = 0;
+      ((GridLayout) maxBatchSizePanel.getLayout()).marginRight = 10;
+
+      maxBatchSizeText = FormBuilder.createLabeledText(maxBatchSizePanel,"Maximum Batch Size:");
+      maxBatchSizeText.getText().setEnabled(false);
 
       return multiGroup;
    }
@@ -578,6 +641,7 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
    {
       Button[] buttons = new Button[enums.size()];
       Group group = FormBuilder.createGroup(composite, NAMES[type], enums.size());
+      group.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData());
       ((GridLayout) group.getLayout()).makeColumnsEqualWidth = true;
       for (int i = 0; i < enums.size(); i++)
       {
@@ -627,6 +691,13 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
          button.addSelectionListener(listener);
       }
       return button;
+   }
+
+   private void updateLimitVisibility(MIOrderingType ordering)
+   {
+      limitCheckBox.setVisible(ordering == MIOrderingType.SEQUENTIAL);
+      maxBatchSizeText.getLabel().setVisible(ordering == MIOrderingType.SEQUENTIAL);
+      maxBatchSizeText.getText().setVisible(ordering == MIOrderingType.SEQUENTIAL);
    }
 
    private static class AccessPointFeatureAdapter extends EFeatureAdapter
