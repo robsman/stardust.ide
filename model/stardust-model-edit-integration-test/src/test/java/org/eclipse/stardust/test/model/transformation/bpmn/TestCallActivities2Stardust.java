@@ -12,6 +12,7 @@ package org.eclipse.stardust.test.model.transformation.bpmn;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
@@ -115,6 +116,7 @@ public class TestCallActivities2Stardust extends Bpmn2StardustTestSuite {
         ProcessDefinitionType callingProcess = CarnotModelQuery.findProcessDefinition(result, CALLING_PROCESS);
         assertNotNull(result);
         assertNotNull(callingProcess);
+        fail("Needs more assertions - check the resulting model structure!");
     }
 
 }

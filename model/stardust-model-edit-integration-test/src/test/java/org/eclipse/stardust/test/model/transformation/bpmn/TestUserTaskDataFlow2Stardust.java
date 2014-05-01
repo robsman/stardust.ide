@@ -50,9 +50,9 @@ public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
     private final String modelFile = "DataObjectFlow.bpmn";
 
 
-    public TestUserTaskDataFlow2Stardust() {
-      super("models/bpmn/dataFlow");
-    }
+//    public TestUserTaskDataFlow2Stardust() {
+//      super("models/bpmn/dataFlow");
+//    }
 
     @Test
     public void testImportedItemDefinition() {

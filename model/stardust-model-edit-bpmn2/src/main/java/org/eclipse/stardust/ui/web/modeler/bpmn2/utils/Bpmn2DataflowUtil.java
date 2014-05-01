@@ -2,6 +2,7 @@ package org.eclipse.stardust.ui.web.modeler.bpmn2.utils;
 
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.DataAssociation;
+import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
@@ -35,7 +36,7 @@ public class Bpmn2DataflowUtil {
         return true;
     }
 
-    private static ItemAwareElement getFirstAssociationSource(DataAssociation assoc) {
+    public static ItemAwareElement getFirstAssociationSource(DataAssociation assoc) {
         if (assoc.getSourceRef() != null) {
             for (ItemAwareElement source : assoc.getSourceRef()) {
                 if (source != null) return source;
@@ -43,4 +44,15 @@ public class Bpmn2DataflowUtil {
         }
         return null;
     }
+
+    public static boolean hasAssignment(DataAssociation assoc) {
+        return (assoc.getAssignment() != null && assoc.getAssignment().size() > 0);
+    }
+
+    public static String getDataMappingName(DataInput dataInput, DataAssociation association) {
+        boolean validName = dataInput != null && dataInput.getName() != null && !dataInput.getName().isEmpty();
+        String name = validName ? dataInput.getName() : association.getId();
+        return name;
+    }
+
 }

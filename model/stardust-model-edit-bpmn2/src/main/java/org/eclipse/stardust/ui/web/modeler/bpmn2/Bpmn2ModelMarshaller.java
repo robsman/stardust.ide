@@ -11,16 +11,20 @@ import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.getModelUuid;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils.getExtensionElement;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ElementRefUtils.encodeReference;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractAsString;
-import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.hasNotJsonNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
 
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.CallableElement;
@@ -28,11 +32,9 @@ import org.eclipse.bpmn2.Collaboration;
 import org.eclipse.bpmn2.ComplexGateway;
 import org.eclipse.bpmn2.DataAssociation;
 import org.eclipse.bpmn2.DataInput;
-import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
-import org.eclipse.bpmn2.DataOutputAssociation;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
@@ -42,8 +44,8 @@ import org.eclipse.bpmn2.ErrorEventDefinition;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.ExclusiveGateway;
+import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElement;
-import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.Gateway;
@@ -88,18 +90,15 @@ import org.eclipse.dd.di.Shape;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2DataflowUtil;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2DatatypeUtil;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils;
+import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ProxyResolver;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ModelInfo;
 import org.eclipse.stardust.ui.web.modeler.bpmn2.utils.XSDType2StardustMapping;
 import org.eclipse.stardust.ui.web.modeler.integration.ExternalXmlSchemaManager;
@@ -107,7 +106,9 @@ import org.eclipse.stardust.ui.web.modeler.marshaling.JsonMarshaller;
 import org.eclipse.stardust.ui.web.modeler.marshaling.ModelMarshaller;
 import org.eclipse.stardust.ui.web.modeler.model.ActivityJto;
 import org.eclipse.stardust.ui.web.modeler.model.ApplicationJto;
+import org.eclipse.stardust.ui.web.modeler.model.DataFlowJto;
 import org.eclipse.stardust.ui.web.modeler.model.DataJto;
+import org.eclipse.stardust.ui.web.modeler.model.DataMappingJto;
 import org.eclipse.stardust.ui.web.modeler.model.EventJto;
 import org.eclipse.stardust.ui.web.modeler.model.GatewayJto;
 import org.eclipse.stardust.ui.web.modeler.model.ModelElementJto;
@@ -512,7 +513,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       if ((null == processPoolShape) && !otherPoolShapes.isEmpty())
       {
          // TODO quick hack to show LEO diagrams
-         processPoolShape = otherPoolShapes.remove(0);
+         //processPoolShape = otherPoolShapes.remove(0);
+    	  // TODO - SOLUTION THAT ALSO HANDLES INTERNAL PROCESS (NO POOL) COMBINED WITH BLACKBOX POOL
       }
       if (null != processPoolShape)
       {
@@ -557,33 +559,53 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       {
          mainPoolJto = new PoolSymbolJto();
          mainPoolJto.processId = process.getId();
-         if ( !otherPoolShapes.isEmpty())
-         {
-            float left = otherPoolShapes.get(0).getBounds().getX();
-            float top = otherPoolShapes.get(0).getBounds().getY();
-            float right = left + otherPoolShapes.get(0).getBounds().getWidth();
-            float bottom = top + otherPoolShapes.get(0).getBounds().getHeight();
-
-            for (BPMNShape bpmnShape : otherPoolShapes)
-            {
-               left = Math.min(left, bpmnShape.getBounds().getX());
-               top = Math.min(top, bpmnShape.getBounds().getY());
-               right = Math.max(right, bpmnShape.getBounds().getX() + bpmnShape.getBounds().getWidth());
-               bottom = Math.max(bottom, bpmnShape.getBounds().getX() + bpmnShape.getBounds().getHeight());
-            }
-
-            mainPoolJto.x = Math.round(left);
-            mainPoolJto.y = Math.round(bottom + 1);
-            mainPoolJto.width = Math.round(right - left);
-            mainPoolJto.height = 600;
-         }
-         else
+// TODO FIND A SOLUTION THAT HANDLES ALSO 'INTERNAL' PROCESS WITH BLACKBOXES
+//         if ( !otherPoolShapes.isEmpty())
+//         {
+//            float left = otherPoolShapes.get(0).getBounds().getX();
+//            float top = otherPoolShapes.get(0).getBounds().getY();
+//            float right = left + otherPoolShapes.get(0).getBounds().getWidth();
+//            float bottom = top + otherPoolShapes.get(0).getBounds().getHeight();
+//
+//            for (BPMNShape bpmnShape : otherPoolShapes)
+//            {
+//               left = Math.min(left, bpmnShape.getBounds().getX());
+//               top = Math.min(top, bpmnShape.getBounds().getY());
+//               right = Math.max(right, bpmnShape.getBounds().getX() + bpmnShape.getBounds().getWidth());
+//               bottom = Math.max(bottom, bpmnShape.getBounds().getX() + bpmnShape.getBounds().getHeight());
+//            }
+//
+//            mainPoolJto.x = Math.round(left);
+//            mainPoolJto.y = Math.round(bottom + 1);
+//            mainPoolJto.width = Math.round(right - left);
+//            mainPoolJto.height = 600;
+//         }
+//         else
          {
             // TODO dynamically determine pool/lane dimensions
-            mainPoolJto.x = 0;
-            mainPoolJto.y = 0;
-            mainPoolJto.width = 1000;
-            mainPoolJto.height = 600;
+             mainPoolJto.x = 0;
+             mainPoolJto.y = 0;
+             mainPoolJto.width = 1000;
+             mainPoolJto.height = 600;
+             float boundX = 0;
+             float boundY = 0;
+             float boundW = 0;
+             float boundH = 0;
+             for (DiagramElement symbol : plane.getPlaneElement())
+             {
+                if (symbol instanceof BPMNShape) {
+             	   Bounds bounds = ((BPMNShape)symbol).getBounds();
+             	   boundX = Math.min(bounds.getX(), boundX);
+             	   boundY = Math.min(bounds.getY(), boundY);
+
+             	   boundH = Math.max(boundH, (bounds.getY() - boundY)+bounds.getHeight());
+             	   boundW = Math.max(boundW, (bounds.getX() - boundX)+bounds.getWidth());
+                }
+             }
+             mainPoolJto.x = (int)boundX;
+             mainPoolJto.y = (int)boundY;
+             mainPoolJto.width = (int)boundW + 20;
+             mainPoolJto.height = (int)boundH + 40;
          }
       }
 
@@ -620,6 +642,7 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
 
       // required to properly connect connections to node symbols
       Map<FlowNode, BPMNShape> nodeSymbolPerElement = newHashMap();
+      Map<ItemAwareElement, BPMNShape> symbolPerItemAwareElement = newHashMap();
 
       // process edges in pass after modes
       List<BPMNEdge> edges = newArrayList();
@@ -655,6 +678,22 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
 
                   laneJto.activitySymbols.put(symbolJto.modelElement.id, symbolJto);
                   nodeSymbolPerElement.put((FlowNode) shape.getBpmnElement(), shape);
+
+                  List<DataInput> dataInputs = null;
+                  List<DataOutput> dataOutputs = null;
+                  List<ItemAwareElement> dataIO = new ArrayList<ItemAwareElement>();
+                  if (null != shape.getBpmnElement()) {
+                	  InputOutputSpecification ioSpecification = ((Activity) shape.getBpmnElement()).getIoSpecification();
+                	  if (null != ioSpecification) {
+	                	  dataInputs = ioSpecification.getDataInputs();
+	                	  dataOutputs = ioSpecification.getDataOutputs();
+                	  }
+                	  if (null != dataInputs) dataIO.addAll(dataInputs);
+                	  if (null != dataOutputs) dataIO.addAll(dataOutputs);
+                	  for (ItemAwareElement itemAware :  dataIO) {
+                		  symbolPerItemAwareElement.put(itemAware, shape);
+                	  }
+                  }
                }
                else if (shape.getBpmnElement() instanceof Gateway)
                {
@@ -691,14 +730,19 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
             else if (((shape.getBpmnElement() instanceof DataObject)
                   || (shape.getBpmnElement() instanceof DataObjectReference)))
             {
-               DataObject dataObject = (shape.getBpmnElement() instanceof DataObjectReference)
-                     ? ((DataObjectReference) shape.getBpmnElement()).getDataObjectRef()
-                     : (DataObject) shape.getBpmnElement();
+               DataObject dataObject = null;
+               if (shape.getBpmnElement() instanceof DataObjectReference) {
+            	   dataObject = ((DataObjectReference) shape.getBpmnElement()).getDataObjectRef();
+            	   symbolPerItemAwareElement.put((ItemAwareElement)shape.getBpmnElement(), shape);
+               } else {
+            	   dataObject = (DataObject) shape.getBpmnElement();
+               }
 
                DataSymbolJto symbolJto = newShapeJto(shape, new DataSymbolJto());
                symbolJto.dataFullId = getFullId(dataObject);
 
                laneJto.dataSymbols.put(dataObject.getId(), symbolJto);
+               symbolPerItemAwareElement.put((ItemAwareElement)dataObject, shape);
             }
             else if (((shape.getBpmnElement() instanceof DataStore)
                   || (shape.getBpmnElement() instanceof DataStoreReference)))
@@ -764,9 +808,18 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          } else if (edge.getBpmnElement() instanceof DataAssociation) {
              ConnectionSymbolJto symbolJto = new ConnectionSymbolJto();
              DataAssociation dataFlow = (DataAssociation) edge.getBpmnElement();
+             if (dataFlow.eIsProxy()) {
+            	 Bpmn2ProxyResolver.resolveResourceProxy(dataFlow, ModelInfo.getDefinitions(dataFlow));
+             }
+             BPMNShape sourceNode = null; //symbolPerItemAwareElement.get(dataFlow.getSourceRef());
+             BPMNShape targetNode = null; //symbolPerItemAwareElement.get(dataFlow.getTargetRef());
+             if (dataFlow.getSourceRef() != null && dataFlow.getSourceRef().size() > 0) {
+            	 sourceNode = symbolPerItemAwareElement.get(dataFlow.getSourceRef().get(0));
+            	 if (null != sourceNode) symbolJto.fromModelElementType = encodeNodeKind(dataFlow.getSourceRef().get(0), sourceNode.getBpmnElement());
+             }
+             targetNode = symbolPerItemAwareElement.get(dataFlow.getTargetRef());
+             if (null != targetNode) symbolJto.toModelElementType = encodeNodeKind(dataFlow.getTargetRef(), targetNode.getBpmnElement());
 
-             BPMNShape sourceNode = nodeSymbolPerElement.get(dataFlow.getSourceRef());
-             BPMNShape targetNode = nodeSymbolPerElement.get(dataFlow.getTargetRef());
              if ((null == sourceNode) || (null == targetNode))
              {
                 // quick exist to cater for currently unsupported node types
@@ -774,15 +827,12 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
              }
 
              symbolJto.type = ModelerConstants.DATA_FLOW_CONNECTION_LITERAL;
-             symbolJto.modelElement = toJto(dataFlow);
+             DataFlowJto flowJto = toJto(dataFlow);
+             symbolJto.modelElement = flowJto;
 
-             symbolJto.fromModelElementOid = bpmn2Binding.findOid((Definitions) model,
-                   sourceNode);
+             symbolJto.fromModelElementOid = bpmn2Binding.findOid((Definitions) model, sourceNode);
+             symbolJto.toModelElementOid = bpmn2Binding.findOid((Definitions) model, targetNode);
 
-//             symbolJto.fromModelElementType = encodeNodeKind(dataFlow.getSourceRef());
-//             symbolJto.toModelElementOid = bpmn2Binding.findOid((Definitions) model,
-//                   targetNode);
-//             symbolJto.toModelElementType = encodeNodeKind(dataFlow.getTargetRef());
 
              if ( !isEmpty(edge.getWaypoint()) && (2 <= edge.getWaypoint().size()))
              {
@@ -798,6 +848,10 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
              jto.connections.put(symbolJto.modelElement.id, symbolJto);
          }
       }
+
+      Map<String, ConnectionSymbolJto> mergeConnections = mergeConnections(jto.connections);
+      jto.connections.clear();
+      jto.connections.putAll(mergeConnections); // one flow-symbol for all flows between the same pair of activity & data
 
       jto.poolSymbols.put(mainPoolJto.id, mainPoolJto);
 
@@ -852,12 +906,235 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       return jto;
    }
 
-   private ModelElementJto toJto(DataAssociation dataFlow) {
-
-	   return null;
+   private Map<String, ConnectionSymbolJto> mergeConnections(Map<String, ConnectionSymbolJto> connections) {
+	   Map<String, List<ConnectionSymbolJto>> connectionsBySourceAndTarget = new HashMap<String, List<ConnectionSymbolJto>>();
+	   Map<String, ConnectionSymbolJto> mergedConnections = new HashMap<String, ConnectionSymbolJto>();
+	   for (ConnectionSymbolJto connection : connections.values()) {
+		   if (ModelerConstants.DATA_FLOW_CONNECTION_LITERAL.equals(connection.type)) {
+			   String sourceOid = connection.fromModelElementOid.toString();
+			   String targetOid = connection.toModelElementOid.toString();
+			   String key = ModelerConstants.DATA.equals(connection.fromModelElementType)
+					   	  ? sourceOid+"-"+targetOid
+					   	  : targetOid+"-"+sourceOid;
+			   if (!connectionsBySourceAndTarget.containsKey(sourceOid)) connectionsBySourceAndTarget.put(key, new ArrayList<ConnectionSymbolJto>());
+			   connectionsBySourceAndTarget.get(key).add(connection);
+		   }
+		   else mergedConnections.put(connection.modelElement.id, connection);
+	   }
+	   for (List<ConnectionSymbolJto> bunch : connectionsBySourceAndTarget.values()) {
+		   if (bunch.size() > 1) {
+			   ConnectionSymbolJto merged = mergeConnectionDataFlows(bunch);
+			   mergedConnections.put(merged.modelElement.id, merged);
+		   } else if (bunch.size() == 1) {
+			   ConnectionSymbolJto connectionSymbolJto = bunch.get(0);
+			   mergedConnections.put(connectionSymbolJto.modelElement.id, connectionSymbolJto);
+		   }
+	   }
+	   return mergedConnections;
    }
 
-   private static boolean isWithinBounds(Bounds symbolBounds, ShapeJto bounds)
+   private ConnectionSymbolJto mergeConnectionDataFlows(Collection<ConnectionSymbolJto> bunch) {
+	   ConnectionSymbolJto merged = new ConnectionSymbolJto();
+	   for (ConnectionSymbolJto jto : bunch) {
+		   merged.type = jto.type;
+		   if (null == merged.oid) merged.oid = jto.oid;
+		   merged.fromModelElementOid = jto.fromModelElementOid;
+		   merged.toModelElementOid = jto.toModelElementOid;
+		   merged.fromModelElementType = jto.fromModelElementType;
+		   merged.toModelElementType = jto.toModelElementType;
+		   if (ModelerConstants.UNDEFINED_ORIENTATION_KEY == merged.fromAnchorPointOrientation) merged.fromAnchorPointOrientation = jto.fromAnchorPointOrientation;
+		   if (ModelerConstants.UNDEFINED_ORIENTATION_KEY == merged.toAnchorPointOrientation) merged.toAnchorPointOrientation = jto.toAnchorPointOrientation;
+		   merged.modelElement = mergeDataFlowMappings(bunch);
+	   }
+	   return merged;
+   }
+
+
+   private ModelElementJto mergeDataFlowMappings(Collection<ConnectionSymbolJto> bunch) {
+	   DataFlowJto merged = new DataFlowJto();
+	   List<Entry<String, JsonElement>> attributeEntries = new ArrayList<Map.Entry<String,JsonElement>>();
+	   for (ConnectionSymbolJto jto : bunch) {
+		   if (jto.modelElement instanceof DataFlowJto) {
+			   DataFlowJto dataFlow = (DataFlowJto)jto.modelElement;
+			   attributeEntries.addAll(dataFlow.attributes.entrySet());
+			   merged.comments.addAll(dataFlow.comments);
+			   merged.description = merged.description.concat(";" + dataFlow.description);
+			   merged.id = merged.id.concat("_" + dataFlow.id);
+			   merged.modelId = dataFlow.modelId;
+			   merged.modelUUID = dataFlow.modelUUID;
+			   merged.type = dataFlow.type;
+			   merged.uuid = dataFlow.uuid;
+			   if (null != dataFlow.inputDataMapping) merged.inputDataMapping = dataFlow.inputDataMapping;
+			   if (null != dataFlow.outputDataMapping) merged.outputDataMapping = dataFlow.outputDataMapping;
+			   //merged.inputDataMapping.putAll(dataFlow.inputDataMapping);
+			   //merged.outputDataMapping.putAll(dataFlow.outputDataMapping);
+		   }
+	   }
+	   //if (merged.inputDataMapping.isEmpty()) merged.inputDataMapping = null;
+	   //if (merged.outputDataMapping.isEmpty()) merged.outputDataMapping = null;
+	   for (Entry<String, JsonElement> entry : attributeEntries) {
+		   merged.attributes.add(entry.getKey(), entry.getValue());
+	   }
+	   return merged;
+   	}
+
+   private DataFlowJto toJto(DataAssociation dataFlow) {
+	   DataFlowJto dataFlowJson = (DataFlowJto)newModelElementJto(dataFlow, new DataFlowJto());
+       dataFlowJson.type = ModelerConstants.DATA_FLOW_LITERAL;
+       addDataMappingsFromAssociation(dataFlowJson, dataFlow);
+       return dataFlowJson;
+   }
+
+   private void addDataMappingsFromAssociation(DataFlowJto dataFlowJson,
+		DataAssociation dataFlow) {
+
+	   String direction = null;
+
+	   List<ItemAwareElement> sourceRefs = dataFlow.getSourceRef();
+	   if (null == sourceRefs || sourceRefs.size() == 0) {
+		   trace.warn("DataAssociation doesn't have a source: " + dataFlow );
+		   return;
+	   }
+	   if (sourceRefs.size() > 1) {
+		   trace.warn("Multiple sources for DataAssociations not supported: " + dataFlow );
+		   return;
+	   }
+
+	   Activity activity = null;
+	   ItemAwareElement source = sourceRefs.get(0);
+	   ItemAwareElement target = dataFlow.getTargetRef();
+
+       if (source instanceof DataObjectReference) {
+    	   source = ((DataObjectReference)source).getDataObjectRef();
+    	   direction = ModelerConstants.INPUT_DATA_MAPPING_PROPERTY;
+       }
+       if (source instanceof DataStoreReference) {
+    	   source = ((DataStoreReference)source).getDataStoreRef();
+    	   if (source.eIsProxy()) {
+    		   source = Bpmn2ProxyResolver.resolveDataStoreProxy((DataStore)source, ModelInfo.getDefinitions(source));
+    		   direction = ModelerConstants.INPUT_DATA_MAPPING_PROPERTY;
+    	   }
+       }
+       if (source instanceof DataOutput) {
+    	   if (((DataOutput)source).eContainer() instanceof InputOutputSpecification) {
+    		   if (((DataOutput)source).eContainer().eContainer() instanceof Activity) {
+    			   activity = (Activity)((DataOutput)source).eContainer().eContainer();
+    		   }
+    	   }
+       }
+
+       if (target instanceof DataObjectReference) {
+    	   target = ((DataObjectReference)target).getDataObjectRef();
+    	   direction = ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY;
+       }
+       if (target instanceof DataStoreReference) {
+    	   target = ((DataStoreReference)target).getDataStoreRef();
+    	   if (target.eIsProxy()) {
+    		   target = Bpmn2ProxyResolver.resolveDataStoreProxy((DataStore)target, ModelInfo.getDefinitions(target));
+    		   direction = ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY;
+    	   }
+       }
+       if (target instanceof DataInput) {
+    	   if (((DataInput)target).eContainer() instanceof InputOutputSpecification) {
+    		   if (((DataInput)target).eContainer().eContainer() instanceof Activity) {
+    			   activity = (Activity)((DataInput)target).eContainer().eContainer();
+    		   }
+    	   }
+
+       }
+       if (null == activity) return;
+
+       if (Bpmn2DataflowUtil.hasAssignment(dataFlow)) {
+           addDataMappingsFromAssignments(direction, dataFlowJson, dataFlow, source, target);
+       }
+       else {
+           //addDataPathFromTransformationExpression(jto, assocIn, dataInput, associationSource);
+    	   addDataMappingWithoutAssignment(direction, dataFlowJson, dataFlow, source, target);
+       }
+
+   }
+
+   private void addDataMappingsFromAssignments(String direction,
+		   DataFlowJto dataFlowJson, DataAssociation dataFlow,
+		   ItemAwareElement source, ItemAwareElement target) {
+
+	   String dataUuid = getModelUuid(findContainingModel(source)) + ":"
+			   + source.getId();
+
+	   for (Assignment assign : dataFlow.getAssignment()) {
+		   Expression fromExpression = assign.getFrom();
+		   String assingmentId = assign.getId();
+		   Expression toExpression = assign.getTo();
+
+		   String dataPath = ModelerConstants.INPUT_DATA_MAPPING_PROPERTY.equals(direction)
+				   		   ? getExpressionValue(fromExpression)
+				   		   : getExpressionValue(toExpression);
+
+		   // TODO
+		   //String applicationAccessPoint = ExtensionHelper2.getInstance().getAssignmentAccessPointRef(toExpression);
+		   //String applicationAccessPath = getExpressionValue(toExpression);
+
+		   String mappingId = dataFlow.getId() + "_" + assingmentId;
+
+		   DataMappingJto assocJto = newModelElementJto(dataFlow, new DataMappingJto());
+		   DataMappingJto mapping = populateInDataMapping(assocJto, dataUuid, dataPath, null, null, null);
+		   mapping.id = mappingId;
+		   if (ModelerConstants.INPUT_DATA_MAPPING_PROPERTY.equals(direction)) {
+			   dataFlowJson.inputDataMapping = mapping; // put(mappingId, mapping);
+			   //dataFlowJson.outputDataMapping = null; // xpdl ModelElementUnmarshaller checks for jsonNull
+		   } else {
+			   dataFlowJson.outputDataMapping = mapping; //put(mappingId, mapping);
+			   //dataFlowJson.inputDataMapping = null; // xpdl ModelElementUnmarshaller checks for jsonNull
+		   }
+	   }
+
+	}
+
+   private String getExpressionValue(Expression expr) {
+	   if (null == expr) return "";
+	   if (expr instanceof FormalExpression) {
+		   return ((FormalExpression)expr).getBody();
+	   } else {
+		   String informal = "";
+		   List<Documentation> documentation = expr.getDocumentation();
+		   if (null != documentation) {
+			   for (Documentation doc : documentation) {
+				   informal = informal.concat(doc.getText());
+			   }
+		   }
+		   return informal;
+	   }
+   }
+
+	private void addDataMappingWithoutAssignment(String direction,
+			DataFlowJto dataFlowJson, DataAssociation dataFlow,
+			ItemAwareElement source, ItemAwareElement target) {
+
+	       String dataUuid = ModelerConstants.INPUT_DATA_MAPPING_PROPERTY.equals(direction)
+	    		   ? getModelUuid(findContainingModel(source)) + ":" + source.getId()
+	    		   : getModelUuid(findContainingModel(target)) + ":" + target.getId();
+
+	       String expr = "";
+	       if (dataFlow.getTransformation() != null) {
+	           if (dataFlow.getTransformation().getBody() != null && !dataFlow.getTransformation().getBody().isEmpty()) {
+	               expr = dataFlow.getTransformation().getBody();
+	           } else if (dataFlow.getTransformation().getMixed() != null )  {
+	                expr = ModelUtils.getCDataString(dataFlow.getTransformation().getMixed());
+	           }
+	       }
+	       DataMappingJto assocJto = newModelElementJto(dataFlow, new DataMappingJto());
+	       DataMappingJto mapping = populateInDataMapping(assocJto, dataUuid, expr, null, null, null);
+//	       jto.inDataFlows.put(assocJto.id, assocJto);
+		   if (ModelerConstants.INPUT_DATA_MAPPING_PROPERTY.equals(direction)) {
+			   dataFlowJson.inputDataMapping = mapping; //.put(mapping.id, mapping);
+		   } else {
+			   dataFlowJson.outputDataMapping = mapping; //.put(mapping.id, mapping);
+		   }
+
+
+	}
+
+	private static boolean isWithinBounds(Bounds symbolBounds, ShapeJto bounds)
    {
       return (bounds.x <= symbolBounds.getX())
             && ((bounds.x + bounds.width) >= symbolBounds.getX() + symbolBounds.getWidth())
@@ -1060,6 +1337,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          if (flowElement instanceof Activity)
          {
             jto.activities.put(flowElement.getId(), toJto((Activity) flowElement));
+            jto.dataFlows.putAll(toJtoMap(((Activity)flowElement).getDataInputAssociations()));
+            jto.dataFlows.putAll(toJtoMap(((Activity)flowElement).getDataOutputAssociations()));
          }
          else if (flowElement instanceof Gateway)
          {
@@ -1076,6 +1355,19 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       }
 
       return jto;
+   }
+
+
+
+   private Map<String, DataFlowJto> toJtoMap(
+		List<? extends DataAssociation> dataAssociations) {
+
+	   Map<String, DataFlowJto> result = new HashMap<String, DataFlowJto>();
+	   for (DataAssociation assoc : dataAssociations) {
+		   DataFlowJto jto = toJto(assoc);
+		   result.put(jto.id, jto);
+	   }
+	   return result;
    }
 
    public DataJto toJto(DataStore variable)
@@ -1214,9 +1506,29 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          }
       }
 
-//      addDataFlows(activity, jto, dataApContext);
+      //addDataFlows(activity, jto, dataApContext);
 
       return jto;
+   }
+
+   private DataMappingJto populateInDataMapping(DataMappingJto assocJto, String fromVariableId, String dataPath, String accessPointId, String accessPointContext, String accessPointPath) {
+
+	   if (StringUtils.isNotEmpty(fromVariableId))
+		   assocJto.dataFullId = fromVariableId; // ModelerConstants.DATA_FULL_ID_PROPERTY
+
+	   if (StringUtils.isNotEmpty(dataPath))
+		   assocJto.dataPath = dataPath;  //String s = ModelerConstants.DATA_PATH_PROPERTY;
+
+	   if (StringUtils.isNotEmpty(accessPointId))
+		   assocJto.accessPointId = accessPointId; // ModelerConstants.ACCESS_POINT_ID_PROPERTY
+
+	   if (StringUtils.isNotEmpty(accessPointContext))
+		   assocJto.accessPointContext = accessPointContext; // ModelerConstants.ACCESS_POINT_CONTEXT_PROPERTY
+
+	   if (StringUtils.isNotEmpty(accessPointPath))
+		   assocJto.accessPointPath = accessPointPath;  //ACCESS_POINT_PATH_PROPERTY
+
+	   return assocJto;
    }
 
    public GatewayJto toJto(Gateway gateway)
@@ -1408,6 +1720,9 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       {
          name = ((CallableElement) src).getName();
       }
+      else if (src instanceof DataAssociation) {
+    	  name = ((DataAssociation) src).getId(); // TODO id?
+      }
       else
       {
          throw new IllegalArgumentException("Unsupported model element: " + src);
@@ -1531,6 +1846,16 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       {
          throw new IllegalArgumentException("Unsupported flow node: " + node);
       }
+   }
+
+   public static String encodeNodeKind(ItemAwareElement itemAware, BaseElement flowNode)
+   {
+      if (itemAware instanceof DataInput || itemAware instanceof DataOutput) {
+    	  if (!(flowNode instanceof FlowNode)) throw new IllegalArgumentException("Unsupported node type (FlowNode expected): " + flowNode);
+
+    	  return encodeNodeKind((FlowNode)flowNode);
+      }
+      return ModelerConstants.DATA;
    }
 
    /**

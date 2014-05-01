@@ -65,6 +65,7 @@ xmlns:cust="http://stardust.eclipse.org/Customer"
       <dataOutputAssociation id="TestModelOutputAssociationTaskA">
         <sourceRef>TestModelDataOutputTaskA</sourceRef>
         <targetRef>TestModelDataObjectReferenceA</targetRef>
+        <transformation>Name</transformation>
       </dataOutputAssociation>
     </userTask>
     <endEvent id="TestModelEndEvent">

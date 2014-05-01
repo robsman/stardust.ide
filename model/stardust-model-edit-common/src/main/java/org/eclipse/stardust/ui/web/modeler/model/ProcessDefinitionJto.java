@@ -19,6 +19,8 @@ public class ProcessDefinitionJto extends ModelElementJto
    public Map<String, EventJto> events = new LinkedHashMap<String, EventJto>();
    public Map<String, TransitionJto> controlFlows = new LinkedHashMap<String, TransitionJto>();
 
+   public Map<String, DataFlowJto> dataFlows = new LinkedHashMap<String, DataFlowJto>();
+
    // TODO
    public JsonArray dataPathes = new JsonArray();
 

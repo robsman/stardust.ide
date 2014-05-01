@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.stardust.ui.web.modeler.bpmn2.utils;
 
+import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.CallableElement;
+import org.eclipse.bpmn2.DataAssociation;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -36,6 +38,15 @@ public class Bpmn2ProxyResolver {
             resource = (Resource)eRes.getEObject(proxyURI.fragment());
         }
         return resource;
+    }
+
+    public static BaseElement resolveResourceProxy(DataAssociation element,  Definitions defs) {
+        URI proxyURI = ((InternalEObject) element).eProxyURI();
+        if (defs.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = defs.eResource();
+            element = (DataAssociation)eRes.getEObject(proxyURI.fragment());
+        }
+        return element;
     }
 
 	public static Resource resolveResourceProxy(Resource resource, Definitions defs) {

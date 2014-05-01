@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="21.01.2013 09:03:35" itp:modificationDate="21.01.2013 09:33:51" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_1a6ef119-fb1e-4f69-84bf-f146300b3554" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="SendAndReceiveTask" itp:version="1.0" itp:author="simon nikles" itp:creationDate="21.01.2013 09:03:35" itp:modificationDate="21.01.2013 09:33:51" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_1a6ef119-fb1e-4f69-84bf-f146300b3554" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
 	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
 	xmlns:stardustExt="http://www.eclipse.org/stardust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
->
 
   <itemDefinition id="TestStringItem" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
 
-	<interface id="Send Jms" name="SendJms" implementationRef="SendJmsImpl">
+	<interface id="SendJms" name="Send Jms" implementationRef="SendJmsImpl">
 		<extensionElements>
 			<stardustExt:StardustInterface>
 				{
@@ -172,8 +171,8 @@
     </sequenceFlow>
   </process>
   <collaboration id="_1a4d5a1a-47a5-4a2d-9545-04c86d777c45">
-    <participant id="_7526d449-61e0-4628-ac04-642f6213697f" name="Partner">
-    </participant>
+    <participant id="_7526d449-61e0-4628-ac04-642f6213697f" name="Partner" />
+    <participant id="_7526d449-61e0-4628-ac04-642f6213697fMain" name="internal" processRef="SendAndReceiveProcessId" />
     <messageFlow id="_a6749288-71df-441c-82ef-ba2ac7725c17" sourceRef="TestModelSendTask" targetRef="_7526d449-61e0-4628-ac04-642f6213697f" messageRef="TestModelOutputMessage">
     </messageFlow>
     <messageFlow id="_5ae3d7d0-30ca-43e2-9ddb-284b1cb557bd" sourceRef="_7526d449-61e0-4628-ac04-642f6213697f" targetRef="TestModelReceiveTask" messageRef="TestModelInputMessage">

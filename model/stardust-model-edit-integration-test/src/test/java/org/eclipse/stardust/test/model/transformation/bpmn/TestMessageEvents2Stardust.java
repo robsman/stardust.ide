@@ -43,7 +43,7 @@ public class TestMessageEvents2Stardust extends Bpmn2StardustTestSuite {
 	private static final String DATA_OBJECT_ID = "TestModelDataObjectA";
 
     @Test
-    public void testEvents() {
+    public void testMessageEventsEvents() {
         final String modelFile = "MessageEvents.bpmn";
 
         ModelType result = transformModel(loadBpmnModel(modelFile));

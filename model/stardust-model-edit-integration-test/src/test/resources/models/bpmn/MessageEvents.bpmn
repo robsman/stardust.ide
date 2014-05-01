@@ -235,6 +235,8 @@
   </process>
 
   <collaboration id="_de1f6d16-a2d2-44f2-895d-2694581f8767">
+    <participant id="_42743947-1a5f-4e83-8f90-b6fa16d22664Main" name="Internal" processRef="_cf986081-5a6e-4429-a2d0-cc8c336c60ce">
+    </participant>
     <participant id="_42743947-1a5f-4e83-8f90-b6fa16d22664" name="Supplier">
     </participant>
     <messageFlow id="_f77bafc5-37c7-4cde-beed-ca232e8d44c0" name="Offer" sourceRef="_42743947-1a5f-4e83-8f90-b6fa16d22664" targetRef="TestModelStartEvent">

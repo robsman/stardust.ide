@@ -163,16 +163,18 @@ public class ModelConverter
 
       JsonArray addedElementsJson = createTypeDeclarationChanges.getAsJsonArray("added");
 
-      String newTypeDeclarationUuid = extractString(addedElementsJson.get(0)
-            .getAsJsonObject(), "uuid");
-      String newTypeDeclarationId = extractString(addedElementsJson.get(0)
-            .getAsJsonObject(), "id");
+      if (null != addedElementsJson && addedElementsJson.size() > 0) {
+	      String newTypeDeclarationUuid = extractString(addedElementsJson.get(0)
+	            .getAsJsonObject(), "uuid");
+	      String newTypeDeclarationId = extractString(addedElementsJson.get(0)
+	            .getAsJsonObject(), "id");
 
-      modelConversionContext.registerNewStructuredTypeId(extractString(typeJson, ModelerConstants.ID_PROPERTY), newTypeDeclarationId);
+	      modelConversionContext.registerNewStructuredTypeId(extractString(typeJson, ModelerConstants.ID_PROPERTY), newTypeDeclarationId);
 
-      // update type declaration content
-      applyChange(modelConversionContext.newModelId(), "modelElement.update",
-            newTypeDeclarationUuid, typeJson);
+	      // update type declaration content
+	      applyChange(modelConversionContext.newModelId(), "modelElement.update",
+	            newTypeDeclarationUuid, typeJson);
+      }
    }
 
    private void recreateVariable(JsonObject variableJson,
@@ -234,13 +236,13 @@ public class ModelConverter
       {
          newVariablesJson = createVariableChanges.getAsJsonArray("modified");
       }
-//      try {
+      try {
       String variableUuid = extractAsString(newVariablesJson.get(0).getAsJsonObject(), "uuid");
 
       String variableId = extractAsString(newVariablesJson.get(0).getAsJsonObject(), "id");
 
       modelConversionContext.registerNewDataId(extractString(variableJson, ModelerConstants.ID_PROPERTY), variableId);
-//      } catch(Exception e) {}
+      } catch(Exception e) {}
    }
 
    private void recreateParticipants(JsonObject participantsJson,

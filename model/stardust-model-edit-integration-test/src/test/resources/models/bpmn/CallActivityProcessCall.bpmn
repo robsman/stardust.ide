@@ -8,7 +8,7 @@
 	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
 	exporter="Process Modeler 6 for Microsoft Visio"
 	exporterVersion="6.2769.13758 "
-	name="Mein Diagramm"
+	name="CallActivityProcessCall"
 	itp:version="1.0"
 	itp:author="simon nikles"
 	itp:creationDate="13.12.2012 15:27:40"

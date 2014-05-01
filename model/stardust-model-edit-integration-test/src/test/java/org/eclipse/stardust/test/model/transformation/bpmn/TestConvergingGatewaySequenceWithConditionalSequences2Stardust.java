@@ -50,6 +50,7 @@ public class TestConvergingGatewaySequenceWithConditionalSequences2Stardust exte
 
 	private static final String GATE_A_EXCL = "TestModelExclusiveGateA";
 	private static final String GATE_B_EXCL = "TestModelExclusiveGateB";
+	private static final String GATE_C_PARALLEL = "TestModelParallelGateC";
 
     public TestConvergingGatewaySequenceWithConditionalSequences2Stardust() {}
 
@@ -95,18 +96,22 @@ public class TestConvergingGatewaySequenceWithConditionalSequences2Stardust exte
         assertNotNull(transitionGC2C);
         assertNotNull(transitionGA2GB);
         assertNotNull(transitionGB2E);
-        assertNull(transitionX2GC);
+        assertNotNull(transitionX2GC);
 
         // gateway route
-        ActivityType gateA = CarnotModelQuery.findActivity(processDef, GATE_A_EXCL);
+        ActivityType gateA = CarnotModelQuery.findGateway(processDef, GATE_A_EXCL);
         assertNotNull(gateA);
         assertEquals(JoinSplitType.XOR_LITERAL, gateA.getJoin());
-        ActivityType gateB = CarnotModelQuery.findActivity(processDef, GATE_B_EXCL);
+        ActivityType gateB = CarnotModelQuery.findGateway(processDef, GATE_B_EXCL);
         assertNotNull(gateB);
         assertEquals(JoinSplitType.XOR_LITERAL, gateB.getJoin());
 
+        ActivityType gatec = CarnotModelQuery.findGateway(processDef, GATE_C_PARALLEL);
+        assertNotNull(gatec);
+        assertEquals(JoinSplitType.AND_LITERAL, gatec.getJoin());
+
         // activity splits
-        assertEquals(JoinSplitType.AND_LITERAL, taskX.getSplit());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskX.getSplit());
         assertEquals(JoinSplitType.AND_LITERAL, taskC.getSplit());
 
         // transition conditions

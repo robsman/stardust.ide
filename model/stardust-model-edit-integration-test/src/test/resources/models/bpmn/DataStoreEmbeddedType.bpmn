@@ -20,7 +20,7 @@
 	itp:conformanceSubClass="Full"
 	exporter="Process Modeler 6 for Microsoft Visio"
 	exporterVersion="6.3326.15438 "
-	name="Mein Diagramm"
+	name="DataStoreEmbeddedType"
 	xmlns:embed="http://eclipse.org/stardust/embeddedSchema"
 	targetNamespace="http://www.itp-commerce.com">
 	<import
