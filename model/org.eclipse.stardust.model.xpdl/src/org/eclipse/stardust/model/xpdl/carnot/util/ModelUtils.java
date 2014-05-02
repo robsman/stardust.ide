@@ -13,7 +13,6 @@ package org.eclipse.stardust.model.xpdl.carnot.util;
 import static org.eclipse.stardust.common.CollectionUtils.newArrayList;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -21,21 +20,15 @@ import java.util.*;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Predicate;
@@ -55,7 +48,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlUtil;
-
 import org.eclipse.xsd.XSDSchema;
 
 public class ModelUtils
@@ -587,55 +579,6 @@ public class ModelUtils
       }
 
       return result;
-   }
-
-   // TODO: duplicate method VersionRepository, need to put it in a common place
-   public static IProject getProjectFromEObject(EObject eObject)
-   {
-      if (eObject instanceof ContextType)
-      {
-         ContextType contextType = (ContextType) eObject;
-         if (contextType.getType() != null)
-         {
-            eObject = contextType.getType().eContainer();
-         }
-      }
-      if (eObject != null)
-      {
-         Resource eResource = eObject.eResource();
-         if (eResource != null)
-         {
-            URI eUri = eResource.getURI();
-
-            if (eUri.isFile())
-            {
-               String fileString = eUri.toFileString();
-               java.net.URI netModelUri = new File(fileString).toURI();
-               IContainer[] containers = ResourcesPlugin.getWorkspace().getRoot()
-                     .findContainersForLocationURI(netModelUri);
-               if (containers != null && containers.length > 0)
-               {
-                  IContainer container = containers[0];
-                  return container.getProject();
-               }
-            }
-
-            if (eUri.segmentCount() > 1)
-            {
-               IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-                  eUri.segment(1));
-               if (resource instanceof IProject)
-               {
-                  return (IProject) resource;
-               }
-               else if (resource != null)
-               {
-                  return resource.getProject();
-               }
-            }
-         }
-      }
-      return null;
    }
 
    public static List<IResourceResolver> getResourceResolvers()
