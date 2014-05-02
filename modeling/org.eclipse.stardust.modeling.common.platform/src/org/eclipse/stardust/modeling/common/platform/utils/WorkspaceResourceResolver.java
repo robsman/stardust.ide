@@ -52,6 +52,39 @@ public class WorkspaceResourceResolver implements IResourceResolver
       return localUri;
    }
 
+   @Override
+   public long getLastModificationTime(String uri, EObject context)
+   {
+      if(uri.toLowerCase().startsWith("http://")) //$NON-NLS-1$
+      {
+         return 0;
+      }
+
+      IProject project = WorkspaceUtils.getProjectFromEObject(context);
+
+      String filePath = "/"; //$NON-NLS-1$
+      String[] parts = uri.split("/"); //$NON-NLS-1$
+      if(parts.length > 2)
+      {
+         for(int i = 2; i < parts.length; i++)
+         {
+            filePath += parts[i];
+            if(i < parts.length - 1)
+            {
+               filePath += "/"; //$NON-NLS-1$
+            }
+         }
+
+         IFile file = project.getFile(filePath);
+         if(file.exists())
+         {
+            return file.getModificationStamp();
+         }
+      }
+
+      return 0L;
+   }
+
    private String getFileUrl(IProject project, String url)
    {
       String fileUri = null;

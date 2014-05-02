@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,6 +27,7 @@ import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.spi.IResourceResolver;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
@@ -789,34 +788,17 @@ public class TypeDeclarationUtils
 
    public static long getTimeStamp(String location, ExternalReferenceType externalReference)
    {
-      if(location.toLowerCase().startsWith("http://")) //$NON-NLS-1$
+      List<IResourceResolver> resourceResolvers = ModelUtils.getResourceResolvers();
+      for (IResourceResolver resolver : resourceResolvers)
       {
-         return 0;
-      }
-
-      IProject project = ModelUtils.getProjectFromEObject(externalReference);
-
-      String filePath = "/"; //$NON-NLS-1$
-      String[] parts = location.split("/"); //$NON-NLS-1$
-      if(parts.length > 2)
-      {
-         for(int i = 2; i < parts.length; i++)
+         long modificationTime = resolver.getLastModificationTime(location, externalReference);
+         if (0L != modificationTime)
          {
-            filePath += parts[i];
-            if(i < parts.length - 1)
-            {
-               filePath += "/"; //$NON-NLS-1$
-            }
-         }
-
-         IFile file = project.getFile(filePath);
-         if(file.exists())
-         {
-            return file.getModificationStamp();
+            return modificationTime;
          }
       }
 
-      return 0;
+      return 0L;
    }
 
    public static void clearExternalSchemaCache()

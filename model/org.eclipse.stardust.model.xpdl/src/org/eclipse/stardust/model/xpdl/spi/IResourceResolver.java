@@ -5,4 +5,6 @@ import org.eclipse.emf.ecore.EObject;
 public interface IResourceResolver
 {
    String resolveToLocalUri(String uri, EObject context);
+
+   long getLastModificationTime(String uri, EObject context);
 }
