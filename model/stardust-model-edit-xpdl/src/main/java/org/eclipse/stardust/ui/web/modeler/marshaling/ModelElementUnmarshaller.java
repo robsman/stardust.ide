@@ -2140,9 +2140,9 @@ public class ModelElementUnmarshaller implements ModelUnmarshaller
       mapDeclaredProperties(application, applicationJson,
             propertiesMap.get(ApplicationType.class));
 
-      if (hasNotJsonNull(applicationJson, ModelerConstants.TYPE_PROPERTY))
+      if (hasNotJsonNull(applicationJson, ModelerConstants.APPLICATION_TYPE_PROPERTY)) //TYPE_PROPERTY)) TODO REVIEW
       {
-         JsonPrimitive typeJson = applicationJson.get(ModelerConstants.TYPE_PROPERTY).getAsJsonPrimitive();
+         JsonPrimitive typeJson = applicationJson.get(ModelerConstants.APPLICATION_TYPE_PROPERTY).getAsJsonPrimitive(); // TYPE_PROPERTY).getAsJsonPrimitive(); TODO REVIEW CHANGE
 
          if (!application.getType().getId().equals(typeJson.getAsString()))
       {

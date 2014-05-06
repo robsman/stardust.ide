@@ -109,6 +109,17 @@ public class ModelConverter
          recreateTypeDeclaration(typeJson, conversionContext);
       }
 
+      for (Map.Entry<String, JsonElement> typeEntry : modelJto.applications.entrySet())
+      {
+         JsonObject typeJson = typeEntry.getValue().getAsJsonObject();
+
+         assert "application".equals(extractAsString(typeJson,
+               ModelerConstants.TYPE_PROPERTY));
+
+         // TODO map new to old ID
+         recreateApplication(typeJson, conversionContext);
+      }
+
       for (Map.Entry<String, JsonElement> variableEntry : modelJto.dataItems.entrySet())
       {
          JsonObject variableJson = variableEntry.getValue().getAsJsonObject();
@@ -133,6 +144,56 @@ public class ModelConverter
       }
 
       return modelId;
+   }
+
+   private void recreateApplication(JsonObject applicationJson,
+		ModelConversionContext conversionContext) {
+
+	      JsonObject newAppJson = new JsonObject();
+	      newAppJson.addProperty(ModelerConstants.NAME_PROPERTY,
+	            extractAsString(applicationJson, ModelerConstants.NAME_PROPERTY));
+	      newAppJson.addProperty(ModelerConstants.CLONE_ID_PROPERTY,
+	            extractAsString(applicationJson, ModelerConstants.ID_PROPERTY));
+
+	      String type = extractAsString(applicationJson, ModelerConstants.APPLICATION_TYPE_PROPERTY);
+	      String commandId = "applicationType.create";
+	      if (null != type) {
+	    	  if (ModelerConstants.CAMEL_APPLICATION_TYPE_ID.equals(type)) {
+	    		  commandId = "camelApplication.create";
+	    	  } else if (ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID.equals(type)) {
+	    		  commandId = "webServiceApplication.create";
+
+	    	  } else if (ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID.equals(type)) {
+	    		  commandId = "messageTransformationApplication.create";
+
+	    	  } else if (ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY.equals(type)) {
+	    		  commandId = "uiMashupApplication.create";
+	    	  }
+	      }
+
+	      JsonObject appChanges = applyChange(
+	    		  conversionContext.newModelId(), commandId,
+	    		  conversionContext.newModelId(), newAppJson);
+
+	      if (trace.isDebugEnabled())
+	      {
+	         trace.debug("Create applicationType response: " + appChanges);
+	      }
+
+	      JsonArray addedElementsJson = appChanges.getAsJsonArray("added");
+
+	      if (null != addedElementsJson && addedElementsJson.size() > 0) {
+		      String newAppUuid = extractString(addedElementsJson.get(0)
+		            .getAsJsonObject(), "uuid");
+		      String newApplicationId = extractString(addedElementsJson.get(0)
+		            .getAsJsonObject(), "id");
+
+		      conversionContext.registerNewStructuredTypeId(extractString(applicationJson, ModelerConstants.ID_PROPERTY), newApplicationId);
+
+		      // update type declaration content
+		      applyChange(conversionContext.newModelId(), "modelElement.update",
+		    		  	  newAppUuid, applicationJson);
+	      }
    }
 
    private void recreateTypeDeclaration(JsonObject typeJson,

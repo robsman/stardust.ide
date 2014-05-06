@@ -105,7 +105,7 @@
 		<dataObjectReference id="TestModelDataObjectReferenceA" dataObjectRef="TestModelDataObjectA"></dataObjectReference>
 	</process>
 	<bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
-		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessDataObjectFlow">
+		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessJsfUserTask">
 			<bpmndi:BPMNShape id="_FE09CB07-5DE3-408B-ABF2-34176656681A" bpmnElement="TestModelStartEventId" itp:label="(unbenannt)" itp:elementType="startEvent">
 				<dc:Bounds x="56.6929133858268" y="197.007874015748" width="17.007874015748" height="17.007874015748" />
 				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">

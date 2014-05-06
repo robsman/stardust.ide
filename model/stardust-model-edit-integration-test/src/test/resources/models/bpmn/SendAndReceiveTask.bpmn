@@ -10,7 +10,7 @@
 
 	<interface id="SendJms" name="Send Jms" implementationRef="SendJmsImpl">
 		<extensionElements>
-			<stardustExt:StardustInterface>
+			<stardustExt:core>
 				{
 					"applicationType": "jms",
 					"stardustApplication": {
@@ -42,7 +42,7 @@
 						 ]
 					 }
 				 }
-			</stardustExt:StardustInterface>
+			</stardustExt:core>
 		</extensionElements>
 		<operation id="SendJmsOperation" name="SendJmsOperation">
 			<inMessageRef>TestModelOutputMessage</inMessageRef>
@@ -51,7 +51,7 @@
 	</interface>
 	<interface id="ReceiveJms" name="ReceiveJms" implementationRef="ReceiveJmsImpl">
 		<extensionElements>
-			<stardustExt:StardustInterface>
+			<stardustExt:core>
 				{
 					"applicationType": "jms",
 					"stardustApplication": {
@@ -82,7 +82,7 @@
 						 ]
 					 }
 				 }
-			</stardustExt:StardustInterface>
+			</stardustExt:core>
 		</extensionElements>
 		<operation id="ReceiveJmsOperation" name="ReceiveJmsOperation">
 			<inMessageRef>ReceiveJmsOperationInput</inMessageRef>

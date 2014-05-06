@@ -6,7 +6,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
 	itp:author="simon nikles"
-	id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
+	id="_9a03597e-3d9f-42c0-adc3-018d3c6a282fv2"
 	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
 	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
 	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
@@ -74,7 +74,7 @@
 
 	<interface id="WeatherAppInterface" name="WeatherAppInterface" implementationRef="weatherApp">
 		<extensionElements>
-			<stardust:StardustInterface>
+			<stardust:core>
 				{ "applicationType": "webservice",
 				  "stardustApplication": {
 				  		"elementOid": 10058,
@@ -93,7 +93,7 @@
 							"synchronous:retry:enable": false
 				  		},
 	                  "accessPoints": [
-		                     { "elementOid": 83 "id": "carnot:engine:endpointAddress", "name": "Endpoint Address", "direction": "IN" "typeRef": "serializable",
+		                     { "elementOid": 83, "id": "carnot:engine:endpointAddress", "name": "Endpoint Address", "direction": "IN", "typeRef": "serializable",
 								"attributes": { "carnot:engine:className": "java.lang.String",
 												"carnot:engine:browsable": true }
 							},
@@ -107,7 +107,7 @@
 					  ]
 					}
 				}
-			</stardust:StardustInterface>
+			</stardust:core>
 		</extensionElements>
 		<operation id="OperationGetWeather" name="GetWeather">
 			<inMessageRef>getWeatherInputMessage</inMessageRef>

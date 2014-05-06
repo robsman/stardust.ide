@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.ui.web.modeler.bpmn2.utils;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,9 @@ import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.PartnerRole;
@@ -101,5 +104,28 @@ public class ModelInfo {
         return refs;
     }
 
+    public static Interface getInterfaceByOperationRef(BaseElement node, EObject container) {
+		Class<?> cls = node.getClass();
+		try {
+			Method m = cls.getMethod("getOperationRef");
+			Object op = m.invoke(node);
+			if (op != null && op instanceof Operation) {
+				Operation operation = (Operation)op;
+				if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, container);
+				return (Interface) operation.eContainer();
+			}
+		} catch (Exception e) {}
+		return null;
+    }
+
+	public static Interface findInterfaceById(Definitions defs, String id) {
+		if (null == id) return null;
+		for (RootElement root : defs.getRootElements()) {
+			if (root instanceof Interface) {
+				if (id.equals(root.getId())) return (Interface) root;
+			}
+		}
+		return null;
+	}
 
 }

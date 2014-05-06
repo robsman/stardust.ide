@@ -36,8 +36,14 @@ public class ApplicationTypeChangeCommandHandler
    {
       String applicationName = extractString(request, ModelerConstants.NAME_PROPERTY);
 
+	  String appId = null;
+	  if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+		  appId = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+      }
+
       ApplicationType applicationType = getModelBuilderFacade().createApplication(model,
-            null, applicationName, ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
+    		  appId, applicationName, ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID);
 
       // Map newly created application to a UUID
       EObjectUUIDMapper mapper = modelService().uuidMapper();
@@ -48,9 +54,14 @@ public class ApplicationTypeChangeCommandHandler
    public void createMessageTransformationApp(ModelType model, JsonObject request)
    {
       String applicationName = extractString(request, ModelerConstants.NAME_PROPERTY);
+	  String appId = null;
+	  if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+		  appId = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+      }
 
       ApplicationType applicationType = getModelBuilderFacade().createApplication(model,
-            null, applicationName,
+            appId, applicationName,
             ModelerConstants.MESSAGE_TRANSFORMATION_APPLICATION_TYPE_ID);
 
       // Map newly created application to a UUID
@@ -63,17 +74,22 @@ public class ApplicationTypeChangeCommandHandler
    public void createCamelApp(ModelType model, JsonObject request)
    {
       String applicationName = extractString(request, ModelerConstants.NAME_PROPERTY);
+	  String appId = null;
+	  if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+		  appId = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+      }
 
       ApplicationType applicationType = getModelBuilderFacade().createApplication(model,
-            null, applicationName, ModelerConstants.CAMEL_APPLICATION_TYPE_ID);
+            appId, applicationName, ModelerConstants.CAMEL_APPLICATION_TYPE_ID);
 
       // Map newly created application to a UUID
       EObjectUUIDMapper mapper = modelService().uuidMapper();
       mapper.map(applicationType);
 
       // Store attributes for type
-      // TODO Make general mechanism 
-      
+      // TODO Make general mechanism
+
       JsonObject attributes = request.getAsJsonObject(ModelerConstants.ATTRIBUTES_PROPERTY);
 
       if (attributes != null
@@ -86,7 +102,7 @@ public class ApplicationTypeChangeCommandHandler
                "carnot:engine:camel::applicationIntegrationOverlay",
                attributes.get("carnot:engine:camel::applicationIntegrationOverlay")
                      .getAsString());
-         
+
          // Flag for new implementation
          ModelBuilderFacade.setBooleanAttribute(
                applicationType,
@@ -98,9 +114,14 @@ public class ApplicationTypeChangeCommandHandler
    public void createUiMashupApp(ModelType model, JsonObject request)
    {
       String name = extractString(request, ModelerConstants.NAME_PROPERTY);
+	  String appId = null;
+	  if (request.has(ModelerConstants.CLONE_ID_PROPERTY))
+      {
+		  appId = extractString(request, ModelerConstants.CLONE_ID_PROPERTY);
+      }
 
       ApplicationType applicationType = getModelBuilderFacade().createApplication(model,
-            null, name, ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
+    		  appId, name, ModelerConstants.EXTERNAL_WEB_APP_CONTEXT_TYPE_KEY);
 
       // Map newly created application to a UUID
       EObjectUUIDMapper mapper = modelService().uuidMapper();

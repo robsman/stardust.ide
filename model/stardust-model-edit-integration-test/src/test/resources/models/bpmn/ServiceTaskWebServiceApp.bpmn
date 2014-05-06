@@ -2,7 +2,8 @@
 <definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio"
 	exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="10.09.2012 11:01:10"
-	itp:modificationDate="10.09.2012 11:58:33" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
+	itp:modificationDate="10.09.2012 11:58:33" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" 
+	id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
 	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 
 	xmlns:stardust="http://www.eclipse.org/stardust"

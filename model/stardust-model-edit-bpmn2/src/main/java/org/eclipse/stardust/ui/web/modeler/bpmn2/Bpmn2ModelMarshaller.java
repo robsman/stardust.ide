@@ -11,11 +11,11 @@ import static org.eclipse.stardust.ui.web.modeler.bpmn2.Bpmn2Utils.getModelUuid;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.Bpmn2ExtensionUtils.getExtensionElement;
 import static org.eclipse.stardust.ui.web.modeler.bpmn2.utils.ElementRefUtils.encodeReference;
 import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.extractAsString;
+import static org.eclipse.stardust.ui.web.modeler.marshaling.GsonUtils.hasNotJsonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,6 +60,7 @@ import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.MessageEventDefinition;
+import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.Performer;
@@ -315,6 +316,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          if (root instanceof ItemDefinition)
          {
             modelJto.typeDeclarations.put(root.getId(), toJto((ItemDefinition) root));
+         } else if (root instanceof Interface) {
+        	 modelJto.applications.put(root.getId(), toJto((Interface)root));
          }
          else if (root instanceof Participant)
          {
@@ -849,9 +852,9 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
          }
       }
 
-      Map<String, ConnectionSymbolJto> mergeConnections = mergeConnections(jto.connections);
-      jto.connections.clear();
-      jto.connections.putAll(mergeConnections); // one flow-symbol for all flows between the same pair of activity & data
+//      Map<String, ConnectionSymbolJto> mergeConnections = mergeConnections(jto.connections);
+//      jto.connections.clear();
+//      jto.connections.putAll(mergeConnections); // one flow-symbol for all flows between the same pair of activity & data
 
       jto.poolSymbols.put(mainPoolJto.id, mainPoolJto);
 
@@ -1316,7 +1319,8 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
    {
       ApplicationJto jto = newModelElementJto(application, new ApplicationJto());
 
-      loadExtensions(application, jto);
+      //loadExtensions(application, jto);
+      loadApplicationExtensions(application, jto);
 
       // TODO resolve app type from model element
       jto.applicationType = ModelerConstants.WEB_SERVICE_APPLICATION_TYPE_ID;
@@ -1437,10 +1441,14 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
 
    public ActivityJto toJto(Activity activity)
    {
+	  final String refProperty = "interactiveApplicationRef";
+
       ActivityJto jto = newModelElementJto(activity, new ActivityJto());
 
       loadDescription(activity, jto);
       loadExtensions(activity, jto);
+
+      Interface applicationReference = null;
 
       String dataApContext = "default";
 
@@ -1459,26 +1467,40 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       {
          jto.activityType = ModelerConstants.TASK_ACTIVITY;
          jto.taskType = ModelerConstants.USER_TASK_KEY;
+         // TODO: ManualTask vs UserTask should not be the distinction criteria for automatically generated gui vs interactive application ui
+		JsonObject coreJson = Bpmn2ExtensionUtils.getExtensionAsJson(activity, "core");
+		if (hasNotJsonNull(coreJson, refProperty)) {
+			String refId = coreJson.get(refProperty).getAsString();
+			applicationReference = ModelInfo.findInterfaceById(ModelInfo.getDefinitions(activity), refId);
+		}
       }
       else if (activity instanceof ServiceTask)
       {
          jto.activityType = ModelerConstants.TASK_ACTIVITY;
          jto.taskType = ModelerConstants.SERVICE_TASK_KEY;
+         applicationReference = getInterfaceForOperation(ModelInfo.getDefinitions(activity), ((ServiceTask)activity).getOperationRef());
       }
       else if (activity instanceof ScriptTask)
       {
          jto.activityType = ModelerConstants.TASK_ACTIVITY;
          jto.taskType = ModelerConstants.SCRIPT_TASK_KEY;
+         JsonObject coreJson = Bpmn2ExtensionUtils.getExtensionAsJson(activity, "core");
+         if (hasNotJsonNull(coreJson, refProperty)) {
+        	 String refId = coreJson.get("refProperty").getAsString();
+        	 applicationReference = ModelInfo.findInterfaceById(ModelInfo.getDefinitions(activity), refId);
+         }
       }
       else if (activity instanceof SendTask)
       {
          jto.activityType = ModelerConstants.TASK_ACTIVITY;
          jto.taskType = ModelerConstants.SEND_TASK_KEY;
+         applicationReference = getInterfaceForOperation(ModelInfo.getDefinitions(activity), ((SendTask)activity).getOperationRef());
       }
       else if (activity instanceof ReceiveTask)
       {
          jto.activityType = ModelerConstants.TASK_ACTIVITY;
          jto.taskType = ModelerConstants.RECEIVE_TASK_KEY;
+         applicationReference = getInterfaceForOperation(ModelInfo.getDefinitions(activity), ((ReceiveTask)activity).getOperationRef());
       }
 //      else if (activity instanceof RuleTask)
 //      {
@@ -1504,6 +1526,10 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
                break;
             }
          }
+      }
+
+      if (null != applicationReference) {
+    	  jto.applicationFullId = getApplicationFullId(applicationReference, jto);
       }
 
       //addDataFlows(activity, jto, dataApContext);
@@ -1943,6 +1969,69 @@ public class Bpmn2ModelMarshaller implements ModelMarshaller
       }
 
    }
+
+   private ApplicationJto loadApplicationExtensions(Interface element, ApplicationJto jto)
+   {
+      JsonObject coreJson = Bpmn2ExtensionUtils.getExtensionAsJson(element, "core");
+
+      if (null != coreJson) {
+    	  if (hasNotJsonNull(coreJson, ModelerConstants.APPLICATION_TYPE_PROPERTY))
+    		  jto.applicationType = coreJson.get(ModelerConstants.APPLICATION_TYPE_PROPERTY).getAsString();
+    	  if (hasNotJsonNull(coreJson, "stardustApplication")) {
+    		  try {
+	    		  JsonObject app = coreJson.get("stardustApplication").getAsJsonObject(); // TODO NECESSARY?
+	    		  jto.oid = hasNotJsonNull(app, ModelerConstants.OID_PROPERTY) ? app.get(ModelerConstants.OID_PROPERTY).getAsLong() : null;
+	    		  jto.id = app.get(ModelerConstants.ID_PROPERTY).getAsString();
+	    		  jto.name = app.get(ModelerConstants.NAME_PROPERTY).getAsString();
+	    		  jto.interactive = app.get(ModelerConstants.INTERACTIVE_PROPERTY).getAsBoolean();
+    		  } catch (Exception e) {
+    			  // TODO
+    		  }
+    	  }
+    	  String uuid = getModelUuid(findContainingModel(element)) + ":"
+			   + element.getId();
+
+    	  jto.uuid = uuid;
+
+    	  // TODO
+    	  // contexts = ModelerConstants.CONTEXTS_PROPERTY
+    	  // ACCESS_POINTS_PROPERTY
+    	  // ...
+
+      }
+      return jto;
+   }
+
+   private Interface getInterfaceForOperation(Definitions defs, Operation operation) {
+	   if (null == defs || null == operation) return null;
+	   if (operation.eIsProxy()) operation = Bpmn2ProxyResolver.resolveOperationProxy(operation, defs);
+	   return (Interface) operation.eContainer();
+   }
+
+   private String getApplicationFullId(Interface application, ActivityJto jto) {
+	   if (null != application)
+		   return getModelUuid(findContainingModel(application)) + ":"
+                + application.getId();
+	   return null;
+   }
+
+//   private String loadApplicationReference(Activity activity, ActivityJto jto) {
+//	   final String refProperty = "interactiveApplicationRef";
+//	   Interface bpmnInterface = null;
+//	   if (ModelerConstants.USER_TASK_KEY.equals(jto.taskType)) {
+//		   JsonObject coreJson = Bpmn2ExtensionUtils.getExtensionAsJson(activity, "core");
+//		   if (hasNotJsonNull(coreJson, refProperty)) {
+//			   String refId = coreJson.get("refProperty").getAsString();
+//			   bpmnInterface = ModelInfo.findInterfaceById(ModelInfo.getDefinitions(activity), refId);
+//		   }
+//	   } else {
+//		   bpmnInterface = ModelInfo.getInterfaceByOperationRef(activity, activity.eContainer());
+//	   }
+//	   if (null != bpmnInterface)
+//		   return getModelUuid(findContainingModel(bpmnInterface)) + ":"
+//                + bpmnInterface.getId();
+//	   return null;
+//   }
 
    @Override
    public void init()

@@ -20,7 +20,6 @@ import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceRole;
-import org.eclipse.bpmn2.RootElement;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
