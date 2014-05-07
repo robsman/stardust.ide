@@ -46,30 +46,30 @@ import org.eclipse.swt.widgets.Control;
 public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
 {
    private Composite dmsContainer;
-   
+
    private Button [] rbDms;
-   
+
    private LabeledCombo cbOperation;
-   
+
    private ComboViewer cbvOperation;
-   
+
    private LabeledText txtDmsId;
-   
+
    private Button chkRuntimeDefinedFolder;
-   
+
    private Button chkRuntimeDefinedVersioning;
-   
+
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
-      
+
       this.cbOperation = FormBuilder.createLabeledCombo(composite, DMS_Messages.VfsOperationCoreProperties_LB_Operation);
       this.cbvOperation = new ComboViewer(cbOperation.getCombo());
-      
+
       cbvOperation.setContentProvider(new ArrayContentProvider());
-      
+
       final LinkedHashMap<DmsOperation, String> operations = new LinkedHashMap<DmsOperation, String>();
-      
+
       operations.put(DmsOperation.OP_ADD_DOCUMENT, DMS_Messages.VfsOperationCoreProperties_OP_AddDocument);
       operations.put(DmsOperation.OP_CREATE_FOLDER, DMS_Messages.VfsOperationCoreProperties_OP_CreateFolder);
 
@@ -80,21 +80,21 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
 
       operations.put(DmsOperation.OP_FIND_DOCUMENTS, DMS_Messages.VfsOperationCoreProperties_OP_FindDocuments);
       operations.put(DmsOperation.OP_FIND_FOLDERS, DMS_Messages.VfsOperationCoreProperties_OP_FindFolders);
-      
+
       // currently, no lock/unlock is implemented
 //      operations.put(DmsOperation.OP_LOCK_DOCUMENT, Messages.VfsOperationCoreProperties_OP_LockDocument);
 //      operations.put(DmsOperation.OP_UNLOCK_DOCUMENT, Messages.VfsOperationCoreProperties_OP_UnlockDocument);
 //      operations.put(DmsOperation.OP_LOCK_FOLDER, Messages.VfsOperationCoreProperties_OP_LockFolder);
 //      operations.put(DmsOperation.OP_UNLOCK_FOLDER, Messages.VfsOperationCoreProperties_OP_UnlockFolder);
-      
+
       operations.put(DmsOperation.OP_VERSION_DOCUMENT, DMS_Messages.VfsOperationCoreProperties_OP_VersionDocument);
-      
+
       operations.put(DmsOperation.OP_UPDATE_DOCUMENT, DMS_Messages.VfsOperationCoreProperties_OP_UpdateDocument);
       operations.put(DmsOperation.OP_UPDATE_FOLDER, DMS_Messages.VfsOperationCoreProperties_OP_UpdateFolder);
 
       operations.put(DmsOperation.OP_REMOVE_DOCUMENT, DMS_Messages.VfsOperationCoreProperties_OP_RemoveDocument);
       operations.put(DmsOperation.OP_REMOVE_FOLDER, DMS_Messages.VfsOperationCoreProperties_OP_RemoveFolder);
-      
+
       cbvOperation.setInput(operations.keySet().toArray(
             new DmsOperation[0]));
       cbvOperation.setLabelProvider(new LabelProvider()
@@ -109,11 +109,11 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                   return operationLabel;
                }
             }
-            
+
             return super.getText(element);
          }
       });
-            
+
       this.rbDms = new Button[3];
       dmsContainer = FormBuilder.createComposite(composite, 3, 2);
       this.rbDms[0] = FormBuilder.createRadioButton(dmsContainer, DMS_Messages.VfsOperationCoreProperties_LB_UseDefaultDms, 3);
@@ -121,17 +121,14 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
       this.rbDms[2] = FormBuilder.createRadioButton(dmsContainer, DMS_Messages.VfsOperationCoreProperties_LB_UseDmsId, 1);
       this.txtDmsId = FormBuilder.createLabeledText(dmsContainer, ""); //$NON-NLS-1$
 
-      // currently, only the default DMS is supported
-      this.rbDms[0].setEnabled(false);
-      this.rbDms[1].setEnabled(false);
-      this.rbDms[2].setEnabled(false);
-      
       rbDms[0].addSelectionListener(new SelectionAdapter()
       {
          public void widgetSelected(SelectionEvent e)
          {
             setDmsIdSource(DmsConstants.DMS_ID_SOURCE_DEFAULT);
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
+            ApplicationType application = (ApplicationType) getModelElement();
+            AttributeUtil.setAttribute(application, DmsConstants.PRP_OPERATION_DMS_ID, null);
          }
       });
       rbDms[1].addSelectionListener(new SelectionAdapter()
@@ -140,6 +137,8 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
          {
             setDmsIdSource(DmsConstants.DMS_ID_SOURCE_RUNTIME);
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
+            ApplicationType application = (ApplicationType) getModelElement();
+            AttributeUtil.setAttribute(application, DmsConstants.PRP_OPERATION_DMS_ID, null);
          }
       });
       rbDms[2].addSelectionListener(new SelectionAdapter()
@@ -150,15 +149,15 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
          }
       });
-      
+
 //      FormBuilder.createHorizontalSeparator(dmsContainer, 3);
 
       this.chkRuntimeDefinedFolder = FormBuilder.createCheckBox(dmsContainer,
             DMS_Messages.VfsOperationCoreProperties_LB_RuntimeTargetFolder, 3);
-      
+
       this.chkRuntimeDefinedVersioning = FormBuilder.createCheckBox(dmsContainer,
             DMS_Messages.VfsOperationCoreProperties_LB_RuntimeVersioning, 3);
-      
+
       // view, hide elements depending on selection
       this.cbvOperation.addSelectionChangedListener(new ISelectionChangedListener()
       {
@@ -167,49 +166,49 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             ISelection sel = event.getSelection();
             if(sel.isEmpty())
             {
-               dmsContainer.setVisible(false);               
+               dmsContainer.setVisible(false);
             }
             else if(sel instanceof IStructuredSelection)
-            {               
+            {
                boolean targetFolder = false;
-               boolean versioning = false;               
-               
+               boolean versioning = false;
+
                // hide and remove values (if any)
                if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
-                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT))               
+                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT))
                {
                   targetFolder = true;
                }
 
                if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT)
-                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_UPDATE_DOCUMENT))               
+                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_UPDATE_DOCUMENT))
                {
                   versioning = true;
                }
                // view/hide, uncheck
                if(targetFolder)
                {
-                  chkRuntimeDefinedFolder.setVisible(true);                  
+                  chkRuntimeDefinedFolder.setVisible(true);
                }
                else
                {
                   chkRuntimeDefinedFolder.setSelection(false);
-                  chkRuntimeDefinedFolder.setVisible(false);                  
-               }               
+                  chkRuntimeDefinedFolder.setVisible(false);
+               }
                if(versioning)
                {
-                  chkRuntimeDefinedVersioning.setVisible(true);                  
+                  chkRuntimeDefinedVersioning.setVisible(true);
                }
                else
                {
                   chkRuntimeDefinedVersioning.setSelection(false);
-                  chkRuntimeDefinedVersioning.setVisible(false);                  
-               }               
-               dmsContainer.setVisible(true);               
+                  chkRuntimeDefinedVersioning.setVisible(false);
+               }
+               dmsContainer.setVisible(true);
             }
-         }         
+         }
       });
-      
+
       return composite;
    }
 
@@ -232,7 +231,7 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
       if (element instanceof ApplicationType)
       {
          ApplicationType application = (ApplicationType) element;
-         
+
          getWidgetBindingManager().bind(cbOperation,
                BindingManager.createWidgetAdapter(cbvOperation), application,
                DmsConstants.PRP_OPERATION_NAME,
@@ -253,17 +252,17 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
          else if (DmsConstants.DMS_ID_SOURCE_MODEL.equals(dmsIdSource))
          {
             this.rbDms[2].setSelection(true);
-         } 
+         }
          else
          {
             // default is 'default'
             this.rbDms[0].setSelection(true);
          }
          txtDmsId.getText().setEnabled(rbDms[2].getSelection());
-         
+
          getWidgetBindingManager().bind(chkRuntimeDefinedFolder, application,
                DmsConstants.PRP_RUNTIME_DEFINED_TARGET_FOLDER);
-         
+
          getWidgetBindingManager().bind(chkRuntimeDefinedVersioning, application,
                DmsConstants.PRP_RUNTIME_DEFINED_VERSIONING);
 
