@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  */
 public class Repository_Messages {
 
-	private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.repository.common.repository-messages"; //$NON-NLS-1$
+   private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.repository.common.repository-messages"; //$NON-NLS-1$
 
    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
          .getBundle(BUNDLE_NAME);
@@ -53,6 +53,11 @@ public class Repository_Messages {
 	public static final String TXT_VALUE = getString("TXT_VALUE"); //$NON-NLS-1$
 	public static final String LBL_ANOTHER_TYPE_WITH_ID_ALREADY_EXISTS_IN_MODEL = getString("LBL_ANOTHER_TYPE_WITH_ID_ALREADY_EXISTS_IN_MODEL"); //$NON-NLS-1$
 	public static final String TXT_INVISIBLE = getString("TXT_INVISIBLE"); //$NON-NLS-1$
+	public static final String LBL_STRUCTURED_TYPES = getString("LBL_STRUCTURED_TYPES");
+	public static final String LBL_APPLICATIONS = getString("LBL_APPLICATIONS");
+	public static final String LBL_DATA = getString("LBL_DATA");
+	public static final String LBL_PARTICIPANTS = getString("LBL_PARTICIPANTS");
+
 
 	private Repository_Messages() {
 	}
@@ -69,3 +74,4 @@ public class Repository_Messages {
       }
    }
 }
+
