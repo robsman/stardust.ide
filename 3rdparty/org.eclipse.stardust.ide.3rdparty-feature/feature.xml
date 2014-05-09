@@ -14,7 +14,7 @@
       label="%featureName"
       version="9.9.9.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.stardust.ide.thirdparty.antlr">
+      plugin="org.eclipse.stardust.ide.thirdparty.camel">
 
    <description url="http://www.eclipse.org/stardust/">
       %description
@@ -94,17 +94,11 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.stardust.ide.thirdparty.antlr"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.stardust.ide.thirdparty.log4j"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false" />
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.javax.jcr"
@@ -125,7 +119,7 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
-  
+
    <plugin
          id="org.eclipse.stardust.ide.thirdparty.camel"
          download-size="0"

@@ -15,7 +15,6 @@
   </parent>
 
   <modules>
-    <module>org.eclipse.stardust.ide.thirdparty.antlr</module>
     <module>org.eclipse.stardust.ide.thirdparty.commons.logging</module>
     <module>org.eclipse.stardust.ide.thirdparty.cxf</module>
     <module>org.eclipse.stardust.ide.thirdparty.db.derby</module>
