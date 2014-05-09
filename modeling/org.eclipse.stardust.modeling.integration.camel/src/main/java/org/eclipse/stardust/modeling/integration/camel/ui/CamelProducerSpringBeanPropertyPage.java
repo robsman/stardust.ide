@@ -25,6 +25,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
 {
    private Text routeEntry;
    private Button includeProcessContextHeaders;
+   private Button transactedRoute;
    private IExtensibleElement extensibleElement;
 
    public void dispose()
@@ -43,7 +44,11 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
    {
       extensibleElement = (IExtensibleElement) element;
       getAttributeValue(PRODUCER_ROUTE_ATT, routeEntry);
-      getProcessContextHeaderValue(PROCESS_CONTEXT_HEADERS_EXT_ATT,includeProcessContextHeaders);
+      getCheckBoxValue(PROCESS_CONTEXT_HEADERS_EXT_ATT,includeProcessContextHeaders);
+      
+      if(AttributeUtil.getAttributeValue(extensibleElement, TRANSACTED_ROUTE_EXT_ATT) == null)
+         AttributeUtil.setAttribute(extensibleElement, TRANSACTED_ROUTE_EXT_ATT, Boolean.TRUE.toString());
+      getCheckBoxValue(TRANSACTED_ROUTE_EXT_ATT,transactedRoute);
    }
 
    /**
@@ -56,6 +61,8 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       extensibleElement = (IExtensibleElement) element;
       setAttributeValue(PRODUCER_ROUTE_ATT, null, routeEntry);
       setAttributeValue(PROCESS_CONTEXT_HEADERS_EXT_ATT, null, includeProcessContextHeaders);
+      setAttributeValue(TRANSACTED_ROUTE_EXT_ATT, null, transactedRoute);
+      
    }
 
    /**
@@ -69,6 +76,12 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       includeProcessContextHeaders = FormBuilder.createCheckBox(composite,
             Camel_Messages.label_Include_Process_Context_Headers);
       includeProcessContextHeaders.setSelection(true);
+      FormBuilder.createLabel(composite, "");
+      
+      transactedRoute = FormBuilder.createCheckBox(composite,
+            Camel_Messages.label_Transacted_Route);
+      transactedRoute.setSelection(true);
+      
       //getProcessContextHeaderValue(PROCESS_CONTEXT_HEADERS_EXT_ATT,includeProcessContextHeaders);
       FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
       FormBuilder.createLabel(composite, Camel_Messages.label_Route);
@@ -99,7 +112,7 @@ public class CamelProducerSpringBeanPropertyPage extends AbstractModelElementPro
       }
    }
 
-   private void getProcessContextHeaderValue(String attrName, Button control)
+   private void getCheckBoxValue(String attrName, Button control)
    {
       String value;
       if ((value = AttributeUtil.getAttributeValue(extensibleElement, attrName)) != null)
