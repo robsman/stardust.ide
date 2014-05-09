@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.diagramexport.servlet;singleton:=true
 Bundle-Version: 9.9.9.qualifier
-Bundle-Localization: plugin
 Import-Package: javax.servlet,
  javax.servlet.http
 Require-Bundle: org.eclipse.core.runtime,
