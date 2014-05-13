@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
+import static org.hamcrest.CoreMatchers.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.bpmn2.Definitions;
@@ -67,7 +69,7 @@ public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
         // external reference
         assertEquals(IMPORT_NAMESPACE, typeDeclaration.getExternalReference().getNamespace());
         assertEquals(IMPORT_LOCATION, typeDeclaration.getExternalReference().getLocation());
-        assertEquals("{" + IMPORT_NAMESPACE + "}" + uriFragment, typeDeclaration.getExternalReference().getXref());
+        assertThat(typeDeclaration.getExternalReference().getXref(), endsWith(":" + uriFragment));
     }
 
     @Test
