@@ -19,41 +19,17 @@ import java.util.Map;
 import org.eclipse.stardust.common.Functor;
 import org.eclipse.stardust.common.TransformingIterator;
 import org.eclipse.stardust.common.config.Parameters;
-import org.eclipse.stardust.common.error.InternalException;
-import org.eclipse.stardust.engine.api.model.IActivity;
-import org.eclipse.stardust.engine.api.model.IData;
-import org.eclipse.stardust.engine.api.model.IEventHandler;
-import org.eclipse.stardust.engine.api.model.IModel;
-import org.eclipse.stardust.engine.api.model.IModelParticipant;
-import org.eclipse.stardust.engine.api.model.IModeler;
-import org.eclipse.stardust.engine.api.model.IParticipant;
-import org.eclipse.stardust.engine.api.model.IProcessDefinition;
-import org.eclipse.stardust.engine.api.model.ITransition;
-import org.eclipse.stardust.engine.api.model.ITrigger;
+import org.eclipse.stardust.engine.api.model.*;
 import org.eclipse.stardust.engine.api.runtime.DeploymentOptions;
 import org.eclipse.stardust.engine.api.runtime.ParsedDeploymentUnit;
 import org.eclipse.stardust.engine.api.runtime.Service;
-import org.eclipse.stardust.engine.core.runtime.beans.AbstractModelLoaderFactory;
-import org.eclipse.stardust.engine.core.runtime.beans.AuditTrailPartitionBean;
-import org.eclipse.stardust.engine.core.runtime.beans.DefaultServiceFactory;
-import org.eclipse.stardust.engine.core.runtime.beans.IAuditTrailPartition;
-import org.eclipse.stardust.engine.core.runtime.beans.IRuntimeOidRegistry;
-import org.eclipse.stardust.engine.core.runtime.beans.InvocationManager;
-import org.eclipse.stardust.engine.core.runtime.beans.ManagedService;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelLoader;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelManagerBean;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelManagerFactory;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelPersistorBean;
-import org.eclipse.stardust.engine.core.runtime.beans.RuntimeOidRegistry;
-import org.eclipse.stardust.engine.core.runtime.beans.RuntimeOidUtils;
-import org.eclipse.stardust.engine.core.runtime.beans.UserBean;
-import org.eclipse.stardust.engine.core.runtime.beans.UserDomainBean;
-import org.eclipse.stardust.engine.core.runtime.beans.UserRealmBean;
+import org.eclipse.stardust.engine.core.runtime.beans.*;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.ItemDescription;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.ItemLoader;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.ItemLocatorUtils;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.SecurityProperties;
 import org.eclipse.stardust.engine.core.runtime.removethis.EngineProperties;
+import org.eclipse.stardust.engine.core.spi.runtime.IServiceProvider;
 
 /**
  * This class is adapted from
@@ -123,22 +99,9 @@ public class DebugServiceFactory extends DefaultServiceFactory
       {
          return result;
       }
-      String serviceName = type.getName();
-      int dot = serviceName.lastIndexOf(".");  //$NON-NLS-1$
-      String packageName = serviceName.substring(0, dot).replace(".api.", ".core."); //$NON-NLS-1$ //$NON-NLS-2$
-      String className = serviceName.substring(dot + 1);
 
-      Object inner;
-      try
-      {
-         Class impl = Class.forName(packageName + ".beans." + className + "Impl");   //$NON-NLS-1$ //$NON-NLS-2$
-         inner = impl.newInstance();
-      }
-      catch (Exception e)
-      {
-         throw new InternalException(e);
-      }
-      InvocationManager manager = new DebugInvocationManager(inner);
+      IServiceProvider<T> provider = ServiceProviderFactory.findServiceProvider(type);
+      InvocationManager manager = new DebugInvocationManager(provider.getInstance());
       result = (T) Proxy.newProxyInstance(type.getClassLoader(),
             new Class[] {type, ManagedService.class}, manager);
       putServiceToPool(type, result);
@@ -148,7 +111,7 @@ public class DebugServiceFactory extends DefaultServiceFactory
       props.put(SecurityProperties.REALM, DEBUG_ACCOUNT);
       props.put(SecurityProperties.DOMAIN, DEBUG_ACCOUNT);
 
-      ((ManagedService)result).login(username, password, props);
+      ((ManagedService) result).login(username, password, props);
       return result;
    }
 
@@ -209,57 +172,49 @@ public class DebugServiceFactory extends DefaultServiceFactory
          // modified by partitionOid.
 
          // load data runtime OIDs
-         for (Iterator i = model.getAllData(); i.hasNext();)
+         for (IData data : model.getData())
          {
-            IData data = (IData) i.next();
             rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.DATA,
                   RuntimeOidUtils.getFqId(data),
                   getPartitionAwareRtOid(data.getElementOID()));
          }
 
          // load model participant runtime OIDs
-         for (Iterator i = model.getAllParticipants(); i.hasNext();)
+         for (IModelParticipant participant : model.getParticipants())
          {
-            IParticipant participant = (IParticipant) i.next();
-            if ((participant instanceof IModelParticipant)
-                  && !(participant instanceof IModeler))
+            if (!(participant instanceof IModeler))
             {
                rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.PARTICIPANT,
                      RuntimeOidUtils.getFqId(participant),
-                     getPartitionAwareRtOid(((IModelParticipant) participant)
-                           .getElementOID()));
+                     getPartitionAwareRtOid(participant.getElementOID()));
             }
          }
 
          // load process definition runtime OIDs
-         for (Iterator i = model.getAllProcessDefinitions(); i.hasNext();)
+         for (IProcessDefinition process : model.getProcessDefinitions())
          {
-            IProcessDefinition process = (IProcessDefinition) i.next();
             rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.PROCESS,
                   RuntimeOidUtils.getFqId(process),
                   getPartitionAwareRtOid(process.getElementOID()));
 
             // load trigger runtime OIDs
-            for (Iterator j = process.getAllTriggers(); j.hasNext();)
+            for (ITrigger trigger : process.getTriggers())
             {
-               ITrigger trigger = (ITrigger) j.next();
                rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.TRIGGER,
                      RuntimeOidUtils.getFqId(trigger),
                      getPartitionAwareRtOid(trigger.getElementOID()));
             }
 
             // load activity runtime OIDs
-            for (Iterator j = process.getAllActivities(); j.hasNext();)
+            for (IActivity activity : process.getActivities())
             {
-               IActivity activity = (IActivity) j.next();
                rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.ACTIVITY,
                      RuntimeOidUtils.getFqId(activity),
                      getPartitionAwareRtOid(activity.getElementOID()));
 
                // load event handler runtime OIDs
-               for (Iterator k = activity.getAllEventHandlers(); k.hasNext();)
+               for (IEventHandler handler : activity.getEventHandlers())
                {
-                  IEventHandler handler = (IEventHandler) k.next();
                   rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.EVENT_HANDLER,
                         RuntimeOidUtils.getFqId(handler),
                         getPartitionAwareRtOid(handler.getElementOID()));
@@ -267,18 +222,16 @@ public class DebugServiceFactory extends DefaultServiceFactory
             }
 
             // load transition runtime OIDs
-            for (Iterator j = process.getAllTransitions(); j.hasNext();)
+            for (ITransition transition : process.getTransitions())
             {
-               ITransition transition = (ITransition) j.next();
                rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.TRANSITION,
                      RuntimeOidUtils.getFqId(transition),
                      getPartitionAwareRtOid(transition.getElementOID()));
             }
 
             // load event handler runtime OIDs
-            for (Iterator j = process.getAllEventHandlers(); j.hasNext();)
+            for (IEventHandler handler : process.getEventHandlers())
             {
-               IEventHandler handler = (IEventHandler) j.next();
                rtOidRegistry.registerRuntimeOid(IRuntimeOidRegistry.EVENT_HANDLER,
                      RuntimeOidUtils.getFqId(handler),
                      getPartitionAwareRtOid(handler.getElementOID()));
