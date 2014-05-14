@@ -19,12 +19,17 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsOperation;
+import org.eclipse.stardust.engine.extensions.dms.data.VfsOperationAccessPointProvider;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.databinding.BindingManager;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
@@ -33,6 +38,8 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.StringKeyAdapter;
 import org.eclipse.stardust.modeling.integration.dms.DMS_Messages;
+import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
@@ -129,6 +136,12 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
             ApplicationType application = (ApplicationType) getModelElement();
             AttributeUtil.setAttribute(application, DmsConstants.PRP_OPERATION_DMS_ID, null);
+            AccessPointType accessPointType = AccessPointUtil.findAccessPoint(application.getAccessPoint(),
+                  VfsOperationAccessPointProvider.AP_ID_DMS_ID, DirectionType.IN_LITERAL);
+            if(accessPointType != null)
+            {
+               application.getAccessPoint().remove(accessPointType);
+            }
          }
       });
       rbDms[1].addSelectionListener(new SelectionAdapter()
@@ -139,6 +152,15 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
             ApplicationType application = (ApplicationType) getModelElement();
             AttributeUtil.setAttribute(application, DmsConstants.PRP_OPERATION_DMS_ID, null);
+            AccessPointType accessPointType = AccessPointUtil.findAccessPoint(application.getAccessPoint(),
+                  VfsOperationAccessPointProvider.AP_ID_DMS_ID, DirectionType.IN_LITERAL);
+            if(accessPointType == null)
+            {
+               accessPointType = DmsTypeUtils.createPrimitiveAccessPointType(
+                     VfsOperationAccessPointProvider.AP_ID_DMS_ID, String.class,
+                     DirectionType.IN_LITERAL, application);
+               application.getAccessPoint().add(accessPointType);
+            }
          }
       });
       rbDms[2].addSelectionListener(new SelectionAdapter()
@@ -147,6 +169,13 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
          {
             setDmsIdSource(DmsConstants.DMS_ID_SOURCE_MODEL);
             txtDmsId.getText().setEnabled(rbDms[2].getSelection());
+            ApplicationType application = (ApplicationType) getModelElement();
+            AccessPointType accessPointType = AccessPointUtil.findAccessPoint(application.getAccessPoint(),
+                  VfsOperationAccessPointProvider.AP_ID_DMS_ID, DirectionType.IN_LITERAL);
+            if(accessPointType != null)
+            {
+               application.getAccessPoint().remove(accessPointType);
+            }
          }
       });
 
@@ -193,6 +222,13 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                      || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_DOCUMENT))
                {
                   dmsContainer.setVisible(false);
+                  ApplicationType application = (ApplicationType) getModelElement();
+                  AccessPointType accessPointType = AccessPointUtil.findAccessPoint(application.getAccessPoint(),
+                        VfsOperationAccessPointProvider.AP_ID_DMS_ID, DirectionType.IN_LITERAL);
+                  if(accessPointType != null)
+                  {
+                     application.getAccessPoint().remove(accessPointType);
+                  }
                }
 
                // view/hide, uncheck
