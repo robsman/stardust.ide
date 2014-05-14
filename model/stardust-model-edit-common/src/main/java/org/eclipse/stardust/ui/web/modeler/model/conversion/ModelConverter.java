@@ -894,6 +894,27 @@ public class ModelConverter
 //               trace.debug("Mapping " + symbolType + ": " + oldConnectionOid + " => "
 //                     + newConnectionOid);
 //            }
+            if (ModelerConstants.DATA_FLOW_CONNECTION_LITERAL.equals(symbolType))
+            {
+               // ensure data mappings don't get lost in case of multiple connections
+               JsonObject masterCopy = addedElementJson.getAsJsonObject().getAsJsonObject(ModelerConstants.MODEL_ELEMENT_PROPERTY);
+               JsonObject patchCopy = connectionSymbolJson.getAsJsonObject().getAsJsonObject(ModelerConstants.MODEL_ELEMENT_PROPERTY);
+               if ((null != masterCopy) && (null != patchCopy))
+               {
+                  if (masterCopy.has(ModelerConstants.INPUT_DATA_MAPPING_PROPERTY)
+                        && !patchCopy.has(ModelerConstants.INPUT_DATA_MAPPING_PROPERTY))
+                  {
+                     patchCopy.add(ModelerConstants.INPUT_DATA_MAPPING_PROPERTY,
+                           masterCopy.get(ModelerConstants.INPUT_DATA_MAPPING_PROPERTY));
+                  }
+                  if (masterCopy.has(ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY)
+                        && !patchCopy.has(ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY))
+                  {
+                     patchCopy.add(ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY,
+                           masterCopy.get(ModelerConstants.OUTPUT_DATA_MAPPING_PROPERTY));
+                  }
+               }
+            }
             applyChange(newModelId, "modelElement.update", newConnectionSymbolOid,
                   connectionSymbolJson);
          }

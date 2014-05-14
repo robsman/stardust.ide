@@ -2538,17 +2538,7 @@ public class ModelElementMarshaller implements ModelMarshaller
          {
             if (dataMapping.getData().getId().equals(data.getId()))
             {
-               if (hasNotJsonNull(dataFlowJson, ModelerConstants.ID_PROPERTY))
-               {
-                  if ( !dataFlowJson.get(ModelerConstants.ID_PROPERTY)
-                        .getAsString()
-                        .equals(dataMapping.getId()))
-                  {
-                     // TODO Other data mapping
-                     continue;
-                  }
-               }
-               else
+               if (!hasNotJsonNull(dataFlowJson, ModelerConstants.ID_PROPERTY))
                {
                   // Set ID etc. for first data mapping between activity and data found
 
@@ -2560,6 +2550,16 @@ public class ModelElementMarshaller implements ModelMarshaller
                         dataMapping.getName());
                   dataFlowJson.addProperty(ModelerConstants.OID_PROPERTY,
                         dataMapping.getElementOid());
+               }
+               else
+               {
+//                  if ( !dataFlowJson.get(ModelerConstants.ID_PROPERTY)
+//                        .getAsString()
+//                        .equals(dataMapping.getId()))
+//                  {
+//                     // TODO Other data mapping
+//                     continue;
+//                  }
                }
 
                if (dataMapping.getDirection().equals(DirectionType.IN_LITERAL))
