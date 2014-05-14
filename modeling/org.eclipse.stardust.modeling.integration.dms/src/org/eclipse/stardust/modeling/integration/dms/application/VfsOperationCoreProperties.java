@@ -173,6 +173,7 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                boolean targetFolder = false;
                boolean versioning = false;
 
+               dmsContainer.setVisible(true);
                // hide and remove values (if any)
                if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
                      || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT))
@@ -185,6 +186,15 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                {
                   versioning = true;
                }
+
+               if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
+                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_FOLDER)
+                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT)
+                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_DOCUMENT))
+               {
+                  dmsContainer.setVisible(false);
+               }
+
                // view/hide, uncheck
                if(targetFolder)
                {
@@ -204,7 +214,6 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                   chkRuntimeDefinedVersioning.setSelection(false);
                   chkRuntimeDefinedVersioning.setVisible(false);
                }
-               dmsContainer.setVisible(true);
             }
          }
       });
