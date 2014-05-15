@@ -53,6 +53,7 @@ import org.eclipse.swt.widgets.Control;
 public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
 {
    private Composite dmsContainer;
+   private Composite dmsCheckBoxesContainer;
 
    private Button [] rbDms;
 
@@ -123,6 +124,8 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
 
       this.rbDms = new Button[3];
       dmsContainer = FormBuilder.createComposite(composite, 3, 2);
+      dmsCheckBoxesContainer = FormBuilder.createComposite(composite, 2, 2);
+
       this.rbDms[0] = FormBuilder.createRadioButton(dmsContainer, DMS_Messages.VfsOperationCoreProperties_LB_UseDefaultDms, 3);
       this.rbDms[1] = FormBuilder.createRadioButton(dmsContainer, DMS_Messages.VfsOperationCoreProperties_LB_RuntimeDmsId, 3);
       this.rbDms[2] = FormBuilder.createRadioButton(dmsContainer, DMS_Messages.VfsOperationCoreProperties_LB_UseDmsId, 1);
@@ -181,10 +184,10 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
 
 //      FormBuilder.createHorizontalSeparator(dmsContainer, 3);
 
-      this.chkRuntimeDefinedFolder = FormBuilder.createCheckBox(dmsContainer,
+      this.chkRuntimeDefinedFolder = FormBuilder.createCheckBox(dmsCheckBoxesContainer,
             DMS_Messages.VfsOperationCoreProperties_LB_RuntimeTargetFolder, 3);
 
-      this.chkRuntimeDefinedVersioning = FormBuilder.createCheckBox(dmsContainer,
+      this.chkRuntimeDefinedVersioning = FormBuilder.createCheckBox(dmsCheckBoxesContainer,
             DMS_Messages.VfsOperationCoreProperties_LB_RuntimeVersioning, 3);
 
       // view, hide elements depending on selection
@@ -196,6 +199,7 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             if(sel.isEmpty())
             {
                dmsContainer.setVisible(false);
+               dmsCheckBoxesContainer.setVisible(false);
             }
             else if(sel instanceof IStructuredSelection)
             {
@@ -203,6 +207,8 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                boolean versioning = false;
 
                dmsContainer.setVisible(true);
+               dmsCheckBoxesContainer.setVisible(true);
+
                // hide and remove values (if any)
                if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
                      || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT))
@@ -216,10 +222,10 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
                   versioning = true;
                }
 
-               if(((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
-                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_FOLDER)
-                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT)
-                     || ((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_DOCUMENT))
+               if(!((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_CREATE_FOLDER)
+                     && !((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_FOLDER)
+                     && !((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_ADD_DOCUMENT)
+                     && !((IStructuredSelection) sel).getFirstElement().equals(DmsOperation.OP_REMOVE_DOCUMENT))
                {
                   dmsContainer.setVisible(false);
                   ApplicationType application = (ApplicationType) getModelElement();
