@@ -12,13 +12,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="org/eclipse/stardust/modeling/repository/common/adapters/**|org/eclipse/stardust/modeling/repository/common/ui/**|org/eclipse/stardust/modeling/repository/common/views/**" kind="src" output="target/classes" path="work/ipp/src.git/stardust/ide/modeling/org.eclipse.stardust.modeling.repository.common/src">
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+	<classpathentry excluding="org/eclipse/stardust/modeling/repository/common/adapters/**|org/eclipse/stardust/modeling/repository/common/ui/**|org/eclipse/stardust/modeling/repository/common/views/**" kind="src" output="target/classes" path="Development/Infinity/EPM/stardust/ide/modeling/org.eclipse.stardust.modeling.repository.common/src">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
