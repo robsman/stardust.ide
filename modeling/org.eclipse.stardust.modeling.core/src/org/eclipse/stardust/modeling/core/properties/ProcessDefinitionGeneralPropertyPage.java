@@ -26,7 +26,6 @@ import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -100,7 +99,6 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       {
          AttributeUtil.setAttribute((IExtensibleElement) modelElement,
                "carnot:engine:auditTrailPersistence", null); //$NON-NLS-1$
-
       }
    }
 
@@ -117,10 +115,8 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       comboViewer = FormBuilder.createComboViewer(composite, list);
       comboViewer.getCombo().addSelectionListener(new SelectionAdapter()
       {
-
          public void widgetSelected(SelectionEvent e)
          {
-
             IStructuredSelection value = (IStructuredSelection) comboViewer.getSelection();
             AttributeUtil.setAttribute((IExtensibleElement) modelElement,
                   "carnot:engine:auditTrailPersistence", value.getFirstElement() //$NON-NLS-1$
@@ -130,7 +126,6 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
 
       comboViewer.setLabelProvider(new LabelProvider()
       {
-
          public String getText(Object element)
          {
             return ModelUtils.getPersistenceOptionsText(element.toString());
@@ -143,13 +138,16 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
 
          public void widgetSelected(SelectionEvent e)
          {
-
             isAuditTrailPersistent = !isAuditTrailPersistent;
             comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
+            if(isAuditTrailPersistent)
+            {
+               IStructuredSelection value = (IStructuredSelection) comboViewer.getSelection();
+               AttributeUtil.setAttribute((IExtensibleElement) modelElement,
+                     "carnot:engine:auditTrailPersistence", value.getFirstElement() //$NON-NLS-1$
+                           .toString());
+            }
          }
       });
-
    }
-
-
 }
