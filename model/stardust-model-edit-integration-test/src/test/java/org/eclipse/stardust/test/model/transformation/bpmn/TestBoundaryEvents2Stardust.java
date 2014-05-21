@@ -146,16 +146,10 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 
         ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
         assertNotNull(taskA);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
-        assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
-        assertNotNull(routeEventPath);
         ActivityType taskDefault = CarnotModelQuery.findActivity(process, TEST_ID_TASK_DEFAULT);
         assertNotNull(taskDefault);
         ActivityType taskExceptional = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
         assertNotNull(taskExceptional);
-        DataType eventControlFlowFlag = CarnotModelQuery.findVariable(model, TEST_ID_EVENT_CONTROL_FLOW_VARIABLE);
-        assertNotNull(eventControlFlowFlag);
         EventHandlerType exceptionEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(exceptionEventHandler);
         EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
@@ -176,16 +170,11 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
-        assertTrue(transitionExistsBetween(taskA, routeHappyPath));
-        assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskDefault));
-        assertTrue(transitionExistsBetween(routeEventPath, taskExceptional));
+        assertTrue(transitionExistsBetween(taskA, taskDefault));
+        assertTrue(transitionExistsBetween(taskA, taskExceptional));
 
-        assertFalse(transitionExistsBetween(taskA, taskDefault));
-        assertFalse(transitionExistsBetween(taskA, taskExceptional));
-
-        assertEquals(CONDITION_HAPPY_PATH, transitionConditionBetween(taskA, routeHappyPath));
-        assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, routeEventPath));
+        assertEquals(CONDITION_HAPPY_PATH, transitionConditionBetween(taskA, taskDefault));
+        assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, taskExceptional));
 
         assertEquals(AbortScope.SUB_HIERARCHY, abortScope);
 
@@ -249,27 +238,17 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
         assertNotNull(taskD);
         ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);
         assertNotNull(taskE);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
-        assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
-        assertNotNull(routeEventPath);
-        ActivityType gateway = CarnotModelQuery.findActivity(process, TEST_ID_GATEWAY);
+        ActivityType gateway = CarnotModelQuery.findGateway(process, TEST_ID_GATEWAY);
         assertNotNull(gateway);
 
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
-        assertTrue(transitionExistsBetween(taskA, routeHappyPath));
-        assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskB));
-        assertTrue(transitionExistsBetween(routeHappyPath, gateway));
-        assertTrue(transitionExistsBetween(routeEventPath, taskE));
+        assertTrue(transitionExistsBetween(taskA, taskB));
+        assertTrue(transitionExistsBetween(taskA, gateway));
+        assertTrue(transitionExistsBetween(taskA, taskE)); // this must be the event transition
         assertTrue(transitionExistsBetween(gateway, taskC));
         assertTrue(transitionExistsBetween(gateway, taskD));
 
-        assertFalse(transitionExistsBetween(taskA, taskB));
-        assertFalse(transitionExistsBetween(taskA, taskE));
-
-        assertEquals(JoinSplitType.AND_LITERAL, routeHappyPath.getSplit());
         assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
         assertEquals(JoinSplitType.XOR_LITERAL, gateway.getSplit());
 
