@@ -14,6 +14,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -41,8 +42,6 @@ import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-import org.eclipse.ui.PlatformUI;
-
 
 public class ReferencedModelElementValidator implements IModelElementValidator
 {
@@ -180,8 +179,13 @@ public class ReferencedModelElementValidator implements IModelElementValidator
       }
       if (visibility == null)
       {
-         String visibilityDefault = PlatformUI.getPreferenceStore().getString(
-               "multiPackageModelingVisibility"); //$NON-NLS-1$
+         Iterator<ConfigurationProvider> configProviders = ServiceLoader.load(
+               ConfigurationProvider.class).iterator();
+         ConfigurationProvider configProvider = configProviders.hasNext()
+               ? configProviders.next()
+               : null;
+         String visibilityDefault = (null != configProvider) ? configProvider
+               .getString("multiPackageModelingVisibility") : null; //$NON-NLS-1$
          if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
                || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
          {

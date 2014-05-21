@@ -32,8 +32,8 @@ import org.eclipse.stardust.modeling.core.marker.ProcessDefinitionResolutionGene
 import org.eclipse.stardust.modeling.core.marker.ReferencingModelIDMismatchResolutionGenerator;
 import org.eclipse.stardust.modeling.core.marker.TransitionResolutionGenerator;
 import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationMarkerService;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
-import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
@@ -65,7 +65,7 @@ public class MarkerResolutionGenerator implements IMarkerResolutionGenerator2
       {
          if (ValidationPlugin.VALIDATION_MARKER_ID.equals(marker.getType()))
          {
-            Issue issue = ValidationService.getInstance().resolveMapping(marker);
+            Issue issue = ValidationMarkerService.getInstance().resolveMapping(marker);
             if (issue == null)
             {
                return false;
@@ -98,7 +98,7 @@ public class MarkerResolutionGenerator implements IMarkerResolutionGenerator2
       {
          if (ValidationPlugin.VALIDATION_MARKER_ID.equals(marker.getType()))
          {
-            Issue issue = ValidationService.getInstance().resolveMapping(marker);
+            Issue issue = ValidationMarkerService.getInstance().resolveMapping(marker);
             ModelType model = ModelUtils.findContainingModel(issue.getModelElement());
             WorkflowModelEditor editor = getWorkflowModelEditor(model);
             if (editor != null)

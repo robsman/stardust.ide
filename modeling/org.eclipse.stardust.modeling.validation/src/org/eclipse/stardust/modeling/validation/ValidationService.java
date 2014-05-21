@@ -11,11 +11,7 @@
 package org.eclipse.stardust.modeling.validation;
 
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.common.CollectionUtils;
@@ -31,92 +27,7 @@ public class ValidationService
 
    private static ValidationService validationService;
 
-   private final Map<IResource, Map<Long, Issue>> markerMappingRegistry;
-
    private ThreadLocal<IProgressMonitor> monitor = new ThreadLocal<IProgressMonitor>();
-
-   ValidationService()
-   {
-      markerMappingRegistry = CollectionUtils.newMap();
-   }
-
-   public void createMapping(IMarker marker, Issue issue)
-   {
-      try
-      {
-         if (ValidationPlugin.VALIDATION_MARKER_ID.equals(marker.getType()))
-         {
-            Map<Long, Issue> mapping = markerMappingRegistry.get(marker.getResource());
-            if (mapping == null)
-            {
-               mapping = CollectionUtils.newMap();
-               markerMappingRegistry.put(marker.getResource(), mapping);
-            }
-            mapping.put(marker.getId(), issue);
-         }
-      }
-      catch (CoreException e)
-      {
-         // TODO: handle exception
-      }
-   }
-
-   public Issue resolveMapping(IMarker marker)
-   {
-      Issue issue = null;
-      try
-      {
-         if (ValidationPlugin.VALIDATION_MARKER_ID.equals(marker.getType()))
-         {
-            issue = resolveMapping(marker.getResource(), marker.getId());
-         }
-      }
-      catch (CoreException e)
-      {
-         // TODO: handle exception
-      }
-
-      return issue;
-   }
-
-   public Issue resolveMapping(IResource resource, long markerId)
-   {
-      Map<Long, Issue> mapping = markerMappingRegistry.get(resource);
-      return mapping == null ? null : mapping.get(markerId);
-   }
-
-   public void removeMapping(IMarker marker)
-   {
-      try
-      {
-         if (ValidationPlugin.VALIDATION_MARKER_ID.equals(marker.getType()))
-         {
-            removeMapping(marker.getResource(), marker.getId());
-         }
-      }
-      catch (CoreException e)
-      {
-         // TODO: handle exception
-      }
-   }
-
-   public void removeMapping(IResource resource, long markerId)
-   {
-      Map<Long, Issue> mapping = markerMappingRegistry.get(resource);
-      if (mapping != null)
-      {
-         mapping.remove(markerId);
-      }
-   }
-
-   public void removeMappings(IResource resource)
-   {
-      Map<Long, Issue> mapping = markerMappingRegistry.get(resource);
-      if (mapping != null)
-      {
-         mapping.clear();
-      }
-   }
 
    public Issue[] validateModel(ModelType model)
    {

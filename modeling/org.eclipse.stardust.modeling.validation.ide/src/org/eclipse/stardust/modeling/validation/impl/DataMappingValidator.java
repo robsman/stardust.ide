@@ -39,13 +39,13 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
+import org.eclipse.stardust.modeling.validation.BridgeObjectProviderRegistry;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 
 public class DataMappingValidator implements IModelElementValidator
 {
@@ -102,7 +102,7 @@ public class DataMappingValidator implements IModelElementValidator
          }
          // check the validity of the data path
          IBridgeObjectProvider dataBridgeProvider = (null != dataMapping.getData())
-               ? ValidatorRegistry.getBridgeObjectProvider(dataMapping.getData())
+               ? BridgeObjectProviderRegistry.getBridgeObjectProvider(dataMapping.getData())
                : null;
          if (null != dataBridgeProvider)
          {

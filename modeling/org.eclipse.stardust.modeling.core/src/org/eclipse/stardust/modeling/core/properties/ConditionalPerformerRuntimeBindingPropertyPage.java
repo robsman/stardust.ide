@@ -36,8 +36,8 @@ import org.eclipse.stardust.modeling.core.ui.Data2DataPathModelAdapter2;
 import org.eclipse.stardust.modeling.core.ui.Data2DataPathWidgetAdapter2;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
+import org.eclipse.stardust.modeling.validation.BridgeObjectProviderRegistry;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
-import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.stardust.modeling.validation.util.JavaDataTypeUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -274,7 +274,7 @@ public class ConditionalPerformerRuntimeBindingPropertyPage
             .getFirstElement();
       if (data != null)
       {
-         IBridgeObjectProvider dataBridgeProvider = ValidatorRegistry.getBridgeObjectProvider(data);
+         IBridgeObjectProvider dataBridgeProvider = BridgeObjectProviderRegistry.getBridgeObjectProvider(data);
          if (null != dataBridgeProvider)
          {
             try

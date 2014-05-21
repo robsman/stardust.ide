@@ -11,11 +11,9 @@
 
 package org.eclipse.stardust.modeling.validation;
 
-import org.eclipse.core.runtime.IConfigurationElement;
+import java.util.List;
 
 public interface IValidationExtensionRegistry
 {
-   public IConfigurationElement[] getConfigurationElementsFor(String extensionPointId);
-   
-   
+   public List<ExtensionDescriptor> getExtensionDescriptorsFor(String extensionPointId);
 }

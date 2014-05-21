@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+    Copyright (c) 2011 SunGard CSA LLC and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+    Contributors:
+       SunGard CSA LLC - initial API and implementation and/or initial documentation
+ -->
+
+<fragment>
+   <extension
+         id="wfModelValidationMarker"
+         name="%validationMarker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="false"/>
+      <attribute name="wfModelValidationElementId"/>
+   </extension>
+   <extension
+         id="wfModelVerifier"
+         name="%modelValidator"
+         point="org.eclipse.core.resources.builders">
+      <builder>
+         <run class="org.eclipse.stardust.modeling.validation.WorkflowModelValidator">
+            <parameter
+                  name="org.eclipse.stardust.modeling.validation.parameter1"
+                  value="org.eclipse.stardust.modeling.validation.parameter1"/>
+         </run>
+      </builder>
+ </extension>
+
+
+   <extension
+         point="org.eclipse.stardust.modeling.validation.modelElementValidator">
+
+	  <modelElementValidator
+			class="org.eclipse.stardust.modeling.validation.impl.TriggerValidator"
+			id="org.eclipse.stardust.modeling.validation.trigger"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.TriggerType"/>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.triggerTypes.JMSTriggerValidator"
+            id="org.eclipse.stardust.modeling.validation.jmsTrigger"
+            metaTypeId="jms"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.TriggerType">
+         <filter
+               name="metaType"
+               value="jms"/>
+      </modelElementValidator>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.JMSValidator"
+            id="org.eclipse.stardust.modeling.validation.jmsApplication"
+            metaTypeId="jms"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="jms"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.PlainJavaValidator"
+            id="org.eclipse.stardust.modeling.validation.plainJavaApplication"
+            metaTypeId="plainJava"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="plainJava"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.SessionBean20Validator"
+            id="org.eclipse.stardust.modeling.validation.sessionBean20Application"
+            metaTypeId="sessionBean20"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="sessionBean20"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.applicationTypes.WebserviceApplicationValidator"
+            id="org.eclipse.stardust.modeling.validation.webServiceApplication"
+            metaTypeId="webservice"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ApplicationType">
+         <filter
+               name="metaType"
+               value="webservice"/>
+      </modelElementValidator>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"
+            id="org.eclipse.stardust.modeling.validation.entityBeanData"
+            metaTypeId="entity"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="entity"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBean20Validator"
+            id="org.eclipse.stardust.modeling.validation.entity20BeanData"
+            metaTypeId="entity"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="entity20"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"
+            id="org.eclipse.stardust.modeling.validation.primitiveData"
+            metaTypeId="primitive"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="primitive"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"
+            id="org.eclipse.stardust.modeling.validation.serializableData"
+            metaTypeId="serializable"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="serializable"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"
+            id="org.eclipse.stardust.modeling.validation.plainXmlData"
+            metaTypeId="plainXML"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataType">
+         <filter
+               name="metaType"
+               value="plainXML"/>
+      </modelElementValidator>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JFCValidator"
+            id="org.eclipse.stardust.modeling.validation.jfcContext"
+            metaTypeId="jfc"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ContextType">
+         <filter
+               name="metaType"
+               value="jfc"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.contextTypes.JSPValidator"
+            id="org.eclipse.stardust.modeling.validation.jspContext"
+            metaTypeId="jsp"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.ContextType">
+         <filter
+               name="metaType"
+               value="jsp"/>
+      </modelElementValidator>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.DataMappingValidator"
+            id="org.eclipse.stardust.modeling.validation.dataMapping"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.DataMappingType">
+      </modelElementValidator>
+
+	  <modelElementValidator
+			class="org.eclipse.stardust.modeling.validation.impl.DataPathValidator"
+			id="org.eclipse.stardust.modeling.validation.dataPath"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.DataPathType"/>
+
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.TimerValidator"
+            id="org.eclipse.stardust.modeling.validation.timerEventCondition"
+            metaTypeId="timer"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType">
+         <filter
+               name="metaType"
+               value="timer"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.conditionTypes.ExceptionConditionValidator"
+            id="org.eclipse.stardust.modeling.validation.exceptionEventCondition"
+            metaTypeId="exception"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.EventHandlerType">
+         <filter
+               name="metaType"
+               value="exception"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.ExcludeUserActionValidator"
+            id="org.eclipse.stardust.modeling.validation.excludeUserAction"
+            metaTypeId="excludeUser"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.EventActionType">
+         <filter
+               name="metaType"
+               value="excludeUser"/>
+      </modelElementValidator>
+      <modelElementValidator
+            class="org.eclipse.stardust.modeling.validation.impl.spi.actionTypes.SetDataActionValidator"
+            id="org.eclipse.stardust.modeling.validation.setDataAction"
+            metaTypeId="setData"
+            targetType="org.eclipse.stardust.model.xpdl.carnot.EventActionType">
+         <filter
+               name="metaType"
+               value="setData"/>
+      </modelElementValidator>
+
+	  <modelElementValidator
+			class="org.eclipse.stardust.modeling.validation.impl.ConditionalPerformerValidator"
+			id="org.eclipse.stardust.modeling.validation.conditionalPerformer"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"/>
+	  <modelElementValidator
+			class="org.eclipse.stardust.modeling.validation.impl.TransitionValidator"
+			id="org.eclipse.stardust.modeling.validation.transition"
+			targetType="org.eclipse.stardust.model.xpdl.carnot.TransitionType"/>
+   </extension>
+   <extension
+         point="org.eclipse.stardust.modeling.validation.bridgeObjectProvider">
+      <bridgeObjectProvider
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.PrimitiveValidator"
+            dataTypeId="primitive"
+            id="org.eclipse.stardust.modeling.validation.primitiveBridgeProvider">
+      </bridgeObjectProvider>
+      <bridgeObjectProvider
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.SerializableValidator"
+            dataTypeId="serializable"
+            id="org.eclipse.stardust.modeling.validation.serializableBridgeProvider">
+      </bridgeObjectProvider>
+      <bridgeObjectProvider
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.EntityBeanValidator"
+            dataTypeId="entity"
+            id="org.eclipse.stardust.modeling.validation.entityBeanBridgeProvider">
+      </bridgeObjectProvider>
+      <bridgeObjectProvider
+            class="org.eclipse.stardust.modeling.validation.impl.spi.dataTypes.XMLValidator"
+            dataTypeId="plainXML"
+            id="org.eclipse.stardust.modeling.validation.xmlBridgeProvider">
+      </bridgeObjectProvider>
+   </extension>
+
+</fragment>

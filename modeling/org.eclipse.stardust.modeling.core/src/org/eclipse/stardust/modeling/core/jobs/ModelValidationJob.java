@@ -30,6 +30,7 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor.EditorChangeTracker;
 import org.eclipse.stardust.modeling.validation.Issue;
+import org.eclipse.stardust.modeling.validation.ValidationMarkerService;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
@@ -88,6 +89,7 @@ public class ModelValidationJob extends WorkspaceJob
          }
          
          ValidationService vs = ValidationService.getInstance();
+         ValidationMarkerService vms = ValidationMarkerService.getInstance();
 
          try
          {
@@ -109,7 +111,7 @@ public class ModelValidationJob extends WorkspaceJob
                   {
                      return Status.OK_STATUS;
                   }
-                  vs.removeMappings(modelFile);
+                  vms.removeMappings(modelFile);
       
                   Map<String, Object> attr = CollectionUtils.newMap();
                   for (int i = 0; i < issues.length; i++)
@@ -154,7 +156,7 @@ public class ModelValidationJob extends WorkspaceJob
                            .createMarker(ValidationPlugin.VALIDATION_MARKER_ID);
                      marker.setAttributes(attr);
       
-                     vs.createMapping(marker,
+                     vms.createMapping(marker,
                            issues[i]);
                   }
                }

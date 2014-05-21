@@ -10,25 +10,30 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.stardust.common.CollectionUtils;
-import org.eclipse.stardust.common.CompareHelper;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
 import org.eclipse.stardust.modeling.validation.util.ExtensionsResolver;
 
 public class ValidatorRegistry
 {
    private static final IModelValidator[] EMPTY_MODEL_VALIDATORS = new IModelValidator[0];
    private static final IModelElementValidator[] EMPTY_MODEL_ELEMENT_VALIDATORS = new IModelElementValidator[0];
-   private static IValidationExtensionRegistry validationExtensionRegistry = ValidationExtensionRegistry.getInstance();
-   
+
+   private static IValidationExtensionRegistry validationExtensionRegistry = discoveryValidationExtensionRegistry();
+
+   private static IValidationExtensionRegistry discoveryValidationExtensionRegistry()
+   {
+      Iterator<IValidationExtensionRegistry> registries = ServiceLoader.load(
+            IValidationExtensionRegistry.class).iterator();
+
+      return registries.hasNext() ? registries.next() : null;
+   }
+
    private static ThreadLocal<Map<String, String>> filterSet = new ThreadLocal<Map<String, String>>();
    
    public static void setValidationExtensionRegistry(
@@ -50,14 +55,14 @@ public class ValidatorRegistry
    public static IModelValidator[] getModelValidators()
    {      
       List<IModelValidator> result = null;
-      IConfigurationElement[] extensions = validationExtensionRegistry
-            .getConfigurationElementsFor(ValidationConstants.MODEL_VALIDATOR_EXTENSION_POINT);
-      for (int i = 0; i < extensions.length; i++)
+      List<ExtensionDescriptor> extensions = validationExtensionRegistry
+            .getExtensionDescriptorsFor(ValidationConstants.MODEL_VALIDATOR_EXTENSION_POINT);
+      for (int i = 0; i < extensions.size(); i++)
       {
-         IConfigurationElement extension = extensions[i];
+         ExtensionDescriptor extension = extensions.get(i);
          try
          {
-            IModelValidator validator = (IModelValidator) extension.createExecutableExtension("class"); //$NON-NLS-1$
+            IModelValidator validator = (IModelValidator) extension.createExecutableExtension();
             if (result == null)
             {
                result = CollectionUtils.newList();
@@ -72,55 +77,19 @@ public class ValidatorRegistry
       }
       return result == null ? EMPTY_MODEL_VALIDATORS : result.toArray(new IModelValidator[result.size()]);
    }
-   
-   public static IBridgeObjectProvider getBridgeObjectProvider(ITypedElement modelElement)
-   {
-      // (fh) DO NOT CACHE
-      
-      IMetaType type = modelElement.getMetaType();
-      if (type != null)
-      {
-         String id = type.getId();
-         IConfigurationElement[] extensions = validationExtensionRegistry.getConfigurationElementsFor(
-               ValidationConstants.BRIDGE_PROVIDER_EXTENSION_POINT);
-         for (int i = 0; i < extensions.length; i++ )
-         {
-            IConfigurationElement extension = extensions[i];
-            try
-            {
-               String dataTypeId = extension.getAttribute(ValidationConstants.EP_ATTR_DATA_TYPE_ID);
-               if (CompareHelper.areEqual(dataTypeId, id))
-               {
-                  Object provider = extension.createExecutableExtension(ValidationConstants.EP_ATTR_CLASS);
-                  if (IBridgeObjectProvider.class.isInstance(provider))
-                  {
-                     return (IBridgeObjectProvider) provider;
-                  }
-               }
-            }
-            catch (CoreException e)
-            {
-               // todo (fh) some messages?
-               // e.printStackTrace();
-            }
-         }
-      }
-      return null;
-   }
 
    public static IModelElementValidator[] getModelElementValidators(IModelElement element)
    {
       List<IModelElementValidator> result = null;
-      IConfigurationElement[] extensions = validationExtensionRegistry.getConfigurationElementsFor(
+      List<ExtensionDescriptor> extensions = validationExtensionRegistry.getExtensionDescriptorsFor(
             ValidationConstants.ELEMENT_VALIDATOR_EXTENSION_POINT);
-      for (int i = 0; i < extensions.length; i++)
+      for (ExtensionDescriptor extension : extensions)
       {
-         IConfigurationElement extension = extensions[i];
          if (ExtensionsResolver.isMatchingElement(element, ValidationConstants.EP_ATTR_TARGET_TYPE, getFilters(), extension))
          {
             try
             {
-               IModelElementValidator validator = (IModelElementValidator) extension.createExecutableExtension("class"); //$NON-NLS-1$
+               IModelElementValidator validator = (IModelElementValidator) extension.createExecutableExtension();
                if (result == null)
                {
                   result = CollectionUtils.newList();

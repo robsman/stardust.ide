@@ -28,13 +28,13 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
+import org.eclipse.stardust.modeling.validation.BridgeObjectProviderRegistry;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 
 public class DataPathValidator implements IModelElementValidator
 {
@@ -86,7 +86,7 @@ public class DataPathValidator implements IModelElementValidator
       {
          if (!StringUtils.isEmpty(dataPath.getDataPath()))
          {
-            IBridgeObjectProvider dataBridgeProvider = ValidatorRegistry.getBridgeObjectProvider(data);
+            IBridgeObjectProvider dataBridgeProvider = BridgeObjectProviderRegistry.getBridgeObjectProvider(data);
             if (null != dataBridgeProvider)
             {
                try

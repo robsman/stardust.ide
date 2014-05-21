@@ -21,13 +21,13 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.VariableContextHelper;
 import org.eclipse.stardust.modeling.validation.BridgeObject;
+import org.eclipse.stardust.modeling.validation.BridgeObjectProviderRegistry;
 import org.eclipse.stardust.modeling.validation.IBridgeObjectProvider;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
-import org.eclipse.stardust.modeling.validation.ValidatorRegistry;
 import org.eclipse.stardust.modeling.validation.util.IModelParticipantUtils;
 
 
@@ -55,7 +55,7 @@ public class ConditionalPerformerValidator implements IModelElementValidator
       }
       else
       {
-         IBridgeObjectProvider dataBridgeProvider = ValidatorRegistry.getBridgeObjectProvider(conditionalPerformer.getData());
+         IBridgeObjectProvider dataBridgeProvider = BridgeObjectProviderRegistry.getBridgeObjectProvider(conditionalPerformer.getData());
          if (null != dataBridgeProvider)
          {
             try

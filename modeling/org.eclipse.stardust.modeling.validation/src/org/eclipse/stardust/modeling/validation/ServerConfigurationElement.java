@@ -33,7 +33,7 @@ public class ServerConfigurationElement implements IConfigurationElement
    }
 
    @Override
-   public Object createExecutableExtension(String arg0) throws CoreException
+   public Object createExecutableExtension(String arg0)
    {
       Object newInstance = null;
       

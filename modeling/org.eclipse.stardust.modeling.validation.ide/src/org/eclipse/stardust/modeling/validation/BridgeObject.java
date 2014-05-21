@@ -94,7 +94,7 @@ public class BridgeObject
       BridgeObject result;
 
       // (fh) DO NOT CACHE
-      IBridgeObjectProvider bridgeProvider = ValidatorRegistry
+      IBridgeObjectProvider bridgeProvider = BridgeObjectProviderRegistry
             .getBridgeObjectProvider(ap);
       if (null != bridgeProvider)
       {

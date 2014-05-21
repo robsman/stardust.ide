@@ -29,6 +29,7 @@ Require-Bundle: org.eclipse.stardust.modeling.core,
  org.eclipse.debug.core,
  org.eclipse.stardust.modeling.integration.dms,
  org.eclipse.jdt,
+ org.eclipse.jdt.core,
  org.eclipse.gef;bundle-version="3.4.1"
 Export-Package: org.eclipse.stardust.modeling.transformation.messaging.format,
  org.eclipse.stardust.modeling.transformation.messaging.modeling,
