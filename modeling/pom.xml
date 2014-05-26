@@ -71,6 +71,7 @@
     <module>org.eclipse.stardust.modeling.templates.basic</module>
     <module>org.eclipse.stardust.modeling.templates.basic.nl</module>
     <module>org.eclipse.stardust.modeling.validation</module>
+    <module>org.eclipse.stardust.modeling.validation.ide</module>
     <module>org.eclipse.stardust.modeling.validation.nl</module>
 
     <module>org.eclipse.stardust.modeling.transformation</module>
