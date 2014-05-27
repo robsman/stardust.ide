@@ -26,7 +26,6 @@ import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.PreferenceManager;
-
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
@@ -47,7 +46,6 @@ import org.eclipse.stardust.modeling.core.spi.IModelElementPropertyPage;
 import org.eclipse.stardust.modeling.core.utils.CompositeUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -190,7 +188,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void performDefaults()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ((ModelElementPropertyDialog) container).performDefaults();
@@ -203,7 +201,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void performApply()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ((ModelElementPropertyDialog) container).performApply();
@@ -335,7 +333,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
             .getAdapter(IModelElement.class) : symbol.getModelElement());
       if (modelElement == null)
       {
-         modelElement = (IModelElement) this.getModelElement();
+         modelElement = (IModelElement) getModelElement();
       }
       if (null != modelElement || (symbol != null && symbol.getModelElement() == null))
       {
@@ -345,14 +343,14 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       super.performDefaults();
    }
 
-      protected void removePreferenceNodes(String parentNodeId)
+   protected void removePreferenceNodes(String parentNodeId)
    {
       removePreferenceNodes(parentNodeId, false);
    }
 
-      public void removePreferenceNodes(String parentNodeId, boolean removeParent)
+   public void removePreferenceNodes(String parentNodeId, boolean removeParent)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -363,7 +361,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
    protected void removePreferenceNode(CarnotPreferenceNode parentNode,
          CarnotPreferenceNode node)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -374,7 +372,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
    public CarnotPreferenceNode addNodeTo(String pageId, CarnotPreferenceNode node,
                                       EObjectLabelProvider labelProvider)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -387,7 +385,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected WorkflowModelEditor getEditor()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -398,7 +396,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void registerValidation(IAdaptable adaptable)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -409,7 +407,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    public void refreshTree()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -419,7 +417,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void expandTree()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -429,7 +427,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void addNodesTo(String category)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -449,7 +447,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void addSpiNodes(String extensionId, String type)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -461,7 +459,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void selectPage(String path)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -471,7 +469,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void selectPageForObject(Object selection)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -481,7 +479,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    public PreferenceManager getPreferenceManager()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -490,7 +488,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       return null;
    }
 
-   public Object getAdapter(Class adapter)
+   public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter)
    {
       Object result = null;
 
@@ -511,7 +509,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
-    	 return ((ModelElementPropertyDialog) container).getPage(pageId);
+      return ((ModelElementPropertyDialog) container).getPage(pageId);
       }
       return null;
    }
@@ -521,14 +519,14 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
-    	 return ((ModelElementPropertyDialog) container).getNode(pageId);
+      return ((ModelElementPropertyDialog) container).getNode(pageId);
       }
       return null;
    }
 
    public String composePageId(String parentId, String id)
    {
-	  return ModelElementPropertyDialog.composePageId(parentId, id);
+   return ModelElementPropertyDialog.composePageId(parentId, id);
    }
 
    public void addDependentCommand(Command command)

@@ -12,42 +12,31 @@ package org.eclipse.stardust.modeling.core.properties;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
-import org.eclipse.stardust.common.StringUtils;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
-import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.*;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopType;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.ui.IdentifiableLabelProvider;
+import org.eclipse.stardust.modeling.core.ui.ProcessDefinitionSelectionViewer;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -68,16 +57,9 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
 
    private Button checkCopyData;
 
-   private ReferencedModelSorter procSorter = new ReferencedModelSorter();
-   private IdentifiableLabelProvider labelProvider;
-
    // used to signal the process table listener that it should not change the name
    // during loading
    private boolean loading;
-
-   private Button groupingCheckbox;
-
-   private List<ProcessDefinitionType> processes;
 
    private ComboViewer comboViewer;
 
@@ -88,19 +70,16 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
       loading = true;
       ActivityType activity = (ActivityType) element;
       model = (ModelType) activity.eContainer().eContainer();
-      labelProvider.setModel(model);
-      TableViewer viewer = (TableViewer) labeledViewer.getViewer();
-      viewer.getTable().removeAll();
 
-      processes = this.collectProcessDefinitions(model);
-      viewer.add(processes.toArray());
+      ProcessDefinitionSelectionViewer viewer = (ProcessDefinitionSelectionViewer) labeledViewer.getViewer();
+      viewer.reset(model);
 
       updateSubprocessMode();
 
-      if (activity.getImplementationProcess() != null)
+      /*if (activity.getImplementationProcess() != null)
       {
           viewer.setSelection(new StructuredSelection(activity.getImplementationProcess()));
-      }
+      }*/
 
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
       /*wBndMgr.bind(labeledComboViewer, element, PKG_CWM.getActivityType_SubProcessMode());
@@ -171,12 +150,8 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
 
       LabelWithStatus label = FormBuilder.createLabelWithRightAlignedStatus(composite,
             Diagram_Messages.FORMBUILDER_LB_Subprocess);
-      Table table = new Table(composite, SWT.BORDER);
-      table.setLayoutData(FormBuilder.createDefaultLimitedMultiLineWidgetGridData(200));
-      final TableViewer tableViewer = new TableViewer(table);
-      labelProvider = new  IdentifiableLabelProvider(getEditor());
-      tableViewer.setLabelProvider(labelProvider);
-      tableViewer.setSorter(procSorter);
+
+      final ProcessDefinitionSelectionViewer tableViewer = new ProcessDefinitionSelectionViewer(composite, getEditor());
       tableViewer.addSelectionChangedListener(new ISelectionChangedListener()
       {
          public void selectionChanged(SelectionChangedEvent event)
@@ -202,28 +177,22 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
                   }
                   updateSubprocessMode();
 
-                  ActivitySubprocessPropertyPage.this.removePreferenceNodes(PAGE_ID, false);
-                  ActivitySubprocessPropertyPage.this.addNodesTo(PAGE_ID);
+                  removePreferenceNodes(PAGE_ID, false);
+                  addNodesTo(PAGE_ID);
                }
             }
          }
       });
       labeledViewer = new LabeledViewer(tableViewer, label);
 
-      groupingCheckbox = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_GroupModelElements);
+      final Button groupingCheckbox = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_GroupModelElements);
       groupingCheckbox.addSelectionListener(new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e) {}
 
          public void widgetSelected(SelectionEvent e)
          {
-            procSorter.setGrouped(groupingCheckbox.getSelection());
-            labelProvider.setShowGroupInfo(groupingCheckbox.getSelection());
-            TableViewer viewer = (TableViewer) labeledViewer.getViewer();
-            ISelection selection = viewer.getSelection();
-            viewer.getTable().removeAll();
-            viewer.add(processes.toArray());
-            viewer.setSelection(selection);
+            ((ProcessDefinitionSelectionViewer) labeledViewer.getViewer()).setGrouped(groupingCheckbox.getSelection());
          }
       });
 
@@ -294,57 +263,5 @@ public class ActivitySubprocessPropertyPage extends AbstractModelElementProperty
 
       AttributeUtil.setBooleanAttribute(activity,
             CarnotConstants.ACTIVITY_SUBPROCESS_COPY_ALL_DATA_ATT, checkCopyData.getSelection());
-   }
-
-   private List<ProcessDefinitionType> collectProcessDefinitions(ModelType model)
-   {
-      List<ProcessDefinitionType> processesList = CollectionUtils.newList();
-      List<ProcessDefinitionType> processTypes = model.getProcessDefinition();
-      if (processTypes != null)
-      {
-         processesList.addAll(processTypes);
-      }
-      ExternalPackages packages = model.getExternalPackages();
-      if (packages != null)
-      {
-         for (ExternalPackage pkg : packages.getExternalPackage())
-         {
-            String uri = ExtendedAttributeUtil.getAttributeValue(pkg, IConnectionManager.URI_ATTRIBUTE_NAME);
-            if (!StringUtils.isEmpty(uri))
-            {
-               IConnectionManager manager = model.getConnectionManager();
-               if (manager != null)
-               {
-                  EObject externalModel = manager.find(uri);
-                  if (externalModel instanceof IObjectReference)
-                  {
-                     externalModel = ((IObjectReference) externalModel).getEObject();
-                  }
-                  if (externalModel instanceof ModelType)
-                  {
-                     List<ProcessDefinitionType> externalProcesses = ((ModelType) externalModel).getProcessDefinition();
-                     if (externalProcesses != null)
-                     {
-                        for (ProcessDefinitionType extProcess : externalProcesses)
-                        {
-                           if (extProcess.getFormalParameters() != null)
-                           {
-                              processesList.add(extProcess);
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-      return processesList;
-   }
-
-   public ProcessDefinitionType getSelectedSubprocess()
-   {
-      TableViewer viewer = (TableViewer) labeledViewer.getViewer();
-      IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-      return (ProcessDefinitionType) selection.getFirstElement();
    }
 }

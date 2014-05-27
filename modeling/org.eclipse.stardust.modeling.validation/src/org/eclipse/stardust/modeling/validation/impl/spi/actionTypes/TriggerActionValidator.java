@@ -10,17 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation.impl.spi.actionTypes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
@@ -32,7 +30,7 @@ public class TriggerActionValidator implements IModelElementValidator
 
    public Issue[] validate(IModelElement element) throws ValidationException
    {
-      List result = new ArrayList();
+      List<Issue> result = CollectionUtils.newList();
 
       String processId = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT);
@@ -43,16 +41,8 @@ public class TriggerActionValidator implements IModelElementValidator
       }
       else
       {
-         ProcessDefinitionType process = null;
-         for (Iterator iter = ModelUtils.findContainingModel(element)
-               .getProcessDefinition().iterator(); iter.hasNext();)
-         {
-            ProcessDefinitionType proc = (ProcessDefinitionType) iter.next();
-            if (proc.getId().equals(processId))
-            {
-               process = proc;
-            }
-         }
+         ProcessDefinitionType process = AttributeUtil.getIdentifiable((IExtensibleElement) element,
+               PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT);
          if (process == null)
          {
             result.add(Issue.warning(element, Validation_Messages.MSG_InvalidProcess,
