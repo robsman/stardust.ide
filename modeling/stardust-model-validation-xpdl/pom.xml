@@ -81,6 +81,12 @@
           <exclude>**/*.java</exclude>
         </excludes>
       </resource>
+      <resource>
+        <directory>../org.eclipse.stardust.modeling.validation</directory>
+        <includes>
+          <include>plugin.xml</include>
+        </includes>
+      </resource>
     </resources>
     <plugins>
       <plugin>

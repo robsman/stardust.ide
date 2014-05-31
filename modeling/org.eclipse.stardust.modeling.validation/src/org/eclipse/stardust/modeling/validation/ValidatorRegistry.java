@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation;
 
+import static java.util.Collections.emptyMap;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,12 @@ public class ValidatorRegistry
 
    public static Map<String, String> getFilters()
    {
-      return filterSet.get();
+      Map<String, String> filters = filterSet.get();
+      if (null == filters)
+      {
+         filters = emptyMap();
+      }
+      return filters;
    }
 
    public static IModelValidator[] getModelValidators()
