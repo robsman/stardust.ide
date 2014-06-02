@@ -49,13 +49,13 @@ public class FileConnectionHandler implements ConnectionHandler
    private URI uri;
    private IObjectDescriptor[] children = null;
    private Connection connection;
-   
+
    private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
          "role", "organization", "conditionalPerformer" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    });
-   
+
    private EObjectDescriptor modelDescriptor;
-   
+
    // close file
    public void close(Connection connection) throws CoreException
    {
@@ -75,7 +75,7 @@ public class FileConnectionHandler implements ConnectionHandler
           throw new CoreException(new Status(IStatus.ERROR, ObjectRepositoryActivator.PLUGIN_ID,
                   0, MessageFormat.format(File_Messages.EXC_ALREADY_OPEN, new Object[]{connection.getId()}),null));
       }
-      
+
       uri = ConnectionManager.makeURI(connection);
       String filename = connection.getAttribute("filename"); //$NON-NLS-1$
       if (filename == null)
@@ -83,7 +83,7 @@ public class FileConnectionHandler implements ConnectionHandler
          throw new CoreException(new Status(IStatus.ERROR,
                ObjectRepositoryActivator.PLUGIN_ID, 0, File_Messages.EXC_MISSING_FILENAME, null));
       }
-      
+
       this.connection = connection;
       try
       {
@@ -94,7 +94,7 @@ public class FileConnectionHandler implements ConnectionHandler
          throw new CoreException(new Status(IStatus.WARNING,
                "org.eclipse.stardust.modeling.repository.file", File_Messages.EXC_UNABLE_TO_LOAD_MD, ex)); //$NON-NLS-1$
       }
-      open = true;            
+      open = true;
    }
 
    // open the selected file from the file connection
@@ -102,12 +102,12 @@ public class FileConnectionHandler implements ConnectionHandler
    private void updateCache(String fileName) throws IOException
    {
       File file = resolve(connection, fileName);
-      ExtendedModelManager manager = new ExtendedModelManager();            
+      ExtendedModelManager manager = new ExtendedModelManager();
       manager.load(file);
       ModelType model = manager.getModel();
       IconFactory iconFactory = IconFactory.getDefault();
       iconFactory.keepSimpleIconState();
-      
+
       modelDescriptor = new EObjectDescriptor(uri, model, model.getId(), model.getName(),
             ModelUtils.getDescriptionText(model.getDescription()),
             CarnotConstants.DIAGRAM_PLUGIN_ID, iconFactory.getIconFor(model));
@@ -148,12 +148,12 @@ public class FileConnectionHandler implements ConnectionHandler
       {
          result.add(searchDescriptor);
       }
-      return Collections.unmodifiableList(result);      
+      return Collections.unmodifiableList(result);
    }
-   
+
    public void importObject(ModelType model, IObjectDescriptor[] descriptors, boolean asLink)
-   {      
-      for (int i = 0; i < descriptors.length; i++) 
+   {
+      for (int i = 0; i < descriptors.length; i++)
       {
          IObjectDescriptor descriptor = descriptors[i];
          if (descriptor instanceof ImportableDescriptor)
@@ -182,9 +182,9 @@ public class FileConnectionHandler implements ConnectionHandler
                }
             }
          }
-      }   
+      }
    }
-   
+
    public EObject resolve(ModelType model, EObject object)
    {
       URI uri = ConnectionManager.getURI(object);
@@ -199,13 +199,13 @@ public class FileConnectionHandler implements ConnectionHandler
          {
             if(object instanceof IIdentifiableModelElement)
             {
-               CompoundCommand cmd = new CompoundCommand();               
+               CompoundCommand cmd = new CompoundCommand();
                EList<INodeSymbol> symbols = ((IIdentifiableModelElement) object).getSymbols();
                for(INodeSymbol symbol : symbols)
                {
                   cmd.add(DeleteSymbolCommandFactory
                         .createDeleteSymbolCommand(symbol));
-                  
+
                }
                cmd.execute();
             }
@@ -273,37 +273,37 @@ public class FileConnectionHandler implements ConnectionHandler
          {
             file = new File(Platform.getLocation().toFile(), file.toString());
          }
-         
+
          if(!file.exists())
          {
             file = getFile(connection, fileName, null, true);
             if (!file.isAbsolute())
             {
                file = new File(Platform.getLocation().toFile(), file.toString());
-            }            
-         }         
+            }
+         }
       }
       catch (Exception e)
       {
          file = new File(fileName);
       }
-      
+
       return file;
    }
 
    private static File getFile(Connection connection, String fileName, java.net.URI uri, boolean convert)
    {
       File file = null;
-      
+
       ConnectionManager manager = (ConnectionManager) connection.getProperty(IConnectionManager.CONNECTION_MANAGER);
       ModelType model = manager.getModel();
-      
+
       if(convert)
       {
          fileName = FilePathUtil.convertPath(model, fileName);
-         uri = java.net.URI.create(fileName);         
+         uri = java.net.URI.create(fileName);
       }
-      
+
       org.eclipse.emf.common.util.URI modelURI = model.eResource().getURI();
       if (modelURI.isPlatformResource())
       {
@@ -311,12 +311,7 @@ public class FileConnectionHandler implements ConnectionHandler
       }
       else if (modelURI.isFile())
       {
-         String fileString = modelURI.toFileString();
-         java.net.URI netModelUri = new File(fileString).toURI();
-         java.net.URI platformRelative = Platform.getLocation().toFile().toURI().relativize(
-               netModelUri);
-         modelURI = org.eclipse.emf.common.util.URI.createPlatformResourceURI(platformRelative.toString(), false);
-         file = new File(modelURI.segment(1), uri.getPath());
+         file = new File(uri.getPath());
       }
       return file;
    }
