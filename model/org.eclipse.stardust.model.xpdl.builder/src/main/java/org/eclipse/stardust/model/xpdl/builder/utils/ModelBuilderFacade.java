@@ -1848,6 +1848,8 @@ public class ModelBuilderFacade
                		"org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
 
                model.getApplicationType().add(applicationMetaType);
+
+               return applicationMetaType;
             }
       }
 
