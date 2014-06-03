@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsOperation;
 import org.eclipse.stardust.engine.extensions.dms.data.VfsOperationAccessPointProvider;
@@ -160,7 +161,7 @@ public class VfsOperationCoreProperties extends AbstractModelElementPropertyPage
             if(accessPointType == null)
             {
                accessPointType = DmsTypeUtils.createPrimitiveAccessPointType(
-                     VfsOperationAccessPointProvider.AP_ID_DMS_ID, String.class,
+                     VfsOperationAccessPointProvider.AP_ID_DMS_ID, Type.String,
                      DirectionType.IN_LITERAL, application);
                application.getAccessPoint().add(accessPointType);
             }
