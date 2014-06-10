@@ -31,13 +31,13 @@ import org.eclipse.swt.widgets.Control;
 public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPage
 {
    public static final String[][] TYPE_LABELS = {
-         {"org.eclipse.stardust.model.xpdl.IActivity", Diagram_Messages.LINK_TYPE_LB_Activity}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.IData", Diagram_Messages.LINK_TYPE_LB_Data}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.IRole", Diagram_Messages.TLINK_TYPE_LB_Role}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.IProcessDefinition", Diagram_Messages.LINK_TYPE_LB_Process}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.ITransition", Diagram_Messages.LINK_TYPE_LB_Transition}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.IOrganization", Diagram_Messages.LINK_TYPE_LB_Organization}, //$NON-NLS-1$
-         {"org.eclipse.stardust.model.xpdl.IParticipant", Diagram_Messages.LINK_TYPE_LB_Participant}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IActivity", Diagram_Messages.LINK_TYPE_LB_Activity}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IData", Diagram_Messages.LINK_TYPE_LB_Data}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IRole", Diagram_Messages.TLINK_TYPE_LB_Role}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IProcessDefinition", Diagram_Messages.LINK_TYPE_LB_Process}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.ITransition", Diagram_Messages.LINK_TYPE_LB_Transition}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IOrganization", Diagram_Messages.LINK_TYPE_LB_Organization}, //$NON-NLS-1$
+         {"ag.carnot.workflow.model.IParticipant", Diagram_Messages.LINK_TYPE_LB_Participant}, //$NON-NLS-1$
    };
 
    private LabeledText sourceRoleText;
@@ -66,14 +66,14 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
          }
       }
    };
-   
+
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement node)
    {
-      txtName.getText().removeModifyListener(listener);      
+      txtName.getText().removeModifyListener(listener);
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
       // ignore oid
-      wBndMgr.bind(txtId, node, PKG_CWM.getIIdentifiableElement_Id());      
+      wBndMgr.bind(txtId, node, PKG_CWM.getIIdentifiableElement_Id());
       wBndMgr.bind(txtName, node, PKG_CWM.getIIdentifiableElement_Name());
 
       wBndMgr.bind(sourceRoleText, node, PKG_CWM.getLinkTypeType_SourceRole());
@@ -86,11 +86,11 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
 
       wBndMgr.bind(sourceTypeViewer, node, PKG_CWM.getLinkTypeType_SourceClass(), null);
       wBndMgr.bind(targetTypeViewer, node, PKG_CWM.getLinkTypeType_TargetClass(), null);
-      
+
       txtName.getText().addModifyListener(listener);
-      
+
       txtName.getText().selectAll();
-      txtName.getText().setFocus();      
+      txtName.getText().setFocus();
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
@@ -105,14 +105,14 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
       txtName = FormBuilder.createLabeledText(composite, Diagram_Messages.LINK_TYPE_LB_Name);
       txtName.setTextLimit(80);
       this.txtId = FormBuilder.createLabeledText(composite, Diagram_Messages.LB_ID);
-      txtId.setTextLimit(80);      
+      txtId.setTextLimit(80);
 
       boolean autoIdButtonValue = GenericUtils.getAutoIdValue();
       if(autoIdButtonValue)
       {
          txtId.getText().setEditable(false);
       }
-            
+
       sourceTypeViewer = createTypeViewer(composite,
             Diagram_Messages.LINK_TYPE_LB_SourceType);
       sourceRoleText = FormBuilder.createLabeledText(composite,
