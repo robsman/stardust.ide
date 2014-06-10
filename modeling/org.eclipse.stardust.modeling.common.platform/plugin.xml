@@ -5,6 +5,7 @@
          point="org.eclipse.stardust.model.xpdl.resourceResolver">
       <resolver
             class="org.eclipse.stardust.modeling.common.platform.utils.WorkspaceResourceResolver"
+            id="workspaceResourceResolver"
             name="Workspace Resource Resolver">
       </resolver>
    </extension>
