@@ -38,9 +38,9 @@ public class PrimitiveAccessPathEditor extends SerializableAccessPathEditor
    {
       String className = null;
       String dataType = AttributeUtil.getAttributeValue((IExtensibleElement) data, CarnotConstants.TYPE_ATT);
-      if(dataType.equals(Type.Enumeration.toString()))
+      if(dataType != null && dataType.equals(Type.Enumeration.toString()))
       {
-         TypeDeclarationType typeDeclaration = null;                                    
+         TypeDeclarationType typeDeclaration = null;
          String typeDeclarationId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
          if(!StringUtils.isEmpty(typeDeclarationId))
          {
@@ -59,24 +59,24 @@ public class PrimitiveAccessPathEditor extends SerializableAccessPathEditor
             XSDNamedComponent component = TypeDeclarationUtils.getSimpleType(typeDeclaration);
             if (component instanceof XSDSimpleTypeDefinition)
             {
-               className = ExtendedAttributeUtil.getAttributeValue(typeDeclaration, CarnotConstants.CLASS_NAME_ATT);            
+               className = ExtendedAttributeUtil.getAttributeValue(typeDeclaration, CarnotConstants.CLASS_NAME_ATT);
                if(!StringUtils.isEmpty(className))
                {
                   return className;
-               }               
-            }  
-         }            
+               }
+            }
+         }
       }
       else
       {
          className = AttributeUtil.getAttributeValue(
-               data, CarnotConstants.TYPE_ATT);         
+               data, CarnotConstants.TYPE_ATT);
       }
       if(StringUtils.isEmpty(className))
       {
          return null;
       }
-      
+
       Class type = Reflect.getClassFromAbbreviatedName(className);
       return (null != type) ? type.getName() : null;
    }
