@@ -103,7 +103,7 @@ public class JavaDataTypeUtils
       if (dataType.getId().equals(PredefinedConstants.PRIMITIVE_DATA))
       {
          String type = AttributeUtil.getAttributeValue((IExtensibleElement) data, CarnotConstants.TYPE_ATT);
-         if(type.equals(Type.Enumeration.toString()))
+         if(type != null && type.equals(Type.Enumeration.toString()))
          {
             if(ctx != null)
             {
@@ -165,6 +165,7 @@ public class JavaDataTypeUtils
       {
          throw new PublicException(Validation_Messages.ERR_NotAJavaDataType);
       }
+
       String convertedClassName = TypeFinder.getClassFromAbbreviatedName(className);
       return convert && (null != convertedClassName) ? convertedClassName : className;
    }
