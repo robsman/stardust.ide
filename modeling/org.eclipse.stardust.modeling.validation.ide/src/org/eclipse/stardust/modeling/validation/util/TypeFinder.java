@@ -11,6 +11,7 @@
 package org.eclipse.stardust.modeling.validation.util;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -32,6 +33,7 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchPattern;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.Money;
 import org.eclipse.stardust.common.Period;
@@ -39,6 +41,7 @@ import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.modeling.validation.Validation_Messages;
+
 import org.osgi.framework.Bundle;
 
 /**
@@ -368,6 +371,10 @@ public class TypeFinder
       else if ("Period".equals(className)) //$NON-NLS-1$
       {
          resolvedClass = Period.class;
+      }
+      else if ("decimal".equals(className)) //$NON-NLS-1$
+      {
+         resolvedClass = BigDecimal.class;
       }
       return resolvedClass == null ? null : resolvedClass.getName();
    }
