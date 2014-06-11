@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %fragmentName
+Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.eclipse.stardust.modeling.validation.ide;singleton:=true
 Bundle-Version: 9.9.9.qualifier
 Fragment-Host: org.eclipse.stardust.modeling.validation
