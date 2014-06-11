@@ -38,7 +38,7 @@ public class StructAccessPathEditor implements IAccessPathEditor
    public List<AccessPointType> getAccessPoints(String hint, IExtensibleElement dataObject, DirectionType direction)
    {
       final List<AccessPointType> accessPoints = CollectionUtils.newList();
-      
+
       if (dataObject instanceof DataType)
       {
          TypeDeclarationType declaration = null;
@@ -48,9 +48,9 @@ public class StructAccessPathEditor implements IAccessPathEditor
          }
          if (declaration == null)
          {
-            return accessPoints;                  
+            return accessPoints;
          }
-         
+
          IXPathMap xPathMap = StructuredTypeUtils.getXPathMap(declaration);
          addAccessPoints(accessPoints, (IModelElement)dataObject, xPathMap.getRootXPath(), xPathMap, direction);
       }
@@ -59,10 +59,10 @@ public class StructAccessPathEditor implements IAccessPathEditor
          StructAccessPointType ap = (StructAccessPointType) dataObject;
          addAccessPoints(accessPoints, ap.getType(), ap.getXPath(), ap.getXPathMap(), direction);
       }
-      
+
       return accessPoints;
    }
-   
+
    private void addAccessPoints(List<AccessPointType> accessPoints, IModelElement modelElement,
          TypedXPath xPath, IXPathMap xPathMap, DirectionType direction)
    {
@@ -100,10 +100,11 @@ public class StructAccessPathEditor implements IAccessPathEditor
          case BigData.DOUBLE: type = "double"; break; //$NON-NLS-1$
          case BigData.STRING: type = "String"; break; //$NON-NLS-1$
          case BigData.DATE: type = "Timestamp"; break; //$NON-NLS-1$
+         case BigData.DECIMAL: type = "decimal"; break; //$NON-NLS-1$
          // (fh) other cases may not appear in an xsd document
          }
       }
-      
+
       StructAccessPointType accessPoint = new StructAccessPointType(xPath, xPathMap);
       String name = StructuredDataXPathUtils.getLastXPathPart(xPath.getXPath());
       accessPoint.setId(name);
@@ -121,7 +122,7 @@ public class StructAccessPathEditor implements IAccessPathEditor
       {
          AttributeUtil.setAttribute(accessPoint, CarnotConstants.TYPE_ATT, type);
       }
-      
+
       return accessPoint;
    }
 
