@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,7 +25,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -64,7 +63,6 @@ import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -261,7 +259,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
             .getFormalParameterType_Id());
       binding.bind(nameText, parameterType, XpdlPackage.eINSTANCE
             .getFormalParameterType_Name());
-      idText.getText().setEditable(false);
+      idText.getText().setEditable(!GenericUtils.getAutoIdValue());
       nameText.getText().addModifyListener(listener);
       enableControls();
       validatePage();

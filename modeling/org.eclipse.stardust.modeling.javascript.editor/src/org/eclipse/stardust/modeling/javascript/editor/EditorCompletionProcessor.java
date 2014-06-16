@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -58,12 +58,12 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 			IProgressMonitor monitor, ContentAssistInvocationContext context) {
 		typeMap = CodeCompletionHelper.getInstance().getTypeMap();
 		List proposalList =  super.filterAndSortProposals(proposals, monitor, context);
-		boolean root = isRootProposals(proposalList);		
+		boolean root = isRootProposals(proposalList);
 		List<AbstractJavaCompletionProposal> newProposalList = new ArrayList<AbstractJavaCompletionProposal>();
-		for (Iterator<AbstractJavaCompletionProposal> i = proposalList.iterator(); i.hasNext();) 
+		for (Iterator<AbstractJavaCompletionProposal> i = proposalList.iterator(); i.hasNext();)
 		{
 			AbstractJavaCompletionProposal proposal = i.next();
-			if (isProposalValid(proposal)) 
+			if (isProposalValid(proposal))
 			{
 				if (proposal instanceof JavaMethodCompletionProposal) {
 					Reflect.setFieldValue(proposal, "fProposalInfoComputed", true); //$NON-NLS-1$
@@ -73,11 +73,11 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 					adaptDisplayString(proposal);
 					try {
 						setLabelProvider(context);
-						newProposalList.add(proposal);											
+						newProposalList.add(proposal);
 					} catch (Throwable t) {
 						//When this fails, the proposal is not shown
 					}
-				}	
+				}
 			}
 		}
 		//typeMap.clear();
@@ -95,7 +95,7 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 
 	private boolean isIppProposal(AbstractJavaCompletionProposal proposal) {
 		Object ippType = typeMap.get(proposal.getReplacementString());
-		if (ippType != null) 
+		if (ippType != null)
 		{
 			return true;
 		}
@@ -104,53 +104,53 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 
 	private boolean isRootProposals(
 			List<AbstractJavaCompletionProposal> newProposalList) {
-		for (Iterator<AbstractJavaCompletionProposal> i = newProposalList.iterator(); i.hasNext();) 
+		for (Iterator<AbstractJavaCompletionProposal> i = newProposalList.iterator(); i.hasNext();)
 		{
 			AbstractJavaCompletionProposal proposal = i.next();
 			Object ippType = typeMap.get(proposal.getReplacementString());
-			if (ippType != null) 
+			if (ippType != null)
 			{
 				return true;
-			}			
+			}
 		}
 		return false;
 	}
 
-	private boolean isProposalValid(AbstractJavaCompletionProposal proposal) {		
+	private boolean isProposalValid(AbstractJavaCompletionProposal proposal) {
 		try {
-			for (int i = 0; i < badGlobalProposals.length; i++) 
+			for (int i = 0; i < badGlobalProposals.length; i++)
 			{
-				if (proposal.getDisplayString().indexOf(badGlobalProposals[i]) > -1) 
+				if (proposal.getReplacementString().indexOf(badGlobalProposals[i]) > -1)
 				{
 					return false;
 				}
 			}
-			for (int i = 0; i < badProposals.length; i++) 
+			for (int i = 0; i < badProposals.length; i++)
 			{
-				if (proposal.getDisplayString().equalsIgnoreCase(badProposals[i])) 
+				if (proposal.getReplacementString().equalsIgnoreCase(badProposals[i]))
 				{
 					return false;
 				}
 			}
-			if (proposal instanceof LazyJavaTypeCompletionProposal) 
+			if (proposal instanceof LazyJavaTypeCompletionProposal)
 			{
 				return false;
 			}
-			return true;			
+			return true;
 		} catch (Throwable t) {
 			return true;
 		}
 	}
-	
+
 	private void adaptDisplayString(AbstractJavaCompletionProposal proposal) {
 		Object ippType = typeMap.get(proposal.getReplacementString());
-		if (ippType != null) 
+		if (ippType != null)
 		{
 			if (ippType instanceof AccessPointType) {
 				String displayString = proposal.getDisplayString();
 				String ippTypeId = ((AccessPointType)ippType).getId();
-				String ippTypeName = ((AccessPointType)ippType).getMetaType().getName();	
-				displayString = displayString.replace("any", ippTypeName); //$NON-NLS-1$
+				String ippTypeName = ((AccessPointType)ippType).getMetaType().getName();
+				displayString = displayString.replace("Global", ippTypeName); //$NON-NLS-1$
 				Reflect.setFieldValue(proposal, "fDisplayString", displayString); //$NON-NLS-1$
 				proposal.setImage(getImageByType(ippType, proposal));
 			}
@@ -159,26 +159,26 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 				String ippTypeId = ((DataType)ippType).getType().getId();
 				String ippTypeName = ((DataType)ippType).getType().getName();
 				if (CodeCompletionHelper.getInstance().getExternalTypeMap().containsKey(((DataType)ippType).getId())) {
-					displayString = displayString.replace("any", "External Class"); //$NON-NLS-1$ //$NON-NLS-2$
+					displayString = displayString.replace("Global", "External Class"); //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					displayString = displayString.replace("any", ippTypeName);					 //$NON-NLS-1$
+					displayString = displayString.replace("Global", ippTypeName);					 //$NON-NLS-1$
 				}
 				Reflect.setFieldValue(proposal, "fDisplayString", displayString); //$NON-NLS-1$
-				proposal.setImage(getImageByType(ippType, proposal));				
+				proposal.setImage(getImageByType(ippType, proposal));
 			}
 		}
 	}
-					
+
 	private Image getImageByType(Object ippType, AbstractJavaCompletionProposal proposal) {
 		Image image = proposal.getImage();
 		if (ippType instanceof AccessPointType)
 		{
-			AccessPointType apt = (AccessPointType)ippType;	
+			AccessPointType apt = (AccessPointType)ippType;
 			if (apt.getType().getId().equalsIgnoreCase("struct")) { //$NON-NLS-1$
-				image = legoImage;	
+				image = legoImage;
 			} else {
 				image = primitiveImage;
-			}			
+			}
 		} else {
 			String ippTypeId = ((DataType)ippType).getType().getId();
 			if (ippTypeId.equalsIgnoreCase("serializable"))  //$NON-NLS-1$
@@ -186,7 +186,7 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 				if (CodeCompletionHelper.getInstance().getExternalTypeMap().containsKey(((DataType)ippType).getId())) {
 					image = libraryImage;
 				} else {
-					image = serializableImage;					
+					image = serializableImage;
 				}
 			}
 			if (ippTypeId.equalsIgnoreCase("primitive")) //$NON-NLS-1$
@@ -196,11 +196,11 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 			if (ippTypeId.equalsIgnoreCase("entity")) //$NON-NLS-1$
 			{
 				image = entityImage;
-			}			
+			}
 			if (ippTypeId.startsWith("struct"))  //$NON-NLS-1$
 			{
 				image = legoImage;
-			}			
+			}
 		}
 		return image;
 	}
@@ -217,7 +217,7 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 			"debugger", //$NON-NLS-1$
 			"prototype" //$NON-NLS-1$
 	};
-	
+
 	private String[] badProposals = new String[]{
 			"Class    String - Object", //$NON-NLS-1$
 			"constructor    Function - Object", //$NON-NLS-1$
@@ -255,5 +255,5 @@ public class EditorCompletionProcessor extends JavaCompletionProcessor {
 			"sort(Function funct)  any[] - Array", //$NON-NLS-1$
 			"splice(Number start, Number deletecount, Array items)  any[] - Array", //$NON-NLS-1$
 			"unshift(Array start)  any[] - Array" //$NON-NLS-1$
-	};	
+	};
 }

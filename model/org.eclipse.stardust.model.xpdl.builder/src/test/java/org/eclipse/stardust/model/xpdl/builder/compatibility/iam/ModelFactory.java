@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 SunGard CSA LLC and others.
+ * Copyright (c) 2012, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,26 +13,7 @@
  */
 package org.eclipse.stardust.model.xpdl.builder.compatibility.iam;
 
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newActivityAssignmentHandler;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDataPath;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDescriptor;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExcludeUserAction;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newInDataMapping;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newInteractiveApplicationActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualTrigger;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOtherwiseTransition;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOutDataMapping;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransition;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -40,41 +21,9 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.RoutingType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-
 
 /**
  * The class provides building block functionality for creating IPP model artifacts from
