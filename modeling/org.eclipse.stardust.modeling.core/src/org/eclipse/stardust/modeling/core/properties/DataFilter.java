@@ -101,7 +101,6 @@ public class DataFilter extends ViewerFilter
                {
                   String uri = attribute.getValue();
                   URI aRealUri = URI.createURI(uri);
-                  String typeName_ = aRealUri.lastSegment();
                   Connection connection = (Connection) model.getConnectionManager()
                         .findConnection(uri);
                   if (connection.getAttribute("importByReference") != null //$NON-NLS-1$
@@ -162,7 +161,9 @@ public class DataFilter extends ViewerFilter
                TypeDeclarationType decl = StructuredTypeUtils.getTypeDeclaration(dataType);
                if(decl != null)
                {
-                  return !TypeDeclarationUtils.isEnumeration(decl, false);
+                  return !TypeDeclarationUtils.isEnumeration(decl, false)
+                        && decl.getId()
+                              .equals(((TypeDeclarationType) filterType).getId());
                }
             }
          }
