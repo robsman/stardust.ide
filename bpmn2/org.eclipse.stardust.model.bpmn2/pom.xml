@@ -2,14 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>org.eclipse.stardust.model.bpmn2</artifactId>
-	<groupId>org.eclipse.stardust.modeling.model</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.eclipse.stardust.bpmn2</groupId>
 		<artifactId>stardust-bpmn2</artifactId>
 		<version>0.0.1</version>
-		<relativePath>../..</relativePath>
 	</parent>
 
 	<dependencies>
@@ -39,23 +37,23 @@
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore</artifactId>
 			<version>${eclipse.emf}</version>
-<!-- 			<exclusions> -->
-<!-- 				<exclusion> -->
-<!-- 					<groupId>org.eclipse.emf</groupId> -->
-<!-- 					<artifactId>org.eclipse.emf.common</artifactId> -->
-<!-- 				</exclusion> -->
-<!-- 			</exclusions> -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.emf</groupId>
+					<artifactId>org.eclipse.emf.common</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-			<version>${eclipse.emf}</version>
-<!-- 			<exclusions> -->
-<!-- 				<exclusion> -->
-<!-- 					<groupId>org.eclipse.emf</groupId> -->
-<!-- 					<artifactId>org.eclipse.emf.ecore</artifactId> -->
-<!-- 				</exclusion> -->
-<!-- 			</exclusions> -->
+			<version>${eclipse.emf.xmi}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.emf</groupId>
+					<artifactId>org.eclipse.emf.ecore</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -86,4 +84,35 @@
 		</dependency>
 	</dependencies>
 
+
+	<repositories>	
+		<repository>
+			<id>stardust-releases</id>
+			<url>http://download.eclipse.org/stardust/maven/releases</url>
+		</repository>
+		<repository>
+			<id>stardust-snapshots</id>
+			<url>http://download.eclipse.org/stardust/maven/snapshots</url>
+		</repository>
+		<repository>
+			<id>stardust-3rdparty-eclipse</id>
+			<url>http://archive.eclipse.org/stardust/maven/3rdparty/eclipse</url>
+		</repository>
+		<repository>
+			<id>stardust-3rdparty-public</id>
+			<url>http://archive.eclipse.org/stardust/maven/3rdparty/public</url>
+		</repository>
+		<repository>
+			<id>mavenCentral</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>public-jboss</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.java.net</id>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+	</repositories>
 </project>

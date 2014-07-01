@@ -229,7 +229,7 @@ public class EmbeddedXsdAwareBpmnXmlHandler extends StardustBpmnXmlHandler
                   // TODO ((BaseElement) peek).setSchema(schema);
                   ExtensionHelper.setExtensionValue(
                         (BaseElement) ((ExtensionAttributeValue) peek).eContainer(), "schema",
-                        javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI, schema);
+                        javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI, schema); // W3C_XML_SCHEMA_NS_URI, schema);
                }
             }
          }
