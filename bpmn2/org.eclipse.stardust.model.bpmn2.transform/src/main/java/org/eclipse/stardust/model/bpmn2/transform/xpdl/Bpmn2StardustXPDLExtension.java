@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.UserTask;
@@ -109,6 +110,18 @@ public class Bpmn2StardustXPDLExtension {
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
     }
 
+
+	public static void addGlobalUserTaskExtensions(CarnotModelQuery query, GlobalUserTask globalTask, ActivityType activity) {
+        StardustUserTaskType taskExt = ExtensionHelper.getInstance().getGlobalUserTaskExtension(globalTask);
+        if (taskExt == null) return;
+        activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
+        activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
+        activity.setElementOid(tryParseLong(taskExt.getElementOid()));
+        activity.getEventHandler().addAll(taskExt.getEventHandler());
+        activity.setApplication(getApplication(query, taskExt));
+        System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
+	}
+	
     public static String getUserTaskApplicationRef(UserTask task) {
         StardustUserTaskType taskExt = ExtensionHelper.getInstance().getUserTaskExtension(task);
         if (taskExt == null) return "";
@@ -147,4 +160,5 @@ public class Bpmn2StardustXPDLExtension {
     		return 0;
     	}
     }
+
 }

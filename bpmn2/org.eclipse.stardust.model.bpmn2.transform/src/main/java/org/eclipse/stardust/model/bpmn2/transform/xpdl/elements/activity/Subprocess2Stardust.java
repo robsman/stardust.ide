@@ -8,37 +8,42 @@
  * Contributors:
  *    ITpearls - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process;
+package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity;
 
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newModelDiagram;
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
 
 import java.util.List;
 
 import org.eclipse.bpmn2.Documentation;
-import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
-public class Process2Stardust extends AbstractElement2Stardust {
+public class Subprocess2Stardust extends AbstractElement2Stardust {
 
-	public Process2Stardust(ModelType carnotModel, List<String> failures) {
+	public Subprocess2Stardust(ModelType carnotModel, List<String> failures) {
 		super(carnotModel, failures);
 	}
 
-	public void addProcess(Process process) {
-		List<Documentation> docs = process.getDocumentation();
+	public void addSubprocess(SubProcess subprocess, FlowElementsContainer container) {
+		ProcessDefinitionType processDef = getProcessAndReportFailure(subprocess, container);
+		if (processDef == null) return;
+		List<Documentation> docs = subprocess.getDocumentation();
 		String processDescription = DocumentationTool.getDescriptionFromDocumentation(docs);
-
-		ProcessDefinitionType def =
-				newProcessDefinition(carnotModel)
-				.withIdAndName(process.getId(), process.getName())
+		ProcessDefinitionType implProcessDef = newProcessDefinition(carnotModel)
+				.withIdAndName(subprocess.getId(), subprocess.getName())
+				.withDescription(processDescription).build();
+		ActivityType activity = newSubProcessActivity(processDef)
+				.withIdAndName(subprocess.getId(), subprocess.getName())
 				.withDescription(processDescription)
 				.build();
-
-		newModelDiagram(carnotModel).forProcess(def).build();
+		activity.setImplementationProcess(implProcessDef);
 	}
+
 
 }

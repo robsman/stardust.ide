@@ -326,6 +326,7 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 	}
 
 	public static String getBoundaryEventHappyPathRouteId(ActivityType eventHolder) {
+		if (null == eventHolder) return BOUNDARY_SPLIT_HAPPY_ROUTE_POSTFIX;
 		return eventHolder.getId() + BOUNDARY_SPLIT_HAPPY_ROUTE_POSTFIX;
 	}
 

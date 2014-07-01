@@ -84,6 +84,7 @@ import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 /**
  * @author Simon Nikles
@@ -101,7 +102,7 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
     private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
     private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
-
+    
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
     }
@@ -143,6 +144,9 @@ public class TransformationControl {
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
         List<Import> bpmnImports =  definitions.getImports();
+//        for (Import imp : bpmnImports) {
+//        	processModelImport(imp);
+//        }
         // 'globally' used elements
         for (RootElement root : definitions.getRootElements()) {
             if (root instanceof ItemDefinition) {
@@ -564,8 +568,8 @@ public class TransformationControl {
     }
 
     private void processCallActivity(CallActivity activity, FlowElementsContainer container) {
-        processingInfo +=   "CallActivity" + NOT_SUPPORTED;
-
+        //processingInfo +=   "CallActivity" + NOT_SUPPORTED;
+    	transf.addCallActivity(activity, container);
     }
 
 
@@ -575,7 +579,8 @@ public class TransformationControl {
     }
 
     private  void processGlobalTask(GlobalTask global) {
-        processingInfo +=   "GlobalTask" + NOT_SUPPORTED;
+        //processingInfo +=   "GlobalTask" + NOT_SUPPORTED;
+    	transf.addGlobalTask(global);
     }
 
     private  void processDataStore(DataStore data) {

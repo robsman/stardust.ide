@@ -144,8 +144,8 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private void addGatewayTransition(Gate gate, Gateway gateway, Expression expression, String name, String Id, String documentation, ActivityType sourceActivity, ActivityType targetActivity, ProcessDefinitionType processDef) {
-        logger.info("addGatewayTransition from " + sourceActivity.getName() + " to " + targetActivity.getName());
         if (sourceActivity != null && targetActivity != null) {
+        	logger.info("addGatewayTransition from " + sourceActivity.getName() + " to " + targetActivity.getName());
         	if (CarnotModelQuery.findTransition(processDef, Id) != null) return;
             TransitionType transition = TransitionUtil.createTransition(Id, name, documentation, processDef, sourceActivity, targetActivity);
             setGatewayConditions(gate, gateway, expression, transition, sourceActivity, targetActivity);

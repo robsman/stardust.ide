@@ -45,6 +45,14 @@ public class AbstractElement2Stardust {
     	return process;
     }
 
+    protected ProcessDefinitionType getProcessAndReportFailure(String containerId) {
+    	ProcessDefinitionType process = query.findProcessDefinition(containerId);
+    	if (process == null) {
+    		failures.add(Bpmn2StardustXPDL.FAIL_NO_PROCESS_DEF + "(Id: " + containerId + ")");
+    	}
+    	return process;
+    }
+
     protected String getNonEmptyName(String name, String id, Object obj) {
         if (name != null && !name.isEmpty()) {
             return name;

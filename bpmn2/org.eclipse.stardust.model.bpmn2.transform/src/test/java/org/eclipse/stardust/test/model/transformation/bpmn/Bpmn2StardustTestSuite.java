@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.eclipse.bpmn2.Definitions;
@@ -57,7 +58,8 @@ import org.junit.runners.Suite;
          TestMessageEvents2Stardust.class,
          TestProcessStart2Stardust.class,
          TestIntermediateTimerEvent2Stardust.class,
-         TestBoundaryEvents2Stardust.class
+         TestBoundaryEvents2Stardust.class,
+         TestCapro.class
         })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
@@ -103,13 +105,15 @@ public class Bpmn2StardustTestSuite {
 
 
     public static ModelType transformModel(Definitions definitions, String fileOutput) {
+    	File targetFile = new File(fileOutput);
+    	String parentFolder = targetFile.getParent();
         TransformationControl transf = TransformationControl.getInstance(new DialectStardustXPDL());
         try {
-            FileOutputStream targetFile = new FileOutputStream(fileOutput);
+            FileOutputStream targetStream = new FileOutputStream(fileOutput);
             try {
-                transf.transformToTarget(definitions, targetFile);
+                transf.transformToTarget(definitions, targetStream);
             } finally {
-                targetFile.close();
+                targetStream.close();
             }
         } catch (IOException ioe) {
             throw new RuntimeException("Failed transforming model.", ioe);
@@ -122,6 +126,20 @@ public class Bpmn2StardustTestSuite {
         Definitions definitions = null;
         try {
             Bpmn2Resource bpmnModel = BPMNModelImporter.importModel(path);
+            definitions = BPMNModelImporter.getDefinitions(bpmnModel);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return definitions;
+    }
+
+    public static Definitions loadBpmnModel(File bpmnFile) throws URISyntaxException {
+    	Definitions definitions = null;
+        try {
+            Bpmn2Resource bpmnModel = BPMNModelImporter.importModel(bpmnFile.getAbsolutePath());
             definitions = BPMNModelImporter.getDefinitions(bpmnModel);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

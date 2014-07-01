@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
+import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
@@ -33,6 +34,7 @@ import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
+import org.eclipse.bpmn2.GlobalTask;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
@@ -60,8 +62,12 @@ import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerVa
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
 import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.ServiceTask2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.UserTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.CallActivity2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.Subprocess2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.ServiceTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.UserTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.callable.GlobalTask2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.callable.process.Process2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.Resource2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.Gateway2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.ProcessStartConfigurator;
@@ -75,8 +81,6 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEv
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.IntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Process2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.process.Subprocess2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service.Interface2StardustApplication;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
@@ -106,8 +110,9 @@ public class Bpmn2StardustXPDL implements Transformator {
     public static final String FAIL_ELEMENT_CREATION = "Could not create Stardust element";
     public static final String FAIL_ELEMENT_UNSUPPORTED_FEATURE = "Usupported feature: ";
 
-    public ModelType carnotModel = null;
-
+    protected ModelType carnotModel = null;
+    private Map<String, ModelType> transformedRelatedModelsByDefinitionsId;
+    
     private List<String> failures = new ArrayList<String>();
 
     private final Logger logger = Logger.getLogger(this.getClass());
@@ -279,6 +284,12 @@ public class Bpmn2StardustXPDL implements Transformator {
         new Process2Stardust(carnotModel, failures).addProcess(process);
     }
 
+	@Override
+	public void addGlobalTask(GlobalTask global) {
+        logger.debug("addGlobalTask " + global);
+        new GlobalTask2Stardust(carnotModel, failures).addGlobalTask(global);
+	}
+
     public void addSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {
         logger.debug("addSequenceFlow " + seq);
         new SequenceFlow2Stardust(carnotModel, failures).addSequenceFlow(seq, container);
@@ -418,5 +429,10 @@ public class Bpmn2StardustXPDL implements Transformator {
             }
         }
     }
+
+	@Override
+	public void addCallActivity(CallActivity activity, FlowElementsContainer container) {
+		new CallActivity2Stardust(carnotModel, transformedRelatedModelsByDefinitionsId, failures).addCallActivity(activity, container);
+	}
 
 }

@@ -46,6 +46,7 @@ public class BpmActivityTimerEventHandlerBuilder extends AbstractEventHandlerBui
    }
 
    public BpmActivityTimerEventHandlerBuilder withConstantPeriod(Period period) {
+	   if (null == period) return this;
 	   AttributeUtil.setBooleanAttribute(element, PredefinedConstants.TIMER_CONDITION_USE_DATA_ATT, false);
 	   AttributeUtil.setAttribute(element, PredefinedConstants.TIMER_PERIOD_ATT, period.toString());
 	   return this;

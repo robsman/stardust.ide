@@ -12,16 +12,20 @@ package org.eclipse.stardust.model.bpmn2.extension;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Bpmn2Factory;
+import org.eclipse.bpmn2.Bpmn2Package;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
+import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -29,8 +33,14 @@ import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.UserTask;
+import org.eclipse.bpmn2.util.XmlExtendedMetadata;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl.SimpleFeatureMapEntry;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
@@ -56,6 +66,9 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
  */
 public class ExtensionHelper {
 
+	public static final String NS_URI_STARDUST = "http://www.eclipse.org/stardust";
+	public static final String NS_PREFIX_STARDUST = "stardust";
+
     private static final Internal USER_TASK_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_USER_TASK;
     private static final Internal SERVICE_TASK_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_SERVICE_TASK;
     private static final Internal SUBPROCESS_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_SUBPROCESS;
@@ -77,7 +90,7 @@ public class ExtensionHelper {
     private static final Internal MODEL_ATT_VENDOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__VENDOR;
     private static final Internal MODEL_ATT_AUTHOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__AUTHOR;
 
-
+    private static final Map<Class<?>, EClass> classToEClassMap = new HashMap<Class<?>, EClass>();
 
     private static ExtensionHelper instance = null;
 
@@ -120,6 +133,10 @@ public class ExtensionHelper {
     public StardustUserTaskType getUserTaskExtension(UserTask element) {
         return getFirstExtension(StardustUserTaskType.class, element, USER_TASK_EXT);
     }
+
+	public StardustUserTaskType getGlobalUserTaskExtension(GlobalUserTask globalTask) {
+		return getFirstExtension(StardustUserTaskType.class, globalTask, USER_TASK_EXT);
+	}
 
     public void setServiceTaskExtension(ServiceTask serviceTask, StardustServiceTaskType serviceTaskExtension) {
         setExtension(serviceTask, serviceTaskExtension, SERVICE_TASK_EXT);
@@ -310,5 +327,108 @@ public class ExtensionHelper {
             return val;
         } catch (Exception e) {}
         return empty;
+    }
+
+
+    public static void setExtensionValue(BaseElement object, String tag, String nsUri, Object value)
+    {
+       ExtendedMetaData metadata = XmlExtendedMetadata.INSTANCE;
+
+       ExtensionAttributeValue extensionAttributes = getOrCreate(
+             ExtensionAttributeValue.class, object.getExtensionValues());
+       FeatureMap extensions = extensionAttributes.getValue();
+
+       Object currentValue = null;
+       for (FeatureMap.Entry extension : extensionAttributes.getValue())
+       {
+          if (isInFilter(extension.getEStructuralFeature(), tag, nsUri))
+          {
+             currentValue = extension.getValue();
+             break;
+          }
+       }
+
+       // create extension element type
+       EStructuralFeature extensionElementType = metadata.demandFeature(nsUri,
+             tag, true, true);
+       extensionElementType.setChangeable(true);
+
+       if (null != currentValue)
+       {
+          extensions.list(extensionElementType).remove(currentValue);
+       }
+
+       if (null != value)
+       {
+          extensions.add(extensionElementType, value);
+       }
+       else
+       {
+          if (extensions.isEmpty())
+          {
+             object.getExtensionValues().remove(extensionAttributes);
+          }
+       }
+    }
+
+    private static boolean isInFilter(EStructuralFeature eStructuralFeature, String tag)
+    {
+       return isInFilter(eStructuralFeature, tag, NS_URI_STARDUST);
+    }
+
+    private static boolean isInFilter(EStructuralFeature eStructuralFeature, String tag, String nsUri)
+    {
+       String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature);
+       if (nsUri.equals(extensionNs))
+       {
+          if ((null != tag) && tag.equals(eStructuralFeature.getName()))
+          {
+             return true;
+          }
+       }
+       return false;
+    }
+
+    public static void setExtensionValue(BaseElement object, String tag, Object value)
+    {
+       setExtensionValue(object, tag, NS_URI_STARDUST, value);
+    }
+
+    private static <T extends EObject> T getOrCreate(Class<T> cls, List<T> elements)
+    {
+       if (elements.isEmpty())
+       {
+          EClass ecls = classToEClassMap.get(cls);
+          if (ecls == null)
+          {
+             ecls = scanForEClass(cls, Bpmn2Package.eINSTANCE.getEClassifiers());
+             if (ecls == null)
+             {
+                return null;
+             }
+          }
+
+          @SuppressWarnings("unchecked")
+          T element = (T) Bpmn2Factory.eINSTANCE.create(ecls);
+
+          elements.add(element);
+       }
+
+       return elements.get(0);
+    }
+
+    private static EClass scanForEClass(Class<?> cls, List<EClassifier> classifiers)
+    {
+       String clsName = cls.getSimpleName();
+       for (EClassifier classifier : classifiers)
+       {
+          if (cls.getName().equals(classifier.getInstanceClassName())
+                || clsName.equals(classifier.getName()) && (classifier instanceof EClass))
+          {
+             return (EClass) classifier;
+          }
+       }
+
+       return null;
     }
 }

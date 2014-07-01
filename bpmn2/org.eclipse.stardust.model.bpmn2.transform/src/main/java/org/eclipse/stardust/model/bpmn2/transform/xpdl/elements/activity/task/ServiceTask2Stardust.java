@@ -8,7 +8,7 @@
  * Contributors:
  *    ITpearls - initial API and implementation and/or initial documentation
  *******************************************************************************/
-package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity;
+package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task;
 
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
 
