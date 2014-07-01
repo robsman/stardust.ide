@@ -10,7 +10,6 @@ This README would normally document whatever steps are necessary to get your app
 
 ### How do I get set up? ###
 
-* Summary of set up
 1. dependency for org.eclipse.bpmn2 (BPMN2.0 EMF Model): 
 a) clone git://git.eclipse.org/gitroot/bpmn2
 b) build project (mvn clean install) org.eclipse.bpmn2 in order to get the jar dependency into your local repository.
