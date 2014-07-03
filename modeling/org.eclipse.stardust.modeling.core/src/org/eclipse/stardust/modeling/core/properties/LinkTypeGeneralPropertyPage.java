@@ -31,13 +31,13 @@ import org.eclipse.swt.widgets.Control;
 public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPage
 {
    public static final String[][] TYPE_LABELS = {
-         {"ag.carnot.workflow.model.IActivity", Diagram_Messages.LINK_TYPE_LB_Activity}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.IData", Diagram_Messages.LINK_TYPE_LB_Data}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.IRole", Diagram_Messages.TLINK_TYPE_LB_Role}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.IProcessDefinition", Diagram_Messages.LINK_TYPE_LB_Process}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.ITransition", Diagram_Messages.LINK_TYPE_LB_Transition}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.IOrganization", Diagram_Messages.LINK_TYPE_LB_Organization}, //$NON-NLS-1$
-         {"ag.carnot.workflow.model.IParticipant", Diagram_Messages.LINK_TYPE_LB_Participant}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IActivity", Diagram_Messages.LINK_TYPE_LB_Activity}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IData", Diagram_Messages.LINK_TYPE_LB_Data}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IRole", Diagram_Messages.TLINK_TYPE_LB_Role}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IProcessDefinition", Diagram_Messages.LINK_TYPE_LB_Process}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.ITransition", Diagram_Messages.LINK_TYPE_LB_Transition}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IOrganization", Diagram_Messages.LINK_TYPE_LB_Organization}, //$NON-NLS-1$
+      {"org.eclipse.stardust.model.xpdl.IParticipant", Diagram_Messages.LINK_TYPE_LB_Participant}, //$NON-NLS-1$
    };
 
    private LabeledText sourceRoleText;
@@ -152,8 +152,6 @@ public class LinkTypeGeneralPropertyPage extends AbstractModelElementPropertyPag
       {
          targetViewer.add(TYPE_LABELS[i][0]);
       }
-      LabeledViewer labeledViewer = new LabeledViewer(targetViewer, targetCombo
-            .getLabel());
-      return labeledViewer;
+      return new LabeledViewer(targetViewer, targetCombo.getLabel());
    }
 }

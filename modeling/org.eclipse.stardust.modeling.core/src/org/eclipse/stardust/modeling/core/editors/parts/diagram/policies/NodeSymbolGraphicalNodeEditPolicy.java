@@ -27,7 +27,6 @@ import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -67,6 +66,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.DynamicConnectionCommand;
 import org.eclipse.stardust.modeling.core.editors.DynamicConnectionFactory;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractConnectionSymbolEditPart;
@@ -221,7 +221,8 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
 
    private boolean isCompatible(INodeSymbol sourceSymbol, String sourceClass)
    {
-      return LinkTypeGeneralPropertyPage.TYPE_LABELS[0][0].equals(sourceClass)
+      return sourceSymbol.eClass().equals(DynamicConnectionCommand.LINK_TYPE_MAPPING.get(sourceClass));
+/*      return LinkTypeGeneralPropertyPage.TYPE_LABELS[0][0].equals(sourceClass)
             && sourceSymbol instanceof ActivitySymbolType
             || LinkTypeGeneralPropertyPage.TYPE_LABELS[1][0].equals(sourceClass)
             && sourceSymbol instanceof DataSymbolType
@@ -234,7 +235,7 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
             || LinkTypeGeneralPropertyPage.TYPE_LABELS[5][0].equals(sourceClass)
             && sourceSymbol instanceof OrganizationSymbolType
             || LinkTypeGeneralPropertyPage.TYPE_LABELS[6][0].equals(sourceClass)
-            && sourceSymbol instanceof IModelParticipantSymbol;
+            && sourceSymbol instanceof IModelParticipantSymbol;*/
    }
 
    protected Command getConnectionCompleteCommand(CreateConnectionRequest request)

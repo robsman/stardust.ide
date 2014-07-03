@@ -43,6 +43,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.*;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.LaneParticipantCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.tools.CommandCanceledException;
+import org.eclipse.stardust.modeling.core.properties.LinkTypeGeneralPropertyPage;
 import org.eclipse.stardust.modeling.core.ui.SplitJoinDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
@@ -79,16 +80,16 @@ public class DynamicConnectionCommand extends Command
 
    private static final String CONNECTION_TYPE_SUFFIX = "ConnectionType"; //$NON-NLS-1$
 
-   private static final Map<String, EClass> LINK_TYPE_MAPPING = CollectionUtils.newMap();
+   public static final Map<String, EClass> LINK_TYPE_MAPPING = CollectionUtils.newMap();
    static
    {
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IActivity", PKG.getActivitySymbolType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IData", PKG.getDataSymbolType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IRole", PKG.getRoleSymbolType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IProcessDefinition", PKG.getProcessSymbolType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.ITransition", PKG.getTransitionConnectionType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IOrganization", PKG.getOrganizationSymbolType()); //$NON-NLS-1$
-      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl.IParticipant", PKG.getIModelParticipantSymbol()); //$NON-NLS-1$
+      registerMapping("IActivity",          PKG.getActivitySymbolType());       //$NON-NLS-1$
+      registerMapping("IData",              PKG.getDataSymbolType());           //$NON-NLS-1$
+      registerMapping("IRole",              PKG.getRoleSymbolType());           //$NON-NLS-1$
+      registerMapping("IProcessDefinition", PKG.getProcessSymbolType());        //$NON-NLS-1$
+      registerMapping("ITransition",        PKG.getTransitionConnectionType()); //$NON-NLS-1$
+      registerMapping("IOrganization",      PKG.getOrganizationSymbolType());   //$NON-NLS-1$
+      registerMapping("IParticipant",       PKG.getIModelParticipantSymbol());  //$NON-NLS-1$
    };
 
    private static final EClass[] DIRECTIONLESS_CONNECTION_TYPES = {
@@ -96,8 +97,7 @@ public class DynamicConnectionCommand extends Command
          PKG.getExecutedByConnectionType(), PKG.getPerformsConnectionType(),
          PKG.getWorksForConnectionType(), PKG.getTeamLeadConnectionType()};
 
-   private static final EClass[] UNSUPPORTED_CONNECTION_TYPES = {PKG
-         .getSubProcessOfConnectionType()};
+   private static final EClass[] UNSUPPORTED_CONNECTION_TYPES = {PKG.getSubProcessOfConnectionType()};
 
 
    private WorkflowModelEditor editor;
@@ -120,6 +120,13 @@ public class DynamicConnectionCommand extends Command
    {
       super("Connect"); //$NON-NLS-1$
       this.editor = editor;
+   }
+
+   private static void registerMapping(String name, EClass eClass)
+   {
+      LINK_TYPE_MAPPING.put("org.eclipse.stardust.model.xpdl." + name, eClass); //$NON-NLS-1$
+      // also register old name, for compatibility reasons
+      LINK_TYPE_MAPPING.put("ag.carnot.workflow.model." + name, eClass); //$NON-NLS-1$
    }
 
    public void setSourceSymbol(INodeSymbol sourceSymbol)
