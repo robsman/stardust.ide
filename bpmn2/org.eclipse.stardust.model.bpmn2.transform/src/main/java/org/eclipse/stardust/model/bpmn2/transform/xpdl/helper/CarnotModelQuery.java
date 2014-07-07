@@ -60,24 +60,34 @@ public class CarnotModelQuery {
         return findSequenceSourceActivityForNode(sourceNode, container);
     }
 
-    /**
-     * Considers artificial constructs (i.e. the source of a transition may be an additional control-flow element).
-     */
     public ActivityType findSequenceSourceActivityForNode(FlowNode node, FlowElementsContainer container) {
-        ActivityType activity = findActivity(node, container);
-        if (BpmnModelQuery.hasBoundaryEventAttached(node)) {
-        	String happyPathRouteId = BoundaryEvent2Stardust.getBoundaryEventHappyPathRouteId(activity);
-        	return findActivity(happyPathRouteId, container);
-        } else if (node instanceof BoundaryEvent) {
-//        	Activity holderActivity = ((BoundaryEvent)node).getAttachedToRef();
-//        	activity = findActivity(holderActivity, container);
-//        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId(activity);
-        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId((BoundaryEvent)node);
-        	return findActivity(eventPathRouteId, container);
+        if (node instanceof BoundaryEvent) {
+        	Activity owningActivity = ((BoundaryEvent)node).getAttachedToRef();
+        	if (null != owningActivity) return findActivity(owningActivity.getId(), container);
+        	return null;
         } else {
-        	return activity;
+        	return findActivity(node, container);
         }
     }
+
+//    /**
+//     * Considers artificial constructs (i.e. the source of a transition may be an additional control-flow element).
+//     */
+//    public ActivityType findSequenceSourceActivityForNode(FlowNode node, FlowElementsContainer container) {
+//        ActivityType activity = findActivity(node, container);
+//        if (BpmnModelQuery.hasBoundaryEventAttached(node)) {
+//        	String happyPathRouteId = BoundaryEvent2Stardust.getBoundaryEventHappyPathRouteId(activity);
+//        	return findActivity(happyPathRouteId, container);
+//        } else if (node instanceof BoundaryEvent) {
+////        	Activity holderActivity = ((BoundaryEvent)node).getAttachedToRef();
+////        	activity = findActivity(holderActivity, container);
+////        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId(activity);
+//        	String eventPathRouteId = BoundaryEvent2Stardust.getBoundaryEventEventPathRouteId((BoundaryEvent)node);
+//        	return findActivity(eventPathRouteId, container);
+//        } else {
+//        	return activity;
+//        }
+//    }
 
     public ActivityType findActivity(String nodeId, FlowElementsContainer container) {
         ProcessDefinitionType processDef = findProcessDefinition(container.getId());

@@ -15,8 +15,11 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransit
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Expression;
+import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
+import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -35,7 +38,7 @@ public class TransitionUtil {
     public static final String CONDITION_KEY = "CONDITION";
     public static final String OTHERWISE_KEY = "OTHERWISE";
     // TODO Change to JavaScript: e.g. http://ecma-international.org/ecma-262 (?)
-    public static final String EXPRESSION_LANGUAGE_JAVA = "http://www.sun.com/java";
+    public static final String EXPRESSION_LANGUAGE_JAVA = "http://www.java.com/java"; //"http://www.sun.com/java";
 
     public static TransitionType createTransition(String id, String name, String documentation, ProcessDefinitionType process, ActivityType sourceActivity, ActivityType targetActivity) {
         TransitionType transition =
@@ -132,4 +135,13 @@ public class TransitionUtil {
     public static boolean hasOtherwiseCondition(TransitionType transition) {
     	return transition.getCondition().equals(OTHERWISE_KEY);
     }
+
+	public static void setStardustBoundaryOutgoingCondition(TransitionType transition, BoundaryEvent sourceNode, SequenceFlow seq) {
+		transition.setCondition(CONDITION_KEY);
+        XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
+        String condition = "ON_BOUNDARY_EVENT("+sourceNode.getId()+");";
+        ModelUtils.setCDataString(expression.getMixed(), condition, true);
+        transition.setExpression(expression);
+		//<Condition Type="CONDITION">ON_BOUNDARY_EVENT(BoundaryTimer)</Condition>		
+	}
 }

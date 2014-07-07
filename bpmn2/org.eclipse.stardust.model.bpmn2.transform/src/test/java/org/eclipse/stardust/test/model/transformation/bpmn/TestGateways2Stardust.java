@@ -46,7 +46,62 @@ import org.junit.Test;
  *
  */
 public class TestGateways2Stardust {
+	
+	private static final String TEST_ID_INCLUSIVE_SPLIT = "InclusiveSplitGateway";
+	private static final String TEST_ID_INCLUSIVE_JOIN = "InclusiveMergeGateway";
+	
+    @Test
+    public void testInclusiveORGatewayOneSplitOneMerge() {
+        final String modelFile = TEST_BPMN_MODEL_DIR + "InclusiveORGatewaySingle.bpmn";
+        final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "InclusiveORGatewaySingle.xpdl";
+        final String testCondition = "test='Condition to B'";
+        ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+        ProcessDefinitionType process = result.getProcessDefinition().get(0);
 
+        // A -> B, C or D -> E
+        // A has condition, D is default path
+        ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
+        ActivityType taskB = CarnotModelQuery.findActivity(process, TEST_ID_TASK_B);
+        ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
+        ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
+        ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);
+
+        ActivityType inclusiveSplit = CarnotModelQuery.findActivity(process, TEST_ID_INCLUSIVE_SPLIT);
+        ActivityType inclusiveMerge = CarnotModelQuery.findActivity(process, TEST_ID_INCLUSIVE_JOIN);
+
+        TransitionType transitionAB = CarnotModelQuery.findTransition(process, TEST_ID_CONDITIONAL_SEQUENCE);
+        TransitionType defaultTransitionAD = CarnotModelQuery.findTransition(process, TEST_ID_DEFAULT_SEQUENCE);
+
+        assertNotNull(inclusiveSplit);
+        assertNotNull(inclusiveMerge);
+
+        assertNotNull(taskA);
+        assertNotNull(taskB);
+        assertNotNull(taskC);
+        assertNotNull(taskD);
+        assertNotNull(taskE);
+
+        assertNotNull(transitionAB);
+        assertNotNull(defaultTransitionAD);
+
+        assertTrue(taskA.getOutTransitions().size()==1); 
+        assertTrue(taskE.getInTransitions().size()==1);
+
+        assertTrue(inclusiveSplit.getOutTransitions().size()==3); 
+        assertTrue(inclusiveMerge.getInTransitions().size()==3);
+
+        assertEquals(JoinSplitType.OR_LITERAL, inclusiveSplit.getSplit());
+        assertEquals(JoinSplitType.OR_LITERAL, inclusiveMerge.getJoin());
+        System.out.println("sequence condition AB " + transitionAB.getCondition());
+        System.out.println("sequence condition AD " + defaultTransitionAD.getCondition());
+
+        //assertEquals(testCondition, transitionAB.getCondition());
+        assertEquals(XMLConstants.CONDITION_VALUE, transitionAB.getCondition());
+        assertEquals("ConditionToB == true;", transitionAB.getExpression().getMixed().getValue(0));
+        assertEquals(XMLConstants.CONDITION_OTHERWISE_VALUE, defaultTransitionAD.getCondition());
+
+    }
+	
     @Test
     public void testXORGatewayOneSplitOneMerge() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "XORGatewaysSingle.bpmn";

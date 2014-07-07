@@ -30,12 +30,14 @@ import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.DocumentRoot;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.ExclusiveGateway;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.GlobalTask;
 import org.eclipse.bpmn2.Import;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -55,12 +57,16 @@ import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.UserTask;
+import org.eclipse.bpmn2.util.Bpmn2Resource;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
 import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
+import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.CallActivity2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.Subprocess2Stardust;
@@ -80,6 +86,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlo
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.IntermediateEvent2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.NativeBoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service.Interface2StardustApplication;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
@@ -266,6 +273,12 @@ public class Bpmn2StardustXPDL implements Transformator {
         new Gateway2Stardust(carnotModel,failures).addExclusiveGateway(gateway, container);
     }
 
+	@Override
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+        logger.debug("addInclusiveGateway" + gateway.getId() + " " + gateway.getName());
+        new Gateway2Stardust(carnotModel,failures).addInclusiveGateway(gateway, container);
+	}
+
     public void addParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
         logger.debug("addParallelGateway" + gateway.getId() + " " + gateway.getName());
         new Gateway2Stardust(carnotModel,failures).addParallelGateway(gateway, container);
@@ -407,7 +420,8 @@ public class Bpmn2StardustXPDL implements Transformator {
 
 	@Override
 	public void addBoundaryEvent(BoundaryEvent event, FlowElementsContainer container) {
-		new BoundaryEvent2Stardust(carnotModel, failures).addBoundaryEvent(event, container);
+		//new BoundaryEvent2Stardust(carnotModel, failures).addBoundaryEvent(event, container);
+		new NativeBoundaryEvent2Stardust(carnotModel, failures).addBoundaryEvent(event, container);
 	}
 
     /**
@@ -433,6 +447,26 @@ public class Bpmn2StardustXPDL implements Transformator {
 	@Override
 	public void addCallActivity(CallActivity activity, FlowElementsContainer container) {
 		new CallActivity2Stardust(carnotModel, transformedRelatedModelsByDefinitionsId, failures).addCallActivity(activity, container);
+	}
+
+	@Override
+	public Definitions getImportDefinitions(Import imp) {
+		Definitions container = (Definitions)imp.eContainer();
+		ResourceSet resourceSet = container.eResource().getResourceSet();
+		String importName = URI.createFileURI(imp.getLocation()).toFileString();
+		URI importUri = Bpmn2PersistenceHandler.getStreamUri(importName);
+		org.eclipse.emf.ecore.resource.Resource resource = resourceSet.getResource(importUri, false);
+		if (null != resource) {
+			try {
+				Bpmn2Resource eResource = (Bpmn2Resource)resource;
+				EObject importRoot = eResource.getContents().get(0);
+				if (importRoot instanceof DocumentRoot) {
+					return ((DocumentRoot)importRoot).getDefinitions();
+				}
+
+			} catch (Exception e) {}
+		}
+		return null;
 	}
 
 }

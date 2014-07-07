@@ -12,7 +12,6 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control;
 
 import java.util.List;
 
-import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -79,7 +78,10 @@ public class SequenceFlow2Stardust extends AbstractElement2Stardust {
 			String name = getNonEmptyName(seq.getName(), seq.getId(), seq);
 			TransitionType transition = TransitionUtil.createTransition(seq.getId(), name, documentation, processDef, sourceActivity, targetActivity);
 			TransitionUtil.setSequenceExpressionConditionOrTrue(transition, seq.getConditionExpression(), logger, failures);
-
+			
+			if (sourceNode instanceof BoundaryEvent) {
+				TransitionUtil.setStardustBoundaryOutgoingCondition(transition, (BoundaryEvent)sourceNode, seq);
+			}
 			// TODO transition.setForkOnTraversal()
 			processDef.getTransition().add(transition);
 

@@ -28,24 +28,25 @@ public class CallActivity2Stardust extends AbstractElement2Stardust {
 
 		public void addCallActivity(CallActivity activity, FlowElementsContainer container) {
 			CallableElement calledElementRef = activity.getCalledElementRef();
-			ProcessDefinitionType processDef = null;
+			ProcessDefinitionType calledProcessDef = null;
+			ProcessDefinitionType callingProcessDef = getProcessAndReportFailure(activity, container);
 			if (null != calledElementRef) {
 				if (calledElementRef.eIsProxy()) calledElementRef = Bpmn2ProxyResolver.resolveProxy(calledElementRef, ModelInfo.getDefinitions(container));
 				if (null != calledElementRef)
-					processDef = getProcessAndReportFailure(calledElementRef.getId());
+					calledProcessDef = getProcessAndReportFailure(calledElementRef.getId());
 				//if (processDef == null) return;
 			}
-			if (null == processDef) {
+			if (null == calledProcessDef) {
 				failures.add("Could not resolve called process " + activity.getCalledElementRef());
 				return;
 			}
 			List<Documentation> docs = activity.getDocumentation();
 			String processDescription = DocumentationTool.getDescriptionFromDocumentation(docs);
-			ActivityType callActivity = newSubProcessActivity(processDef)
+			ActivityType callActivity = newSubProcessActivity(callingProcessDef)
 					.withIdAndName(activity.getId(), activity.getName())
 					.withDescription(processDescription)
 					.build();
-			if (null != processDef) callActivity.setImplementationProcess(processDef);
+			if (null != calledProcessDef) callActivity.setImplementationProcess(calledProcessDef);
 		}
 
 //		private void tempImport() {

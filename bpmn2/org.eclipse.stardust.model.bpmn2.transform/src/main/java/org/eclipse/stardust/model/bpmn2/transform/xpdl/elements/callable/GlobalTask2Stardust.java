@@ -49,7 +49,9 @@ public class GlobalTask2Stardust extends AbstractElement2Stardust {
 		} else if (globalTask instanceof GlobalManualTask) {
 			UserTask2Stardust userTask2Stardust = new UserTask2Stardust(carnotModel, failures);
 			userTask2Stardust.addGlobalManualTask((GlobalManualTask)globalTask, org.eclipse.stardust.model.bpmn2.reader.ModelInfo.getDefinitions(globalTask));
-		} 
+		}  else {
+			failures.add("GlobalTask must declare a specific subclass (e.g. GlobalUserTask) for execution: " + globalTask);
+		}
 	}
 	
 	

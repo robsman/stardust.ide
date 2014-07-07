@@ -28,6 +28,7 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.GlobalTask;
 import org.eclipse.bpmn2.Import;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.InputOutputBinding;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
@@ -123,5 +124,9 @@ public interface Transformator {
 	public void addGlobalTask(GlobalTask global);
 
 	public void addCallActivity(CallActivity activity, FlowElementsContainer container);
+
+	public Definitions getImportDefinitions(Import imp);
+
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container);
 
 }

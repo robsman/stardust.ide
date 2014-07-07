@@ -15,11 +15,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Definitions;
@@ -27,14 +24,11 @@ import org.eclipse.bpmn2.DocumentRoot;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.util.Bpmn2Resource;
-import org.eclipse.bpmn2.util.Bpmn2ResourceFactoryImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.stardust.model.bpmn2.ModelConstants;
 import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 
 /**
@@ -108,7 +102,10 @@ public class BPMNModelImporter {
     	
     	//Definitions defs = getDefinitions(loadedResource);
     	List<Bpmn2Resource> loadedImports = new ArrayList<Bpmn2Resource>();
-    	for (Import imp : loaded.getImports()) {
+    	List<Import> imports = loaded.getImports();
+    	if (null == imports) return loadedImports;
+    	for (Import imp : imports) {
+    		if (null == imp.getImportType() || !ModelConstants.BPMN_IMPORT_TYPE_MODEL.equals(imp.getImportType())) continue;
     		java.net.URI importPath = loadedUri.resolve(imp.getLocation());
     		loadedImports.add(importModel(importPath));
 //            Bpmn2ResourceFactoryImpl factory = new Bpmn2ResourceFactoryImpl();

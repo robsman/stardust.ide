@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
+import org.eclipse.bpmn2.InclusiveGateway;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
@@ -61,6 +62,21 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         addGateway(Gate.EXCLUSIVE, gateway, container);
     }
 
+	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+        ProcessDefinitionType processDef = getProcessAndReportFailure(gateway, container);
+        if (processDef == null) return;
+        if (!validateGate(gateway)) return;
+
+        boolean isFork = isFork(gateway);
+        boolean isJoin = isJoin(gateway);
+        boolean isMixed = isMixed(gateway);
+        Gate type = Gate.INCLUSIVE;
+        //JoinSplitType joinsplit = getJoinSplitType(type);
+        GateDirection direction = getDirection(isMixed, isFork, isJoin);
+        ActivityType route = addRoute(type, direction, gateway, processDef, container);
+        createRouteTransitions(route, processDef, type, direction, gateway, container);
+	}
+
     public void addParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
         addGateway(Gate.PARALLEL, gateway, container);
     }
@@ -95,7 +111,12 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
                 .withDescription(DocumentationTool.getDescriptionFromDocumentation(gateway.getDocumentation()))
                 .build();
 
-        JoinSplitType routeType = ( type.equals(Gate.EXCLUSIVE) ? JoinSplitType.XOR_LITERAL : JoinSplitType.AND_LITERAL);
+        JoinSplitType routeType = ( type.equals(Gate.EXCLUSIVE) 
+        						? JoinSplitType.XOR_LITERAL 
+        						: (type.equals(Gate.INCLUSIVE) 
+        								? JoinSplitType.OR_LITERAL  
+        								: JoinSplitType.AND_LITERAL)
+        						);
         if (direction.equals(GateDirection.DIVERGE) || direction.equals(GateDirection.MIXED)) {
             route.setSplit(routeType);
         }
@@ -339,9 +360,16 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private boolean isGatewayDefaultSequenceTarget(Gate gate, Gateway gateway, ActivityType targetActivity) {
-        return gate.equals(Gate.EXCLUSIVE)
-                && ((ExclusiveGateway)gateway).getDefault() != null
-                && ((ExclusiveGateway)gateway).getDefault().getTargetRef().getId().equals(targetActivity.getId());
+    	
+        boolean isDefault = false;
+        if (Gate.EXCLUSIVE.equals(gate)) {
+        	isDefault = ((ExclusiveGateway)gateway).getDefault() != null
+        			 && ((ExclusiveGateway)gateway).getDefault().getTargetRef().getId().equals(targetActivity.getId());
+        } else if (Gate.INCLUSIVE.equals(gate)) { 
+        	isDefault = ((InclusiveGateway)gateway).getDefault() != null
+        			 && ((InclusiveGateway)gateway).getDefault().getTargetRef().getId().equals(targetActivity.getId());
+        }
+        return isDefault;
     }
 
     private JoinSplitType getJoinSplitType(Gate type) {
@@ -349,7 +377,7 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
         case EXCLUSIVE:
             return JoinSplitType.XOR_LITERAL;
         case INCLUSIVE:
-            return JoinSplitType.AND_LITERAL;
+            return JoinSplitType.OR_LITERAL;
         case PARALLEL:
             return JoinSplitType.AND_LITERAL;
         }

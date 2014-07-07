@@ -83,16 +83,17 @@ import org.eclipse.bpmn2.Transaction;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.stardust.model.bpmn2.ModelConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
 /**
  * @author Simon Nikles
  *
  */
 public class TransformationControl {
-
+	
     private static final String NOT_SUPPORTED = ": element transformation not supported\n";
+	
     private final Dialect dialect;
     private Transformator transf;
     private String processingInfo = "";
@@ -102,6 +103,7 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
     private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
     private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
+	private List<String> processedImportDefinitions = new ArrayList<String>();
     
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
@@ -144,9 +146,9 @@ public class TransformationControl {
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
         List<Import> bpmnImports =  definitions.getImports();
-//        for (Import imp : bpmnImports) {
-//        	processModelImport(imp);
-//        }
+        for (Import imp : bpmnImports) {        	
+        	processModelImport(imp);
+        }
         // 'globally' used elements
         for (RootElement root : definitions.getRootElements()) {
             if (root instanceof ItemDefinition) {
@@ -211,6 +213,27 @@ public class TransformationControl {
 			}
 		}
     }
+
+	private void processModelImport(Import imp) {
+		if (null != imp.getImportType() && imp.getImportType().equals(ModelConstants.BPMN_IMPORT_TYPE_MODEL)) {
+			Definitions def = transf.getImportDefinitions(imp);
+			if (null != def) {
+				String defId = null;
+				if (null != def.getId()) {
+					defId = def.getId();
+				} else {
+					defId = imp.getLocation();
+				}
+				if (!processedImportDefinitions.contains(defId)) {
+					processedImportDefinitions.add(def.getId());
+					processBpmn(def, transf);
+				}
+			} else {
+				processingInfo +=   "Failed to resolve Definitions from BPMN Import element: " + imp + "\n";
+				log.error("Failed to resolve Definitions from BPMN Import element: " + imp);
+			}
+		}
+	}
 
 	private  void processProcess(Process process) {
         transf.addProcess(process);
@@ -445,6 +468,11 @@ public class TransformationControl {
     private void processExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
         transf.addExclusiveGateway(gateway, container);
     }
+    
+    private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
+    	transf.addInclusiveGateway(gateway, container);
+        //processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
+    }
 
     private void processParallelGateway(ParallelGateway gateway, FlowElementsContainer container) {
         transf.addParallelGateway(gateway, container);
@@ -489,11 +517,6 @@ public class TransformationControl {
         transf.addPartnerEntity(entity);
     }
 
-
-    private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
-        processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
-
-    }
 
     private void processComplexGateway(ComplexGateway gateway, FlowElementsContainer container) {
         processingInfo +=   "ComplexGateway" + NOT_SUPPORTED;
