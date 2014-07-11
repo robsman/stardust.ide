@@ -11,6 +11,9 @@
 
 package org.eclipse.stardust.ui.web.modeler.service;
 
+import static java.util.Collections.emptyList;
+import static org.eclipse.stardust.common.CollectionUtils.newList;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,9 +29,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
+import org.eclipse.stardust.modeling.validation.ExtensionDescriptor;
 import org.eclipse.stardust.modeling.validation.IValidationExtensionRegistry;
+import org.eclipse.stardust.modeling.validation.PojoExtensionDescriptor;
 import org.eclipse.stardust.modeling.validation.ServerConfigurationElement;
 import org.eclipse.stardust.modeling.validation.ValidationConstants;
 
@@ -39,6 +45,8 @@ import org.eclipse.stardust.modeling.validation.ValidationConstants;
 */
 public class ValidationExtensionRegistry implements IValidationExtensionRegistry
 {
+   private static final Logger trace = LogManager.getLogger(ValidationExtensionRegistry.class);
+
    private final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
    private static IValidationExtensionRegistry valdationExtensionRegistry;
    private static final IConfigurationElement[] EMPTY_VALIDATORS = new IConfigurationElement[0];
@@ -75,10 +83,14 @@ public class ValidationExtensionRegistry implements IValidationExtensionRegistry
    {
    }
 
-   public IConfigurationElement[] filterElements(String extensionPointId_) throws IOException
+   @Override
+   public List<ExtensionDescriptor> getExtensionDescriptorsFor(String extensionPointId_)
    {
-      List<IConfigurationElement> result = CollectionUtils.newList();
+      List<ExtensionDescriptor> result = newList();
 
+      List<Plugin> plugins = newList();
+      try
+      {
       Enumeration<URL> resources = classLoader.getResources("plugin.xml");
       while (resources.hasMoreElements())
       {
@@ -87,6 +99,26 @@ public class ValidationExtensionRegistry implements IValidationExtensionRegistry
          try
          {
             Plugin plugin = read(openStream);
+               plugins.add(plugin);
+            }
+            catch (JAXBException je)
+            {
+               trace.error("Failed parsing validation extension descriptor " + url, je);
+            }
+            finally
+            {
+               openStream.close();
+            }
+         }
+      }
+      catch (IOException ioe)
+      {
+         trace.error("Failed resolving validation extensions: " + extensionPointId_, ioe);
+         return emptyList();
+      }
+
+      for (Plugin plugin : plugins)
+      {
             List<Extension> extensions = plugin != null ? plugin.extensions : null;
             if(extensions != null)
             {
@@ -106,7 +138,7 @@ public class ValidationExtensionRegistry implements IValidationExtensionRegistry
                               Class<?> validatorClass = validator.validatorClass;
                               ServerConfigurationElement configurationElement = new ServerConfigurationElement();
                               configurationElement.setTheClass(validatorClass);
-                              result.add(configurationElement);
+                           result.add(new PojoExtensionDescriptor(configurationElement));
                            }
                         }
                      }
@@ -140,22 +172,17 @@ public class ValidationExtensionRegistry implements IValidationExtensionRegistry
                                  }
                                  configurationElement.addChildren("filter", children.isEmpty() ? EMPTY_VALIDATORS : children.toArray(new IConfigurationElement[children.size()]));
 
-                                 result.add(configurationElement);
+                              result.add(new PojoExtensionDescriptor(configurationElement));
                               }
                            }
                         }
                      }
                   }
                }
-
+         }
             }
-         }
-         catch (JAXBException e)
-         {
-         }
-      }
 
-      return result.isEmpty() ? EMPTY_VALIDATORS : result.toArray(new IConfigurationElement[result.size()]);
+      return result;
    }
 
    private boolean excludeValidation(String validationId)
@@ -169,19 +196,6 @@ public class ValidationExtensionRegistry implements IValidationExtensionRegistry
       }
 
       return false;
-   }
-
-   public IConfigurationElement[] getConfigurationElementsFor(String extensionPointId)
-   {
-      try
-      {
-         return filterElements(extensionPointId);
-      }
-      catch (IOException e)
-      {
-      }
-
-      return EMPTY_VALIDATORS;
    }
 
    public static IValidationExtensionRegistry getInstance()

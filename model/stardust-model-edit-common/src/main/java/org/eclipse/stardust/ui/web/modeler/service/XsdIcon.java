@@ -26,12 +26,12 @@ public enum XsdIcon
    AttributeDeclaration("XSDAttributeDeclaration.gif"), //$NON-NLS-1$
    WildcardAttribute("XSDWildcardAttribute.gif"), //$NON-NLS-1$
    WildcardElement("XSDWildcardElement.gif"); //$NON-NLS-1$
-   
+
    private static final String PREFIX = "{org.eclipse.xsd.edit}icons/full/obj16/"; //$NON-NLS-1$
 
    private String simpleName;
    private String qualifiedName;
-   
+
    private XsdIcon(String simpleName)
    {
       this.simpleName = simpleName;

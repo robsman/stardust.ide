@@ -10,11 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.runtime.*;
@@ -22,9 +19,9 @@ import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.strategy.AbstractModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerModelManager;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.VariableContext;
 import org.eclipse.stardust.ui.web.modeler.common.ModelPersistenceService;
 import org.eclipse.stardust.ui.web.modeler.common.ServiceFactoryLocator;
-import org.eclipse.stardust.ui.web.modeler.common.UserIdProvider;
 import org.eclipse.stardust.ui.web.modeler.spi.ModelPersistenceHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +40,6 @@ public class DefaultModelManagementStrategy extends
 
 	public static final String MODELS_DIR = "/process-models/";
 
-   private static final String SPECIAL_CHARACTER_SET = "[\\\\/:*?\"<>|\\[\\]]";
-
-   private static final String UNVERSIONED = "UNVERSIONED";
-
    private ServiceFactory serviceFactory;
 	private DocumentManagementService documentManagementService;
 
@@ -59,8 +52,20 @@ public class DefaultModelManagementStrategy extends
 
    private final ServiceFactoryLocator serviceFactoryLocator;
 
-   @Resource
-   private UserIdProvider me;
+   private final DmsPersistenceUtils persistenceUtils = new DmsPersistenceUtils()
+   {
+      @Override
+      public User getUser()
+      {
+         return getServiceFactory().getUserService().getUser();
+      }
+
+      @Override
+      public DocumentManagementService getDocumentManagementService()
+      {
+         return getServiceFactory().getDocumentManagementService();
+      }
+   };
 
    @Autowired
 	public DefaultModelManagementStrategy(ModelPersistenceService persistenceService, ServiceFactoryLocator serviceFactoryLocator)
@@ -182,6 +187,14 @@ public class DefaultModelManagementStrategy extends
 	 */
    public void saveModel(ModelType model)
    {
+      if (model != null)
+      {
+         VariableContext variableContext = new VariableContext();
+         variableContext.initializeVariables(model);
+         variableContext.refreshVariables(model);
+         variableContext.saveVariables();
+      }
+
       EObject nativeModel = getNativeModel(model.getId());
 
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -198,7 +211,7 @@ public class DefaultModelManagementStrategy extends
             docInfo.setOwner(getServiceFactory().getUserService()
                   .getUser()
                   .getAccount());
-            docInfo.setContentType(MediaType.TEXT_XML_VALUE);
+            docInfo.setContentType(MediaType.TEXT_XML_VALUE); // TODO shouldn't this be application/xml? if so, how to migrate existing data?
 
             modelDocument = getDocumentManagementService().createDocument(MODELS_DIR,
                   docInfo, baos.toByteArray(), null);
@@ -207,14 +220,14 @@ public class DefaultModelManagementStrategy extends
             {
                // create initial version
                getDocumentManagementService()
-                     .versionDocument(modelDocument.getId(), null);
+                     .versionDocument(modelDocument.getId(), null, null);
                mapModelFileName(model, modelDocument.getName());
             }
          }
          else
          {
             getDocumentManagementService().updateDocument(modelDocument,
-                  baos.toByteArray(), null, false, null, false);
+                  baos.toByteArray(), null, false, null, null, false);
          }
       }
    }
@@ -247,13 +260,14 @@ public class DefaultModelManagementStrategy extends
          boolean createNewVersion)
    {
 
-      if (isExistingResource("/process-models", fileName))
+      if (persistenceUtils.isExistingResource("/process-models", fileName))
       {
          if (createNewVersion)
          {
             Document modelDocument = getDocumentManagementService().getDocument(
                   MODELS_DIR + fileName);
-            updateDocument(modelDocument, fileContent, modelDocument.getDescription(), "");
+            persistenceUtils.updateDocument(modelDocument, fileContent,
+                  modelDocument.getDescription(), "", false);
 
             return ModelUploadStatus.NEW_MODEL_VERSION_CREATED;
          }
@@ -350,127 +364,4 @@ public class DefaultModelManagementStrategy extends
       String modelUUID = uuidMapper().getUUID(model);
       modelFileNameMap.remove(modelUUID);
    }
-
-   /**
-    * returns true if the folder/file(having name as input parameter 'name') already exist
-    *
-    * @param path
-    * @param name
-    * @return
-    */
-   public boolean isExistingResource(String path, String name)
-   {
-      return (isFolderPresent(path, name) || null != getDocument(path, name));
-   }
-
-   /**
-    * returns true if the folder(having name as input parameter 'name') already exist
-    *
-    * @param parentFolder
-    * @param name
-    * @return
-    */
-   public boolean isFolderPresent(String path, String name)
-   {
-      Folder parentFolder = getFolder(path);
-      if (null != parentFolder)
-      {
-         name = stripOffSpecialCharacters(name);
-         Folder finalFolder = getDocumentManagementService().getFolder(parentFolder.getId());
-         List<Folder> folders = finalFolder.getFolders();
-
-         for (Folder folder : folders)
-         {
-            if (folder.getName().equalsIgnoreCase(name))
-            {
-               return true;
-            }
-         }
-      }
-      return false;
-   }
-
-   /**
-    * returns the folder on the specified path
-    * @param path
-    * @return
-    */
-   public Folder getFolder(String path)
-   {
-      return getDocumentManagementService().getFolder(path);
-   }
-
-   /**
-    * returns document if the document(having name as input parameter 'name') already exist in the
-    * folder
-    *
-    * @param parentFolder path
-    * @param name
-    * @return
-    */
-   public Document getDocument(String path, String name)
-   {
-      Folder parentFolder = getFolder(path);
-      if (null != parentFolder)
-      {
-         name = stripOffSpecialCharacters(name);
-         Folder folder = getDocumentManagementService().getFolder(parentFolder.getId());
-         List<Document> documents = folder.getDocuments();
-         for (Document document : documents)
-         {
-            if (document.getName().equalsIgnoreCase(name))
-            {
-               return document;
-            }
-         }
-      }
-      return null;
-   }
-
-   public Document updateDocument(Document existingDocument, byte[] fileData, String description, String comments)
-   {
-      Document doc = null;
-
-      existingDocument.setDescription(description);
-      existingDocument.setOwner(me.getLoginName());
-
-      if (!isDocumentVersioned(existingDocument))
-      {
-         getDocumentManagementService().versionDocument(existingDocument.getId(), "", null);
-      }
-
-      if (null != fileData)
-      {
-         doc = getDocumentManagementService().updateDocument(existingDocument, fileData, "", true, comments, null,
-               false);
-      }
-      return doc;
-   }
-
-   /**
-    * @param document
-    * @return
-    */
-   public boolean isDocumentVersioned(Document document)
-   {
-      if (UNVERSIONED.equals(document.getRevisionId()))
-      {
-         return false;
-      }
-      return true;
-   }
-
-   /**
-    * strips off the special characters
-    *
-    * @param inputString
-    * @return
-    */
-   public static String stripOffSpecialCharacters(String inputString)
-   {
-      String outputString = inputString.trim();
-      outputString = outputString.replaceAll(SPECIAL_CHARACTER_SET, "");
-      return outputString;
-   }
-
 }
