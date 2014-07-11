@@ -31,10 +31,10 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.actions.ISpiAction;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -127,7 +127,7 @@ public class OpenXSDEditorAction extends Action implements ISpiAction
                IEditorInput input = null;
                TreeEditPart part = (TreeEditPart) getSelectedObjects().get(0);
                TypeDeclarationType decl = (TypeDeclarationType) part.getModel();
-               IProject project = ModelUtils.getProjectFromEObject(decl);
+               IProject project = WorkspaceUtils.getProjectFromEObject(decl);
                String name = decl.getId() + ".xsd"; //$NON-NLS-1$
                if (isWorkspaceSchema(decl))
                {

@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.Request;
@@ -39,7 +38,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.SymbolGroupEditP
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegateCommand;
 import org.eclipse.stardust.modeling.core.editors.ui.TreeNode;
 import org.eclipse.stardust.modeling.core.editors.ui.TreeNodeContentProvider;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -50,7 +48,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-
 
 /**
  * @author fherinean
@@ -95,7 +92,7 @@ public class ReloadConnectionsAction extends SelectionAction
          {
             execute(cmd);
          }
-         PoolLaneUtils.refreshLaneContent();         
+         PoolLaneUtils.refreshLaneContent();
       }
    }
 
@@ -115,11 +112,11 @@ public class ReloadConnectionsAction extends SelectionAction
    }
 
    /**
-    * removes all commands disabled via checkbox 
-    * 
+    * removes all commands disabled via checkbox
+    *
     * @param command The current command.
     * @param selection The checkbox selection from the Dialog.
-    * 
+    *
     * @return
     */
    private boolean filter(CompoundCommand command, Map<Object, Boolean> selection)
@@ -141,12 +138,12 @@ public class ReloadConnectionsAction extends SelectionAction
          }
          else if (status != null && !status.booleanValue())
          {
-            itr.remove();            
+            itr.remove();
          }
       }
       return !command.isEmpty();
    }
-   
+
    private Dialog createDialog(final Command cmd, final Map<Object, Boolean> selection)
    {
       return new Dialog(getWorkbenchPart().getSite().getShell())
@@ -199,26 +196,26 @@ public class ReloadConnectionsAction extends SelectionAction
           * enable OK button only if we have a valid selection
           */
          private void validate()
-         {            
+         {
             boolean isValid = filter(createDuplicate((CompoundCommand) cmd), selection);
-            
+
             Button okButton = getButton(IDialogConstants.OK_ID);
             if (okButton != null)
             {
                okButton.setEnabled(isValid);
             }
-         }   
-         
+         }
+
          /**
           * create a copy of this command because filter modifies the command
-          * 
+          *
           * @param cmd
           * @return
           */
          private CompoundCommand createDuplicate(CompoundCommand cmd)
          {
             CompoundCommand command = new CompoundCommand();
-                        
+
             List<Command> commands = cmd.getCommands();
             Iterator<Command> itr = commands.iterator();
             while (itr.hasNext())
@@ -232,15 +229,15 @@ public class ReloadConnectionsAction extends SelectionAction
                {
                   command.add(cmd_);
                }
-            }            
+            }
             return command;
-         }         
+         }
       };
    }
 
    /**
-    * modify selection map so it reflects the state of the checkboxes  
-    * 
+    * modify selection map so it reflects the state of the checkboxes
+    *
     * @param item
     * @param selection
     * @param checked
@@ -257,7 +254,7 @@ public class ReloadConnectionsAction extends SelectionAction
 
    /**
     * check all children of this tree item and update selection map
-    * 
+    *
     * @param items
     * @param selection
     * @param checked
@@ -277,7 +274,7 @@ public class ReloadConnectionsAction extends SelectionAction
 
    /**
     * create tree hierarchy for dialog
-    * 
+    *
     * @param cmd
     * @param rootCnt
     * @return
@@ -285,13 +282,13 @@ public class ReloadConnectionsAction extends SelectionAction
    private TreeNode getNode(Command cmd, int rootCnt)
    {
       rootCnt++;
-      
+
       // 1st node will not be shown
       TreeNode node = new TreeNode(rootCnt <= 2 && cmd instanceof CompoundCommand ? null : cmd);
       if (cmd instanceof CompoundCommand)
       {
          CompoundCommand comp = (CompoundCommand) cmd;
-         List<Command> cmds = comp.getCommands();         
+         List<Command> cmds = comp.getCommands();
          TreeNode[] children = new TreeNode[cmds.size()];
          for (int i = 0; i < cmds.size(); i++)
          {
@@ -305,7 +302,7 @@ public class ReloadConnectionsAction extends SelectionAction
    }
 
    // create command and filter out commands not necessary
-   
+
    public CompoundCommand createReloadCommand()
    {
       ReloadConnectionsRequest request = new ReloadConnectionsRequest();
@@ -315,19 +312,11 @@ public class ReloadConnectionsAction extends SelectionAction
          return null;
       }
 
-      WorkflowModelEditor editor = (WorkflowModelEditor) getWorkbenchPart();
-      ModelServer server = editor.getModelServer();
-      
       CompoundCommand command = new CompoundCommand();
       command.setDebugLabel(getText());
       for (int i = 0; i < editparts.size(); i++)
       {
          EditPart part = (EditPart) editparts.get(i);
-         Object model = part.getModel();
-         if (server != null && model instanceof EObject && server.requireLock((EObject) model))
-         {
-            return null;
-         }
          command.add(part.getCommand(request));
       }
       filterEmptyCommandsAndDuplicates(new HashSet<Command>(), command);
@@ -367,7 +356,7 @@ public class ReloadConnectionsAction extends SelectionAction
       List<EditPart> editparts = new ArrayList<EditPart>(getSelectedObjects());
       filterNonGraphicalEditParts(editparts);
       List<EditPart> containers;
-      
+
       while (!(containers = filterContainers(editparts)).isEmpty())
       {
          for (int i = 0; i < containers.size(); i++)

@@ -25,11 +25,16 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType;
 import org.eclipse.swt.graphics.Color;
 
 
 public class ActivitySymbolFigure extends AbstractLabeledIconFigure
 {
+   private static final String STANDARD_LOOP = "icons/full/ovr13/loopSign.gif";
+   private static final String PARALLEL_LOOP = "icons/full/ovr13/parallelSign.gif";
+   private static final String SEQUENTIAL_LOOP = "icons/full/ovr13/sequentialSign.gif";
+
    private static final Color BG_GRADIENT_FROM = ColorConstants.white;
 
    private static final Color BG_GRADIENT_TO = new Color(null, 226, 221, 219);
@@ -42,11 +47,11 @@ public class ActivitySymbolFigure extends AbstractLabeledIconFigure
 
    private Figure overlayContainer;
 
-   private Figure blankOverlay;
+   private IconFigure blankOverlay;
 
-   private Figure subProcOverlay;
+   private IconFigure subProcOverlay;
 
-   private Figure loopOverlay;
+   private IconFigure loopOverlay;
 
    private Figure eventOverlay;
 
@@ -73,13 +78,13 @@ public class ActivitySymbolFigure extends AbstractLabeledIconFigure
       overlayContainer.setBorder(new MarginBorder(2, 6, -1, 6));
       add(overlayContainer, MyBorderLayout.BOTTOM);
 
-      this.blankOverlay = new IconFigure("icons/full/ovr13/blank.gif"); //$NON-NLS-1$
+      blankOverlay = new IconFigure("icons/full/ovr13/blank.gif"); //$NON-NLS-1$
 
-      this.subProcOverlay = new IconFigure("icons/full/ovr13/plusSignSmall.gif"); //$NON-NLS-1$
+      subProcOverlay = new IconFigure("icons/full/ovr13/plusSignSmall.gif"); //$NON-NLS-1$
 
-      this.loopOverlay = new IconFigure("icons/full/ovr13/loopSign.gif"); //$NON-NLS-1$
+      loopOverlay = new IconFigure(STANDARD_LOOP); //$NON-NLS-1$
 
-      setLoopActivity(false);
+      setLoopActivity(null, true);
       setSubProcActivity(false);
       setEventHandlerType(false, null);
 
@@ -196,10 +201,12 @@ public class ActivitySymbolFigure extends AbstractLabeledIconFigure
       return new IconFigure("icons/full/obj16/condition.gif"); //$NON-NLS-1$
    }
 
-   public void setLoopActivity(boolean loopActivity)
+   public void setLoopActivity(LoopTypeType loopType, boolean sequential)
    {
-      if (loopActivity)
+      if (loopType != null)
       {
+         loopOverlay.setIconPath(loopType == LoopTypeType.MULTI_INSTANCE
+               ? sequential ? SEQUENTIAL_LOOP : PARALLEL_LOOP : STANDARD_LOOP);
          if (!overlayContainer.getChildren().contains(loopOverlay))
          {
             if (overlayContainer.getChildren().contains(blankOverlay))

@@ -71,7 +71,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.views.bookmark.WorkflowModelBookmarkView;
 import org.eclipse.ui.PlatformUI;
@@ -84,17 +83,17 @@ public class DeleteAllCommandFactory
    {
       CompoundCommand cmd = new CompoundCommand();
       ModelType model = ModelUtils.findContainingModel(declaration);
-      
+
       List applications = model.getApplication();
       List allApplicationAccessPoints = new ArrayList();
-      
+
       for (Iterator it = applications.iterator(); it.hasNext();)
       {
-         ApplicationType application = (ApplicationType) it.next();   
+         ApplicationType application = (ApplicationType) it.next();
          List accessPoints = application.getAccessPoint();
          for (Iterator i = accessPoints.iterator(); i.hasNext();)
          {
-            AccessPointType accessPoint = (AccessPointType) i.next(); 
+            AccessPointType accessPoint = (AccessPointType) i.next();
             TypeDeclarationType accessPointDeclaration = (TypeDeclarationType) AttributeUtil.getIdentifiable(
                   accessPoint, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if(accessPointDeclaration != null && accessPointDeclaration.equals(declaration))
@@ -104,21 +103,21 @@ public class DeleteAllCommandFactory
                      StructuredDataConstants.TYPE_DECLARATION_ATT);
                if(att != null)
                {
-                  cmd.add(new DeleteValueCmd(att, cwm_pkg.getAttributeType_Reference()));               
+                  cmd.add(new DeleteValueCmd(att, cwm_pkg.getAttributeType_Reference()));
                }
                addDeleteActivityReferences(cmd, accessPoint);
-               cmd.add(new DeleteValueCmd(application, accessPoint, 
+               cmd.add(new DeleteValueCmd(application, accessPoint,
                      accessPoint.eContainingFeature()));
-            }            
+            }
          }
-      }   
-      
-      cmd.add(new DeleteValueCmd(declaration.eContainer(), declaration, 
+      }
+
+      cmd.add(new DeleteValueCmd(declaration.eContainer(), declaration,
             XpdlPackage.eINSTANCE.getTypeDeclarationsType_TypeDeclaration()));
-      
+
       return cmd;
    }
-   
+
    // application, event handler, trigger have access points
    private static void addDeleteActivityReferences(CompoundCommand cmd, EObject element)
    {
@@ -126,12 +125,12 @@ public class DeleteAllCommandFactory
       List processes = model.getProcessDefinition();
       for (Iterator i = processes.iterator(); i.hasNext();)
       {
-         ProcessDefinitionType process = (ProcessDefinitionType) i.next();  
+         ProcessDefinitionType process = (ProcessDefinitionType) i.next();
          List activities = process.getActivity();
          for (Iterator it = activities.iterator(); it.hasNext();)
          {
-            ActivityType activity = (ActivityType) it.next(); 
-            ApplicationType application = activity.getApplication();   
+            ActivityType activity = (ActivityType) it.next();
+            ApplicationType application = activity.getApplication();
             List dataMappings = activity.getDataMapping();
             for (Iterator dm = dataMappings.iterator(); dm.hasNext();)
             {
@@ -139,15 +138,15 @@ public class DeleteAllCommandFactory
                DataType data = dataMapping.getData();
                if(data != null && data.equals(element))
                {
-                  cmd.add(new DeleteValueCmd(activity, dataMapping, 
-                        cwm_pkg.getActivityType_DataMapping()));                  
-               }         
+                  cmd.add(new DeleteValueCmd(activity, dataMapping,
+                        cwm_pkg.getActivityType_DataMapping()));
+               }
                else
                {
                   if(element instanceof AccessPointType)
                   {
-                     AccessPointType accessPoint = (AccessPointType) element;  
-                     
+                     AccessPointType accessPoint = (AccessPointType) element;
+
                      String accessPointAttribute = dataMapping.getApplicationAccessPoint();
                      if(!StringUtils.isEmpty(accessPointAttribute)
                            && application != null
@@ -160,12 +159,12 @@ public class DeleteAllCommandFactory
                         }
                      }
                   }
-               }               
-            }    
-         }         
+               }
+            }
+         }
       }
-   }   
-      
+   }
+
    public static Command createDeleteAllCommand(IModelElement model)
    {
       IModelElement root = findRootElement(model);
@@ -236,7 +235,7 @@ public class DeleteAllCommandFactory
          return;
       }
       Map processes = new HashMap();
-      
+
       for (Iterator iter = model.getProcessDefinition().iterator(); iter.hasNext();)
       {
          ProcessDefinitionType process = (ProcessDefinitionType) iter.next();
@@ -248,55 +247,26 @@ public class DeleteAllCommandFactory
          for (Iterator iterator = process.getActivity().iterator(); iterator.hasNext();)
          {
             ActivityType activity = (ActivityType) iterator.next();
-            
+
             // only if process is locked
             ModelType modelType = ModelUtils.findContainingModel(process);
             WorkflowModelEditor editor = GenericUtils.getWorkflowModelEditor(modelType);
-            
-            ModelServer server = null;
-            if(editor != null)
+
+
+            List dataMappings = activity.getDataMapping();
+            for (Iterator it = dataMappings.iterator(); it.hasNext();)
             {
-               server = editor.getModelServer();
-            }
-            
-            Boolean requireLock = null;
-            if(processes.containsKey(process))
-            {
-               requireLock = (Boolean) processes.get(process);
-            }
-            else if(server != null)
-            {
-               if(editor != null)
+               DataMappingType dataMapping = (DataMappingType) it.next();
+               DataType dataMappingData = dataMapping.getData();
+               if(dataMappingData != null && data.equals(dataMappingData))
                {
-                  if(editor.getModelServer().requireLock(process))
-                  {
-                     requireLock = Boolean.TRUE;                  
-                  }
-                  else
-                  {
-                     requireLock = Boolean.FALSE;                                    
-                  }
-                  processes.put(process, requireLock);
-               }
-            }            
-            
-            if (server == null || !requireLock.booleanValue())
-            {
-               List dataMappings = activity.getDataMapping();
-               for (Iterator it = dataMappings.iterator(); it.hasNext();)
-               {
-                  DataMappingType dataMapping = (DataMappingType) it.next();
-                  DataType dataMappingData = dataMapping.getData();
-                  if(dataMappingData != null && data.equals(dataMappingData))
-                  {
-                     cmd.add(new DeleteValueCmd(dataMapping, cwm_pkg
-                           .getDataMappingType_Data()));
-                     cmd.add(new DeleteValueCmd(activity, dataMapping, cwm_pkg
-                           .getActivityType_DataMapping()));                  
-                  }         
+                  cmd.add(new DeleteValueCmd(dataMapping, cwm_pkg
+                        .getDataMappingType_Data()));
+                  cmd.add(new DeleteValueCmd(activity, dataMapping, cwm_pkg
+                        .getActivityType_DataMapping()));
                }
             }
-            
+
             for (Iterator iter2 = activity.getEventHandler().iterator(); iter2.hasNext();)
             {
                getActionTypes(actions, (EventHandlerType) iter2.next());
@@ -436,9 +406,9 @@ public class DeleteAllCommandFactory
       {
          List tmpSymbols = null;
          List symbols = new ArrayList<IGraphicalObject>();
-         Map diagrams = new HashMap();         
+         Map diagrams = new HashMap();
          WorkflowModelEditor editor = null;
-         
+
          try
          {
             tmpSymbols = ((IIdentifiableModelElement) element).getSymbols();
@@ -447,45 +417,13 @@ public class DeleteAllCommandFactory
          {
             tmpSymbols = Collections.EMPTY_LIST;
          }
-         
+
          for (int i = 0; i < tmpSymbols.size(); i++)
          {
             Object symbol = tmpSymbols.get(i);
-            DiagramType diagram = ModelUtils.findContainingDiagram((IGraphicalObject) symbol);      
-                        
-            // collision: diagram (or process) must be locked, if model is shared
-            if(editor == null)
-            {
-               editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel(diagram));
-            }
+            symbols.add(symbol);
+         }
 
-            Boolean requireLock = null;
-            if(diagrams.containsKey(diagram))
-            {
-               requireLock = (Boolean) diagrams.get(diagram);
-            }
-            else
-            {
-               if(editor != null)
-               {
-                  if(editor.getModelServer().requireLock(diagram))
-                  {
-                     requireLock = Boolean.TRUE;                  
-                  }
-                  else
-                  {
-                     requireLock = Boolean.FALSE;                                    
-                  }
-                  diagrams.put(diagram, requireLock);
-               }
-            }
-            
-            if (editor != null && !requireLock.booleanValue())
-            {
-               symbols.add(symbol);
-            }         
-         }         
-         
          for (int i = 0; i < symbols.size(); i++)
          {
             Object symbol = symbols.get(i);
@@ -514,7 +452,7 @@ public class DeleteAllCommandFactory
       else
       {
          // when deleting lanes, all gatewaysymbols must be deleted (and the transitions)
-         // that belong to activities inside this lane 
+         // that belong to activities inside this lane
          // (may be possible that gateways are moved out of the lane into another lane)
          if(element instanceof LaneSymbol)
          {
@@ -541,7 +479,7 @@ public class DeleteAllCommandFactory
                            gatewayTransitions.addAll(gatewaySymbol.getOutTransitions());
                         }
                      }
-                  }                  
+                  }
                }
                if(!gatewayTransitions.isEmpty())
                {

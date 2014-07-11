@@ -20,7 +20,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
@@ -34,13 +33,11 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractSwimlane
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.PoolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-
 
 public class PasteSymbolAction extends AbstractPasteAction
 {
@@ -49,7 +46,7 @@ public class PasteSymbolAction extends AbstractPasteAction
       super(part);
       setText(Diagram_Messages.LB_PasteSymbol);
       setToolTipText(Diagram_Messages.LB_PasteSymbol);
-      setId(DiagramActionConstants.PASTESYMBOL);      
+      setId(DiagramActionConstants.PASTESYMBOL);
       ISharedImages sharedImages = PlatformUI.getWorkbench().getSharedImages();
       setImageDescriptor(sharedImages.getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
       setDisabledImageDescriptor(sharedImages
@@ -63,15 +60,15 @@ public class PasteSymbolAction extends AbstractPasteAction
       if(!isValidSelection())
       {
          return false;
-      }            
+      }
       // user wishes to copy and paste between diagrams
       if(isValid.intValue() != CopyPasteUtil.SELECTION_OUTLINE)
       {
          isEnabled = isValidForDiagram();
          if(isEnabled)
          {
-            isEnabled = storage.isCopySymbols();            
-         }            
+            isEnabled = storage.isCopySymbols();
+         }
       }
       if(isEnabled)
       {
@@ -92,37 +89,26 @@ public class PasteSymbolAction extends AbstractPasteAction
                   return true;
                }
             }
-         } 
+         }
          if(isValid.intValue() == CopyPasteUtil.SELECTION_MODEL_DIAGRAM)
          {
-            return true;            
-         }         
+            return true;
+         }
       }
       return false;
    }
-   
+
    public void run()
    {
-      EObject checkSelection = CopyPasteUtil.getEObjectFromSelection(getSelectedObjects().get(0));
-      if (!(checkSelection instanceof ModelType))
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(checkSelection);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
-            return;
-         }                     
-      }      
-      
       if(storage.getSourceModel().equals(targetModel))
       {
          storage.setSameModel(true);
       }
       else
       {
-         storage.setSameModel(false);         
+         storage.setSameModel(false);
       }
-      
+
       ChangeRecorder targetRecorder = new ChangeRecorder();
       targetRecorder.beginRecording(Collections.singleton(targetModel));
 
@@ -136,16 +122,16 @@ public class PasteSymbolAction extends AbstractPasteAction
          if(targetProcess != null)
          {
             storage.setTargetProcess(targetProcess);
-         }            
+         }
       }
-      util = new DiagramMerger(targetModel, copySet, storage, DiagramMerger.CREATE_SYMBOLS);      
-      
+      util = new DiagramMerger(targetModel, copySet, storage, DiagramMerger.CREATE_SYMBOLS);
+
       WorkflowModelEditor targetEditor = GenericUtils.getWorkflowModelEditor(targetModel);
       ModelOidUtil modelOidUtil = null;
       if(targetEditor != null)
       {
-         modelOidUtil = targetEditor.getModelManager().getModelOidUtil();            
-      }      
+         modelOidUtil = targetEditor.getModelManager().getModelOidUtil();
+      }
       try
       {
          if(modelOidUtil != null)
@@ -162,9 +148,9 @@ public class PasteSymbolAction extends AbstractPasteAction
          if(modelOidUtil != null)
          {
             modelOidUtil.setCopyPaste(false);
-         }         
-      }      
-      
+         }
+      }
+
       // execute command only if there are changes
       if (util.modelChanged())
       {
@@ -175,11 +161,11 @@ public class PasteSymbolAction extends AbstractPasteAction
             if(copySet.get(0) instanceof LaneSymbol)
             {
                copyLanes = true;
-            }                        
+            }
             final EditPart targetEditPart = storage.getTargetEditPart();
             if(targetEditPart instanceof LaneEditPart
                   || targetEditPart instanceof PoolEditPart)
-            {               
+            {
                if(copyLanes)
                {
                   cmd.add(new DelegatingCommand()
@@ -187,8 +173,8 @@ public class PasteSymbolAction extends AbstractPasteAction
                      public Command createDelegate()
                      {
                         return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) targetEditPart, new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE));
-                     }               
-                  });                     
+                     }
+                  });
                }
                else
                {
@@ -198,9 +184,9 @@ public class PasteSymbolAction extends AbstractPasteAction
                      {
                         return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) targetEditPart);
                      }
-                  });                  
+                  });
                }
-               // here children of siblings must be ordered (if there are any)   
+               // here children of siblings must be ordered (if there are any)
                cmd.add(new DelegatingCommand()
                {
                   public Command createDelegate()
@@ -210,7 +196,7 @@ public class PasteSymbolAction extends AbstractPasteAction
                });
             }
          }
-         
+
          final ChangeDescription change = targetRecorder.endRecording();
          targetRecorder.dispose();
          cmd.add(new Command()

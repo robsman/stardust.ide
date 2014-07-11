@@ -26,11 +26,9 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValu
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.ui.IMarkerResolution;
 
-
 public class ReferencingModelIDMismatchResolutionGenerator
       implements IResolutionGenerator
 {
-
    public void addResolutions(List<IMarkerResolution> list,
          final WorkflowModelEditor editor, final Issue issue)
    {
@@ -70,26 +68,21 @@ public class ReferencingModelIDMismatchResolutionGenerator
                editor.getWorkflowModel(), externalPackage);
          for (Iterator<IModelElement> i = modelElements.iterator(); i.hasNext();)
          {
-            IModelElement modelElement = i.next();
-            if (!editor.getModelServer().requireLock(modelElement))
+            if (issue.getFeature().equals(
+                  XpdlPackage.eINSTANCE.getExternalPackage_Href()))
             {
-               if (issue.getFeature().equals(
-                     XpdlPackage.eINSTANCE.getExternalPackage_Href()))
+               ModelType referencingModel = editor.getWorkflowModel();
+               IConnectionManager connectionManager = referencingModel
+                     .getConnectionManager();
+               ModelType referencedModel = connectionManager.find(externalPackage);
+               if (referencedModel != null
+                     && !referencedModel.getId().equals(externalPackage.getHref()))
                {
-                  ModelType referencingModel = editor.getWorkflowModel();
-                  IConnectionManager connectionManager = referencingModel
-                        .getConnectionManager();
-                  ModelType referencedModel = connectionManager.find(externalPackage);
-                  if (referencedModel != null
-                        && !referencedModel.getId().equals(externalPackage.getHref()))
-                  {
-                     return true;
-                  }
+                  return true;
                }
             }
          }
       }
       return false;
    }
-
 }

@@ -6,7 +6,7 @@
     are made available under the terms of the Eclipse Public License v1.0
     which accompanies this distribution, and is available at
     http://www.eclipse.org/legal/epl-v10.html
-   
+
     Contributors:
        SunGard CSA LLC - initial API and implementation and/or initial documentation
  -->
@@ -52,10 +52,6 @@
             class="org.eclipse.stardust.modeling.common.ui.preferences.DrawingPreferencePage"
             category="org.eclipse.stardust.modeling.common.ui"
             name="%carnotDrawingPreferencePageName"/>
-      <page id="org.eclipse.stardust.modeling.common.ui.collision"
-            class="org.eclipse.stardust.modeling.common.ui.preferences.CollisionPreferencePage"
-            category="org.eclipse.stardust.modeling.common.ui"
-            name="%carnotCollisionPreferencePageName"/>
       <page
             class="org.eclipse.stardust.modeling.common.ui.preferences.DeploymentPreferencePage"
             id="org.eclipse.stardust.modeling.common.ui.deployment"
@@ -66,7 +62,7 @@
             class="org.eclipse.stardust.modeling.common.ui.preferences.MultiPackageModelingPreferencePage"
             id="org.eclipse.stardust.modeling.common.ui.multipackagemodeling"
             name="%carnotMultiPackageModelingPreferencePageName">
-      </page>            
+      </page>
    </extension>
    <extension point="org.eclipse.core.expressions.propertyTesters">
       <propertyTester id="org.eclipse.stardust.modeling.common.ui.PerspectiveTester"
@@ -86,6 +82,13 @@
             id="org.eclipse.stardust.modeling.common.ui.FeatureTester"
             namespace="com.infinity.properties"
             properties="feature"
+            type="org.eclipse.emf.ecore.EObject">
+      </propertyTester>
+      <propertyTester
+            class="org.eclipse.stardust.modeling.common.ui.testers.StructTypeTester"
+            id="org.eclipse.stardust.modeling.common.ui.StructTypeTester"
+            namespace="com.infinity.properties"
+            properties="structType"
             type="org.eclipse.emf.ecore.EObject">
       </propertyTester>
    </extension>

@@ -46,7 +46,7 @@ public class PublicInterfaceSymbolItemProvider
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * This constructs an instance from a factory and a notifier.
@@ -85,7 +85,7 @@ public class PublicInterfaceSymbolItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/PublicInterfaceSymbol"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/PublicInterfaceSymbol")); //$NON-NLS-1$
    }
 
    /**
@@ -98,7 +98,7 @@ public class PublicInterfaceSymbolItemProvider
    public String getText(Object object)
    {
       PublicInterfaceSymbol publicInterfaceSymbol = (PublicInterfaceSymbol)object;
-      return getString("_UI_PublicInterfaceSymbol_type") + " " + publicInterfaceSymbol.getElementOid();
+      return getString("_UI_PublicInterfaceSymbol_type") + " " + publicInterfaceSymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

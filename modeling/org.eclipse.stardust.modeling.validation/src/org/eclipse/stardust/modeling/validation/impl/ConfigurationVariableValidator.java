@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
@@ -39,7 +41,7 @@ public class ConfigurationVariableValidator implements IModelValidator
 
    public Issue[] validate(ModelType model) throws ValidationException
    {
-      List<Issue> result = new ArrayList<Issue>();      
+      List<Issue> result = new ArrayList<Issue>();
       VariableContext context = VariableContextHelper.getInstance().getContext(model);
       if (context != null)
       {
@@ -48,10 +50,11 @@ public class ConfigurationVariableValidator implements IModelValidator
             ModelVariable modelVariable = i.next();
             if (!modelVariable.isRemoved())
             {
-               List<EObject> list = context.getVariableReferences().get(
-                     modelVariable.getName());
+               List<EObject> list = context.getReferences(modelVariable);
+
                // Invalid variables
-               if (!context.isValidName(modelVariable.getName()))
+               if (!context.isValidName(modelVariable.getName())
+                     || !context.isValidType(modelVariable.getName()))
                {
                   result.add(Issue.warning(model, MessageFormat.format(
                         Validation_Messages.MODEL_ConfigurationVariable_Invalid,
@@ -67,8 +70,8 @@ public class ConfigurationVariableValidator implements IModelValidator
                         PredefinedConstants.TARGET_PARTICIPANT_ATT));
                }
                // No default value
-               if (modelVariable.getDefaultValue() == null
-                     || modelVariable.getDefaultValue() == "") //$NON-NLS-1$
+               if (StringUtils.isEmpty(modelVariable.getDefaultValue())
+                     && !context.isSecurityContext(modelVariable.getName()))
                {
                   result.add(Issue.warning(model, MessageFormat.format(
                         Validation_Messages.MODEL_ConfigurationVariable_NoDefaultValue,
@@ -94,7 +97,7 @@ public class ConfigurationVariableValidator implements IModelValidator
       }
       return (Issue[]) result.toArray(ISSUE_ARRAY);
    }
-      
+
    private TypeDeclarationType getTypeDeclaration(EObject o)
    {
       if (o instanceof TypeDeclarationType)
@@ -110,7 +113,7 @@ public class ConfigurationVariableValidator implements IModelValidator
       }
       return null;
    }
-   
+
    private List<Issue> isAllowed(EObject o)
    {
       List<Issue> result = new ArrayList<Issue>();
@@ -170,7 +173,7 @@ public class ConfigurationVariableValidator implements IModelValidator
                   PredefinedConstants.TARGET_PARTICIPANT_ATT));
             unique.add(typeDecl);
          }
-      }    
+      }
       return result;
    }
 
@@ -189,7 +192,6 @@ public class ConfigurationVariableValidator implements IModelValidator
          String text = getText("name", element);//$NON-NLS-1$
          if (text.length() == 0)
          {
-
             text = getText("id", element);//$NON-NLS-1$
          }
          if (text.length() == 0 && element instanceof ITypedElement)

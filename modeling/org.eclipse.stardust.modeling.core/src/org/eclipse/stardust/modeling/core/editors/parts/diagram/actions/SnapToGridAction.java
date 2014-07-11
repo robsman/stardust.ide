@@ -34,7 +34,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractNodeSymbolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNodeSymbolCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.ui.IWorkbenchPart;
 
 
@@ -107,17 +106,7 @@ public class SnapToGridAction extends SelectionAction
       {
          AbstractNodeSymbolEditPart part = (AbstractNodeSymbolEditPart) iter.next();
          INodeSymbol node = (INodeSymbol) part.getModel();
-         EObject container = ModelUtils.findContainingProcess(node);
-         if (container == null)
-         {
-            container = ModelUtils.findContainingDiagram(node);
-         }
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(container);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            command.add(UnexecutableCommand.INSTANCE);
-         }         
-         
+
          IFigure figure = part.getFigure();
          PrecisionRectangle rect = new PrecisionRectangle(figure.getBounds());
          figure.translateToAbsolute(rect);
@@ -126,7 +115,7 @@ public class SnapToGridAction extends SelectionAction
          SnapToHelper snapToHelper = null;
          if (part.getParent() != null) {
             snapToHelper = (SnapToHelper) part.getParent().getAdapter(
-                  SnapToHelper.class);            
+                  SnapToHelper.class);
          }
          if (snapToHelper != null)
          {

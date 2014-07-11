@@ -20,95 +20,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Code;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.Coordinates;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EndEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
-import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.ExecutedByConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
-import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
-import org.eclipse.stardust.model.xpdl.carnot.GenericLinkConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.GroupSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.IdentifiableReference;
-import org.eclipse.stardust.model.xpdl.carnot.ImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.IntermediateEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.LinkCardinality;
-import org.eclipse.stardust.model.xpdl.carnot.LinkColor;
-import org.eclipse.stardust.model.xpdl.carnot.LinkEndStyle;
-import org.eclipse.stardust.model.xpdl.carnot.LinkLineStyle;
-import org.eclipse.stardust.model.xpdl.carnot.LinkTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.LoopType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelerType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.PartOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.PerformsConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.QualityControlType;
-import org.eclipse.stardust.model.xpdl.carnot.RefersToConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.RoutingType;
-import org.eclipse.stardust.model.xpdl.carnot.StartEventSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessOfConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TeamLeadConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TextSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.TextType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggersConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.UnbindActionType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewType;
-import org.eclipse.stardust.model.xpdl.carnot.ViewableType;
-import org.eclipse.stardust.model.xpdl.carnot.WorksForConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
-
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
@@ -140,7 +51,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    {
       try
       {
-         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1"); 
+         CarnotWorkflowModelFactory theCarnotWorkflowModelFactory = (CarnotWorkflowModelFactory)EPackage.Registry.INSTANCE.getEFactory(CarnotWorkflowModelPackage.eNS_URI);
          if (theCarnotWorkflowModelFactory != null)
          {
             return theCarnotWorkflowModelFactory;
@@ -244,7 +155,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.WORKS_FOR_CONNECTION_TYPE: return createWorksForConnectionType();
          case CarnotWorkflowModelPackage.XML_TEXT_NODE: return createXmlTextNode();
          default:
-            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -318,7 +229,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.DIAGRAM_MODE_TYPE_OBJECT:
             return createDiagramModeTypeObjectFromString(eDataType, initialValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -392,7 +303,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
          case CarnotWorkflowModelPackage.DIAGRAM_MODE_TYPE_OBJECT:
             return convertDiagramModeTypeObjectToString(eDataType, instanceValue);
          default:
-            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
       }
    }
 
@@ -1120,7 +1031,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public ActivityImplementationType createActivityImplementationTypeFromString(EDataType eDataType, String initialValue)
    {
       ActivityImplementationType result = ActivityImplementationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1142,7 +1053,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public DirectionType createDirectionTypeFromString(EDataType eDataType, String initialValue)
    {
       DirectionType result = DirectionType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1164,7 +1075,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public FlowControlType createFlowControlTypeFromString(EDataType eDataType, String initialValue)
    {
       FlowControlType result = FlowControlType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1186,7 +1097,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public ImplementationType createImplementationTypeFromString(EDataType eDataType, String initialValue)
    {
       ImplementationType result = ImplementationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1208,7 +1119,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public JoinSplitType createJoinSplitTypeFromString(EDataType eDataType, String initialValue)
    {
       JoinSplitType result = JoinSplitType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1230,7 +1141,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkCardinality createLinkCardinalityFromString(EDataType eDataType, String initialValue)
    {
       LinkCardinality result = LinkCardinality.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1252,7 +1163,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkColor createLinkColorFromString(EDataType eDataType, String initialValue)
    {
       LinkColor result = LinkColor.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1274,7 +1185,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkLineStyle createLinkLineStyleFromString(EDataType eDataType, String initialValue)
    {
       LinkLineStyle result = LinkLineStyle.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1296,7 +1207,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LinkEndStyle createLinkEndStyleFromString(EDataType eDataType, String initialValue)
    {
       LinkEndStyle result = LinkEndStyle.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1318,7 +1229,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public LoopType createLoopTypeFromString(EDataType eDataType, String initialValue)
    {
       LoopType result = LoopType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1340,7 +1251,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public OrientationType createOrientationTypeFromString(EDataType eDataType, String initialValue)
    {
       OrientationType result = OrientationType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1362,7 +1273,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public RoutingType createRoutingTypeFromString(EDataType eDataType, String initialValue)
    {
       RoutingType result = RoutingType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 
@@ -1406,7 +1317,7 @@ public class CarnotWorkflowModelFactoryImpl extends EFactoryImpl
    public DiagramModeType createDiagramModeTypeFromString(EDataType eDataType, String initialValue)
    {
       DiagramModeType result = DiagramModeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       return result;
    }
 

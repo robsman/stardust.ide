@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.tree;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.gef.EditPolicy;
@@ -26,20 +25,19 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class IdentifiableModelElementTreeEditPart
       extends AbstractEObjectTreeEditPart
 {
-   public IdentifiableModelElementTreeEditPart(WorkflowModelEditor editor, 
+   public IdentifiableModelElementTreeEditPart(WorkflowModelEditor editor,
          IIdentifiableModelElement model, String iconPath)
    {
       super(editor, model, iconPath);
    }
 
-   public IdentifiableModelElementTreeEditPart(WorkflowModelEditor editor, 
-         IIdentifiableModelElement model, String iconPath, 
+   public IdentifiableModelElementTreeEditPart(WorkflowModelEditor editor,
+         IIdentifiableModelElement model, String iconPath,
          EStructuralFeature[] childrenFeatures)
    {
       super(editor, model, iconPath, childrenFeatures);
@@ -49,7 +47,7 @@ public class IdentifiableModelElementTreeEditPart
    {
       super.createEditPolicies();
       // check for predefined data
-      if(!(getModel() instanceof DataType 
+      if(!(getModel() instanceof DataType
             && ((DataType) getModel()).isPredefined()))
       {
          installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
@@ -59,33 +57,27 @@ public class IdentifiableModelElementTreeEditPart
             {
                return null;
             }
-   
+
             protected void showCurrentEditValue(DirectEditRequest request)
             {
-            }         
-         });      
+            }
+         });
       }
    }
-   
+
    public void performRequest(Request req)
    {
       if (req.getType() == REQ_DIRECT_EDIT)
       {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) getModel());
-         if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-         {
-            WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
-            TreeItem treeItem = (TreeItem) getWidget();
-            OutlineTreeEditor editor = outline.getOutlineTreeEditor();
-            editor.setItem(treeItem, getModel());
-            return;
-         }
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
+         WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
+         TreeItem treeItem = (TreeItem) getWidget();
+         OutlineTreeEditor editor = outline.getOutlineTreeEditor();
+         editor.setItem(treeItem, getModel());
          return;
       }
       super.performRequest(req);
    }
-   
+
    public String getLabel()
    {
       IIdentifiableModelElement element = (IIdentifiableModelElement) getModel();

@@ -67,7 +67,6 @@ import org.eclipse.xsd.XSDSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
 public class CopyPasteUtil
 {
    public static final String idPrefix = "CopyOf"; //$NON-NLS-1$
@@ -212,8 +211,7 @@ public class CopyPasteUtil
                   WorkflowModelEditor editor = GenericUtils
                         .getWorkflowModelEditor(ModelUtils
                               .findContainingModel((EObject) modelElement));
-                  if (editor == null
-                        || editor.getModelServer().requireLock((EObject) modelElement))
+                  if (editor == null)
                   {
                      return null;
                   }
@@ -287,7 +285,7 @@ public class CopyPasteUtil
                   WorkflowModelEditor editor = GenericUtils
                         .getWorkflowModelEditor(ModelUtils
                               .findContainingModel((EObject) modelElement));
-                  if (editor == null || editor.getModelServer().requireLock((EObject) modelElement))
+                  if (editor == null)
                   {
                      return null;
                   }

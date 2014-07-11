@@ -20,8 +20,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.IssueDelta;
+import org.eclipse.stardust.modeling.validation.ValidationMarkerService;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
-import org.eclipse.stardust.modeling.validation.ValidationService;
 
 public class ModelResourceIssueSynchronizer implements IResourceDeltaVisitor
 {
@@ -48,7 +48,7 @@ public class ModelResourceIssueSynchronizer implements IResourceDeltaVisitor
             {
                if (IResourceDelta.ADDED == markerDelta.getKind())
                {
-                  ValidationService validationService = ValidationService.getInstance();
+                  ValidationMarkerService validationService = ValidationMarkerService.getInstance();
                   final Issue issue = validationService != null ? validationService.resolveMapping(markerDelta.getResource(),
                               markerDelta.getId()) : null;
                   if (null != issue)

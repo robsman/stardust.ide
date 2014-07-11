@@ -30,6 +30,11 @@ public interface ModelManagementStrategy {
       NEW_MODEL_CREATED, MODEL_ALREADY_EXISTS, NEW_MODEL_VERSION_CREATED
    };
 
+    /**
+     * @param params
+     */
+    void initialize(Map<String, Object> params);
+
 	/**
     *
     * @return

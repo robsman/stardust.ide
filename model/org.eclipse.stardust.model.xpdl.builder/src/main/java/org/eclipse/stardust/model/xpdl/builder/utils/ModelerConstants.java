@@ -44,6 +44,7 @@ public class ModelerConstants
    public static final String SUBPROCESS_ID = "subprocessFullId";
    public static final String APPLICATION_FULL_ID_PROPERTY = "applicationFullId";
    public static final String NAME_PROPERTY = "name";
+   public static final String USED_AS_LIST_PROPERTY = "isUsedAsList";
    public static final String ID_PROPERTY = "id";
    public static final String CLONE_ID_PROPERTY = "clone-id";
    public static final String DEF_LANE_ID = "DefaultLane";

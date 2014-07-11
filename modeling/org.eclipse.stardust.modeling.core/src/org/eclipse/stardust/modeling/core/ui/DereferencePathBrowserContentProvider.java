@@ -11,12 +11,12 @@
 package org.eclipse.stardust.modeling.core.ui;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
@@ -39,37 +39,35 @@ public class DereferencePathBrowserContentProvider implements ITreeContentProvid
 
    public Object[] getChildren(Object parentElement)
    {
-      if (parentElement instanceof TypeInfo)
-      {
-         parentElement = ((TypeInfo) parentElement).getType();
-      }
       MethodInfo[] methods = null;
-      if (parentElement instanceof IType)
+      try
       {
-         if (isConstructor)
+         if (parentElement instanceof TypeInfo)
          {
-            methods = sort(finder.getConstructors((IType) parentElement).toArray());
+            methods = sort((isConstructor
+                  ? finder.getConstructors((TypeInfo) parentElement)
+                  : finder.getMethods((TypeInfo) parentElement)).toArray());
          }
-         else
+         else if (parentElement instanceof MethodInfo)
          {
-            methods = sort(finder.getMethods((IType) parentElement).toArray());
+            String returnType = ((MethodInfo) parentElement).getReturnType();
+            TypeInfo type = finder.findType(returnType);
+            if (type != null)
+            {
+               methods = sort(type.getMethods().toArray());
+            }
          }
       }
-      else if (parentElement instanceof MethodInfo)
+      catch (JavaModelException ex)
       {
-         String returnType = ((MethodInfo) parentElement).getReturnType();
-         IType type = finder.findExactType(returnType);
-         if (type != null)
-         {
-            methods = sort(finder.getMethods(type).toArray());
-         }
+         // (fh) ignore
       }
       return methods;
    }
 
    private MethodInfo[] sort(Object[] objects)
    {
-      Map methodMap = new HashMap();
+      Map<String, Object> methodMap = CollectionUtils.newMap();
       String[] methodNames = new String[objects.length];
       for (int i = 0; i < objects.length; i++)
       {
@@ -97,15 +95,18 @@ public class DereferencePathBrowserContentProvider implements ITreeContentProvid
    {
       if (element instanceof TypeInfo)
       {
-         element = ((TypeInfo) element).getType();
-      }
-      if (element instanceof IType)
-      {
          if (isConstructor)
          {
             return true;
          }
-         return finder.getMethods((IType) element).size() > 0;
+         try
+         {
+            return !((TypeInfo) element).getMethods().isEmpty();
+         }
+         catch (JavaModelException e)
+         {
+            // (fh) ignore - defaults to false
+         }
       }
       else if ((element instanceof MethodInfo) && isDeep)
       {

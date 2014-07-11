@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -51,6 +52,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.platform.validation.IQuickValidationStatus;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
@@ -62,6 +64,7 @@ import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.ui.StringUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
+
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -89,7 +92,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
 
    private static final Type[] TYPES = {
          Type.Calendar, Type.String, Type.Timestamp, Type.Boolean, Type.Byte, Type.Char,
-         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short};
+         Type.Double, Type.Float, Type.Integer, Type.Long, Type.Short, Type.Enumeration};
 
    List<Type> primitiveTypes = Arrays.asList(TYPES);
 
@@ -125,7 +128,7 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          if (GenericUtils.getAutoIdValue())
          {
-            String computedId = NameIdUtils.createIdFromName(null, getModelElement());            
+            String computedId = NameIdUtils.createIdFromName(null, getModelElement());
             idText.getText().setText(computedId);
          }
       }
@@ -138,15 +141,15 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       implementingProcess = getProcess();
       nameText.getText().removeModifyListener(listener);
       typeMapping = CollectionUtils.newMap();
-      typeMapping.put(Type.String.getId(), TypeType.STRING_LITERAL);
-      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN_LITERAL);
-      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME_LITERAL);
-      typeMapping.put(Type.Timestamp.getId(), TypeType.DATETIME_LITERAL);
-      typeMapping.put(Type.Long.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Double.getId(), TypeType.FLOAT_LITERAL);
-      typeMapping.put(Type.Short.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Byte.getId(), TypeType.INTEGER_LITERAL);
+      typeMapping.put(Type.String.getId(), TypeType.STRING);
+      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN);
+      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME);
+      typeMapping.put(Type.Timestamp.getId(), TypeType.DATETIME);
+      typeMapping.put(Type.Long.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Double.getId(), TypeType.FLOAT);
+      typeMapping.put(Type.Short.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Byte.getId(), TypeType.INTEGER);
 
       WidgetBindingManager binding = getWidgetBindingManager();
       parameterType = (FormalParameterType) element;
@@ -165,19 +168,21 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
             .getTypeDeclaration().iterator(); i.hasNext();)
       {
          TypeDeclarationType typeDec = i.next();
-         dataTypes.add(typeDec);
+         if(!TypeDeclarationUtils.isEnumeration(typeDec, false))
+         {
+            dataTypes.add(typeDec);
+         }
       }
       dataTypes.add(StructuredTypeUtils.getResourceTypeDeclaration());
       dataTypes.addAll(primitiveTypes);
       DataType selectedData = getSelectedData();
       Object selectedType = getInterfaceType();
-      dataFilter.setFilterType(selectedType);
-      dataFilter.setReferencedModel(referencedModelType);
 
       categoryCombo.getViewer().setInput(typeFilters);
       String selectedCategory = null;
       DataTypeType selectedDataType = parameterType.getDataType();
-      if (selectedDataType != null) 
+
+      if (selectedDataType != null)
       {
           selectedCategory = parameterType.getDataType().getCarnotType();
           if (selectedCategory == null)
@@ -190,9 +195,30 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
              {
                 selectedCategory = "struct"; //$NON-NLS-1$
              }
-          }    	  
+          }
       }
-      
+
+      String typeId = null;
+      if(selectedData != null)
+      {
+         typeId = selectedData.getType().getId();
+      }
+      if (PredefinedConstants.STRUCTURED_DATA.equals(typeId))
+      {
+         TypeDeclarationType decl = (TypeDeclarationType) AttributeUtil.getIdentifiable(selectedData, StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if(decl != null)
+         {
+            if(TypeDeclarationUtils.isEnumeration(decl, false))
+            {
+               selectedCategory = PredefinedConstants.PRIMITIVE_DATA;
+               selectedType = Type.Enumeration;
+            }
+         }
+      }
+
+      dataFilter.setFilterType(selectedType);
+      dataFilter.setReferencedModel(referencedModelType);
+
       ViewerFilter selectedFilter = getSelectedFilter(selectedCategory);
 
       if (selectedFilter != null)
@@ -791,7 +817,6 @@ public class FormalParameterPropertyPage extends AbstractModelElementPropertyPag
       {
          return Diagram_Messages.TXT_DOCUMENT_LIST;
       }
-
    }
 
    public class EmptyFilter extends TypeFilter

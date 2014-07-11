@@ -17,6 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.stardust.modeling.repository.common,
  org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.validation,
+ org.eclipse.jdt.core,
  org.eclipse.stardust.modeling.common.ui,
  org.eclipse.stardust.modeling.common.projectnature,
  org.eclipse.stardust.ide.thirdparty.gface

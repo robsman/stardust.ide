@@ -205,29 +205,39 @@ public class GatewaySymbolEditPart extends AbstractNodeSymbolEditPart
       JoinSplitType type = JoinSplitType.XOR_LITERAL;
       GatewaySymbol gateway = (GatewaySymbol) getModel();
       ActivitySymbolType symbol = gateway.getActivitySymbol();
+      FlowControlType flowKind = gateway.getFlowKind();
       if (symbol != null)
       {
          ActivityType activity = (ActivityType) symbol.getModelElement();
          if (activity != null)
          {
-            type = gateway.getFlowKind().getValue() == FlowControlType.JOIN ? activity
-                  .getJoin() : activity.getSplit();
-            figure.setToolTip(new Label(FlowControlType.JOIN == gateway.getFlowKind()
-                  .getValue() ? MessageFormat.format(Diagram_Messages.TOOLTIP_JoinGateway,
-                  new String[] {activity.getName()}) : FlowControlType.SPLIT == gateway
-                  .getFlowKind().getValue() ? MessageFormat.format(Diagram_Messages.TOOLTIP_SplitGateway,
-                  new String[] {activity.getName()}) : "")); //$NON-NLS-1$
+            String tooltip = ""; //$NON-NLS-1$
+            switch (flowKind)
+            {
+            case JOIN_LITERAL:
+               tooltip = MessageFormat.format(Diagram_Messages.TOOLTIP_JoinGateway, activity.getName());
+               type = activity.getJoin();
+               break;
+            case SPLIT_LITERAL:
+               MessageFormat.format(Diagram_Messages.TOOLTIP_SplitGateway, activity.getName());
+            default:
+               type = activity.getSplit();
+            }
+            figure.setToolTip(new Label(tooltip));
          }
       }
-      switch (type.getValue())
+      int typeIndicator = GatewayFigure.GATEWAY_TYPE_XOR;
+      switch (type)
       {
-      case JoinSplitType.AND:
-         figure.setTypeIndicator(GatewayFigure.GATEWAY_TYPE_AND);
+      case AND_LITERAL:
+         typeIndicator = GatewayFigure.GATEWAY_TYPE_AND;
+         break;
+      case OR_LITERAL:
+         typeIndicator = GatewayFigure.GATEWAY_TYPE_OR;
          break;
       default:
-         figure.setTypeIndicator(GatewayFigure.GATEWAY_TYPE_XOR);
-         break;
       }
-      figure.setKind(gateway.getFlowKind().getValue());
+      figure.setTypeIndicator(typeIndicator);
+      figure.setKind(flowKind.getValue());
    }
 }

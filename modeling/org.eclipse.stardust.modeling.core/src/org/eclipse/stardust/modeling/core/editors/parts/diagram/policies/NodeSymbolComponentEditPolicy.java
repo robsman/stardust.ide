@@ -17,12 +17,8 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteAllCommandFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
-import org.eclipse.stardust.modeling.core.utils.GenericUtils;
-
 
 public class NodeSymbolComponentEditPolicy extends ComponentEditPolicy
 {
@@ -32,14 +28,9 @@ public class NodeSymbolComponentEditPolicy extends ComponentEditPolicy
       if (!(getHost().getModel() instanceof GatewaySymbol))
       {
          IModelElement element = (IModelElement) getHost().getModel();
-         
-         WorkflowModelEditor editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel(element));
-         if (editor != null && !editor.getModelServer().requireLock(element))
-         {         
-            cmd.add(DeleteSymbolCommandFactory
-                  .createDeleteSymbolCommand((INodeSymbol) getHost().getModel()));
-         }
-         
+
+         cmd.add(DeleteSymbolCommandFactory
+               .createDeleteSymbolCommand((INodeSymbol) getHost().getModel()));
          cmd.add(DeleteAllCommandFactory.createDeleteAllCommand(element));
          return cmd;
       }

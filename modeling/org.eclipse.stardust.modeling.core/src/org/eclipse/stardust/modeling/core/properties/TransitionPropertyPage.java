@@ -27,6 +27,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledCombo;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
@@ -160,7 +161,7 @@ public class TransitionPropertyPage extends IdentifiablePropertyPage
       WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
       IEditorSite editorSite = editor.getEditorSite();      
       
-      project = ModelUtils.getProjectFromEObject(getModelElement());
+      project = WorkspaceUtils.getProjectFromEObject(getModelElement());
 
       forkButton = FormBuilder.createCheckBox(composite,
             Diagram_Messages.CHECKBOX_ForkOnTraversal, 2);

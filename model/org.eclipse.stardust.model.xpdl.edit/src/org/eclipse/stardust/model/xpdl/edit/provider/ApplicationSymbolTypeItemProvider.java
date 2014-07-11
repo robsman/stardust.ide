@@ -94,8 +94,8 @@ public class ApplicationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationSymbolType_executingActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationSymbolType_executingActivities_feature", "_UI_ApplicationSymbolType_type"),
+             getString("_UI_ApplicationSymbolType_executingActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationSymbolType_executingActivities_feature", "_UI_ApplicationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_SYMBOL_TYPE__EXECUTING_ACTIVITIES,
              true,
              false,
@@ -117,8 +117,8 @@ public class ApplicationSymbolTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationSymbolType_application_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationSymbolType_application_feature", "_UI_ApplicationSymbolType_type"),
+             getString("_UI_ApplicationSymbolType_application_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationSymbolType_application_feature", "_UI_ApplicationSymbolType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_SYMBOL_TYPE__APPLICATION,
              true,
              false,
@@ -137,7 +137,7 @@ public class ApplicationSymbolTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ApplicationSymbolType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ApplicationSymbolType")); //$NON-NLS-1$
    }
 
    /**
@@ -150,7 +150,7 @@ public class ApplicationSymbolTypeItemProvider
    public String getText(Object object)
    {
       ApplicationSymbolType applicationSymbolType = (ApplicationSymbolType)object;
-      return getString("_UI_ApplicationSymbolType_type") + " " + applicationSymbolType.getElementOid();
+      return getString("_UI_ApplicationSymbolType_type") + " " + applicationSymbolType.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

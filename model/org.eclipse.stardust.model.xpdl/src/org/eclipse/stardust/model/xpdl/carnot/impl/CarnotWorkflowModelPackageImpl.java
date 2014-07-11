@@ -12,27 +12,23 @@ package org.eclipse.stardust.model.xpdl.carnot.impl;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.MessageFormat;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.impl.ExtensionsPackageImpl;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl.ExtensionPackageImpl;
+import org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl;
+import org.eclipse.xsd.XSDPackage;
 
 
 /**
@@ -43,85 +39,85 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       implements CarnotWorkflowModelPackage
 {
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    protected String packageFilename = "carnot.ecore"; //$NON-NLS-1$
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass coordinatesEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass accessPointTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass activitySymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass activityTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass annotationSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass applicationContextTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass applicationSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass applicationTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass applicationTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass attributeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass bindActionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -134,109 +130,109 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     */
    private EClass conditionalPerformerSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass conditionalPerformerTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass contextTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataMappingConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataMappingTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataPathTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass dataTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass descriptionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass diagramTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass documentRootEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass endEventSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass eventActionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass eventActionTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass eventConditionTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass eventHandlerTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass executedByConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -249,205 +245,205 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     */
    private EClass gatewaySymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass genericLinkConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass groupSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass intermediateEventSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass laneSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iIdentifiableElementEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iExtensibleElementEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass identifiableReferenceEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iIdentifiableModelElementEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iEventHandlerOwnerEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iAccessPointOwnerEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iMetaTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iTypedElementEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iSymbolContainerEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iGraphicalObjectEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iNodeSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iSwimlaneSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iModelElementNodeSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iFlowObjectSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iConnectionSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iModelElementEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass linkTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass modelerSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass modelerTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass modelTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass organizationSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass organizationTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass parameterMappingTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass participantTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass partOfConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass performsConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass poolSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass processDefinitionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass processSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -467,317 +463,317 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     */
    private EClass refersToConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass roleSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass roleTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass startEventSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass subProcessOfConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass textSymbolTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass textTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass transitionConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass transitionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private EClass triggersConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass triggerTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass triggerTypeTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass unbindActionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass viewableTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass viewTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass worksForConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass xmlTextNodeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private EClass teamLeadConnectionTypeEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass abstractEventActionEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum activityImplementationTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum directionTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum flowControlTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iModelParticipantEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass iModelParticipantSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EClass abstractEventSymbolEClass = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum implementationTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum joinSplitTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum linkCardinalityEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum linkColorEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum linkLineStyleEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum linkEndStyleEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum loopTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum orientationTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum routingTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EEnum subProcessModeTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private EEnum diagramModeTypeEEnum = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType elementIdEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType featureListEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType activityImplementationTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType directionTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType flowControlTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType implementationTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType joinSplitTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType linkCardinalityObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType linkColorObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType linkLineStyleObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType linkEndStyleObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType loopTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType orientationTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType routingTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private EDataType subProcessModeTypeObjectEDataType = null;
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private EDataType diagramModeTypeObjectEDataType = null;
 
-	/**
+   /**
     * Creates an instance of the model <b>Package</b>, registered with
     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
     * package URI value.
@@ -796,15 +792,15 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       super(eNS_URI, CarnotWorkflowModelFactory.eINSTANCE);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    private static boolean isInited = false;
 
-	/**
+   /**
     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-    * 
+    *
     * <p>This method is used to initialize {@link CarnotWorkflowModelPackage#eINSTANCE} when that field is accessed.
     * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -836,13 +832,13 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       // Mark meta-data to indicate it can't be changed
       theCarnotWorkflowModelPackage.freeze();
 
-  
+
       // Update the registry and return the package
       EPackage.Registry.INSTANCE.put(CarnotWorkflowModelPackage.eNS_URI, theCarnotWorkflowModelPackage);
       return theCarnotWorkflowModelPackage;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -854,7 +850,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return coordinatesEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -862,7 +858,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getCoordinates().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -870,7 +866,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getCoordinates().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -882,7 +878,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return accessPointTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -890,7 +886,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAccessPointType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -898,7 +894,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getAccessPointType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -910,7 +906,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return activitySymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -918,7 +914,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivitySymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -926,7 +922,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivitySymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -934,7 +930,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivitySymbolType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -942,7 +938,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivitySymbolType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -950,7 +946,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivitySymbolType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -962,7 +958,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return activityTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -970,7 +966,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -978,7 +974,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -986,7 +982,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -994,7 +990,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1002,7 +998,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1010,7 +1006,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1018,7 +1014,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1026,7 +1022,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1034,7 +1030,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(8);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1042,7 +1038,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(9);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1060,7 +1056,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(11);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1068,7 +1064,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getActivityType().getEStructuralFeatures().get(12);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1076,7 +1072,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(13);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1084,7 +1080,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(14);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1092,7 +1088,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(15);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1100,7 +1096,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getActivityType().getEStructuralFeatures().get(16);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1121,6 +1117,16 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
    /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EReference getActivityType_Loop()
+   {
+        return (EReference)getActivityType().getEStructuralFeatures().get(19);
+   }
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1132,7 +1138,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return annotationSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1140,7 +1146,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getAnnotationSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1152,7 +1158,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return applicationContextTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1160,7 +1166,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationContextTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1168,7 +1174,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationContextTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1176,7 +1182,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationContextTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1184,7 +1190,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationContextTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1192,7 +1198,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationContextTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1200,7 +1206,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationContextTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1212,7 +1218,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return applicationSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1220,7 +1226,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1228,7 +1234,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationSymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1240,7 +1246,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return applicationTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1248,7 +1254,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1256,7 +1262,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1264,7 +1270,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1272,7 +1278,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1280,7 +1286,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1292,7 +1298,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return applicationTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1300,7 +1306,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1308,7 +1314,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1316,7 +1322,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1324,7 +1330,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1332,7 +1338,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getApplicationTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1340,7 +1346,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getApplicationTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1352,7 +1358,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return attributeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1360,7 +1366,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1368,7 +1374,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1376,7 +1382,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1384,7 +1390,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getAttributeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1392,7 +1398,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1400,7 +1406,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1408,7 +1414,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getAttributeType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1416,7 +1422,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getAttributeType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1428,7 +1434,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return bindActionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1484,7 +1490,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return conditionalPerformerSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1492,7 +1498,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getConditionalPerformerSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1504,7 +1510,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return conditionalPerformerTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1512,7 +1518,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getConditionalPerformerType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1520,7 +1526,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getConditionalPerformerType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1528,7 +1534,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getConditionalPerformerType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1536,7 +1542,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getConditionalPerformerType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1548,7 +1554,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return contextTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1556,7 +1562,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getContextType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1564,7 +1570,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getContextType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1576,7 +1582,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataMappingConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1584,7 +1590,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataMappingConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1592,7 +1598,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataMappingConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1604,7 +1610,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataMappingTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1612,7 +1618,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataMappingType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1620,7 +1626,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataMappingType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1628,7 +1634,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataMappingType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1636,7 +1642,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataMappingType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1644,7 +1650,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataMappingType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1652,7 +1658,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataMappingType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1664,7 +1670,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataPathTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1672,7 +1678,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataPathType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1680,7 +1686,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataPathType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1688,7 +1694,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataPathType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1706,7 +1712,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataPathType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1718,7 +1724,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1726,7 +1732,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1734,7 +1740,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataSymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1746,7 +1752,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1754,7 +1760,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1762,7 +1768,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1770,7 +1776,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1778,7 +1784,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1786,7 +1792,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1794,7 +1800,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1802,7 +1808,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1824,7 +1830,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return dataTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1832,7 +1838,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1840,7 +1846,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1848,7 +1854,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1856,7 +1862,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1864,7 +1870,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1872,7 +1878,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1880,7 +1886,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1888,7 +1894,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1896,7 +1902,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDataTypeType().getEStructuralFeatures().get(8);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1904,7 +1910,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDataTypeType().getEStructuralFeatures().get(9);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1916,7 +1922,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return descriptionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1924,7 +1930,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDescriptionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1936,7 +1942,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return diagramTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1944,7 +1950,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDiagramType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1952,7 +1958,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDiagramType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1960,7 +1966,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDiagramType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -1969,7 +1975,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDiagramType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1981,7 +1987,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return documentRootEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1989,7 +1995,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getDocumentRoot().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1997,7 +2003,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDocumentRoot().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2005,7 +2011,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDocumentRoot().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2013,7 +2019,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getDocumentRoot().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2025,7 +2031,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return endEventSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2037,7 +2043,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return eventActionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2049,7 +2055,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return eventActionTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2057,7 +2063,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2065,7 +2071,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2073,7 +2079,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2081,7 +2087,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2089,7 +2095,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2097,7 +2103,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventActionTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2105,7 +2111,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventActionTypeType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2117,7 +2123,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return eventConditionTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2125,7 +2131,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2133,7 +2139,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2141,7 +2147,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2149,7 +2155,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2157,7 +2163,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2165,7 +2171,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2173,7 +2179,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventConditionTypeType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2181,7 +2187,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventConditionTypeType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2193,7 +2199,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return eventHandlerTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2201,7 +2207,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventHandlerType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2209,7 +2215,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventHandlerType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2217,7 +2223,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventHandlerType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2225,7 +2231,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventHandlerType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2233,7 +2239,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventHandlerType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2241,7 +2247,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventHandlerType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2249,7 +2255,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getEventHandlerType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2257,7 +2263,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getEventHandlerType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2269,7 +2275,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return executedByConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2277,7 +2283,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getExecutedByConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2285,7 +2291,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getExecutedByConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -2331,7 +2337,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return gatewaySymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2339,7 +2345,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getGatewaySymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2347,7 +2353,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getGatewaySymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2359,7 +2365,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return genericLinkConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2367,7 +2373,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getGenericLinkConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2375,7 +2381,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getGenericLinkConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2383,7 +2389,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getGenericLinkConnectionType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2395,7 +2401,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return groupSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2407,7 +2413,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return intermediateEventSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2419,7 +2425,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return laneSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2427,7 +2433,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getLaneSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2435,7 +2441,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getLaneSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2447,7 +2453,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iIdentifiableElementEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2455,7 +2461,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIIdentifiableElement().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2463,7 +2469,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIIdentifiableElement().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2475,7 +2481,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iExtensibleElementEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2483,7 +2489,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIExtensibleElement().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2495,7 +2501,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return identifiableReferenceEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2503,7 +2509,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIdentifiableReference().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2511,7 +2517,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIdentifiableReference().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2523,7 +2529,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iIdentifiableModelElementEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2531,7 +2537,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIIdentifiableModelElement().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2543,7 +2549,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iEventHandlerOwnerEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2551,7 +2557,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIEventHandlerOwner().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2563,7 +2569,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iAccessPointOwnerEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2571,7 +2577,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIAccessPointOwner().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2583,7 +2589,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iMetaTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2591,7 +2597,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIMetaType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2603,7 +2609,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iTypedElementEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2615,7 +2621,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iSymbolContainerEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2623,7 +2629,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getISymbolContainer().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2631,7 +2637,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2639,7 +2645,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2647,7 +2653,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2655,7 +2661,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2663,7 +2669,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2671,7 +2677,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2679,7 +2685,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2687,7 +2693,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(8);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2695,7 +2701,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(9);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2703,7 +2709,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(10);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2711,7 +2717,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(11);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2719,7 +2725,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(12);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -2737,7 +2743,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(14);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2745,7 +2751,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(15);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2753,7 +2759,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(16);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2761,7 +2767,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getISymbolContainer().getEStructuralFeatures().get(17);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2769,7 +2775,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(18);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2777,7 +2783,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(19);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2785,7 +2791,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(20);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2793,7 +2799,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(21);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2801,7 +2807,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(22);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -2810,7 +2816,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(23);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2818,7 +2824,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(24);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2826,7 +2832,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(25);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2834,7 +2840,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(26);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2842,7 +2848,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(27);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -2851,7 +2857,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISymbolContainer().getEStructuralFeatures().get(28);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2863,7 +2869,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iGraphicalObjectEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2871,7 +2877,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIGraphicalObject().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2879,7 +2885,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIGraphicalObject().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2887,7 +2893,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIGraphicalObject().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2895,7 +2901,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIGraphicalObject().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2903,7 +2909,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIGraphicalObject().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2915,7 +2921,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iNodeSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2923,7 +2929,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getINodeSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2931,7 +2937,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getINodeSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2939,7 +2945,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getINodeSymbol().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2947,7 +2953,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getINodeSymbol().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2955,7 +2961,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getINodeSymbol().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2963,7 +2969,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getINodeSymbol().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2971,7 +2977,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getINodeSymbol().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2983,7 +2989,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iSwimlaneSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -2991,7 +2997,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getISwimlaneSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3000,7 +3006,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getISwimlaneSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3008,7 +3014,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISwimlaneSymbol().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3016,7 +3022,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getISwimlaneSymbol().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3038,7 +3044,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iModelElementNodeSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3050,7 +3056,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iFlowObjectSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3058,7 +3064,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIFlowObjectSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3066,7 +3072,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIFlowObjectSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3078,7 +3084,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iConnectionSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3086,7 +3092,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIConnectionSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3094,7 +3100,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIConnectionSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3102,7 +3108,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIConnectionSymbol().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3110,7 +3116,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIConnectionSymbol().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3122,7 +3128,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iModelElementEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3130,7 +3136,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getIModelElement().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3142,7 +3148,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3150,7 +3156,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3158,7 +3164,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3166,7 +3172,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3174,7 +3180,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getLinkTypeType().getEStructuralFeatures().get(12);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3182,7 +3188,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(10);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3190,7 +3196,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(11);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3198,7 +3204,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3206,7 +3212,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3214,7 +3220,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3222,7 +3228,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(8);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3230,7 +3236,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3238,7 +3244,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3246,7 +3252,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getLinkTypeType().getEStructuralFeatures().get(9);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3258,7 +3264,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return modelerSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3266,7 +3272,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelerSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3278,7 +3284,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return modelerTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3286,7 +3292,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelerType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3294,7 +3300,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelerType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3302,7 +3308,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelerType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3314,7 +3320,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return modelTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3322,7 +3328,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3330,7 +3336,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3338,7 +3344,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3346,7 +3352,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3354,7 +3360,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3362,7 +3368,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3370,7 +3376,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3378,7 +3384,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3386,7 +3392,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(8);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3394,7 +3400,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(9);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3412,7 +3418,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(11);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3420,7 +3426,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(12);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3428,7 +3434,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(13);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3436,7 +3442,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(14);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3448,23 +3454,23 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public EReference getModelType_Script() {
+   public EReference getModelType_Script() {
         return (EReference)getModelType().getEStructuralFeatures().get(16);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public EReference getModelType_TypeDeclarations() {
+   public EReference getModelType_TypeDeclarations() {
         return (EReference)getModelType().getEStructuralFeatures().get(17);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3472,7 +3478,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(18);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3480,7 +3486,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(19);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3488,7 +3494,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getModelType().getEStructuralFeatures().get(20);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3496,7 +3502,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(21);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3504,7 +3510,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(22);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3512,7 +3518,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(23);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3520,7 +3526,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(24);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3528,7 +3534,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(25);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3536,7 +3542,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getModelType().getEStructuralFeatures().get(26);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3548,7 +3554,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return organizationSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3556,7 +3562,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3564,7 +3570,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationSymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3572,7 +3578,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationSymbolType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3580,7 +3586,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationSymbolType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3589,7 +3595,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationSymbolType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3601,7 +3607,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return organizationTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3609,7 +3615,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3617,7 +3623,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3626,7 +3632,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getOrganizationType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3638,7 +3644,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return parameterMappingTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3646,7 +3652,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getParameterMappingType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3664,7 +3670,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getParameterMappingType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3672,7 +3678,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getParameterMappingType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3684,7 +3690,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return participantTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3692,7 +3698,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getParticipantType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3704,7 +3710,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return partOfConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3712,7 +3718,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPartOfConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3720,7 +3726,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPartOfConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3732,7 +3738,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return performsConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3740,7 +3746,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPerformsConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3748,7 +3754,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPerformsConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3760,7 +3766,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return poolSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3768,7 +3774,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPoolSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3776,7 +3782,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getPoolSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3784,7 +3790,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPoolSymbol().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3792,7 +3798,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getPoolSymbol().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3804,7 +3810,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return processDefinitionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3812,7 +3818,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3820,7 +3826,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3828,7 +3834,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3836,7 +3842,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3844,7 +3850,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3852,7 +3858,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3860,7 +3866,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(6);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3869,7 +3875,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getProcessDefinitionType().getEStructuralFeatures().get(7);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3911,7 +3917,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return processSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3919,7 +3925,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3927,7 +3933,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessSymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3935,7 +3941,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getProcessSymbolType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -3985,7 +3991,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return refersToConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -3993,7 +3999,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRefersToConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4001,7 +4007,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRefersToConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4013,7 +4019,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return roleSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4021,7 +4027,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRoleSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4029,7 +4035,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRoleSymbolType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4038,7 +4044,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRoleSymbolType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4050,7 +4056,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return roleTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4058,7 +4064,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getRoleType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4067,7 +4073,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRoleType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4075,7 +4081,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getRoleType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4087,7 +4093,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return startEventSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4095,7 +4101,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getStartEventSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4104,7 +4110,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getStartEventSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4112,7 +4118,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getStartEventSymbol().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4124,7 +4130,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return subProcessOfConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4132,7 +4138,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getSubProcessOfConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4140,7 +4146,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getSubProcessOfConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4152,7 +4158,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return textSymbolTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4160,7 +4166,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTextSymbolType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4172,7 +4178,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return textTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4180,7 +4186,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTextType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4192,7 +4198,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return transitionConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4200,7 +4206,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTransitionConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4208,7 +4214,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4216,7 +4222,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionConnectionType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4224,7 +4230,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionConnectionType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4236,7 +4242,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return transitionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4244,7 +4250,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4252,7 +4258,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTransitionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4260,7 +4266,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTransitionType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4268,7 +4274,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4276,7 +4282,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4284,7 +4290,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTransitionType().getEStructuralFeatures().get(5);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4297,7 +4303,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return triggersConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4306,7 +4312,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggersConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4315,7 +4321,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggersConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4327,7 +4333,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return triggerTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4335,7 +4341,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggerType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4343,7 +4349,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggerType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4351,7 +4357,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggerType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4363,7 +4369,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return triggerTypeTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4371,7 +4377,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTriggerTypeType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4379,7 +4385,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTriggerTypeType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4387,7 +4393,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTriggerTypeType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4395,7 +4401,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getTriggerTypeType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4403,7 +4409,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTriggerTypeType().getEStructuralFeatures().get(4);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4415,7 +4421,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return unbindActionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4427,7 +4433,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return viewableTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4435,7 +4441,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getViewableType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4447,7 +4453,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return viewTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4455,7 +4461,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getViewType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4463,7 +4469,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getViewType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4471,7 +4477,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getViewType().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4479,7 +4485,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getViewType().getEStructuralFeatures().get(3);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4491,7 +4497,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return worksForConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4499,7 +4505,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getWorksForConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4507,7 +4513,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getWorksForConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4519,7 +4525,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return xmlTextNodeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4527,7 +4533,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EAttribute)getXmlTextNode().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4540,7 +4546,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return teamLeadConnectionTypeEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4549,7 +4555,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTeamLeadConnectionType().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4558,7 +4564,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getTeamLeadConnectionType().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4570,7 +4576,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return abstractEventActionEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4578,7 +4584,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getAbstractEventAction().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4590,7 +4596,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return activityImplementationTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4602,7 +4608,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return directionTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4614,7 +4620,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return flowControlTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4626,7 +4632,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iModelParticipantEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4634,7 +4640,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIModelParticipant().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4642,7 +4648,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIModelParticipant().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4650,7 +4656,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIModelParticipant().getEStructuralFeatures().get(2);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4662,7 +4668,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return iModelParticipantSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4670,7 +4676,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIModelParticipantSymbol().getEStructuralFeatures().get(0);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4679,7 +4685,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
         return (EReference)getIModelParticipantSymbol().getEStructuralFeatures().get(1);
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4691,7 +4697,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return abstractEventSymbolEClass;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4713,7 +4719,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return implementationTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4725,7 +4731,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return joinSplitTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4737,7 +4743,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkCardinalityEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4749,7 +4755,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkColorEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4761,7 +4767,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkLineStyleEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4773,7 +4779,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkEndStyleEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4785,7 +4791,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return loopTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4797,7 +4803,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return orientationTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4809,7 +4815,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return routingTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4821,7 +4827,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return subProcessModeTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4834,7 +4840,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return diagramModeTypeEEnum;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4846,7 +4852,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return elementIdEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4858,7 +4864,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return featureListEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4870,7 +4876,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return activityImplementationTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4882,7 +4888,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return directionTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4894,7 +4900,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return flowControlTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4906,7 +4912,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return implementationTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4918,7 +4924,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return joinSplitTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -4930,7 +4936,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkCardinalityObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4943,7 +4949,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkColorObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4956,7 +4962,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkLineStyleObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4969,7 +4975,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return linkEndStyleObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4982,7 +4988,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return loopTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -4995,7 +5001,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return orientationTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -5008,7 +5014,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return routingTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -5021,7 +5027,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return subProcessModeTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -5034,7 +5040,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return diagramModeTypeObjectEDataType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
@@ -5043,14 +5049,14 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       return (CarnotWorkflowModelFactory)getEFactoryInstance();
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private boolean isLoaded = false;
 
-	/**
+   /**
     * Laods the package and any sub-packages from their serialized form.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -5063,7 +5069,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       URL url = getClass().getResource(packageFilename);
       if (url == null)
       {
-         throw new RuntimeException("Missing serialized package: " + packageFilename);
+         throw new RuntimeException("Missing serialized package: " + packageFilename); //$NON-NLS-1$
       }
       URI uri = URI.createURI(url.toString());
       Resource resource = new EcoreResourceFactoryImpl().createResource(uri);
@@ -5080,14 +5086,14 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
 
-	/**
+   /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     */
    private boolean isFixed = false;
 
-	/**
+   /**
     * Fixes up the loaded package, to make it appear as if it had been programmatically built.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -5099,7 +5105,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
       fixEClassifiers();
    }
 
-	/**
+   /**
     * Sets the instance class on the given classifier.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->

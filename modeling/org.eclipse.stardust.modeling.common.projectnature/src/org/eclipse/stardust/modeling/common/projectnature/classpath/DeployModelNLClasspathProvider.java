@@ -23,11 +23,11 @@ import org.osgi.framework.Bundle;
  */
 public class DeployModelNLClasspathProvider extends CarnotToolClasspathProvider
 {
-   private static final String TOMCAT_RUNTIME_TARGET = "org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget";
+   private static final String TOMCAT_RUNTIME_TARGET = "org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget"; //$NON-NLS-1$
 
-   private static final String SRC_FOLDER = "src";
+   private static final String SRC_FOLDER = "src"; //$NON-NLS-1$
 
-   private static final String MODELING_DEPLOY_NL_PLUGIN = "org.eclipse.stardust.modeling.deploy";
+   private static final String MODELING_DEPLOY_NL_PLUGIN = "org.eclipse.stardust.modeling.deploy"; //$NON-NLS-1$
 
    @Override
    public IRuntimeClasspathEntry[] computeUnresolvedClasspath(
@@ -48,7 +48,7 @@ public class DeployModelNLClasspathProvider extends CarnotToolClasspathProvider
             URI location = null;
             try
             {
-               location = FileLocator.toFileURL(fragment.getEntry("/")).toURI();
+               location = FileLocator.toFileURL(fragment.getEntry("/")).toURI(); //$NON-NLS-1$
                if (fragment.getEntry(SRC_FOLDER) != null)
                {
                   location = location.resolve(SRC_FOLDER);

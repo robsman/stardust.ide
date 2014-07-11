@@ -12,16 +12,12 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.model.xpdl.util.IConnection;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AnnotationSymbolEditPart;
@@ -34,12 +30,9 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.SymbolGroupEditP
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.TextSymbolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ChildCategoryNode;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.utils.CheckDeleteConnections;
-import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
-
 
 public class DeleteAllAction extends DeleteAction
 {
@@ -47,28 +40,26 @@ public class DeleteAllAction extends DeleteAction
    {
       super(part);
       setText(Diagram_Messages.TXT_DeleteAll);
-      setToolTipText(Diagram_Messages.TXT_DeleteAll);  
-      setLazyEnablementCalculation(true);      
+      setToolTipText(Diagram_Messages.TXT_DeleteAll);
+      setLazyEnablementCalculation(true);
    }
-      
+
    @SuppressWarnings("unchecked")
    protected boolean calculateEnabled()
    {
       return super.calculateEnabled()
          && !getSelectedObjects().isEmpty()
          // check all selected objects
-         && isValidSelection(getSelectedObjects());      
+         && isValidSelection(getSelectedObjects());
    }
 
    // should be enhanced
    private boolean isValidSelection(List<Object> selectedObjects)
-   {      
-      WorkflowModelEditor editor = null;
-         
+   {
       for(Object object : selectedObjects)
       {
          if(object instanceof AnnotationSymbolEditPart
-               || object instanceof TextSymbolEditPart               
+               || object instanceof TextSymbolEditPart
                || object instanceof SymbolGroupEditPart
                || object instanceof ChildCategoryNode
                || object instanceof RefersToConnectionEditPart
@@ -88,35 +79,10 @@ public class DeleteAllAction extends DeleteAction
                return false;
             }
          }
-         EObject modelElement = ModelUtils.getEObject((IAdaptable) object);
-
-         if(editor == null)
-         {
-            editor = GenericUtils.getWorkflowModelEditor(ModelUtils.findContainingModel(modelElement));            
-         }         
-         if(modelElement instanceof IConnection)
-         {            
-            IWorkbenchPart workbenchPart_ = getWorkbenchPart();
-            if(workbenchPart_ instanceof WorkflowModelEditor)
-            {
-               editor = (WorkflowModelEditor) workbenchPart_;
-            }
-         }
-         
-         if(editor == null)
-         {
-            return true;            
-         }
-         
-         ModelServer server = editor.getModelServer();
-         if (server != null && server.requireLock(modelElement))
-         {
-            return false;
-         }
       }
       return true;
-   }   
-   
+   }
+
    private boolean isPredefinedData(Object obj)
    {
       if (obj instanceof EditPart)

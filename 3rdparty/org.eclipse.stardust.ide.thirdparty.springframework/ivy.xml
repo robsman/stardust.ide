@@ -22,7 +22,7 @@
    </configurations>
 
    <publications>
-      <artifact name="org.eclipse.stardust.ide.3rdparty.springframework" type="jar" conf="bom" />      
+      <artifact name="org.eclipse.stardust.ide.thirdparty.springframework" type="jar" conf="bom" />      
    </publications>
 
    <dependencies>

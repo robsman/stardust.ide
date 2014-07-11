@@ -2706,12 +2706,21 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ACTIVITY_TYPE__VALID_QUALITY_CODES = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 19;
 
    /**
+    * The feature id for the '<em><b>Loop</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ACTIVITY_TYPE__LOOP = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 20;
+
+   /**
     * The number of structural features of the '<em>Activity Type</em>' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE_FEATURE_COUNT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 20;
+   int ACTIVITY_TYPE_FEATURE_COUNT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 21;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -11690,6 +11699,17 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EReference getActivityType_ValidQualityCodes();
 
    /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoop <em>Loop</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Loop</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoop()
+    * @see #getActivityType()
+    * @generated
+    */
+   EReference getActivityType_Loop();
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType <em>Annotation Symbol Type</em>}'.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @return the meta object for class '<em>Annotation Symbol Type</em>'.
@@ -16956,6 +16976,14 @@ public interface CarnotWorkflowModelPackage extends EPackage {
        * @generated
        */
       EReference ACTIVITY_TYPE__VALID_QUALITY_CODES = eINSTANCE.getActivityType_ValidQualityCodes();
+
+      /**
+       * The meta object literal for the '<em><b>Loop</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference ACTIVITY_TYPE__LOOP = eINSTANCE.getActivityType_Loop();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.AnnotationSymbolTypeImpl <em>Annotation Symbol Type</em>}' class.

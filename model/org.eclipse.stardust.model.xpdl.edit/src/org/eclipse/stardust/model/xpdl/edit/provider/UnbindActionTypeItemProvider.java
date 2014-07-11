@@ -85,7 +85,7 @@ public class UnbindActionTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/UnbindActionType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/UnbindActionType")); //$NON-NLS-1$
    }
 
    /**
@@ -99,8 +99,8 @@ public class UnbindActionTypeItemProvider
    {
       String label = ((UnbindActionType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_UnbindActionType_type") :
-         getString("_UI_UnbindActionType_type") + " " + label;
+         getString("_UI_UnbindActionType_type") : //$NON-NLS-1$
+         getString("_UI_UnbindActionType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

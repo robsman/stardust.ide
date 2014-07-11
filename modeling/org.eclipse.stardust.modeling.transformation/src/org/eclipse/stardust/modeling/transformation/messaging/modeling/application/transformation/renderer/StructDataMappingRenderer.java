@@ -31,25 +31,26 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		this.messageType = (StructAccessPointType)messageType;
 	}
 
-	public AccessPointType getType() {		
+	public AccessPointType getType() {
 		return messageType;
 	}
-	
+
 	public String renderGetterCode(boolean ignoreArrays, boolean variablesAsIndices, MappingConfiguration config) {
-		String javaPath = createJavaPath(ignoreArrays, variablesAsIndices, config);		
+		String javaPath = createJavaPath(ignoreArrays, variablesAsIndices, config);
 		return javaPath;
 	}
 
 	public String renderSetterCode(String getterCode, boolean ignoreArrays, boolean variablesAsIndices, MappingConfiguration config) {
-	    String accessCode = createJavaPath(ignoreArrays, variablesAsIndices, config);			
-		if (controller.getArraySelectionDepthTarget() > 0) {
+	    String accessCode = createJavaPath(ignoreArrays, variablesAsIndices, config);
+		if (controller.getArraySelectionDepthTarget() > 0 ||
+		      MessageTransformationController.ENABLE_SIMPLE_CONTENT && accessCode.endsWith("@")) {
 			return accessCode + " = " + getterCode; //$NON-NLS-1$
 		}
-	    return getterCode; 
+	    return getterCode;
 	}
-	
-	public String renderAdditionCode(IMappingRenderer sourceMapper,	IMappingRenderer targetMapper, MappingConfiguration config) {	
-		String sourcePath = createJavaPath(false, false, config);	
+
+	public String renderAdditionCode(IMappingRenderer sourceMapper,	IMappingRenderer targetMapper, MappingConfiguration config) {
+		String sourcePath = createJavaPath(false, false, config);
 		if (sourcePath.endsWith(".")) { //$NON-NLS-1$
 			sourcePath = sourcePath.replace(".", ""); //$NON-NLS-1$ //$NON-NLS-2$
 		}
@@ -61,19 +62,19 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		if (config.isAppend()) {
 			int idx1 = targetIndex.lastIndexOf("["); //$NON-NLS-1$
 			int idx2 = targetIndex.lastIndexOf("]"); //$NON-NLS-1$
-			int idx = idx2 - idx1 + 1;		
-			targetIndex = targetIndex.substring(0, targetIndex.length() - idx);					
+			int idx = idx2 - idx1 + 1;
+			targetIndex = targetIndex.substring(0, targetIndex.length() - idx);
 			targetIndex = targetIndex + ".length + 1"; //$NON-NLS-1$
 			String xPath = controller.getXPathFor(targetMapper.getType());
-			config.getIndexMap().put(xPath, targetIndex);		
-			result = targetMapper.renderGetterCode(false, false, config);			
-		} 
+			config.getIndexMap().put(xPath, targetIndex);
+			result = targetMapper.renderGetterCode(false, false, config);
+		}
 		if (result.endsWith(".")) { //$NON-NLS-1$
 			result = targetIndex.replace(".", ""); //$NON-NLS-1$ //$NON-NLS-2$
-		}		
+		}
 		return result + " = " + sourcePath + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	public String renderListMappingCode(IMappingRenderer sourceMapper,	IMappingRenderer targetMapper, String inset, int depth, MappingConfiguration config) {
 		String result = ""; //$NON-NLS-1$
 		String sourceArray = sourceMapper.renderGetterCode(false, true, config);
@@ -89,7 +90,7 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		if (o == null) {
 		   varDeclaration= "var n" + depth;  //$NON-NLS-1$
 		   controller.getUsedVar().put("n" + depth, "defined"); //$NON-NLS-1$ //$NON-NLS-2$
-		} 
+		}
 		result = result + inset + "for (" + varDeclaration + " = 0; n" + depth + " < " + sourcePath + ".length; ++n" + depth + "){\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 
 		// Instantiate object contained in the array
@@ -107,7 +108,7 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		result = result.replace("null", AttributeUtil.getAttributeValue(targetMapper.getType(), "RootElement")); //$NON-NLS-1$ //$NON-NLS-2$
 		return result;
 	}
-	
+
 	public String renderAssignmentCode(IMappingRenderer sourceMapper, IMappingRenderer targetMapper, String inset, int depth, String result, MappingConfiguration config) {
 		// Assign source child fields to target fields - multiple fields cause
 		// recursion
@@ -124,17 +125,19 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 				} else {
 					String sourceChildArray = sourceChildTypeMapper.renderGetterCode(false, true, config);
 					String targetChildArray = targetChildTypeMapper.renderGetterCode(false, true, config);
-					result = result + inset + "   " + targetChildArray + " = "	+ sourceChildArray + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					String assignment = MessageTransformationController.setMappingExpression(targetChildArray + " = " + sourceChildArray,
+					      null, sourceChildTypeMapper, targetChildTypeMapper);
+                    result = result + inset + "   " + assignment + ";\n"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
 		}
 		return result;
 	}
-	
+
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	private String createJavaPath(boolean ignoreArrays, boolean useVariableAsIndices, MappingConfiguration config) {
 		String javaPath = ""; //$NON-NLS-1$
 		if (controller.isRoot(messageType)) {
@@ -144,11 +147,11 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		}
 		javaPath = javaPath.replace('/', '.');
 		if (!ignoreArrays) {
-			 javaPath = addArrayInfo(useVariableAsIndices, config); 			 				
+			 javaPath = addArrayInfo(useVariableAsIndices, config);
 		}
 		return javaPath;
 	}
-	
+
 	private String addArrayInfo(boolean useVariablesAsIndices, MappingConfiguration config) {
 	    String idx = "[n]"; //$NON-NLS-1$
 	    if (!useVariablesAsIndices) {
@@ -165,7 +168,7 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 					String idx2 = config.getIndexMap().get(xPath);
 					segments[j] = segments[j] + "[" + idx2 + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 				} else {
-					segments[j] = segments[j] + idx;					
+					segments[j] = segments[j] + idx;
 				}
 			}
 			parentXPath = parentXPath.getParentXPath();
@@ -184,12 +187,12 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 	            	adepth ++;
 	            	if (adepth >= arraySelectionDepth) {
 		                segments[i] = segments[i].replace("[n]", "[n" + n + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		                n++;	            		
+		                n++;
 	            	} else {
 	            		segments[i] = segments[i].replace("[n]", "[0]"); //$NON-NLS-1$ //$NON-NLS-2$
 	            	}
 	            }
-	        }		   
+	        }
 		}
 		String javaPath = ""; //$NON-NLS-1$
 		for (int i = 0; i < segments.length; i++) {
@@ -198,7 +201,6 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 		javaPath = controller.getRootFor(messageType) + "."	+ javaPath.substring(0, javaPath.length() - 1); //$NON-NLS-1$
 		return javaPath;
 	}
-
 
 	public String getTypeString() {
 	   TypedXPath xPath = ((StructAccessPointType)messageType).getXPath();
@@ -240,7 +242,10 @@ public class StructDataMappingRenderer implements IMappingRenderer {
 	   if (type == BigData.PERIOD) {
 	      return "String"; //$NON-NLS-1$
 	   }
+      if (type == BigData.DECIMAL) {
+         return "Decimal"; //$NON-NLS-1$
+      }
+
 	   return " ";	    //$NON-NLS-1$
 	}
-	
 }

@@ -47,7 +47,7 @@ public interface XpdlPackage extends EPackage
 	 * <!-- end-user-doc -->
     * @generated
     */
-	String eNAME = "xpdl"; //$NON-NLS-1$
+	String eNAME = "xpdl2"; //$NON-NLS-1$
 
    /**
     * The package namespace URI.
@@ -95,7 +95,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getXpdlTypeType()
     * @generated
     */
-	int XPDL_TYPE_TYPE = 15;
+	int XPDL_TYPE_TYPE = 19;
 
    /**
     * The number of structural features of the '<em>Type Type</em>' class.
@@ -227,6 +227,79 @@ public interface XpdlPackage extends EPackage
 	int DECLARED_TYPE_TYPE_FEATURE_COUNT = XPDL_TYPE_TYPE_FEATURE_COUNT + 1;
 
    /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExpressionTypeImpl <em>Expression Type</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.ExpressionTypeImpl
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExpressionType()
+    * @generated
+    */
+   int EXPRESSION_TYPE = 3;
+
+   /**
+    * The feature id for the '<em><b>Mixed</b></em>' attribute list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__MIXED = 0;
+
+   /**
+    * The feature id for the '<em><b>Group</b></em>' attribute list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__GROUP = 1;
+
+   /**
+    * The feature id for the '<em><b>Any</b></em>' attribute list.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__ANY = 2;
+
+   /**
+    * The feature id for the '<em><b>Script Grammar</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__SCRIPT_GRAMMAR = 3;
+
+   /**
+    * The feature id for the '<em><b>Script Type</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__SCRIPT_TYPE = 4;
+
+   /**
+    * The feature id for the '<em><b>Script Version</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE__SCRIPT_VERSION = 5;
+
+   /**
+    * The number of structural features of the '<em>Expression Type</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXPRESSION_TYPE_FEATURE_COUNT = 6;
+
+   /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExtendedAttributesTypeImpl <em>Extended Attributes Type</em>}' class.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -234,7 +307,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExtendedAttributesType()
     * @generated
     */
-	int EXTENDED_ATTRIBUTES_TYPE = 3;
+	int EXTENDED_ATTRIBUTES_TYPE = 4;
 
    /**
     * The feature id for the '<em><b>Extended Attribute</b></em>' containment reference list.
@@ -262,7 +335,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExtendedAttributeType()
     * @generated
     */
-	int EXTENDED_ATTRIBUTE_TYPE = 4;
+	int EXTENDED_ATTRIBUTE_TYPE = 5;
 
    /**
     * The feature id for the '<em><b>Extended Annotation</b></em>' containment reference.
@@ -335,7 +408,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExtensible()
     * @generated
     */
-   int EXTENSIBLE = 5;
+   int EXTENSIBLE = 6;
 
    /**
     * The feature id for the '<em><b>Extended Attributes</b></em>' containment reference.
@@ -363,7 +436,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExternalPackages()
     * @generated
     */
-   int EXTERNAL_PACKAGES = 6;
+   int EXTERNAL_PACKAGES = 7;
 
    /**
     * The feature id for the '<em><b>External Package</b></em>' containment reference list.
@@ -391,7 +464,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExternalPackage()
     * @generated
     */
-   int EXTERNAL_PACKAGE = 7;
+   int EXTERNAL_PACKAGE = 8;
 
    /**
     * The feature id for the '<em><b>Extended Attributes</b></em>' containment reference.
@@ -446,7 +519,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExternalReferenceType()
     * @generated
     */
-	int EXTERNAL_REFERENCE_TYPE = 8;
+	int EXTERNAL_REFERENCE_TYPE = 9;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.SchemaTypeTypeImpl <em>Schema Type Type</em>}' class.
@@ -456,7 +529,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getSchemaTypeType()
     * @generated
     */
-	int SCHEMA_TYPE_TYPE = 11;
+	int SCHEMA_TYPE_TYPE = 15;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.TypeDeclarationsTypeImpl <em>Type Declarations Type</em>}' class.
@@ -466,7 +539,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTypeDeclarationsType()
     * @generated
     */
-	int TYPE_DECLARATIONS_TYPE = 13;
+	int TYPE_DECLARATIONS_TYPE = 17;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.TypeDeclarationTypeImpl <em>Type Declaration Type</em>}' class.
@@ -476,7 +549,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTypeDeclarationType()
     * @generated
     */
-	int TYPE_DECLARATION_TYPE = 14;
+	int TYPE_DECLARATION_TYPE = 18;
 
    /**
     * The feature id for the '<em><b>Location</b></em>' attribute.
@@ -522,7 +595,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getFormalParameterType()
     * @generated
     */
-   int FORMAL_PARAMETER_TYPE = 10;
+   int FORMAL_PARAMETER_TYPE = 11;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.FormalParametersTypeImpl <em>Formal Parameters Type</em>}' class.
@@ -532,7 +605,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getFormalParametersType()
     * @generated
     */
-   int FORMAL_PARAMETERS_TYPE = 9;
+   int FORMAL_PARAMETERS_TYPE = 10;
 
    /**
     * The feature id for the '<em><b>Formal Parameter</b></em>' containment reference list.
@@ -607,6 +680,162 @@ public interface XpdlPackage extends EPackage
    int FORMAL_PARAMETER_TYPE_FEATURE_COUNT = 5;
 
    /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopMultiInstanceTypeImpl <em>Loop Multi Instance Type</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopMultiInstanceTypeImpl
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopMultiInstanceType()
+    * @generated
+    */
+   int LOOP_MULTI_INSTANCE_TYPE = 12;
+
+   /**
+    * The feature id for the '<em><b>MI Condition</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE__MI_CONDITION = 0;
+
+   /**
+    * The feature id for the '<em><b>Complex MI Flow Condition</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE__COMPLEX_MI_FLOW_CONDITION = 1;
+
+   /**
+    * The feature id for the '<em><b>Loop Data Ref</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE__LOOP_DATA_REF = 2;
+
+   /**
+    * The feature id for the '<em><b>MI Flow Condition</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE__MI_FLOW_CONDITION = 3;
+
+   /**
+    * The feature id for the '<em><b>MI Ordering</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE__MI_ORDERING = 4;
+
+   /**
+    * The number of structural features of the '<em>Loop Multi Instance Type</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_MULTI_INSTANCE_TYPE_FEATURE_COUNT = 5;
+
+   /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopStandardTypeImpl <em>Loop Standard Type</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopStandardTypeImpl
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopStandardType()
+    * @generated
+    */
+   int LOOP_STANDARD_TYPE = 13;
+
+   /**
+    * The feature id for the '<em><b>Loop Condition</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_STANDARD_TYPE__LOOP_CONDITION = 0;
+
+   /**
+    * The feature id for the '<em><b>Loop Maximum</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_STANDARD_TYPE__LOOP_MAXIMUM = 1;
+
+   /**
+    * The feature id for the '<em><b>Test Time</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_STANDARD_TYPE__TEST_TIME = 2;
+
+   /**
+    * The number of structural features of the '<em>Loop Standard Type</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_STANDARD_TYPE_FEATURE_COUNT = 3;
+
+   /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopTypeImpl <em>Loop Type</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopTypeImpl
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopType()
+    * @generated
+    */
+   int LOOP_TYPE = 14;
+
+   /**
+    * The feature id for the '<em><b>Loop Standard</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_TYPE__LOOP_STANDARD = 0;
+
+   /**
+    * The feature id for the '<em><b>Loop Multi Instance</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_TYPE__LOOP_MULTI_INSTANCE = 1;
+
+   /**
+    * The feature id for the '<em><b>Loop Type</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_TYPE__LOOP_TYPE = 2;
+
+   /**
+    * The number of structural features of the '<em>Loop Type</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int LOOP_TYPE_FEATURE_COUNT = 3;
+
+   /**
     * The feature id for the '<em><b>Schema</b></em>' containment reference.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -632,7 +861,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getScriptType()
     * @generated
     */
-	int SCRIPT_TYPE = 12;
+	int SCRIPT_TYPE = 16;
 
    /**
     * The feature id for the '<em><b>Grammar</b></em>' attribute.
@@ -770,6 +999,36 @@ public interface XpdlPackage extends EPackage
 	int TYPE_DECLARATION_TYPE_FEATURE_COUNT = EXTENSIBLE_FEATURE_COUNT + 7;
 
    /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType <em>Loop Type Type</em>}' enum.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopTypeType()
+    * @generated
+    */
+   int LOOP_TYPE_TYPE = 20;
+
+   /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType <em>MI Flow Condition Type</em>}' enum.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIFlowConditionType()
+    * @generated
+    */
+   int MI_FLOW_CONDITION_TYPE = 21;
+
+   /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType <em>MI Ordering Type</em>}' enum.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIOrderingType()
+    * @generated
+    */
+   int MI_ORDERING_TYPE = 22;
+
+   /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.ModeType <em>Mode Type</em>}' enum.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -777,7 +1036,17 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getModeType()
     * @generated
     */
-   int MODE_TYPE = 16;
+   int MODE_TYPE = 23;
+
+   /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType <em>Test Time Type</em>}' enum.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTestTimeType()
+    * @generated
+    */
+   int TEST_TIME_TYPE = 24;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.TypeType <em>Type Type</em>}' enum.
@@ -787,7 +1056,37 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTypeType()
     * @generated
     */
-	int TYPE_TYPE = 17;
+	int TYPE_TYPE = 25;
+
+   /**
+    * The meta object id for the '<em>Loop Type Type Object</em>' data type.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopTypeTypeObject()
+    * @generated
+    */
+   int LOOP_TYPE_TYPE_OBJECT = 26;
+
+   /**
+    * The meta object id for the '<em>MI Flow Condition Type Object</em>' data type.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIFlowConditionTypeObject()
+    * @generated
+    */
+   int MI_FLOW_CONDITION_TYPE_OBJECT = 27;
+
+   /**
+    * The meta object id for the '<em>MI Ordering Type Object</em>' data type.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIOrderingTypeObject()
+    * @generated
+    */
+   int MI_ORDERING_TYPE_OBJECT = 28;
 
    /**
     * The meta object id for the '<em>Mode Type Object</em>' data type.
@@ -797,7 +1096,17 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getModeTypeObject()
     * @generated
     */
-   int MODE_TYPE_OBJECT = 18;
+   int MODE_TYPE_OBJECT = 29;
+
+   /**
+    * The meta object id for the '<em>Test Time Type Object</em>' data type.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTestTimeTypeObject()
+    * @generated
+    */
+   int TEST_TIME_TYPE_OBJECT = 30;
 
    /**
     * The meta object id for the '<em>Type Type Object</em>' data type.
@@ -807,7 +1116,7 @@ public interface XpdlPackage extends EPackage
     * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTypeTypeObject()
     * @generated
     */
-	int TYPE_TYPE_OBJECT = 19;
+	int TYPE_TYPE_OBJECT = 31;
 
 
    /**
@@ -916,6 +1225,82 @@ public interface XpdlPackage extends EPackage
     * @generated
     */
 	EAttribute getDeclaredTypeType_Id();
+
+   /**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType <em>Expression Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Expression Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType
+    * @generated
+    */
+   EClass getExpressionType();
+
+   /**
+    * Returns the meta object for the attribute list '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getMixed <em>Mixed</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute list '<em>Mixed</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getMixed()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_Mixed();
+
+   /**
+    * Returns the meta object for the attribute list '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getGroup <em>Group</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute list '<em>Group</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getGroup()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_Group();
+
+   /**
+    * Returns the meta object for the attribute list '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getAny <em>Any</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute list '<em>Any</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getAny()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_Any();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptGrammar <em>Script Grammar</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Script Grammar</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptGrammar()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_ScriptGrammar();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptType <em>Script Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Script Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptType()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_ScriptType();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptVersion <em>Script Version</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Script Version</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType#getScriptVersion()
+    * @see #getExpressionType()
+    * @generated
+    */
+   EAttribute getExpressionType_ScriptVersion();
 
    /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributesType <em>Extended Attributes Type</em>}'.
@@ -1208,6 +1593,157 @@ public interface XpdlPackage extends EPackage
    EAttribute getFormalParameterType_Name();
 
    /**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType <em>Loop Multi Instance Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Loop Multi Instance Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType
+    * @generated
+    */
+   EClass getLoopMultiInstanceType();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMICondition <em>MI Condition</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>MI Condition</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMICondition()
+    * @see #getLoopMultiInstanceType()
+    * @generated
+    */
+   EReference getLoopMultiInstanceType_MICondition();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getComplexMIFlowCondition <em>Complex MI Flow Condition</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Complex MI Flow Condition</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getComplexMIFlowCondition()
+    * @see #getLoopMultiInstanceType()
+    * @generated
+    */
+   EReference getLoopMultiInstanceType_ComplexMIFlowCondition();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getLoopDataRef <em>Loop Data Ref</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Loop Data Ref</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getLoopDataRef()
+    * @see #getLoopMultiInstanceType()
+    * @generated
+    */
+   EReference getLoopMultiInstanceType_LoopDataRef();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMIFlowCondition <em>MI Flow Condition</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>MI Flow Condition</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMIFlowCondition()
+    * @see #getLoopMultiInstanceType()
+    * @generated
+    */
+   EAttribute getLoopMultiInstanceType_MIFlowCondition();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMIOrdering <em>MI Ordering</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>MI Ordering</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType#getMIOrdering()
+    * @see #getLoopMultiInstanceType()
+    * @generated
+    */
+   EAttribute getLoopMultiInstanceType_MIOrdering();
+
+   /**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType <em>Loop Standard Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Loop Standard Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType
+    * @generated
+    */
+   EClass getLoopStandardType();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getLoopCondition <em>Loop Condition</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Loop Condition</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getLoopCondition()
+    * @see #getLoopStandardType()
+    * @generated
+    */
+   EReference getLoopStandardType_LoopCondition();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getLoopMaximum <em>Loop Maximum</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Loop Maximum</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getLoopMaximum()
+    * @see #getLoopStandardType()
+    * @generated
+    */
+   EAttribute getLoopStandardType_LoopMaximum();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getTestTime <em>Test Time</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Test Time</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType#getTestTime()
+    * @see #getLoopStandardType()
+    * @generated
+    */
+   EAttribute getLoopStandardType_TestTime();
+
+   /**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopType <em>Loop Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Loop Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopType
+    * @generated
+    */
+   EClass getLoopType();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopStandard <em>Loop Standard</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Loop Standard</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopStandard()
+    * @see #getLoopType()
+    * @generated
+    */
+   EReference getLoopType_LoopStandard();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopMultiInstance <em>Loop Multi Instance</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>Loop Multi Instance</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopMultiInstance()
+    * @see #getLoopType()
+    * @generated
+    */
+   EReference getLoopType_LoopMultiInstance();
+
+   /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopType <em>Loop Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Loop Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopType#getLoopType()
+    * @see #getLoopType()
+    * @generated
+    */
+   EAttribute getLoopType_LoopType();
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType <em>Formal Parameters Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1411,6 +1947,36 @@ public interface XpdlPackage extends EPackage
 	EClass getXpdlTypeType();
 
    /**
+    * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType <em>Loop Type Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for enum '<em>Loop Type Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+    * @generated
+    */
+   EEnum getLoopTypeType();
+
+   /**
+    * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType <em>MI Flow Condition Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for enum '<em>MI Flow Condition Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+    * @generated
+    */
+   EEnum getMIFlowConditionType();
+
+   /**
+    * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType <em>MI Ordering Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for enum '<em>MI Ordering Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+    * @generated
+    */
+   EEnum getMIOrderingType();
+
+   /**
     * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.ModeType <em>Mode Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1419,6 +1985,16 @@ public interface XpdlPackage extends EPackage
     * @generated
     */
    EEnum getModeType();
+
+   /**
+    * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType <em>Test Time Type</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for enum '<em>Test Time Type</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+    * @generated
+    */
+   EEnum getTestTimeType();
 
    /**
     * Returns the meta object for enum '{@link org.eclipse.stardust.model.xpdl.xpdl2.TypeType <em>Type Type</em>}'.
@@ -1431,6 +2007,42 @@ public interface XpdlPackage extends EPackage
 	EEnum getTypeType();
 
    /**
+    * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType <em>Loop Type Type Object</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for data type '<em>Loop Type Type Object</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+    * @model instanceClass="org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType"
+    *        extendedMetaData="name='LoopType_._type:Object' baseType='LoopType_._type'"
+    * @generated
+    */
+   EDataType getLoopTypeTypeObject();
+
+   /**
+    * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType <em>MI Flow Condition Type Object</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for data type '<em>MI Flow Condition Type Object</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+    * @model instanceClass="org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType"
+    *        extendedMetaData="name='MI_FlowCondition_._type:Object' baseType='MI_FlowCondition_._type'"
+    * @generated
+    */
+   EDataType getMIFlowConditionTypeObject();
+
+   /**
+    * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType <em>MI Ordering Type Object</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for data type '<em>MI Ordering Type Object</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+    * @model instanceClass="org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType"
+    *        extendedMetaData="name='MI_Ordering_._type:Object' baseType='MI_Ordering_._type'"
+    * @generated
+    */
+   EDataType getMIOrderingTypeObject();
+
+   /**
     * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.ModeType <em>Mode Type Object</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1441,6 +2053,18 @@ public interface XpdlPackage extends EPackage
     * @generated
     */
    EDataType getModeTypeObject();
+
+   /**
+    * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType <em>Test Time Type Object</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for data type '<em>Test Time Type Object</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+    * @model instanceClass="org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType"
+    *        extendedMetaData="name='TestTime_._type:Object' baseType='TestTime_._type'"
+    * @generated
+    */
+   EDataType getTestTimeTypeObject();
 
    /**
     * Returns the meta object for data type '{@link org.eclipse.stardust.model.xpdl.xpdl2.TypeType <em>Type Type Object</em>}'.
@@ -1562,6 +2186,64 @@ public interface XpdlPackage extends EPackage
        * @generated
        */
 		EAttribute DECLARED_TYPE_TYPE__ID = eINSTANCE.getDeclaredTypeType_Id();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExpressionTypeImpl <em>Expression Type</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.ExpressionTypeImpl
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getExpressionType()
+       * @generated
+       */
+      EClass EXPRESSION_TYPE = eINSTANCE.getExpressionType();
+
+      /**
+       * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__MIXED = eINSTANCE.getExpressionType_Mixed();
+
+      /**
+       * The meta object literal for the '<em><b>Group</b></em>' attribute list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__GROUP = eINSTANCE.getExpressionType_Group();
+
+      /**
+       * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__ANY = eINSTANCE.getExpressionType_Any();
+
+      /**
+       * The meta object literal for the '<em><b>Script Grammar</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__SCRIPT_GRAMMAR = eINSTANCE.getExpressionType_ScriptGrammar();
+
+      /**
+       * The meta object literal for the '<em><b>Script Type</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__SCRIPT_TYPE = eINSTANCE.getExpressionType_ScriptType();
+
+      /**
+       * The meta object literal for the '<em><b>Script Version</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXPRESSION_TYPE__SCRIPT_VERSION = eINSTANCE.getExpressionType_ScriptVersion();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExtendedAttributesTypeImpl <em>Extended Attributes Type</em>}' class.
@@ -1794,6 +2476,124 @@ public interface XpdlPackage extends EPackage
       EAttribute FORMAL_PARAMETER_TYPE__NAME = eINSTANCE.getFormalParameterType_Name();
 
       /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopMultiInstanceTypeImpl <em>Loop Multi Instance Type</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopMultiInstanceTypeImpl
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopMultiInstanceType()
+       * @generated
+       */
+      EClass LOOP_MULTI_INSTANCE_TYPE = eINSTANCE.getLoopMultiInstanceType();
+
+      /**
+       * The meta object literal for the '<em><b>MI Condition</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_MULTI_INSTANCE_TYPE__MI_CONDITION = eINSTANCE.getLoopMultiInstanceType_MICondition();
+
+      /**
+       * The meta object literal for the '<em><b>Complex MI Flow Condition</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_MULTI_INSTANCE_TYPE__COMPLEX_MI_FLOW_CONDITION = eINSTANCE.getLoopMultiInstanceType_ComplexMIFlowCondition();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Data Ref</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_MULTI_INSTANCE_TYPE__LOOP_DATA_REF = eINSTANCE.getLoopMultiInstanceType_LoopDataRef();
+
+      /**
+       * The meta object literal for the '<em><b>MI Flow Condition</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_MULTI_INSTANCE_TYPE__MI_FLOW_CONDITION = eINSTANCE.getLoopMultiInstanceType_MIFlowCondition();
+
+      /**
+       * The meta object literal for the '<em><b>MI Ordering</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_MULTI_INSTANCE_TYPE__MI_ORDERING = eINSTANCE.getLoopMultiInstanceType_MIOrdering();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopStandardTypeImpl <em>Loop Standard Type</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopStandardTypeImpl
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopStandardType()
+       * @generated
+       */
+      EClass LOOP_STANDARD_TYPE = eINSTANCE.getLoopStandardType();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Condition</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_STANDARD_TYPE__LOOP_CONDITION = eINSTANCE.getLoopStandardType_LoopCondition();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Maximum</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_STANDARD_TYPE__LOOP_MAXIMUM = eINSTANCE.getLoopStandardType_LoopMaximum();
+
+      /**
+       * The meta object literal for the '<em><b>Test Time</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_STANDARD_TYPE__TEST_TIME = eINSTANCE.getLoopStandardType_TestTime();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopTypeImpl <em>Loop Type</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.LoopTypeImpl
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopType()
+       * @generated
+       */
+      EClass LOOP_TYPE = eINSTANCE.getLoopType();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Standard</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_TYPE__LOOP_STANDARD = eINSTANCE.getLoopType_LoopStandard();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Multi Instance</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference LOOP_TYPE__LOOP_MULTI_INSTANCE = eINSTANCE.getLoopType_LoopMultiInstance();
+
+      /**
+       * The meta object literal for the '<em><b>Loop Type</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute LOOP_TYPE__LOOP_TYPE = eINSTANCE.getLoopType_LoopType();
+
+      /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.FormalParametersTypeImpl <em>Formal Parameters Type</em>}' class.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -1958,6 +2758,36 @@ public interface XpdlPackage extends EPackage
 		EClass XPDL_TYPE_TYPE = eINSTANCE.getXpdlTypeType();
 
       /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType <em>Loop Type Type</em>}' enum.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopTypeType()
+       * @generated
+       */
+      EEnum LOOP_TYPE_TYPE = eINSTANCE.getLoopTypeType();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType <em>MI Flow Condition Type</em>}' enum.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIFlowConditionType()
+       * @generated
+       */
+      EEnum MI_FLOW_CONDITION_TYPE = eINSTANCE.getMIFlowConditionType();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType <em>MI Ordering Type</em>}' enum.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIOrderingType()
+       * @generated
+       */
+      EEnum MI_ORDERING_TYPE = eINSTANCE.getMIOrderingType();
+
+      /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.ModeType <em>Mode Type</em>}' enum.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -1966,6 +2796,16 @@ public interface XpdlPackage extends EPackage
        * @generated
        */
       EEnum MODE_TYPE = eINSTANCE.getModeType();
+
+      /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType <em>Test Time Type</em>}' enum.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTestTimeType()
+       * @generated
+       */
+      EEnum TEST_TIME_TYPE = eINSTANCE.getTestTimeType();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.TypeType <em>Type Type</em>}' enum.
@@ -1978,6 +2818,36 @@ public interface XpdlPackage extends EPackage
 		EEnum TYPE_TYPE = eINSTANCE.getTypeType();
 
       /**
+       * The meta object literal for the '<em>Loop Type Type Object</em>' data type.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopTypeType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getLoopTypeTypeObject()
+       * @generated
+       */
+      EDataType LOOP_TYPE_TYPE_OBJECT = eINSTANCE.getLoopTypeTypeObject();
+
+      /**
+       * The meta object literal for the '<em>MI Flow Condition Type Object</em>' data type.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.MIFlowConditionType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIFlowConditionTypeObject()
+       * @generated
+       */
+      EDataType MI_FLOW_CONDITION_TYPE_OBJECT = eINSTANCE.getMIFlowConditionTypeObject();
+
+      /**
+       * The meta object literal for the '<em>MI Ordering Type Object</em>' data type.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.MIOrderingType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getMIOrderingTypeObject()
+       * @generated
+       */
+      EDataType MI_ORDERING_TYPE_OBJECT = eINSTANCE.getMIOrderingTypeObject();
+
+      /**
        * The meta object literal for the '<em>Mode Type Object</em>' data type.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -1986,6 +2856,16 @@ public interface XpdlPackage extends EPackage
        * @generated
        */
       EDataType MODE_TYPE_OBJECT = eINSTANCE.getModeTypeObject();
+
+      /**
+       * The meta object literal for the '<em>Test Time Type Object</em>' data type.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.TestTimeType
+       * @see org.eclipse.stardust.model.xpdl.xpdl2.impl.XpdlPackageImpl#getTestTimeTypeObject()
+       * @generated
+       */
+      EDataType TEST_TIME_TYPE_OBJECT = eINSTANCE.getTestTimeTypeObject();
 
       /**
        * The meta object literal for the '<em>Type Type Object</em>' data type.

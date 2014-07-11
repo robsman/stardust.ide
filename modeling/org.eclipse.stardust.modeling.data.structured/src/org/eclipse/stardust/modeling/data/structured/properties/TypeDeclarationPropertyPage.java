@@ -11,15 +11,9 @@
 package org.eclipse.stardust.modeling.data.structured.properties;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -52,16 +46,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.*;
 
 public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPage
-{   
-   private static final XpdlPackage PKG_XPDL = XpdlPackage.eINSTANCE; 
+{
+   private static final XpdlPackage PKG_XPDL = XpdlPackage.eINSTANCE;
    private LabeledText txtId;
    private LabeledText txtName;
    private Label namespaceLabel;
@@ -70,10 +59,10 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
 
    private TypeDeclarationType declaration;
    private String savedId;
-   
+
    private Button publicCheckBox;
    protected boolean publicType;
-   
+
    private ModifyListener idListener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
@@ -87,8 +76,8 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
          }
          validateInput();
       }
-   };   
-   
+   };
+
    private ModifyListener nameListener = new ModifyListener()
    {
       public void modifyText(ModifyEvent e)
@@ -105,14 +94,14 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
    public void elementChanged()
    {
       declaration = (TypeDeclarationType) getElement().getAdapter(EObject.class);
-      
+
       setupVisibility();
-      
+
       savedId = declaration.getId();
 
       txtName.getText().removeModifyListener(nameListener);
       txtId.getText().removeModifyListener(idListener);
-      
+
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
 
       wBndMgr.bind(txtId, declaration, PKG_XPDL.getTypeDeclarationType_Id());
@@ -126,38 +115,38 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       catch(IllegalArgumentException e)
       {
       }
-      
+
       String namespace = type == null ? null : type.getTargetNamespace();
       namespaceLabel.setText(namespace == null ? "" : namespace); //$NON-NLS-1$
-      
+
       if (!TypeDeclarationUtils.isInternalSchema(declaration))
       {
          autoNamespaceButton.setSelection(false);
          autoNamespaceButton.setEnabled(false);
       }
-      
+
       wBndMgr.getModelBindingManager().updateWidgets(declaration);
-      
+
       txtName.getText().addModifyListener(nameListener);
       txtId.getText().addModifyListener(idListener);
-      
+
       txtName.getText().selectAll();
       txtName.getText().setFocus();
-      
+
       if (ExtendedAttributeUtil.getAttributeValue(declaration, IConnectionManager.URI_ATTRIBUTE_NAME) != null)
       {
          txtId.getText().setEnabled(false);
          txtName.getText().setEnabled(false);
       }
-      
+
       validateInput();
-   }   
+   }
 
    public void apply()
    {
       List<XSDSchemaDirective> savedDirectives = new ArrayList<XSDSchemaDirective>();
       savedDirectives.addAll(declaration.getSchema().getReferencingDirectives());
-      boolean duplicate = false;
+      // boolean duplicate = false;
       String id = declaration.getId();
 
       /*boolean duplicate = false;
@@ -169,25 +158,25 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             {
                duplicate = true;
                break;
-            }            
+            }
          }
-      }*/      
-      
+      }*/
+
       if (TypeDeclarationUtils.isInternalSchema(declaration))
       {
          XSDSchema xsdSchema = declaration.getSchema();
          String oldTargetNamespace = xsdSchema.getTargetNamespace();
-                  
+
          if (!namespaceLabel.getText().equals(oldTargetNamespace == null ? "" : oldTargetNamespace)) //$NON-NLS-1$
          {
-            xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), id));         
+            xsdSchema.setTargetNamespace(TypeDeclarationUtils.computeTargetNamespace(ModelUtils.findContainingModel(declaration), id));
          }
-         
+
          String prefix = TypeDeclarationUtils.computePrefix(id, xsdSchema.getQNamePrefixToNamespaceMap().keySet());
          xsdSchema.getQNamePrefixToNamespaceMap().put(prefix, xsdSchema.getTargetNamespace());
          ArrayList<String> toRemove = new ArrayList<String>();
          Map<String, String> prefixes = xsdSchema.getQNamePrefixToNamespaceMap();
-         
+
          if(oldTargetNamespace != null)
          {
             for (Map.Entry<String, String> entry : prefixes.entrySet())
@@ -201,11 +190,11 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             {
                prefixes.remove(toRemove.get(j));
             }
-            xsdSchema.eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);    
+            xsdSchema.eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);
             TypeDeclarationUtils.updateImports(xsdSchema, oldTargetNamespace, savedId, id);
          }
          xsdSchema.setSchemaLocation(StructuredDataConstants.URN_INTERNAL_PREFIX + id);
-         xsdSchema.eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);    
+         xsdSchema.eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);
          XSDNamedComponent component = TypeDeclarationUtils.findElementOrTypeDeclaration(declaration, savedId);
          if (component != null)
          {
@@ -224,18 +213,19 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             }
          }
       }
-      
+
       Set<XSDElementDeclaration> elements = new HashSet<XSDElementDeclaration>();
       ModelType model = ModelUtils.findContainingModel(declaration);
       XSDTypeDefinition definition = TypeDeclarationUtils.getTypeDefinition(model.getTypeDeclarations(), id);
-      for(TypeDeclarationType decl : ((TypeDeclarationsType) declaration.eContainer()).getTypeDeclaration()) {
+      for(TypeDeclarationType decl : ((TypeDeclarationsType) declaration.eContainer()).getTypeDeclaration())
+      {
          TypeDeclarationUtils.findElementsForType(decl, elements, savedId);
-               }
-      for (Iterator<XSDElementDeclaration> i = elements.iterator(); i.hasNext();) {
-         XSDElementDeclaration elementDecl = i.next();
+      }
+      for (XSDElementDeclaration elementDecl : elements)
+      {
          elementDecl.setTypeDefinition(definition);
-            }
-      declaration.getSchema().eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);           
+      }
+      declaration.getSchema().eSet(XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives(), savedDirectives);
       savedId = id;
    }
 
@@ -260,7 +250,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
       {
          txtId.getText().setEditable(false);
       }
-      
+
       publicCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.CHECKBOX_Visibility);
       publicCheckBox.addSelectionListener(new SelectionAdapter()
       {
@@ -279,7 +269,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
             }
          }
       });
-      
+
       FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
       FormBuilder.createHorizontalSeparator(composite, 2);
       FormBuilder.createLabel(composite, " ", 2); //$NON-NLS-1$
@@ -294,29 +284,29 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
 
       return composite;
    }
-   
+
    private void validateInput()
    {
       ModelType model = (ModelType) declaration.eContainer().eContainer();
-      
+
      if (txtName.getText().getText().length() == 0
-           || txtId.getText().getText().length() == 0)           
+           || txtId.getText().getText().length() == 0)
      {
         setMessage(Structured_Messages.TypeDeclarationPropertyPage_EmptyValuesMessage, ERROR);
         setValid(false);
         return;
      }
-     
+
      if(!ModelUtils.isValidId(txtId.getText().getText()))
      {
         setMessage(MessageFormat.format(
               Structured_Messages.ComplexTypePropertyPage_InvalidFieldIdentifierErrorMessage,
               new Object [] {txtId.getText().getText()}), ERROR);
         setValid(false);
-        return;                                   
-     }      
-     
-     
+        return;
+     }
+
+
      // check for duplicates
      TypeDeclarationsType declarations = model.getTypeDeclarations();
      List<TypeDeclarationType> allDeclarations = declarations.getTypeDeclaration();
@@ -330,7 +320,7 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
                     Structured_Messages.TypeDeclarationPropertyPage_DuplicateValueMessage,
                     new Object [] {txtId.getText().getText()}), ERROR);
               setValid(false);
-              return;     
+              return;
            }
            if (td.getName().equals(txtName.getText().getText()))
            {
@@ -344,8 +334,8 @@ public class TypeDeclarationPropertyPage extends AbstractModelElementPropertyPag
      }
      setMessage(null);
      setValid(true);
-   }   
-   
+   }
+
    private void setupVisibility()
    {
       ExtendedAttributeType visibility = ExtendedAttributeUtil.getAttribute(declaration

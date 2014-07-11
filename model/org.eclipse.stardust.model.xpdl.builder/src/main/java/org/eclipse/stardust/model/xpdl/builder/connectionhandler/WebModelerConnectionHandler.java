@@ -44,6 +44,7 @@ import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
 import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
+import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
@@ -96,7 +97,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
          {
             try
             {
-               ((ImportableDescriptor) descriptor).importElements(null, model, asLink);
+               ((ImportableDescriptor) descriptor).importElements(model, new SimpleImportStrategy(asLink));
             }
             catch (Exception f)
             {

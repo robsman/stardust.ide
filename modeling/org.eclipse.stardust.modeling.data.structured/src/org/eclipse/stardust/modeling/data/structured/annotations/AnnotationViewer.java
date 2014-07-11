@@ -51,10 +51,10 @@ public class AnnotationViewer
       Structured_Messages.COL_EDIT_IN_STRUCTURE,
       Structured_Messages.COL_CHANGE_ALL
    };
-   
+
    private TreeViewer viewer;
    private boolean changeAllMode;
-   
+
    public boolean isChangeAllMode() {
 	return changeAllMode;
 }
@@ -62,12 +62,12 @@ public class AnnotationViewer
    public AnnotationCellEditor getAnnotationEditor() {
 		return annotationEditor;
 	}
-   
+
 private AnnotationCellEditor annotationEditor;
 
 
 private AnnotationContentProvider annotationContentProvider;
-   
+
    public AnnotationContentProvider getAnnotationContentProvider() {
 	return annotationContentProvider;
 }
@@ -85,7 +85,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
             | SWT.BORDER);
       tree.setLayoutData(FormBuilder.createDefaultMultiLineWidgetGridData(2));
       tree.setHeaderVisible(true);
-      
+
       viewer = new TreeViewer(tree);
       for (int i = 0; i < registryColumns.length; i++)
       {
@@ -94,11 +94,11 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
          column.setWidth(200);
       }
       viewer.setUseHashlookup(true);
-      
+
       annotationContentProvider = new AnnotationContentProvider();
       viewer.setContentProvider(annotationContentProvider);
       viewer.setLabelProvider(new AnnotationLabelProvider());
-      
+
       viewer.setColumnProperties(registryColumns);
 
       annotationEditor = new AnnotationCellEditor(viewer, 1, null)
@@ -119,6 +119,11 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
          public void widgetSelected(SelectionEvent e)
          {
             TreeItem item = (TreeItem)e.item;
+            if(item == null)
+            {
+               return;
+            }
+
             IAnnotation annotation = (IAnnotation) item.getData();
             AnnotationCellEditor editor = editorsMap.get(annotation);
             if (editor != null)
@@ -169,15 +174,15 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
             }
          }
       });
-      
+
       annotationContentProvider.setCurrentElement(null);
       viewer.setInput("dummy"); //$NON-NLS-1$
       viewer.expandAll();
       viewer.getControl().setVisible(false);
-      
+
       MenuManager menuManager = createMenuManager(new Action[] {createDeleteAction()});
       tree.setMenu(menuManager.createContextMenu(tree));
-      
+
       changeAll = new CarnotBooleanEditor(3)
       {
          public boolean canEdit(Object element)
@@ -199,7 +204,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
             changeAllMode = newValue;
             if (newValue)
             {
-               changeAllValues.put(annotation, newValue);               
+               changeAllValues.put(annotation, newValue);
             }
             else
             {
@@ -278,7 +283,7 @@ private Map<IAnnotation, Boolean> changeAllValues = CollectionUtils.newMap();
          }
       };
       editInStructure.setTree(tree);
-      
+
       return tree;
    }
 

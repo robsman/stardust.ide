@@ -128,7 +128,7 @@ public class DocumentRootItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/DocumentRoot"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/DocumentRoot")); //$NON-NLS-1$
    }
 
    /**
@@ -140,7 +140,7 @@ public class DocumentRootItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_DocumentRoot_type");
+      return getString("_UI_DocumentRoot_type"); //$NON-NLS-1$
    }
 
    /**
@@ -181,14 +181,14 @@ public class DocumentRootItemProvider
             (CarnotWorkflowModelPackage.Literals.DOCUMENT_ROOT__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.DOCUMENT_ROOT__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter

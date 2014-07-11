@@ -9,7 +9,6 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.stardust.ide.thirdparty.commons.logging;resolution:=optional
 Bundle-ClassPath: lib/aopalliance.jar,
  lib/spring-aop.jar,
- lib/spring-asm.jar,
  lib/spring-beans.jar,
  lib/spring-context.jar,
  lib/spring-context-support.jar,

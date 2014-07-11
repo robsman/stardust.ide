@@ -26,7 +26,12 @@ public class IconFigure extends AbstractIconFigure implements IIconFigure
    {
       this.iconPath = iconPath;
    }
-   
+
+   public String getIconPath()
+   {
+      return iconPath;
+   }
+
    public void setIconPath(String iconPath)
    {
       if ( !CompareHelper.areEqual(this.iconPath, iconPath))
@@ -35,7 +40,7 @@ public class IconFigure extends AbstractIconFigure implements IIconFigure
          resetIcon();
       }
    }
-   
+
    protected Image doLoadIcon()
    {
       return DiagramPlugin.getImage(iconPath);

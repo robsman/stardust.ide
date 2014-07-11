@@ -96,8 +96,8 @@ public class GatewaySymbolItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_GatewaySymbol_flowKind_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_GatewaySymbol_flowKind_feature", "_UI_GatewaySymbol_type"),
+             getString("_UI_GatewaySymbol_flowKind_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_GatewaySymbol_flowKind_feature", "_UI_GatewaySymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.GATEWAY_SYMBOL__FLOW_KIND,
              true,
              false,
@@ -119,8 +119,8 @@ public class GatewaySymbolItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_GatewaySymbol_activitySymbol_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_GatewaySymbol_activitySymbol_feature", "_UI_GatewaySymbol_type"),
+             getString("_UI_GatewaySymbol_activitySymbol_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_GatewaySymbol_activitySymbol_feature", "_UI_GatewaySymbol_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.GATEWAY_SYMBOL__ACTIVITY_SYMBOL,
              true,
              false,
@@ -139,7 +139,7 @@ public class GatewaySymbolItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/GatewaySymbol"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/GatewaySymbol")); //$NON-NLS-1$
    }
 
    /**
@@ -152,7 +152,7 @@ public class GatewaySymbolItemProvider
    public String getText(Object object)
    {
       GatewaySymbol gatewaySymbol = (GatewaySymbol)object;
-      return getString("_UI_GatewaySymbol_type") + " " + gatewaySymbol.getElementOid();
+      return getString("_UI_GatewaySymbol_type") + " " + gatewaySymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

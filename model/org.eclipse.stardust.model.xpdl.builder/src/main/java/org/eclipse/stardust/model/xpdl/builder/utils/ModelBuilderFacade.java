@@ -126,6 +126,7 @@ import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
+import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -149,6 +150,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
@@ -967,6 +969,10 @@ public class ModelBuilderFacade
       {
          type = Type.Money;
       }
+      else if (primitiveTypeID.equals(ModelerConstants.ENUM_PRIMITIVE_DATA_TYPE))
+      {
+         type = Type.Enumeration;
+      }
 
       data = newPrimitiveVariable(model).withIdAndName(dataID, dataName)
             .ofType(type)
@@ -1032,8 +1038,7 @@ public class ModelBuilderFacade
 
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                uri, dataCopy, bundleId, null, true);
-         PepperIconFactory iconFactory = new PepperIconFactory();
-         descriptor.importElements(iconFactory, model, true);
+         descriptor.importElements(model, new SimpleImportStrategy(true));
          data = findData(model, stripFullId(dataFullID));
       }
       return data;
@@ -1161,8 +1166,7 @@ public class ModelBuilderFacade
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
-            PepperIconFactory iconFactory = new PepperIconFactory();
-            descriptor.importElements(iconFactory, model, true);
+            descriptor.importElements(model, new SimpleImportStrategy(true));
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
 
@@ -1844,6 +1848,8 @@ public class ModelBuilderFacade
                		"org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
 
                model.getApplicationType().add(applicationMetaType);
+
+               return applicationMetaType;
             }
       }
 
@@ -2838,35 +2844,35 @@ public class ModelBuilderFacade
       TypeType type = null;
       if (primitiveTypeID.equals(ModelerConstants.STRING_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.STRING_LITERAL;
+         type = TypeType.STRING;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DATE_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.DATETIME_LITERAL;
+         type = TypeType.DATETIME;
       }
       else if (primitiveTypeID.equals("int"))
       {
-         type = TypeType.INTEGER_LITERAL;
+         type = TypeType.INTEGER;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.FLOAT_LITERAL;
+         type = TypeType.FLOAT;
       }
       else if (primitiveTypeID.equals(ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.FLOAT_LITERAL;
+         type = TypeType.FLOAT;
       }
       else if (primitiveTypeID.equals(ModelerConstants.BOOLEAN_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.BOOLEAN_LITERAL;
+         type = TypeType.BOOLEAN;
       }
       else if (primitiveTypeID.equals(ModelerConstants.CALENDAR_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.DATETIME_LITERAL;
+         type = TypeType.DATETIME;
       }
       else if (primitiveTypeID.equals(ModelerConstants.LONG_PRIMITIVE_DATA_TYPE))
       {
-         type = TypeType.INTEGER_LITERAL;
+         type = TypeType.INTEGER;
       }
 
       return type;
@@ -3273,7 +3279,9 @@ public class ModelBuilderFacade
                if (connection != null)
                {
                   String importString = connection.getAttribute("importByReference"); //$NON-NLS-1$
-                  if (importString != null && importString.equalsIgnoreCase("false")) //$NON-NLS-1$
+                  if (importString == null
+                        || (importString != null && importString
+                              .equalsIgnoreCase("false"))) //$NON-NLS-1$
                   {
                      return false;
                   }
@@ -3391,8 +3399,7 @@ public class ModelBuilderFacade
 
             ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
                   uri, participantCopy, bundleId, null, true);
-            PepperIconFactory iconFactory = new PepperIconFactory();
-            descriptor.importElements(iconFactory, model, true);
+            descriptor.importElements(model, new SimpleImportStrategy(true));
             modelParticipant = findParticipant(model, stripFullId(participantFullID));
          }
          setTeamLeader(organization, (RoleType) modelParticipant);
@@ -3638,6 +3645,12 @@ public class ModelBuilderFacade
       dataMapping.setName(data.getName());
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
+
+      if (context.equalsIgnoreCase(PredefinedConstants.DEFAULT_CONTEXT))
+      {
+         context = getDefaultContext(activity, direction);
+      }
+
       dataMapping.setContext(context);
 
       if (activityAccessPointId != null)
@@ -3666,6 +3679,18 @@ public class ModelBuilderFacade
       return dataMappingConnection;
    }
 
+
+   public String getDefaultContext(ActivityType activity, DirectionType direction)
+   {
+      List<ApplicationContextTypeType> contextTypes = ActivityUtil.getContextTypes(
+            activity, direction);
+      if (!contextTypes.isEmpty())
+      {
+         return contextTypes.get(0).getId();
+      }
+      return PredefinedConstants.DEFAULT_CONTEXT;
+   }
+
    /**
     * Create a Data Mapping Connection with zero, one or two Data Mappings.
     *
@@ -3686,10 +3711,6 @@ public class ModelBuilderFacade
          String outputContextId, String outputAccessPointId, String fromAnchor,
          String toAnchor)
    {
-      // return createDataFlowConnection(
-      // processDefinition, activitySymbol,
-      // dataSymbol, DirectionType.IN_LITERAL, fromAnchor,
-      // toAnchor);
 
       DataType data = dataSymbol.getData();
       ActivityType activity = activitySymbol.getActivity();
@@ -3708,7 +3729,6 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(inputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-         // data.getDataMappings().add(dataMapping);
       }
 
       if (outputAccessPointId != null)
@@ -3723,7 +3743,6 @@ public class ModelBuilderFacade
          dataMapping.setApplicationAccessPoint(outputAccessPointId);
 
          activity.getDataMapping().add(dataMapping);
-         // data.getDataMappings().add(dataMapping);
       }
 
       DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();

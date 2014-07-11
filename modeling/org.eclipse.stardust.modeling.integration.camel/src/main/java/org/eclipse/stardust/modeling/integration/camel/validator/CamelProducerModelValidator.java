@@ -1,9 +1,9 @@
 package org.eclipse.stardust.modeling.integration.camel.validator;
 
-import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.CONSUMER_ROUTE_ATT;
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_PATTERN_EXT_ATT;
 import static org.eclipse.stardust.engine.extensions.camel.CamelConstants.INVOCATION_TYPE_EXT_ATT;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +15,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.impl.ApplicationTypeImpl;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.modeling.integration.camel.Camel_Messages;
 import org.eclipse.stardust.modeling.validation.IModelElementValidator;
 import org.eclipse.stardust.modeling.validation.Issue;
 import org.eclipse.stardust.modeling.validation.ValidationException;
@@ -24,26 +25,54 @@ import org.eclipse.stardust.common.log.Logger;
 public class CamelProducerModelValidator implements IModelElementValidator
 {
    private static final transient Logger logger = LogManager.getLogger(CamelProducerModelValidator.class);
+   private static String replaceRemoveMultipleSpaces(String input){
+      if(input.contains("  "))
+         return replaceRemoveMultipleSpaces(input.replace("  ", " "));
+      if(input.contains("\t"))
+         return replaceRemoveMultipleSpaces(input.replace("\t", ""));
+      if(input.contains("\n"))
+         return replaceRemoveMultipleSpaces(input.replace("\n", ""));
+      return input.trim();
+   }
+   private boolean isConsumerApplication(ApplicationTypeImpl application)
+   {
+      return application.getType().getId().equalsIgnoreCase(CamelConstants.CAMEL_CONSUMER_APPLICATION_TYPE);
+   }
 
    public Issue[] validate(IModelElement element) throws ValidationException
    {
       List<Issue> result = new ArrayList<Issue>();
+      String routeDefinition = null;
 
-      String routeDefinition = AttributeUtil.getAttributeValue((IExtensibleElement) element,
-            CamelConstants.PRODUCER_ROUTE_ATT);
+      if (isConsumerApplication(((ApplicationTypeImpl) (IExtensibleElement) element)))
+         routeDefinition = AttributeUtil.getAttributeValue((IExtensibleElement) element,
+               CamelConstants.CONSUMER_ROUTE_ATT);
+      else
+         routeDefinition = AttributeUtil.getAttributeValue((IExtensibleElement) element,
+               CamelConstants.PRODUCER_ROUTE_ATT);
+
+      if(!StringUtils.isEmpty(routeDefinition))
+      routeDefinition= replaceRemoveMultipleSpaces(routeDefinition);
+
       String invocationPattern = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             INVOCATION_PATTERN_EXT_ATT);
       String invocationType = AttributeUtil.getAttributeValue((IExtensibleElement) element, INVOCATION_TYPE_EXT_ATT);
 
-//      if(((ApplicationTypeImpl)element).getExecutedActivities().isEmpty())
-//         result.add(Issue.error(element, "No application activity set for application "+((ApplicationTypeImpl)element).getName()));
-      
+      // if(((ApplicationTypeImpl)element).getExecutedActivities().isEmpty())
+      // result.add(Issue.error(element,
+      // "No application activity set for application "+((ApplicationTypeImpl)element).getName()));
+
       if (invocationPattern == null && invocationType == null)
       {
          // backward compatiblity
          if (StringUtils.isEmpty(routeDefinition))
          {
-            result.add(Issue.error(element, "No Producer route definition specified for application"));
+            if(isConsumerApplication(((ApplicationTypeImpl) (IExtensibleElement) element)))
+               result.add(Issue
+                     .error(element, Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));
+            else
+            result.add(Issue
+                  .error(element, Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
          }
       }
       else
@@ -52,38 +81,47 @@ public class CamelProducerModelValidator implements IModelElementValidator
                || invocationPattern.equals(CamelConstants.InvocationPatterns.SENDRECEIVE))
          {
             if (StringUtils.isEmpty(routeDefinition))
-               result.add(Issue.error(element, "No Producer route definition specified for application"));
+               result.add(Issue.error(element,
+                     Camel_Messages.issue_No_Producer_Route_Definition_Specified_For_Application));
          }
 
          if (invocationPattern.equals(CamelConstants.InvocationPatterns.RECEIVE))
          {
 
-            if (AttributeUtil.getAttributeValue((IExtensibleElement) element, CONSUMER_ROUTE_ATT) == null)
+            if (StringUtils.isEmpty(routeDefinition))
             {
-               result.add(Issue.error(element, "No Consumer route definition specified for application"));
-
+               result.add(Issue.error(element,
+                     Camel_Messages.issue_No_Consumer_Route_Definition_Specified_For_Application));
             }
          }
-         
-         if(!((ApplicationTypeImpl)element).getAccessPoint().isEmpty()){
-            for(int i=0; i<((ApplicationTypeImpl)element).getAccessPoint().size();i++){
-               AccessPointType accessPoint=((ApplicationTypeImpl)element).getAccessPoint().get(i);
-               if((accessPoint.getDirection().getLiteral().equalsIgnoreCase(Direction.OUT.getName())||accessPoint.getDirection().getLiteral().equalsIgnoreCase(Direction.IN_OUT.getId())) &&invocationPattern.equals(CamelConstants.InvocationPatterns.SEND)){
-                  result.add(Issue.error(element, "Application "+((ApplicationTypeImpl)element).getName()+" contains out accessPoint while the endpoint pattern is set to "+invocationPattern, CamelConstants.INVOCATION_PATTERN_EXT_ATT));
+
+         if (!((ApplicationTypeImpl) element).getAccessPoint().isEmpty())
+         {
+            for (int i = 0; i < ((ApplicationTypeImpl) element).getAccessPoint().size(); i++)
+            {
+               AccessPointType accessPoint = ((ApplicationTypeImpl) element).getAccessPoint().get(i);
+               if ((accessPoint.getDirection().getLiteral().equalsIgnoreCase(Direction.OUT.getName()) || accessPoint
+                     .getDirection().getLiteral().equalsIgnoreCase(Direction.IN_OUT.getId()))
+                     && invocationPattern.equals(CamelConstants.InvocationPatterns.SEND))
+               {
+                  String message = MessageFormat.format(
+                        Camel_Messages.issue_Application_Contains_Out_AccessPoint_While_Endpoint_Pattern_Is_Set_To,
+                        new Object[] {((ApplicationTypeImpl) element).getName(), invocationPattern});
+                  result.add(Issue.error(element, message, CamelConstants.INVOCATION_PATTERN_EXT_ATT));
                }
             }
          }
-         
-         
+
       }
 
       String camelContextId = AttributeUtil.getAttributeValue((IExtensibleElement) element,
             CamelConstants.CAMEL_CONTEXT_ID_ATT);
       if (StringUtils.isEmpty(camelContextId))
-         result.add(Issue.error(element, "CamelContextID is Empty", CamelConstants.CAMEL_CONTEXT_ID_ATT));
+         result.add(Issue.error(element, Camel_Messages.issue_CamelContextID_is_Empty,
+               CamelConstants.CAMEL_CONTEXT_ID_ATT));
 
       if (result.isEmpty())
-         logger.debug("No Issues found");
+         logger.debug(Camel_Messages.issue_No_Issues_Found);
 
       return (Issue[]) result.toArray(Issue.ISSUE_ARRAY);
    }

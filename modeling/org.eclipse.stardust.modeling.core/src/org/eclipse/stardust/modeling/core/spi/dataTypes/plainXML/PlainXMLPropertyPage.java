@@ -26,7 +26,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
@@ -215,7 +215,7 @@ public class PlainXMLPropertyPage extends AbstractModelElementPropertyPage
       ClassLoader cclBackup = Thread.currentThread().getContextClassLoader();
       try
       {
-         IProject project = ModelUtils.getProjectFromEObject(getModelElement());
+         IProject project = WorkspaceUtils.getProjectFromEObject(getModelElement());
          String resource = typeDeclarationURLText.getText().trim();
          Thread.currentThread().setContextClassLoader(new ProjectClassLoader(
                XmlUtils.class.getClassLoader(), project, resource.startsWith("/") //$NON-NLS-1$

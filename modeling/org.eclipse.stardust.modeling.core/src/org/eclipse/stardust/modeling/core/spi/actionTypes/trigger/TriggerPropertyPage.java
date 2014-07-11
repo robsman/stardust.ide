@@ -10,30 +10,26 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.spi.actionTypes.trigger;
 
-import java.util.List;
-
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IActionPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
-import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
-import org.eclipse.stardust.modeling.core.utils.IdentifiableViewerSorter;
+import org.eclipse.stardust.modeling.core.ui.ProcessDefinitionSelectionViewer;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Table;
 
 public class TriggerPropertyPage extends AbstractModelElementPropertyPage
       implements IActionPropertyPage
@@ -43,15 +39,10 @@ public class TriggerPropertyPage extends AbstractModelElementPropertyPage
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       ModelType model = ModelUtils.findContainingModel(element);
-      TableViewer viewer = (TableViewer) labeledViewer.getViewer();
-      viewer.getTable().removeAll();
-      List<ProcessDefinitionType> processes = model.getProcessDefinition();
-      viewer.add(processes.toArray());
-
+      ProcessDefinitionSelectionViewer viewer = (ProcessDefinitionSelectionViewer) labeledViewer.getViewer();
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
-
       wBndMgr.bind(labeledViewer, (IExtensibleElement) element,
-            PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT, processes);
+            PredefinedConstants.TRIGGER_ACTION_PROCESS_ATT, viewer.reset(model));
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
@@ -61,14 +52,21 @@ public class TriggerPropertyPage extends AbstractModelElementPropertyPage
    {
       Composite composite = FormBuilder.createComposite(parent, 1, 2);
       ((GridLayout) composite.getLayout()).marginWidth = 0;
-      LabelWithStatus label = FormBuilder.createLabelWithRightAlignedStatus(composite,
-            Diagram_Messages.TRIGGER);
-      Table table = new Table(composite, SWT.BORDER);
-      table.setLayoutData(FormBuilder.createDefaultLimitedMultiLineWidgetGridData(200));
-      TableViewer tableViewer = new TableViewer(table);
-      tableViewer.setLabelProvider(new EObjectLabelProvider(getEditor()));
-      tableViewer.setSorter(new IdentifiableViewerSorter());
+      LabelWithStatus label = FormBuilder.createLabelWithRightAlignedStatus(composite, Diagram_Messages.TRIGGER);
+
+      final ProcessDefinitionSelectionViewer tableViewer = new ProcessDefinitionSelectionViewer(composite, getEditor());
       labeledViewer = new LabeledViewer(tableViewer, label);
+
+      final Button groupingCheckbox = FormBuilder.createCheckBox(composite, Diagram_Messages.LB_GroupModelElements);
+      groupingCheckbox.addSelectionListener(new SelectionListener()
+      {
+         public void widgetDefaultSelected(SelectionEvent e) {}
+
+         public void widgetSelected(SelectionEvent e)
+         {
+            ((ProcessDefinitionSelectionViewer) labeledViewer.getViewer()).setGrouped(groupingCheckbox.getSelection());
+         }
+      });
 
       return composite;
    }

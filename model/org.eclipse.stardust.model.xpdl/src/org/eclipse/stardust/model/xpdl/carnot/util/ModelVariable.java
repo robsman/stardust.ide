@@ -21,7 +21,7 @@ public class ModelVariable implements Cloneable
    private String description;
 
    private boolean removed;     
-
+   
    public ModelVariable(String name, String defaultValue, String description)
    {
       super();
@@ -43,7 +43,24 @@ public class ModelVariable implements Cloneable
    {
       return name;
    }
+   
+   public String getStrippedName()
+   {
+      String strippedName = getName();
+      strippedName = strippedName.replace("${", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      strippedName = strippedName.replace("}", ""); //$NON-NLS-1$ //$NON-NLS-2$
+      return strippedName;
+   }
 
+   public String getType()
+   {
+      if (name.startsWith("${")) //$NON-NLS-1$
+      {
+         name = name.substring(2, name.length() - 1);
+      }
+      return VariableContextHelper.getType(name);
+   }
+   
    public void setName(String name)
    {
       this.name = name;
@@ -87,5 +104,4 @@ public class ModelVariable implements Cloneable
       return new ModelVariable(new String(this.name), new String(this.defaultValue),
             new String(this.description));
    }
-
 }

@@ -25,9 +25,9 @@ import org.eclipse.stardust.model.xpdl.util.IObjectReference;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.tree.ModelTreeEditPart;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Tree;
@@ -37,7 +37,7 @@ public class ModelElementTransferDropTargetListener
 {
    private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private static XpdlPackage XPKG = XpdlPackage.eINSTANCE;
-   
+
    private WorkflowModelEditor editor;
 
    private boolean isEnabled;
@@ -83,7 +83,7 @@ public class ModelElementTransferDropTargetListener
    {
       // a transition should not be dropped from outline to diagram
       Object object = ((SimpleObjectTransfer) getTransfer()).getObject();
-      if (object instanceof TransitionType) 
+      if (object instanceof TransitionType)
       {
          return false;
       }
@@ -94,24 +94,16 @@ public class ModelElementTransferDropTargetListener
          String uri = descriptor.getURI().scheme().toString() + "://" //$NON-NLS-1$
                + descriptor.getURI().authority() + "/"; //$NON-NLS-1$
          ModelType model = editor.getWorkflowModel();
-         ConnectionManager cm = editor.getConnectionManager();         
-         if (cm.mustLink(descriptor)
+         ConnectionManager cm = editor.getConnectionManager();
+         if (ConnectionEditUtils.mustLink(descriptor, cm)
                && ModelUtils.referenceToAnotherVersionExists(model, uri))
          {
             return false;
          }
-         if (editor.getModelServer().isModelShared())
-         {
-            Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(model);
-            if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-            {
-               return false;
-            }
-         }
       }
       CreateSymbolRequest request = (CreateSymbolRequest) getTargetRequest();
       isEnabled = super.isEnabled(event) && request.isEnabled();
-      isChild = !isEnabled && !request.isLockRequired() && isChildCreated();
+      isChild = !isEnabled && isChildCreated();
       return isEnabled || isChild;
    }
 
@@ -125,16 +117,16 @@ public class ModelElementTransferDropTargetListener
          {
             request.setFactoryForDescriptor((IObjectDescriptor) transferElement);
          }
-         else 
+         else
          {
-            request.setFactoryForProcess((ProcessDefinitionType) transferElement);               
+            request.setFactoryForProcess((ProcessDefinitionType) transferElement);
          }
       }
       super.handleDrop();
       refreshTree();
       editor.setFocus();
    }
-   
+
    private void refreshTree()
    {
       Tree tree = (Tree) Reflect.getFieldValue(editor.getOutlinePage()
@@ -174,7 +166,7 @@ public class ModelElementTransferDropTargetListener
       }
       else
       {
-         return (((ModelElementTransfer) getTransfer()).getObject() instanceof ProcessDefinitionType);         
+         return (((ModelElementTransfer) getTransfer()).getObject() instanceof ProcessDefinitionType);
       }
    }
 }

@@ -29,7 +29,7 @@
    </publications>
 
    <dependencies>
-      <!-- The following Eclipse dependencies are part of Eclipse 3.6.2 -->
+      <!-- The following Eclipse dependencies are part of Eclipse 4.3.1 -->
       <dependency org="org.eclipse.emf" name="org.eclipse.emf.common" rev="${org.eclipse.emf.common.version}" conf="ipp-bpm-model-runtime->default"/>
       <dependency org="org.eclipse.emf" name="org.eclipse.emf.ecore" rev="${org.eclipse.emf.ecore.version}" conf="ipp-bpm-model-runtime->default">
          <exclude org="org.eclipse.emf" module="org.eclipse.emf.common"/>

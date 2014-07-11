@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -34,7 +35,7 @@ import org.eclipse.stardust.model.xpdl.carnot.spi.IAccessPathEditor;
 import org.eclipse.stardust.model.xpdl.carnot.util.AccessPointUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.modeling.common.platform.utils.WorkspaceUtils;
 import org.eclipse.stardust.modeling.core.ui.AccessPathBrowserContentProvider;
 import org.eclipse.stardust.modeling.integration.dms.data.DmsTypeUtils;
 import org.eclipse.stardust.modeling.transformation.messaging.modeling.MessageTransformationUtils;
@@ -68,7 +69,8 @@ public class MessagingAccessPathBrowserContentProvider extends AccessPathBrowser
          if (type instanceof DataTypeType)
          {            
             DataTypeType dataType = (DataTypeType) ((AccessPointType)root).getMetaType();
-           
+            if (!dataType.getId().equalsIgnoreCase(PredefinedConstants.PRIMITIVE_DATA))
+            {
                IAccessPathEditor editor = AccessPointUtil.getSPIAccessPathEditor(dataType);
                List aps = editor.getAccessPoints(null,
                   (IExtensibleElement) accessPoint, direction);;
@@ -142,6 +144,7 @@ public class MessagingAccessPathBrowserContentProvider extends AccessPathBrowser
          {
             Object child = children[i];
             parentCache.put(child, parentElement);
+         }
          }
       }
       return children;
@@ -286,7 +289,7 @@ public Object getParent(Object element)
    }
    
    private String getFullQualifiedName(DataTypeType dataType, String type, String className) {
-	      IJavaProject jp = JavaCore.create(ModelUtils.getProjectFromEObject(dataType));
+	      IJavaProject jp = JavaCore.create(WorkspaceUtils.getProjectFromEObject(dataType));
 	      MTAClassLoader cl = new MTAClassLoader(jp);
 	      Class clazz;
 		try {

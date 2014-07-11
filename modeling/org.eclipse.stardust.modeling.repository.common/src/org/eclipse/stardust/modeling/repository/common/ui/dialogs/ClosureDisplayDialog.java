@@ -27,6 +27,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -102,7 +103,7 @@ public class ClosureDisplayDialog extends Dialog
       GridLayout layout = (GridLayout) composite.getLayout();
       layout.numColumns = 2;
       Label label = FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
-      label.setImage(ImportUtils.getImage(iconFactory, eObject));
+      label.setImage(ImageUtil.getImage(iconFactory, eObject));
       FormBuilder.createLabel(composite, ImportUtils.getLabel(eObject));
       FormBuilder.createLabel(composite, Repository_Messages.LBL_REQUIRES_THE_ELEMENTS_LISTED_BELOW, 2);
       Table table = FormBuilder.createTable(composite, SWT.BORDER, null, null, 2);
@@ -116,7 +117,7 @@ public class ClosureDisplayDialog extends Dialog
       {
          public Image getImage(Object element)
          {
-            return ImportUtils.getImage(ClosureDisplayDialog.this.iconFactory, (EObject) element);
+            return ImageUtil.getImage(ClosureDisplayDialog.this.iconFactory, (EObject) element);
          }
 
          public String getText(Object element)

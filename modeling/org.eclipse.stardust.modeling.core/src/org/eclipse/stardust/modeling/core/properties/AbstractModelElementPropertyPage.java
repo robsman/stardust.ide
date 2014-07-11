@@ -32,7 +32,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IPropertyPage;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
@@ -43,9 +42,8 @@ import org.eclipse.stardust.modeling.core.editors.ui.CarnotPropertyPageContribut
 import org.eclipse.stardust.modeling.core.editors.ui.EObjectLabelProvider;
 import org.eclipse.stardust.modeling.core.editors.ui.ModelElementPropertyDialog;
 import org.eclipse.stardust.modeling.core.editors.ui.validation.PageValidationManager;
-import org.eclipse.stardust.modeling.core.modelserver.CompositeUtils;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.spi.IModelElementPropertyPage;
+import org.eclipse.stardust.modeling.core.utils.CompositeUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.swt.SWT;
@@ -62,23 +60,23 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       implements IAdaptable, IPropertyPage, IModelElementPropertyPage
 {
    protected static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
-   
+
    public static final boolean preselect = true;
 
    private final WidgetBindingManager wBndMgr = new WidgetBindingManager(this);
    private Composite buttonBar;
    private Composite pageContent;
-   
+
    protected boolean enablePage = true;
-   
+
    private List<ModelElementsOutlineSynchronizer> elements = new ArrayList<ModelElementsOutlineSynchronizer>();
-   
+
    public List<ModelElementsOutlineSynchronizer> getModelElementsOutlineElements()
    {
       return elements;
    }
 
-   protected void updateApplyButton() 
+   protected void updateApplyButton()
    {
       Button applyButton = getApplyButton();
       if(applyButton != null)
@@ -89,19 +87,19 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       if(defaultsButton != null)
       {
          defaultsButton.setEnabled(enablePage && isValid());
-      }          
+      }
    }
-   
+
    public void addModelElementsOutlineSynchronizer(ModelElementsOutlineSynchronizer element)
    {
       elements.add(element);
-   }   
-   
+   }
+
    public void setEnablePage(boolean enablePage)
-   {      
+   {
       this.enablePage = enablePage;
       CompositeUtils.enableContentComposite(pageContent, enablePage);
-      enableContentOutline();      
+      enableContentOutline();
       enableContentButtons();
       Button applyButton = getApplyButton();
       if(applyButton != null)
@@ -112,14 +110,14 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       if(defaultsButton != null)
       {
          defaultsButton.setEnabled(enablePage);
-      }          
+      }
    }
 
    public WidgetBindingManager getWidgetBindingManager()
    {
       return wBndMgr;
    }
-   
+
    public void dispose()
    {
       wBndMgr.dispose();
@@ -133,16 +131,8 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    public boolean performOk()
    {
-      // in case admin has locked meanwhile
-      if(getEditor().getModelServer().isModelShared()
-            && ShareUtils.isLockableElement(getModelElement())
-            && getEditor().getModelServer().isLockedByOther(getModelElement()))
-      {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCKED_BY_OTHER);         
-         return false;
-      }
       CreationUtils.refreshTreeItem(getModelElement());
-      apply();      
+      apply();
       return true;
    }
 
@@ -198,17 +188,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void performDefaults()
    {
-      // in case admin has locked meanwhile
-      if(getEditor().getModelServer().isModelShared()
-            && ShareUtils.isLockableElement(getModelElement())            
-            && getEditor().getModelServer().isLockedByOther(getModelElement()))
-      {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCKED_BY_OTHER);
-         CreationUtils.refreshTreeItem(getModelElement());
-         return;
-      }
-      
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ((ModelElementPropertyDialog) container).performDefaults();
@@ -221,17 +201,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void performApply()
    {
-      // in case admin has locked meanwhile
-      if(getEditor().getModelServer().isModelShared()
-            && ShareUtils.isLockableElement(getModelElement())            
-            && getEditor().getModelServer().isLockedByOther(getModelElement()))
-      {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCKED_BY_OTHER);
-         CreationUtils.refreshTreeItem(getModelElement());
-         return;
-      }
-         
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ((ModelElementPropertyDialog) container).performApply();
@@ -307,7 +277,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       {
          buttonBar.setEnabled(enablePage);
       }
-      
+
       pageContent.pack();
       return pageContent;
    }
@@ -318,9 +288,9 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       {
          buttonBar.setEnabled(enablePage);
          buttonBar.setCapture(enablePage);
-      }  
+      }
    }
-   
+
    private void enableContentOutline()
    {
       for(ModelElementsOutlineSynchronizer element : elements)
@@ -342,11 +312,11 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
                      CompositeUtils.enableComposite(pageContent, enablePage);
                   }
                }
-            }               
-         }         
-      }      
+            }
+         }
+      }
    }
-   
+
    public void contributeButtons(Composite parent)
    {
    }
@@ -363,7 +333,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
             .getAdapter(IModelElement.class) : symbol.getModelElement());
       if (modelElement == null)
       {
-         modelElement = (IModelElement) this.getModelElement();
+         modelElement = (IModelElement) getModelElement();
       }
       if (null != modelElement || (symbol != null && symbol.getModelElement() == null))
       {
@@ -373,14 +343,14 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       super.performDefaults();
    }
 
-      protected void removePreferenceNodes(String parentNodeId)
+   protected void removePreferenceNodes(String parentNodeId)
    {
       removePreferenceNodes(parentNodeId, false);
    }
-      
-      public void removePreferenceNodes(String parentNodeId, boolean removeParent)
+
+   public void removePreferenceNodes(String parentNodeId, boolean removeParent)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -391,7 +361,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
    protected void removePreferenceNode(CarnotPreferenceNode parentNode,
          CarnotPreferenceNode node)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -402,7 +372,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
    public CarnotPreferenceNode addNodeTo(String pageId, CarnotPreferenceNode node,
                                       EObjectLabelProvider labelProvider)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -415,7 +385,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected WorkflowModelEditor getEditor()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -423,10 +393,10 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       }
       return null;
    }
-   
+
    protected void registerValidation(IAdaptable adaptable)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -437,7 +407,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    public void refreshTree()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -447,7 +417,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void expandTree()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -457,7 +427,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void addNodesTo(String category)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -465,7 +435,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
                dialog.getPreferenceManager(), getElement(), category);
       }
    }
-   
+
    protected void addSpiNodes(ITypedElement element)
    {
       IMetaType type = element.getMetaType();
@@ -477,7 +447,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void addSpiNodes(String extensionId, String type)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -489,7 +459,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void selectPage(String path)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -499,17 +469,17 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    protected void selectPageForObject(Object selection)
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
          dialog.selectPageForObject(selection);
       }
    }
-   
+
    public PreferenceManager getPreferenceManager()
    {
-      IPreferencePageContainer container = this.getContainer();
+      IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
          ModelElementPropertyDialog dialog = (ModelElementPropertyDialog) container;
@@ -518,10 +488,10 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       return null;
    }
 
-   public Object getAdapter(Class adapter)
+   public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter)
    {
       Object result = null;
-      
+
       if (IValidationEventListener.class.equals(adapter))
       {
          result = getWidgetBindingManager().getValidationBindingManager();
@@ -530,7 +500,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       {
          result = getWidgetBindingManager().getValidationBindingManager();
       }
-      
+
       return result;
    }
 
@@ -539,7 +509,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
-    	 return ((ModelElementPropertyDialog) container).getPage(pageId);
+      return ((ModelElementPropertyDialog) container).getPage(pageId);
       }
       return null;
    }
@@ -549,14 +519,14 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       IPreferencePageContainer container = getContainer();
       if (container instanceof ModelElementPropertyDialog)
       {
-    	 return ((ModelElementPropertyDialog) container).getNode(pageId);
+      return ((ModelElementPropertyDialog) container).getNode(pageId);
       }
       return null;
    }
 
    public String composePageId(String parentId, String id)
    {
-	  return ModelElementPropertyDialog.composePageId(parentId, id);
+   return ModelElementPropertyDialog.composePageId(parentId, id);
    }
 
    public void addDependentCommand(Command command)
@@ -570,5 +540,5 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
 
    public void setDelegateContainer(AbstractModelElementPropertyPage page)
    {
-   }   
+   }
 }

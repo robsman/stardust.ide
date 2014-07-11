@@ -33,14 +33,9 @@
       <exclusions>
          <exclusion>
             <groupId>org.eclipse.stardust.engine</groupId>
-            <artifactId>base-module</artifactId>
+            <artifactId>carnot-base</artifactId>
          </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.stardust.engine</groupId>
-      <artifactId>carnot-emf-xsd-integration</artifactId>
-      <version>${ipp.version}</version>
     </dependency>
   </dependencies>
 
@@ -53,7 +48,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>carnot-engine,carnot-emf-xsd-integration</includeArtifactIds>
+              <includeArtifactIds>carnot-engine</includeArtifactIds>
             </configuration>
           </execution>
         </executions>

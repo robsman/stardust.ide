@@ -62,14 +62,14 @@
    </target>
 	
 	<target name="unpack.p2" depends="initBuildDirectories" if="processWorkbenchFeatures.dir">
-      <unzip src="${processWorkbenchFeatures.dir}/processWorkbenchFeatures33-${carnot.version}.zip"
+      <unzip src="${processWorkbenchFeatures.dir}/processWorkbenchFeatures33-${ipp.plugin.version}.zip"
          dest="${build.lib}">
          <patternset id="pepperProcessWorkbenchFeatures33PluginDependencies">
-            <include name="**/org.eclipse.stardust.modeling.repository.common_${carnot.version}.jar" />
+            <include name="**/org.eclipse.stardust.modeling.repository.common_${ipp.plugin.version}.jar" />
          </patternset>
          <flattenmapper/>
       </unzip>
-		<move file="${build.lib}/org.eclipse.stardust.modeling.repository.common_${carnot.version}.jar" 
+		<move file="${build.lib}/org.eclipse.stardust.modeling.repository.common_${ipp.plugin.version}.jar" 
 			tofile="${build.lib}/${artifactId}.jar"/>
 	</target>
 	

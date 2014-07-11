@@ -11,6 +11,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/camel-mail.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/camel-script.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/quartz.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/org.restlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

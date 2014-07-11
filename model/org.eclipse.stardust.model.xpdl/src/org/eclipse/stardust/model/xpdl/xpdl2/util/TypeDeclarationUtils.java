@@ -25,7 +25,9 @@ import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.spi.IResourceResolver;
 import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.xsd.*;
 import org.eclipse.xsd.impl.XSDImportImpl;
@@ -41,7 +43,7 @@ public class TypeDeclarationUtils
 
    public static ThreadLocal<URIConverter> defaultURIConverter = new ThreadLocal<URIConverter>();
 
-   private static Set<String> reservedPrefixes = reserve("xml", "xsd");
+   private static Set<String> reservedPrefixes = reserve("xml", "xsd"); //$NON-NLS-1$ //$NON-NLS-2$
 
    public static void updateTypeDefinition(TypeDeclarationType declaration, String newId, String previousId)
    {
@@ -291,13 +293,13 @@ public class TypeDeclarationUtils
       ResourceSet resourceSet = XSDSchemaImpl.createResourceSet();
       // make sure we can load schemas in WSDL documents.
       Map<String, Object> extensionToFactoryMap = resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap();
-      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd"));
+      extensionToFactoryMap.put("wsdl", extensionToFactoryMap.get("xsd")); //$NON-NLS-1$ //$NON-NLS-2$
       URIConverter converter = defaultURIConverter.get();
       if (converter != null)
       {
          resourceSet.setURIConverter(converter);
       }
-      Resource resource = resourceSet.createResource(URI.createURI("*.xsd"));
+      Resource resource = resourceSet.createResource(URI.createURI("*.xsd")); //$NON-NLS-1$
       resource.setURI(uri);
       resource.load(options);
 
@@ -655,6 +657,11 @@ public class TypeDeclarationUtils
 
    public static void removeNameSpace(XSDSchema schema, String oldDefName, String modelId)
    {
+      if(oldDefName == null)
+      {
+         return;
+      }
+
       String targetNameSpace = computeTargetNamespace(modelId, oldDefName);
 
       String prefix = getNamespacePrefix(schema, targetNameSpace);
@@ -702,5 +709,100 @@ public class TypeDeclarationUtils
             }
          }
       }
+   }
+
+   public static boolean isEnumeration(TypeDeclarationType decl, boolean isJava)
+   {
+      int type = TypeDeclarationUtils.COMPLEX_TYPE;
+      try
+      {
+         type = TypeDeclarationUtils.getType(decl);
+      }
+      catch(IllegalArgumentException e)
+      {
+      }
+      if(type == TypeDeclarationUtils.SIMPLE_TYPE)
+      {
+         if(!isJava)
+         {
+            return true;
+         }
+
+         if(ExtendedAttributeUtil.getAttribute(decl, CarnotConstants.CLASS_NAME_ATT) != null)
+         {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   // TODO: (fh) remove the cache, instead use an unique ResourceSet to load all the schemas (and perhaps models)
+   private static final Map<String, XSDSchema> externalSchemaCache = Collections.synchronizedMap(
+         CollectionUtils.<String, XSDSchema>newHashMap());
+
+   public static void clearSchemaCache(String key)
+   {
+      key = key.intern();
+
+      synchronized (key)
+      {
+         if (externalSchemaCache.containsKey(key))
+         {
+            externalSchemaCache.remove(key);
+         }
+      }
+   }
+
+   public static XSDSchema loadAndCacheSchema(String key, String schemaLocation,
+         String namespaceURI, ExternalReferenceType externalReference) throws IOException
+   {
+      key = key.intern();
+
+      synchronized (key)
+      {
+         if(Platform.isRunning() && !schemaLocation.toLowerCase().startsWith("http://")) //$NON-NLS-1$
+         {
+            long timeStamp = getTimeStamp(schemaLocation, externalReference);
+            if(timeStamp == 0)
+            {
+               return null;
+            }
+            key += timeStamp;
+         }
+
+         if (externalSchemaCache.containsKey(key))
+         {
+            return externalSchemaCache.get(key);
+         }
+
+         XSDSchema someSchema = getSchema(schemaLocation, namespaceURI);
+         if(someSchema != null)
+         {
+            externalSchemaCache.put(key, someSchema);
+         }
+
+         return someSchema;
+      }
+   }
+
+   public static long getTimeStamp(String location, ExternalReferenceType externalReference)
+   {
+      List<IResourceResolver> resourceResolvers = ModelUtils.getResourceResolvers();
+      for (IResourceResolver resolver : resourceResolvers)
+      {
+         long modificationTime = resolver.getLastModificationTime(location, externalReference);
+         if (0L != modificationTime)
+         {
+            return modificationTime;
+         }
+      }
+
+      return 0L;
+   }
+
+   public static void clearExternalSchemaCache()
+   {
+      externalSchemaCache.clear();
    }
 }

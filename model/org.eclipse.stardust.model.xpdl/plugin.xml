@@ -15,6 +15,7 @@
 <plugin>
   <extension-point id="modelAdapterFactory" name="Model Adapter Factory" schema="schema/modelAdapterFactory.exsd"/>
   <extension-point id="elementReference" name="Element Reference" schema="schema/elementReference.exsd"/>
+  <extension-point id="resourceResolver" name="Resource Resolver" schema="schema/resourceResolver.exsd"/>
     
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
@@ -51,6 +52,14 @@
         <attribute
               attributeName="carnot:engine:dataId"
               scope="data">
+        </attribute>
+     </reference>
+     <reference
+           class="org.eclipse.stardust.model.xpdl.carnot.DataType"
+           meta="primitive">           
+        <attribute
+              attributeName="carnot:engine:dataType"
+              scope="struct">
         </attribute>
      </reference>
      <reference

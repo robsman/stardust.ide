@@ -10,18 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.extensions.impl;
 
-
-import java.text.MessageFormat;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,23 +27,23 @@ import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
  * @generated
  */
 public class ExtensionFactoryImpl extends EFactoryImpl implements ExtensionFactory {
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
-	/**
+   /**
     * Creates the default factory implementation.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public static ExtensionFactory init() {
+   public static ExtensionFactory init() {
       try
       {
-         ExtensionFactory theExtensionFactory = (ExtensionFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions");  //$NON-NLS-1$
+         ExtensionFactory theExtensionFactory = (ExtensionFactory)EPackage.Registry.INSTANCE.getEFactory(ExtensionPackage.eNS_URI);
          if (theExtensionFactory != null)
          {
             return theExtensionFactory;
@@ -59,57 +56,69 @@ public class ExtensionFactoryImpl extends EFactoryImpl implements ExtensionFacto
       return new ExtensionFactoryImpl();
    }
 
-	/**
+   /**
     * Creates an instance of the factory.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public ExtensionFactoryImpl() {
+   public ExtensionFactoryImpl() {
       super();
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+   @Override
    public EObject create(EClass eClass) {
       switch (eClass.getClassifierID())
       {
          case ExtensionPackage.EXTENDED_ANNOTATION_TYPE: return createExtendedAnnotationType();
+         case ExtensionPackage.LOOP_DATA_REF_TYPE: return createLoopDataRefType();
          default:
-            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_CLASS_NULL_IS_NOT_A_VALID_CLASSIFIER, new Object[]{eClass.getName()}));
+            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public ExtendedAnnotationType createExtendedAnnotationType() {
+   public ExtendedAnnotationType createExtendedAnnotationType() {
       ExtendedAnnotationTypeImpl extendedAnnotationType = new ExtendedAnnotationTypeImpl();
       return extendedAnnotationType;
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public ExtensionPackage getExtensionPackage() {
+   public LoopDataRefType createLoopDataRefType()
+   {
+      LoopDataRefTypeImpl loopDataRefType = new LoopDataRefTypeImpl();
+      return loopDataRefType;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+    * @generated
+    */
+   public ExtensionPackage getExtensionPackage() {
       return (ExtensionPackage)getEPackage();
    }
 
-	/**
+   /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @deprecated
     * @generated
     */
-	@Deprecated
+   @Deprecated
    public static ExtensionPackage getPackage() {
       return ExtensionPackage.eINSTANCE;
    }

@@ -35,8 +35,6 @@ import org.eclipse.stardust.modeling.core.editors.figures.AbstractConnectionSymb
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.DiagramRootEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteConnectionSymbolCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
-
 
 /**
  * @author fherinean
@@ -57,12 +55,6 @@ public class OptimizeDiagramAction extends SelectionAction implements IActiveAct
          DiagramType diagram = getDiagram();
          if (diagram != null)
          {
-            WorkflowModelEditor editor = (WorkflowModelEditor) getWorkbenchPart();
-            ModelServer server = editor.getModelServer();
-            if (server != null && server.requireLock(diagram))
-            {
-               return false;
-            }
             for (Iterator itr = getDiagram().eAllContents(); itr.hasNext();)
             {
                Object item = itr.next();

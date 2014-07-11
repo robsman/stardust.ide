@@ -105,8 +105,8 @@ public class AttributeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_AttributeType_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_name_feature", "_UI_AttributeType_type"),
+             getString("_UI_AttributeType_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_name_feature", "_UI_AttributeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__NAME,
              true,
              false,
@@ -128,8 +128,8 @@ public class AttributeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_AttributeType_type_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_type_feature", "_UI_AttributeType_type"),
+             getString("_UI_AttributeType_type_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_type_feature", "_UI_AttributeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__TYPE,
              true,
              false,
@@ -151,8 +151,8 @@ public class AttributeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_AttributeType_value_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_value_feature", "_UI_AttributeType_type"),
+             getString("_UI_AttributeType_value_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_value_feature", "_UI_AttributeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__VALUE,
              true,
              false,
@@ -174,8 +174,8 @@ public class AttributeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_AttributeType_reference_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_reference_feature", "_UI_AttributeType_type"),
+             getString("_UI_AttributeType_reference_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_AttributeType_reference_feature", "_UI_AttributeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__REFERENCE,
              true,
              false,
@@ -227,7 +227,7 @@ public class AttributeTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/AttributeType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/AttributeType")); //$NON-NLS-1$
    }
 
    /**
@@ -241,8 +241,8 @@ public class AttributeTypeItemProvider
    {
       String label = ((AttributeType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_AttributeType_type") :
-         getString("_UI_AttributeType_type") + " " + label;
+         getString("_UI_AttributeType_type") : //$NON-NLS-1$
+         getString("_UI_AttributeType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -288,14 +288,14 @@ public class AttributeTypeItemProvider
             (CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
@@ -309,7 +309,7 @@ public class AttributeTypeItemProvider
             (CarnotWorkflowModelPackage.Literals.ATTRIBUTE_TYPE__MIXED,
              FeatureMapUtil.createEntry
                (XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA,
-                "")));
+                ""))); //$NON-NLS-1$
 
       newChildDescriptors.add
          (createChildParameter
@@ -351,7 +351,7 @@ public class AttributeTypeItemProvider
       if (qualify)
       {
          return getString
-            ("_UI_CreateChild_text2",
+            ("_UI_CreateChild_text2", //$NON-NLS-1$
              new Object[] { getTypeText(childObject), getFeatureText(childFeature), getTypeText(owner) });
       }
       return super.getCreateChildText(owner, feature, child, selection);

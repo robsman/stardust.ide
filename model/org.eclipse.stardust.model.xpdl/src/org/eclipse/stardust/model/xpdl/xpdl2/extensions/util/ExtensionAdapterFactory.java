@@ -15,6 +15,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.xpdl.xpdl2.extensions.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtendedAnnotationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
 import org.eclipse.xsd.XSDAnnotation;
@@ -96,6 +97,11 @@ public class ExtensionAdapterFactory extends AdapterFactoryImpl {
             return createExtendedAnnotationTypeAdapter();
          }
          @Override
+         public Adapter caseLoopDataRefType(LoopDataRefType object)
+         {
+            return createLoopDataRefTypeAdapter();
+         }
+         @Override
          public Adapter caseXSDConcreteComponent(XSDConcreteComponent object)
          {
             return createXSDConcreteComponentAdapter();
@@ -156,6 +162,21 @@ public class ExtensionAdapterFactory extends AdapterFactoryImpl {
    }
 
 	/**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType <em>Loop Data Ref Type</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.extensions.LoopDataRefType
+    * @generated
+    */
+   public Adapter createLoopDataRefTypeAdapter()
+   {
+      return null;
+   }
+
+   /**
     * Creates a new adapter for an object of class '{@link org.eclipse.xsd.XSDConcreteComponent <em>Concrete Component</em>}'.
     * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;

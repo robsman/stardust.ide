@@ -24,9 +24,11 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.ConvertGatewayUtil;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class ConvertGatewayAction extends SelectionAction
@@ -46,55 +48,43 @@ public class ConvertGatewayAction extends SelectionAction
 
    public void run()
    {
-      EObject element = null;      
+      EObject element = null;
       ProcessDefinitionType process = getProcess();
       if (process != null)
       {
          element = (EObject) process;
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);  
-            return;
-         }
          if(ConvertGatewayUtil.findStartActivity(process) == null)
          {
-            ModelServerUtils.showMessageBox(Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK);  
-            return;                           
-         }         
+            showMessageBox(Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK, Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK);
+            return;
+         }
       }
 
       ModelType model = getModel();
       if (model != null)
       {
-         element = (EObject) model;         
+         element = (EObject) model;
          for (ProcessDefinitionType process_ : model.getProcessDefinition())
          {
-            Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process_);
-            if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-            {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);  
-               return;
-            }    
             if(!process_.getActivity().isEmpty() && ConvertGatewayUtil.findStartActivity(process_) == null)
             {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK);  
-               return;               
+               showMessageBox(Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK, Diagram_Messages.MSG_INVALID_ACTIVITY_NETWORK);
+               return;
             }
-         }         
+         }
       }
-      
+
       ChangeRecorder targetRecorder = new ChangeRecorder();
       targetRecorder.beginRecording(Collections.singleton(ModelUtils.findContainingModel(element)));
-      
+
       ConvertGatewayUtil util = new ConvertGatewayUtil(element);
       util.convert();
-      
+
       if(util.isModified())
       {
          final ChangeDescription change = targetRecorder.endRecording();
          targetRecorder.dispose();
-         
+
          Command cmd = new Command()
          {
             public void execute()
@@ -111,7 +101,7 @@ public class ConvertGatewayAction extends SelectionAction
                change.applyAndReverse();
             }
          };
-         getCommandStack().execute(cmd);         
+         getCommandStack().execute(cmd);
       }
    }
 
@@ -125,7 +115,7 @@ public class ConvertGatewayAction extends SelectionAction
          {
             if(!((ProcessDefinitionType) model).getActivity().isEmpty())
             {
-               return (ProcessDefinitionType) model;               
+               return (ProcessDefinitionType) model;
             }
          }
       }
@@ -136,7 +126,7 @@ public class ConvertGatewayAction extends SelectionAction
    {
       Object selection = getSelectedObjects().get(0);
       ModelType model_ = null;
-      
+
       if (selection instanceof EditPart)
       {
          Object model = ((EditPart) selection).getModel();
@@ -145,23 +135,35 @@ public class ConvertGatewayAction extends SelectionAction
             model_ = (ModelType) model;
          }
       }
-      
+
       if(model_ != null)
       {
          if(model_.getProcessDefinition().isEmpty())
          {
             return null;
          }
-         
+
          for(ProcessDefinitionType process : model_.getProcessDefinition())
          {
             if(!process.getActivity().isEmpty())
             {
                return model_;
-            }            
+            }
          }
-      }      
-      
+      }
+
       return null;
-   }   
+   }
+
+   private void showMessageBox(String message, String title)
+   {
+      if (Display.getDefault().getActiveShell() != null)
+      {
+         MessageBox messageBox = new MessageBox(Display.getDefault().getActiveShell(),
+               SWT.ICON_WARNING | SWT.OK);
+         messageBox.setText(title);
+         messageBox.setMessage(message);
+         messageBox.open();
+      }
+   }
 }

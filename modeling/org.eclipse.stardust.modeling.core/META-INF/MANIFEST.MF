@@ -33,7 +33,6 @@ Export-Package: org.eclipse.stardust.modeling.core,
  org.eclipse.stardust.modeling.core.highlighting,
  org.eclipse.stardust.modeling.core.jobs,
  org.eclipse.stardust.modeling.core.marker,
- org.eclipse.stardust.modeling.core.modelserver,
  org.eclipse.stardust.modeling.core.properties,
  org.eclipse.stardust.modeling.core.properties.icons,
  org.eclipse.stardust.modeling.core.spi,
@@ -105,7 +104,8 @@ Require-Bundle: org.eclipse.xsd,
  org.eclipse.core.filesystem,
  org.eclipse.emf.common.ui,
  org.eclipse.stardust.modeling.deploy,
- org.eclipse.stardust.ide.thirdparty.cxf
+ org.eclipse.stardust.ide.thirdparty.cxf,
+ org.eclipse.stardust.ide.thirdparty.runtime.xml
 Eclipse-AutoStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

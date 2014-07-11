@@ -71,7 +71,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveNod
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.MoveSymbolCommandUtils;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetSymbolContainerCommand;
 import org.eclipse.stardust.modeling.core.editors.tools.SnapCenterToGrid;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
@@ -84,11 +83,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
 {
-   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;   
+   private static CarnotWorkflowModelPackage PKG = CarnotWorkflowModelPackage.eINSTANCE;
    private Request request = null;
-   
+
    // we need the request for the mouse location
-   protected Command getAddCommand(Request generic) 
+   protected Command getAddCommand(Request generic)
    {
       request = generic;
       Command command = super.getAddCommand(generic);
@@ -101,7 +100,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
    {
       return request;
    }
-   
+
    protected Command createAddCommand(EditPart child, Object constraint)
    {
       return createChangeConstraintCommand(child, constraint);
@@ -146,41 +145,34 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       }
       else
       {
-         PoolLaneUtils.setResizeFlags(-1);         
+         PoolLaneUtils.setResizeFlags(-1);
       }
       // can't resize symbolgroup
-      if(type.equals(REQ_RESIZE_CHILDREN) && target instanceof SymbolGroupEditPart)         
+      if(type.equals(REQ_RESIZE_CHILDREN) && target instanceof SymbolGroupEditPart)
       {
          return result;
       }
-      
+
       // absolute mouse location
       Point mouseLocation = new Point(0, 0);
       if(request.getLocation() != null)
       {
-         mouseLocation = request.getLocation().getCopy();         
+         mouseLocation = request.getLocation().getCopy();
       }
-      Point viewPortPoint = PoolLaneUtils.findViewportPoint((GraphicalEditPart) target); 
+      Point viewPortPoint = PoolLaneUtils.findViewportPoint((GraphicalEditPart) target);
       mouseLocation.performTranslate(viewPortPoint.x, viewPortPoint.y);
-      
+
       // new code accepting collisions
       boolean isColliding = MoveSymbolCommandUtils.isSymbolCollision(changedParts,
             getHost(), target, constraint);
 
-      DiagramType diagram = ModelUtils.findContainingDiagram((IGraphicalObject) target.getModel());      
+      DiagramType diagram = ModelUtils.findContainingDiagram((IGraphicalObject) target.getModel());
       if(diagram == null)
       {
          return result;
       }
       OrientationType direction = diagram.getOrientation();
-      
-      // collision: diagram (or process) must be locked, if model is shared
-      Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) diagram);
-      if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-      {
-         return result;         
-      }      
-      
+
       // BPMN Mode on Process Diagram
       if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
             && DiagramUtil.getDefaultPool(diagram) != null)
@@ -197,7 +189,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             {
                return result;
             }
-         }         
+         }
       }
 
       // default Pool should not be moved, only resized
@@ -208,7 +200,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       {
          return result;
       }
-      
+
       final Rectangle boundsRect = ((Rectangle) constraint).getCopy();
       if (REQ_RESIZE_CHILDREN.equals(type) && target instanceof LaneEditPart)
       {
@@ -218,14 +210,14 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
          if(laneFigure.isCollapsed())
          {
             return result;
-         }  
+         }
          // in BPMN Mode we can decrease a Lane (we have lanes only in a process diagram)
          if(!diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL))
-         {         
+         {
             setLaneBoundsToMinSize(boundsRect, (LaneEditPart) target, !isColliding);
          }
       }
-      
+
       // a lane cannot be placed on the diagram
       if(getHost() instanceof DiagramEditPart && target instanceof LaneEditPart)
       {
@@ -234,20 +226,20 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       // when moving a lane we use the mouse location as target location
       if(target instanceof LaneEditPart
             && (!REQ_RESIZE_CHILDREN.equals(type)))
-      {   
-         mouseLocation = PoolLaneUtils.getLocation((GraphicalEditPart) target.getParent(), 
+      {
+         mouseLocation = PoolLaneUtils.getLocation((GraphicalEditPart) target.getParent(),
                ((AbstractSwimlaneEditPart) getHost()).getSwimlaneFigure(), mouseLocation, false);
       }
       if(isColliding)
       {
          return result;
       }
-      
+
       ChangeConstraintCommand cmd = new ChangeConstraintCommand();
       cmd.setTarget(target);
       cmd.setHost(getHost());
-      
-      cmd.setColliding(isColliding);    
+
+      cmd.setColliding(isColliding);
       cmd.setPart((INodeSymbol) target.getModel());
       if (REQ_MOVE_CHILDREN.equals(type) || REQ_MOVE.equals(type)
             || REQ_ALIGN_CHILDREN.equals(type) || REQ_ALIGN.equals(type))
@@ -257,11 +249,11 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                && DiagramUtil.getDefaultPool(diagram) != null
                && target instanceof LaneEditPart)
          {
-            cmd.setLocation(mouseLocation);         
+            cmd.setLocation(mouseLocation);
          }
          else
          {
-            cmd.setLocation(boundsRect.getLocation().getCopy());            
+            cmd.setLocation(boundsRect.getLocation().getCopy());
          }
       }
       else
@@ -274,7 +266,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             && DiagramUtil.getDefaultPool(diagram) != null)
       {
          if(target instanceof AbstractSwimlaneEditPart)
-         {      
+         {
             // no snap to grid for lanes
             cmd.setSnapToGrid(false);
          }
@@ -287,12 +279,12 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
          if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
                && DiagramUtil.getDefaultPool(diagram) != null)
          {
-            final EditPart host = getHost();            
+            final EditPart host = getHost();
             // do not move a symbol into the diagram
             if(host instanceof DiagramEditPart)
             {
                return UnexecutableCommand.INSTANCE;
-            }            
+            }
             if(host instanceof AbstractSwimlaneEditPart)
             {
                result = result.chain(new DelegatingCommand()
@@ -301,8 +293,8 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   {
                      return PoolLaneUtils.resizeLane((AbstractSwimlaneEditPart) host);
                   }
-               });               
-               // here children of siblings must be ordered (if there are any)    
+               });
+               // here children of siblings must be ordered (if there are any)
                result = result.chain(new DelegatingCommand()
                {
                   public Command createDelegate()
@@ -313,7 +305,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             }
          }
          return result;
-      }   
+      }
       // for old models
       if(!diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
             && DiagramUtil.getDefaultPool(diagram) != null)
@@ -322,60 +314,60 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       }
       // size of the current lane
       Rectangle targetRectangle = GenericUtils.getSymbolRectangle(target);
-      // decrease a single lane inside a container must decrease all other lanes in this container, 
+      // decrease a single lane inside a container must decrease all other lanes in this container,
       // otherwise we take the biggest lane in the container for all other lanes in this container
       // this depends on orientation
       final Integer changeChildLanes;
       // can we resize a container with collapsed lanes
       boolean canChange = true;
-      
+
       // special case if new container has no lanes but symbols
       // the size must be at least the size of the container or bigger if a bigger lane is inserted
       // OR
       // special case if container is empty and bigger than new lane, then the lane must grow
       Rectangle containerBounds = GenericUtils.getSymbolRectangle(getHost());
-      if(REQ_ADD.equals(type) 
+      if(REQ_ADD.equals(type)
             && (PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) getHost())
             || !PoolLaneUtils.containsLanes((AbstractSwimlaneEditPart) getHost())))
       {
          if (OrientationType.VERTICAL_LITERAL.equals(direction))
-         {                        
+         {
             if(containerBounds.height > boundsRect.height)
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_CONTAINER_SIZE);            
-            }                
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_CONTAINER_SIZE);
+            }
             else
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);            
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);
             }
          }
          else
          {
             if(containerBounds.width > boundsRect.width)
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_CONTAINER_SIZE);            
-            }         
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_CONTAINER_SIZE);
+            }
             else
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);            
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);
             }
-         }  
+         }
       }
       else
       {
          if (OrientationType.VERTICAL_LITERAL.equals(direction))
-         {                        
+         {
             if(targetRectangle.width != boundsRect.width)
             {
                canChange = false;
-            }         
+            }
             if(targetRectangle.height > boundsRect.height)
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MINSIZE);            
-            }                
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MINSIZE);
+            }
             else
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);            
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);
             }
          }
          else
@@ -383,16 +375,16 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             if(targetRectangle.height != boundsRect.height)
             {
                canChange = false;
-            }         
+            }
             if(targetRectangle.width > boundsRect.width)
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MINSIZE);            
-            }         
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MINSIZE);
+            }
             else
             {
-               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);            
+               changeChildLanes = new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE);
             }
-         }          
+         }
       }
       // BPMN Mode on Process Diagram
       if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL)
@@ -400,31 +392,31 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       {
          if(REQ_RESIZE_CHILDREN.equals(type))
          {
-            // cannot resize container with only collapsed lanes 
+            // cannot resize container with only collapsed lanes
             // direction depends on orientation (flag canChange)
             if(!PoolLaneUtils.canChange(target) && !canChange)
             {
                return UnexecutableCommand.INSTANCE;
-            }            
+            }
          }
          if (REQ_MOVE_CHILDREN.equals(type) || REQ_MOVE.equals(type)
                || REQ_ALIGN_CHILDREN.equals(type) || REQ_ALIGN.equals(type))
          {
             // moving a Lane inside the same container
-            if(target instanceof LaneEditPart && PoolLaneUtils.containsLanes(getHost()) 
+            if(target instanceof LaneEditPart && PoolLaneUtils.containsLanes(getHost())
                   && !PoolLaneUtils.isSensitiveArea((AbstractSwimlaneEditPart) getHost(), mouseLocation))
             {
-               return UnexecutableCommand.INSTANCE;               
+               return UnexecutableCommand.INSTANCE;
             }
-         }  
+         }
          // targetRectangle has the old size
          int newWidthSpace = boundsRect.width - targetRectangle.width;
          int newHeightSpace = boundsRect.height - targetRectangle.height;
          // check for collision if this is an decrease resize
-         if(REQ_RESIZE_CHILDREN.equals(type) 
+         if(REQ_RESIZE_CHILDREN.equals(type)
                && (newWidthSpace < 0 || newHeightSpace < 0))
          {
-            int[] newSpace = new int[] {newWidthSpace, newHeightSpace};    
+            int[] newSpace = new int[] {newWidthSpace, newHeightSpace};
             // no collision in any container
             EditPart poolEP = PoolLaneUtils.getPoolEditPart(target);
             if(PoolLaneUtils.hasCollision(poolEP, (AbstractSwimlaneEditPart) target, newSpace))
@@ -437,9 +429,9 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             {
                return UnexecutableCommand.INSTANCE;
             }
-         }         
+         }
          // old size of container
-         final int[] oldSize = new int[] {targetRectangle.width, targetRectangle.height};    
+         final int[] oldSize = new int[] {targetRectangle.width, targetRectangle.height};
          // last step for default Pool (move to 0, 0) after resize
          final EditPart parentEP = target.getParent();
          if(target instanceof PoolEditPart)
@@ -450,12 +442,12 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                {
                   return PoolLaneUtils.moveDefaultPool((PoolEditPart) target);
                }
-            }); 
+            });
             // change all child lanes
             result = result.chain(new DelegatingCommand()
             {
                public Command createDelegate()
-               {                  
+               {
                   return PoolLaneUtils.resizeChildLanes(((AbstractSwimlaneEditPart) target), oldSize);
                }
             });
@@ -467,27 +459,10 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) target, changeChildLanes);
                }
             });
-            // move children symbols            
+            // move children symbols
             if(PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) target))
             {
-               final int[] newSpace = new int[] {newWidthSpace, newHeightSpace};   
-               result = result.chain(new DelegatingCommand()
-               {
-                  public Command createDelegate()
-                  {
-                     return PoolLaneUtils.checkMoveChildren(((AbstractSwimlaneEditPart) target), newSpace);
-                  }
-               });               
-            }
-            return result;         
-         }
-         // resize
-         if (REQ_RESIZE_CHILDREN.equals(type))
-         {   
-            // if lane contains symbols, the symbols may be moved
-            if(PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) target))
-            {            
-               final int[] newSpace = new int[] {newWidthSpace, newHeightSpace};    
+               final int[] newSpace = new int[] {newWidthSpace, newHeightSpace};
                result = result.chain(new DelegatingCommand()
                {
                   public Command createDelegate()
@@ -495,7 +470,24 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                      return PoolLaneUtils.checkMoveChildren(((AbstractSwimlaneEditPart) target), newSpace);
                   }
                });
-            }                                    
+            }
+            return result;
+         }
+         // resize
+         if (REQ_RESIZE_CHILDREN.equals(type))
+         {
+            // if lane contains symbols, the symbols may be moved
+            if(PoolLaneUtils.containsOthers((AbstractSwimlaneEditPart) target))
+            {
+               final int[] newSpace = new int[] {newWidthSpace, newHeightSpace};
+               result = result.chain(new DelegatingCommand()
+               {
+                  public Command createDelegate()
+                  {
+                     return PoolLaneUtils.checkMoveChildren(((AbstractSwimlaneEditPart) target), newSpace);
+                  }
+               });
+            }
             // change child lanes
             result = result.chain(new DelegatingCommand()
             {
@@ -511,7 +503,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) parentEP, changeChildLanes);
                }
             });
-            // here children of siblings must be ordered (if there are any) 
+            // here children of siblings must be ordered (if there are any)
             result = result.chain(new DelegatingCommand()
             {
                public Command createDelegate()
@@ -522,7 +514,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
          }
          else
          {
-            // move lane           
+            // move lane
             // move lane into new container and out of old one (ADD CHILDREN)
             Integer childLanesFlag = changeChildLanes;
             if(!parentEP.equals(getHost()))
@@ -535,7 +527,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   // new Bounds for the ADD CHILDREN request
                   Rectangle moveBounds = boundsRect.getCopy();
                   // for the creation of the default lane
-                  Point createLocation;    
+                  Point createLocation;
                   // location of both lanes depends on where the mouse is
                   if (OrientationType.VERTICAL_LITERAL.equals(direction))
                   {
@@ -562,19 +554,19 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                         createLocation = new Point(0, 0);
                         moveBounds.y = containerBounds.height - 1;
                      }
-                  }                           
+                  }
                   if (OrientationType.VERTICAL_LITERAL.equals(direction))
                   {
-                     if(containerBounds.height > moveBounds.height) 
-                     { 
-                        moveBounds.height = containerBounds.height; 
+                     if(containerBounds.height > moveBounds.height)
+                     {
+                        moveBounds.height = containerBounds.height;
                      }
                   }
                   else
                   {
                      if(containerBounds.width > moveBounds.width)
-                     { 
-                        moveBounds.width = containerBounds.width; 
+                     {
+                        moveBounds.width = containerBounds.width;
                      }
                   }
                   ((ChangeConstraintCommand) oldCommand).setBounds(moveBounds);
@@ -585,8 +577,8 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   result = result.chain(new DelegatingCommand()
                   {
                      public Command createDelegate()
-                     { 
-                        return moveCommand; 
+                     {
+                        return moveCommand;
                      }
                   });
                }
@@ -598,11 +590,11 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             result = result.chain(new DelegatingCommand()
             {
                public Command createDelegate()
-               {                   
+               {
                   return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) host, useFlag);
                }
-            });             
-            // here children of siblings must be ordered (if there are any)    
+            });
+            // here children of siblings must be ordered (if there are any)
             result = result.chain(new DelegatingCommand()
             {
                public Command createDelegate()
@@ -620,7 +612,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   {
                      return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) parentEP, new Integer(PoolLaneUtils.CHILD_LANES_SAME_SIZE));
                   }
-               });            
+               });
             }
             // child lane may have grown
             result = result.chain(new DelegatingCommand()
@@ -628,10 +620,10 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                public Command createDelegate()
                {
                   return PoolLaneUtils.reorderChildLanes((AbstractSwimlaneEditPart) target, new Integer(PoolLaneUtils.CHILD_LANES_CONTAINER_SIZE));
-               }               
+               }
             });
          }
-      }      
+      }
       return result;
    }
 
@@ -743,8 +735,8 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
    protected Command getCreateCommand(CreateRequest request)
    {
       // set resize flags
-      PoolLaneUtils.setResizeFlags(-1);      
-      CreateSymbolCommand createSymbolCommand = null;               
+      PoolLaneUtils.setResizeFlags(-1);
+      CreateSymbolCommand createSymbolCommand = null;
       Command requestCommand = (Command) request.getNewObject();
       if(requestCommand instanceof CompoundCommand)
       {
@@ -755,7 +747,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             if(singleCommand instanceof CreateSymbolCommand)
             {
                createSymbolCommand = (CreateSymbolCommand) singleCommand;
-               break;                           
+               break;
             }
          }
       }
@@ -763,45 +755,45 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
       {
          createSymbolCommand = (CreateSymbolCommand) requestCommand;
       }
-      
+
       Command result = UnexecutableCommand.INSTANCE;
-      
+
       if (createSymbolCommand == null)
       {
          return result;
       }
-      
+
       DiagramType diagram = null;
       if(getHost().getModel() instanceof DiagramType)
       {
          diagram = (DiagramType) getHost().getModel();
       }
       else
-      {                  
-         diagram = ModelUtils.findContainingDiagram((IGraphicalObject) getHost().getModel());      
+      {
+         diagram = ModelUtils.findContainingDiagram((IGraphicalObject) getHost().getModel());
       }
       boolean isLane = false;
       EClass eClass = createSymbolCommand.getEClass();
       if(eClass.equals(PKG.getLaneSymbol()))
-      {                     
+      {
          isLane = true;
-      }      
-      
+      }
+
       if (request.getNewObject() instanceof IDiagramCommand)
       {
-         boolean mustCreatedefaultLane = false;         
+         boolean mustCreatedefaultLane = false;
          if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL) && isLane)
          {
             if(!(getHost().getModel() instanceof DiagramType))
             {
                // create default lane if container contains no lane but other symbols
-               if(!(PoolLaneUtils.containsLanes(getHost())) 
+               if(!(PoolLaneUtils.containsLanes(getHost()))
                      && getHost().getChildren().size() > 0)
                {
-                  mustCreatedefaultLane = true;            
+                  mustCreatedefaultLane = true;
                }
             }
-         }         
+         }
          if (mustCreatedefaultLane)
          {
             result = getCreateDefaultLaneCommand(request, null);
@@ -820,7 +812,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
          // to have the middle of the mouse as the center of the new symbol after creation
          result = result.chain(getMoveSymbolToCenterCommand(
                (AbstractGraphicalEditPart) getHost(), command));
-         if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL) && 
+         if(diagram.getMode().equals(DiagramModeType.MODE_450_LITERAL) &&
                getHost() instanceof AbstractSwimlaneEditPart)
          {
             if(isLane)
@@ -832,7 +824,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                      // reorder 1st children, then resize parent, and then the same with the next parent
                      return PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) getHost(), new Integer(PoolLaneUtils.CHILD_LANES_MAXSIZE));
                   }
-               });               
+               });
             }
             else
             {
@@ -844,7 +836,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                   }
                });
             }
-            // here children of siblings must be ordered (if there are any)   
+            // here children of siblings must be ordered (if there are any)
             result = result.chain(new DelegatingCommand()
             {
                public Command createDelegate()
@@ -884,15 +876,15 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
          diagram = (DiagramType) container;
       }
       else
-      {                  
-         diagram = ModelUtils.findContainingDiagram((IGraphicalObject) container);      
-      }      
+      {
+         diagram = ModelUtils.findContainingDiagram((IGraphicalObject) container);
+      }
       OrientationType direction = diagram.getOrientation();
-      
-      WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();            
+
+      WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
       AbstractSwimlaneEditPart abstractSwimlaneEP = (AbstractSwimlaneEditPart) editor.findEditPart(container);
       Rectangle containerBounds = GenericUtils.getSymbolRectangle(abstractSwimlaneEP);
-      
+
       // if new location is not null we have already the new location
       if(newLocation == null)
       {
@@ -917,12 +909,12 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             {
                bounds.y = containerBounds.height - 1;
             }
-         }         
+         }
       }
       // sets only the location
       command.setLocation(bounds);
       compoundCommand.add((Command) command);
-      
+
       // add symbols
       compoundCommand.add(new DelegatingCommand()
       {
@@ -978,12 +970,12 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                });
                command.add(moveSymbolsCmd);
             }
-            
+
          }
       }
       return command;
    }
-   
+
    private Command getMoveSymbolToCenterCommand(final AbstractGraphicalEditPart host,
          final IDiagramCommand command)
    {
@@ -997,8 +989,8 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             {
                AbstractNodeSymbolEditPart part = getCreatedPart(host, symbol);
                // get size for new Symbol and set size
-               Figure figure = (Figure) part.getFigure();               
-               Dimension prefSize = figure.getPreferredSize();               
+               Figure figure = (Figure) part.getFigure();
+               Dimension prefSize = figure.getPreferredSize();
                Dimension size = SnapGridUtils.getSnapDimension(prefSize, host, 2, true);
                if(!(figure instanceof ActivitySymbolFigure))
                {
@@ -1017,23 +1009,23 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                      }
                      if(change)
                      {
-                        size = SnapGridUtils.getSnapDimension(prefSize, host, 2, true);                        
+                        size = SnapGridUtils.getSnapDimension(prefSize, host, 2, true);
                      }
                   }
                }
-               
+
                Point newLocation = new Point(new Long(symbol.getXPos()).intValue()
                      - size.width / 2, new Long(symbol.getYPos()).intValue()
-                     - size.height / 2);               
-               // set only if snaptogrid is enabled?               
+                     - size.height / 2);
+               // set only if snaptogrid is enabled?
                if(SnapGridUtils.getSnapToHelper(host) != null)
                {
                   symbol.setWidth(size.width);
-                  symbol.setHeight(size.height);                   
+                  symbol.setHeight(size.height);
                }
                // new location if snaptogrid is enabled
-               Point setLocation = SnapGridUtils.getSnapLocation(host, part, null, size, 
-                     newLocation);    
+               Point setLocation = SnapGridUtils.getSnapLocation(host, part, null, size,
+                     newLocation);
                MoveNodeSymbolCommand moveCommand = new MoveNodeSymbolCommand();
                moveCommand.setPart(symbol);
                moveCommand.setLocation(setLocation);
@@ -1044,13 +1036,13 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
                AbstractNodeSymbolEditPart part = getCreatedPart(host, symbol);
                // get size for new Symbol and set size
                Dimension size = SnapGridUtils.getSnapDimension(
-                     ((Rectangle) GenericUtils.getSymbolRectangle(part)).getSize(), 
+                     ((Rectangle) GenericUtils.getSymbolRectangle(part)).getSize(),
                      host, 1, true);
-               // set only if snaptogrid is enabled?               
+               // set only if snaptogrid is enabled?
                if(SnapGridUtils.getSnapToHelper(host) != null)
                {
                   symbol.setWidth(size.width);
-                  symbol.setHeight(size.height);                   
+                  symbol.setHeight(size.height);
                }
             }
             return cmd;
@@ -1105,7 +1097,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
 
       return moveCommand;
    }
-   
+
    public static AbstractNodeSymbolEditPart getCreatedPart(
          AbstractGraphicalEditPart host, INodeSymbol symbol)
    {
@@ -1131,7 +1123,7 @@ public class SymbolContainerLayoutEditPolicy extends XYLayoutEditPolicy
             {
                symbolPart = (AbstractNodeSymbolEditPart) child;
             }
-         }         
+         }
       }
       return symbolPart;
    }

@@ -17,7 +17,6 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.stardust.common.StringUtils;
@@ -38,7 +37,7 @@ import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 
 /**
- * 
+ *
  * @author herinean
  * @version $Revision$
  */
@@ -53,7 +52,7 @@ public class SessionBean30Validator implements IModelElementValidator
    {
       model = (ModelType) element.eContainer();
       List<Issue> result = new ArrayList<Issue>();
-      
+
       if (element instanceof ApplicationType)
       {
          ApplicationType sessionBean = (ApplicationType) element;
@@ -67,7 +66,7 @@ public class SessionBean30Validator implements IModelElementValidator
    private void checkInterface(List<Issue> result, ApplicationType sessionBean)
    {
       TypeFinder typeFinder = new TypeFinder(sessionBean);
-      
+
       String className = AttributeUtil.getAttributeValue(sessionBean, PredefinedConstants.REMOTE_INTERFACE_ATT);
       className = VariableContextHelper.getInstance().getContext(model)
             .replaceAllVariablesByDefaultValue(className);
@@ -79,7 +78,7 @@ public class SessionBean30Validator implements IModelElementValidator
       }
       else
       {
-         IType rType = typeFinder.findExactType(className);
+         TypeInfo rType = typeFinder.findType(className);
          if (null == rType)
          {
             result.add(Issue.error(sessionBean, MessageFormat.format(
@@ -105,18 +104,17 @@ public class SessionBean30Validator implements IModelElementValidator
             .replaceAllVariablesByDefaultValue(className);
       if (!StringUtils.isEmpty(className))
       {
-         IType rType = typeFinder.findExactType(className);
-         if (null == rType)
+         TypeInfo type = typeFinder.findType(className);
+         if (null == type)
          {
             result.add(Issue.error(sessionBean, MessageFormat.format(
-               Validation_Messages.MSG_ClassCanNotBeResolved, new Object[] {className}),
+               Validation_Messages.MSG_ClassCanNotBeResolved, className),
                PredefinedConstants.CLASS_NAME_ATT));
          }
          else
          {
             try
             {
-               TypeInfo type = new TypeInfo(typeFinder, rType, null);
                TypeDeclaration td = MyASTVisitor.findTypeDeclaration(type);
                Annotation stateless = MyASTVisitor.getAnnotation(type, td, Stateless.class);
                Annotation stateful = MyASTVisitor.getAnnotation(type, td, Stateful.class);
@@ -136,7 +134,7 @@ public class SessionBean30Validator implements IModelElementValidator
    }
 
    private void checkMethod(List<Issue> result, ApplicationType sessionBean,
-         TypeFinder typeFinder, IType rType, String className, String attributeName)
+         TypeFinder typeFinder, TypeInfo rType, String className, String attributeName)
    {
       String method = AttributeUtil.getAttributeValue(sessionBean, attributeName);
       if (!StringUtils.isEmpty(method))
@@ -153,7 +151,7 @@ public class SessionBean30Validator implements IModelElementValidator
 
    private void checkJndiPath(List<Issue> result, IExtensibleElement element)
    {
-      String jndiPath = AttributeUtil.getAttributeValue(element, PredefinedConstants.JNDI_PATH_ATT); 
+      String jndiPath = AttributeUtil.getAttributeValue(element, PredefinedConstants.JNDI_PATH_ATT);
       if (jndiPath == null || jndiPath.trim().length() == 0)
       {
          result.add(Issue.warning((IModelElement) element, MessageFormat.format(

@@ -16,57 +16,45 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
+import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.util.IdFactory;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
+import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.TableEditorTraverseManager;
+import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
+import org.eclipse.stardust.modeling.core.editors.ui.TypeSelectionComposite;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.data.structured.StructContentProvider;
 import org.eclipse.stardust.modeling.data.structured.StructLabelProvider;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
+import org.eclipse.stardust.modeling.validation.util.FieldInfo;
+import org.eclipse.stardust.modeling.validation.util.TypeFinder;
+import org.eclipse.stardust.modeling.validation.util.TypeInfo;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Item;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.xsd.XSDConstrainingFacet;
-import org.eclipse.xsd.XSDEnumerationFacet;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDMaxLengthFacet;
-import org.eclipse.xsd.XSDMinLengthFacet;
-import org.eclipse.xsd.XSDPatternFacet;
-import org.eclipse.xsd.XSDRepeatableFacet;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.swt.events.*;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.xsd.*;
 
 public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    implements IDataPropertyPage
 {
    private static final String NEW_ELEMENT_PLACEHOLDER = Structured_Messages.SimpleTypePropertyPage_NewFacetPlaceholder;
-   
+
    private TableViewer viewer;
 
    private StructLabelProvider labelProvider;
@@ -80,7 +68,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    private Button moveDownButton;
 
    private TypeDeclarationType declaration;
-   
+
    private XSDSimpleTypeDefinition type;
 
    private Text maxLengthText;
@@ -91,28 +79,58 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
 
    private Button patternedRadioButton;
 
+   private Button javaEnumRadioButton;
+
    private Label baseTypeLabel;
+
+   private Label maxLengthLabel;
+
+   private Label minLengthLabel;
+
+   private LabeledText classText;
+
+   private TypeSelectionComposite classBrowser;
+
+   private ModifyListener listener = new ModifyListener()
+   {
+      @Override
+      public void modifyText(ModifyEvent ev)
+      {
+         removeEnumerations();
+         TypeInfo itype = classBrowser.getType();
+         if (itype != null)
+         {
+            setJavaType(itype);
+         }
+         viewer.refresh();
+         validateClass();
+      }
+   };
+
+   private TypeFinder finder;
+
+   private String enumName;
 
    public void performDefaults()
    {
       type = (XSDSimpleTypeDefinition) TypeDeclarationUtils.getSimpleType(declaration);
-      setRadioButtons(type);      
+      setRadioButtons(type);
       try
       {
-         super.performDefaults();         
+         super.performDefaults();
       }
       catch(Exception e)
       {
-         
+
       }
-      
+
       viewer.refresh(getModelElement());
       validateAll();
-   }      
-   
+   }
+
    public static final boolean isNewType(XSDConstrainingFacet candidate)
    {
-      return NEW_ELEMENT_PLACEHOLDER == candidate.getLexicalValue();     
+      return NEW_ELEMENT_PLACEHOLDER == candidate.getLexicalValue();
    }
 
    public void apply()
@@ -124,7 +142,12 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    {
       declaration = (TypeDeclarationType) getElement().getAdapter(EObject.class);
       type = (XSDSimpleTypeDefinition) TypeDeclarationUtils.getSimpleType(declaration);
-      
+
+      finder = new TypeFinder(declaration);
+      classBrowser.setTypeFinder(finder);
+      classBrowser.setModel((ModelType) declaration.eContainer().eContainer());
+      classBrowser.setFilter(Enum.class);
+
       String namespace = type.getTargetNamespace();
       XSDTypeDefinition baseType = type.getBaseType();
       String label = baseType.getName();
@@ -134,54 +157,87 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          label = label + " (" + namespace + ")"; //$NON-NLS-1$ //$NON-NLS-2$
       }
       baseTypeLabel.setText(label);
-      
+
       XSDMaxLengthFacet maxLength = type.getMaxLengthFacet();
       if (maxLength != null)
       {
          maxLengthText.setText(new Integer(maxLength.getValue()).toString());
       }
-      
+
       XSDMinLengthFacet minLength = type.getMinLengthFacet();
       if (minLength != null)
       {
          minLengthText.setText(new Integer(minLength.getValue()).toString());
       }
-      
+
       setRadioButtons(type);
-      
+
       boolean isInternal = TypeDeclarationUtils.isInternalSchema(declaration);
-      if (isInternal)
+      boolean javaBound = isJavaBound();
+      if (isInternal && !javaBound)
       {
          contentProvider.setNewElement(type, createNewElement());
       }
+
       enumerationRadioButton.setEnabled(enumerationRadioButton.getSelection() || isInternal);
       patternedRadioButton.setEnabled(patternedRadioButton.getSelection() || isInternal);
+      javaEnumRadioButton.setEnabled(javaEnumRadioButton.getSelection() || isInternal);
+
       minLengthText.setEditable(isInternal);
       maxLengthText.setEditable(isInternal);
       viewer.setInput(declaration);
       updateButtons();
+
+      setJavaBound(javaBound);
+      if (javaBound)
+      {
+         enumName = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
+         initJavaType(enumName);
+      }
+      validateClass();      
    }
-   
+
+   private void initJavaType(String enumName)
+   {
+      TypeInfo enumType = finder.findType(enumName);
+      if (enumType == null)
+      {
+         classBrowser.setTypeText(enumName);
+      }
+      else
+      {
+         classBrowser.setType(enumType);
+      }
+   }
+
    private void setRadioButtons(XSDSimpleTypeDefinition type)
    {
-      if (type.getPatternFacets().isEmpty()
+      if (isJavaBound())
+      {
+         javaEnumRadioButton.setSelection(true);
+         enumerationRadioButton.setSelection(false);
+         patternedRadioButton.setSelection(false);
+      }
+      else if (type.getPatternFacets().isEmpty()
             || !type.getEnumerationFacets().isEmpty())
       {
          enumerationRadioButton.setSelection(true);
-         patternedRadioButton.setSelection(false);         
+         patternedRadioButton.setSelection(false);
+         javaEnumRadioButton.setSelection(false);
       }
       else
       {
          patternedRadioButton.setSelection(true);
          enumerationRadioButton.setSelection(false);
+         javaEnumRadioButton.setSelection(false);
       }
-   }      
-   
+   }
+
    private XSDConstrainingFacet createNewElement()
    {
-      XSDConstrainingFacet facet = enumerationRadioButton.getSelection()
-         ? (XSDConstrainingFacet) XSDFactory.eINSTANCE.createXSDEnumerationFacet()
-         : XSDFactory.eINSTANCE.createXSDPatternFacet();         
+      XSDConstrainingFacet facet = patternedRadioButton.getSelection()
+         ? XSDFactory.eINSTANCE.createXSDPatternFacet()
+         : (XSDConstrainingFacet) XSDFactory.eINSTANCE.createXSDEnumerationFacet();
       facet.setLexicalValue(NEW_ELEMENT_PLACEHOLDER);
       return facet;
    }
@@ -198,13 +254,39 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
 
    public Control createBody(Composite parent)
    {
-      Composite composite = FormBuilder.createComposite(parent, 3);
-      
+      Composite composite = FormBuilder.createComposite(parent, 4);
+
       FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_BaseTypeLabel);
-      baseTypeLabel = FormBuilder.createLabel(composite, "", 2); //$NON-NLS-1$
+      baseTypeLabel = FormBuilder.createLabel(composite, "", 3); //$NON-NLS-1$
 
       FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
       enumerationRadioButton = FormBuilder.createRadioButton(composite, Structured_Messages.SimpleTypePropertyPage_EnumerationButtonLabel);
+      patternedRadioButton = FormBuilder.createRadioButton(composite, Structured_Messages.SimpleTypePropertyPage_PatternedButtonLabel);
+      javaEnumRadioButton = FormBuilder.createRadioButton(composite, Structured_Messages.SimpleTypePropertyPage_JavaBound);
+
+      maxLengthLabel = FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_MaxLengthLabel);
+      maxLengthText = FormBuilder.createText(composite, 3);
+
+      minLengthLabel = FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_MinLengthLabel);
+      minLengthText = FormBuilder.createText(composite, 3);
+
+      LabelWithStatus classLabel = FormBuilder.createLabelWithRightAlignedStatus(
+            composite, Structured_Messages.SimpleTypePropertyPage_EnumClass);
+      classBrowser = new TypeSelectionComposite(composite, Structured_Messages.SimpleTypePropertyPage_JavaEnumClass, 3);
+      classText = new LabeledText(classBrowser.getText(), classLabel);
+      exclude(true, classBrowser.getText().getParent(), classText.getLabel());
+
+      Table table = FormBuilder.createTable(composite, SWT.SINGLE | SWT.FULL_SELECTION
+            | SWT.BORDER, StructLabelProvider.SIMPLE_TYPE_COLUMNS, new int[] {99}, 4);
+      table.setHeaderVisible(true);
+      viewer = new TableViewer(table);
+      viewer.setUseHashlookup(true);
+      labelProvider = new StructLabelProvider();
+      contentProvider = new StructContentProvider(false);
+      viewer.setContentProvider(contentProvider);
+      viewer.setLabelProvider(labelProvider);
+      viewer.setColumnProperties(StructLabelProvider.SIMPLE_TYPE_COLUMNS);
+
       enumerationRadioButton.addSelectionListener(new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e)
@@ -220,11 +302,12 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
                {
                   contentProvider.setNewElement(type, createNewElement());
                }
+               setJavaBound(false);
                viewer.refresh();
             }
          }
       });
-      patternedRadioButton = FormBuilder.createRadioButton(composite, Structured_Messages.SimpleTypePropertyPage_PatternedButtonLabel);
+
       patternedRadioButton.addSelectionListener(new SelectionListener()
       {
          public void widgetDefaultSelected(SelectionEvent e)
@@ -240,13 +323,32 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
                {
                   contentProvider.setNewElement(type, createNewElement());
                }
+               setJavaBound(false);
                viewer.refresh();
             }
          }
       });
-      
-      FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_MaxLengthLabel);
-      maxLengthText = FormBuilder.createText(composite, 2);
+
+      javaEnumRadioButton.addSelectionListener(new SelectionListener()
+      {
+         public void widgetDefaultSelected(SelectionEvent e)
+         {
+         }
+
+         public void widgetSelected(SelectionEvent e)
+         {
+            if (javaEnumRadioButton.getSelection())
+            {
+               removePatterns();
+               removeEnumerations();
+               contentProvider.removeNewElement(type);
+               setJavaBound(true);
+               viewer.refresh();
+               validateClass();
+            }
+         }
+      });
+
       maxLengthText.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -255,8 +357,6 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          }
       });
 
-      FormBuilder.createLabel(composite, Structured_Messages.SimpleTypePropertyPage_MinLengthLabel);
-      minLengthText = FormBuilder.createText(composite, 2);
       minLengthText.addModifyListener(new ModifyListener()
       {
          public void modifyText(ModifyEvent e)
@@ -265,16 +365,6 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          }
       });
 
-      Table table = FormBuilder.createTable(composite, SWT.SINGLE | SWT.FULL_SELECTION
-            | SWT.BORDER, StructLabelProvider.SIMPLE_TYPE_COLUMNS, new int[] {99}, 3);
-      table.setHeaderVisible(true);
-      viewer = new TableViewer(table);
-      viewer.setUseHashlookup(true);
-      labelProvider = new StructLabelProvider();
-      contentProvider = new StructContentProvider(false);
-      viewer.setContentProvider(contentProvider);
-      viewer.setLabelProvider(labelProvider);
-      viewer.setColumnProperties(StructLabelProvider.SIMPLE_TYPE_COLUMNS);
       viewer.setCellModifier(new Modifier());
       table.addFocusListener(new FocusListener()
       {
@@ -334,7 +424,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
                   // when "new" element is the current selection, there is no "next",
                   // so we do insert a new item here.THIS METHOD MODIFIES CONTENT !
                   // </description>
-                  XSDConstrainingFacet adapter = (XSDConstrainingFacet) selection; 
+                  XSDConstrainingFacet adapter = (XSDConstrainingFacet) selection;
                   if (isNewType(adapter))
                   {
                      addEntry(adapter, (String) nameEditor.getValue());
@@ -364,6 +454,19 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       return composite;
    }
 
+   private void exclude(boolean exclude, Control... controls)
+   {
+      if (controls != null)
+      {
+         for (Control control : controls)
+         {
+            GridData gd = (GridData) control.getLayoutData();
+            gd.exclude = exclude;
+            control.setVisible(!exclude);
+         }
+      }
+   }
+
    protected void removeEnumerations()
    {
       List<XSDEnumerationFacet> enumerations = type.getEnumerationFacets();
@@ -384,7 +487,8 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
 
    protected void updateButtons()
    {
-      boolean isInternal = TypeDeclarationUtils.isInternalSchema(declaration);
+      boolean isInternal = TypeDeclarationUtils.isInternalSchema(declaration)
+            && !isJavaBound();
       if (!isInternal)
       {
          deleteButton.setEnabled(false);
@@ -392,7 +496,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          moveDownButton.setEnabled(false);
          return;
       }
-      
+
       boolean isFacet = false;
       boolean isFirst = true;
       boolean isLast = true;
@@ -419,6 +523,11 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       moveDownButton.setEnabled(!isLast);
    }
 
+   private boolean isJavaBound()
+   {
+      return ExtendedAttributeUtil.getAttribute(declaration, CarnotConstants.CLASS_NAME_ATT) != null;
+   }
+
    protected void updateMaxLength()
    {
       String stringValue = maxLengthText.getText().trim();
@@ -431,7 +540,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       {
          // ignore;
       }
-      XSDMaxLengthFacet maxLength = type.getMaxLengthFacet();      
+      XSDMaxLengthFacet maxLength = type.getMaxLengthFacet();
       if (longValue < 0)
       {
          if (maxLength != null)
@@ -447,7 +556,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
             type.getFacetContents().add(maxLength);
          }
          maxLength.setLexicalValue(Long.toString(longValue));
-      }  
+      }
       validateAll();
    }
 
@@ -479,25 +588,64 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
             type.getFacetContents().add(minLength);
          }
          minLength.setLexicalValue(Long.toString(longValue));
-      }  
+      }
       validateAll();
    }
 
    private void validateAll()
-   {	   
+   {
 	   validateLength();
 	   if(isValid())
 	   {
-		   validateInput();		   
+		   validateInput();
 	   }
-   }   
-   
+      if(isValid())
+      {
+         validateClass();
+      }	   	   
+   }
+
+   private void validateClass()
+   {
+      if(ExtendedAttributeUtil.getAttribute(declaration, CarnotConstants.CLASS_NAME_ATT) != null)
+      {
+         ModelType model = ModelUtils.findContainingModel(declaration);         
+         String className = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
+
+         if(StringUtils.isEmpty(className))
+         {
+            setMessage(Structured_Messages.ERROR_MSG_NO_CLASSNAME, ERROR);
+            setValid(false);
+            return;            
+         }
+         else
+         {
+            if(model != null)
+            {
+               TypeFinder finder = new TypeFinder(model);
+               TypeInfo type = finder.findType(className);
+               
+               if (type == null  && TypeFinder.getProjectFromEObject(model) != null)
+               {
+                  setMessage(MessageFormat.format(Structured_Messages.ERROR_MSG_INVALID_CLASSNAME, 
+                        className), ERROR);
+                  setValid(false);
+                  return;
+               }
+            }               
+         }
+      }      
+      
+      setMessage(null);
+      setValid(true);      
+   }
+      
    private void validateLength()
    {
       String minLengthString = minLengthText.getText().trim();
       String maxLengthString = maxLengthText.getText().trim();
-      
-      if(StringUtils.isEmpty(maxLengthString) 
+
+      if(StringUtils.isEmpty(maxLengthString)
             && StringUtils.isEmpty(minLengthString))
       {
          setMessage(null);
@@ -515,15 +663,15 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          {
             setMessage(Structured_Messages.SimpleTypePropertyPage_MaxLengthLongValue, ERROR);
             setValid(false);
-            return;         
+            return;
          }
          if(maxLengthValue < 0)
          {
             setMessage(Structured_Messages.SimpleTypePropertyPage_MaxLengthLongValue, ERROR);
             setValid(false);
-            return;                     
+            return;
          }
-      }      
+      }
       long minLengthValue = 0;
       if(!StringUtils.isEmpty(minLengthString))
       {
@@ -535,25 +683,25 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
          {
             setMessage(Structured_Messages.SimpleTypePropertyPage_MinLengthLongValue, ERROR);
             setValid(false);
-            return;         
-         }      
+            return;
+         }
          if(minLengthValue < 0)
          {
             setMessage(Structured_Messages.SimpleTypePropertyPage_MinLengthLongValue, ERROR);
             setValid(false);
-            return;                     
+            return;
          }
-      }      
+      }
       if (maxLengthValue < minLengthValue)
       {
          setMessage(Structured_Messages.SimpleTypePropertyPage_InvalidLengthMessage, ERROR);
          setValid(false);
-         return;         
-      }      
+         return;
+      }
       setMessage(null);
       setValid(true);
    }
-   
+
    private void validateInput()
    {
       Object[] children = contentProvider.getChildren(type);
@@ -575,7 +723,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       setMessage(null);
       setValid(true);
    }
-   
+
    public void contributeVerticalButtons(Composite parent)
    {
       deleteButton = FormBuilder.createButton(parent, Structured_Messages.DeleteButtonLabel, new SelectionListener()
@@ -611,12 +759,12 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    {
       IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
       XSDConstrainingFacet facet = (XSDConstrainingFacet) selection.getFirstElement();
-      
+
       List<? extends XSDRepeatableFacet> list = enumerationRadioButton.getSelection()
                   ? type.getEnumerationFacets()
-                  : type.getPatternFacets();      
+                  : type.getPatternFacets();
       int index = list.indexOf(facet);
-      
+
       XSDConstrainingFacet[] elements = list.toArray(new XSDConstrainingFacet[list.size()]);
       // remove all elements in reverse order up to and including the selected element
       for (int i = elements.length - 1; i >= index; i--)
@@ -634,7 +782,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       viewer.refresh();
       viewer.setSelection(selection);
    }
-   
+
    private void remove(XSDConstrainingFacet facet)
    {
       if (facet instanceof XSDEnumerationFacet
@@ -647,7 +795,7 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    private void add(XSDConstrainingFacet facet)
    {
       if (facet instanceof XSDEnumerationFacet
-            || facet instanceof XSDPatternFacet)         
+            || facet instanceof XSDPatternFacet)
       {
          type.getFacetContents().add(facet);
       }
@@ -657,12 +805,12 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
    {
       IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
       XSDConstrainingFacet facet = (XSDConstrainingFacet) selection.getFirstElement();
-      
+
       List<? extends XSDRepeatableFacet> list = enumerationRadioButton.getSelection()
                   ? type.getEnumerationFacets()
-                  : type.getPatternFacets();      
+                  : type.getPatternFacets();
       int index = list.indexOf(facet);
-      
+
       XSDConstrainingFacet[] elements = list.toArray(new XSDConstrainingFacet[list.size()]);
       // remove all elements in reverse order up to and including the one before the selected element
       for (int i = elements.length - 1; i >= index - 1; i--)
@@ -687,14 +835,14 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       XSDConstrainingFacet facet = (XSDConstrainingFacet) selection.getFirstElement();
       remove(facet);
       viewer.refresh();
-      validateAll();      
+      validateAll();
    }
 
    private class Modifier implements ICellModifier
    {
       public boolean canModify(Object element, String property)
       {
-         return TypeDeclarationUtils.isInternalSchema(declaration);
+         return !isJavaBound() && TypeDeclarationUtils.isInternalSchema(declaration);
       }
 
       public Object getValue(Object element, String property)
@@ -736,5 +884,90 @@ public class SimpleTypePropertyPage extends AbstractModelElementPropertyPage
       add(current);
       viewer.refresh();
       updateButtons();
+   }
+
+   private void setJavaBound(boolean bound)
+   {
+      if (bound)
+      {
+         maxLengthText.setText(""); //$NON-NLS-1$
+         minLengthText.setText(""); //$NON-NLS-1$
+         if (!isJavaBound())
+         {
+            ExtendedAttributeUtil.createAttribute(declaration, CarnotConstants.CLASS_NAME_ATT);
+         }
+         classBrowser.getText().addModifyListener(listener);
+         if (enumName != null)
+         {
+            initJavaType(enumName);
+         }
+      }
+      else
+      {
+         // this does in fact remove the attribute
+         ExtendedAttributeUtil.setAttribute(declaration, CarnotConstants.CLASS_NAME_ATT, null);
+         classBrowser.getText().removeModifyListener(listener);
+         classBrowser.setType(null);
+      }
+      exclude(bound, maxLengthLabel, minLengthLabel, maxLengthText, minLengthText);
+      exclude(!bound, classBrowser.getText().getParent(), classText.getLabel());
+      minLengthText.getParent().layout();
+   }
+
+   private void setJavaType(TypeInfo itype)
+   {
+      enumName = itype.getFullName();
+      int ix = enumName.lastIndexOf('.');
+      String name = ix >= 0 ? enumName.substring(ix + 1) : enumName;
+      ix = name.lastIndexOf('$');
+      name = ix >= 0 ? name.substring(ix + 1) : name;
+      
+      IdFactory factory = new IdFactory(null, name,
+            XpdlPackage.eINSTANCE.getTypeDeclarationType(),
+            XpdlPackage.eINSTANCE.getTypeDeclarationType_Id(),
+            XpdlPackage.eINSTANCE.getTypeDeclarationType_Name());
+      TypeDeclarationsType container = (TypeDeclarationsType) declaration.eContainer();
+      List<TypeDeclarationType> declarations = CollectionUtils.copyList(container.getTypeDeclaration());
+      declarations.remove(declaration);
+      factory.computeNames(declarations, false);
+      
+      String oldName = ExtendedAttributeUtil.getAttributeValue(declaration, CarnotConstants.CLASS_NAME_ATT);
+      
+      String newId = factory.getId();
+      String newName = factory.getName();      
+      
+      if (!newId.equals(declaration.getId()))
+      {
+         if(StringUtils.isEmpty(oldName)
+               || !oldName.equals(enumName))
+         {
+            declaration.setId(newId);
+         }
+      }
+      if (!newName.equals(declaration.getName()))
+      {
+         if(StringUtils.isEmpty(oldName)
+               || !oldName.equals(enumName))
+         {
+            declaration.setName(newName);
+         }
+      }
+      ExtendedAttributeUtil.setAttribute(declaration, CarnotConstants.CLASS_NAME_ATT, enumName);
+      try
+      {
+         for (FieldInfo field : itype.getFields())
+         {
+            if (field.isEnum())
+            {
+               XSDConstrainingFacet item = createNewElement();
+               item.setLexicalValue(field.getFieldName());
+               add(item);
+            }
+         }
+      }
+      catch (JavaModelException ex)
+      {
+         ex.printStackTrace();
+      }
    }
 }

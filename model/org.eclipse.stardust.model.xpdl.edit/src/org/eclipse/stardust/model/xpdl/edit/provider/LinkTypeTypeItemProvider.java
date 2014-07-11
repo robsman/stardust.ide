@@ -114,8 +114,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -137,8 +137,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -160,8 +160,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_lineColor_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_lineColor_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_lineColor_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_lineColor_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__LINE_COLOR,
              true,
              false,
@@ -183,8 +183,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_linkInstances_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_linkInstances_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_linkInstances_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_linkInstances_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__LINK_INSTANCES,
              true,
              false,
@@ -206,8 +206,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -229,8 +229,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IMetaType_isPredefined_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"),
+             getString("_UI_IMetaType_isPredefined_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IMetaType_isPredefined_feature", "_UI_IMetaType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMETA_TYPE__IS_PREDEFINED,
              true,
              false,
@@ -252,8 +252,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_sourceRole_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceRole_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_sourceRole_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceRole_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SOURCE_ROLE,
              true,
              false,
@@ -275,8 +275,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_sourceClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceClass_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_sourceClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceClass_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SOURCE_CLASS,
              true,
              false,
@@ -298,8 +298,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_showRoleNames_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_showRoleNames_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_showRoleNames_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_showRoleNames_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SHOW_ROLE_NAMES,
              true,
              false,
@@ -321,8 +321,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_showLinkTypeName_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_showLinkTypeName_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_showLinkTypeName_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_showLinkTypeName_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SHOW_LINK_TYPE_NAME,
              true,
              false,
@@ -344,8 +344,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_sourceCardinality_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceCardinality_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_sourceCardinality_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceCardinality_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SOURCE_CARDINALITY,
              true,
              false,
@@ -367,8 +367,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_targetRole_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetRole_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_targetRole_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetRole_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__TARGET_ROLE,
              true,
              false,
@@ -390,8 +390,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_targetClass_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetClass_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_targetClass_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetClass_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__TARGET_CLASS,
              true,
              false,
@@ -413,8 +413,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_sourceSymbol_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceSymbol_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_sourceSymbol_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_sourceSymbol_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__SOURCE_SYMBOL,
              true,
              false,
@@ -436,8 +436,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_targetCardinality_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetCardinality_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_targetCardinality_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetCardinality_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__TARGET_CARDINALITY,
              true,
              false,
@@ -459,8 +459,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_lineStyle_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_lineStyle_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_lineStyle_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_lineStyle_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__LINE_STYLE,
              true,
              false,
@@ -482,8 +482,8 @@ public class LinkTypeTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_LinkTypeType_targetSymbol_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetSymbol_feature", "_UI_LinkTypeType_type"),
+             getString("_UI_LinkTypeType_targetSymbol_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_LinkTypeType_targetSymbol_feature", "_UI_LinkTypeType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.LINK_TYPE_TYPE__TARGET_SYMBOL,
              true,
              false,
@@ -536,7 +536,7 @@ public class LinkTypeTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/LinkTypeType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/LinkTypeType")); //$NON-NLS-1$
    }
 
    /**
@@ -550,8 +550,8 @@ public class LinkTypeTypeItemProvider
    {
       String label = ((LinkTypeType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_LinkTypeType_type") :
-         getString("_UI_LinkTypeType_type") + " " + label;
+         getString("_UI_LinkTypeType_type") : //$NON-NLS-1$
+         getString("_UI_LinkTypeType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

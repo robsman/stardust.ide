@@ -26,10 +26,10 @@ import org.eclipse.xsd.XSDNamedComponent;
 
 public class AnnotationContentProvider implements ITreeContentProvider
 {
-   private static final String NAME_ATTRIBUTE = "name";
-   private static final String ID_ATTRIBUTE = "id";
-   private static final String STORAGE_ELEMENT = "storage";
-   private static final String CATEGORY_ELEMENT = "category";
+   private static final String NAME_ATTRIBUTE = "name"; //$NON-NLS-1$
+   private static final String ID_ATTRIBUTE = "id"; //$NON-NLS-1$
+   private static final String STORAGE_ELEMENT = "storage"; //$NON-NLS-1$
+   private static final String CATEGORY_ELEMENT = "category"; //$NON-NLS-1$
    
    private static final String APPLICATION_INFO_EXTENSION_ID = 
          "org.eclipse.stardust.modeling.data.structured.applicationInfo"; //$NON-NLS-1$

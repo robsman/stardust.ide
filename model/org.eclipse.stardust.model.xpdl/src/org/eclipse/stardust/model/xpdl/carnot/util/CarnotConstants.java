@@ -74,8 +74,10 @@ public interface CarnotConstants
    String MESSAGE_PROVIDERS_EXTENSION_POINT_ID = "messageProviders"; //$NON-NLS-1$
    String TRIGGER_MESSAGE_ACCEPTORS_EXTENSION_POINT_ID = "triggerMessageAcceptors"; //$NON-NLS-1$
    String TRIGGER_TYPES_EXTENSION_POINT_ID = "triggerTypes"; //$NON-NLS-1$
+   String RESOURCE_RESOLVER_EXTENSION_POINT_ID = "resourceResolver"; //$NON-NLS-1$
 
    String DIAGRAM_PLUGIN_ID = "org.eclipse.stardust.modeling.core"; //$NON-NLS-1$
+   String STARDUST_XPDL_PLUGIN_ID = "org.eclipse.stardust.model.xpdl"; //$NON-NLS-1$
    String CARNOT_PLUGIN_ID = "org.eclipse.stardust.model.xpdl.carnot"; //$NON-NLS-1$
 
    String PRIMITIVE_DATA_ID = PredefinedConstants.PRIMITIVE_DATA;

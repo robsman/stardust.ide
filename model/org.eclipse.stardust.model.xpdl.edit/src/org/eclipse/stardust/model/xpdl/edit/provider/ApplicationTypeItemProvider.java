@@ -104,8 +104,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IModelElement_elementOid_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"),
+             getString("_UI_IModelElement_elementOid_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IModelElement_elementOid_feature", "_UI_IModelElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IMODEL_ELEMENT__ELEMENT_OID,
              true,
              false,
@@ -127,8 +127,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
              true,
              false,
@@ -150,8 +150,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationType_interactive_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_interactive_feature", "_UI_ApplicationType_type"),
+             getString("_UI_ApplicationType_interactive_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_interactive_feature", "_UI_ApplicationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_TYPE__INTERACTIVE,
              true,
              false,
@@ -173,8 +173,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
@@ -196,8 +196,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationType_type_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_type_feature", "_UI_ApplicationType_type"),
+             getString("_UI_ApplicationType_type_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_type_feature", "_UI_ApplicationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_TYPE__TYPE,
              true,
              false,
@@ -219,8 +219,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationType_executedActivities_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_executedActivities_feature", "_UI_ApplicationType_type"),
+             getString("_UI_ApplicationType_executedActivities_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_executedActivities_feature", "_UI_ApplicationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_TYPE__EXECUTED_ACTIVITIES,
              true,
              false,
@@ -242,8 +242,8 @@ public class ApplicationTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ApplicationType_applicationSymbols_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_applicationSymbols_feature", "_UI_ApplicationType_type"),
+             getString("_UI_ApplicationType_applicationSymbols_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_ApplicationType_applicationSymbols_feature", "_UI_ApplicationType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.APPLICATION_TYPE__APPLICATION_SYMBOLS,
              true,
              false,
@@ -298,7 +298,7 @@ public class ApplicationTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ApplicationType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ApplicationType")); //$NON-NLS-1$
    }
 
    /**
@@ -312,8 +312,8 @@ public class ApplicationTypeItemProvider
    {
       String label = ((ApplicationType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_ApplicationType_type") :
-         getString("_UI_ApplicationType_type") + " " + label;
+         getString("_UI_ApplicationType_type") : //$NON-NLS-1$
+         getString("_UI_ApplicationType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

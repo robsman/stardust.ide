@@ -18,6 +18,8 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.integration.camel.Camel_Messages;
+
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
@@ -34,7 +36,7 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
 {
    private Text consumerRoute;
    private IExtensibleElement extensibleElement;
-
+   private Button transactedRoute;
    // private ComboViewer correlationPatternViewer;
 
 //   private ApplicationType getApplication()
@@ -53,6 +55,10 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
    {
       extensibleElement = (IExtensibleElement) element;
       getAttributeValue(CONSUMER_ROUTE_ATT, consumerRoute);
+      if(AttributeUtil.getAttributeValue(extensibleElement, TRANSACTED_ROUTE_EXT_ATT) == null)
+         AttributeUtil.setAttribute(extensibleElement, TRANSACTED_ROUTE_EXT_ATT, Boolean.TRUE.toString());
+      getCheckBoxValue(TRANSACTED_ROUTE_EXT_ATT,transactedRoute);
+
    }
 
    /**
@@ -64,6 +70,7 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
    {
       extensibleElement = (IExtensibleElement) element;
       setAttributeValue(CONSUMER_ROUTE_ATT, null, consumerRoute);
+      setAttributeValue(TRANSACTED_ROUTE_EXT_ATT, null, transactedRoute);
    }
 
    /**
@@ -74,16 +81,26 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 2);
+      
+      transactedRoute = FormBuilder.createCheckBox(composite,
+            Camel_Messages.label_Transacted_Route);
+      transactedRoute.setSelection(true);
+      FormBuilder.createLabel(composite, "");
       FormBuilder.createLabel(composite, Camel_Messages.label_Route);
       consumerRoute = FormBuilder.createTextArea(composite, 2);
       return composite;
    }
 
-   private void setAttributeValue(String attrName, String attrType, Text control)
+   private void setAttributeValue(String attrName, String attrType, Object control)
    {
       if (control instanceof Text)
       {
-         AttributeUtil.setAttribute(extensibleElement, attrName, control.getText());
+         AttributeUtil.setAttribute(extensibleElement, attrName, ((Text) control).getText());
+      }
+      if (control instanceof Button)
+      {
+         Boolean isSelected = ((Button) control).getSelection();
+         AttributeUtil.setAttribute(extensibleElement, attrName, isSelected.toString());
       }
    }
 
@@ -93,6 +110,15 @@ public class CamelConsumerPropertyPage extends AbstractModelElementPropertyPage
       if ((value = AttributeUtil.getAttributeValue(extensibleElement, attrName)) != null)
       {
          control.setText(value);
+      }
+   }
+   
+   private void getCheckBoxValue(String attrName, Button control)
+   {
+      String value;
+      if ((value = AttributeUtil.getAttributeValue(extensibleElement, attrName)) != null)
+      {
+         control.setSelection(new Boolean(value));
       }
    }
 }

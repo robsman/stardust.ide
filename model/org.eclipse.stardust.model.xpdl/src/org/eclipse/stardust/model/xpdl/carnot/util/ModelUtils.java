@@ -10,109 +10,45 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.carnot.util;
 
+import static org.eclipse.stardust.common.CollectionUtils.newArrayList;
+
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.xsd.XSDImport;
-import org.eclipse.xsd.XSDSchema;
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
+import org.eclipse.stardust.common.Predicate;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.reflect.Reflect;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.api.dto.AuditTrailPersistence;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DocumentRoot;
-import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
-import org.eclipse.stardust.model.xpdl.carnot.IAttributeCategory;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IGraphicalObject;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ISymbolContainer;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.model.xpdl.spi.IResourceResolver;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IObjectReference;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlUtil;
+import org.eclipse.xsd.XSDSchema;
 
 public class ModelUtils
 {
@@ -320,32 +256,9 @@ public class ModelUtils
       {
          return null;
       }
-      DescriptionType descriptionType =
-         CarnotWorkflowModelFactory.eINSTANCE.createDescriptionType();
+      DescriptionType descriptionType = CarnotWorkflowModelFactory.eINSTANCE.createDescriptionType();
       setCDataString(descriptionType.getMixed(), description);
       return descriptionType;
-   }
-
-   public static void setCDataString(FeatureMap mixed, String description)
-   {
-      setCDataString(mixed, description, false);
-   }
-
-   public static void setCDataString(FeatureMap mixed, String description,
-         boolean normalizeCrLf)
-   {
-      if (normalizeCrLf)
-      {
-         description = StringUtils.replace(description, "\r\n", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-
-      // clean up any pending previous non-CDATA content (i.e. from XPDL load)
-      if (mixed.isSet(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text()))
-      {
-         mixed.unset(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text());
-      }
-      mixed.set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), Collections
-            .singleton(description));
    }
 
    public static String getDescriptionText(DescriptionType desc)
@@ -357,34 +270,24 @@ public class ModelUtils
       return getCDataString(desc.getMixed());
    }
 
+   public static void setCDataString(FeatureMap mixed, String description)
+   {
+      setCDataString(mixed, description, false);
+   }
+
+   public static void setCDataString(FeatureMap mixed, String text,
+         boolean normalizeCrLf)
+   {
+      if (normalizeCrLf)
+      {
+         text = StringUtils.replace(text, "\r\n", "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+      }
+      XpdlUtil.setText(mixed, text, true);
+   }
+
    public static String getCDataString(FeatureMap featureMap)
    {
-      String result = null;
-
-      Collection<?> parts = (Collection<?>) featureMap.get(
-            XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), false);
-      if (parts == null || parts.isEmpty())
-      {
-         parts = (Collection<?>) featureMap.get(
-               XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), false);
-      }
-      if (parts != null && !parts.isEmpty())
-      {
-         if (parts.size() == 1)
-         {
-            result = parts.iterator().next().toString();
-         }
-         else
-         {
-            StringBuffer sb = new StringBuffer();
-            for (Object o : parts)
-            {
-               sb.append(o.toString());
-            }
-            result = sb.toString();
-         }
-      }
-      return result;
+      return XpdlUtil.getText(featureMap, true);
    }
 
    public static IIdentifiableElement findIdentifiableElement(EObject parent,
@@ -678,53 +581,35 @@ public class ModelUtils
       return result;
    }
 
-   // TODO: duplicate method VersionRepository, need to put it in a common place
-   public static IProject getProjectFromEObject(EObject eObject)
+   public static List<IResourceResolver> getResourceResolvers()
    {
-      if (eObject instanceof ContextType)
-      {
-         ContextType contextType = (ContextType) eObject;
-         if (contextType.getType() != null)
-         {
-            eObject = contextType.getType().eContainer();
-         }
-      }
-      if (eObject != null)
-      {
-         Resource eResource = eObject.eResource();
-         if (eResource != null)
-         {
-            URI eUri = eResource.getURI();
+      List<IResourceResolver> resolvers = newArrayList();
 
-            if (eUri.isFile())
+      SpiExtensionRegistry registry = SpiExtensionRegistry.instance();
+      Map<String, IConfigurationElement> extensions = registry.getExtensions(
+            CarnotConstants.STARDUST_XPDL_PLUGIN_ID,
+            CarnotConstants.RESOURCE_RESOLVER_EXTENSION_POINT_ID);
+      for (Map.Entry<String, IConfigurationElement> extension : extensions.entrySet())
+      {
+         try
+         {
+            Object rawResolver = (IResourceResolver) extension.getValue().createExecutableExtension("class");
+            if (rawResolver instanceof IResourceResolver)
             {
-               String fileString = eUri.toFileString();
-               java.net.URI netModelUri = new File(fileString).toURI();
-               IContainer[] containers = ResourcesPlugin.getWorkspace().getRoot()
-                     .findContainersForLocationURI(netModelUri);
-               if (containers != null && containers.length > 0)
-               {
-                  IContainer container = containers[0];
-                  return container.getProject();
-               }
+               resolvers.add((IResourceResolver) rawResolver);
             }
-
-            if (eUri.segmentCount() > 1)
+            else
             {
-               IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-                  eUri.segment(1));
-               if (resource instanceof IProject)
-               {
-                  return (IProject) resource;
-               }
-               else if (resource != null)
-               {
-                  return resource.getProject();
-               }
+               // TODO invalid type
             }
          }
+         catch (CoreException e)
+         {
+            //e.printStackTrace();
+         }
       }
-      return null;
+
+      return resolvers;
    }
 
    public static IIdentifiableModelElement getIdentifiableModelProxy(
@@ -878,7 +763,7 @@ public class ModelUtils
       }
 
       // resolve declared references
-      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference");
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(extensible, "elementReference"); //$NON-NLS-1$
       if (configs != null)
       {
          for(IConfigurationElement config : configs)
@@ -933,9 +818,9 @@ public class ModelUtils
                {
                   model = otherModel;
                   scopeList = id.substring(0, ix);
-                  if ("typeDeclaration".equals(scopeList))
+                  if ("typeDeclaration".equals(scopeList)) //$NON-NLS-1$
                   {
-                     scopeList = "struct";
+                     scopeList = "struct"; //$NON-NLS-1$
                   }
                   id = qname.getLocalPart();
                }
@@ -1056,49 +941,49 @@ public class ModelUtils
 
    public static IModelElement findElementByOid(List<?> list, long elementOid)
    {
-	  for (Object object : list)
-	  {
-		 if (object instanceof IModelElement)
-		 {
-			if (((IModelElement) object).getElementOid() == elementOid)
-			{
-			   return (IModelElement) object;
-			}
-		 }
-	  }
-	  return null;
+   for (Object object : list)
+   {
+      if (object instanceof IModelElement)
+      {
+         if (((IModelElement) object).getElementOid() == elementOid)
+         {
+            return (IModelElement) object;
+         }
+      }
+   }
+   return null;
    }
 
    public static EObject findElementByFeature(List<?> list, Object prototype, String featureName)
    {
-	  if (!(prototype instanceof EObject))
-	  {
-		 return null;
-	  }
-	  EClass class1 = ((EObject) prototype).eClass();
-	  EStructuralFeature feature = class1.getEStructuralFeature(featureName);
-	  if(feature == null)
-	  {
-	     return null;
-	  }
+   if (!(prototype instanceof EObject))
+   {
+      return null;
+   }
+   EClass class1 = ((EObject) prototype).eClass();
+   EStructuralFeature feature = class1.getEStructuralFeature(featureName);
+   if(feature == null)
+   {
+      return null;
+   }
 
-	  Object value1 = ((EObject) prototype).eGet(feature);
-	  for (Object object : list)
-	  {
-		 if (object instanceof EObject)
-		 {
-			EClass class2 = ((EObject) object).eClass();
-			if (class2.equals(class1))
-			{
-			   Object value2 = ((EObject) object).eGet(feature);
-			   if (CompareHelper.areEqual(value1, value2))
-			   {
-				  return (EObject) object;
-			   }
-			}
-		 }
-	  }
-	  return null;
+   Object value1 = ((EObject) prototype).eGet(feature);
+   for (Object object : list)
+   {
+      if (object instanceof EObject)
+      {
+         EClass class2 = ((EObject) object).eClass();
+         if (class2.equals(class1))
+         {
+            Object value2 = ((EObject) object).eGet(feature);
+            if (CompareHelper.areEqual(value1, value2))
+            {
+            return (EObject) object;
+            }
+         }
+      }
+   }
+   return null;
    }
 
    public static IModelParticipant findParticipant(String participantId, List<? extends IModelParticipant>... participants)
@@ -1195,10 +1080,10 @@ public class ModelUtils
       Map<String, TypeType> typeMapping;
 
       typeMapping = CollectionUtils.newMap();
-      typeMapping.put(Type.String.getId(), TypeType.STRING_LITERAL);
-      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER_LITERAL);
-      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN_LITERAL);
-      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME_LITERAL);
+      typeMapping.put(Type.String.getId(), TypeType.STRING);
+      typeMapping.put(Type.Integer.getId(), TypeType.INTEGER);
+      typeMapping.put(Type.Boolean.getId(), TypeType.BOOLEAN);
+      typeMapping.put(Type.Calendar.getId(), TypeType.DATETIME);
 
       return typeMapping;
    }
@@ -1235,9 +1120,8 @@ public class ModelUtils
    public static FormalParameterType cloneFormalParameterType(
          FormalParameterType referencedParameterType, DataType mappedData)
    {
-      FormalParameterType parameterType = XpdlFactory.eINSTANCE
-            .createFormalParameterType();
-      if(mappedData != null)
+      FormalParameterType parameterType = XpdlFactory.eINSTANCE.createFormalParameterType();
+      if (mappedData != null)
       {
          parameterType.setDataType(createDataType(mappedData));
       }
@@ -1294,6 +1178,25 @@ public class ModelUtils
       return true;
    }
 
+   public static <T extends Predicate<ModelType>> void forEachReferencedModel(ModelType model, T predicate)
+   {
+      ExternalPackages packages = model.getExternalPackages();
+      if (packages != null)
+      {
+         for (ExternalPackage pkg : packages.getExternalPackage())
+         {
+            ModelType externalModel = getExternalModel(pkg);
+            if (externalModel != null)
+            {
+               if (!predicate.accept(externalModel))
+               {
+                  break;
+               }
+            }
+         }
+      }
+   }
+
    public static ModelType getExternalModel(ExternalPackage pack)
    {
       String uri = ExtendedAttributeUtil.getAttributeValue(pack, IConnectionManager.URI_ATTRIBUTE_NAME);
@@ -1314,69 +1217,6 @@ public class ModelUtils
             }
          }
       }
-      return null;
-   }
-
-   public static String getLocation(ModelType model)
-   {
-      String projectName = null;
-      String modelFilePath = null;
-      Resource eResource = model.eResource();
-      if (eResource != null)
-      {
-         URI eUri = eResource.getURI();
-         if (!eUri.isPlatform())
-         {
-            return eUri.toFileString();
-         }
-         URI projectUri = eUri.trimSegments(eUri.segmentCount() - 2);
-         URI modelUri = eUri.deresolve(projectUri);
-         IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(
-            eUri.segment(1));
-         IProject project = null;
-         if (resource instanceof IProject)
-         {
-            project = (IProject) resource;
-         }
-         else if (resource != null)
-         {
-            project = resource.getProject();
-         }
-         if (project != null)
-         {
-            projectName = project.getName();
-            modelFilePath = modelUri.toString();
-            if (modelFilePath.startsWith(projectName + "/")) //$NON-NLS-1$
-            {
-               modelFilePath = modelFilePath.substring(projectName.length() + 1);
-            }
-         }
-      }
-      if (modelFilePath == null || projectName == null)
-      {
-         return null;
-      }
-      return getFileSystemPath(projectName, modelFilePath);
-   }
-
-   public static String getFileSystemPath(String project, String fullPath)
-   {
-      IWorkspaceRoot wspRoot = ResourcesPlugin.getWorkspace().getRoot();
-
-      if (null != wspRoot && null != project)
-      {
-         IProject wspProject = wspRoot.getProject(project);
-         if (null != wspProject && null != fullPath)
-         {
-            IResource resource = wspProject.findMember(fullPath);
-
-            if (null != resource)
-            {
-               return resource.getLocation().toFile().getAbsolutePath();
-            }
-         }
-      }
-
       return null;
    }
 
@@ -1509,6 +1349,22 @@ public class ModelUtils
       {
          return Model_Messages.JOIN_SPLIT_LOOP_NOLOOP;
       }
+      if (literal.equals("Standard")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_STANDARD;
+      }
+      if (literal.equals("MultiInstance")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_MULTI_INSTANCE;
+      }
+      if (literal.equals("After")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_REPEAT;
+      }
+      if (literal.equals("Before")) //$NON-NLS-1$
+      {
+         return Model_Messages.JOIN_SPLIT_LOOP_WHILE;
+      }
       if (literal.equals("Repeat")) //$NON-NLS-1$
       {
          return Model_Messages.JOIN_SPLIT_LOOP_REPEAT;
@@ -1625,11 +1481,11 @@ public class ModelUtils
       if (model != null && model.getConnectionManager() != null)
       {
          EObject connectionObject = model.getConnectionManager().find(
-               proxyUri.scheme() + "://" + proxyUri.authority() + "/");
+               proxyUri.scheme() + "://" + proxyUri.authority() + "/"); //$NON-NLS-1$ //$NON-NLS-2$
          if (connectionObject != null)
          {
             referencedModel = (ModelType) Reflect.getFieldValue(connectionObject,
-                  "eObject");
+                  "eObject"); //$NON-NLS-1$
          }
       }
       return referencedModel;

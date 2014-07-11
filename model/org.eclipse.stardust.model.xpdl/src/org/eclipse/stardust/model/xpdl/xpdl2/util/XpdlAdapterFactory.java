@@ -15,23 +15,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributesType;
-import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -119,6 +103,11 @@ public class XpdlAdapterFactory extends AdapterFactoryImpl
             return createDeclaredTypeTypeAdapter();
          }
          @Override
+         public Adapter caseExpressionType(ExpressionType object)
+         {
+            return createExpressionTypeAdapter();
+         }
+         @Override
          public Adapter caseExtendedAttributesType(ExtendedAttributesType object)
          {
             return createExtendedAttributesTypeAdapter();
@@ -157,6 +146,21 @@ public class XpdlAdapterFactory extends AdapterFactoryImpl
          public Adapter caseFormalParameterType(FormalParameterType object)
          {
             return createFormalParameterTypeAdapter();
+         }
+         @Override
+         public Adapter caseLoopMultiInstanceType(LoopMultiInstanceType object)
+         {
+            return createLoopMultiInstanceTypeAdapter();
+         }
+         @Override
+         public Adapter caseLoopStandardType(LoopStandardType object)
+         {
+            return createLoopStandardTypeAdapter();
+         }
+         @Override
+         public Adapter caseLoopType(LoopType object)
+         {
+            return createLoopTypeAdapter();
          }
          @Override
          public Adapter caseSchemaTypeType(SchemaTypeType object)
@@ -246,6 +250,21 @@ public class XpdlAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
 	public Adapter createDeclaredTypeTypeAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType <em>Expression Type</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExpressionType
+    * @generated
+    */
+   public Adapter createExpressionTypeAdapter()
    {
       return null;
    }
@@ -351,6 +370,51 @@ public class XpdlAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createFormalParameterTypeAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType <em>Loop Multi Instance Type</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopMultiInstanceType
+    * @generated
+    */
+   public Adapter createLoopMultiInstanceTypeAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType <em>Loop Standard Type</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopStandardType
+    * @generated
+    */
+   public Adapter createLoopStandardTypeAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.xpdl2.LoopType <em>Loop Type</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.LoopType
+    * @generated
+    */
+   public Adapter createLoopTypeAdapter()
    {
       return null;
    }

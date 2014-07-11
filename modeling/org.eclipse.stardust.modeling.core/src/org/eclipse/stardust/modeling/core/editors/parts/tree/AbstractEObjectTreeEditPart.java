@@ -25,7 +25,6 @@ import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
-import org.eclipse.stardust.model.xpdl.carnot.merge.ShareUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
@@ -36,15 +35,11 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.common.ui.jface.IconWithOverlays;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdaptee;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
 import org.eclipse.stardust.modeling.core.editors.parts.PropertySourceFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.TreeElementComponentEditPolicy;
-import org.eclipse.stardust.modeling.core.modelserver.jobs.CollisionInfo;
-import org.eclipse.stardust.modeling.core.modelserver.jobs.CollisionState;
-import org.eclipse.stardust.modeling.core.modelserver.jobs.StateCache;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -158,7 +153,7 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
             return true;
          }
       }
-      
+
       return false;
    }
 
@@ -233,11 +228,6 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
 
       ModelType model = ModelUtils.findContainingModel(eObjectModel);
       WorkflowModelEditor editor = GenericUtils.getWorkflowModelEditor(model);
-      if (editor != null && ShareUtils.isLockableElement(eObjectModel)
-            && ShareUtils.isModelShared(model))
-      {
-         return editor.getModelServer().getIcon(image, eObjectModel);
-      }
       return image;
    }
 
@@ -500,28 +490,6 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
    public final String getText()
    {
       String label = getLabel();
-      ModelType model = ModelUtils.findContainingModel(eObjectModel);
-      WorkflowModelEditor editor = GenericUtils.getWorkflowModelEditor(model);
-      if (editor != null && ShareUtils.isLockableElement(eObjectModel)
-            && ShareUtils.isModelShared(model))
-      {
-         StateCache stateCache = editor.getModelServer().getStateCache();
-         CollisionInfo stateInfo = stateCache.getState(eObjectModel);
-         if (stateInfo.getState() == CollisionState.LOCKED_BY_OTHER)
-         {
-            String owner = stateInfo.getOwner();
-            if (owner == null)
-            {
-               return MessageFormat.format(Diagram_Messages.LBL_LOCKED,
-                     new Object[] {label});
-            }
-            else
-            {
-               return MessageFormat.format(Diagram_Messages.LBL_NULL_LOCKED_BY_ONE,
-                     new Object[] {label, owner}); 
-            }
-         }
-      }
       return label == null ? "" : label; //$NON-NLS-1$
    }
 

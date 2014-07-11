@@ -56,7 +56,7 @@ public class FormalParameterMappingsTypeItemProvider
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * This constructs an instance from a factory and a notifier.
@@ -128,7 +128,7 @@ public class FormalParameterMappingsTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/FormalParameterMappingsType"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/FormalParameterMappingsType")); //$NON-NLS-1$
    }
 
    /**
@@ -140,7 +140,7 @@ public class FormalParameterMappingsTypeItemProvider
    @Override
    public String getText(Object object)
    {
-      return getString("_UI_FormalParameterMappingsType_type");
+      return getString("_UI_FormalParameterMappingsType_type"); //$NON-NLS-1$
    }
 
    /**

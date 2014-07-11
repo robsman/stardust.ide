@@ -30,7 +30,6 @@ import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.util.ModelOidUtil;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramEditorPage;
 import org.eclipse.stardust.modeling.core.editors.IDiagramChangeListener;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -38,7 +37,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractSwimlane
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.LaneEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DelegatingCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.dialog.ApplyUpdatesCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
@@ -49,8 +47,6 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
-
-
 
 public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAction implements IDiagramChangeListener
 {
@@ -158,12 +154,6 @@ public class DropTemplateWorkflowModelEditorAction extends WorkflowModelEditorAc
          {
             WorkflowModelEditor editor = page.getWorkflowModelEditor();
             DiagramType targetDiagram = page.getDiagram();
-
-            if (editor.getModelServer().requireLock(targetDiagram))
-            {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
-               return;
-            }
 
             ISelection selection = LocalSelectionTransfer.getTransfer().getSelection();
             ITemplate template = (ITemplate) ((IStructuredSelection) selection).getFirstElement();

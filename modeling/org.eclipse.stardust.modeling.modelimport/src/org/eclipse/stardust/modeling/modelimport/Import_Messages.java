@@ -16,10 +16,6 @@ public class Import_Messages extends NLS
 {
    private static final String BUNDLE_NAME = "org.eclipse.stardust.modeling.modelimport.import-messages"; //$NON-NLS-1$
 
-   public static  String MSG_LOCK_MODEL_REQUIRED;
-
-   public static  String MSG_IMPORT_MODEL_ELEMENTS;
-
    private Import_Messages()
    {}
 

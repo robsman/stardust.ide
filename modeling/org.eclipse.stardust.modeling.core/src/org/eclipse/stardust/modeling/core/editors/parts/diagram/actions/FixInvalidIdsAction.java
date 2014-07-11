@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 
-import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -20,7 +19,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.commands.CompoundCommand;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
@@ -31,10 +29,8 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 
 public class FixInvalidIdsAction
 {
@@ -110,25 +106,6 @@ public class FixInvalidIdsAction
 
    private void fixIdentifiable(CompoundCommand command, IModelElement identifiable, boolean showLockMessage)
    {
-      ModelServer server = editor.getModelServer();
-      if (server != null && server.requireLock(identifiable))
-      {
-         if (showLockMessage)
-         {
-            EObject lockable = server.getLockableElement(identifiable);
-            String id = getId(lockable);
-            String type = getType(identifiable.eClass());
-            String messageTitle = Diagram_Messages.MSG_DIA_INVALID_ID_NULL_ONE;
-            String message = Diagram_Messages.MSG_DIA_ELEMENT_NULL_ONE_MUST_BE_LOCKED_FIRST;
-           
-            MessageDialog.openWarning(editor.getSite().getShell(), MessageFormat.format(messageTitle, new Object[]{id, type}),
-            		MessageFormat.format(message, new Object[]{id, type}));
-            
-            
-         }
-         throw new OperationCanceledException();
-      }
-      
       String id = getId(identifiable);
       // (fh) explicit access points in the engine scope are excluded from change.
       if (identifiable instanceof AccessPointType && id != null && id.startsWith(PredefinedConstants.ENGINE_SCOPE))

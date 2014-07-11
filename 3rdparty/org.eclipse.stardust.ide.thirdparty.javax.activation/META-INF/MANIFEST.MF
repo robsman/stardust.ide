@@ -7,5 +7,4 @@ Bundle-Version: 1.1.0.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-ClassPath: lib/activation.jar
-Eclipse-RegisterBuddy: com.infinity.bpm.ide.thirdparty.jaxws
 Export-Package: javax.activation

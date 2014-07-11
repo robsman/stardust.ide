@@ -141,7 +141,10 @@ public class FormBuilder
       groupLayout.numColumns = numColumns;
       group.setLayout(groupLayout);
 
-      group.setText(title);
+      if (title != null)
+      {
+         group.setText(title);
+      }
       group.setLayoutData(createDefaultMultiLineWidgetGridData(span));
 
       return group;

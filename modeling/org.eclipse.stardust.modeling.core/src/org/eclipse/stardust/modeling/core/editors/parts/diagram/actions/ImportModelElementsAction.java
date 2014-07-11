@@ -13,19 +13,16 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.actions;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.eclipse.ui.wizards.IWizardRegistry;
-
 
 /**
  * @author fherinean
@@ -55,19 +52,6 @@ public class ImportModelElementsAction extends SelectionAction
 
    public void run()
    {
-      WorkflowModelEditor wme = (WorkflowModelEditor) getWorkbenchPart();
-      ModelServer modelServer = wme.getModelServer();
-      if(modelServer.isModelShared())
-      {
-         if(!modelServer.isLockedAll())
-         {
-            MessageDialog.openInformation(null, Diagram_Messages.MSG_DIA_TXT_IMPORT_MD_ELEMENT,
-            Diagram_Messages.MSG_DIA_THIS_OPERATION_REQUIRES_THE_WHOLE_MD_TO_BE_LOCKED_YOU_MUST_LOCK_THE_WHOLE_MD_TO_PROCEED);
-            
-            return;
-         }
-      }
-      
       IWizardRegistry registry = PlatformUI.getWorkbench().getImportWizardRegistry();
       IWizardDescriptor descriptor = registry.findWizard(IMPORT_MODEL_ELEMENTS_WIZARD);
       try

@@ -25,7 +25,6 @@ import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
 import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -33,10 +32,8 @@ import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateModelElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-
 
 public class CreateDiagramAction extends SelectionAction
 {
@@ -57,16 +54,6 @@ public class CreateDiagramAction extends SelectionAction
    public void run()
    {
       ProcessDefinitionType process = getProcess();
-      if (process != null)
-      {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
-         if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-         {
-            ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);  
-            return;
-         }
-      }
-
       final DiagramType[] newDiagram = new DiagramType[1];
       Command cmd = null;
       if (process != null)
@@ -93,14 +80,14 @@ public class CreateDiagramAction extends SelectionAction
       {
          protected IModelElement createModelElement()
          {
-            DiagramType diagram = (DiagramType) super.createModelElement();            
+            DiagramType diagram = (DiagramType) super.createModelElement();
             diagram.setName(createDiagramName(getProcess().getDiagram()));
             diagram.setOrientation(OrientationType.VERTICAL_LITERAL.toString().equals(
                   PlatformUI.getPreferenceStore().getString(
                         BpmProjectNature.PREFERENCE_MODELING_DIRECTION)) ?
                   OrientationType.VERTICAL_LITERAL : OrientationType.HORIZONTAL_LITERAL);
 
-            DiagramModeType defaultMode;            
+            DiagramModeType defaultMode;
             if (PlatformUI.getPreferenceStore().getBoolean(
                   BpmProjectNature.PREFERENCE_CLASSIC_MODE))
             {
@@ -110,8 +97,8 @@ public class CreateDiagramAction extends SelectionAction
             {
                defaultMode = DiagramModeType.MODE_450_LITERAL;
             }
-            diagram.setMode(defaultMode);            
-            
+            diagram.setMode(defaultMode);
+
             newObject[0] = diagram;
             PoolSymbol pool = DiagramUtil.createDefaultPool(null);
             diagram.getPoolSymbols().add(pool);
@@ -169,14 +156,14 @@ public class CreateDiagramAction extends SelectionAction
       }
       return null;
    }
-   
+
    // get Name for new Diagram
    private String createDiagramName(List diagrams)
    {
       String name;
       String searchName = Diagram_Messages.DIAGRAM_NAME_Diagram;
       int counter = 1;
-      
+
       for (Iterator i = diagrams.iterator(); i.hasNext();)
       {
          DiagramType o = (DiagramType) i.next();
@@ -198,7 +185,7 @@ public class CreateDiagramAction extends SelectionAction
             }
          }
       }
-      name = searchName + counter;      
+      name = searchName + counter;
       return name;
    }
 }

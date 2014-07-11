@@ -23,5 +23,6 @@ Require-Bundle: org.eclipse.wst.jsdt.core,
  org.eclipse.core.resources,
  org.eclipse.stardust.modeling.common.ui.jface,
  org.eclipse.jdt,
+ org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  org.eclipse.xsd

@@ -15,20 +15,14 @@ package org.eclipse.stardust.modeling.core.editors.parts.properties;
 import java.util.EventObject;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.commands.CommandStackListener;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.ForwardUndoCompoundCommand;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
-import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.PropertySheetEntry;
-
 
 /**
  * <p>
@@ -55,7 +49,7 @@ public final class UndoablePropSheetEntry extends PropertySheetEntry
 
    /**
     * Constructs the root entry using the given command stack.
-    * 
+    *
     * @param stack
     *           the command stack
     * @since 3.1
@@ -213,20 +207,6 @@ public final class UndoablePropSheetEntry extends PropertySheetEntry
       while (entry.getParent() != null)
       {
          entry = (UndoablePropSheetEntry) entry.getParent();
-      }
-      Object object = entry.getEditValue(0);
-      if (object instanceof EObject)
-      {
-         EObject eObject = (EObject) object;
-         ModelType model = ModelUtils.findContainingModel(eObject);
-         if (model != null)
-         {
-            IWorkflowModelEditor editor = BpmUiActivator.findWorkflowModelEditor(model);
-            if (editor != null && editor.requireLock(eObject))
-            {
-               return null;
-            }
-         }
       }
       return super.getEditor(parent);
    }

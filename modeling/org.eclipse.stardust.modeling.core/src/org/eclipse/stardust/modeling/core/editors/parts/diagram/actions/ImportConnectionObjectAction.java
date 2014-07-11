@@ -30,6 +30,7 @@ import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
+import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
 public class ImportConnectionObjectAction extends SelectionAction
 {
@@ -120,7 +121,7 @@ public class ImportConnectionObjectAction extends SelectionAction
       {
          ModelType model = ((IWorkflowModelEditor) getWorkbenchPart()).getWorkflowModel();
          IObjectDescriptor[] descriptors = (IObjectDescriptor[]) getModels().toArray(new IObjectDescriptor[0]);
-         Command cmd = manager.linkObject(model, descriptors);
+         Command cmd = ConnectionEditUtils.linkObject(model, descriptors, manager);
          execute(cmd);
       }
       catch (CoreException e)

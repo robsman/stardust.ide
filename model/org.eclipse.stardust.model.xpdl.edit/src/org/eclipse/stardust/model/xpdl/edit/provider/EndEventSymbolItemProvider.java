@@ -85,7 +85,7 @@ public class EndEventSymbolItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/EndEventSymbol"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/EndEventSymbol")); //$NON-NLS-1$
    }
 
    /**
@@ -98,7 +98,7 @@ public class EndEventSymbolItemProvider
    public String getText(Object object)
    {
       EndEventSymbol endEventSymbol = (EndEventSymbol)object;
-      return getString("_UI_EndEventSymbol_type") + " " + endEventSymbol.getElementOid();
+      return getString("_UI_EndEventSymbol_type") + " " + endEventSymbol.getElementOid(); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

@@ -17,7 +17,6 @@ import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -38,45 +37,44 @@ import org.eclipse.stardust.modeling.core.utils.PoolLaneUtils;
 import org.eclipse.stardust.modeling.core.utils.SnapGridUtils;
 import org.eclipse.ui.PlatformUI;
 
-
 public class LaneFigure extends AbstractSwimlaneFigure
 {
    private static final CarnotWorkflowModelPackage CWM_PKG = CarnotWorkflowModelPackage.eINSTANCE;
-   
+
    // on creation the pool is expanded
    private boolean collapsed = false;
    // size of collapsed Lane
    private static int collapsedSize = 75;
-   private IFigure button = null;  
-      
+   private IFigure button = null;
+
    public LaneFigure(LaneEditPart part)
    {
-      super(part);      
-      collapsed = ((ISwimlaneSymbol) part.getLaneModel()).isCollapsed();                    
+      super(part);
+      collapsed = ((ISwimlaneSymbol) part.getLaneModel()).isCollapsed();
       button = new IconFigure("icons/figures/min.gif"); //$NON-NLS-1$
       if(collapsed)
       {
          ((IconFigure) button).setIconPath("icons/figures/max.gif"); //$NON-NLS-1$
-      }      
-      addMouseListener(new MyMouseLister());                       
+      }
+      addMouseListener(new MyMouseLister());
       setBorder(new CompoundBorder(new SwimlaneBorder(getLaneEditPart().getLaneModel(), button),
             new MarginBorder(0, 3, 0, 3)));
    }
 
    // return collapsed size, if snap2grid is on, get the nearest size to snap
    public static int getCollapsedSize(EditPart part)
-   {      
+   {
       if(part == null || part.getParent() == null)
-      {         
-         DiagramEditorPage diagramEditorPage = (DiagramEditorPage) ((WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).getCurrentPage();      
-         part = diagramEditorPage.findEditPart(diagramEditorPage.getDiagram());         
+      {
+         DiagramEditorPage diagramEditorPage = (DiagramEditorPage) ((WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).getCurrentPage();
+         part = diagramEditorPage.findEditPart(diagramEditorPage.getDiagram());
       }
       if(SnapGridUtils.getSnapToHelper((AbstractGraphicalEditPart) part) != null)
       {
          return SnapGridUtils.getNextSnapSize(collapsedSize);
-      }      
+      }
       return collapsedSize;
-   }   
+   }
 
    public void setCollapsed(boolean collapsed)
    {
@@ -88,9 +86,9 @@ public class LaneFigure extends AbstractSwimlaneFigure
       else
       {
          ((IconFigure) button).setIconPath("icons/figures/min.gif"); //$NON-NLS-1$
-      }    
+      }
    }
-   
+
    public boolean isCollapsed()
    {
       if(collapsed)
@@ -98,11 +96,11 @@ public class LaneFigure extends AbstractSwimlaneFigure
          return true;
       }
       return false;
-   }   
-   
-   public Rectangle getBounds() {      
+   }
+
+   public Rectangle getBounds() {
       Rectangle laneBounds = bounds.getCopy();
-      LaneEditPart laneEP = getLaneEditPart();  
+      LaneEditPart laneEP = getLaneEditPart();
       DiagramType diagram = ModelUtils.findContainingDiagram((IGraphicalObject) laneEP.getModel());
       if(diagram == null)
       {
@@ -117,17 +115,17 @@ public class LaneFigure extends AbstractSwimlaneFigure
          }
          else
          {
-            laneBounds.width = getCollapsedSize(getLaneEditPart());            
-         }         
-      }   
+            laneBounds.width = getCollapsedSize(getLaneEditPart());
+         }
+      }
       return laneBounds;
-   }   
+   }
 
    public LaneEditPart getLaneEditPart()
    {
       return (LaneEditPart) getEditPart();
    }
-   
+
    class MyMouseLister implements MouseListener
    {
       public void mouseDoubleClicked(MouseEvent me)
@@ -135,48 +133,40 @@ public class LaneFigure extends AbstractSwimlaneFigure
       }
 
       public void mousePressed(MouseEvent me)
-      {   
+      {
          // only left button
          if (me.button != 1)
          {
             return;
-         }         
-         Rectangle mouseBounds = button.getBounds();            
+         }
+         Rectangle mouseBounds = button.getBounds();
          Point eventLocation = me.getLocation();
          if (!((eventLocation.x > mouseBounds.x && eventLocation.x < mouseBounds.x + mouseBounds.width)
                && (eventLocation.y > mouseBounds.y && eventLocation.y < mouseBounds.y + mouseBounds.height)))
-         {               
+         {
             return;
          }
-         
-         WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();         
-         
+
+         WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+
          LaneSymbol symbol = getLaneEditPart().getLaneModel();
-         EObject container = ModelUtils.findContainingProcess(symbol);
-         if (container != null)
-         {
-            if (editor.getModelServer().requireLock(container))
-            {
-               return;
-            }
-         }
-         
-         // set collapsed state 
+
+         // set collapsed state
          setCollapsed(!isCollapsed());
-                  
+
          CompoundCommand command = new CompoundCommand();
-         SetValueCmd setValueCmd = new SetValueCmd(getLaneEditPart().getLaneModel(), 
+         SetValueCmd setValueCmd = new SetValueCmd(getLaneEditPart().getLaneModel(),
                CWM_PKG.getISwimlaneSymbol_Collapsed(), collapsed);
-         command.add(setValueCmd);         
-         
+         command.add(setValueCmd);
+
          PoolLaneUtils.setResizeFlags(-1);
          Command changeContainer = PoolLaneUtils.reorderLanes((AbstractSwimlaneEditPart) getLaneEditPart().getParent(), new Integer(PoolLaneUtils.CHILD_LANES_SAME_SIZE));
          command.add(changeContainer);
-         editor.getEditDomain().getCommandStack().execute(command);            
+         editor.getEditDomain().getCommandStack().execute(command);
       }
 
       public void mouseReleased(MouseEvent me)
       {
-      }      
-   }   
+      }
+   }
 }

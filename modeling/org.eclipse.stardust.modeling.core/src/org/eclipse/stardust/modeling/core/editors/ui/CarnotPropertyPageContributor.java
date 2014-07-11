@@ -30,6 +30,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
+import org.eclipse.stardust.modeling.common.platform.utils.ExtensionsResolver;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.Category;
 import org.eclipse.stardust.modeling.core.spi.ConfigurationElement;
@@ -113,7 +114,7 @@ public class CarnotPropertyPageContributor
          String cls = cfg.getAttribute(CLASS_PROPERTY);
          if (!Category.class.getName().equals(cls) &&
             (category == null || category.equals(cfg.getAttribute("category"))) && //$NON-NLS-1$
-             SpiExtensionRegistry.isMatchingElement(element, SpiConstants.OBJECT_CLASS, filters, cfg))
+             ExtensionsResolver.isMatchingElement(element, SpiConstants.OBJECT_CLASS, filters, cfg))
          {
             sorted.add(cfg);
          }
@@ -257,7 +258,7 @@ public class CarnotPropertyPageContributor
             .getConfigurationElementsFor("org.eclipse.ui.propertyPages"); //$NON-NLS-1$
       for (int i = 0; i < extensions.length; i++)
       {
-         if (SpiExtensionRegistry.isMatchingElement(element, SpiConstants.OBJECT_CLASS, filters, extensions[i]))
+         if (ExtensionsResolver.isMatchingElement(element, SpiConstants.OBJECT_CLASS, filters, extensions[i]))
          {
             return true;
          }

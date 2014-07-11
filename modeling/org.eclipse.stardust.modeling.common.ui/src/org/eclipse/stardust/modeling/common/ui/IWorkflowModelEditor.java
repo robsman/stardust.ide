@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-
 
 public interface IWorkflowModelEditor extends IEditorPart
 {
@@ -25,6 +23,4 @@ public interface IWorkflowModelEditor extends IEditorPart
    ModelType getWorkflowModel();
 
    void updateModel(IEditorInput editorInput) throws PartInitException;
-   
-   boolean requireLock(EObject eObject);
 }

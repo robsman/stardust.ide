@@ -48,10 +48,10 @@ import org.eclipse.stardust.modeling.validation.util.PathEntry;
 public class StructBridgeObjectProvider implements IBridgeObjectProvider
 {
    private static Map<String, String> mapping = new HashMap<String, String>();
-   
+
    private StructuredDataTransformation xomDomTrans;
-   private ITypedElement element; 
-   
+   private ITypedElement element;
+
    static
    {
       // <TODO> (fh)
@@ -71,10 +71,10 @@ public class StructBridgeObjectProvider implements IBridgeObjectProvider
       mapping.put("time", Date.class.getName()); //$NON-NLS-1$
       mapping.put("duration", Long.class.getName()); //$NON-NLS-1$
    }
-   
+
    public BridgeObject getBridgeObject(ITypedElement ap, String accessPath,
          DirectionType direction) throws ValidationException
-   {	  
+   {
 	   PathEntry entry = new PathEntry(ap, direction);
 		if (accessPath != null) {
 			xomDomTrans = StructuredDataTransformation.valueOf(accessPath);
@@ -89,19 +89,19 @@ public class StructBridgeObjectProvider implements IBridgeObjectProvider
 	  String javaType = null;
 	  if (accessPath != null)
 	  {
-	     Path path = new Path(entry);	     	     
+	     Path path = new Path(entry);
          if (accessPath.matches(StructuredTypeUtils.TRANSFORMATION_PATTERN.pattern())) {
             String xomDomPath = accessPath;
             String copy = accessPath;
             copy = copy.substring(4);
             copy = copy.substring(0, copy.length() - 1);
             path.setMethod(copy);
-            if (!StructuredTypeUtils.isValidDomAccessPath((DataType)element, accessPath)) {               
-               throw new ValidationException(Structured_Messages.EXC_XOM_DOM_TRANSFORMATION_IS_NOT_VALID_FOR_THIS_DATAPATH, xomDomPath); 
+            if (!StructuredTypeUtils.isValidDomAccessPath((DataType)element, accessPath)) {
+               throw new ValidationException(Structured_Messages.EXC_XOM_DOM_TRANSFORMATION_IS_NOT_VALID_FOR_THIS_DATAPATH, xomDomPath);
             }
-         }  
+         }
          try {
-            path.setMethod(accessPath);            
+            path.setMethod(accessPath);
          } catch (ValidationException ve) {
             if (accessPath != null && accessPath.matches(StructuredTypeUtils.TRANSFORMATION_PATTERN.pattern())) {
                // igonore this excpetion in that case
@@ -111,6 +111,7 @@ public class StructBridgeObjectProvider implements IBridgeObjectProvider
          }
 	     entry = path.getSelection();
       }
+
       if (entry.isSingle())
       {
          if (PredefinedConstants.STRUCTURED_DATA.equals(entry.getElement().getMetaType().getId()))
@@ -121,15 +122,7 @@ public class StructBridgeObjectProvider implements IBridgeObjectProvider
             }
             else
             {
-               if (isEnumeration(entry))
-               {
-                  // currently enumerations can only be of type string
-                  javaType = String.class.getName();
-               }
-               else
-               {
-                  javaType = Map.class.getName();
-               }
+               javaType = Map.class.getName();
             }
          }
          else
@@ -157,12 +150,12 @@ public class StructBridgeObjectProvider implements IBridgeObjectProvider
             if (TypeDeclarationUtils.getType(type) == TypeDeclarationUtils.SIMPLE_TYPE)
             {
                return true;
-            }            
+            }
          }
-      }      
+      }
       return false;
    }
-   
+
    private boolean isDOM(StructuredDataTransformation trans) {
 		return trans != null
 				&& trans.getType().toString().equalsIgnoreCase(

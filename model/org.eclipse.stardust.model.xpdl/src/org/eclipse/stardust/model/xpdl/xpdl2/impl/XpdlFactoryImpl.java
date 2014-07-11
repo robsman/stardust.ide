@@ -10,34 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.impl;
 
-
-import java.text.MessageFormat;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.stardust.model.xpdl.carnot.Model_Messages;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributesType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,26 +24,26 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
  * <!-- end-user-doc -->
  * @generated
  */
-public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory 
+public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 {
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
    /**
     * Creates the default factory implementation.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public static XpdlFactory init()
+   public static XpdlFactory init()
    {
       try
       {
-         XpdlFactory theXpdlFactory = (XpdlFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.wfmc.org/2008/XPDL2.1");  //$NON-NLS-1$
+         XpdlFactory theXpdlFactory = (XpdlFactory)EPackage.Registry.INSTANCE.getEFactory(XpdlPackage.eNS_URI);
          if (theXpdlFactory != null)
          {
             return theXpdlFactory;
@@ -80,20 +59,20 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
    /**
     * Creates an instance of the factory.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public XpdlFactoryImpl()
+   public XpdlFactoryImpl()
    {
       super();
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+   @Override
    public EObject create(EClass eClass)
    {
       switch (eClass.getClassifierID())
@@ -101,6 +80,7 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
          case XpdlPackage.BASIC_TYPE_TYPE: return createBasicTypeType();
          case XpdlPackage.DATA_TYPE_TYPE: return createDataTypeType();
          case XpdlPackage.DECLARED_TYPE_TYPE: return createDeclaredTypeType();
+         case XpdlPackage.EXPRESSION_TYPE: return createExpressionType();
          case XpdlPackage.EXTENDED_ATTRIBUTES_TYPE: return createExtendedAttributesType();
          case XpdlPackage.EXTENDED_ATTRIBUTE_TYPE: return createExtendedAttributeType();
          case XpdlPackage.EXTERNAL_PACKAGES: return createExternalPackages();
@@ -108,68 +88,102 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
          case XpdlPackage.EXTERNAL_REFERENCE_TYPE: return createExternalReferenceType();
          case XpdlPackage.FORMAL_PARAMETERS_TYPE: return createFormalParametersType();
          case XpdlPackage.FORMAL_PARAMETER_TYPE: return createFormalParameterType();
+         case XpdlPackage.LOOP_MULTI_INSTANCE_TYPE: return createLoopMultiInstanceType();
+         case XpdlPackage.LOOP_STANDARD_TYPE: return createLoopStandardType();
+         case XpdlPackage.LOOP_TYPE: return createLoopType();
          case XpdlPackage.SCHEMA_TYPE_TYPE: return createSchemaTypeType();
          case XpdlPackage.SCRIPT_TYPE: return createScriptType();
          case XpdlPackage.TYPE_DECLARATIONS_TYPE: return createTypeDeclarationsType();
          case XpdlPackage.TYPE_DECLARATION_TYPE: return createTypeDeclarationType();
          default:
-            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_CLASS_NULL_IS_NOT_A_VALID_CLASSIFIER, new Object[]{eClass.getName()}));
+            throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
       }
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+   @Override
    public Object createFromString(EDataType eDataType, String initialValue)
    {
       switch (eDataType.getClassifierID())
       {
+         case XpdlPackage.LOOP_TYPE_TYPE:
+            return createLoopTypeTypeFromString(eDataType, initialValue);
+         case XpdlPackage.MI_FLOW_CONDITION_TYPE:
+            return createMIFlowConditionTypeFromString(eDataType, initialValue);
+         case XpdlPackage.MI_ORDERING_TYPE:
+            return createMIOrderingTypeFromString(eDataType, initialValue);
          case XpdlPackage.MODE_TYPE:
             return createModeTypeFromString(eDataType, initialValue);
+         case XpdlPackage.TEST_TIME_TYPE:
+            return createTestTimeTypeFromString(eDataType, initialValue);
          case XpdlPackage.TYPE_TYPE:
             return createTypeTypeFromString(eDataType, initialValue);
+         case XpdlPackage.LOOP_TYPE_TYPE_OBJECT:
+            return createLoopTypeTypeObjectFromString(eDataType, initialValue);
+         case XpdlPackage.MI_FLOW_CONDITION_TYPE_OBJECT:
+            return createMIFlowConditionTypeObjectFromString(eDataType, initialValue);
+         case XpdlPackage.MI_ORDERING_TYPE_OBJECT:
+            return createMIOrderingTypeObjectFromString(eDataType, initialValue);
          case XpdlPackage.MODE_TYPE_OBJECT:
             return createModeTypeObjectFromString(eDataType, initialValue);
+         case XpdlPackage.TEST_TIME_TYPE_OBJECT:
+            return createTestTimeTypeObjectFromString(eDataType, initialValue);
          case XpdlPackage.TYPE_TYPE_OBJECT:
             return createTypeTypeObjectFromString(eDataType, initialValue);
          default:
-        	 
-            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_DATATYPE_NULL_IS_NOT_VALID_CLASSIFIER, new Object[]{eDataType.getName()}));
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
       }
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	@Override
+   @Override
    public String convertToString(EDataType eDataType, Object instanceValue)
    {
       switch (eDataType.getClassifierID())
       {
+         case XpdlPackage.LOOP_TYPE_TYPE:
+            return convertLoopTypeTypeToString(eDataType, instanceValue);
+         case XpdlPackage.MI_FLOW_CONDITION_TYPE:
+            return convertMIFlowConditionTypeToString(eDataType, instanceValue);
+         case XpdlPackage.MI_ORDERING_TYPE:
+            return convertMIOrderingTypeToString(eDataType, instanceValue);
          case XpdlPackage.MODE_TYPE:
             return convertModeTypeToString(eDataType, instanceValue);
+         case XpdlPackage.TEST_TIME_TYPE:
+            return convertTestTimeTypeToString(eDataType, instanceValue);
          case XpdlPackage.TYPE_TYPE:
             return convertTypeTypeToString(eDataType, instanceValue);
+         case XpdlPackage.LOOP_TYPE_TYPE_OBJECT:
+            return convertLoopTypeTypeObjectToString(eDataType, instanceValue);
+         case XpdlPackage.MI_FLOW_CONDITION_TYPE_OBJECT:
+            return convertMIFlowConditionTypeObjectToString(eDataType, instanceValue);
+         case XpdlPackage.MI_ORDERING_TYPE_OBJECT:
+            return convertMIOrderingTypeObjectToString(eDataType, instanceValue);
          case XpdlPackage.MODE_TYPE_OBJECT:
             return convertModeTypeObjectToString(eDataType, instanceValue);
+         case XpdlPackage.TEST_TIME_TYPE_OBJECT:
+            return convertTestTimeTypeObjectToString(eDataType, instanceValue);
          case XpdlPackage.TYPE_TYPE_OBJECT:
             return convertTypeTypeObjectToString(eDataType, instanceValue);
          default:
-            throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_DATATYPE_NULL_IS_NOT_VALID_CLASSIFIER, new Object[]{eDataType.getName()}));
+            throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
       }
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public BasicTypeType createBasicTypeType()
+   public BasicTypeType createBasicTypeType()
    {
       BasicTypeTypeImpl basicTypeType = new BasicTypeTypeImpl();
       return basicTypeType;
@@ -188,10 +202,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public DeclaredTypeType createDeclaredTypeType()
+   public DeclaredTypeType createDeclaredTypeType()
    {
       DeclaredTypeTypeImpl declaredTypeType = new DeclaredTypeTypeImpl();
       return declaredTypeType;
@@ -199,10 +213,21 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public ExtendedAttributesType createExtendedAttributesType()
+   public ExpressionType createExpressionType()
+   {
+      ExpressionTypeImpl expressionType = new ExpressionTypeImpl();
+      return expressionType;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+    * @generated
+    */
+   public ExtendedAttributesType createExtendedAttributesType()
    {
       ExtendedAttributesTypeImpl extendedAttributesType = new ExtendedAttributesTypeImpl();
       return extendedAttributesType;
@@ -210,10 +235,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public ExtendedAttributeType createExtendedAttributeType()
+   public ExtendedAttributeType createExtendedAttributeType()
    {
       ExtendedAttributeTypeImpl extendedAttributeType = new ExtendedAttributeTypeImpl();
       return extendedAttributeType;
@@ -243,10 +268,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public ExternalReferenceType createExternalReferenceType()
+   public ExternalReferenceType createExternalReferenceType()
    {
       ExternalReferenceTypeImpl externalReferenceType = new ExternalReferenceTypeImpl();
       return externalReferenceType;
@@ -268,6 +293,39 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
     * <!-- end-user-doc -->
     * @generated
     */
+   public LoopMultiInstanceType createLoopMultiInstanceType()
+   {
+      LoopMultiInstanceTypeImpl loopMultiInstanceType = new LoopMultiInstanceTypeImpl();
+      return loopMultiInstanceType;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public LoopStandardType createLoopStandardType()
+   {
+      LoopStandardTypeImpl loopStandardType = new LoopStandardTypeImpl();
+      return loopStandardType;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public LoopType createLoopType()
+   {
+      LoopTypeImpl loopType = new LoopTypeImpl();
+      return loopType;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    public FormalParametersType createFormalParametersType()
    {
       FormalParametersTypeImpl formalParametersType = new FormalParametersTypeImpl();
@@ -276,10 +334,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public SchemaTypeType createSchemaTypeType()
+   public SchemaTypeType createSchemaTypeType()
    {
       SchemaTypeTypeImpl schemaTypeType = new SchemaTypeTypeImpl();
       return schemaTypeType;
@@ -287,10 +345,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public ScriptType createScriptType()
+   public ScriptType createScriptType()
    {
       ScriptTypeImpl scriptType = new ScriptTypeImpl();
       return scriptType;
@@ -298,10 +356,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public TypeDeclarationsType createTypeDeclarationsType()
+   public TypeDeclarationsType createTypeDeclarationsType()
    {
       TypeDeclarationsTypeImpl typeDeclarationsType = new TypeDeclarationsTypeImpl();
       return typeDeclarationsType;
@@ -309,10 +367,10 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public TypeDeclarationType createTypeDeclarationType()
+   public TypeDeclarationType createTypeDeclarationType()
    {
       TypeDeclarationTypeImpl typeDeclarationType = new TypeDeclarationTypeImpl();
       return typeDeclarationType;
@@ -323,10 +381,76 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
     * <!-- end-user-doc -->
     * @generated
     */
+   public LoopTypeType createLoopTypeTypeFromString(EDataType eDataType, String initialValue)
+   {
+      LoopTypeType result = LoopTypeType.get(initialValue);
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      return result;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertLoopTypeTypeToString(EDataType eDataType, Object instanceValue)
+   {
+      return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public MIFlowConditionType createMIFlowConditionTypeFromString(EDataType eDataType, String initialValue)
+   {
+      MIFlowConditionType result = MIFlowConditionType.get(initialValue);
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      return result;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertMIFlowConditionTypeToString(EDataType eDataType, Object instanceValue)
+   {
+      return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public MIOrderingType createMIOrderingTypeFromString(EDataType eDataType, String initialValue)
+   {
+      MIOrderingType result = MIOrderingType.get(initialValue);
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      return result;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertMIOrderingTypeToString(EDataType eDataType, Object instanceValue)
+   {
+      return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
    public ModeType createModeTypeFromString(EDataType eDataType, String initialValue)
    {
       ModeType result = ModeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_VALUE_NULL_IS_NOT_VALID_ENUMERATION_OF_ONE, new Object[]{initialValue, eDataType.getName()}));
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
       return result;
    }
 
@@ -342,24 +466,106 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public TypeType createTypeTypeFromString(EDataType eDataType, String initialValue)
+   public TestTimeType createTestTimeTypeFromString(EDataType eDataType, String initialValue)
    {
-      TypeType result = TypeType.get(initialValue);
-      if (result == null) throw new IllegalArgumentException(MessageFormat.format(Model_Messages.EXC_THE_VALUE_NULL_IS_NOT_VALID_ENUMERATION_OF_ONE, new Object[]{initialValue, eDataType.getName()}));
+      TestTimeType result = TestTimeType.get(initialValue);
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
       return result;
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public String convertTypeTypeToString(EDataType eDataType, Object instanceValue)
+   public String convertTestTimeTypeToString(EDataType eDataType, Object instanceValue)
    {
       return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+    * @generated
+    */
+   public TypeType createTypeTypeFromString(EDataType eDataType, String initialValue)
+   {
+      TypeType result = TypeType.get(initialValue);
+      if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      return result;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertTypeTypeToString(EDataType eDataType, Object instanceValue)
+   {
+      return instanceValue == null ? null : instanceValue.toString();
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public LoopTypeType createLoopTypeTypeObjectFromString(EDataType eDataType, String initialValue)
+   {
+      return createLoopTypeTypeFromString(XpdlPackage.Literals.LOOP_TYPE_TYPE, initialValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertLoopTypeTypeObjectToString(EDataType eDataType, Object instanceValue)
+   {
+      return convertLoopTypeTypeToString(XpdlPackage.Literals.LOOP_TYPE_TYPE, instanceValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public MIFlowConditionType createMIFlowConditionTypeObjectFromString(EDataType eDataType, String initialValue)
+   {
+      return createMIFlowConditionTypeFromString(XpdlPackage.Literals.MI_FLOW_CONDITION_TYPE, initialValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertMIFlowConditionTypeObjectToString(EDataType eDataType, Object instanceValue)
+   {
+      return convertMIFlowConditionTypeToString(XpdlPackage.Literals.MI_FLOW_CONDITION_TYPE, instanceValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public MIOrderingType createMIOrderingTypeObjectFromString(EDataType eDataType, String initialValue)
+   {
+      return createMIOrderingTypeFromString(XpdlPackage.Literals.MI_ORDERING_TYPE, initialValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertMIOrderingTypeObjectToString(EDataType eDataType, Object instanceValue)
+   {
+      return convertMIOrderingTypeToString(XpdlPackage.Literals.MI_ORDERING_TYPE, instanceValue);
    }
 
    /**
@@ -384,41 +590,61 @@ public class XpdlFactoryImpl extends EFactoryImpl implements XpdlFactory
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+    * <!-- end-user-doc -->
     * @generated
     */
-	public TypeType createTypeTypeObjectFromString(EDataType eDataType, String initialValue)
+   public TestTimeType createTestTimeTypeObjectFromString(EDataType eDataType, String initialValue)
+   {
+      return createTestTimeTypeFromString(XpdlPackage.Literals.TEST_TIME_TYPE, initialValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String convertTestTimeTypeObjectToString(EDataType eDataType, Object instanceValue)
+   {
+      return convertTestTimeTypeToString(XpdlPackage.Literals.TEST_TIME_TYPE, instanceValue);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+    * @generated
+    */
+   public TypeType createTypeTypeObjectFromString(EDataType eDataType, String initialValue)
    {
       return createTypeTypeFromString(XpdlPackage.Literals.TYPE_TYPE, initialValue);
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public String convertTypeTypeObjectToString(EDataType eDataType, Object instanceValue)
+   public String convertTypeTypeObjectToString(EDataType eDataType, Object instanceValue)
    {
       return convertTypeTypeToString(XpdlPackage.Literals.TYPE_TYPE, instanceValue);
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @generated
     */
-	public XpdlPackage getXpdlPackage()
+   public XpdlPackage getXpdlPackage()
    {
       return (XpdlPackage)getEPackage();
    }
 
    /**
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+   * <!-- end-user-doc -->
     * @deprecated
     * @generated
     */
-	@Deprecated
+   @Deprecated
    public static XpdlPackage getPackage()
    {
       return XpdlPackage.eINSTANCE;

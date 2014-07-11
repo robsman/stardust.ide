@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.stardust.model.xpdl.resourceResolver">
+      <resolver
+            class="org.eclipse.stardust.modeling.common.platform.utils.WorkspaceResourceResolver"
+            id="workspaceResourceResolver"
+            name="Workspace Resource Resolver">
+      </resolver>
+   </extension>
+
+</plugin>

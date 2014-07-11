@@ -34,12 +34,36 @@ public class DelegatingMessageTypeLabelProvider extends CellLabelProvider
 
    public void update(ViewerCell cell)
    {
-      cell.setFont(labelProvider.getFont(cell.getElement(), cell.getColumnIndex()));
-      cell.setImage(labelProvider
-            .getColumnImage(cell.getElement(), cell.getColumnIndex()));
-      cell.setText(labelProvider.getColumnText(cell.getElement(), cell.getColumnIndex()));
+//      String path = getPath(cell);
+      Object element = cell.getElement();
+      int columnIndex = cell.getColumnIndex();
+      cell.setFont(labelProvider.getFont(element, columnIndex));
+      cell.setImage(labelProvider.getColumnImage(element, columnIndex));
+      String label = labelProvider.getColumnText(element, columnIndex);
+      cell.setText(label);
+//      System.err.println(path + "[" + columnIndex + "] : " + label);
    }
    
+/*   private String getPath(ViewerCell cell)
+   {
+      StringBuilder b = new StringBuilder();
+      TreePath path = cell.getViewerRow().getTreePath();
+      for (int i = 0, l = path.getSegmentCount(); i < l; i++)
+      {
+         b.append("/");
+         Object segment = path.getSegment(i);
+         if (segment instanceof IIdentifiableElement)
+         {
+            b.append(((IIdentifiableElement) segment).getId());
+         }
+         else
+         {
+            b.append(segment);
+         }
+      }
+      return b.toString();
+   }*/
+
    public void setShowGroupInfo(boolean showGroupInfo)
    {
       labelProvider.setShowGroupInfo(showGroupInfo);

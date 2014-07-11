@@ -72,7 +72,6 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.config.CurrentVersion;
@@ -112,7 +111,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdaptee;
 import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.AddExternalReferenceAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CloseDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CommitChangesAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ConnectAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ConvertGatewayAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.CopyAction;
@@ -140,34 +138,28 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.FixInval
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ForwardDeleteAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ImportConnectionObjectAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ImportModelElementsAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.LockAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.LockAllAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.OpenDiagramAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.OptimizeDiagramAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.PasteAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReferencesSearchAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.RefreshConnectionObjectAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadConnectionsAction;
+import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ReloadSchemaAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ResetSubprocessAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.RevertChangesAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SearchConnectionAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.SetDefaultParticipantAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShareModelAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ShowPropertiesAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UnLockAllAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UnshareModelAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpdateDiagramAction;
-import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpdateModelAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeDataAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.UpgradeModelAndDiagramAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.actions.ValidateModelAction;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
 import org.eclipse.stardust.modeling.core.jobs.ModelValidationJob;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.ExtendedModelManager;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
+import org.eclipse.stardust.modeling.validation.ValidationMarkerService;
 import org.eclipse.stardust.modeling.validation.ValidationPlugin;
 import org.eclipse.stardust.modeling.validation.ValidationService;
 
@@ -183,8 +175,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    private Map<NotificationAdaptee, NotificationAdapter> adapters = CollectionUtils.newMap();
 
    private Set<IDiagramChangeListener> diagramChangeListeners = CollectionUtils.newSet();
-
-   private ModelServer modelServer;
 
    private final ValidationIssueManager validationIssueManager = new ValidationIssueManager();
 
@@ -241,17 +231,8 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       return modelManager;
    }
 
-   public ModelServer getModelServer()
-   {
-      return modelServer;
-   }
-
    public void dispose()
    {
-      if (modelServer != null)
-      {
-         modelServer.dispose();
-      }
       variableContextHelper.removeContext(this.getWorkflowModel());
       super.dispose();
    }
@@ -306,16 +287,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
    protected void createActions()
    {
       super.createActions();
-
-      addEditPartAction(new ShareModelAction(this));
-      addEditPartAction(new UnshareModelAction(this));
-      addEditPartAction(new UpdateModelAction(this));
-      addEditPartAction(new CommitChangesAction(this));
-
-      addEditPartAction(new UnLockAllAction(this));
-      addEditPartAction(new LockAllAction(this));
-      addEditPartAction(new LockAction(this));
-      addEditPartAction(new RevertChangesAction(this));
 
       addEditPartAction(new CopyAction(this));
       addEditPartAction(new PasteAction(this));
@@ -450,6 +421,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       addEditPartAction(new CreateOrganizationAction(this));
 
       addEditPartAction(new ExportDiagramAction(this));
+      addEditPartAction(new ReloadSchemaAction(this));
    }
 
    protected boolean canDelete(ISelection selection)
@@ -1100,7 +1072,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          {
             modelFile.deleteMarkers(ValidationPlugin.VALIDATION_MARKER_ID, true,
                   IResource.DEPTH_INFINITE);
-            ValidationService.getInstance()
+            ValidationMarkerService.getInstance()
                   .removeMappings(modelFile);
          }
          catch (CoreException e)
@@ -1149,8 +1121,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
          // do we need this?
          // getConnectionManager(model).resolve(model);
       }
-      modelServer = new ModelServer(model);
-
       variableContextHelper.storeVariables(model, false);
 
       return model;
@@ -1188,7 +1158,6 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       fixSymbols(model);
       // do we need this?
       // getConnectionManager(model).resolve(model);
-      modelServer = new ModelServer(model);
       return model;
    }
 
@@ -1217,7 +1186,7 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
                if (symbol.getModelElement() == null
                      && !(symbol instanceof StartEventSymbol)
                      && !(symbol instanceof EndEventSymbol)
-                     && !(symbol instanceof IntermediateEventSymbol)                     
+                     && !(symbol instanceof IntermediateEventSymbol)
                      && !(symbol instanceof PublicInterfaceSymbol))
                {
                   toDelete.add(symbol);
@@ -1748,17 +1717,4 @@ public class WorkflowModelEditor extends AbstractMultiPageGraphicalEditor
       }
       return editors.toArray(new DiagramEditorPage[editors.size()]);
    }
-
-   public boolean requireLock(EObject eObject)
-   {
-      if (modelServer != null)
-      {
-         return modelServer.requireLock(eObject);
-      }
-      return false;
-   }
-
-
-
-
 }

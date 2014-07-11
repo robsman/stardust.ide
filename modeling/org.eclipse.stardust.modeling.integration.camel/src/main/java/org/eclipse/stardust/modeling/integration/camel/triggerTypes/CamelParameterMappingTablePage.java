@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Button;
 
 public class CamelParameterMappingTablePage extends ParameterMappingTablePage
 {
-   private static final String BODY_ACCESS_POINT_ID = "message";
+   private static final String BODY_ACCESS_POINT_ID = "message"; //$NON-NLS-1$
 
    @Override
    protected void performAdd(Button[] buttons)

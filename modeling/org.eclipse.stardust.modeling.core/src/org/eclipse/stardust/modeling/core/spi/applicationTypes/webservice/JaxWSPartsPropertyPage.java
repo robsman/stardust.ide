@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Tree;
 public class JaxWSPartsPropertyPage extends
    AbstractModelElementPropertyPage
 {
-   private static final String JAXWS_CLASS_GENERATOR = "jaxwsClassGenerator";
+   private static final String JAXWS_CLASS_GENERATOR = "jaxwsClassGenerator"; //$NON-NLS-1$
    private static final String EMPTY_STRING = ""; //$NON-NLS-1$
    private static final String[][] LABELS = {
       {new String("_input_"), Diagram_Messages.ELEMENT_Input}, //$NON-NLS-1$
@@ -358,7 +358,7 @@ public class JaxWSPartsPropertyPage extends
       if (!extensions.isEmpty())
       {
          IConfigurationElement config = extensions.values().iterator().next();
-         IClassGenerator generator = (IClassGenerator) config.createExecutableExtension("class");
+         IClassGenerator generator = (IClassGenerator) config.createExecutableExtension("class"); //$NON-NLS-1$
          generator.generateClasses(location, wsdlLocation);
          project.getResource().refreshLocal(IResource.DEPTH_INFINITE, null);
       }

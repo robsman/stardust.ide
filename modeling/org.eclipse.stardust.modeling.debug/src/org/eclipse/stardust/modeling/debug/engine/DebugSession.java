@@ -428,6 +428,10 @@ public class DebugSession implements Session, Session.NotJoinEnabled
    {
    }
 
+   public void lock(Class type, long oid, int timeOut)
+   {
+   }
+   
    public boolean isSynchronized(Persistent persistent)
    {
       return true;

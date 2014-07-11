@@ -53,7 +53,7 @@ public class IdRefItemProvider
     * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH";
+   public static final String copyright = "Copyright 2000-2009 by SunGard Systeme GmbH"; //$NON-NLS-1$
 
    /**
     * This constructs an instance from a factory and a notifier.
@@ -97,8 +97,8 @@ public class IdRefItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IdRef_packageRef_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IdRef_packageRef_feature", "_UI_IdRef_type"),
+             getString("_UI_IdRef_packageRef_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IdRef_packageRef_feature", "_UI_IdRef_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ID_REF__PACKAGE_REF,
              true,
              false,
@@ -120,8 +120,8 @@ public class IdRefItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_IdRef_ref_feature"),
-             getString("_UI_PropertyDescriptor_description", "_UI_IdRef_ref_feature", "_UI_IdRef_type"),
+             getString("_UI_IdRef_ref_feature"), //$NON-NLS-1$
+             getString("_UI_PropertyDescriptor_description", "_UI_IdRef_ref_feature", "_UI_IdRef_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
              CarnotWorkflowModelPackage.Literals.ID_REF__REF,
              true,
              false,
@@ -140,7 +140,7 @@ public class IdRefItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/IdRef"));
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/IdRef")); //$NON-NLS-1$
    }
 
    /**
@@ -154,8 +154,8 @@ public class IdRefItemProvider
    {
       String label = ((IdRef)object).getRef();
       return label == null || label.length() == 0 ?
-         getString("_UI_IdRef_type") :
-         getString("_UI_IdRef_type") + " " + label;
+         getString("_UI_IdRef_type") : //$NON-NLS-1$
+         getString("_UI_IdRef_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**

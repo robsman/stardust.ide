@@ -17,7 +17,6 @@ import java.util.Map;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -38,7 +37,6 @@ import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.ValidationIssueManager;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelOutlinePage;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
 import org.eclipse.stardust.modeling.repository.common.RepositoryPackage;
 import org.eclipse.swt.widgets.TreeItem;
@@ -118,16 +116,10 @@ public class ModelTreeEditPart extends AbstractEObjectTreeEditPart
    {
       if (req.getType() == REQ_DIRECT_EDIT)
       {
-         Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser((EObject) getModel());
-         if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-         {
-            WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
-            TreeItem treeItem = (TreeItem) getWidget();
-            OutlineTreeEditor editor = outline.getOutlineTreeEditor();
-            editor.setItem(treeItem, getModel());
-            return;
-         }
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
+         WorkflowModelOutlinePage outline = (WorkflowModelOutlinePage) getEditor().getOutlinePage();
+         TreeItem treeItem = (TreeItem) getWidget();
+         OutlineTreeEditor editor = outline.getOutlineTreeEditor();
+         editor.setItem(treeItem, getModel());
          return;
       }
       super.performRequest(req);

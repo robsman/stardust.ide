@@ -10,28 +10,10 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.xpdl2.util;
 
-
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DataTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributesType;
-import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackages;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ScriptType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +28,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlTypeType;
  * @see org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage
  * @generated
  */
-public class XpdlSwitch<T> 
+public class XpdlSwitch<T> extends Switch<T>
 {
    /**
     * <!-- begin-user-doc -->
@@ -78,15 +60,17 @@ public class XpdlSwitch<T>
    }
 
    /**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+    * Checks whether this is a switch for the given package.
     * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
+    * <!-- end-user-doc -->
+    * @parameter ePackage the package in question.
+    * @return whether this is a switch for the given package.
     * @generated
     */
-	public T doSwitch(EObject theEObject)
+   @Override
+   protected boolean isSwitchFor(EPackage ePackage)
    {
-      return doSwitch(theEObject.eClass(), theEObject);
+      return ePackage == modelPackage;
    }
 
    /**
@@ -96,30 +80,8 @@ public class XpdlSwitch<T>
     * @return the first non-null result returned by a <code>caseXXX</code> call.
     * @generated
     */
-	protected T doSwitch(EClass theEClass, EObject theEObject)
-   {
-      if (theEClass.eContainer() == modelPackage)
-      {
-         return doSwitch(theEClass.getClassifierID(), theEObject);
-      }
-      else
-      {
-         List<EClass> eSuperTypes = theEClass.getESuperTypes();
-         return
-            eSuperTypes.isEmpty() ?
-               defaultCase(theEObject) :
-               doSwitch(eSuperTypes.get(0), theEObject);
-      }
-   }
-
-   /**
-    * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-    * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-    * @return the first non-null result returned by a <code>caseXXX</code> call.
-    * @generated
-    */
-	protected T doSwitch(int classifierID, EObject theEObject)
+	@Override
+   protected T doSwitch(int classifierID, EObject theEObject)
    {
       switch (classifierID)
       {
@@ -143,6 +105,13 @@ public class XpdlSwitch<T>
             DeclaredTypeType declaredTypeType = (DeclaredTypeType)theEObject;
             T result = caseDeclaredTypeType(declaredTypeType);
             if (result == null) result = caseXpdlTypeType(declaredTypeType);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
+         case XpdlPackage.EXPRESSION_TYPE:
+         {
+            ExpressionType expressionType = (ExpressionType)theEObject;
+            T result = caseExpressionType(expressionType);
             if (result == null) result = defaultCase(theEObject);
             return result;
          }
@@ -201,6 +170,27 @@ public class XpdlSwitch<T>
          {
             FormalParameterType formalParameterType = (FormalParameterType)theEObject;
             T result = caseFormalParameterType(formalParameterType);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
+         case XpdlPackage.LOOP_MULTI_INSTANCE_TYPE:
+         {
+            LoopMultiInstanceType loopMultiInstanceType = (LoopMultiInstanceType)theEObject;
+            T result = caseLoopMultiInstanceType(loopMultiInstanceType);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
+         case XpdlPackage.LOOP_STANDARD_TYPE:
+         {
+            LoopStandardType loopStandardType = (LoopStandardType)theEObject;
+            T result = caseLoopStandardType(loopStandardType);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
+         case XpdlPackage.LOOP_TYPE:
+         {
+            LoopType loopType = (LoopType)theEObject;
+            T result = caseLoopType(loopType);
             if (result == null) result = defaultCase(theEObject);
             return result;
          }
@@ -289,6 +279,22 @@ public class XpdlSwitch<T>
     * @generated
     */
 	public T caseDeclaredTypeType(DeclaredTypeType object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Expression Type</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Expression Type</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseExpressionType(ExpressionType object)
    {
       return null;
    }
@@ -406,6 +412,54 @@ public class XpdlSwitch<T>
    }
 
    /**
+    * Returns the result of interpreting the object as an instance of '<em>Loop Multi Instance Type</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Loop Multi Instance Type</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseLoopMultiInstanceType(LoopMultiInstanceType object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Loop Standard Type</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Loop Standard Type</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseLoopStandardType(LoopStandardType object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Loop Type</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Loop Type</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseLoopType(LoopType object)
+   {
+      return null;
+   }
+
+   /**
     * Returns the result of interpreting the object as an instance of '<em>Formal Parameters Type</em>'.
     * <!-- begin-user-doc -->
     * This implementation returns null;
@@ -512,7 +566,8 @@ public class XpdlSwitch<T>
     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
     * @generated
     */
-	public T defaultCase(EObject object)
+	@Override
+   public T defaultCase(EObject object)
    {
       return null;
    }

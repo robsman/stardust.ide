@@ -37,7 +37,6 @@ import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.PublicInterfaceSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.DiagramUtil;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
@@ -66,7 +65,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PropertyDialogAction;
 import org.eclipse.ui.model.IWorkbenchAdapter;
-
 
 /**
  * @author fherinean
@@ -230,7 +228,6 @@ public class ShowPropertiesAction extends PropertyDialogAction
 
       ModelElementPropertyDialog preferenceDialog = new ModelElementPropertyDialog(
             editor, shell, pageManager, element, recorder);
-      editor.getModelServer().setCachedModelElement(ModelUtils.getEObject(element));
 
       preferenceDialog.create();
       preferenceDialog.getShell()

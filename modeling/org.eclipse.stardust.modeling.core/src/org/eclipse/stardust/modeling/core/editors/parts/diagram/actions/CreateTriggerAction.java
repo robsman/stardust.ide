@@ -21,7 +21,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiConstants;
 import org.eclipse.stardust.modeling.common.ui.IdFactory;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
-import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.createUtils.CreationUtils;
 import org.eclipse.stardust.modeling.core.editors.DiagramActionConstants;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -29,8 +28,6 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.Compoun
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateMetaTypeCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.CreateTypedModelElementCommand;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.IContainedElementCommand;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
-
 
 public class CreateTriggerAction extends SelectionAction
 {
@@ -53,17 +50,8 @@ public class CreateTriggerAction extends SelectionAction
 
    public void run()
    {
-      ProcessDefinitionType process = getProcess();
-      Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(process);
-      if (lockedByCurrentUser == null || lockedByCurrentUser.equals(Boolean.TRUE))
-      {
-         execute(createCommand());
-         CreationUtils.showInOutlineAndEdit(trigger);
-      }
-      else
-      {
-         ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);
-      }
+      execute(createCommand());
+      CreationUtils.showInOutlineAndEdit(trigger);
    }
 
    private Command createCommand()

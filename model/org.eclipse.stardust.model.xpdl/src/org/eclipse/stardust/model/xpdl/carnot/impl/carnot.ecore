@@ -871,6 +871,14 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="loop" eType="ecore:EClass http://www.wfmc.org/2008/XPDL2.1#//LoopType"
+        containment="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="Loop"/>
+        <details key="namespace" value="http://www.wfmc.org/2008/XPDL2.1"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AnnotationSymbolType" eSuperTypes="#//INodeSymbol">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -2955,6 +2963,7 @@
     <eLiterals name="None"/>
     <eLiterals name="XOR" value="1"/>
     <eLiterals name="AND" value="2"/>
+    <eLiterals name="OR" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="LinkCardinality">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

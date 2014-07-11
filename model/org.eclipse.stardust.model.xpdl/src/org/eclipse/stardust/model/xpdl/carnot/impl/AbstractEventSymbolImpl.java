@@ -208,7 +208,7 @@ public abstract class AbstractEventSymbolImpl extends IFlowObjectSymbolImpl impl
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (label: ");
+      result.append(" (label: "); //$NON-NLS-1$
       result.append(label);
       result.append(')');
       return result.toString();

@@ -1,307 +1,80 @@
-h1	{
-	font-family:	Geneva, Arial, Helvetica, sans-serif;
-	font-size: 		20pt;
-	color: 			#CC152A;
-	font-weight:	bold;
-	font-style: normal;
-	padding-right: 225px;
-	padding-top: 10px;
-	padding-bottom: 40px;
-	background-image: url(../images/carnot-logo.jpg);
-	background-repeat: no-repeat;
-	background-position: right top;
-	line-height: 30px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #BDB3AE;
-	text-align: left;
+h1 {
+   font-family:   Geneva, Arial, Helvetica, sans-serif;
+   font-size:     20px;
+   color:         black;
+   font-weight:   bold;
+   font-style: normal;
+   padding-top: 10px;
+   padding-bottom: 5px;
+   border-bottom-width: 1px;
+   border-bottom-style: solid;
+   border-bottom-color: #BDB3AE;
+   text-align: left;
 }
 
 h2 {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 18pt;
-	font-weight: bold;
-	color: #104A5F;
-	line-height: 30px;
-	font-style: normal;
-	padding-right: 100px;
-	background-color: #EEEEEE;
-	background-image: url(../images/h2-background.gif);
-	background-repeat: no-repeat;
-	background-position: right top;
-	vertical-align: top;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 18px;
+   font-weight: bold;
+   color: black;
+   line-height: 18px;
+   font-style: normal;
+   margin-bottom: 15px;
+   padding-top: 10px;
+   vertical-align: top;
+   border-bottom: 1px dotted #d4d4dd;
+   color: #222;
 }
 h3 {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 12pt;
-	font-weight: bold;
-	color: #104A5F;
-	line-height: 30px;
-	background-color: #EEEEEE;
-	font-style: normal;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 15px;
+   font-weight: bold;
+   color: black;
+   line-height: 30px;
+   font-style: normal;
 }
 h4 {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	font-weight: bold;
-	color: #CC0033;
-	line-height: 30px;
-	background-color: #EEEEEE;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 10pt;
+   font-weight: bold;
+   color: black;
+   line-height: 30px;
 }
-h5 {  font-family: Geneva, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: bold; color: #104A5F;}
-h6 {  font-family: Geneva, Arial, Helvetica, sans-serif; font-size: 9pt; font-weight: bold; color: #000000;}
-
 body {
-		background-color: #FFFFFF;
-		text: "#000000";
+      background-color: #FFFFFF;
+      text: "#000000";
 }
 
 p {
-	font-family: 	Arial, sans-serif;
-	font-size: 		12pt;
-	color: 			#000000;
-	font-style: normal;
-	line-height: 18px;
-	font-weight: normal;
-}
-
-p.image {
-	font-family: 	Geneva, Arial, Helvetica, sans-serif;
-	font-size: 		9pt;
-	color: 			#000000;
-	font-style: normal;
-	line-height: 28px;
-	font-weight: normal;
-	text-align: center;
-}
-
-p.small {
-	line-height: 1px;
-}
-
-a:link {
-
-		font-size: 			10pt;
-		color: 				#006979;
-		text-decoration: 	underline;
-		font-weight: 		bold;
-}
-
-a:visited {
-
-		font-size: 			10pt;
-		color: 				#104A5F;
-		text-decoration: 	underline;
-		font-weight: 		bold;
-}
-
-a:active {
-
-		font-size: 			10pt;
-		color: 				#c23646;
-		text-decoration: 	underline;
-		font-weight: 		bold;
-}
-
-a:hover {
-		font-size: 			10pt;
-		color: 				#c23646;
-		text-decoration: 	underline;
-		font-weight: 		bold;
-}
-
-/* use for links in navigation line */
-
-a.header:link {
-		font-size: 			8pt;
-		font-weight: 		normal;
-		color: 				#000000;		
-}
-
-a.header:visited {
-		font-size: 			8pt;
-		font-weight: 		normal;
-		color: 				#000000;		
-}
-
-a.header:active {
-		font-size: 			8pt;
-		font-weight: 		normal;
-		color: 				#000000;		
-}
-
-a.header:hover {
-		font-size: 			8pt;
-		font-weight: 		normal;
-		color: 				#000000;		
-}
-
-/* use for next and previous links in navigation line */
-
-a.guide:link {
-        font-size:          8pt;
-        font-weight:        bold;
-        color:              #104A5F;        
-        text-decoration:    none;
-}
-
-a.guide:visited {
-        font-size:          8pt;
-        font-weight:        bold;
-        text-decoration:    none;
-        color:              #104A5F;
-}
-
-a.guide:active {
-        font-size:          8pt;
-        font-weight:        bold;
-        text-decoration:    none;
-        color:              #104A5F;
-}
-a.guide:hover {
-        font-size:          8pt;
-        font-weight:        normal;
-        text-decoration:    none;
-        color:              #104A5F;
+   font-family:   Arial, sans-serif;
+   font-size:     12pt;
+   color:         #000000;
+   font-style: normal;
+   line-height: 18px;
+   font-weight: normal;
 }
 
 table {
-	font-size: 			10pt;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	border: 1px solid #104A5F;
+   font-size:        10pt;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   border: 1px solid #104A5F;
     width: 100%;
 }
 
-table.note {
-    border: none;
-    width: auto;
-}
-
-/* use for the table in navigation line */
-
-table.header {
-    border: none;
-}
-
-table.guide {
-    border: none;
-    width: auto;
-}
-
-/* use for smaller tables: auto table size and place table in the center */
-
-table.autoWidth {
-	width: auto;
-	align: left;
-}
-
-th {
-	padding-top: 		3px;
-	padding-right: 	    3px;
-	padding-bottom: 	3px;
-	padding-left: 		3px;
-	white-space: 		nowrap;
-	background-color: #104A5F;
-	color: 				White;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	text-align: left;
-}
-
-/* use for note sections */
-th.note {
-    padding-top:        1px;
-    padding-right:      10px;
-    padding-left:       25px;
-    white-space:        nowrap;
-    background-color: white;
-    color:              black;
-    font-size: 10pt;
-    text-align: left;
-    line-height: 17px;
-    vertical-align: top;
-    font-style: normal;
-    font-weight: normal;
-    width: auto;
-}
-th.light {
-    padding-top:        3px;
-    padding-right:      3px;
-    padding-bottom:     3px;
-    padding-left:       3px;
-    white-space:        nowrap;
-    background-color: #509A9F;
-    color:              White;
-    font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-    text-align: left;
-}
-
-tr {
-	valign: top;
-	align: left;
-}
-
-tr.center {
-    text-align: center;
-}
-
-td {
-	padding: 		3px;
-	background-color: #EEEEEE;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	color: #104A5F;
-	font-weight: normal;
-	valign: top;
-}
-
-td.center {
-    text-align: center;
-}
-
-td.header {
-	padding: 	1px;
-	background-color: #FFFFFF;
-	color: #000000;
-	font-size: 8pt;	
-	valign: top;
-}
-
-
-/* used for home, next, previous table entries in navigation line */
-td.guide {
-    align: right;
-    font-family:    Arial, Helvetica, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    color: #104A5F;
-    text-align: center;
-    letter-spacing: 2px;
-    font-size: 8pt;
-    height: 14px;
-    border: 1px solid #cccccc;
-    padding:        1px;
-    background-color: #EEEEEE;
-}   
 
 pre {
-	color:	#000000;
-	font-family: "Courier New", Courier, mono;
-	font-size: 8pt;
-	border: 1px solid #104A5F;
-	padding: 10px;
-	background-color: #EEEEEE;
+   color:   #000000;
+   font-family: "Courier New", Courier, mono;
+   font-size: 8pt;
+   border: 1px solid #104A5F;
+   padding: 10px;
+   background-color: #EEEEEE;
 }
 
 tt {
-	color:	#000000;
-	font-family: "Courier New", Courier, mono;
-	font-size: 10pt;
-}
-
-tt.table {
-    color: #104A5F;
+   color:   #000000;
+   font-family: "Courier New", Courier, mono;
+   font-size: 10pt;
 }
 
 hr {
@@ -312,85 +85,27 @@ hr {
 }
 
 ul {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 12pt;
-	font-style: normal;
-	color: #000000;
-}
-
-ul.table {
-	color: #104A5F;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12pt;
+   font-style: normal;
+   color: #000000;
 }
 
 ol {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	font-weight: normal;
-	line-height: 18px;
-}
-
-dl {
-	line-height: 18px;
-	font-style: normal;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	font-weight: bold;
-	color: #104A5F;
-}
-
-dd {
-	font-style: normal;
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	font-weight: normal;
-	color: #000000;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 10pt;
+   font-weight: normal;
+   line-height: 18px;
 }
 
 li{
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 12pt;
+   font-family: Geneva, Arial, Helvetica, sans-serif;
+   font-size: 12pt;
 }
 
 #footer {
     clear:left;
     margin-top:1em;
     text-align:left;
-	font-size: 8pt;
-}
-
-.Stil1 {
-}
-
-.Stil2 {
-}
-
-/* display for Eclipse Help (links to plugins without version numbers)*/
-.hidelink {
-	display:inline;
-}
-
-/* display for standalone documentation (links to plugins with version numbers)*/
-.hideversionlink {
-	display:none;
-}
-
-.tip {
-	color: #FF0000;
-	font-size: 24pt;
-	line-height: 28px;
-}
-
-code {
-}
-
-img {
-	border: 1px solid #E5E5E5;
-}
-
-img.noborder {
-	border: none;
-}
-
-.ind {
-	margin-left:20px;
+   font-size: 8pt;
 }

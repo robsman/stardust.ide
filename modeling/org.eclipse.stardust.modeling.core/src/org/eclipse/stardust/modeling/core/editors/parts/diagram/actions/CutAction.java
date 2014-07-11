@@ -27,7 +27,6 @@ import org.eclipse.stardust.model.xpdl.carnot.IConnectionSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.INodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.TextSymbolType;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
@@ -35,13 +34,11 @@ import org.eclipse.stardust.modeling.core.editors.cap.CopyPasteUtil;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.AbstractNodeSymbolEditPart;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteConnectionSymbolCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.DeleteSymbolCommandFactory;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServerUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-
 
 public class CutAction extends DeleteAction
 {
@@ -67,8 +64,8 @@ public class CutAction extends DeleteAction
       if(CopyPasteUtil.containsGateway(selection))
       {
          return false;
-      }      
-      
+      }
+
       isValid = CopyPasteUtil.validateSelection(selection, true);
       if(isValid == null)
       {
@@ -79,24 +76,8 @@ public class CutAction extends DeleteAction
 
    public void run()
    {
-      List selectedObjects = getSelectedObjects();
-      for (int i = 0; i < selectedObjects.size(); i++)
-      {
-         Object entry = selectedObjects.get(i);
-         EObject checkSelection = CopyPasteUtil.getEObjectFromSelection(entry);
-         if (!(checkSelection instanceof ModelType))
-         {
-            Boolean lockedByCurrentUser = ModelServerUtils.isLockedByCurrentUser(checkSelection);
-            if (lockedByCurrentUser != null && lockedByCurrentUser.equals(Boolean.FALSE))
-            {
-               ModelServerUtils.showMessageBox(Diagram_Messages.MSG_LOCK_NEEDED);         
-               return;
-            }                     
-         }            
-      }      
-      
-      WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();      
-      List contentList = CopyPasteUtil.createCopySet(isValid, getSelectedObjects(), editor, false);      
+      WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+      List contentList = CopyPasteUtil.createCopySet(isValid, getSelectedObjects(), editor, false);
       clipboard.setContents(contentList);
 
       List symbols = new ArrayList();
@@ -106,28 +87,28 @@ public class CutAction extends DeleteAction
       CompoundCommand cmd = new CompoundCommand();
       if(symbols.size() == 0 && modelSymbols.size() == 0)
       {
-         cmd.add(super.createDeleteCommand(getSelectedObjects()));         
+         cmd.add(super.createDeleteCommand(getSelectedObjects()));
       }
       else
       {
          cmd.add(super.createDeleteCommand(modelSymbols));
-         cmd.add(createDeleteSymbolsCommand(symbols));         
-      }      
+         cmd.add(createDeleteSymbolsCommand(symbols));
+      }
       execute(cmd);
    }
-   
+
    public void filterSelection(List symbols, List modelSymbols, List selectionList)
    {
       for(int i = 0; i < selectionList.size(); i++)
       {
-         Object entry = selectionList.get(i);         
-         EObject symbol = (EObject) ((AbstractEditPart) entry).getModel();              
+         Object entry = selectionList.get(i);
+         EObject symbol = (EObject) ((AbstractEditPart) entry).getModel();
          IIdentifiableModelElement modelElement = null;
-         
+
          if(symbol instanceof AnnotationSymbolType
                || symbol instanceof TextSymbolType)
          {
-            symbols.add(entry);            
+            symbols.add(entry);
          }
          else if(symbol instanceof IModelElementNodeSymbol)
          {
@@ -140,10 +121,10 @@ public class CutAction extends DeleteAction
             {
                symbols.add(entry);
             }
-         } 
+         }
       }
    }
-   
+
    public Command createDeleteSymbolsCommand(List objects)
    {
       CompoundCommand cmd = new CompoundCommand();
@@ -164,5 +145,5 @@ public class CutAction extends DeleteAction
          }
       }
       return cmd;
-   }   
+   }
 }

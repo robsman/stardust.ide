@@ -16,7 +16,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -190,18 +192,33 @@ public class AccessPointUtil
       }
       return null;
    }
-   
+
    public static String getTypeAttributeValue(AccessPointType accessPoint)
    {
       String attrValue = AttributeUtil.getAttributeValue(accessPoint, CarnotConstants.CLASS_NAME_ATT);
       if(attrValue == null)
       {
-         attrValue = AttributeUtil.getAttributeValue(accessPoint, CarnotConstants.TYPE_ATT);         
+         attrValue = AttributeUtil.getAttributeValue(accessPoint, CarnotConstants.TYPE_ATT);
       }
       if(attrValue == null)
       {
          attrValue = AttributeUtil.getAttributeValue(accessPoint, CarnotConstants.REMOTE_INTERFACE_ATT);
       }
       return attrValue;
+   }
+
+   public static AccessPointType findAccessPoint(EList<AccessPointType> accessPoints, String id, DirectionType direction)
+   {
+      AccessPointType accessPoint = null;
+      for(AccessPointType ap : accessPoints)
+      {
+         if(id.equals(ap.getId())
+               && direction.equals(ap.getDirection()))
+         {
+            return ap;
+         }
+      }
+
+      return accessPoint;
    }
 }

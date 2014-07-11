@@ -42,4 +42,9 @@ public class AccessPathEvaluationContext
    {
       return activity;
    }
+   
+   public static interface Aware
+   {
+      void setContext(AccessPathEvaluationContext context);
+   }
 }

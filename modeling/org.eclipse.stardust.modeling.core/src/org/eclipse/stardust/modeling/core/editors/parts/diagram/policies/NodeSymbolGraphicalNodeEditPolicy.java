@@ -14,12 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.UnexecutableCommand;
@@ -84,9 +82,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.ReloadC
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetActivityControlFlowCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetValueCmd;
 import org.eclipse.stardust.modeling.core.editors.parts.properties.ActivityCommandFactory;
-import org.eclipse.stardust.modeling.core.modelserver.ModelServer;
 import org.eclipse.stardust.modeling.core.properties.LinkTypeGeneralPropertyPage;
-
 
 public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
 {
@@ -1001,25 +997,6 @@ public class NodeSymbolGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy
 
    public Command getCommand(Request request)
    {
-      if (RequestConstants.REQ_CONNECTION_START.equals(request.getType())
-            || RequestConstants.REQ_CONNECTION_END.equals(request.getType())
-            || RequestConstants.REQ_RECONNECT_SOURCE.equals(request.getType())
-            || RequestConstants.REQ_RECONNECT_TARGET.equals(request.getType())
-            || ReloadConnectionsAction.REQ_RELOAD_CONNECTIONS.equals(request.getType()))
-      {
-         EditPart part = getHost();
-         Object model = part.getModel();
-
-         if (model instanceof INodeSymbol)
-         {
-            ModelServer server = editor.getModelServer();
-            if (server != null && server.requireLock((EObject) model))
-            {
-               return UnexecutableCommand.INSTANCE;
-            }
-         }
-      }
-
       if (ReloadConnectionsAction.REQ_RELOAD_CONNECTIONS.equals(request.getType()))
       {
          return getReloadConnectionsCommand();

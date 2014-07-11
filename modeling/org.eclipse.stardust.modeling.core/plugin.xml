@@ -23,7 +23,6 @@
    <extension-point id="messageProviders" name="Message Providers" schema="schema/messageProviders.exsd"/>
    <extension-point id="triggerMessageAcceptors" name="triggerMessageAcceptors" schema="schema/triggerMessageAcceptors.exsd"/>
    <extension-point id="contextMenuAction" name="Context Menu Action" schema="schema/contextMenuAction.exsd"/>
-   <extension-point id="vcsConnector" name="VCS Connector" schema="schema/vcsConnector.exsd"/>
    <extension-point id="processInterfaceInvocationGenerator" name="ProcessInterface Invocation Generator" schema="schema/processInterfaceInvocationGenerator.exsd"/>
    <extension-point id="jaxwsClassGenerator" name="JAX-WS Java Class Generator" schema="schema/jaxwsClassGenerator.exsd"/>
 
@@ -95,13 +94,6 @@
             icon="icons/full/obj16/model.gif"
             id="org.eclipse.stardust.modeling.core.view1"
             name="%repositoryView"/>
-      <view
-            allowMultiple="false"
-            category="org.eclipse.stardust.modeling.core.viewcategory"
-            class="org.eclipse.stardust.modeling.core.modelserver.ui.VcsFeedView"
-            icon="icons/full/obj16/history_view.gif"
-            id="org.eclipse.stardust.modeling.core.modelserver.ui.VcsFeedView"
-            name="%vcsFeedView"/>
 
    </extension>
    <extension
@@ -890,6 +882,20 @@
          <filter
                name="metaType"
                value="primitive"/>
+      </page>
+      <page
+            category="spi"
+            class="org.eclipse.stardust.modeling.core.spi.dataTypes.primitive.PrimitivePropertyPage"
+            icon="icons/full/obj16/primitive_data.gif"
+            id="_cwm_spi_data_"
+            name="%propPagePrimitiveData">
+         <enabledWhen>
+            <and>
+               <instanceof value="org.eclipse.stardust.model.xpdl.carnot.DataType"/>
+               <test property="com.infinity.properties.metaType" value="struct"/>
+               <test property="com.infinity.properties.structType" value="simple"/>
+            </and>
+         </enabledWhen>
       </page>
       <page
             category="spi"

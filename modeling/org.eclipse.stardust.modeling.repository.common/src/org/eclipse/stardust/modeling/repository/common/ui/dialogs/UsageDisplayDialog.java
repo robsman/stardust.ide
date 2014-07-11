@@ -18,17 +18,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IMetaType;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeAction;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
-import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
-import org.eclipse.stardust.modeling.common.ui.BpmUiActivator;
-import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.ui.ImageUtil;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -39,7 +36,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
 
 public class UsageDisplayDialog extends Dialog
 {
@@ -57,7 +53,7 @@ public class UsageDisplayDialog extends Dialog
    public static void setUsage(MergeAction usage)
    {
       UsageDisplayDialog.usage = usage;
-   }   
+   }
 
    private UsageDisplayDialog(Shell shell, IconFactory iconFactory, EObject eObject)
    {
@@ -78,7 +74,7 @@ public class UsageDisplayDialog extends Dialog
       GridLayout layout = (GridLayout) composite.getLayout();
       layout.numColumns = 2;
       Label label = FormBuilder.createLabel(composite, ""); //$NON-NLS-1$
-      label.setImage(ImportUtils.getImage(iconFactory, eObject));
+      label.setImage(ImageUtil.getImage(iconFactory, eObject));
       FormBuilder.createLabel(composite, ImportUtils.getLabel(eObject));
       /*FormBuilder.createLabel(composite, Repository_Messages.LBL_ANOTHER + getType(eObject)
             + Repository_Messages.LBL_WITH_ID + MergeUtils.getId(eObject)
@@ -86,7 +82,7 @@ public class UsageDisplayDialog extends Dialog
       String message = Repository_Messages.LBL_ANOTHER_TYPE_WITH_ID_ALREADY_EXISTS_IN_MODEL;
       message = MessageFormat.format(message, new Object[]{getType(eObject), MergeUtils.getId(eObject)});
       FormBuilder.createLabel(composite, message, 2);
-      
+
       final Button usageCheckBox = FormBuilder.createCheckBox(composite, Repository_Messages.BUT_USE_OPTION_FOR_ALL_DUPLICATE_ELEMENTS, 2);
       usageCheckBox.addSelectionListener(new SelectionListener()
       {
@@ -104,10 +100,10 @@ public class UsageDisplayDialog extends Dialog
             {
                setUsage(null);
             }
-         }         
-      });      
+         }
+      });
       usageCheckBox.setSelection(false);
-      
+
       Group group = FormBuilder.createGroup(composite, " Action: ", 1, 2); //$NON-NLS-1$
       Button replaceButton = FormBuilder.createRadioButton(group,
             Repository_Messages.BUT_REPLACE_EXISTING_ELEMENT_WITH_NEW_ONE);
@@ -123,7 +119,7 @@ public class UsageDisplayDialog extends Dialog
             if(usageCheckBox.getSelection())
             {
                setUsage(action);
-            }            
+            }
          }
       });
       Button reuseButton = FormBuilder.createRadioButton(group,
@@ -133,23 +129,23 @@ public class UsageDisplayDialog extends Dialog
          public void widgetDefaultSelected(SelectionEvent e)
          {
          }
-      
+
          public void widgetSelected(SelectionEvent e)
          {
             action = MergeAction.REUSE;
             if(usageCheckBox.getSelection())
             {
                setUsage(action);
-            }            
+            }
          }
       });
       replaceButton.setSelection(true);
-      
+
       if(isReferenced)
       {
          reuseButton.setEnabled(false);
       }
-      
+
       return composite;
    }
 
@@ -174,24 +170,15 @@ public class UsageDisplayDialog extends Dialog
             return MergeAction.REUSE;
          }
       }
-      ModelType model = ModelUtils.findContainingModel(original);
-      if (model != null)
-      {
-         IWorkflowModelEditor editor = BpmUiActivator.findWorkflowModelEditor(model);
-         if (editor != null && editor.requireLock(original))
-         {
-            return MergeAction.REUSE;
-         }
-      }
-      
+
       MergeAction usage = UsageDisplayDialog.getUsage();
       if(usage != null)
       {
          return usage;
       }
-      
+
       UsageDisplayDialog dialog = new UsageDisplayDialog(shell, iconFactory, element);
-      
+
       int result = dialog.open();
       if (result == Window.OK)
       {

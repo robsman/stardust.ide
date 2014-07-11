@@ -455,7 +455,9 @@ public class UnusedModelElementsSearcher
       {
          DataType data = (DataType) i.next();
          DataTypeType type = data.getType();
-         if(type != null && type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
+         if(type != null &&
+               (type.getId().equals(StructuredDataConstants.STRUCTURED_DATA))
+               || type.getId().equals(PredefinedConstants.PRIMITIVE_DATA))
          {
             String structuredDataId = AttributeUtil.getAttributeValue((IExtensibleElement) data, StructuredDataConstants.TYPE_DECLARATION_ATT);
             if(!StringUtils.isEmpty(structuredDataId) && structuredDataId.equals(element.getId()))
@@ -504,21 +506,18 @@ public class UnusedModelElementsSearcher
 
    private boolean isParticipantUsedInOrganizations(IModelParticipant element)
    {
-      List organizations = model.getOrganization();
-      for (Iterator i = organizations.iterator(); i.hasNext();)
+      for (OrganizationType organization : model.getOrganization())
       {
-         OrganizationType organization = (OrganizationType) i.next();
-         List participants = organization.getParticipant();
-         for(int cnt = 0; cnt < participants.size(); cnt++)
+         for (ParticipantType ref : organization.getParticipant())
          {
-            IModelParticipant participant = ((ParticipantType) participants.get(cnt)).getParticipant();
-            if(participant.equals(element))
+            IModelParticipant participant = ref.getParticipant();
+            if (participant != null && participant.equals(element))
             {
                return true;
             }
          }
          RoleType role = organization.getTeamLead();
-         if(role != null && role.equals(element))
+         if (role != null && role.equals(element))
          {
             return true;
          }

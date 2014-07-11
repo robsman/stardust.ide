@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.validation;
 
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ValidationPlugin extends AbstractUIPlugin
+public class ValidationPlugin extends Plugin
 {
    public static final String SYMBOLIC_ID = "org.eclipse.stardust.modeling.validation"; //$NON-NLS-1$
    
@@ -63,18 +62,5 @@ public class ValidationPlugin extends AbstractUIPlugin
    public static ValidationPlugin getDefault()
    {
       return plugin;
-   }
-
-   /**
-    * Returns an image descriptor for the image file at the given plug-in relative path.
-    * 
-    * @param path
-    *           the path
-    * @return the image descriptor
-    */
-   public static ImageDescriptor getImageDescriptor(String path)
-   {
-      return AbstractUIPlugin.imageDescriptorFromPlugin(
-            "org.eclipse.stardust.modeling.validation", path); //$NON-NLS-1$
    }
 }

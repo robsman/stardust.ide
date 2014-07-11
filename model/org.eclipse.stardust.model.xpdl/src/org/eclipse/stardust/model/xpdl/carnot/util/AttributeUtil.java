@@ -209,29 +209,30 @@ public class AttributeUtil
    {
       return new AttributeCategory(element, id, null);
    }
-   
-   public static EObject getIdentifiable(IExtensibleElement element, String name)
+
+   public static <T extends EObject> T getIdentifiable(IExtensibleElement element, String name)
    {
-      EObject result = null;
       AttributeType attribute = getAttribute(element, name);
       if (attribute != null)
       {
          IdentifiableReference reference = attribute.getReference();
          if (reference != null)
          {
-            result = reference.getIdentifiable();
+            @SuppressWarnings("unchecked")
+            T result = (T) reference.getIdentifiable();
+            return result;
          }
       }
-      return result;
+      return null;
    }
-   
+
    public static AttributeType createAttribute(String name)
    {
       AttributeType attribute = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
-      attribute.setName(name);      
+      attribute.setName(name);
       return attribute;
    }
-   
+
    public static void setReference(IExtensibleElement element, String name,
          EObject identifiable)
    {
@@ -275,7 +276,7 @@ public class AttributeUtil
       }
       return null;
    }
-   
+
    public static boolean isReference(AttributeType attribute)
    {
       return attribute.getReference() != null;
@@ -283,11 +284,11 @@ public class AttributeUtil
 
    public static boolean isReference(IExtensibleElement element, String feature)
    {
-      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(element, "elementReference");
+      List<IConfigurationElement> configs = SpiExtensionRegistry.getConfiguration(element, "elementReference"); //$NON-NLS-1$
       if (configs != null)
       {
          for(IConfigurationElement config : configs)
-         {         
+         {
             IConfigurationElement[] refs = config.getChildren("attribute"); //$NON-NLS-1$
             for (int k = 0; k < refs.length; k++)
             {
