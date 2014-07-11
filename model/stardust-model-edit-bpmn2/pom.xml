@@ -25,7 +25,7 @@
    </parent>
 
    <properties>
-      <stardust.version>1.1.2</stardust.version>
+      <stardust.version>2.0.0</stardust.version>
    </properties>
 
    <dependencies>

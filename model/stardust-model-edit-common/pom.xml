@@ -25,7 +25,7 @@
    </parent>
 
    <properties>
-      <stardust.version>1.1.2</stardust.version>
+      <stardust.version>2.0.0</stardust.version>
    </properties>
 
    <dependencies>
@@ -61,7 +61,7 @@
       </dependency>
       <dependency>
          <groupId>org.eclipse.stardust.modeling.model</groupId>
-         <artifactId>ipp-bpm-model-builder</artifactId>
+         <artifactId>stardust-bpm-model-builder</artifactId>
          <version>${project.version}</version>
          <exclusions>
             <exclusion>

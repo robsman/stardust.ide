@@ -20,7 +20,7 @@
    </parent>
 
    <groupId>org.eclipse.stardust.modeling.model</groupId>
-   <artifactId>ipp-bpm-model-builder</artifactId>
+   <artifactId>stardust-bpm-model-builder</artifactId>
    <packaging>jar</packaging>
 
    <name>Model XPDL Builder</name>
