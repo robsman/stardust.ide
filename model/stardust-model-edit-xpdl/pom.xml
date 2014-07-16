@@ -158,6 +158,13 @@
          <artifactId>guava</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.eclipse.stardust.modeling.model</groupId>
+         <artifactId>stardust-model-edit-common</artifactId>
+         <version>${project.version}</version>
+         <type>test-jar</type>
+         <scope>test</scope>
+      </dependency>
 
    </dependencies>
 
