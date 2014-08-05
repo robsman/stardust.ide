@@ -18,7 +18,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import org.eclipse.stardust.common.StringUtils;
@@ -39,13 +38,9 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
 
    private LabeledText priorityText;
 
-   private Button auditTrailPersistenceCheckBox;
-
    private String auditTrailPersistence = null;
 
    private ComboViewer comboViewer;
-
-   private boolean isAuditTrailPersistent;
 
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
@@ -62,8 +57,6 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
          auditTrailPersistence = AttributeUtil.getAttributeValue(
                (IExtensibleElement) getModelElement(),
                "carnot:engine:auditTrailPersistence"); //$NON-NLS-1$
-         auditTrailPersistenceCheckBox.setSelection(true);
-         isAuditTrailPersistent = true;
          comboViewer.setSelection(new StructuredSelection(auditTrailPersistence));
       }
       else
@@ -71,7 +64,7 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
          comboViewer.getCombo().select(0);
       }
 
-      comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
+      comboViewer.getCombo().setEnabled(true);
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
@@ -94,12 +87,6 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       {
          // nothing to do here, maybe log an error
       }
-
-      if ( !isAuditTrailPersistent)
-      {
-         AttributeUtil.setAttribute((IExtensibleElement) modelElement,
-               "carnot:engine:auditTrailPersistence", null); //$NON-NLS-1$
-      }
    }
 
    public void contributeExtraControls(Composite composite)
@@ -107,7 +94,7 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
       priorityText = FormBuilder.createLabeledText(composite,
             Diagram_Messages.LBL_TXT_DEFAULT_PRIORITY);
 
-      auditTrailPersistenceCheckBox = FormBuilder.createCheckBox(composite,
+      FormBuilder.createLabel(composite,
             Diagram_Messages.LBL_AUDITTRAIL_PERSISTENCE, 1); //$NON-NLS-1$
 
       ArrayList<String> list = ModelUtils.getPersistenceOptions((ProcessDefinitionType) getModelElement());
@@ -129,24 +116,6 @@ public class ProcessDefinitionGeneralPropertyPage extends IdentifiablePropertyPa
          public String getText(Object element)
          {
             return ModelUtils.getPersistenceOptionsText(element.toString());
-         }
-
-      });
-
-      auditTrailPersistenceCheckBox.addSelectionListener(new SelectionAdapter()
-      {
-
-         public void widgetSelected(SelectionEvent e)
-         {
-            isAuditTrailPersistent = !isAuditTrailPersistent;
-            comboViewer.getCombo().setEnabled(isAuditTrailPersistent);
-            if(isAuditTrailPersistent)
-            {
-               IStructuredSelection value = (IStructuredSelection) comboViewer.getSelection();
-               AttributeUtil.setAttribute((IExtensibleElement) modelElement,
-                     "carnot:engine:auditTrailPersistence", value.getFirstElement() //$NON-NLS-1$
-                           .toString());
-            }
          }
       });
    }
