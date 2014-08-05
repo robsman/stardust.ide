@@ -11,13 +11,13 @@
 	>
 
 <!-- 	<import location="Customer.xsd" namespace="http://stardust.eclipse.org/Customer" importType="http://www.w3.org/2001/XMLSchema" /> -->
-	<import location="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" namespace="http://ws.dao.athene.fhnw.ch" importType="http://www.w3.org/TR/wsdl20/" />
+	<import location="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" namespace="http://ws.dao.athene.fhnw.ch" importType="http://schemas.xmlsoap.org/wsdl/" />
 
-	<itemDefinition id="getCRO" structureRef="WSExportRDFServiceHttpEndpoint:getCRO"></itemDefinition>
+	<itemDefinition id="getCRORequest" structureRef="WSExportRDFServiceHttpEndpoint:getCRO"></itemDefinition>
 	<itemDefinition id="getCROResponse" structureRef="WSExportRDFServiceHttpEndpoint:getCROResponse"></itemDefinition>
 
-	<message id="getCROMessageInput" name="getCRO" itemRef="getCRORequest"></message>
-	<message id="getCROMessageOutput" name="getCRO" itemRef="getCROResponse"></message>
+	<message id="getCROMessageInput" name="getCRORequest" itemRef="getCRORequest"></message>
+	<message id="getCROMessageOutput" name="getCROResponse" itemRef="getCROResponse"></message>
 
 	<interface id="CROServiceAppInterface" name="CROServiceAppInterface" implementationRef="CROServiceApp">
 		<extensionElements>
@@ -64,7 +64,7 @@
 
 	<process id="TestProcessWebServiceApplication" name="Hauptprozess" processType="None">
 
-		<dataObject id="TestModelDataObjectA" itemSubjectRef="getCROResponse" />
+		<dataObject id="TestModelDataObjectA" name="TestModelDataObjectA" itemSubjectRef="getCROResponse" />
 
 		<startEvent id="TestModelStartEventId" isInterrupting="true" />
 
@@ -72,11 +72,11 @@
 			implementation="Application"> -->
 		<serviceTask id="TestModelTaskA" name="get CRO" implementation="##WebService" operationRef="OperationGetCRO">
 			<!-- allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false" -->
-			<ioSpecification>
+			<ioSpecification id="ioSpec">
 				<dataOutput id="TestModelDataOutputTaskA">
 				</dataOutput>
-				<inputSet />
-				<outputSet>
+				<inputSet id="InputSet" />
+				<outputSet id="OutputSet">
 					<dataOutputRefs>TestModelDataOutputTaskA</dataOutputRefs>
 				</outputSet>
 			</ioSpecification>
@@ -100,7 +100,7 @@
 
 	</process>
 	<bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
-		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessDataObjectFlow">
+		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessWebServiceApplication">
 			<bpmndi:BPMNShape id="_FE09CB07-5DE3-408B-ABF2-34176656681A" bpmnElement="TestModelStartEventId" itp:label="(unbenannt)" itp:elementType="startEvent">
 				<dc:Bounds x="56.6929133858268" y="197.007874015748" width="17.007874015748" height="17.007874015748" />
 				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">

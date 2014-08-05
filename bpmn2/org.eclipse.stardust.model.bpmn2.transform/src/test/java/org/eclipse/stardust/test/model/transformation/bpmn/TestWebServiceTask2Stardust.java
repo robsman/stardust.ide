@@ -49,7 +49,7 @@ public class TestWebServiceTask2Stardust {
 	private static final String DATA_ASSOC_ASSIGNMENT_FROM_FORMAL_EXPR = "return";
 	private static final String DATA_OBJECT_ID = "TestModelDataObjectA";
 	private static final String DATA_OBJECT_TYPE_ID = "getCROResponse";
-	private static final String SERVICE_REQUEST_MESSAGE_TYPE_ID = "getCRO";
+	private static final String SERVICE_REQUEST_MESSAGE_TYPE_ID = "getCRORequest";
 
     @Test
     public void testWebServiceTask() {
