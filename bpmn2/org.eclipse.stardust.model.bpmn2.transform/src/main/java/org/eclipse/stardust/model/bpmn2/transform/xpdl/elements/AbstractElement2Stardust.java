@@ -13,8 +13,10 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -63,4 +65,17 @@ public class AbstractElement2Stardust {
         return String.valueOf(obj.hashCode());
     }
 
+    protected String getChildId(BaseElement parent, BaseElement child, int ordinal) {
+    	if (notEmpty(child.getId())) return child.getId();
+    	if (notEmpty(parent.getId())) {
+    		String cls = child.getClass().getSimpleName().substring(0, 10);
+    		String id = parent.getId().concat("_").concat(cls).concat("_"+ordinal);
+    		return id;
+    	}
+    	return ""+child.hashCode();
+    }
+
+    private boolean notEmpty(String value) {
+    	return null != value && !value.trim().isEmpty();
+    }
 }

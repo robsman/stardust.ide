@@ -1,33 +1,19 @@
 /**
- * ****************************************************************************
- *  Copyright (c) 2012 ITpearls AG and others.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- * 
- *  Contributors:
- *     ITpearls - initial API and implementation and/or initial documentation
- * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.util;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.util.Switch;
 
 import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
 
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 
 /**
@@ -43,7 +29,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
  * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage
  * @generated
  */
-public class SdbpmnSwitch<T> {
+public class SdbpmnSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -65,14 +51,16 @@ public class SdbpmnSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @parameter ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
@@ -82,26 +70,7 @@ public class SdbpmnSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch(eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case SdbpmnPackage.DOCUMENT_ROOT: {
@@ -115,10 +84,7 @@ public class SdbpmnSwitch<T> {
 				T result = caseStardustAccessPointType(stardustAccessPointType);
 				if (result == null) result = caseAccessPointType(stardustAccessPointType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustAccessPointType);
-				if (result == null) result = caseITypedElement(stardustAccessPointType);
 				if (result == null) result = caseIModelElement(stardustAccessPointType);
-				if (result == null) result = caseIIdentifiableElement(stardustAccessPointType);
-				if (result == null) result = caseIExtensibleElement(stardustAccessPointType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -127,11 +93,7 @@ public class SdbpmnSwitch<T> {
 				T result = caseStardustApplicationType(stardustApplicationType);
 				if (result == null) result = caseApplicationType(stardustApplicationType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustApplicationType);
-				if (result == null) result = caseITypedElement(stardustApplicationType);
-				if (result == null) result = caseIAccessPointOwner(stardustApplicationType);
 				if (result == null) result = caseIModelElement(stardustApplicationType);
-				if (result == null) result = caseIIdentifiableElement(stardustApplicationType);
-				if (result == null) result = caseIExtensibleElement(stardustApplicationType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -146,9 +108,6 @@ public class SdbpmnSwitch<T> {
 				T result = caseStardustContextType(stardustContextType);
 				if (result == null) result = caseContextType(stardustContextType);
 				if (result == null) result = caseIModelElement(stardustContextType);
-				if (result == null) result = caseIExtensibleElement(stardustContextType);
-				if (result == null) result = caseITypedElement(stardustContextType);
-				if (result == null) result = caseIAccessPointOwner(stardustContextType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -215,11 +174,7 @@ public class SdbpmnSwitch<T> {
 				T result = caseStardustTriggerType(stardustTriggerType);
 				if (result == null) result = caseTriggerType(stardustTriggerType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustTriggerType);
-				if (result == null) result = caseITypedElement(stardustTriggerType);
-				if (result == null) result = caseIAccessPointOwner(stardustTriggerType);
 				if (result == null) result = caseIModelElement(stardustTriggerType);
-				if (result == null) result = caseIIdentifiableElement(stardustTriggerType);
-				if (result == null) result = caseIExtensibleElement(stardustTriggerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -534,36 +489,6 @@ public class SdbpmnSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IIdentifiable Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IIdentifiable Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIIdentifiableElement(IIdentifiableElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IExtensible Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IExtensible Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIExtensibleElement(IExtensibleElement object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>IIdentifiable Model Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -579,21 +504,6 @@ public class SdbpmnSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>ITyped Element</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>ITyped Element</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseITypedElement(ITypedElement object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Access Point Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -605,21 +515,6 @@ public class SdbpmnSwitch<T> {
 	 * @generated
 	 */
 	public T caseAccessPointType(AccessPointType object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IAccess Point Owner</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IAccess Point Owner</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIAccessPointOwner(IAccessPointOwner object) {
 		return null;
 	}
 
@@ -679,6 +574,7 @@ public class SdbpmnSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

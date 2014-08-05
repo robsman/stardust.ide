@@ -34,7 +34,7 @@ public class BpmCompleteActivityEventActionBuilder
       return super.finalizeElement();
    }
 
-   public static BpmCompleteActivityEventActionBuilder newScheduleActivityAction(EventHandlerType handler)
+   public static BpmCompleteActivityEventActionBuilder newCompleteActivityAction(EventHandlerType handler)
    {
       return new BpmCompleteActivityEventActionBuilder(handler);
    }

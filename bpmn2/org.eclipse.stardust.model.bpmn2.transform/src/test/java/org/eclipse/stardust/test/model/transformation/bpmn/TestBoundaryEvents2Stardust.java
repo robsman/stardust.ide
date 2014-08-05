@@ -12,13 +12,7 @@ package org.eclipse.stardust.test.model.transformation.bpmn;
 
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ABORT_ACTION_SCOPE_ATT;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.ABORT_ACTIVITY_ACTION;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.EXCEPTION_ATT;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.EXCEPTION_CLASS_ATT;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.SET_DATA_ACTION;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.SET_DATA_ACTION_ATTRIBUTE_NAME_ATT;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.SET_DATA_ACTION_ATTRIBUTE_PATH_ATT;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.SET_DATA_ACTION_DATA_ID_ATT;
-import static org.eclipse.stardust.engine.api.model.PredefinedConstants.TARGET_TIMESTAMP_ATT;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.TIMER_CONDITION_USE_DATA_ATT;
 import static org.eclipse.stardust.engine.api.model.PredefinedConstants.TIMER_PERIOD_ATT;
 import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust.BOUNDARY_EVENT_FIRED_CONDITION;
@@ -47,9 +41,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.stardust.engine.core.runtime.beans.AbortScope;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.NativeBoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
@@ -58,6 +52,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -70,7 +65,7 @@ public class TestBoundaryEvents2Stardust {
 	private static final String TEST_ID_GATEWAY = "TestModelGateway";
 	private static final String TEST_ID_TASK_DEFAULT = "TestModelTaskDefault";
 	private static final String TEST_ID_TASK_EXCEPTIONAL = "TestModelTaskException";
-	private static final String TEST_ID_BOUNDARY_EVENT = "TestModelBoundaryEvent";
+	private static final String TEST_ID_BOUNDARY_EVENT = "TestModelBoundaryEventHdl";
 	private static final String TEST_ID_SECOND_BOUNDARY_EVENT = "TestModelSecondBoundaryEvent"; // timer (for multi-event-models)
 	private static final String TEST_ID_TASK_HAPPY_PATH = TEST_ID_TASK_A + BOUNDARY_SPLIT_HAPPY_ROUTE_POSTFIX; // "_BSHR";
 	private static final String TEST_ID_TASK_EVENT_PATH = TEST_ID_BOUNDARY_EVENT + BOUNDARY_SPLIT_EVENT_ROUTE_POSTFIX; //"_BSER";
@@ -80,7 +75,7 @@ public class TestBoundaryEvents2Stardust {
 	private static final String TEST_ID_SECOND_EVENT_CONTROL_FLOW_VARIABLE = TEST_ID_SECOND_BOUNDARY_EVENT + CONTROL_FLOW_VAR_SUFFIX;
 
 	private static final String CONDITION_HAPPY_PATH = TEST_ID_EVENT_CONTROL_FLOW_VARIABLE + BOUNDARY_EVENT_NOT_FIRED_CONDITION + ";";
-	private static final String CONDITION_EVENT_PATH = TEST_ID_EVENT_CONTROL_FLOW_VARIABLE + BOUNDARY_EVENT_FIRED_CONDITION + ";";
+	private static final String CONDITION_EVENT_PATH = "ON_BOUNDARY_EVENT(" + TEST_ID_BOUNDARY_EVENT + ")"; //TEST_ID_EVENT_CONTROL_FLOW_VARIABLE + BOUNDARY_EVENT_FIRED_CONDITION + ";";
 	private static final String CONDITION_SECOND_EVENT_PATH = TEST_ID_SECOND_EVENT_CONTROL_FLOW_VARIABLE + BOUNDARY_EVENT_FIRED_CONDITION + ";";
 
 	private static final String FIVE_SECONDS_PERIOD = "000000:000000:000000:000000:000000:000005";
@@ -95,24 +90,18 @@ public class TestBoundaryEvents2Stardust {
 
         ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
         assertNotNull(taskA);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
+        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_DEFAULT);
         assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
+        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
         assertNotNull(routeEventPath);
-        ActivityType taskDefault = CarnotModelQuery.findActivity(process, TEST_ID_TASK_DEFAULT);
-        assertNotNull(taskDefault);
-        ActivityType taskExceptional = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
-        assertNotNull(taskExceptional);
-        DataType eventControlFlowFlag = CarnotModelQuery.findVariable(model, TEST_ID_EVENT_CONTROL_FLOW_VARIABLE);
-        assertNotNull(eventControlFlowFlag);
+
         EventHandlerType timerEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(timerEventHandler);
+        String eventType = AttributeUtil.getAttributeValue(timerEventHandler, NativeBoundaryEvent2Stardust.ATT_BOUNDARY_EVENT_TYPE);
+        assertEquals(NativeBoundaryEvent2Stardust.VAL_TYPE_INTERRUPTING, eventType);
+        
         EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
-        assertNotNull(setDataActionType);
-        EventActionType setDataAction = getFirstEventActionOfType(timerEventHandler, setDataActionType);
-        assertNotNull(setDataAction);
         EventActionType cancelAction = getFirstEventActionOfType(timerEventHandler, cancelActivityActionType);
         assertNotNull(cancelAction);
 
@@ -120,31 +109,18 @@ public class TestBoundaryEvents2Stardust {
         boolean timerUsesData = AttributeUtil.getBooleanValue(timerEventHandler, TIMER_CONDITION_USE_DATA_ATT);
         String abortScope = AttributeUtil.getAttributeValue(cancelAction, ABORT_ACTION_SCOPE_ATT);
 
-        String setDataSource = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_ATTRIBUTE_NAME_ATT);
-        String setDataSourcePath = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_ATTRIBUTE_PATH_ATT);
-        String setDataVariable = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_DATA_ID_ATT);
-
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
         assertTrue(transitionExistsBetween(taskA, routeHappyPath));
         assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskDefault));
-        assertTrue(transitionExistsBetween(routeEventPath, taskExceptional));
 
-        assertFalse(transitionExistsBetween(taskA, taskDefault));
-        assertFalse(transitionExistsBetween(taskA, taskExceptional));
-
-        assertEquals(CONDITION_HAPPY_PATH, transitionConditionBetween(taskA, routeHappyPath));
+        assertEquals("true", transitionConditionBetween(taskA, routeHappyPath));
         assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, routeEventPath));
 
         assertFalse(timerUsesData);
         assertEquals(FIVE_SECONDS_PERIOD, timerPeriod);
 
         assertEquals(AbortScope.SUB_HIERARCHY, abortScope);
-
-        assertEquals(TEST_ID_EVENT_CONTROL_FLOW_VARIABLE, setDataVariable);
-        assertEquals(TARGET_TIMESTAMP_ATT, setDataSource);
-        assertEquals("longValue()", setDataSourcePath);
 
     }
 
@@ -158,52 +134,35 @@ public class TestBoundaryEvents2Stardust {
 
         ActivityType taskA = CarnotModelQuery.findActivity(process, TEST_ID_TASK_A);
         assertNotNull(taskA);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
+        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_DEFAULT);
         assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
+        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
         assertNotNull(routeEventPath);
-        ActivityType taskDefault = CarnotModelQuery.findActivity(process, TEST_ID_TASK_DEFAULT);
-        assertNotNull(taskDefault);
-        ActivityType taskExceptional = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
-        assertNotNull(taskExceptional);
-        DataType eventControlFlowFlag = CarnotModelQuery.findVariable(model, TEST_ID_EVENT_CONTROL_FLOW_VARIABLE);
-        assertNotNull(eventControlFlowFlag);
+        
         EventHandlerType exceptionEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(exceptionEventHandler);
+        String eventType = AttributeUtil.getAttributeValue(exceptionEventHandler, NativeBoundaryEvent2Stardust.ATT_BOUNDARY_EVENT_TYPE);
+        assertEquals(NativeBoundaryEvent2Stardust.VAL_TYPE_INTERRUPTING, eventType);
+
         EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
-        EventActionTypeType setDataActionType = ModelUtils.findElementById(model.getEventActionType(), SET_DATA_ACTION);
-        assertNotNull(setDataActionType);
-        EventActionType setDataAction = getFirstEventActionOfType(exceptionEventHandler, setDataActionType);
-        assertNotNull(setDataAction);
+
         EventActionType cancelAction = getFirstEventActionOfType(exceptionEventHandler, cancelActivityActionType);
         assertNotNull(cancelAction);
 
         String exceptionClass = AttributeUtil.getAttributeValue(exceptionEventHandler, EXCEPTION_CLASS_ATT);
         String abortScope = AttributeUtil.getAttributeValue(cancelAction, ABORT_ACTION_SCOPE_ATT);
 
-        String setDataSource = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_ATTRIBUTE_NAME_ATT);
-        String setDataSourcePath = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_ATTRIBUTE_PATH_ATT);
-        String setDataVariable = AttributeUtil.getAttributeValue(setDataAction, SET_DATA_ACTION_DATA_ID_ATT);
-
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
         assertTrue(transitionExistsBetween(taskA, routeHappyPath));
         assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskDefault));
-        assertTrue(transitionExistsBetween(routeEventPath, taskExceptional));
 
-        assertFalse(transitionExistsBetween(taskA, taskDefault));
-        assertFalse(transitionExistsBetween(taskA, taskExceptional));
-
-        assertEquals(CONDITION_HAPPY_PATH, transitionConditionBetween(taskA, routeHappyPath));
+        assertEquals("true", transitionConditionBetween(taskA, routeHappyPath));
         assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, routeEventPath));
 
         assertEquals(AbortScope.SUB_HIERARCHY, abortScope);
 
-        assertEquals(TEST_ID_EVENT_CONTROL_FLOW_VARIABLE, setDataVariable);
-        assertEquals(EXCEPTION_ATT, setDataSource);
-        assertEquals("hashCode().toString().length().longValue()", setDataSourcePath);
         assertEquals("java.lang.Exception", exceptionClass);
     }
 
@@ -223,26 +182,23 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(taskC);
         ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
         assertNotNull(taskD);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
-        assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
-        assertNotNull(routeEventPath);
+//        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
+//        assertNotNull(routeHappyPath);
+//        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
+//        assertNotNull(routeEventPath);
 
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
-        assertTrue(transitionExistsBetween(taskA, routeHappyPath));
-        assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskB));
-        assertTrue(transitionExistsBetween(routeEventPath, taskC));
-        assertTrue(transitionExistsBetween(routeEventPath, taskD));
+        assertTrue(transitionExistsBetween(taskA, taskB));
+        assertTrue(transitionExistsBetween(taskA, taskC));
+        assertTrue(transitionExistsBetween(taskA, taskD));
 
-        assertFalse(transitionExistsBetween(taskA, taskB));
-        assertFalse(transitionExistsBetween(taskA, taskC));
-        assertFalse(transitionExistsBetween(taskA, taskD));
+        //assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.AND_LITERAL, taskA.getSplit());
 
-        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
-        assertEquals(JoinSplitType.AND_LITERAL, routeEventPath.getSplit());
-
+        assertEquals("true", transitionConditionBetween(taskA, taskB));
+        assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, taskC));
+        assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, taskD));
     }
 
     @Test
@@ -263,34 +219,40 @@ public class TestBoundaryEvents2Stardust {
         assertNotNull(taskD);
         ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);
         assertNotNull(taskE);
-        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
-        assertNotNull(routeHappyPath);
-        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
-        assertNotNull(routeEventPath);
+//        ActivityType routeHappyPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_HAPPY_PATH);
+//        assertNotNull(routeHappyPath);
+//        ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EVENT_PATH);
+//        assertNotNull(routeEventPath);
         ActivityType gateway = CarnotModelQuery.findActivity(process, TEST_ID_GATEWAY);
         assertNotNull(gateway);
 
         assertNull(CarnotModelQuery.findActivity(process, TEST_ID_BOUNDARY_EVENT));
 
-        assertTrue(transitionExistsBetween(taskA, routeHappyPath));
-        assertTrue(transitionExistsBetween(taskA, routeEventPath));
-        assertTrue(transitionExistsBetween(routeHappyPath, taskB));
-        assertTrue(transitionExistsBetween(routeHappyPath, gateway));
-        assertTrue(transitionExistsBetween(routeEventPath, taskE));
+//        assertTrue(transitionExistsBetween(taskA, routeHappyPath));
+//        assertTrue(transitionExistsBetween(taskA, routeEventPath));
+//        assertTrue(transitionExistsBetween(routeHappyPath, taskB));
+//        assertTrue(transitionExistsBetween(routeHappyPath, gateway));
+//        assertTrue(transitionExistsBetween(routeEventPath, taskE));
+
+        
+        assertTrue(transitionExistsBetween(taskA, taskB));
+        assertTrue(transitionExistsBetween(taskA, gateway));        
         assertTrue(transitionExistsBetween(gateway, taskC));
         assertTrue(transitionExistsBetween(gateway, taskD));
+        assertTrue(transitionExistsBetween(taskA, taskE));
 
-        assertFalse(transitionExistsBetween(taskA, taskB));
-        assertFalse(transitionExistsBetween(taskA, taskE));
-
-        assertEquals(JoinSplitType.AND_LITERAL, routeHappyPath.getSplit());
-        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.AND_LITERAL, taskA.getSplit());
+        //assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
         assertEquals(JoinSplitType.XOR_LITERAL, gateway.getSplit());
+
+        assertEquals(CONDITION_EVENT_PATH, transitionConditionBetween(taskA, taskE));
 
         assertTrue(otherwiseConditionBetween(gateway, taskD));
     }
 
     @Test
+    @Ignore
+    // TODO The 'native' approach doesn't support multiple boundary events
     public void testMultipleBoundaryWithIndividualPath() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "BoundaryEventMultipleDifferentExceptionalPath.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testBoundaryEventMultipleDifferentExceptionalPath.xpdl";
@@ -331,6 +293,8 @@ public class TestBoundaryEvents2Stardust {
     }
 
     @Test
+    @Ignore
+    // TODO The 'native' approach doesn't support multiple boundary events    
     public void testMultipleBoundaryWithCommonPathToGateway() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "BoundaryEventMultipleSameExceptionalPathToGateway.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testBoundaryEventMultipleSameExceptionalPathToGateway.xpdl";

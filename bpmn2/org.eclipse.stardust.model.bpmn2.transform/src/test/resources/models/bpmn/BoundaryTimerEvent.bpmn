@@ -1,70 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="06.12.2012 08:48:21" itp:modificationDate="06.12.2012 10:47:57" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_5a82f942-9273-472b-afc8-68a74bf014ff" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
-  <process id="_18361e2d-c78c-4256-8c14-3ba6c56ce403" name="Hauptprozess" processType="None">
-    <task id="TestModelTaskA" name="a">
-    </task>
-    <task id="TestModelTaskDefault" name="default">
-    </task>
-    <task id="TestModelTaskException" name="exception">
-    </task>
-    <sequenceFlow id="_fe48510b-d607-4067-b202-aef3b4adc238" sourceRef="TestModelBoundaryEvent" targetRef="TestModelTaskException">
-    </sequenceFlow>
-    <sequenceFlow id="_714e4281-b7aa-4ef3-88b5-806f9169f5a3" sourceRef="TestModelTaskA" targetRef="TestModelTaskDefault">
-    </sequenceFlow>
-    <boundaryEvent id="TestModelBoundaryEvent" cancelActivity="true" attachedToRef="TestModelTaskA">
-      <timerEventDefinition>
-        <timeCycle  xsi:type="tFormalExpression" >P0Y0M0DT0H0M5S</timeCycle>
-      </timerEventDefinition>
-    </boundaryEvent>
-  </process>
-  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
-    <bpmndi:BPMNPlane id="_1" bpmnElement="_18361e2d-c78c-4256-8c14-3ba6c56ce403">
-      <bpmndi:BPMNShape id="_0FC19A44-9758-4364-8BCB-5173B0616449" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
-        <dc:Bounds x="56.6929133858268" y="56.6929133858268" width="85.0393700787402" height="42.5196850393701" />
-        <bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
-          <dc:Bounds x="93.24" y="70.7555905511811" width="12.24" height="13.68" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_C33A9104-7126-4029-AF6B-711DF785AB1B" bpmnElement="TestModelTaskDefault" itp:label="default" itp:elementType="task">
-        <dc:Bounds x="198.425196850394" y="56.6929133858268" width="85.0393700787402" height="42.5196850393701" />
-        <bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
-          <dc:Bounds x="222.84" y="70.7555905511811" width="36.72" height="13.68" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_BFD532EF-7055-4E26-93B4-4B69A246E9A6" bpmnElement="TestModelTaskException" itp:label="exception" itp:elementType="task">
-        <dc:Bounds x="198.425196850394" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
-        <bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
-          <dc:Bounds x="216.36" y="142.035590551181" width="49.68" height="13.68" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="_913CED6F-410A-4EC0-8485-765669B9F58E" bpmnElement="_fe48510b-d607-4067-b202-aef3b4adc238" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
-        <di:waypoint x="99.2125984251968" y="107.716535433071" />
-        <di:waypoint x="99.2125984251968" y="148.818897637795" />
-        <di:waypoint x="198.425196850394" y="148.818897637795" />
-        <bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
-          <dc:Bounds x="128.52" y="140.235590551181" width="7.92" height="17.28" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="_B8C7D030-E313-4B04-8818-80479EAE2658" bpmnElement="_714e4281-b7aa-4ef3-88b5-806f9169f5a3" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
-        <di:waypoint x="141.732283464567" y="77.9527559055118" />
-        <di:waypoint x="198.425196850394" y="77.9527559055118" />
-        <bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
-          <dc:Bounds x="167.4" y="62.4755905511812" width="7.92" height="17.28" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_33B5A789-2938-4B82-B66E-B11ECC73CE01" bpmnElement="TestModelBoundaryEvent" itp:label="(unbenannt)" itp:elementType="boundaryEvent">
-        <dc:Bounds x="90.7086614173228" y="90.7086614173229" width="17.007874015748" height="17.007874015748" />
-        <bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
-          <dc:Bounds x="99.36" y="108.915590551181" width="0" height="10.8" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-    </bpmndi:BPMNPlane>
-    <bpmndi:BPMNLabelStyle id="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
-      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
-    </bpmndi:BPMNLabelStyle>
-    <bpmndi:BPMNLabelStyle id="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
-      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
-    </bpmndi:BPMNLabelStyle>
-  </bpmndi:BPMNDiagram>
+<!--Created by Process Modeler 6 for Microsoft Visio (http://www.itp-commerce.com) -->
+<definitions targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 "
+	name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles"
+	itp:creationDate="06.12.2012 08:48:21" itp:modificationDate="06.12.2012 10:47:57"
+	itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full"
+	id="_5a82f942-9273-472b-afc8-68a74bf014ff" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+
+ xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+ xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1">
+
+	<resource name="Administrator" id="Administrator">
+		<extensionElements>
+			<sdbpmn:StardustResource>
+				<sdbpmn:StardustRole oid="10080">
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+				</sdbpmn:StardustRole>
+			</sdbpmn:StardustResource>
+		</extensionElements>	
+	</resource>
+
+	<process id="_18361e2d-c78c-4256-8c14-3ba6c56ce403" name="Hauptprozess" processType="None">
+		<startEvent id="startTrigger" name="startTrigger" >
+			<extensionElements>
+			<sdbpmn:StardustStartEvent>
+				<sdbpmn:StardustAttributes>
+					<stardust:AttributeType name="carnot:engine:participant" type="String" value="Administrator" />
+				</sdbpmn:StardustAttributes>
+			</sdbpmn:StardustStartEvent>
+			</extensionElements>
+		</startEvent>
+		<userTask id="TestModelTaskA" name="eventHoldingTask">
+			<performer>
+				<resourceRef>Administrator</resourceRef>
+			</performer>
+		</userTask>
+		<userTask id="TestModelTaskDefault" name="defaultPath">
+			<performer>
+				<resourceRef>Administrator</resourceRef>
+			</performer>
+		</userTask>
+		<userTask id="TestModelTaskException" name="exceptionPath">
+			<performer>
+				<resourceRef>Administrator</resourceRef>
+			</performer>
+		</userTask>
+		<sequenceFlow id="_fe48510b-d607-4067-b202-aef3b4adc111"
+			sourceRef="startTrigger" targetRef="TestModelTaskA">
+		</sequenceFlow>		
+		<sequenceFlow id="_fe48510b-d607-4067-b202-aef3b4adc238"
+			sourceRef="TestModelBoundaryEvent" targetRef="TestModelTaskException">
+		</sequenceFlow>
+		<sequenceFlow id="_714e4281-b7aa-4ef3-88b5-806f9169f5a3"
+			sourceRef="TestModelTaskA" targetRef="TestModelTaskDefault">
+		</sequenceFlow>
+		<boundaryEvent id="TestModelBoundaryEvent"
+			cancelActivity="true" attachedToRef="TestModelTaskA">
+			<timerEventDefinition>
+				<timeCycle xsi:type="tFormalExpression">P0Y0M0DT0H0M5S</timeCycle>
+			</timerEventDefinition>
+		</boundaryEvent>
+	</process>
+	<bpmndi:BPMNDiagram name="Mein Diagramm (1)"
+		resolution="72">
+		<bpmndi:BPMNPlane id="_1"
+			bpmnElement="_18361e2d-c78c-4256-8c14-3ba6c56ce403">
+			<bpmndi:BPMNShape id="_0FC19A44-9758-4364-8BCB-5173B0616449"
+				bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+				<dc:Bounds x="56.6929133858268" y="56.6929133858268"
+					width="85.0393700787402" height="42.5196850393701" />
+				<bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
+					<dc:Bounds x="93.24" y="70.7555905511811" width="12.24"
+						height="13.68" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape id="_C33A9104-7126-4029-AF6B-711DF785AB1B"
+				bpmnElement="TestModelTaskDefault" itp:label="default"
+				itp:elementType="task">
+				<dc:Bounds x="198.425196850394" y="56.6929133858268"
+					width="85.0393700787402" height="42.5196850393701" />
+				<bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
+					<dc:Bounds x="222.84" y="70.7555905511811" width="36.72"
+						height="13.68" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape id="_BFD532EF-7055-4E26-93B4-4B69A246E9A6"
+				bpmnElement="TestModelTaskException" itp:label="exception"
+				itp:elementType="task">
+				<dc:Bounds x="198.425196850394" y="127.55905511811" width="85.0393700787402"
+					height="42.5196850393701" />
+				<bpmndi:BPMNLabel labelStyle="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
+					<dc:Bounds x="216.36" y="142.035590551181" width="49.68"
+						height="13.68" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge id="_913CED6F-410A-4EC0-8485-765669B9F58E"
+				bpmnElement="_fe48510b-d607-4067-b202-aef3b4adc238" itp:label="(unbenannt)"
+				itp:elementType="sequenceFlow">
+				<di:waypoint x="99.2125984251968" y="107.716535433071" />
+				<di:waypoint x="99.2125984251968" y="148.818897637795" />
+				<di:waypoint x="198.425196850394" y="148.818897637795" />
+				<bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
+					<dc:Bounds x="128.52" y="140.235590551181" width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge id="_B8C7D030-E313-4B04-8818-80479EAE2658"
+				bpmnElement="_714e4281-b7aa-4ef3-88b5-806f9169f5a3" itp:label="(unbenannt)"
+				itp:elementType="sequenceFlow">
+				<di:waypoint x="141.732283464567" y="77.9527559055118" />
+				<di:waypoint x="198.425196850394" y="77.9527559055118" />
+				<bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
+					<dc:Bounds x="167.4" y="62.4755905511812" width="7.92"
+						height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNShape id="_33B5A789-2938-4B82-B66E-B11ECC73CE01"
+				bpmnElement="TestModelBoundaryEvent" itp:label="(unbenannt)"
+				itp:elementType="boundaryEvent">
+				<dc:Bounds x="90.7086614173228" y="90.7086614173229"
+					width="17.007874015748" height="17.007874015748" />
+				<bpmndi:BPMNLabel labelStyle="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
+					<dc:Bounds x="99.36" y="108.915590551181" width="0"
+						height="10.8" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_72692f9c-a420-4179-bb3f-5cd638fb9af9">
+			<dc:Font name="Arial" size="10" isBold="false" isItalic="false"
+				isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+		<bpmndi:BPMNLabelStyle id="_09b34c3f-5bc9-4ae7-a9ae-6b0d9d7e8b4b">
+			<dc:Font name="Arial" size="8" isBold="false" isItalic="false"
+				isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
 </definitions>

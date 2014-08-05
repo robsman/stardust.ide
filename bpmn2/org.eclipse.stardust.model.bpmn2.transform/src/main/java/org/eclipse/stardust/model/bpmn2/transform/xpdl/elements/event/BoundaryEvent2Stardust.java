@@ -46,6 +46,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
+@Deprecated
 public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 
 	public static final String CONTROL_FLOW_VAR_SUFFIX = "_CFV";

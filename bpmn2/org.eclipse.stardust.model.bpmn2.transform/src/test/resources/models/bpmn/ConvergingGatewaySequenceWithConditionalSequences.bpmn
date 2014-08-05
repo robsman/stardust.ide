@@ -8,20 +8,20 @@
 	<exclusiveGateway id="TestModelExclusiveGateA" name="MergeAB" gatewayDirection="Converging" />
 
     <sequenceFlow id="TestModelSequenceAtoGateA" name="&quot;X&quot;==&quot;X&quot;" sourceRef="TestModelTaskA" targetRef="TestModelExclusiveGateA">
-      <conditionExpression language="http://www.sun.com/java" xsi:type="tFormalExpression">"X"=="X";</conditionExpression>
+      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"X"=="X";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceBtoGateA" name="&quot;X&quot;==&quot;Y&quot;" sourceRef="TestModelTaskB" targetRef="TestModelExclusiveGateA">
-      <conditionExpression language="http://www.sun.com/java" xsi:type="tFormalExpression">"X"=="Y";</conditionExpression>
+      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"X"=="Y";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceCtoGateB" name="&quot;X&quot;==&quot;Z&quot;" sourceRef="TestModelTaskC" targetRef="TestModelExclusiveGateB">
-      <conditionExpression language="http://www.sun.com/java" xsi:type="tFormalExpression">"X"=="Z";</conditionExpression>
+      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"X"=="Z";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceGateAtoGateB" sourceRef="TestModelExclusiveGateA" targetRef="TestModelExclusiveGateB" />
     <sequenceFlow id="TestModelSequenceGateBtoE" sourceRef="TestModelExclusiveGateB" targetRef="TestModelTaskE" >
-    	<conditionExpression language="http://www.sun.com/java" xsi:type="tFormalExpression">"Gate"=="Gate";</conditionExpression>
+    	<conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"Gate"=="Gate";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceCtoD" name="&quot;X&quot;==&quot;V&quot;;" sourceRef="TestModelTaskC" targetRef="TestModelTaskD">
-      <conditionExpression language="http://www.sun.com/java" xsi:type="tFormalExpression">"X"=="V";</conditionExpression>
+      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"X"=="V";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceDtoGateB" sourceRef="TestModelTaskD" targetRef="TestModelExclusiveGateB" />
     <sequenceFlow id="TestModelSequenceXtoGateC" sourceRef="TestModelTaskX" targetRef="TestModelParallelGateC" />

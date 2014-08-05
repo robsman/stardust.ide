@@ -21,7 +21,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Intermediat
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 
-public class EndEvent2Stardust extends IntermediateEvent2Stardust {
+public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 
 	private BpmnModelQuery bpmnquery;
 

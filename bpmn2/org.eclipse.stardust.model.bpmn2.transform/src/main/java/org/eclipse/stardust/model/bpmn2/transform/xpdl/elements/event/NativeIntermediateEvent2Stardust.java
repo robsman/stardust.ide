@@ -25,7 +25,6 @@ import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.bindaction.BpmScheduleActivityBindActionBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventaction.BpmCompleteActivityEventActionBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventhandler.BpmActivityTimerEventHandlerBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
@@ -36,13 +35,15 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
-@Deprecated
-public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
+public class NativeIntermediateEvent2Stardust extends AbstractElement2Stardust {
 
+	public static final String ATT_INTERMEDIATE_EVENT_HOST = "stardust:bpmnIntermediateEventHost";
+	
 	private BpmnModelQuery bpmnquery;
 
-	public IntermediateEvent2Stardust(ModelType carnotModel, List<String> failures) {
+	public NativeIntermediateEvent2Stardust(ModelType carnotModel, List<String> failures) {
 		super(carnotModel, failures);
 		bpmnquery = new BpmnModelQuery(logger);
 	}
@@ -85,25 +86,23 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 	private void createTimerRouteActivity(FlowElementsContainer container, ProcessDefinitionType processDef, Event event, TimerEventDefinition def) {
 		//intermediateCatchEvent
 		String id = event.getId();
+		int ordinal = bpmnquery.getEventDefinitionOrdinal(event, def);
+		String evtDefinitionId = getChildId(event, def, ordinal); 
 		String name = getNonEmptyName(event.getName(), id, event);
 
 		Period p = EventDefinitions2Stardust.getPeriod(def);
-
-		ActivityType route = createRouteActivity(processDef, id, name);
+		ActivityType route = createRouteActivity(processDef, id, name, true);
 
 		EventHandlerType handler = BpmActivityTimerEventHandlerBuilder
 								.newActivityTimerEventHandler(route)
+								.withId(evtDefinitionId)
 								.withAutoBinding()
 								.withConstantPeriod(p)
 								.build();
 
-		BpmScheduleActivityBindActionBuilder
-				.newScheduleActivityAction(handler)
-				.withTargetStateHibernated()
-				.build();
-
 		BpmCompleteActivityEventActionBuilder
 				.newCompleteActivityAction(handler)
+				.withId(evtDefinitionId.concat("Action"))
 				.build();
 	}
 
@@ -123,13 +122,18 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 
 	public ActivityType addNoneEventRoute(FlowElementsContainer container, Event event) {
 		ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-		return createRouteActivity(processDef, event.getId(), event.getName());
+		return createRouteActivity(processDef, event.getId(), event.getName(), false);
 	}
 
-	private ActivityType createRouteActivity(ProcessDefinitionType processDef, String id, String name) {
-		return newRouteActivity(processDef)
+	private ActivityType createRouteActivity(ProcessDefinitionType processDef, String id, String name, boolean asEventHost) {
+		ActivityType activityType = newRouteActivity(processDef)
                .withIdAndName(id, name)
                .build();
+		if (asEventHost) {
+			AttributeUtil.setBooleanAttribute(activityType, ATT_INTERMEDIATE_EVENT_HOST, true);
+			activityType.setHibernateOnCreation(true);
+		}
+		return activityType;
 	}
 
 }

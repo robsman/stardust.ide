@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="07.12.2012 11:31:16" itp:modificationDate="07.12.2012 11:35:04" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_c7b6c75c-0169-4dd8-95fb-34b5a0f07c3b" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="07.12.2012 11:31:16" itp:modificationDate="07.12.2012 11:35:04" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_c7b6c75c-0169-4dd8-95fb-34b5a0f07c3b" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+ xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
+
+>
+  
+  	<resource name="Administrator" id="Administrator">
+		<extensionElements>
+			<sdbpmn:StardustResource>
+				<sdbpmn:StardustRole>
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+				</sdbpmn:StardustRole>
+			</sdbpmn:StardustResource>
+		</extensionElements>
+	</resource>
+  
   <process id="_3f4ca82c-317e-4996-8950-f3327c37afb7" name="Hauptprozess" processType="None">
-    <task id="TestModelTaskA" name="a">
-    </task>
+  
+    <userTask id="TestModelTaskA" name="a">
+		<performer>
+			<resourceRef>Administrator</resourceRef>
+		</performer>    
+    </userTask>
     <boundaryEvent id="TestModelBoundaryEvent" name="Tea time" cancelActivity="true" attachedToRef="TestModelTaskA">
       <timerEventDefinition >
-      <timeCycle  xsi:type="tFormalExpression" >P0Y0M0DT0H0M1S</timeCycle>
+      <timeCycle  xsi:type="tFormalExpression" >P0Y0M0DT0H0M2S</timeCycle>
       </timerEventDefinition>
     </boundaryEvent>
     <task id="TestModelTaskB" name="b">

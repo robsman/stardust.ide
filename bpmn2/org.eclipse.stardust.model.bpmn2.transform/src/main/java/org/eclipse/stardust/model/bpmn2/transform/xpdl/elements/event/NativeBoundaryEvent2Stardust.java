@@ -18,6 +18,7 @@ import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventaction.BpmAbortActivityEventActionBuilder;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventhandler.BpmActivityExceptionEventHandlerBuilder;
@@ -32,6 +33,12 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 public class NativeBoundaryEvent2Stardust extends AbstractElement2Stardust {
 
+	
+	public static final String ATT_BOUNDARY_EVENT_TYPE = "carnot:engine:event:boundaryEventType";
+	
+	public static final String VAL_TYPE_INTERRUPTING = "Interrupting";
+	public static final String VAL_TYPE_NON_INTERRUPTING = "Non-interrupting";
+	
 	private BpmnModelQuery bpmnquery;
 
 	public NativeBoundaryEvent2Stardust(ModelType carnotModel, List<String> failures) {
@@ -89,10 +96,10 @@ public class NativeBoundaryEvent2Stardust extends AbstractElement2Stardust {
 		}
 		EventHandlerType handler = createBoundaryTimerHandler(event, activity, id, name, timerPeriod);
 		if (event.isCancelActivity()) {
-			AttributeUtil.setAttribute(handler, "carnot:engine:event:boundaryEventType", "Interrupting");
+			AttributeUtil.setAttribute(handler, ATT_BOUNDARY_EVENT_TYPE, VAL_TYPE_INTERRUPTING);
 			createCancelActivityAction(handler, id, name);
 		} else {
-			AttributeUtil.setAttribute(handler, "carnot:engine:event:boundaryEventType", "Non-interrupting");
+			AttributeUtil.setAttribute(handler, ATT_BOUNDARY_EVENT_TYPE, VAL_TYPE_NON_INTERRUPTING);
 		}
 		return activity;
 	}
@@ -111,26 +118,30 @@ public class NativeBoundaryEvent2Stardust extends AbstractElement2Stardust {
 			return null;
 		}
 		EventHandlerType handler = createBoundaryErrorHandler(event, activity, id, name, errorCode);
-		AttributeUtil.setAttribute(handler, "carnot:engine:event:boundaryEventType", "Interrupting"); // error is always interrupting
+		AttributeUtil.setAttribute(handler, ATT_BOUNDARY_EVENT_TYPE, VAL_TYPE_INTERRUPTING); // error is always interrupting
 		createCancelActivityAction(handler, id, name);
 		return activity;
 	}
 
 	private EventHandlerType createBoundaryTimerHandler(BoundaryEvent event, ActivityType activity, String id, String name, Period p) {
-		return BpmActivityTimerEventHandlerBuilder
+		EventHandlerType handler = 
+				BpmActivityTimerEventHandlerBuilder
 				.newActivityTimerEventHandler(activity)
-				.withId(id)
-				.withName(name)
+				.withId(id+"Hdl")
+				.withName(name+"Hdl")
 				.withAutoBinding()
 				.withConstantPeriod(p)
 				.build();
+		
+		AttributeUtil.setAttribute(handler, PredefinedConstants.TIMER_PERIOD_ATT, "Period", p.toString());
+		return handler;
 	}
 
 	private EventHandlerType createBoundaryErrorHandler(BoundaryEvent event, ActivityType activity, String id, String name, String errorCode) {
 		return BpmActivityExceptionEventHandlerBuilder
 				.newActivityExceptionEventHandler(activity)
-				.withId(id)
-				.withName(name)
+				.withId(id + "Hdl")
+				.withName(name + "Hdl")
 				.withAutoBinding()
 				.forExceptionClass(errorCode)
 				.build();
@@ -138,12 +149,15 @@ public class NativeBoundaryEvent2Stardust extends AbstractElement2Stardust {
 
 	private EventActionType createCancelActivityAction(EventHandlerType handler, String id, String name) {
 
-		return BpmAbortActivityEventActionBuilder
+		EventActionType action = 
+				BpmAbortActivityEventActionBuilder
 				.newAbortActivityAction(handler)
-				.withId(id)
-				.withName(name)
+				.withId(id + "Action")
+				.withName(name + "Action")
 				.withScopeSubHierarchy()
 				.build();
+		return action;
+		//action.setType(PredefinedConstants.ABORT_ACTIVITY_ACTION);
 	}
 
 }

@@ -35,9 +35,9 @@ import org.junit.Test;
 public class TestMessageEvents2Stardust {
 
 	//private static final String INTERFACE_JMS_TRIGGER_START = "ReceiveOffer";
-	private static final String INTERFACE_JMS_SEND_EVENT = "SendRequest";
-	private static final String INTERFACE_JMS_RECEIVE_EVENT = "ReceiveResponse";
-	private static final String INTERFACE_JMS_SEND_END = "SendOrder";
+	private static final String INTERFACE_JMS_SEND_EVENT = "SendRequestApp";
+	private static final String INTERFACE_JMS_RECEIVE_EVENT = "ReceiveResponseApp";
+	private static final String INTERFACE_JMS_SEND_END = "SendOrderApp";
 
 	private static final String START_EVENT_ID = "TestModelStartEvent";
 	private static final String SEND_EVENT_ID = "TestModelSendEvent";

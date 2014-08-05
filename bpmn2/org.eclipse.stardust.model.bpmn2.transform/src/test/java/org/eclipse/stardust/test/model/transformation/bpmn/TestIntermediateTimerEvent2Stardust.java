@@ -28,10 +28,12 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.NativeIntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.BindActionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -44,6 +46,7 @@ import org.junit.Test;
  */
 public class TestIntermediateTimerEvent2Stardust {
 	private static final String ID_TIMER_EVENT = "TestModelIntermediateTimer";
+	private static final String INTERMEDIATE_EVENT_HOST = null;
 
     @Test
     public void testIntermediateTimer() {
@@ -65,28 +68,34 @@ public class TestIntermediateTimerEvent2Stardust {
         ActivityType eventRoute = CarnotModelQuery.findActivity(process, ID_TIMER_EVENT);
         assertNotNull(eventRoute);
 
+        boolean isEventHost = AttributeUtil.getBooleanValue(eventRoute, NativeIntermediateEvent2Stardust.ATT_INTERMEDIATE_EVENT_HOST);
+        assertTrue(isEventHost);
+        assertTrue(eventRoute.isHibernateOnCreation());
+        
         EList<EventHandlerType> eventHandler = eventRoute.getEventHandler();
         EventHandlerType handler = eventHandler.get(0);
         assertNotNull(handler);
-        assertNotNull(handler.getBindAction());
+        //assertNotNull(handler.getBindAction());
         assertNotNull(handler.getEventAction());
-        assertEquals(1, handler.getBindAction().size());
+        //assertEquals(1, handler.getBindAction().size());
         assertEquals(1, handler.getEventAction().size());
 
-        BindActionType bindAction = handler.getBindAction().get(0);
+        //BindActionType bindAction = handler.getBindAction().get(0);
         EventActionType eventAction = handler.getEventAction().get(0);
-        int bindTargetState = Integer.parseInt(AttributeUtil.getAttributeValue(bindAction, PredefinedConstants.TARGET_STATE_ATT));
+        //int bindTargetState = Integer.parseInt(AttributeUtil.getAttributeValue(bindAction, PredefinedConstants.TARGET_STATE_ATT));
         int eventTargetState = Integer.parseInt(AttributeUtil.getAttributeValue(eventAction, PredefinedConstants.TARGET_STATE_ATT));
         boolean useData = Boolean.parseBoolean(AttributeUtil.getAttributeValue(handler, PredefinedConstants.TIMER_CONDITION_USE_DATA_ATT));
         String period = AttributeUtil.getAttributeValue(handler, PredefinedConstants.TIMER_PERIOD_ATT);
         assertTrue(handler.isAutoBind());
-        assertEquals(PredefinedConstants.SCHEDULE_ACTIVITY_ACTION, bindAction.getType().getId());
+        EventConditionTypeType type = handler.getType();
+        assertEquals(PredefinedConstants.TIMER_CONDITION, type.getId());
+//        assertEquals(PredefinedConstants.SCHEDULE_ACTIVITY_ACTION, bindAction.getType().getId());
         assertEquals(PredefinedConstants.COMPLETE_ACTIVITY_ACTION, eventAction.getType().getId());
-        assertEquals(HIBERNATED, bindTargetState);
+        //assertEquals(HIBERNATED, bindTargetState);
         assertEquals(COMPLETED, eventTargetState);
         assertEquals(DURATION, period);
         assertFalse(useData);
+        
     }
-
 
 }

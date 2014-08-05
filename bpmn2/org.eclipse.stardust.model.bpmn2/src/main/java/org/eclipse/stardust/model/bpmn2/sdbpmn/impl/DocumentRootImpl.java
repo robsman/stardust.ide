@@ -1,14 +1,4 @@
 /**
- * ****************************************************************************
- *  Copyright (c) 2012 ITpearls AG and others.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- * 
- *  Contributors:
- *     ITpearls - initial API and implementation and/or initial documentation
- * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -27,8 +17,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
@@ -92,7 +82,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *
  * @generated
  */
-public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
+public class DocumentRootImpl extends MinimalEObjectImpl.Container implements DocumentRoot {
 	/**
 	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
 	 * <!-- begin-user-doc -->

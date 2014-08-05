@@ -104,7 +104,8 @@ public class Bpmn2StardustXPDLExtension {
         if (taskExt == null) return;
         activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
         activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
-        activity.setElementOid(tryParseLong(taskExt.getElementOid()));
+        long oid = tryParseLong(taskExt.getElementOid());
+        if (0 < oid) activity.setElementOid(oid);
         activity.getEventHandler().addAll(taskExt.getEventHandler());
         activity.setApplication(getApplication(query, taskExt));
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
@@ -116,7 +117,8 @@ public class Bpmn2StardustXPDLExtension {
         if (taskExt == null) return;
         activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
         activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
-        activity.setElementOid(tryParseLong(taskExt.getElementOid()));
+        long oid = tryParseLong(taskExt.getElementOid());
+        if (0 < oid) activity.setElementOid(oid);        
         activity.getEventHandler().addAll(taskExt.getEventHandler());
         activity.setApplication(getApplication(query, taskExt));
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
@@ -138,7 +140,9 @@ public class Bpmn2StardustXPDLExtension {
         if (carnotModel.getCreated().isEmpty()) carnotModel.setCreated(DateFormat.getInstance().format(new Date()));
         if (carnotModel.getModelOID() <= 0) carnotModel.setModelOID(0);
         if (carnotModel.getOid() <= 0) carnotModel.setOid(0);
-        if (carnotModel.getVendor().isEmpty()) carnotModel.setVendor(definitions.getExporter());
+        
+        carnotModel.setVendor("Eclipse.org, Eclipse Process Manager");        
+        //if (carnotModel.getVendor().isEmpty()) carnotModel.setVendor(definitions.getExporter());
         if (carnotModel.getName() == null || carnotModel.getName().isEmpty()) carnotModel.setName("Unnamed");
     }
 
@@ -150,7 +154,8 @@ public class Bpmn2StardustXPDLExtension {
         if (modelValues.getCreated() != null) carnotModel.setCreated(modelValues.getCreated().toXMLFormat());
         if (modelValues.getModelOID().intValue() > 0) carnotModel.setModelOID(Math.max(modelValues.getModelOID().intValue(), 1));
         if (modelValues.getOid() > 0) carnotModel.setOid(modelValues.getOid());
-        carnotModel.setVendor(modelValues.getVendor());
+        //carnotModel.setVendor(modelValues.getVendor());
+        carnotModel.setVendor("Eclipse.org, Eclipse Process Manager");
     }
 
     private static long tryParseLong(String val) {

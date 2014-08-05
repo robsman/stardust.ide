@@ -30,6 +30,7 @@ import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.SubProcess;
+import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
@@ -179,5 +180,12 @@ public class BpmnModelQuery {
 			if (object instanceof Definitions) return (Definitions)object;
 		}
 		return null;
+	}
+
+	public int getEventDefinitionOrdinal(Event event, TimerEventDefinition def) {
+		List<EventDefinition> eventDefinitions = getEventDefinitions(event);
+		int indexOf = eventDefinitions.indexOf(def);
+		if (0 > indexOf) return 0;
+		return indexOf;
 	}
 }

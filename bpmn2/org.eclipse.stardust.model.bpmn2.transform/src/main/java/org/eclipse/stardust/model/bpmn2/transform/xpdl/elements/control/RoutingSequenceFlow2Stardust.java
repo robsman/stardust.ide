@@ -121,7 +121,9 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 		for (SequenceFlow out : outgoings) {
 			ActivityType targetActivity = query.findActivity(out.getTargetRef(), container);
 			TransitionType transition = TransitionUtil.createTransition(out.getId(), out.getName(), getDescr(out), processDef, splittingActivity, targetActivity);
-			if (splitType.equals(RoutingType.UNCONTROLLED_FLOW)) {
+			if (node instanceof BoundaryEvent) {
+				TransitionUtil.setStardustBoundaryOutgoingCondition(transition, (BoundaryEvent)node, out);
+			} else if (splitType.equals(RoutingType.UNCONTROLLED_FLOW)) {
 				TransitionUtil.setSequenceTrueCondition(transition);
 			} else {
 				if (out == defaultSequence && defaultSequence != null) {

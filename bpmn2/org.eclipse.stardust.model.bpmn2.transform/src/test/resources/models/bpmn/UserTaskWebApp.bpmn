@@ -33,9 +33,9 @@
 	<interface id="JSFUserTaskApp" name="JSFUserTaskApp">
 		<extensionElements>
 			<sdbpmn:StardustInterface applicationType="jsf">
-				<sdbpmn:StardustApplication oid="20055" id="JsfUserTaskApp" name="JsfUserTaskApp" interactive="true">
+				<sdbpmn:StardustApplication id="JsfUserTaskApp" name="JsfUserTaskApp" interactive="true">
 					<stardust:attribute name="carnot:engine:visibility" value="Public" />
-					<sdbpmn:context oid="20056" typeRef="jsf">
+					<sdbpmn:context typeRef="jsf">
 						<stardust:attribute name="jsf:componentKind" value="facelets" />
 						<stardust:attribute name="jsf:url" value="/xhtml/eclipse/stardust/test/jsftask/JsfUserTaskPanel.iface" />
 						<stardust:attribute name="jsf:managedBeanName" value="JsfUserTaskBean" />

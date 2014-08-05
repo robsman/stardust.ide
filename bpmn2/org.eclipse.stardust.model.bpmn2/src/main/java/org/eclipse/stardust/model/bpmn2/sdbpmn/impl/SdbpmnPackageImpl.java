@@ -1,14 +1,4 @@
 /**
- * ****************************************************************************
- *  Copyright (c) 2012 ITpearls AG and others.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- * 
- *  Contributors:
- *     ITpearls - initial API and implementation and/or initial documentation
- * *****************************************************************************
  */
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
@@ -44,7 +34,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
 
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
-import org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionPackage;
+import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -226,15 +216,18 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		CarnotWorkflowModelPackage.eINSTANCE.eClass();
-		ExtensionPackage.eINSTANCE.eClass();
 		XMLTypePackage.eINSTANCE.eClass();
+
+		// Obtain or create and register interdependencies
+		CarnotWorkflowModelPackageImpl theCarnotWorkflowModelPackage = (CarnotWorkflowModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI) instanceof CarnotWorkflowModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI) : CarnotWorkflowModelPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSdbpmnPackage.createPackageContents();
+//		theCarnotWorkflowModelPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSdbpmnPackage.initializePackageContents();
+//		theCarnotWorkflowModelPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSdbpmnPackage.freeze();
@@ -1083,7 +1076,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		stardustUserTaskTypeEClass.getESuperTypes().add(this.getTStardustActivity());
 		tStardustActivityEClass.getESuperTypes().add(this.getTStardustCommon());
 
-		// Initialize classes and features; add operations and parameters
+		// Initialize classes, features, and operations; add parameters
 		initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1192,35 +1185,35 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
 		addAnnotation
 		  (documentRootEClass, 
 		   source, 
 		   new String[] {
 			 "name", "",
 			 "kind", "mixed"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_Mixed(), 
 		   source, 
 		   new String[] {
 			 "kind", "elementWildcard",
 			 "name", ":mixed"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_XMLNSPrefixMap(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "xmlns:prefix"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_XSISchemaLocation(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "xsi:schemaLocation"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_DataType(), 
 		   source, 
@@ -1228,7 +1221,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "dataType",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustActivity(), 
 		   source, 
@@ -1236,7 +1229,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustActivity",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustAttributes(), 
 		   source, 
@@ -1244,7 +1237,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustCommon(), 
 		   source, 
@@ -1252,7 +1245,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustCommon",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustInterface(), 
 		   source, 
@@ -1260,7 +1253,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustInterface",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustMessageStartEvent(), 
 		   source, 
@@ -1268,7 +1261,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustMessageStartEvent",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustModel(), 
 		   source, 
@@ -1276,7 +1269,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustModel",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustResource(), 
 		   source, 
@@ -1284,7 +1277,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustResource",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustSeqenceFlow(), 
 		   source, 
@@ -1292,7 +1285,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustSeqenceFlow",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustServiceTask(), 
 		   source, 
@@ -1300,7 +1293,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustServiceTask",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustStartEvent(), 
 		   source, 
@@ -1308,7 +1301,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustStartEvent",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustSubprocess(), 
 		   source, 
@@ -1316,7 +1309,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustSubprocess",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustTimerStartEvent(), 
 		   source, 
@@ -1324,7 +1317,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustTimerStartEvent",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_StardustUserTask(), 
 		   source, 
@@ -1332,7 +1325,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustUserTask",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_ApplicationAccessPointRef(), 
 		   source, 
@@ -1340,7 +1333,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "applicationAccessPointRef",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_Author(), 
 		   source, 
@@ -1348,7 +1341,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "author",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_CarnotVersion(), 
 		   source, 
@@ -1356,7 +1349,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "carnotVersion",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_Created(), 
 		   source, 
@@ -1364,7 +1357,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "created",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getDocumentRoot_InteractiveApplicationRef(), 
 		   source, 
@@ -1372,7 +1365,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "interactiveApplicationRef",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_ModelOID(), 
 		   source, 
@@ -1380,7 +1373,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "modelOID",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_Oid(), 
 		   source, 
@@ -1388,7 +1381,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "oid",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_ParameterMappingOid(), 
 		   source, 
@@ -1396,7 +1389,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "parameterMappingOid",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_TriggerAccessPointRef(), 
 		   source, 
@@ -1404,7 +1397,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "triggerAccessPointRef",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getDocumentRoot_Vendor(), 
 		   source, 
@@ -1412,28 +1405,28 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "vendor",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustAccessPointTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustAccessPointType",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustAccessPointType_TypeRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "typeRef"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustApplicationTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustApplicationType",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustApplicationType_AccessPoint1(), 
 		   source, 
@@ -1441,7 +1434,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "accessPoint",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustApplicationType_Context1(), 
 		   source, 
@@ -1449,14 +1442,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "context",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustAttributesTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustAttributes_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustAttributesType_AttributeType(), 
 		   source, 
@@ -1464,28 +1457,28 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "AttributeType",
 			 "namespace", "http://www.carnot.ag/workflowmodel/3.1"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustContextTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustContextType",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustContextType_TypeRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "typeRef"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustInterfaceTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustInterface_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustInterfaceType_StardustApplication(), 
 		   source, 
@@ -1493,7 +1486,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustApplication",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustInterfaceType_StardustTrigger(), 
 		   source, 
@@ -1501,21 +1494,21 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustTrigger",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustInterfaceType_ApplicationType(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "applicationType"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustMessageStartEventTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustMessageStartEvent_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustMessageStartEventType_StardustAttributes(), 
 		   source, 
@@ -1523,14 +1516,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustModelTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustModel_._type",
 			 "kind", "empty"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_Author(), 
 		   source, 
@@ -1538,7 +1531,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "author",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_CarnotVersion(), 
 		   source, 
@@ -1546,7 +1539,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "carnotVersion",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_Created(), 
 		   source, 
@@ -1554,7 +1547,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "created",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_ModelOID(), 
 		   source, 
@@ -1562,7 +1555,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "modelOID",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_Oid(), 
 		   source, 
@@ -1570,7 +1563,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "oid",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustModelType_Vendor(), 
 		   source, 
@@ -1578,14 +1571,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "attribute",
 			 "name", "vendor",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustResourceTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustResource_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustResourceType_StardustConditionalPerformer(), 
 		   source, 
@@ -1593,7 +1586,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustConditionalPerformer",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustResourceType_StardustRole(), 
 		   source, 
@@ -1601,7 +1594,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustRole",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustResourceType_StardustOrganization(), 
 		   source, 
@@ -1609,42 +1602,42 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustOrganization",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustResourceType_DataId(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "dataId"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustSeqenceFlowTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustSeqenceFlow_._type",
 			 "kind", "empty"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustSeqenceFlowType_ForkOnTraversal(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "forkOnTraversal"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustServiceTaskTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustServiceTask_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustStartEventTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustStartEvent_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustStartEventType_StardustAttributes(), 
 		   source, 
@@ -1652,28 +1645,28 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustSubprocessTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustSubprocess_._type",
 			 "kind", "elementOnly"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustSubprocessType_ImplementationProcess(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "implementationProcess"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustTimerStartEventTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustTimerStartEvent_._type",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustTimerStartEventType_StardustAttributes(), 
 		   source, 
@@ -1681,14 +1674,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustTriggerTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustTriggerType",
 			 "kind", "elementOnly"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustTriggerType_AccessPoint1(), 
 		   source, 
@@ -1696,7 +1689,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "accessPoint",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustTriggerType_Context(), 
 		   source, 
@@ -1704,35 +1697,35 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "context",
 			 "namespace", "##targetNamespace"
-		   });		
+		   });	
 		addAnnotation
 		  (stardustUserTaskTypeEClass, 
 		   source, 
 		   new String[] {
 			 "name", "StardustUserTask_._type",
 			 "kind", "elementOnly"
-		   });			
+		   });	
 		addAnnotation
 		  (getStardustUserTaskType_AllowsAbortByPerformer(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "allowsAbortByPerformer"
-		   });		
+		   });	
 		addAnnotation
 		  (getStardustUserTaskType_InteractiveApplicationRef(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "interactiveApplicationRef"
-		   });		
+		   });	
 		addAnnotation
 		  (tStardustActivityEClass, 
 		   source, 
 		   new String[] {
 			 "name", "tStardustActivity",
 			 "kind", "elementOnly"
-		   });			
+		   });	
 		addAnnotation
 		  (getTStardustActivity_EventHandler(), 
 		   source, 
@@ -1740,21 +1733,21 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "kind", "element",
 			 "name", "eventHandler",
 			 "namespace", "##targetNamespace"
-		   });			
+		   });	
 		addAnnotation
 		  (getTStardustActivity_HibernateOnCreation(), 
 		   source, 
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "hibernateOnCreation"
-		   });		
+		   });	
 		addAnnotation
 		  (tStardustCommonEClass, 
 		   source, 
 		   new String[] {
 			 "name", "tStardustCommon",
 			 "kind", "empty"
-		   });		
+		   });	
 		addAnnotation
 		  (getTStardustCommon_ElementOid(), 
 		   source, 

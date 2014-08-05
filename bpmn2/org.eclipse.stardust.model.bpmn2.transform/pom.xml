@@ -27,6 +27,13 @@
 			<artifactId>ipp-bpm-model-builder</artifactId>
 			<version>${version.stardust}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.stardust.ui.web</groupId>
+			<artifactId>stardust-web-modeler</artifactId>
+			<version>${version.stardust}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.eclipse.stardust.engine</groupId>
 			<artifactId>carnot-engine</artifactId>
@@ -67,6 +74,21 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 <!-- 	<build> -->
 <!-- 		<plugins> -->
 <!-- 			<plugin> -->

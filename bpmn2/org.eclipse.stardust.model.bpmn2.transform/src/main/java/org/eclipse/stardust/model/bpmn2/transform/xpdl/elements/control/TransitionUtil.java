@@ -139,7 +139,7 @@ public class TransitionUtil {
 	public static void setStardustBoundaryOutgoingCondition(TransitionType transition, BoundaryEvent sourceNode, SequenceFlow seq) {
 		transition.setCondition(CONDITION_KEY);
         XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
-        String condition = "ON_BOUNDARY_EVENT("+sourceNode.getId()+");";
+        String condition = "ON_BOUNDARY_EVENT("+sourceNode.getId()+"Hdl)";
         ModelUtils.setCDataString(expression.getMixed(), condition, true);
         transition.setExpression(expression);
 		//<Condition Type="CONDITION">ON_BOUNDARY_EVENT(BoundaryTimer)</Condition>		
