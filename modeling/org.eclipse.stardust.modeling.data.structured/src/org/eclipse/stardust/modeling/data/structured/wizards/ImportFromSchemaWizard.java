@@ -36,6 +36,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.core.model.beans.QNameUtil;
@@ -47,6 +48,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
 import org.eclipse.stardust.modeling.core.editors.parts.dialog.ApplyUpdatesCommand;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
+
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -190,6 +192,9 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       IStructuredSelection selection = typesPage.getSelection();
       HashMap<String, String> name2id = new HashMap<String, String>();
 
+      HashMap<String, Object> id2Object = new HashMap<String, Object>();
+      List<String> duplicateIds = new ArrayList<String>();
+
       for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
@@ -199,18 +204,60 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
             if (component.getContainer() == component.getSchema())
             {
                String id = component.getName();
-               if(idCache.contains(id))
+               Object object = id2Object.get(id);
+               if(object == null)
                {
-                  ImportIdDialog importIdDialog = new ImportIdDialog(null, id, idCache);
-                  if (Dialog.OK == importIdDialog.open())
+                  id2Object.put(id, component);
+               }
+               else
+               {
+                  duplicateIds.add(id);
+               }
+            }
+         }
+      }
+
+      id2Object = new HashMap<String, Object>();
+      for (Iterator<?> i = selection.iterator(); i.hasNext();)
+      {
+         Object item = i.next();
+         if (item instanceof XSDTypeDefinition || item instanceof XSDElementDeclaration)
+         {
+            XSDNamedComponent component = (XSDNamedComponent) item;
+            if (component.getContainer() == component.getSchema())
+            {
+               String id = component.getName();
+               if(duplicateIds.contains(id))
+               {
+                  // if we have a XSDTypeDefinition and XSDElementDeclaration with same id,
+                  // we import only the XSDTypeDefinition,
+                  // because XSDElementDeclaration only points to the same XSDTypeDefinition
+                  if(component instanceof XSDTypeDefinition)
                   {
-                     String name = importIdDialog.getId();
-                     name2id.put(name, id);
-                     component.setName(name);
+                     id2Object.put(id, component);
                   }
-                  else
+               }
+               else
+               {
+                  id2Object.put(id, component);
+               }
+
+               Object object = id2Object.get(id);
+               if(object != null)
+               {
+                  if(idCache.contains(id))
                   {
-                     return false;
+                     ImportIdDialog importIdDialog = new ImportIdDialog(null, id, idCache);
+                     if (Dialog.OK == importIdDialog.open())
+                     {
+                        String name = importIdDialog.getId();
+                        name2id.put(name, id);
+                        component.setName(name);
+                     }
+                     else
+                     {
+                        return false;
+                     }
                   }
                }
             }
@@ -223,6 +270,12 @@ public class ImportFromSchemaWizard extends Wizard implements INewWizard
       for (Iterator<?> i = selection.iterator(); i.hasNext();)
       {
          Object item = i.next();
+         // preventing duplicates
+         if(!id2Object.containsValue(item))
+         {
+            continue;
+         }
+
          if (item instanceof XSDTypeDefinition || item instanceof XSDElementDeclaration)
          {
             XSDNamedComponent component = (XSDNamedComponent) item;
