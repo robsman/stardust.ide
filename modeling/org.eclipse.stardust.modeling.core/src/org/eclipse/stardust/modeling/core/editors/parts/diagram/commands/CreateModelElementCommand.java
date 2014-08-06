@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,9 @@ package org.eclipse.stardust.modeling.core.editors.parts.diagram.commands;
 
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
@@ -71,27 +71,27 @@ public class CreateModelElementCommand extends ContainedElementCommand
    protected IModelElement createModelElement()
    {
       IModelElement newModelElement = CreateModelElementUtil.createModelElement(idFactory, eClass, getContainer(), getModel());
-      
+
       if (newModelElement instanceof ApplicationType
             || newModelElement instanceof DataType
             || newModelElement instanceof IModelParticipant)
       {
-      
+
       String visibilityDefault = PlatformUI.getPreferenceStore().getString(
             BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
-      if (visibilityDefault == null || visibilityDefault == "" //$NON-NLS-1$
+      if (StringUtils.isEmpty(visibilityDefault)
             || visibilityDefault.equalsIgnoreCase("Public")) //$NON-NLS-1$
       {
          AttributeUtil.setAttribute((IExtensibleElement) newModelElement,
                PredefinedConstants.MODELELEMENT_VISIBILITY, "Public"); //$NON-NLS-1$
-   }
+      }
       else
       {
          AttributeUtil.setAttribute((IExtensibleElement) newModelElement,
                PredefinedConstants.MODELELEMENT_VISIBILITY, "Private"); //$NON-NLS-1$
       }
-      }      
-      
+      }
+
       return newModelElement;
    }
 
@@ -99,7 +99,8 @@ public class CreateModelElementCommand extends ContainedElementCommand
    {
       if (modelElement != null)
       {
-         EList list = (EList) getContainer().eGet(getContainingFeature());
+         @SuppressWarnings("unchecked")
+         List<Object> list = (List<Object>) getContainer().eGet(getContainingFeature());
          list.add(modelElement);
 
          if (modelElement instanceof ActivityType)
@@ -115,8 +116,8 @@ public class CreateModelElementCommand extends ContainedElementCommand
    {
       if (modelElement != null)
       {
-         EList list = (EList) getContainer().eGet(getContainingFeature());
-         list.remove(modelElement);         
+         List<?> list = (List<?>) getContainer().eGet(getContainingFeature());
+         list.remove(modelElement);
       }
    }
 
@@ -132,7 +133,7 @@ public class CreateModelElementCommand extends ContainedElementCommand
             getContainingFeatureList(), eClass);
    }
 
-   protected List getContainingFeatureList()
+   protected List<?> getContainingFeatureList()
    {
       return getContainer().eClass().getEStructuralFeatures();
    }

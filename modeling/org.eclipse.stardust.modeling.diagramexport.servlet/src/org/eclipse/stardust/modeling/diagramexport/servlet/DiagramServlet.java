@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -799,23 +799,5 @@ public class DiagramServlet extends HttpServlet
       }
    }
    
-   public static void main(String[] args)
-   {
-      Map<CacheKey, String> testCache = CollectionUtils.newHashMap();
-      long ts1 = System.currentTimeMillis() - 10000;
-      long ts2 = System.currentTimeMillis() - 20000;
 
-      CacheKey key1 = new CacheKey(1, ts1);
-      CacheKey key2 = new CacheKey(2, ts2);
-
-      testCache.put(key1, "Key1"); //$NON-NLS-1$
-      testCache.put(key2, "Key2"); //$NON-NLS-1$
-
-      System.out.println(testCache.get(new CacheKey(3, ts1)));
-      System.out.println(testCache.get(new CacheKey(3, ts2)));
-      System.out.println(testCache.get(new CacheKey(1, ts2)));
-      System.out.println(testCache.get(new CacheKey(2, ts1)));
-      System.out.println(testCache.get(new CacheKey(1, ts1)));
-      System.out.println(testCache.get(new CacheKey(2, ts2)));
-   }
 }

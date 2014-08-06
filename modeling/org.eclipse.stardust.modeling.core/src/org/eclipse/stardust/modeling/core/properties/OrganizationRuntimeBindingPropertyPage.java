@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
-
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
@@ -82,17 +82,17 @@ public class OrganizationRuntimeBindingPropertyPage
             (IExtensibleElement) element, PredefinedConstants.BINDING_DATA_ID_ATT, model.getData());
       binding.bind(new LabeledText(dataPathBrowser.getMethodText(), dataPathLabel),
             (IExtensibleElement) element, PredefinedConstants.BINDING_DATA_PATH_ATT);
-      
+
       dataGroup.setVisible(hasDepartments);
-      
+
       validate(null);
    }
 
    private void validate(Object selection)
-   {      
+   {
       String dataPath = null;
       DataType dataType = null;
-      
+
       if(selection != null)
       {
          if(selection instanceof String)
@@ -104,15 +104,15 @@ public class OrganizationRuntimeBindingPropertyPage
             dataType = (DataType) selection;
          }
       }
-      
+
       boolean isValid = true;
-      
+
       IModelElement modelElement = (IModelElement) getModelElement();
-      
+
       if(AttributeUtil.getBooleanValue((IExtensibleElement) modelElement, PredefinedConstants.BINDING_ATT))
       {
          if(!ScopeUtils.isValidScopeData((OrganizationType) modelElement, dataPath, dataType))
-         {            
+         {
             isValid = false;
          }
       }
@@ -126,7 +126,7 @@ public class OrganizationRuntimeBindingPropertyPage
       {
          setErrorMessage(Validation_Messages.ERR_ORGANIZATION_InvalidScopeData);
          setValid(false);
-      }            
+      }
    }
 
    public Control createBody(Composite parent)
@@ -214,7 +214,7 @@ public class OrganizationRuntimeBindingPropertyPage
             }
          }
       });
-      
+
       dataPathLabel = FormBuilder.createLabelWithRightAlignedStatus(dataGroup,
             Diagram_Messages.LB_DataPath);
       dataPathBrowser = new AccessPathBrowserComposite(getEditor(), dataGroup,
@@ -225,11 +225,11 @@ public class OrganizationRuntimeBindingPropertyPage
             if(e.getSource() instanceof Text)
             {
                Text text = (Text) e.getSource();
-               if (text.getText() != "") //$NON-NLS-1$
+               if (!StringUtils.isEmpty(text.getText()))
                {
                   validate(text.getText());
                }
-            }            
+            }
          }
       });
    }

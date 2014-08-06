@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 SunGard CSA LLC and others.
+ * Copyright (c) 2011, 2014 SunGard CSA LLC and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,7 +26,7 @@ public class SchemaLocatorAdapter extends SchemaLocator
          String rawSchemaLocationURI, String resolvedSchemaLocationURI)
    {
       if (xsdSchema.eContainer() instanceof SchemaTypeType
-            && !StringUtils.isEmpty(rawSchemaLocationURI) 
+            && !StringUtils.isEmpty(rawSchemaLocationURI)
             && rawSchemaLocationURI.startsWith(StructuredDataConstants.URN_INTERNAL_PREFIX))
       {
          ModelType model = ModelUtils.findContainingModel(xsdSchema);
@@ -35,7 +35,7 @@ public class SchemaLocatorAdapter extends SchemaLocator
             QName qname = QName.valueOf(rawSchemaLocationURI.substring(StructuredDataConstants.URN_INTERNAL_PREFIX.length()));
             String modelId = qname.getNamespaceURI();
             String typeId = qname.getLocalPart();
-            if (XMLConstants.NULL_NS_URI != modelId && !model.getId().equals(modelId))
+            if (!XMLConstants.NULL_NS_URI.equals(modelId) && !model.getId().equals(modelId))
             {
                ExternalPackages packages = model.getExternalPackages();
                if (packages != null)
@@ -73,7 +73,7 @@ public class SchemaLocatorAdapter extends SchemaLocator
          TypeDeclarationType sourceType = declarations.getTypeDeclaration(typeId);
          if (sourceType != null)
          {
-            return sourceType.getSchema();            
+            return sourceType.getSchema();
          }
       }
       return null;
