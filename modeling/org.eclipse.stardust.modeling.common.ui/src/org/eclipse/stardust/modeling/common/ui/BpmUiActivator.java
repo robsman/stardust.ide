@@ -164,6 +164,10 @@ public class BpmUiActivator extends Plugin
       PlatformUI.getPreferenceStore().setDefault(
             BpmProjectNature.PREFERENCE_DEPLOY_password,
             BpmProjectNature.DEFAULT_PREFERENCE_DEPLOY_password);
+
+      PlatformUI.getPreferenceStore().setDefault(
+            BpmProjectNature.PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY,
+            BpmProjectNature.DEFAULT_PREFERENCE_MULTIPACKAGEMODELING_VISIBILITY);
    }
 
    /*
