@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.SelectionAction;
+
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.modeling.common.ui.IWorkflowModelEditor;
@@ -34,11 +35,12 @@ import org.eclipse.stardust.modeling.repository.common.ui.ConnectionEditUtils;
 
 public class ImportConnectionObjectAction extends SelectionAction
 {
+
    public ImportConnectionObjectAction(WorkflowModelEditor part)
    {
       super(part);
       setId(ObjectRepositoryActivator.IMPORT_CONNECTION_OBJECT_ACTION);
-      setText(Diagram_Messages.TXT_IMPORT);      
+      setText(Diagram_Messages.TXT_IMPORT);
    }
 
    // when to view
@@ -52,7 +54,7 @@ public class ImportConnectionObjectAction extends SelectionAction
       }
       return false;
    }
-   
+
    private boolean isConnectionImportByReference(List<Object> models)
    {
       try
@@ -60,15 +62,15 @@ public class ImportConnectionObjectAction extends SelectionAction
          for (Iterator<Object> i = getModels().iterator(); i.hasNext();)
          {
             Object o = i.next();
+            ConnectionManager manager = (ConnectionManager) getWorkbenchPart()
+                  .getAdapter(ConnectionManager.class);
             if (o instanceof Proxy)
             {
                Proxy p = (Proxy) o;
-               Object cm = Reflect.getFieldValue(p, "h"); //$NON-NLS-1$
-               ConnectionManager cman = (ConnectionManager) Reflect.getFieldValue(cm,
-                     "this$0"); //$NON-NLS-1$
-               EObjectDescriptor desc = (EObjectDescriptor) Reflect.getFieldValue(cm,
-                     "val$desc"); //$NON-NLS-1$
-               Connection conn = cman.getConnection(desc.getURI().authority());
+               Object descHolder = Reflect.getFieldValue(p, "h"); //$NON-NLS-1$
+               EObjectDescriptor desc = (EObjectDescriptor) Reflect.getFieldValue(
+                     descHolder, "val$desc"); //$NON-NLS-1$
+               Connection conn = manager.getConnection(desc.getURI().authority());
                if (conn.getAttribute("importByReference").equals("true")) //$NON-NLS-1$ //$NON-NLS-2$
                {
                   return true;
@@ -85,11 +87,14 @@ public class ImportConnectionObjectAction extends SelectionAction
 
    private List<Object> getModels()
    {
-      if(getSelectedObjects().size() == 0) return null;
-      List selection = getSelectedObjects();
+      if (getSelectedObjects().size() == 0)
+      {
+         return null;
+      }
+      List<?> selection = getSelectedObjects();
       Object entry;
-      ArrayList result = new ArrayList();
-      for (int i = 0; i < selection.size(); i++) 
+      ArrayList<Object> result = new ArrayList<Object>();
+      for (int i = 0; i < selection.size(); i++)
       {
          entry = getSelectedObjects().get(i);
          if (entry instanceof EditPart)
@@ -98,10 +103,10 @@ public class ImportConnectionObjectAction extends SelectionAction
             if (model instanceof IObjectDescriptor)
             {
                IObjectDescriptor descriptor = (IObjectDescriptor) model;
-               if (descriptor.getType() instanceof EClass/* &&
-                     ((EClass) descriptor.getType()).getEPackage().getNsURI().equals(
-                           CarnotWorkflowModelPackage.eINSTANCE.getNsURI())*/)
-               result.add(model);
+               if (descriptor.getType() instanceof EClass)
+               {
+                  result.add(model);
+               }
             }
             else
             {
@@ -110,7 +115,7 @@ public class ImportConnectionObjectAction extends SelectionAction
          }
       }
       return result.size() == 0 ? null : result;
-   }   
+   }
 
    // when command is executed
    public void run()
@@ -126,7 +131,6 @@ public class ImportConnectionObjectAction extends SelectionAction
       }
       catch (CoreException e)
       {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
    }
