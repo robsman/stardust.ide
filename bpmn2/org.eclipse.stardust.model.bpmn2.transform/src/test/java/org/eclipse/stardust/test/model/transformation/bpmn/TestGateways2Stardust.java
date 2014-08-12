@@ -29,7 +29,6 @@ import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustT
 import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.stardust.engine.core.model.beans.XMLConstants;
@@ -49,6 +48,13 @@ public class TestGateways2Stardust {
 	
 	private static final String TEST_ID_INCLUSIVE_SPLIT = "InclusiveSplitGateway";
 	private static final String TEST_ID_INCLUSIVE_JOIN = "InclusiveMergeGateway";
+	private static final String TEST_ID_XOR_SPLIT = "TestModelXORSplitGateway";
+	private static final String TEST_ID_XOR_JOIN = "TestModelXORJoinGateway";
+
+	private static final String TEST_ID_AND_SPLIT = "testModelParallelSplit";
+	private static final String TEST_ID_AND_JOIN = "testModelParallelMerge";
+
+	
 	
     @Test
     public void testInclusiveORGatewayOneSplitOneMerge() {
@@ -118,6 +124,11 @@ public class TestGateways2Stardust {
         ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
         ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);
 
+        ActivityType xorSplit = CarnotModelQuery.findActivity(process, TEST_ID_XOR_SPLIT);
+        assertNotNull(xorSplit);
+        ActivityType xorJoin = CarnotModelQuery.findActivity(process, TEST_ID_XOR_JOIN);
+        assertNotNull(xorJoin);
+        
         TransitionType transitionAB = CarnotModelQuery.findTransition(process, TEST_ID_CONDITIONAL_SEQUENCE);
         TransitionType defaultTransitionAD = CarnotModelQuery.findTransition(process, TEST_ID_DEFAULT_SEQUENCE);
 
@@ -130,13 +141,16 @@ public class TestGateways2Stardust {
         assertNotNull(transitionAB);
         assertNotNull(defaultTransitionAD);
 
-        assertTrue(taskA.getOutTransitions().size()==3);
-        assertTrue(taskE.getInTransitions().size()==3);
+        assertTrue(xorSplit.getOutTransitions().size()==3);
+        assertTrue(xorJoin.getInTransitions().size()==3);
 
-        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
-        assertEquals(JoinSplitType.XOR_LITERAL, taskE.getJoin());
-        System.out.println("sequence condition AB " + transitionAB.getCondition());
-        System.out.println("sequence condition AD " + defaultTransitionAD.getCondition());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskE.getJoin());
+        assertEquals(JoinSplitType.XOR_LITERAL, xorSplit.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, xorSplit.getJoin());
+        assertEquals(JoinSplitType.XOR_LITERAL, xorJoin.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, xorJoin.getJoin());
+
 
         //assertEquals(testCondition, transitionAB.getCondition());
         assertEquals(XMLConstants.CONDITION_VALUE, transitionAB.getCondition());
@@ -160,17 +174,29 @@ public class TestGateways2Stardust {
         ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
         ActivityType taskE = CarnotModelQuery.findActivity(process, TEST_ID_TASK_E);
 
+        ActivityType andSplit = CarnotModelQuery.findActivity(process, TEST_ID_AND_SPLIT);
+        ActivityType andJoin = CarnotModelQuery.findActivity(process, TEST_ID_AND_JOIN);
+        
         assertNotNull(taskA);
         assertNotNull(taskB);
         assertNotNull(taskC);
         assertNotNull(taskD);
         assertNotNull(taskE);
 
-        assertTrue(taskA.getOutTransitions().size()==3);
-        assertTrue(taskE.getInTransitions().size()==3);
+        assertNotNull(andSplit);
+        assertNotNull(andJoin);
 
-        assertEquals(JoinSplitType.AND_LITERAL, taskA.getSplit());
-        assertEquals(JoinSplitType.AND_LITERAL, taskE.getJoin());
+        assertTrue(andSplit.getOutTransitions().size()==3);
+        assertTrue(andJoin.getInTransitions().size()==3);
+
+        assertEquals(JoinSplitType.NONE_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskE.getJoin());
+
+        assertEquals(JoinSplitType.AND_LITERAL, andSplit.getSplit());
+        assertEquals(JoinSplitType.AND_LITERAL, andSplit.getJoin());
+
+        assertEquals(JoinSplitType.AND_LITERAL, andJoin.getSplit());
+        assertEquals(JoinSplitType.AND_LITERAL, andJoin.getJoin());
 
         for (TransitionType trans : taskA.getOutTransitions()) {
             assertEquals("CONDITION", trans.getCondition());
@@ -255,6 +281,8 @@ public class TestGateways2Stardust {
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testSequentialMixedGateway.xpdl";
         // ids
         final String TEST_ID_GATE_B = "TestModelGateB";
+        final String TEST_ID_GATE_A = "TestModelGateA";
+        final String TEST_ID_GATE_MIX = "TestModelXORMixedGateway";
         final String TEST_ID_SEQUENCE_GA2GB = "TestModelSequenceGA2GB";
         final String TEST_ID_SEQUENCE_GA2MIXED = "TestModelSequenceGA2MixedGate";
         final String TEST_ID_SEQUENCE_GB2B = "TestModelSequenceGB2B";
@@ -277,8 +305,9 @@ public class TestGateways2Stardust {
         ActivityType taskC = CarnotModelQuery.findActivity(process, TEST_ID_TASK_C);
         ActivityType taskD = CarnotModelQuery.findActivity(process, TEST_ID_TASK_D);
 
-        ActivityType routeA = CarnotModelQuery.findActivity(process, TEST_ID_GATE_B);
-        ActivityType routeB = CarnotModelQuery.findActivity(process, TEST_ID_XOR_MIXED_GATEWAY);
+        ActivityType secondXorGate = CarnotModelQuery.findActivity(process, TEST_ID_GATE_B);
+        ActivityType firstXorGate = CarnotModelQuery.findActivity(process, TEST_ID_GATE_A);
+        ActivityType mixedGate = CarnotModelQuery.findActivity(process, TEST_ID_XOR_MIXED_GATEWAY);
 
         TransitionType transitionA2RouteA = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GA2GB); //x1
         TransitionType transitionA2RouteB = CarnotModelQuery.findTransition(process, TEST_ID_SEQUENCE_GA2MIXED); //x2
@@ -292,8 +321,10 @@ public class TestGateways2Stardust {
         assertNotNull(taskB);
         assertNotNull(taskC);
         assertNotNull(taskD);
-        assertNotNull(routeA);
-        assertNotNull(routeB);
+        
+        assertNotNull(firstXorGate);
+        assertNotNull(secondXorGate);
+        assertNotNull(mixedGate);
         assertNotNull(transitionA2RouteA);
         assertNotNull(transitionA2RouteB);
         assertNotNull(transitionRouteA2B);
@@ -302,25 +333,27 @@ public class TestGateways2Stardust {
         assertNotNull(transitionRouteB2D);
 
         // Join- and Split config
-        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskA.getSplit());
         assertEquals(JoinSplitType.NONE_LITERAL, taskA.getJoin());
-        assertEquals(JoinSplitType.XOR_LITERAL, routeA.getSplit());
-        assertEquals(JoinSplitType.NONE_LITERAL, routeA.getJoin());
-        assertEquals(JoinSplitType.XOR_LITERAL, routeB.getSplit());
-        assertEquals(JoinSplitType.XOR_LITERAL, routeB.getJoin());
+        assertEquals(JoinSplitType.XOR_LITERAL, firstXorGate.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, firstXorGate.getJoin());
+        assertEquals(JoinSplitType.XOR_LITERAL, secondXorGate.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, secondXorGate.getJoin());
+        assertEquals(JoinSplitType.XOR_LITERAL, mixedGate.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, mixedGate.getJoin());
 
         // Transition source/target
-        assertEquals(taskA, transitionA2RouteA.getFrom());
-        assertEquals(taskA, transitionA2RouteB.getFrom());
-        assertEquals(routeA, transitionRouteA2B.getFrom());
-        assertEquals(routeA, transitionRouteA2RouteB.getFrom());
-        assertEquals(routeB, transitionRouteB2C.getFrom());
-        assertEquals(routeB, transitionRouteB2D.getFrom());
+        assertEquals(firstXorGate, transitionA2RouteA.getFrom());
+        assertEquals(firstXorGate, transitionA2RouteB.getFrom());
+        assertEquals(secondXorGate, transitionRouteA2B.getFrom());
+        assertEquals(secondXorGate, transitionRouteA2RouteB.getFrom());
+        assertEquals(mixedGate, transitionRouteB2C.getFrom());
+        assertEquals(mixedGate, transitionRouteB2D.getFrom());
 
-        assertEquals(routeA, transitionA2RouteA.getTo());
-        assertEquals(routeB, transitionA2RouteB.getTo());
+        assertEquals(secondXorGate, transitionA2RouteA.getTo());
+        assertEquals(mixedGate, transitionA2RouteB.getTo());
         assertEquals(taskB, transitionRouteA2B.getTo());
-        assertEquals(routeB, transitionRouteA2RouteB.getTo());
+        assertEquals(mixedGate, transitionRouteA2RouteB.getTo());
         assertEquals(taskC, transitionRouteB2C.getTo());
         assertEquals(taskD, transitionRouteB2D.getTo());
 
@@ -375,19 +408,21 @@ public class TestGateways2Stardust {
         assertNotNull(endB);
         assertNotNull(endC);
 
-        assertNull(gateA); // taskA has a split config which makes a route activity for gateA unnecessary
+        assertNotNull(gateA); // taskA has a split config which makes a route activity for gateA unnecessary
         assertNotNull(gateB);
 
-        assertEquals(JoinSplitType.XOR_LITERAL, taskA.getSplit());
+        assertEquals(JoinSplitType.NONE_LITERAL, taskA.getSplit());
         assertEquals(JoinSplitType.XOR_LITERAL, gateB.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, gateA.getSplit());
+        assertEquals(JoinSplitType.XOR_LITERAL, gateA.getJoin());
 
-        assertEquals(2, taskA.getOutTransitions().size());
+        assertEquals(2, gateA.getOutTransitions().size());
         assertEquals(2, gateB.getOutTransitions().size());
 
-        assertEquals(taskA, transitionGateAGateB.getFrom());
+        assertEquals(gateA, transitionGateAGateB.getFrom());
         assertEquals(gateB, transitionGateAGateB.getTo());
 
-        assertEquals(taskA, transitionGateAEndC.getFrom());
+        assertEquals(gateA, transitionGateAEndC.getFrom());
         assertEquals(endC, transitionGateAEndC.getTo());
 
         assertEquals(gateB, transitionGateBB.getFrom());
@@ -399,5 +434,14 @@ public class TestGateways2Stardust {
         assertEquals(taskB, transitionBEndA.getFrom());
         assertEquals(endA, transitionBEndA.getTo());
 
+    }
+    
+    @Test
+    public void testAnotherUncontrolled() {
+        final String modelFile = TEST_BPMN_MODEL_DIR + "Uncontrolled_NoneDefaultConditional.bpmn";
+        final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "Uncontrolled_NoneDefaultConditional.xpdl";
+        ModelType result = transformModel(loadBpmnModel(modelFile), fileOutput);
+        ProcessDefinitionType process = result.getProcessDefinition().get(0);
+    	
     }
 }

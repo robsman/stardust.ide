@@ -26,7 +26,6 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
@@ -39,6 +38,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 /**
  * @author Simon Nikles
  *
+ * sni 2014-08-11: in alignment with the stardust web-modeler, we create a route-activity for each and every gateway and we set the join- as well as the split-type for each of them 
  */
 public class Gateway2Stardust extends AbstractElement2Stardust {
 
@@ -105,24 +105,30 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
 
     private ActivityType addRoute(Gate type, GateDirection direction, Gateway gateway, ProcessDefinitionType processDef, FlowElementsContainer container) {
 
+        JoinSplitType routeType = ( type.equals(Gate.EXCLUSIVE) 
+				? JoinSplitType.XOR_LITERAL 
+				: (type.equals(Gate.INCLUSIVE) 
+						? JoinSplitType.OR_LITERAL  
+						: JoinSplitType.AND_LITERAL)
+				);
+
+    	String name = getNonEmptyName(gateway.getName(), gateway.getId(), gateway).concat("_"+routeType.getLiteral());
+    	
         ActivityType route =
                 newRouteActivity(processDef)
-                .withIdAndName(gateway.getId(), gateway.getName())
+                .withIdAndName(gateway.getId(), name)
                 .withDescription(DocumentationTool.getDescriptionFromDocumentation(gateway.getDocumentation()))
                 .build();
 
-        JoinSplitType routeType = ( type.equals(Gate.EXCLUSIVE) 
-        						? JoinSplitType.XOR_LITERAL 
-        						: (type.equals(Gate.INCLUSIVE) 
-        								? JoinSplitType.OR_LITERAL  
-        								: JoinSplitType.AND_LITERAL)
-        						);
-        if (direction.equals(GateDirection.DIVERGE) || direction.equals(GateDirection.MIXED)) {
-            route.setSplit(routeType);
-        }
-        if (direction.equals(GateDirection.CONVERGE) || direction.equals(GateDirection.MIXED)) {
-            route.setJoin(routeType);
-        }
+        route.setSplit(routeType);
+        route.setJoin(routeType);
+        
+//        if (direction.equals(GateDirection.DIVERGE) || direction.equals(GateDirection.MIXED)) {
+//            route.setSplit(routeType);
+//        }
+//        if (direction.equals(GateDirection.CONVERGE) || direction.equals(GateDirection.MIXED)) {
+//            route.setJoin(routeType);
+//        }
 
         return route;
     }
@@ -286,13 +292,14 @@ public class Gateway2Stardust extends AbstractElement2Stardust {
     }
 
     private boolean isGatewayTransformedToRoute(Gateway gate) {
-        if (isMixed(gate)) return true;
-        if (hasBpmnGateSource(gate, gate.getIncoming())) return true;
-        if (hasBpmnSourceActivityWithBoundaryEvent(gate, gate.getIncoming())) return true;
-        if (isJoin(gate) && hasMergingGatewayTarget(gate.getOutgoing())) return true;
-        if (hasIncomingFromBpmnForkingNonGateway(gate)) return true;
-        if (hasOutgoingToBpmnMergingNonGateway(gate)) return true;
-        return false;
+    	return true;
+//        if (isMixed(gate)) return true;
+//        if (hasBpmnGateSource(gate, gate.getIncoming())) return true;
+//        if (hasBpmnSourceActivityWithBoundaryEvent(gate, gate.getIncoming())) return true;
+//        if (isJoin(gate) && hasMergingGatewayTarget(gate.getOutgoing())) return true;
+//        if (hasIncomingFromBpmnForkingNonGateway(gate)) return true;
+//        if (hasOutgoingToBpmnMergingNonGateway(gate)) return true;
+//        return false;
     }
 
 	private boolean hasIncomingFromBpmnForkingNonGateway(Gateway gate) {

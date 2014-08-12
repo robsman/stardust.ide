@@ -92,7 +92,7 @@
         </itp:localization>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="_cb8558bb-fc7f-48d9-89fe-d2df6e37bbd2" sourceRef="TestModelTaskA" targetRef="_4ace9b8b-afd3-428c-9926-2a0318285663">
+    <sequenceFlow id="_cb8558bb-fc7f-48d9-89fe-d2df6e37bbd2" sourceRef="TestModelTaskA" targetRef="testModelParallelSplit">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -103,7 +103,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="TestModelConditionalSequenceFlow1" sourceRef="_4ace9b8b-afd3-428c-9926-2a0318285663" targetRef="TestModelTaskB">
+    <sequenceFlow id="TestModelConditionalSequenceFlow1" sourceRef="testModelParallelSplit" targetRef="TestModelTaskB">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -114,7 +114,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="_b6a578ba-d556-4867-ab1d-31d05a33a35e" sourceRef="_4ace9b8b-afd3-428c-9926-2a0318285663" targetRef="TestModelTaskC">
+    <sequenceFlow id="_b6a578ba-d556-4867-ab1d-31d05a33a35e" sourceRef="testModelParallelSplit" targetRef="TestModelTaskC">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -125,7 +125,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="_1d76ccef-d45f-4802-98d3-0aa0e978c554" sourceRef="_4ace9b8b-afd3-428c-9926-2a0318285663" targetRef="TestModelTaskD">
+    <sequenceFlow id="_1d76ccef-d45f-4802-98d3-0aa0e978c554" sourceRef="testModelParallelSplit" targetRef="TestModelTaskD">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -137,7 +137,7 @@
       </extensionElements>
       <conditionExpression>_undefined</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="_fb92c3da-c942-4350-bc9f-1b87e5f70023" sourceRef="TestModelTaskB" targetRef="_19969e5c-c41c-49de-af79-529e94cb4446">
+    <sequenceFlow id="_fb92c3da-c942-4350-bc9f-1b87e5f70023" sourceRef="TestModelTaskB" targetRef="testModelParallelMerge">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -148,7 +148,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="_64cf5e6a-18c6-4689-ba93-2865f67c16d6" sourceRef="TestModelTaskC" targetRef="_19969e5c-c41c-49de-af79-529e94cb4446">
+    <sequenceFlow id="_64cf5e6a-18c6-4689-ba93-2865f67c16d6" sourceRef="TestModelTaskC" targetRef="testModelParallelMerge">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -159,7 +159,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="_5af8c969-22a2-485a-8356-8af176a7b3d2" sourceRef="TestModelTaskD" targetRef="_19969e5c-c41c-49de-af79-529e94cb4446">
+    <sequenceFlow id="_5af8c969-22a2-485a-8356-8af176a7b3d2" sourceRef="TestModelTaskD" targetRef="testModelParallelMerge">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -170,7 +170,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <sequenceFlow id="_53472ed0-6bda-4cc3-8119-feb7e93b0ddb" sourceRef="_19969e5c-c41c-49de-af79-529e94cb4446" targetRef="TestModelTaskE">
+    <sequenceFlow id="_53472ed0-6bda-4cc3-8119-feb7e93b0ddb" sourceRef="testModelParallelMerge" targetRef="TestModelTaskE">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -181,7 +181,7 @@
         </itp:localization>
       </extensionElements>
     </sequenceFlow>
-    <parallelGateway id="_4ace9b8b-afd3-428c-9926-2a0318285663" name="SplitAndGate" gatewayDirection="Diverging">
+    <parallelGateway id="testModelParallelSplit" name="SplitAndGate" gatewayDirection="Diverging">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -193,7 +193,7 @@
         </itp:localization>
       </extensionElements>
     </parallelGateway>
-    <parallelGateway id="_19969e5c-c41c-49de-af79-529e94cb4446" name="JoinAndGate" gatewayDirection="Converging">
+    <parallelGateway id="testModelParallelMerge" name="JoinAndGate" gatewayDirection="Converging">
       <extensionElements>
         <itp:systemDefinedAttributes>
           <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
@@ -299,13 +299,13 @@
           <dc:Bounds x="447.48" y="158.955590551181" width="7.92" height="17.28" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="_D0A40657-ED85-4A65-A209-2E413F15AFA1" bpmnElement="_4ace9b8b-afd3-428c-9926-2a0318285663" itp:label="SplitAndGate" itp:elementType="parallelGateway">
+      <bpmndi:BPMNShape id="_D0A40657-ED85-4A65-A209-2E413F15AFA1" bpmnElement="testModelParallelSplit" itp:label="SplitAndGate" itp:elementType="parallelGateway">
         <dc:Bounds x="185.669291338583" y="158.385826771654" width="42.5196850393701" height="31.8897637795276" />
         <bpmndi:BPMNLabel labelStyle="_d76156c3-8e57-4001-8ec0-ea6dab3054d6">
           <dc:Bounds x="181.8" y="193.155590551181" width="49.68" height="9.36" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="_F5659D86-41E8-48FC-B8E5-6BC9C521CB8A" bpmnElement="_19969e5c-c41c-49de-af79-529e94cb4446" itp:label="JoinAndGate" itp:elementType="parallelGateway">
+      <bpmndi:BPMNShape id="_F5659D86-41E8-48FC-B8E5-6BC9C521CB8A" bpmnElement="testModelParallelMerge" itp:label="JoinAndGate" itp:elementType="parallelGateway">
         <dc:Bounds x="388.346456692913" y="158.385826771654" width="42.5196850393701" height="31.8897637795276" />
         <bpmndi:BPMNLabel labelStyle="_d76156c3-8e57-4001-8ec0-ea6dab3054d6">
           <dc:Bounds x="385.56" y="193.155590551181" width="48.24" height="9.36" />
