@@ -49,6 +49,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDSchema;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
@@ -154,14 +163,6 @@ import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
 
 public class ModelBuilderFacade
 {
@@ -1983,6 +1984,12 @@ public class ModelBuilderFacade
     */
    public TypeDeclarationType findTypeDeclaration(String fullTypeID)
    {
+      if (fullTypeID.startsWith("typeDeclaration:{"))
+      {
+         fullTypeID = fullTypeID.split(":")[1];
+         fullTypeID = fullTypeID.replaceAll("\\{", "");
+         fullTypeID = fullTypeID.replaceAll("\\}", ":");
+      }
       String[] ids = fullTypeID.split(":");
       if (ids.length > 1)
       {
