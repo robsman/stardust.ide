@@ -419,6 +419,10 @@ public class ModelBuilderFacade
 
       String refModelId = null;
       String structTypeId = null;
+      if (structTypeFullID == null)
+      {
+         structTypeFullID = "TO_BE_DEFINED";
+      }
       String[] splittedIds = structTypeFullID.split(":");
       if (splittedIds.length > 1)
       {
@@ -481,6 +485,10 @@ public class ModelBuilderFacade
 
       String refModelId = null;
       String structTypeId = null;
+      if (structTypeFullID == null)
+      {
+         structTypeFullID = "TO_BE_DEFINED";
+      }
       String[] splittedIds = structTypeFullID.split(":");
       if (splittedIds.length > 1)
       {
