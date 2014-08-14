@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sdbpmn -->
+      <package
+            uri="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnPackage"
+            genModel="model/sdbpmn.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated sdbpmn -->
+      <parser
+            type="sdbpmn"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.util.SdbpmnResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sdbpmn -->
+      <package
+            uri="http://www.carnot.ag/workflowmodel/3.1"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotPackage"
+            genModel="model/sdbpmn.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated sdbpmn -->
+      <parser
+            type="carnot"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.util.CarnotResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sdbpmn -->
+      <package
+            uri="http://www.carnot.ag/xpdl/3.1"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.ExtensionsPackage"
+            genModel="model/sdbpmn.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated NOT sdbpmn -->
+      <parser
+            type="carnot-extensions"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.util.ExtensionsResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sdbpmn -->
+      <package
+            uri="http://www.wfmc.org/2008/XPDL2.1"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.XpdlPackage"
+            genModel="model/sdbpmn.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated sdbpmn -->
+      <parser
+            type="xpdl"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.util.XpdlResourceFactoryImpl"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated sdbpmn -->
+      <package
+            uri="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.ExtensionsPackage"
+            genModel="model/sdbpmn.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <!-- @generated NOT sdbpmn -->
+      <parser
+            type="xpdl-extensions"
+            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.util.ExtensionsResourceFactoryImpl"/>
+   </extension>
+
+	<extension
+		point="org.eclipse.bpmn2.modeler.runtime">
+		
+		<runtime name="Stardust" versions="1.0"
+			id="org.eclipse.bpmn2.modeler.runtime.stardust"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.StardustRuntimeExtension"
+			description="BPMN2 Modeler Runtime Extensions for Stardust">
+		</runtime>
+
+		<!--
+		This makes the sdbpmn model known to the editor. The "uri" must be the same as the
+		"nsURI" defined in the EMF model's ecore.
+		-->
+		<model runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			uri="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn">
+		</model>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.timerEvent.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.timerEvent.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustEventDefinitionPropertySection"
+			type="org.eclipse.bpmn2.TimerEventDefinition"
+			label="Timer Event">
+		</propertyTab>
+		
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.interface.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.interface.details.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionPropertySection"
+			type="org.eclipse.bpmn2.Interface"
+			label="Interface">
+		</propertyTab>
+
+		<!--<modelExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.modelExtension.TimerEvent"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			name="Timer Event Definition Extensions"
+			type="TimerEventDefinition">
+			<property name="stopTime" type="EDate" label="Stop Time"/>
+		</modelExtension>-->
+		
+		<!--
+		This adapter is responsible for constructing the appropriate object hierarchy for
+		a given Application Type. Whenever the user selects an Application Type from the
+		Stardust Interface -> Application Type combo box, this adapter's setValue() method
+		is called by the combo editor to set the new Application Type value; it then also
+		builds the object hierarchy within the same EMF transaction.
+		-->
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustInterface"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.AttributeType"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.AttributeTypeExtendedPropertiesAdapter">
+		</propertyExtension>
+		
+		<!--
+		Enable the Stardust and Carnot model objects here. Unless explicitly enabled, these
+		objects will not be rendered in Property Sheets.
+		-->
+		<modelEnablement
+				runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+				id="profile.1"
+				profile="Full"
+				ref="org.eclipse.bpmn2.modeler.runtime.none:profile.1"
+				description="Stardust elements and attributes">
+			<enable object="StardustInterfaceType"/>
+			<enable object="StardustApplicationType"/>
+			<enable object="StardustStartEventType"/>
+		</modelEnablement>
+	</extension>
+
+</plugin>

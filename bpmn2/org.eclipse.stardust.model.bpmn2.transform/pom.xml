@@ -128,5 +128,35 @@
 <!-- 			</plugin> -->
 <!-- 		</plugins> -->
 <!-- 	</build> -->
+	<repositories>	
+		<repository>
+			<id>stardust-releases</id>
+			<url>http://download.eclipse.org/stardust/maven/releases</url>
+		</repository>
+		<repository>
+			<id>stardust-snapshots</id>
+			<url>http://download.eclipse.org/stardust/maven/snapshots</url>
+		</repository>
+		<repository>
+			<id>stardust-3rdparty-eclipse</id>
+			<url>http://archive.eclipse.org/stardust/maven/3rdparty/eclipse</url>
+		</repository>
+		<repository>
+			<id>stardust-3rdparty-public</id>
+			<url>http://archive.eclipse.org/stardust/maven/3rdparty/public</url>
+		</repository>
+		<repository>
+			<id>mavenCentral</id>
+			<url>http://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>public-jboss</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.java.net</id>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+	</repositories>
 
 </project>

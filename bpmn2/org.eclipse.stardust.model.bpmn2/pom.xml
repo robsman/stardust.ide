@@ -83,8 +83,6 @@
 			<version>4.10</version>
 		</dependency>
 	</dependencies>
-
-
 	<repositories>	
 		<repository>
 			<id>stardust-releases</id>
@@ -115,4 +113,6 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 	</repositories>
+
+
 </project>
