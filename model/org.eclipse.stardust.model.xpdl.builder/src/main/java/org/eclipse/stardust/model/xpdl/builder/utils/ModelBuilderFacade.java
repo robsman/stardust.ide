@@ -799,6 +799,37 @@ public class ModelBuilderFacade
       else
       {
          declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
+         ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
+               sourceModelID);
+
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+               model, typeDeclarationModel);
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+         TypeDeclarationType typeDeclaration = this.findTypeDeclaration(typeFullID);
+
+         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
+               MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
+               typeDeclaration.getId(), typeDeclaration.getName(),
+               typeDeclaration.getDescription(), bundleId, null);
+
+         AttributeUtil.setAttribute(
+               data,
+               "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+         AttributeUtil.setBooleanAttribute(data,
+               "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+         AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
+               descriptor.getURI().toString());
+         ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+         if (typeDeclarationModel != null)
+         {
+            reference.setLocation(ImportUtils.getPackageRef(descriptor, model,
+                  typeDeclarationModel).getId());
+         }
+         reference.setXref(declarationID);
+         data.setExternalReference(reference);
       }
       AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
    }
