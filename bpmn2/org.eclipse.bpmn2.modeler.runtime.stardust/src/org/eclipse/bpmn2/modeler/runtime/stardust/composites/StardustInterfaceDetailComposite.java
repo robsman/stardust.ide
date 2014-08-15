@@ -17,6 +17,8 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
@@ -65,14 +67,31 @@ public class StardustInterfaceDetailComposite extends DefaultDetailComposite {
 
 		// create a details section for the selected application type
 		DefaultDetailComposite details = null;
-		String appType = sdInterface.getApplicationType();
-		if ("WebService".equals(appType)) {
+		String appTypeStr = sdInterface.getApplicationType();
+		ApplicationTypes appType = ApplicationTypes.forKey(appTypeStr);
+		if (null == appType) return;
+		
+		switch(appType) {
+		case WEBSERVICE:
 			details = new WebServiceDetailComposite(getAttributesParent(), SWT.NONE);
-		} else if ("PlainJava".equals(appType)) {
+			break;
+		case CAMELCONSUMER:
+			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE,false);
+			break;
+		case CAMELPRODUCER:
+			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE,true);
+			break;
+		case PLAINJAVA:
 			details = new PlainJavaDetailComposite(getAttributesParent(), SWT.NONE);
-		} else {
-			// nothing to add here
+			break;
+		case JMSRECEIVE:
+		case JMSSEND:
+		case SESSIONBEAN:
+		case SPRINGBEAN:
+		default:
+			break;
 		}
+		
 		// rebuild the service-specific details section
 		if (details != null)
 			details.setBusinessObject(sdInterface);

@@ -34,16 +34,46 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedPropertiesAdapter<StardustInterfaceType> {
 	private static long elementOid = 10000;
 	private static Hashtable<String, Object> choices = null;
-	public final static String applicationTypes[] = new String[] {
-		"WebService",
-		"PlainJava",
-		"SpringBean",
-		"SessionBean",
-		"CamelConsumer",
-		"CamelProducer",
-		"JMSSend",
-		"JMSReceive"
-	};
+	
+	public enum ApplicationTypes {
+		WEBSERVICE("Webservice", "Webservice D"),
+		PLAINJAVA("PlainJava", "Plain Java"),
+		SPRINGBEAN("SpringBean", "Spring Bean"),
+		SESSIONBEAN("SessionBean", "Sessionbean"),
+		CAMELCONSUMER("camelSpringConsumerApplication", "Camel Consumer"),
+		CAMELPRODUCER("camelSpringProducerApplication", "Camel Producer"),
+		JMSSEND("JMSSend", "JMS Sender"),
+		JMSRECEIVE("JMSReceive", "JMS Receiver");
+		
+		private String key;
+		public String displayName;
+
+		private ApplicationTypes(String key, String displayName) {
+			this.setKey(key);
+			this.displayName = displayName;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public static ApplicationTypes forKey(String key) {
+			if (null == key) return null;
+			for (ApplicationTypes t : values()) {
+				if (key.equals(t.key)) return t;
+			}
+			return null;
+		}
+		
+	}
 
 	/**
 	 * @param adapterFactory
@@ -60,37 +90,55 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// which should be rendered as a ComboBox
 		setProperty(feature, UI_IS_MULTI_CHOICE, Boolean.TRUE);
 		
-    	setFeatureDescriptor(feature,
-			new FeatureDescriptor<StardustInterfaceType>(this,object,feature) {
-    			@Override
-    	   		protected void internalSet(StardustInterfaceType sdInterface, EStructuralFeature feature, Object value, int index) {
-    				// Whenever the StardustInterfaceType.applicationType feature changes,
-    				// the framework will call this FeatureDescriptor's internalSet() inside
-    				// an EMF transaction. This gives us the opportunity to construct all of
-    				// the required objects for a specific ApplicationType within the same
-    				// transaction as the one that changed the ApplicationType.
-    				super.internalSet(object, feature, value, index);
+		setFeatureDescriptor(feature,
+				new FeatureDescriptor<StardustInterfaceType>(this,object,feature) {
+			@Override
+			protected void internalSet(StardustInterfaceType sdInterface, EStructuralFeature feature, Object value, int index) {
+				// Whenever the StardustInterfaceType.applicationType feature changes,
+				// the framework will call this FeatureDescriptor's internalSet() inside
+				// an EMF transaction. This gives us the opportunity to construct all of
+				// the required objects for a specific ApplicationType within the same
+				// transaction as the one that changed the ApplicationType.
+				super.internalSet(object, feature, value, index);
 
-    				if ("WebService".equals(value)) {
-						createWebServiceApplicationModel(sdInterface);
-					} else if ("PlainJava".equals(value)) {
-						createPlainJavaApplicationModel(sdInterface);
-					} else {
-						removeApplicationModel(sdInterface);
-					}
-    				
-    			}
-
-				@Override
-				public Hashtable<String, Object> getChoiceOfValues() {
-					if (choices==null) {
-						choices = new Hashtable<String, Object>();
-						for (String s : applicationTypes) {
-							choices.put(s, s);
-						}
-					}
-					return choices;
+				if (null == value) {
+					removeApplicationModel(sdInterface);
+					return;
 				}
+				ApplicationTypes appType = ApplicationTypes.forKey(value.toString());
+				switch(appType) {
+				case WEBSERVICE:
+					createWebServiceApplicationModel(sdInterface);
+					break;
+				case CAMELCONSUMER:
+					createCamelApplicationModel(sdInterface, false);
+					break;
+				case CAMELPRODUCER:
+					createCamelApplicationModel(sdInterface, true);
+					break;
+				case PLAINJAVA:
+					createPlainJavaApplicationModel(sdInterface);
+					break;
+				case JMSRECEIVE:
+				case JMSSEND:
+				case SESSIONBEAN:
+				case SPRINGBEAN:
+				default:
+					removeApplicationModel(sdInterface);
+					break;
+				}
+			}
+
+			@Override
+			public Hashtable<String, Object> getChoiceOfValues() {
+				if (choices==null) {
+					choices = new Hashtable<String, Object>();
+					for (ApplicationTypes type : ApplicationTypes.values()) {
+						choices.put(type.getDisplayName(), type.getKey());
+					}
+				}
+				return choices;
+			}
     	});
 	}
 
@@ -198,6 +246,58 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		sdInterface.setStardustApplication(sdApplication);
 	}
+	
+	/**
+	 * Creates the sdbpmn and carnot model object hierarchy for a CamelProducer
+	 * ApplicationType
+	 * 
+	 * @param sdInterface the StardustInterfaceType object which is the
+	 *            container for the model objects.
+	 * @param camelProducer 
+	 */
+	private static void createCamelApplicationModel(StardustInterfaceType sdInterface, boolean camelProducer) {
+		// first delete the previous StardustApplicationType
+		removeApplicationModel(sdInterface);
+
+		// and configure for a PlainJava StardustApplicationType
+		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
+		sdApplication.setElementOid(generateElementOid());
+		if (camelProducer == true) {
+			sdApplication.setId("CamelProducer");
+			sdApplication.setName("CamelProducer");
+		} else {
+			sdApplication.setId("CamelConsumer");
+			sdApplication.setName("CamelConsumer");
+		}
+		
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::invocationType", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::invocationPattern", "", null));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "false", "boolean"));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::camelContextId", "defaultCamelContext", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::supportMultipleAccessPoints", "true", "boolean"));
+		// GG supposed to be generated by stardust engine: sdApplication.getAttribute().add(createAttributeType("messageTransformation:TransformationProperty::", "", null));
+		if (camelProducer == false) {
+			sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::consumerRoute", "", null));
+		}
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::routeEntries", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::processContextHeaders", "false", "boolean"));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::outBodyAccessPoint", "", null));
+
+		StardustAccessPointType sdAccessPoint;
+		
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT, "struct");
+		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
+		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
+		sdApplication.getAccessPoint().add(sdAccessPoint);
+
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN, "struct");
+		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
+		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
+		sdApplication.getAccessPoint().add(sdAccessPoint);
+		
+		sdInterface.setStardustApplication(sdApplication);
+	}	
 
 	private static void removeApplicationModel(StardustInterfaceType sdInterface) {
 		sdInterface.setStardustApplication(null);
