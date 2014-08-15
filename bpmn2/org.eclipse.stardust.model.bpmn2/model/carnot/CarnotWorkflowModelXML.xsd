@@ -1,0 +1,2221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.carnot.ag/workflowmodel/3.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.carnot.ag/workflowmodel/3.1">
+  <xsd:simpleType name="ActivityImplementationType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Route"/>
+      <xsd:enumeration value="Manual"/>
+      <xsd:enumeration value="Application"/>
+      <xsd:enumeration value="Subprocess"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DirectionType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="IN"/>
+      <xsd:enumeration value="OUT"/>
+      <xsd:enumeration value="INOUT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="FlowControlType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="none"/>
+      <xsd:enumeration value="join"/>
+      <xsd:enumeration value="split"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ImplementationType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="engine"/>
+      <xsd:enumeration value="pull"/>
+      <xsd:enumeration value="push"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="JoinSplitType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="XOR"/>
+      <xsd:enumeration value="AND"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LinkCardinality">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="One"/>
+      <xsd:enumeration value="Many"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LinkColor">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="Black"/>
+      <xsd:enumeration value="DarkBlue"/>
+      <xsd:enumeration value="DarkGray"/>
+      <xsd:enumeration value="Blue"/>
+      <xsd:enumeration value="LightGray"/>
+      <xsd:enumeration value="Red"/>
+      <xsd:enumeration value="Yellow"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LinkLineStyle">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="Normal"/>
+      <xsd:enumeration value="ShortStrokes"/>
+      <xsd:enumeration value="LongStrokes"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LinkEndStyle">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="NoArrow"/>
+      <xsd:enumeration value="OpenTriangle"/>
+      <xsd:enumeration value="EmptyTriangle"/>
+      <xsd:enumeration value="FilledTriangle"/>
+      <xsd:enumeration value="EmptyRhombus"/>
+      <xsd:enumeration value="FilledRhombus"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="LoopType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Unknown"/>
+      <xsd:enumeration value="None"/>
+      <xsd:enumeration value="While"/>
+      <xsd:enumeration value="Repeat"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="OrientationType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Vertical"/>
+      <xsd:enumeration value="Horizontal"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RoutingType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Default"/>
+      <xsd:enumeration value="ShortestPath"/>
+      <xsd:enumeration value="Manhattan"/>
+      <xsd:enumeration value="Explicit"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SubProcessModeType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="sync_shared"/>
+      <xsd:enumeration value="sync_separate"/>
+      <xsd:enumeration value="async_separate"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DiagramModeType">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="MODE_4_0_0"/>
+      <xsd:enumeration value="MODE_4_5_0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="Coordinates">
+    <xsd:attribute name="xPos" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The location on the x-axis.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="yPos" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The location on the y-axis.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="Coordinates" type="Coordinates"/>
+  <xsd:complexType abstract="true" name="IIdentifiableElement">
+    <xsd:attribute name="id" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>The human usable identifier of the element. This identifier will usually be used to refer to the model element neutrally to any model version.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="name" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>The human friendly name of this element. Usually used as label.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="IExtensibleElement">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="AttributeType">
+        <xsd:annotation>
+          <xsd:documentation>The list of extension attributes.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="IExtensibleElement" type="IExtensibleElement"/>
+  <xsd:complexType name="IdentifiableReference"/>
+  <xsd:element name="IdentifiableReference" type="IdentifiableReference"/>
+  <xsd:complexType abstract="true" name="IModelElement">
+    <xsd:attribute name="elementOid" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+                  A 32-bit number assigned to the group symbol.
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IIdentifiableModelElement">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="AttributeType">
+            <xsd:annotation>
+              <xsd:documentation>The list of extension attributes.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="description" type="DescriptionType">
+            <xsd:annotation>
+              <xsd:documentation>An optional description of the model element.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The human usable identifier of the element. This identifier will usually be used to refer to the model element neutrally to any model version.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The human friendly name of this element. Usually used as label.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IEventHandlerOwner">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventHandler" type="EventHandlerType">
+        <xsd:annotation>
+          <xsd:documentation>The list of event handlers defined for this model element.
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IAccessPointOwner">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="AccessPointType">
+        <xsd:annotation>
+          <xsd:documentation>The list of access points.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IMetaType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="isPredefined" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A boolean that indicates whether this meta type is predefined by CARNOT or model specific.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ITypedElement"/>
+  <xsd:complexType abstract="true" name="ISymbolContainer">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="nodes" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="connections" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IGraphicalObject">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:attribute name="borderColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The border color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fillColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The fill color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="style" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The drawing style, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="INodeSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="IGraphicalObject">
+        <xsd:attribute name="xPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The x position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="yPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The y position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="width" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The width of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="height" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The height of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="shape" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A hint on the shape to be used, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="ISwimlaneSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="INodeSymbol">
+        <xsd:attribute name="id" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The human usable identifier of the element. This identifier will usually be used to refer to the model element neutrally to any model version.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The human friendly name of this element. Usually used as label.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="Vertical" name="orientation" type="OrientationType" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>The orientation of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="collapsed" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The collapsed state of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participant" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A reference to the associated participant, if existent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IModelElementNodeSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="INodeSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IFlowObjectSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="INodeSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="IConnectionSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="IGraphicalObject">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="coordinates" type="Coordinates">
+            <xsd:annotation>
+              <xsd:documentation>The routing coordinates of the connection symbol.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute default="center" name="sourceAnchor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The source node anchor, if existent. Defaults to "center".</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="center" name="targetAnchor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The target node anchor, if existent. Defaults to "center".</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="routing" type="RoutingType">
+          <xsd:annotation>
+            <xsd:documentation>The routing style, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IModelParticipant">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="IModelParticipant" type="IModelParticipant"/>
+  <xsd:complexType name="IModelParticipantSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElementNodeSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="IModelParticipantSymbol" type="IModelParticipantSymbol"/>
+  <xsd:complexType abstract="true" name="AbstractEventAction">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The type of the bind action. Valid values are the model id's of previously defined eventActionType elements whose
+ unsupportedContexts-attribute does not contain "bind".
+ </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="AbstractEventSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="IFlowObjectSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AccessPointType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="direction" type="DirectionType">
+          <xsd:annotation>
+            <xsd:documentation>The direction of the access point. Valid values are "IN",
+ "OUT" or "INOUT"
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+The model id of one of the previously defined dataType elements.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="AccessPointType" type="AccessPointType"/>
+  <xsd:complexType name="ActivitySymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IFlowObjectSymbol">
+        <xsd:attribute name="activity" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ActivitySymbolType" type="ActivitySymbolType"/>
+  <xsd:complexType name="ActivityType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventHandler" type="EventHandlerType">
+            <xsd:annotation>
+              <xsd:documentation>The list of event handlers defined for this model element.
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dataMapping" type="DataMappingType">
+            <xsd:annotation>
+              <xsd:documentation>The list of data mappings.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="allowsAbortByPerformer" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Determines whether the activity is allowed to be aborted.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="hibernateOnCreation" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Determines whether an activity instance is hibernated immediately after
+                  beeing created.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="implementation" type="ActivityImplementationType">
+          <xsd:annotation>
+            <xsd:documentation>Description of how the activity is implemented. Valid values are
+ "Application", "Subprocess", "Route" or
+ "Manual".
+ </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="None" name="join" type="JoinSplitType">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of activity join. Valid values are: "None",
+                  "XOR" or "AND".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="loopCondition" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Logical condition for the loop when attribute loopType is
+                  "WHILE" or "REPEAT".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="None" name="loopType" type="LoopType">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Description of whether the activity shall be executed in a loop. Valid
+                  values are "NO LOOP", "WHILE" or "REPEAT".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="None" name="split" type="JoinSplitType">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of activity split. Valid values are: "None",
+                  "XOR" or "AND".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="subProcessMode" type="SubProcessModeType" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The execution mode of the subprocess. "sync_shared" executes
+                  the process synchronously (the default mode).
+                  "asynch_separate" just triggers a fully independent instance
+                  of the implementing process. This attribute is valid only when the
+                  attribute "implementation" is set to "Subprocess".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="application" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the application to execute when the attribute
+                  "implementation" is set to "Application".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="implementationProcess" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the subprocess implementing the activity when the
+                  attribute "implementation" is set to "Subprocess".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="performer" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of a participant (role, organization or conditional
+                  performer) who is assigned to the activity.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ActivityType" type="ActivityType"/>
+  <xsd:complexType name="AnnotationSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="INodeSymbol">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="text" type="TextType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="AnnotationSymbolType" type="AnnotationSymbolType"/>
+  <xsd:complexType name="ApplicationContextTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="accessPointProviderClass" type="xsd:string"/>
+        <xsd:attribute name="hasApplicationPath" type="xsd:string"/>
+        <xsd:attribute name="hasMappingId" type="xsd:string"/>
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="validatorClass" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ApplicationContextTypeType" type="ApplicationContextTypeType"/>
+  <xsd:complexType name="ApplicationSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElementNodeSymbol">
+        <xsd:attribute name="application" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ApplicationSymbolType" type="ApplicationSymbolType"/>
+  <xsd:complexType name="ApplicationType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="AccessPointType">
+            <xsd:annotation>
+              <xsd:documentation>The list of access points.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="context" type="ContextType">
+            <xsd:annotation>
+              <xsd:documentation>The list of application contexts.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="interactive" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether this application is interactive or not.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the applicationType.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ApplicationType" type="ApplicationType"/>
+  <xsd:complexType name="ApplicationTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="accessPointProviderClass" type="xsd:string"/>
+        <xsd:attribute name="instanceClass" type="xsd:string"/>
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="synchronous" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether the application type element describes
+                  a synchronously executed application or not.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="validatorClass" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ApplicationTypeType" type="ApplicationTypeType"/>
+  <xsd:complexType name="AttributeType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="mixed" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="1" minOccurs="0" name="valueNode" type="XmlTextNode">
+        <xsd:annotation>
+          <xsd:documentation>Stores multi line attribute values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string" use="required">
+      <xsd:annotation>
+        <xsd:documentation>
+                  The name of this attributes. It is recommended to use names with a
+                  structure like
+                  <code>vendor:component:sub-component:..:property</code>
+                  , i.e.
+                  <code>carnot:defdesk:icon</code>
+                  vs.
+                  <code>carnot:engine:defaultValue</code>
+                  .
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="type" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+                  The optional type of this attribute. Will be used as hint while
+                  attribute value evaluation, if existent.
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="value" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+                  The value of this attribute, if it can be represented as a single line
+                  string. Alterntively arbitrary complex child element nodes may be used
+                  to represent more complex values.
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="AttributeType" type="AttributeType"/>
+  <xsd:complexType name="BindActionType">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventAction"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="BindActionType" type="BindActionType"/>
+  <xsd:complexType name="ConditionalPerformerSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipantSymbol">
+        <xsd:attribute name="participant" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ConditionalPerformerSymbolType" type="ConditionalPerformerSymbolType"/>
+  <xsd:complexType name="ConditionalPerformerType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipant">
+        <xsd:attribute name="dataPath" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The data path the data which determines the runtime identity of the
+                  performer. This must evaluate to String (id) or long (oid).
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="isUser" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether this conditional performer is a user or
+                  not.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="data" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The unique model id of the corresponding data element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ConditionalPerformerType" type="ConditionalPerformerType"/>
+  <xsd:complexType name="ContextType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="AttributeType">
+            <xsd:annotation>
+              <xsd:documentation>The list of extension attributes.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="AccessPointType">
+            <xsd:annotation>
+              <xsd:documentation>The list of access points.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="description" type="DescriptionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     An optional description of the context.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of the context for interactive applications. Valid values are
+                  the following model id's of previously defined applicationContextType
+                  elements: "jfc" | "jsp".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ContextType" type="ContextType"/>
+  <xsd:complexType name="DataMappingConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="activitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding activity symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="dataSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding data symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataMappingConnectionType" type="DataMappingConnectionType"/>
+  <xsd:complexType name="DataMappingType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:attribute name="applicationAccessPoint" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The name of the access point for the application in scope of the
+                  activity.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="applicationPath" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The method of the application to retrieve or put the data to/from the
+                  application.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="context" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  If the activity is an interactive activity then the context specifies
+                  for which type of interactive activity this data mapping is used. Valid
+                  values are the following model id's of previously defined
+                  applicationContextType elements: "jfc" | "jsp"
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="dataPath" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The method of the data object to retrieve or put the data. Can be left
+                  empty, if the whole object is used.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="direction" type="DirectionType" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The direction of the mapping. Valid values are "IN" |
+                  "OUT".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="id" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The human usable identifier of the data mapping.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="data" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The unique model id of the corresponding data element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataMappingType" type="DataMappingType"/>
+  <xsd:complexType name="DataPathType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="dataPath" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The method of the data object to retrieve or put the data. Can be left
+                  empty, if the whole object is used.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="descriptor" type="xsd:string"/>
+        <xsd:attribute name="direction" type="DirectionType" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The direction of the data path. Valid values are "IN" |
+                  "OUT".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="data" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The unique model id of the corresponding data element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataPathType" type="DataPathType"/>
+  <xsd:complexType name="DataSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElementNodeSymbol">
+        <xsd:attribute name="data" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataSymbolType" type="DataSymbolType"/>
+  <xsd:complexType name="DataType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="predefined" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether the data element is predefined or
+                  created by modeling.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Abstract description of the data type of the data element (e.g.
+                  primitive, entity). Depending on that type class names are given as
+                  attribute elements.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataType" type="DataType"/>
+  <xsd:complexType name="DataTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="accessPathEditor" type="xsd:string"/>
+        <xsd:attribute name="evaluator" type="xsd:string"/>
+        <xsd:attribute name="instanceClass" type="xsd:string"/>
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="readable" type="xsd:string"/>
+        <xsd:attribute name="storageStrategy" type="xsd:string"/>
+        <xsd:attribute name="validatorClass" type="xsd:string"/>
+        <xsd:attribute name="valueCreator" type="xsd:string"/>
+        <xsd:attribute name="writable" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DataTypeType" type="DataTypeType"/>
+  <xsd:complexType name="DescriptionType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="mixed" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="DescriptionType" type="DescriptionType"/>
+  <xsd:complexType name="DiagramType">
+    <xsd:complexContent>
+      <xsd:extension base="ISymbolContainer">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="poolSymbols" type="PoolSymbol">
+            <xsd:annotation>
+              <xsd:documentation>The list of contained pool symbols.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="elementOid" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 32-bit number assigned to the group symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The human friendly name of the diagram.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="Vertical" name="orientation" type="OrientationType">
+          <xsd:annotation>
+            <xsd:documentation>The default orientation of the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="MODE_4_0_0" name="mode" type="DiagramModeType">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of activity join. Valid values are: "None",
+                  "XOR" or "AND".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="DiagramType" type="DiagramType"/>
+  <xsd:complexType name="DocumentRoot">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="mixed" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="DocumentRoot" type="DocumentRoot"/>
+  <xsd:complexType name="EndEventSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EndEventSymbol" type="EndEventSymbol"/>
+  <xsd:complexType name="EventActionType">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventAction"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EventActionType" type="EventActionType"/>
+  <xsd:complexType name="EventActionTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="actionClass" type="xsd:string"/>
+        <xsd:attribute name="activityAction" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether actions of this event action type are
+                  available for workflow activities.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="processAction" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether actions of this event action type are
+                  available for workflow processes.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="supportedConditionTypes" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A comma separated list of model id's of supported event condition types.
+                  Valid values are taken from previously defined eventConditionType
+                  elements.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="unsupportedContexts" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A comma separated list of unsupported event contexts (actions). Valid
+                  values are "bind", "unbind" and "event".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EventActionTypeType" type="EventActionTypeType"/>
+  <xsd:complexType name="EventConditionTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="activityCondition" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether event handlers of this event condition
+                  type are available for workflow activities.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="binderClass" type="xsd:string"/>
+        <xsd:attribute default="engine" name="implementation" type="ImplementationType"/>
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="processCondition" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether event handlers of this event condition
+                  type are available for workflow processes.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="pullEventEmitterClass" type="xsd:string"/>
+        <xsd:attribute name="rule" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EventConditionTypeType" type="EventConditionTypeType"/>
+  <xsd:complexType name="EventHandlerType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="AccessPointType">
+            <xsd:annotation>
+              <xsd:documentation>The list of access points.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="bindAction" type="BindActionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of bind actions which are associated with this event
+                     handler.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventAction" type="EventActionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of event actions which are associated with this event
+                     handler.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="unbindAction" type="UnbindActionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of unbind actions which are associated with this event
+                     handler.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="autoBind" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether the event handler is automatically
+                  bound on activity or workflow process startup.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="consumeOnMatch" type="xsd:string"/>
+        <xsd:attribute name="logHandler" type="xsd:string"/>
+        <xsd:attribute name="unbindOnMatch" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether the event handler is automatically
+                  unbound on matching an event.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of the event handler. Valid values are the model id's of
+                  previously defined eventConditionType elements.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="EventHandlerType" type="EventHandlerType"/>
+  <xsd:complexType name="ExecutedByConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="activitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding activity symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="applicationSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding application symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ExecutedByConnectionType" type="ExecutedByConnectionType"/>
+  <xsd:complexType name="GatewaySymbol">
+    <xsd:complexContent>
+      <xsd:extension base="IFlowObjectSymbol">
+        <xsd:attribute default="none" name="flowKind" type="FlowControlType">
+          <xsd:annotation>
+            <xsd:documentation>The type of flow control. Valid values are: "none", "join" or "split".</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="activitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The oid of the corresponding activity symbol.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="GatewaySymbol" type="GatewaySymbol"/>
+  <xsd:complexType name="GenericLinkConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="linkType" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding link type.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sourceSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the first linked element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the second linked element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="GenericLinkConnectionType" type="GenericLinkConnectionType"/>
+  <xsd:complexType name="GroupSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="ISymbolContainer">
+        <xsd:attribute name="elementOid" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 32-bit number assigned to the group symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="borderColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The border color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fillColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The fill color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="style" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The drawing style, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="xPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The x position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="yPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The y position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="width" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The width of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="height" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The height of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="shape" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A hint on the shape to be used, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="GroupSymbolType" type="GroupSymbolType"/>
+  <xsd:complexType name="IntermediateEventSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventSymbol"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="IntermediateEventSymbol" type="IntermediateEventSymbol"/>
+  <xsd:complexType name="LaneSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="ISymbolContainer">
+        <xsd:attribute name="elementOid" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 32-bit number assigned to the group symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="borderColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The border color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fillColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The fill color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="style" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The drawing style, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="xPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The x position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="yPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The y position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="width" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The width of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="height" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The height of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="shape" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A hint on the shape to be used, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The human usable identifier of the element. This identifier will usually be used to refer to the model element neutrally to any model version.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The human friendly name of this element. Usually used as label.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="Vertical" name="orientation" type="OrientationType" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>The orientation of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="collapsed" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The collapsed state of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participant" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A reference to the associated participant, if existent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="parentLane" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A reference to the associated parent swimlane from the same pool, either a lane or the pool itself.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="LaneSymbol" type="LaneSymbol"/>
+  <xsd:complexType name="LinkTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="sourceRole" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the role of the source model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sourceClass" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The classname of the source model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sourceCardinality" type="LinkCardinality" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The cardinality to the source model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetRole" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the role of the target model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetClass" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The classname of the target model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetCardinality" type="LinkCardinality" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The cardinality to the target model element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="lineStyle" type="LinkLineStyle">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The type of the line. Valid values are "normal line",
+                  "short strokes", "long strokes".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="lineColor" type="LinkColor">
+          <xsd:annotation>
+            <xsd:documentation>
+                  he color of the line as serialized color.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sourceSymbol" type="LinkEndStyle">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the source model element symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetSymbol" type="LinkEndStyle">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the target model element symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="showRoleNames" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Determines whether the names of the roles are to be shown.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="showLinkTypeName" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  Determines whether the name is to be shown.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="LinkTypeType" type="LinkTypeType"/>
+  <xsd:complexType name="ModelerSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElementNodeSymbol">
+        <xsd:attribute name="modeler" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ModelerSymbolType" type="ModelerSymbolType"/>
+  <xsd:complexType name="ModelerType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:attribute name="email" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The e-mail address of the modeler.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="password" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The password for the modeler.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ModelerType" type="ModelerType"/>
+  <xsd:complexType name="ModelType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="AttributeType">
+            <xsd:annotation>
+              <xsd:documentation>The list of extension attributes.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="description" type="DescriptionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     An optional description of this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dataType" type="DataTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of data types registered for use with this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="applicationType" type="ApplicationTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of application types registered for use with this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="applicationContextType" type="ApplicationContextTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of aplication context types regisred for use with this
+                     model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="triggerType" type="TriggerTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of process trigger types registered for use with this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventConditionType" type="EventConditionTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of event condition types registered for use with this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventActionType" type="EventActionTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of event action types registered for use with this model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="data" type="DataType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of workflow data defined at model scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="application" type="ApplicationType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of workflow applications defined at model scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="modeler" type="ModelerType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of users having granted rights to check out this model from
+                     the model repository.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="role" type="RoleType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of workflow participant roles defined at model scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="organization" type="OrganizationType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of workflow participant organizations defined at model
+                     scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="conditionalPerformer" type="ConditionalPerformerType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of conditional (late bound) workflow participants defined at
+                     model scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="processDefinition" type="ProcessDefinitionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of workflow process definitions.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="diagram" type="DiagramType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of diagrams defined at model scope.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="linkType" type="LinkTypeType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of user defined link types registered for use with this
+                     model.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="view" type="ViewType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of user defined views on the model structure.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="author" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The name of the user editing this model last.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="carnotVersion" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The software version used to create and edit this model. Opening this
+                  model in another version of the software may require an explicit
+                  conversion.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="created" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The date this model was created.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="modelOID" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 32-bit number assigned to the model during deployment to an audit
+                  trail. This number may be changed if the model is deployed to different
+                  audit trails or even to the same audit trail multiple times.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="oid" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 64-bit number uniquely identifying the model in the model repository.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="vendor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The vendor of the software used to create and edit this model. Usually
+                  this will be "carnot".
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ModelType" type="ModelType"/>
+  <xsd:complexType name="OrganizationSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipantSymbol">
+        <xsd:attribute name="organization" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="OrganizationSymbolType" type="OrganizationSymbolType"/>
+  <xsd:complexType name="OrganizationType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipant">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="participant" type="ParticipantType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of participants for the organization.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="teamLead" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                     The lead role for the organization, if existent.
+                  </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="OrganizationType" type="OrganizationType"/>
+  <xsd:complexType name="ParameterMappingType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:attribute name="parameter" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The name of the parameter the data element is mapped to.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="parameterPath" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The access path (data mapping) to the data element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="data" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The model id of the data element.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ParameterMappingType" type="ParameterMappingType"/>
+  <xsd:complexType name="ParticipantType">
+    <xsd:attribute name="participant" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+                  The model id of either an organization or role.
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="ParticipantType" type="ParticipantType"/>
+  <xsd:complexType name="PartOfConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="organizationSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the organization symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="suborganizationSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the sub organization symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PartOfConnectionType" type="PartOfConnectionType"/>
+  <xsd:complexType name="PerformsConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="activitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The model oid of the activity symbol.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participantSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the participant symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PerformsConnectionType" type="PerformsConnectionType"/>
+  <xsd:complexType name="PoolSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="ISymbolContainer">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="lanes" type="LaneSymbol">
+            <xsd:annotation>
+              <xsd:documentation>The list of lanes contained in this pool.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="elementOid" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A 32-bit number assigned to the group symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="borderColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The border color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="fillColor" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The fill color, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="style" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The drawing style, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="xPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The x position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="yPos" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The y position in the diagram.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="width" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The width of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="-1" name="height" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The height of the node.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="shape" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A hint on the shape to be used, if applicable.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="id" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The human usable identifier of the element. This identifier will usually be used to refer to the model element neutrally to any model version.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The human friendly name of this element. Usually used as label.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="Vertical" name="orientation" type="OrientationType" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>The orientation of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="collapsed" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The collapsed state of the compartment.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participant" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A reference to the associated participant, if existent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="true" name="boundaryVisible" type="xsd:string" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>Indicates if the pool boundary is drawn or not.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="process" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>A reference to the associated process, if existent.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="PoolSymbol" type="PoolSymbol"/>
+  <xsd:complexType name="ProcessDefinitionType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="eventHandler" type="EventHandlerType">
+            <xsd:annotation>
+              <xsd:documentation>The list of event handlers defined for this model element.
+</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="activity" type="ActivityType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of activity definitions of the workflow process definition.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="transition" type="TransitionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of transitions between the activity definitions of the
+                     workflow process definition.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="trigger" type="TriggerType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of triggers of the workflow process definition.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="dataPath" type="DataPathType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of data paths of the workflow process definition.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="diagram" type="DiagramType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of diagrams of the workflow process definition.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute default="0" name="defaultPriority" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Default priority assigned to a process instance at startup.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ProcessDefinitionType" type="ProcessDefinitionType"/>
+  <xsd:complexType name="ProcessSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElementNodeSymbol">
+        <xsd:attribute name="process" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ProcessSymbolType" type="ProcessSymbolType"/>
+  <xsd:complexType name="RefersToConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="from" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the first element symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="to" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the second element symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="RefersToConnectionType" type="RefersToConnectionType"/>
+  <xsd:complexType name="RoleSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipantSymbol">
+        <xsd:attribute name="role" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="RoleSymbolType" type="RoleSymbolType"/>
+  <xsd:complexType name="RoleType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelParticipant">
+        <xsd:attribute name="cardinality" type="xsd:int">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The cardinality of the role. Valid values are "*:1" (to one) |
+                  "*:N" (to many)
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="RoleType" type="RoleType"/>
+  <xsd:complexType name="StartEventSymbol">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventSymbol">
+        <xsd:attribute name="trigger" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the corresponding activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="startActivity" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The id of the activity started by this event.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="StartEventSymbol" type="StartEventSymbol"/>
+  <xsd:complexType name="SubProcessOfConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="processSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The model oid of the process symbol.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="subprocessSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the subprocess symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="SubProcessOfConnectionType" type="SubProcessOfConnectionType"/>
+  <xsd:complexType name="TeamLeadConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="teamSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the organization symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="teamLeadSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the participant symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TeamLeadConnectionType" type="TeamLeadConnectionType"/>
+  <xsd:complexType name="TextSymbolType">
+    <xsd:complexContent>
+      <xsd:extension base="INodeSymbol">
+        <xsd:attribute name="text" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding text.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TextSymbolType" type="TextSymbolType"/>
+  <xsd:complexType name="TextType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="mixed" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="TextType" type="TextType"/>
+  <xsd:complexType name="TransitionConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="points" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A comma separated list of routing coordinates.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="sourceActivitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the first activity symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="targetActivitySymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the second activity symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="transition" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of the corresponding transition.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TransitionConnectionType" type="TransitionConnectionType"/>
+  <xsd:complexType name="TransitionType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="1" minOccurs="0" name="expression" type="XmlTextNode">
+            <xsd:annotation>
+              <xsd:documentation>An optional expression for transition condition. Only valid if no condition attribute is existing.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="condition" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The condition used to verify transition, default value is
+                  "TRUE". Now deprecated for conditions beside TRUE and FALSE,
+                  more complex conditions should be put into an expression element.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute default="false" name="forkOnTraversal" type="xsd:string"/>
+        <xsd:attribute name="from" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The unique model id of the starting activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="to" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The unique model id of the ending activity.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TransitionType" type="TransitionType"/>
+  <xsd:complexType name="TriggersConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="startEventSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The model oid of the start symbol.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participantSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the participant symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TriggersConnectionType" type="TriggersConnectionType"/>
+  <xsd:complexType name="TriggerType">
+    <xsd:complexContent>
+      <xsd:extension base="IIdentifiableModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="AccessPointType">
+            <xsd:annotation>
+              <xsd:documentation>The list of access points.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="parameterMapping" type="ParameterMappingType">
+            <xsd:annotation>
+              <xsd:documentation>The list of parameter mappings.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model id of one of the previously defined triggerType elements.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TriggerType" type="TriggerType"/>
+  <xsd:complexType name="TriggerTypeType">
+    <xsd:complexContent>
+      <xsd:extension base="IMetaType">
+        <xsd:attribute name="panelClass" type="xsd:string"/>
+        <xsd:attribute name="pullTrigger" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  A boolean that indicates whether the trigger type describes a
+                  pulltrigger. A pull trigger (e.g. mail) has its own trigger daemon.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="pullTriggerEvaluator" type="xsd:string"/>
+        <xsd:attribute name="rule" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="TriggerTypeType" type="TriggerTypeType"/>
+  <xsd:complexType name="UnbindActionType">
+    <xsd:complexContent>
+      <xsd:extension base="AbstractEventAction"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="UnbindActionType" type="UnbindActionType"/>
+  <xsd:complexType name="ViewableType">
+    <xsd:attribute name="viewable" type="xsd:string">
+      <xsd:annotation>
+        <xsd:documentation>
+                  The model oid of the viewable. Valid viewable model elements are
+                  "activity", "application", "data",
+                  "participant", "workflow process".
+               </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:element name="ViewableType" type="ViewableType"/>
+  <xsd:complexType name="ViewType">
+    <xsd:complexContent>
+      <xsd:extension base="IModelElement">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="AttributeType">
+            <xsd:annotation>
+              <xsd:documentation>The list of extension attributes.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="1" minOccurs="0" name="description" type="DescriptionType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     An optional description of the view.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="view" type="ViewType">
+            <xsd:annotation>
+              <xsd:documentation>
+                     The list of further dependent views.
+                  </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="viewable" type="ViewableType">
+            <xsd:annotation>
+              <xsd:documentation>The list of viewables.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+          <xsd:annotation>
+            <xsd:documentation>The human friendly name of the view.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="ViewType" type="ViewType"/>
+  <xsd:complexType name="WorksForConnectionType">
+    <xsd:complexContent>
+      <xsd:extension base="IConnectionSymbol">
+        <xsd:attribute name="organizationSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the organization symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="participantSymbol" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>
+                  The model oid of the participant symbol.
+               </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:element name="WorksForConnectionType" type="WorksForConnectionType"/>
+  <xsd:complexType name="XmlTextNode">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="mixed" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="XmlTextNode" type="XmlTextNode"/>
+</xsd:schema>

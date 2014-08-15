@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="xpdl.xsd#/" outputs="xpdl.ecore#/" topToBottom="true">
+  <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="xpdl.ecore#//TypeType">
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="xpdl.ecore#//TypeType/STRING"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="xpdl.ecore#//TypeType/FLOAT"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="xpdl.ecore#//TypeType/INTEGER"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
+        outputs="xpdl.ecore#//TypeType/REFERENCE"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=4"
+        outputs="xpdl.ecore#//TypeType/DATETIME"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=5"
+        outputs="xpdl.ecore#//TypeType/BOOLEAN"/>
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse/Type;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=6"
+        outputs="xpdl.ecore#//TypeType/PERFORMER"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//BasicTypeType">
+    <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//BasicTypeType/type"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//BasicType;XSDElementDeclaration" outputs="xpdl.ecore#//DocumentRoot/basicType"/>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle"
+      outputs="xpdl.ecore#//DataTypeType/basicType"/>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//IDREF;XSDSimpleTypeDefinition=38"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//IDREF"/>
+  <nested inputs="xpdl.xsd#//DeclaredType;XSDElementDeclaration=2/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//DeclaredTypeType">
+    <nested inputs="xpdl.xsd#//DeclaredType;XSDElementDeclaration=2/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//DeclaredTypeType/id"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=1"
+      outputs="xpdl.ecore#//DataTypeType/declaredType"/>
+  <nested inputs="xpdl.xsd#//SchemaType;XSDElementDeclaration=10/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//SchemaTypeType">
+    <nested inputs="xpdl.xsd#//SchemaType;XSDElementDeclaration=10/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//SchemaTypeType/any"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=2"
+      outputs="xpdl.ecore#//DataTypeType/schemaType"/>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//anyURI;XSDSimpleTypeDefinition=25"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//AnyURI"/>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//NMTOKEN;XSDSimpleTypeDefinition=33"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//NMTOKEN"/>
+  <nested inputs="xpdl.xsd#//ExternalReference;XSDElementDeclaration=6/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//ExternalReferenceType">
+    <nested inputs="xpdl.xsd#//ExternalReference;XSDElementDeclaration=6/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//ExternalReferenceType/location"/>
+    <nested inputs="xpdl.xsd#//ExternalReference;XSDElementDeclaration=6/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="xpdl.ecore#//ExternalReferenceType/namespace"/>
+    <nested inputs="xpdl.xsd#//ExternalReference;XSDElementDeclaration=6/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//ExternalReferenceType/xref"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=3"
+      outputs="xpdl.ecore#//DataTypeType/externalReference"/>
+  <nested inputs="xpdl.xsd#//DataType;XSDElementDeclaration=1/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//DataTypeType"/>
+  <nested inputs="xpdl.xsd#//DataType;XSDElementDeclaration=1" outputs="xpdl.ecore#//DocumentRoot/dataType"/>
+  <nested inputs="xpdl.xsd#//DeclaredType;XSDElementDeclaration=2" outputs="xpdl.ecore#//DocumentRoot/declaredType"/>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=9"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  <nested inputs="xpdl.xsd#//Description;XSDElementDeclaration=3" outputs="xpdl.ecore#//DocumentRoot/description"/>
+  <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//ExtendedAttributeType">
+    <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4/XSDComplexTypeDefinition/XSDParticle"
+        outputs="xpdl.ecore#//ExtendedAttributeType/group"/>
+    <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//ExtendedAttributeType/any"/>
+    <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//ExtendedAttributeType/name"/>
+    <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//ExtendedAttributeType/value"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//ExtendedAttribute;XSDElementDeclaration=4" outputs="xpdl.ecore#//DocumentRoot/extendedAttribute"/>
+  <nested inputs="xpdl.xsd#//ExtendedAttributes;XSDElementDeclaration=5/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//ExtendedAttributesType">
+    <nested inputs="xpdl.xsd#//ExtendedAttributes;XSDElementDeclaration=5/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//ExtendedAttributesType/extendedAttribute"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//ExtendedAttributes;XSDElementDeclaration=5" outputs="xpdl.ecore#//DocumentRoot/extendedAttributes"/>
+  <nested inputs="xpdl.xsd#//ExternalReference;XSDElementDeclaration=6" outputs="xpdl.ecore#//DocumentRoot/externalReference"/>
+  <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition" outputs="xpdl.ecore#//ExpressionType">
+    <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition/XSDParticle"
+        outputs="xpdl.ecore#//ExpressionType/group"/>
+    <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//ExpressionType/any"/>
+    <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="xpdl.ecore#//ExpressionType/scriptGrammar"/>
+    <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//ExpressionType/scriptType"/>
+    <nested inputs="xpdl.xsd#//ExpressionType;XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//ExpressionType/scriptVersion"/>
+  </nested>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//integer;XSDSimpleTypeDefinition=40"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Integer"/>
+  <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDAttributeUse=1/TestTime;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="xpdl.ecore#//TestTimeType">
+    <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDAttributeUse=1/TestTime;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="xpdl.ecore#//TestTimeType/Before"/>
+    <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDAttributeUse=1/TestTime;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="xpdl.ecore#//TestTimeType/After"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//LoopStandardType">
+    <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//LoopStandardType/loopCondition"/>
+    <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//LoopStandardType/loopMaximum"/>
+    <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//LoopStandardType/testTime"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1/MI_FlowCondition;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="xpdl.ecore#//MIFlowConditionType">
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1/MI_FlowCondition;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="xpdl.ecore#//MIFlowConditionType/None"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1/MI_FlowCondition;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="xpdl.ecore#//MIFlowConditionType/One"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1/MI_FlowCondition;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="xpdl.ecore#//MIFlowConditionType/All"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1/MI_FlowCondition;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
+        outputs="xpdl.ecore#//MIFlowConditionType/Complex"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse/MI_Ordering;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="xpdl.ecore#//MIOrderingType">
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse/MI_Ordering;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="xpdl.ecore#//MIOrderingType/Sequential"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse/MI_Ordering;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="xpdl.ecore#//MIOrderingType/Parallel"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//LoopMultiInstanceType">
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//LoopMultiInstanceType/mICondition"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="xpdl.ecore#//LoopMultiInstanceType/complexMIFlowCondition"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//LoopMultiInstanceType/mIFlowCondition"/>
+    <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//LoopMultiInstanceType/mIOrdering"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDAttributeUse/LoopType;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="xpdl.ecore#//LoopTypeType">
+    <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDAttributeUse/LoopType;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="xpdl.ecore#//LoopTypeType/Standard"/>
+    <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDAttributeUse/LoopType;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="xpdl.ecore#//LoopTypeType/MultiInstance"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//LoopType">
+    <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//LoopType/loopStandard"/>
+    <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="xpdl.ecore#//LoopType/loopMultiInstance"/>
+    <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//LoopType/loopType"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//Loop;XSDElementDeclaration=7" outputs="xpdl.ecore#//DocumentRoot/loop"/>
+  <nested inputs="xpdl.xsd#//LoopMultiInstance;XSDElementDeclaration=8" outputs="xpdl.ecore#//DocumentRoot/loopMultiInstance"/>
+  <nested inputs="xpdl.xsd#//LoopStandard;XSDElementDeclaration=9" outputs="xpdl.ecore#//DocumentRoot/loopStandard"/>
+  <nested inputs="xpdl.xsd#//SchemaType;XSDElementDeclaration=10" outputs="xpdl.ecore#//DocumentRoot/schemaType"/>
+  <nested inputs="xpdl.xsd#//Script;XSDElementDeclaration=11/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//ScriptType">
+    <nested inputs="xpdl.xsd#//Script;XSDElementDeclaration=11/XSDComplexTypeDefinition/XSDAttributeUse=2"
+        outputs="xpdl.ecore#//ScriptType/grammar"/>
+    <nested inputs="xpdl.xsd#//Script;XSDElementDeclaration=11/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//ScriptType/type"/>
+    <nested inputs="xpdl.xsd#//Script;XSDElementDeclaration=11/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//ScriptType/version"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//Script;XSDElementDeclaration=11" outputs="xpdl.ecore#//DocumentRoot/script"/>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle"
+      outputs="xpdl.ecore#//TypeDeclarationType/basicType"/>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=1"
+      outputs="xpdl.ecore#//TypeDeclarationType/declaredType"/>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=2"
+      outputs="xpdl.ecore#//TypeDeclarationType/schemaType"/>
+  <nested inputs="xpdl.xsd#//DataTypes;XSDModelGroupDefinition/XSDModelGroup/XSDParticle=3"
+      outputs="xpdl.ecore#//TypeDeclarationType/externalReference"/>
+  <nested inputs="bundleentry://511.fwk165307331/cache/www.w3.org/2001/XMLSchema.xsd#//ID;XSDSimpleTypeDefinition=37"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//ID"/>
+  <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//TypeDeclarationType">
+    <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="xpdl.ecore#//TypeDeclarationType/description"/>
+    <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="xpdl.ecore#//TypeDeclarationType/extendedAttributes"/>
+    <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12/XSDComplexTypeDefinition/XSDAttributeUse"
+        outputs="xpdl.ecore#//TypeDeclarationType/id"/>
+    <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12/XSDComplexTypeDefinition/XSDAttributeUse=1"
+        outputs="xpdl.ecore#//TypeDeclarationType/name"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//TypeDeclaration;XSDElementDeclaration=12" outputs="xpdl.ecore#//DocumentRoot/typeDeclaration"/>
+  <nested inputs="xpdl.xsd#//TypeDeclarations;XSDElementDeclaration=13/XSDComplexTypeDefinition"
+      outputs="xpdl.ecore#//TypeDeclarationsType">
+    <nested inputs="xpdl.xsd#//TypeDeclarations;XSDElementDeclaration=13/XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="xpdl.ecore#//TypeDeclarationsType/typeDeclaration"/>
+  </nested>
+  <nested inputs="xpdl.xsd#//TypeDeclarations;XSDElementDeclaration=13" outputs="xpdl.ecore#//DocumentRoot/typeDeclarations"/>
+</xsd2ecore:XSD2EcoreMappingRoot>

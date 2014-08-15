@@ -286,12 +286,12 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		StardustAccessPointType sdAccessPoint;
 		
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
