@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.carnot.ag/workflowmodel/3.1" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.1.0" targetNamespace="http://org.eclipse.bpmn2/default/process">
+  <bpmn2:message id="Message_1" name="Message 1"/>
+  <bpmn2:interface id="Interface_1" name="Interface 1">
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="webservice">
+        <sdbpmn:StardustApplication xsi:type="sdbpmn:StardustApplicationType" oid="10000" id="CROServiceApp" name="CROServiceApp">
+          <attribute xsi:type="attribute_._type" name="carnot:engine:visibility" value="Public"/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsRuntime" value="jaxws"/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsdlUrl" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsServiceName" value="aaa"/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsPortName" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsOperationName" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:wsSoapProtocol" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:className" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:dataType" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:transformation" value=""/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:path:separator" value="/"/>
+          <attribute xsi:type="attribute_._type" name="carnot:engine:data:bidirectional" type="boolean" value="true"/>
+          <accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10001" id="carnot:engine:endpointAddress" name="Endpoint Address" direction="IN" typeRef="serializable">
+            <attribute xsi:type="attribute_._type" name="carnot:engine:className" value=""/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          </accessPoint>
+          <accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10002" id="parameters" name="parameters" direction="IN" typeRef="plainXML">
+            <attribute xsi:type="attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          </accessPoint>
+          <accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10003" id="parameters" name="parameters" direction="OUT" typeRef="plainXML"/>
+          <accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10004" id="parameters_struct" name="parameters_struct" direction="IN" typeRef="struct">
+            <attribute xsi:type="attribute_._type" name="carnot:engine:dataType" value="getCRO"/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:transformation" value="DOM"/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:separator" value="/"/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:bidirectional" type="boolean" value="true"/>
+          </accessPoint>
+          <accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10005" id="parameters_struct" name="parameters_struct" direction="OUT" typeRef="struct">
+            <attribute xsi:type="attribute_._type" name="carnot:engine:dataType" value="getCROResponse"/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:separator" value="/"/>
+            <attribute xsi:type="attribute_._type" name="carnot:engine:bidirectional" type="boolean" value="true"/>
+          </accessPoint>
+        </sdbpmn:StardustApplication>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+    <bpmn2:operation id="_Operation_2" implementationRef="" name="Operation 2">
+      <bpmn2:inMessageRef>Message_1</bpmn2:inMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:process id="process_1" name="Default Process">
+    <bpmn2:startEvent id="StartEvent_1" name="Start Event 1">
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition id="TimerEventDefinition_1">
+        <bpmn2:extensionElements>
+          <sdbpmn:StardustTimerStartEvent>
+            <sdbpmn:StardustAttributes>
+              <AttributeType xsi:type="attribute_._type" name="carnot:engine:stopTime" value="Fri Aug 01 14:16:26 CEST 2014"/>
+            </sdbpmn:StardustAttributes>
+          </sdbpmn:StardustTimerStartEvent>
+        </bpmn2:extensionElements>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="Sequence Flow 1" sourceRef="ServiceTask_1" targetRef="EndEvent_1"/>
+    <bpmn2:endEvent id="EndEvent_1" name="End Event 1">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:serviceTask id="ServiceTask_1" name="Service Task 1" operationRef="_Operation_2">
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_3">
+        <bpmn2:dataInput id="DataInput_1" name="input1"/>
+        <bpmn2:inputSet id="InputSet_2">
+          <bpmn2:dataInputRefs>DataInput_1</bpmn2:dataInputRefs>
+        </bpmn2:inputSet>
+        <bpmn2:outputSet id="OutputSet_2"/>
+      </bpmn2:ioSpecification>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" sourceRef="StartEvent_1" targetRef="ServiceTask_1"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process_1">
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="100.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1" labelStyle="BPMNLabelStyle_1">
+          <dc:Bounds height="15.0" width="68.0" x="84.0" y="136.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="500.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3" labelStyle="BPMNLabelStyle_1">
+          <dc:Bounds height="15.0" width="65.0" x="486.0" y="136.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_ServiceTask_1" bpmnElement="ServiceTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="180.0" y="42.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4" labelStyle="BPMNLabelStyle_1">
+          <dc:Bounds height="15.0" width="80.0" x="195.0" y="59.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_ServiceTask_1" targetElement="BPMNShape_2">
+        <di:waypoint xsi:type="dc:Point" x="290.0" y="67.0"/>
+        <di:waypoint xsi:type="dc:Point" x="518.0" y="67.0"/>
+        <di:waypoint xsi:type="dc:Point" x="518.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2" labelStyle="BPMNLabelStyle_1">
+          <dc:Bounds height="30.0" width="59.0" x="392.0" y="68.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_1" targetElement="BPMNShape_ServiceTask_1">
+        <di:waypoint xsi:type="dc:Point" x="118.0" y="100.0"/>
+        <di:waypoint xsi:type="dc:Point" x="118.0" y="67.0"/>
+        <di:waypoint xsi:type="dc:Point" x="180.0" y="67.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5" labelStyle="BPMNLabelStyle_1"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="BPMNLabelStyle_1">
+      <dc:Font name="arial" size="9.0"/>
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
