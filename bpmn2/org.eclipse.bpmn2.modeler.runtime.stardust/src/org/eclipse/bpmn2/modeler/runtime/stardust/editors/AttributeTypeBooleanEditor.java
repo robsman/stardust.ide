@@ -15,12 +15,12 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.BooleanObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotPackage;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
 public class AttributeTypeBooleanEditor extends BooleanObjectEditor {
 	public AttributeTypeBooleanEditor(AbstractDetailComposite parent, AttributeType object) {
-		super(parent, object, CarnotPackage.eINSTANCE.getAttributeType_Value());
+		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 	}
 
 	@Override

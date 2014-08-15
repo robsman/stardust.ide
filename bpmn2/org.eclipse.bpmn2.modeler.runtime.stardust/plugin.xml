@@ -1,41 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated sdbpmn -->
-      <package
-            uri="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnPackage"
-            genModel="model/sdbpmn.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.extension_parser">
-      <!-- @generated sdbpmn -->
-      <parser
-            type="sdbpmn"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.util.SdbpmnResourceFactoryImpl"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated sdbpmn -->
-      <package
-            uri="http://www.carnot.ag/workflowmodel/3.1"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotPackage"
-            genModel="model/sdbpmn.genmodel"/>
-   </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <!-- @generated sdbpmn -->
       <parser
             type="carnot"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.util.CarnotResourceFactoryImpl"/>
+            class="org.eclipse.stardust.model.xpdl.carnot.util.CarnotResourceFactoryImpl"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated sdbpmn -->
       <package
-            uri="http://www.carnot.ag/xpdl/3.1"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.ExtensionsPackage"
+            uri="http://www.carnot.ag/org.eclipse.stardust.model.xpdl/3.1"
+            class="org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage"
             genModel="model/sdbpmn.genmodel"/>
    </extension>
 
@@ -43,37 +21,37 @@
       <!-- @generated NOT sdbpmn -->
       <parser
             type="carnot-extensions"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.util.ExtensionsResourceFactoryImpl"/>
+            class="org.eclipse.stardust.model.xpdl.carnot.extensions.util.ExtensionsResourceFactoryImpl"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated sdbpmn -->
       <package
             uri="http://www.wfmc.org/2008/XPDL2.1"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.XpdlPackage"
+            class="org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage"
             genModel="model/sdbpmn.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <!-- @generated sdbpmn -->
       <parser
-            type="xpdl"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.util.XpdlResourceFactoryImpl"/>
+            type="org.eclipse.stardust.model.xpdl"
+            class="org.eclipse.stardust.model.xpdl.xpdl2.util.XpdlResourceFactoryImpl"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated sdbpmn -->
       <package
-            uri="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.ExtensionsPackage"
+            uri="http://www.carnot.ag/workflowmodel/3.1/org.eclipse.stardust.model.xpdl/extensions"
+            class="org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionsPackage"
             genModel="model/sdbpmn.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
       <!-- @generated NOT sdbpmn -->
       <parser
-            type="xpdl-extensions"
-            class="org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.util.ExtensionsResourceFactoryImpl"/>
+            type="org.eclipse.stardust.model.xpdl-extensions"
+            class="org.eclipse.stardust.model.xpdl.xpdl2.extensions.util.ExtensionsResourceFactoryImpl"/>
    </extension>
 
 	<extension
@@ -127,14 +105,14 @@
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustInterface"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
-			type="org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter">
 		</propertyExtension>
 		
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.AttributeType"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
-			type="org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType"
+			type="org.eclipse.stardust.model.xpdl.carnot.AttributeType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.AttributeTypeExtendedPropertiesAdapter">
 		</propertyExtension>
 		

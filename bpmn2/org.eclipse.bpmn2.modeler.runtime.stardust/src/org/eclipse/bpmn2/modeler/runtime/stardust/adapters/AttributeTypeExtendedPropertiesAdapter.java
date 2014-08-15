@@ -15,10 +15,10 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.adapters;
 
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotPackage;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
 /**
  *
@@ -32,7 +32,7 @@ public class AttributeTypeExtendedPropertiesAdapter extends ExtendedPropertiesAd
 	public AttributeTypeExtendedPropertiesAdapter(AdapterFactory adapterFactory, AttributeType object) {
 		super(adapterFactory, object);
 		
-		EStructuralFeature feature = CarnotPackage.eINSTANCE.getAttributeType_Value();
+		EStructuralFeature feature = CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value();
 		
     	setFeatureDescriptor(feature,
 			new FeatureDescriptor<AttributeType>(this,object,feature) {

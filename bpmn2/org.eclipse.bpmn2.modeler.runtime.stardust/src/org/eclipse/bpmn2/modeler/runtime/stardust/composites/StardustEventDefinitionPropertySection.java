@@ -13,9 +13,9 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.bpmn2.modeler.ui.property.events.TimerEventDefinitionPropertySection;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 

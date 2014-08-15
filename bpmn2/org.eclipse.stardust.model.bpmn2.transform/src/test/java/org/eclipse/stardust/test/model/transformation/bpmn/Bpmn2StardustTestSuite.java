@@ -59,7 +59,8 @@ import org.junit.runners.Suite;
          TestProcessStart2Stardust.class,
          TestIntermediateTimerEvent2Stardust.class,
          TestBoundaryEvents2Stardust.class,
-         TestCapro.class
+         TestCapro.class,
+         TestModelledTransformation.class
         })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";

@@ -16,9 +16,9 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustApplicationType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.swt.widgets.Composite;
 
 class PlainJavaDetailComposite extends DefaultDetailComposite {

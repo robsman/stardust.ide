@@ -17,12 +17,12 @@ import java.util.List;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnFactory;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnPackage;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType;
 import org.eclipse.bpmn2.modeler.ui.property.data.InterfaceDetailComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 

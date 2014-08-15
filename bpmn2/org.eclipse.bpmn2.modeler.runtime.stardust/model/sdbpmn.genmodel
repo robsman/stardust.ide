@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.bpmn2.modeler.runtime.stardust/src"
     editDirectory="/org.eclipse.bpmn2.modeler.runtime.stardust.model.edit/src" editorDirectory="/org.eclipse.bpmn2.modeler.runtime.stardust.model.editor/src"
     modelPluginID="org.eclipse.bpmn2.modeler.runtime.stardust.model" redirection=""
-    forceOverwrite="true" modelName="Sdbpmn" editPluginClass="Edit Plug-in ID&#x9;org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.provider.SdbpmnEditPlugin"
+    forceOverwrite="true" modelName="Sdbpmn" editPluginClass="Edit Plug-in ID&#x9;org.eclipse.stardust.model.bpmn2.sdbpmn.provider.SdbpmnEditPlugin"
     rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/org.eclipse.bpmn2.modeler.runtime.stardust.model.tests/src"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="7.0" copyrightFields="false"
     editPluginID="org.eclipse.bpmn2.modeler.runtime.stardust.model.edit" usedGenPackages="../../org.eclipse.xsd/model/XSD.genmodel#//xsd"
@@ -758,113 +758,113 @@
     </nestedGenPackages>
   </genPackages>
   <genPackages prefix="Xpdl" basePackage="org.eclipse.bpmn2.modeler.runtime.stardust.model"
-      resource="XML" disposableProviderFactory="true" ecorePackage="xpdl.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//ModeType">
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/IN"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/OUT"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/INOUT"/>
+      resource="XML" disposableProviderFactory="true" ecorePackage="org.eclipse.stardust.model.xpdl.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="org.eclipse.stardust.model.xpdl.ecore#//ModeType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//ModeType/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//ModeType/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//ModeType/INOUT"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//TypeType">
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/STRING"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/FLOAT"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/INTEGER"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/REFERENCE"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/DATETIME"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/BOOLEAN"/>
-      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/PERFORMER"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="org.eclipse.stardust.model.xpdl.ecore#//TypeType">
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/STRING"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/FLOAT"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/INTEGER"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/REFERENCE"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/DATETIME"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/BOOLEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.stardust.model.xpdl.ecore#//TypeType/PERFORMER"/>
     </genEnums>
-    <genDataTypes ecoreDataType="xpdl.ecore#//ModeTypeObject"/>
-    <genDataTypes ecoreDataType="xpdl.ecore#//TypeTypeObject"/>
-    <genClasses ecoreClass="xpdl.ecore#//BasicTypeType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//BasicTypeType/type"/>
+    <genDataTypes ecoreDataType="org.eclipse.stardust.model.xpdl.ecore#//ModeTypeObject"/>
+    <genDataTypes ecoreDataType="org.eclipse.stardust.model.xpdl.ecore#//TypeTypeObject"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//BasicTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//BasicTypeType/type"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//DataTypeType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/basicType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/declaredType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/schemaType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/externalReference"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//DataTypeType/carnotType"/>
-      <genOperations ecoreOperation="xpdl.ecore#//DataTypeType/getDataType"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//DataTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/basicType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/declaredType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/schemaType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/externalReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/carnotType"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//DataTypeType/getDataType"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//DeclaredTypeType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//DeclaredTypeType/id"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//DeclaredTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//DeclaredTypeType/id"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ExtendedAttributesType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//ExtendedAttributesType/extendedAttribute"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributesType/extendedAttribute"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ExtendedAttributeType">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xpdl.ecore#//ExtendedAttributeType/extendedAnnotation"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/mixed"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/group"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/any"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/value"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/extendedAnnotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExtendedAttributeType/value"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="xpdl.ecore#//Extensible">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//Extensible/extendedAttributes"/>
+    <genClasses image="false" ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//Extensible">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//Extensible/extendedAttributes"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ExternalPackages">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//ExternalPackages/externalPackage"/>
-      <genOperations ecoreOperation="xpdl.ecore#//ExternalPackages/getExternalPackage">
-        <genParameters ecoreParameter="xpdl.ecore#//ExternalPackages/getExternalPackage/packageId"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ExternalPackages">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//ExternalPackages/externalPackage"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//ExternalPackages/getExternalPackage">
+        <genParameters ecoreParameter="org.eclipse.stardust.model.xpdl.ecore#//ExternalPackages/getExternalPackage/packageId"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ExternalPackage">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/href"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/name"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ExternalPackage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalPackage/href"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalPackage/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalPackage/name"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ExternalReferenceType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/location"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/namespace"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/xref"/>
-      <genOperations ecoreOperation="xpdl.ecore#//ExternalReferenceType/getSchema"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ExternalReferenceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalReferenceType/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalReferenceType/namespace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ExternalReferenceType/xref"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//ExternalReferenceType/getSchema"/>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//FormalParametersType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//FormalParametersType/formalParameter"/>
-      <genOperations ecoreOperation="xpdl.ecore#//FormalParametersType/addFormalParameter">
-        <genParameters ecoreParameter="xpdl.ecore#//FormalParametersType/addFormalParameter/parameter"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType/formalParameter"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType/addFormalParameter">
+        <genParameters ecoreParameter="org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType/addFormalParameter/parameter"/>
       </genOperations>
-      <genOperations ecoreOperation="xpdl.ecore#//FormalParametersType/getFormalParameter">
-        <genParameters ecoreParameter="xpdl.ecore#//FormalParametersType/getFormalParameter/parameterId"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//FormalParameterType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//FormalParameterType/dataType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/mode"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/name"/>
-    </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//SchemaTypeType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//SchemaTypeType/schema"/>
-    </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//ScriptType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/grammar"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/type"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/version"/>
-    </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//TypeDeclarationsType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationsType/typeDeclaration"/>
-      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration">
-        <genParameters ecoreParameter="xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration/typeId"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType/getFormalParameter">
+        <genParameters ecoreParameter="org.eclipse.stardust.model.xpdl.ecore#//FormalParametersType/getFormalParameter/parameterId"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="xpdl.ecore#//TypeDeclarationType">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/basicType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/declaredType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/schemaType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/externalReference"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/description"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/id"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/name"/>
-      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationType/getDataType"/>
-      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationType/getSchema"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//FormalParameterType/name"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="xpdl.ecore#//XpdlTypeType"/>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//SchemaTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//SchemaTypeType/schema"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//ScriptType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ScriptType/grammar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ScriptType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//ScriptType/version"/>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationsType/typeDeclaration"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration">
+        <genParameters ecoreParameter="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration/typeId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/basicType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/declaredType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/schemaType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/externalReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/name"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/getDataType"/>
+      <genOperations ecoreOperation="org.eclipse.stardust.model.xpdl.ecore#//TypeDeclarationType/getSchema"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//XpdlTypeType"/>
     <nestedGenPackages prefix="Extensions" resource="XML" disposableProviderFactory="true"
-        ecorePackage="xpdl.ecore#//extensions">
-      <genClasses ecoreClass="xpdl.ecore#//extensions/ExtendedAnnotationType"/>
+        ecorePackage="org.eclipse.stardust.model.xpdl.ecore#//extensions">
+      <genClasses ecoreClass="org.eclipse.stardust.model.xpdl.ecore#//extensions/ExtendedAnnotationType"/>
     </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

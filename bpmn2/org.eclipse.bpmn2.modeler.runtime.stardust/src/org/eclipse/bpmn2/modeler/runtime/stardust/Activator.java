@@ -1,5 +1,7 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust;
 
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelFactoryImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -25,6 +27,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
+		CarnotWorkflowModelPackage.eINSTANCE.setNsPrefix("carnot");
 		super.start(context);
 		plugin = this;
 	}

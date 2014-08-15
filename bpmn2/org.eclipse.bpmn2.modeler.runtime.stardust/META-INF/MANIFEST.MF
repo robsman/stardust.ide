@@ -22,21 +22,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.bpmn2.modeler.core,
  org.eclipse.bpmn2.modeler.ui,
  org.eclipse.bpmn2,
- org.apache.xerces;bundle-version="2.9.0"
+ org.apache.xerces;bundle-version="2.9.0",
+ org.eclipse.stardust.model.xpdl;bundle-version="2.0.0",
+ org.eclipse.stardust.model.bpmn2;bundle-version="[0.0.1,2.0.0]"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.impl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.extensions.util,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.impl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.util,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.impl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.util,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.impl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.extensions.util,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.impl,
- org.eclipse.bpmn2.modeler.runtime.stardust.model.xpdl.util
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.stardust.model.bpmn2.sdbpmn,
+ org.eclipse.stardust.model.bpmn2.sdbpmn.impl,
+ org.eclipse.stardust.model.bpmn2.sdbpmn.util

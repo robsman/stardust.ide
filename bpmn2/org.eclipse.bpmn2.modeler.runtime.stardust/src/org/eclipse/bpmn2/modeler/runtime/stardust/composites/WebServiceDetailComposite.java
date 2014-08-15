@@ -13,6 +13,7 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
+import static org.eclipse.stardust.model.xpdl.carnot.DirectionType.*;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
@@ -23,12 +24,12 @@ import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AccessPointType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotPackage;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustApplicationType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.Section;
@@ -118,13 +119,13 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 		public String getTitle() {
 			String direction = "";
 			switch(accessPoint.getDirection()) {
-			case IN:
+			case IN_LITERAL:
 				direction = "Input";
 				break;
-			case INOUT:
+			case INOUT_LITERAL:
 				direction = "Input/Output";
 				break;
-			case OUT:
+			case OUT_LITERAL:
 				direction = "Output";
 				break;
 			}
@@ -138,11 +139,11 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 			}
 			ObjectEditor editor;
 
-			editor = new IntObjectEditor(detailsComposite, accessPoint, CarnotPackage.eINSTANCE.getIModelElement_ElementOid());
+			editor = new IntObjectEditor(detailsComposite, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid());
 			editor.createControl(parent, "Element ID");
 			editor.setEditable(false);
 			
-			editor = new TextObjectEditor(detailsComposite, accessPoint, CarnotPackage.eINSTANCE.getIIdentifiableElement_Name());
+			editor = new TextObjectEditor(detailsComposite, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
 			editor.createControl(parent, "Name");
 			editor.setEditable(false);
 

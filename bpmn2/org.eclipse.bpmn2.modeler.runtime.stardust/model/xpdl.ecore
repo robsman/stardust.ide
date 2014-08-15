@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xpdl" nsURI="http://www.wfmc.org/2008/XPDL2.1" nsPrefix="xpdl">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="org.eclipse.stardust.model.xpdl" nsURI="http://www.wfmc.org/2008/XPDL2.1" nsPrefix="org.eclipse.stardust.model.xpdl">
   <eClassifiers xsi:type="ecore:EClass" name="BasicTypeType" eSuperTypes="#//XpdlTypeType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="BasicType_._type"/>
@@ -56,7 +56,7 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="carnotType"/>
-        <details key="namespace" value="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"/>
+        <details key="namespace" value="http://www.carnot.ag/workflowmodel/3.1/org.eclipse.stardust.model.xpdl/extensions"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -96,7 +96,7 @@
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="ExtendedAnnotation"/>
-        <details key="namespace" value="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"/>
+        <details key="namespace" value="http://www.carnot.ag/workflowmodel/3.1/org.eclipse.stardust.model.xpdl/extensions"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mixed" unique="false" upperBound="-1"
@@ -428,7 +428,7 @@
       <details key="baseType" value="Type_._type"/>
     </eAnnotations>
   </eClassifiers>
-  <eSubpackages name="extensions" nsURI="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
+  <eSubpackages name="extensions" nsURI="http://www.carnot.ag/workflowmodel/3.1/org.eclipse.stardust.model.xpdl/extensions"
       nsPrefix="ext">
     <eClassifiers xsi:type="ecore:EClass" name="ExtendedAnnotationType" eSuperTypes="../../org.eclipse.xsd/model/XSD.ecore#//XSDAnnotation">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

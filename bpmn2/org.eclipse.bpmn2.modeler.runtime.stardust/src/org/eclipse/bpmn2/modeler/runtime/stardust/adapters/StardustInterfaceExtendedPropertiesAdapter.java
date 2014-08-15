@@ -17,16 +17,16 @@ import java.util.Hashtable;
 
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.AttributeType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.CarnotFactory;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.carnot.DirectionType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnFactory;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.SdbpmnPackage;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustAccessPointType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustApplicationType;
-import org.eclipse.bpmn2.modeler.runtime.stardust.model.sdbpmn.StardustInterfaceType;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 
 /**
  *
@@ -95,7 +95,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 	}
 
 	public static AttributeType createAttributeType(String name, String value, String type) {
-		AttributeType at = CarnotFactory.eINSTANCE.createAttributeType();
+		AttributeType at = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
 		at.setName(name);
 		at.setValue(value);
 		if (type != null && !type.isEmpty())
@@ -151,26 +151,26 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		StardustAccessPointType sdAccessPoint;
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "carnot:engine:endpointAddress", "Endpoint Address", DirectionType.IN, "serializable");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "carnot:engine:endpointAddress", "Endpoint Address", DirectionType.IN_LITERAL, "serializable");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:className", "", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.IN, "plainXML");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.IN_LITERAL, "plainXML");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.OUT, "plainXML");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.OUT_LITERAL, "plainXML");
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "getCRO", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:transformation", "DOM", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:separator", "/", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "getCROResponse", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:separator", "/", null));
 		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:bidirectional", "true", "boolean"));

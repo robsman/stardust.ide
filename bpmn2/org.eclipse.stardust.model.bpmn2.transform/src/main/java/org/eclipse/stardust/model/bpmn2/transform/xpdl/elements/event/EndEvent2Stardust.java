@@ -16,6 +16,7 @@ import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.MessageEventDefinition;
+import org.eclipse.bpmn2.TerminateEventDefinition;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
@@ -48,10 +49,11 @@ public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 		if (def== null) {
 			// route element - just to simplify handling of conditional flows
 			return true;
-		}
-		if (def instanceof MessageEventDefinition)
+		} else if (def instanceof MessageEventDefinition) {
 			return true;
-		else {
+		} else if (def instanceof TerminateEventDefinition) {
+			return true;
+    	} else {
 			failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "EndEvent " + event.getId()
 					+ " EventDefinition " + def.getClass().getName());
 			return false;

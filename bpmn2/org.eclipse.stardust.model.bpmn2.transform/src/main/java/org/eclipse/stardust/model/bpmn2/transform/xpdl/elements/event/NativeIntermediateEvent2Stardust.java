@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.IntermediateCatchEvent;
 import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.MessageEventDefinition;
+import org.eclipse.bpmn2.TerminateEventDefinition;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
@@ -70,6 +71,8 @@ public class NativeIntermediateEvent2Stardust extends AbstractElement2Stardust {
 			createMessageApplicationActivity(processDef, event, (MessageEventDefinition)def, container);
 		} else if (def instanceof TimerEventDefinition) {
 			createTimerRouteActivity(container, processDef, event, (TimerEventDefinition)def);
+		} else if (def instanceof TerminateEventDefinition) {
+			createTerminateRouteActivity(container, processDef, event, (TimerEventDefinition)def);
 		}
 	}
 
@@ -104,6 +107,28 @@ public class NativeIntermediateEvent2Stardust extends AbstractElement2Stardust {
 				.newCompleteActivityAction(handler)
 				.withId(evtDefinitionId.concat("Action"))
 				.build();
+	}
+
+	private void createTerminateRouteActivity(FlowElementsContainer container, ProcessDefinitionType processDef, Event event, TimerEventDefinition def) {
+		String id = event.getId();
+		int ordinal = bpmnquery.getEventDefinitionOrdinal(event, def);
+		String evtDefinitionId = getChildId(event, def, ordinal); 
+		String name = getNonEmptyName(event.getName(), id, event);
+
+		Period p = EventDefinitions2Stardust.getPeriod(def);
+		ActivityType route = createRouteActivity(processDef, id, name, true);
+
+		EventHandlerType handler = BpmActivityTimerEventHandlerBuilder
+								.newActivityTimerEventHandler(route)
+								.withId(evtDefinitionId)
+								.withAutoBinding()
+								.withConstantPeriod(p)
+								.build();
+
+		BpmCompleteActivityEventActionBuilder
+				.newCompleteActivityAction(handler)
+				.withId(evtDefinitionId.concat("Action"))
+				.build();		
 	}
 
 	private ActivityType createApplicationActivity(ProcessDefinitionType processDef, String id, String name, String descr, ApplicationType application) {
