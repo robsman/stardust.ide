@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<bpmn2:definitions xmlns:tl="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:carnot="http://www.carnot.ag/workflowmodel/3.1" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns="http://www.webservicex.net/" xmlns:ns1.xsd="http://www.webservicex.net/" xmlns:ns1.wsdl="http://www.webservicex.net/" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.1.0" targetNamespace="http://org.eclipse.bpmn2.modeler.runtime.stardust">
+  <bpmn2:import importType="http://schemas.xmlsoap.org/wsdl/" location="http://www.webservicex.net/geoipservice.asmx?WSDL" namespace="http://www.webservicex.net/"/>
+  <bpmn2:itemDefinition id="ItemDefinition_1" structureRef="ns1.xsd:GeoIP"/>
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="ns1.xsd:GetGeoIP"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="ns1.xsd:GetGeoIPContext"/>
+  <bpmn2:itemDefinition id="ItemDefinition_4" structureRef="ns1.xsd:GetGeoIPContextResponse"/>
+  <bpmn2:itemDefinition id="ItemDefinition_5" structureRef="ns1.xsd:GetGeoIPResponse"/>
+  <bpmn2:itemDefinition id="ItemDefinition_6" structureRef="ns1.wsdl:GetGeoIPSoapIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_7" structureRef="ns1.wsdl:GetGeoIPSoapOut"/>
+  <bpmn2:itemDefinition id="ItemDefinition_8" structureRef="ns1.wsdl:GetGeoIPContextSoapIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_9" structureRef="ns1.wsdl:GetGeoIPContextSoapOut"/>
+  <bpmn2:itemDefinition id="ItemDefinition_10" structureRef="ns1.wsdl:GetGeoIPHttpGetIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_11" structureRef="ns1.wsdl:GetGeoIPHttpGetOut"/>
+  <bpmn2:itemDefinition id="ItemDefinition_12" structureRef="ns1.wsdl:GetGeoIPContextHttpGetIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_13" structureRef="ns1.wsdl:GetGeoIPContextHttpGetOut"/>
+  <bpmn2:itemDefinition id="ItemDefinition_14" structureRef="ns1.wsdl:GetGeoIPHttpPostIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_15" structureRef="ns1.wsdl:GetGeoIPHttpPostOut"/>
+  <bpmn2:itemDefinition id="ItemDefinition_16" structureRef="ns1.wsdl:GetGeoIPContextHttpPostIn"/>
+  <bpmn2:itemDefinition id="ItemDefinition_17" structureRef="ns1.wsdl:GetGeoIPContextHttpPostOut"/>
+  <bpmn2:message id="Message_1" itemRef="ItemDefinition_6" name="GetGeoIPSoapIn"/>
+  <bpmn2:message id="Message_2" itemRef="ItemDefinition_7" name="GetGeoIPSoapOut"/>
+  <bpmn2:message id="Message_3" itemRef="ItemDefinition_8" name="GetGeoIPContextSoapIn"/>
+  <bpmn2:message id="Message_4" itemRef="ItemDefinition_9" name="GetGeoIPContextSoapOut"/>
+  <bpmn2:message id="Message_5" itemRef="ItemDefinition_10" name="GetGeoIPHttpGetIn"/>
+  <bpmn2:message id="Message_6" itemRef="ItemDefinition_11" name="GetGeoIPHttpGetOut"/>
+  <bpmn2:message id="Message_7" itemRef="ItemDefinition_12" name="GetGeoIPContextHttpGetIn"/>
+  <bpmn2:message id="Message_8" itemRef="ItemDefinition_13" name="GetGeoIPContextHttpGetOut"/>
+  <bpmn2:message id="Message_9" itemRef="ItemDefinition_14" name="GetGeoIPHttpPostIn"/>
+  <bpmn2:message id="Message_10" itemRef="ItemDefinition_15" name="GetGeoIPHttpPostOut"/>
+  <bpmn2:message id="Message_11" itemRef="ItemDefinition_16" name="GetGeoIPContextHttpPostIn"/>
+  <bpmn2:message id="Message_12" itemRef="ItemDefinition_17" name="GetGeoIPContextHttpPostOut"/>
+  <bpmn2:interface id="Interface_1" implementationRef="ns1.wsdl:GetGeoIPSoapIn" name="GetGeoIP">
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="WebService">
+        <sdbpmn:StardustApplication xsi:type="sdbpmn:StardustApplicationType" oid="10000" id="CROServiceApp" name="GetGeoIPSoapIn">
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:visibility" value="Public"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsRuntime" value="jaxws"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsdlUrl" value="http://www.webservicex.net/geoipservice.asmx?WSDL"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsServiceName" value="GetGeoIP"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsPortName" value="GeoIPServiceSoap12"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsOperationName" value="http://www.webservicex.net/GetGeoIP"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:wsSoapProtocol" value="SOAP1.2Protocol"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value=""/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:dataType" value=""/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:transformation" value=""/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:path:separator" value="/"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:data:bidirectional" type="boolean" value="true"/>
+          <carnot:accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10001" id="carnot:engine:endpointAddress" name="Endpoint Address" typeRef="serializable">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value="java.lang.String"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          </carnot:accessPoint>
+          <carnot:accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10002" id="parameters" name="parameters" typeRef="plainXML">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:browsable" type="boolean" value="true"/>
+          </carnot:accessPoint>
+          <carnot:accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10003" id="parameters" name="parameters" direction="OUT" typeRef="plainXML"/>
+          <carnot:accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10004" id="parameters_struct" name="parameters_struct" typeRef="struct">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:dataType" value="getGeoIPRequest"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:transformation" value="DOM"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:separator" value="/"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:bidirectional" type="boolean" value="true"/>
+          </carnot:accessPoint>
+          <carnot:accessPoint xsi:type="sdbpmn:StardustAccessPointType" oid="10005" id="parameters_struct" name="parameters_struct" direction="OUT" typeRef="struct">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:dataType" value="getGeoIPResponse"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:separator" value="/"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:bidirectional" type="boolean" value="true"/>
+          </carnot:accessPoint>
+        </sdbpmn:StardustApplication>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+    <bpmn2:operation id="_Operation_2" implementationRef="ns1.wsdl:GetGeoIPSoapIn" name="GetGeoIPSoapIn">
+      <bpmn2:inMessageRef>Message_1</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_2</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="Interface_2" implementationRef="ns1.wsdl:GeoIPServiceSoap" name="GeoIPServiceSoap">
+    <bpmn2:operation id="Operation_1" implementationRef="ns1.wsdl:GetGeoIP" name="GetGeoIP">
+      <bpmn2:inMessageRef>Message_1</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_2</bpmn2:outMessageRef>
+    </bpmn2:operation>
+    <bpmn2:operation id="Operation_2" implementationRef="ns1.wsdl:GetGeoIPContext" name="GetGeoIPContext">
+      <bpmn2:inMessageRef>Message_3</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_4</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="Interface_3" implementationRef="ns1.wsdl:GeoIPServiceHttpGet" name="GeoIPServiceHttpGet">
+    <bpmn2:operation id="Operation_3" implementationRef="ns1.wsdl:GetGeoIP" name="GetGeoIP">
+      <bpmn2:inMessageRef>Message_5</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_6</bpmn2:outMessageRef>
+    </bpmn2:operation>
+    <bpmn2:operation id="Operation_4" implementationRef="ns1.wsdl:GetGeoIPContext" name="GetGeoIPContext">
+      <bpmn2:inMessageRef>Message_7</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_8</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="Interface_4" implementationRef="ns1.wsdl:GeoIPServiceHttpPost" name="GeoIPServiceHttpPost">
+    <bpmn2:operation id="Operation_5" implementationRef="ns1.wsdl:GetGeoIP" name="GetGeoIP">
+      <bpmn2:inMessageRef>Message_9</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_10</bpmn2:outMessageRef>
+    </bpmn2:operation>
+    <bpmn2:operation id="Operation_6" implementationRef="ns1.wsdl:GetGeoIPContext" name="GetGeoIPContext">
+      <bpmn2:inMessageRef>Message_11</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_12</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:process id="ServiceTaskWebServiceApp" name="Default Process">
+    <bpmn2:startEvent id="StartEvent_1" name="Start Event 1">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="Sequence Flow 1" sourceRef="StartEvent_1" targetRef="Task_1"/>
+    <bpmn2:endEvent id="EndEvent_1" name="End Event 1">
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:task id="Task_1" name="get GeoIP">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:ioSpecification id="InputOutputSpecification_1">
+        <bpmn2:dataOutput id="DataOutput_1" itemSubjectRef="ItemDefinition_7" name="output1"/>
+        <bpmn2:inputSet id="InputSet_1"/>
+        <bpmn2:outputSet id="OutputSet_1">
+          <bpmn2:dataOutputRefs>DataOutput_1</bpmn2:dataOutputRefs>
+        </bpmn2:outputSet>
+      </bpmn2:ioSpecification>
+      <bpmn2:dataOutputAssociation id="DataOutputAssociation_1">
+        <bpmn2:sourceRef>DataOutput_1</bpmn2:sourceRef>
+        <bpmn2:targetRef>DataObject_1</bpmn2:targetRef>
+      </bpmn2:dataOutputAssociation>
+    </bpmn2:task>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" sourceRef="Task_1" targetRef="EndEvent_1"/>
+    <bpmn2:dataObject id="DataObject_1" name="TestModelDataObjectA" itemSubjectRef="ItemDefinition_7"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ServiceTaskWebServiceApp">
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="100.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1">
+          <dc:Bounds height="15.0" width="68.0" x="84.0" y="136.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="500.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3">
+          <dc:Bounds height="15.0" width="65.0" x="486.0" y="136.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_Task_1" bpmnElement="Task_1">
+        <dc:Bounds height="50.0" width="110.0" x="276.0" y="93.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4">
+          <dc:Bounds height="15.0" width="54.0" x="304.0" y="110.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_DataObject_1" bpmnElement="DataObject_1">
+        <dc:Bounds height="36.0" width="50.0" x="306.0" y="253.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6">
+          <dc:Bounds height="30.0" width="125.0" x="269.0" y="289.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_1" targetElement="BPMNShape_Task_1">
+        <di:waypoint xsi:type="dc:Point" x="136.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="276.0" y="118.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2">
+          <dc:Bounds height="30.0" width="59.0" x="177.0" y="119.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_Task_1" targetElement="BPMNShape_2">
+        <di:waypoint xsi:type="dc:Point" x="386.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="500.0" y="118.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_1" bpmnElement="DataOutputAssociation_1">
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="143.0"/>
+        <di:waypoint xsi:type="dc:Point" x="331.0" y="253.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
