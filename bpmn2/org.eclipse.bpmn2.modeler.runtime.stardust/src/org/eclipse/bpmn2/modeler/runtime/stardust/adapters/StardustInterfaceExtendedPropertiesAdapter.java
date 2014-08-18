@@ -36,7 +36,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 	private static Hashtable<String, Object> choices = null;
 	
 	public enum ApplicationTypes {
-		WEBSERVICE("Webservice", "Webservice D"),
+		WEBSERVICE("webservice", "Webservice D"),
 		PLAINJAVA("PlainJava", "Plain Java"),
 		SPRINGBEAN("SpringBean", "Spring Bean"),
 		SESSIONBEAN("SessionBean", "Sessionbean"),
