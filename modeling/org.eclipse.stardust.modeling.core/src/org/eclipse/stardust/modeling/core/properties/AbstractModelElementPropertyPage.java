@@ -141,11 +141,7 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
       IModelElement modelElement = getModelElementFromSymbol(getModelElementNodeSymbol());
       if (modelElement == null)
       {
-         EObject eObject = getModelElement(getElement());
-         if (eObject != null && eObject instanceof IModelElement)
-         {
-            return (IModelElement) eObject;
-         }
+         return getModelElement(getElement());
       }
       return modelElement;
    }
@@ -169,6 +165,10 @@ public abstract class AbstractModelElementPropertyPage extends PropertyPage
          }
          EObjectDescriptor ed = (EObjectDescriptor)value;
          return ed.getEObject();
+      }
+      if (model instanceof EObject)
+      {
+         return (EObject) model;
       }
       return null;
    }
