@@ -201,8 +201,12 @@ public final class ImportUtils
          pkg.setName(sourceModel.getName());
          pkg.setHref(packageRef);
 
-         linkAttribute = new LinkAttribute(descriptor.getURI().trimSegments(2), false, false, IConnectionManager.URI_ATTRIBUTE_NAME);
-         linkAttribute.setLinkInfo(pkg, false);
+         if (descriptor != null)
+         {
+            linkAttribute = new LinkAttribute(descriptor.getURI().trimSegments(2), false,
+                  false, IConnectionManager.URI_ATTRIBUTE_NAME);
+            linkAttribute.setLinkInfo(pkg, false);
+         }
 
          packages.getExternalPackage().add(pkg);
       }
