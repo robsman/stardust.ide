@@ -129,6 +129,7 @@
 			<enable object="StardustInterfaceType"/>
 			<enable object="StardustApplicationType"/>
 			<enable object="StardustStartEventType"/>
+			<enable object="StardustAccessPointType"/>
 		</modelEnablement>
 	</extension>
 
