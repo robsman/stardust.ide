@@ -28,7 +28,8 @@ public class AttributeTypeDateTimeEditor extends DateTimeObjectEditor {
 	@Override
 	protected boolean setValue(Object result) {
 		if (result instanceof Date) {
-			result = ((Date) result).toString();
+			result = ((Date) result).getTime();
+			result = result.toString();
 		}
 		return super.setValue(result);
 	}

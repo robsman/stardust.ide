@@ -83,7 +83,7 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 		
 		AttributeType at = null;
 		if (list.size() > 0) {
-			// it has at least one of these (TODO: what to do in case it has multiple? CAN it have multiple?)
+			// it should have only one TimerEvent
 			sdTimerEvent = list.get(0);
 			// Fetch the Carnot AttributeType that may be contained in the attributes list
 			// this should be the "stopTime" attribute and it should be the ONLY attribute

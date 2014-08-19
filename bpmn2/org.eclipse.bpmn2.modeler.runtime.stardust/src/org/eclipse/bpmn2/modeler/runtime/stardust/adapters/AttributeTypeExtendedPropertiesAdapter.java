@@ -42,6 +42,7 @@ public class AttributeTypeExtendedPropertiesAdapter extends ExtendedPropertiesAd
     				// the framework will call this FeatureDescriptor's internalSet() inside
     				// an EMF transaction.
     				if (value instanceof java.util.Date) {
+    					value = ((java.util.Date) value).getTime();
     					value = value.toString();
     					// or more generically: if (value!=null && !(value instanceof String)) value = value.toString();
     				}
