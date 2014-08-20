@@ -119,10 +119,12 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 				case PLAINJAVA:
 					createPlainJavaApplicationModel(sdInterface);
 					break;
+				case SPRINGBEAN:
+					createSpringBeanApplicationModel(sdInterface);
+					break;					
 				case JMSRECEIVE:
 				case JMSSEND:
 				case SESSIONBEAN:
-				case SPRINGBEAN:
 				default:
 					removeApplicationModel(sdInterface);
 					break;
@@ -244,6 +246,32 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setId("JavaApp");
 		sdApplication.setName("JavaApp");
 
+		sdInterface.setStardustApplication(sdApplication);
+	}
+	
+	/**
+	 * Creates the sdbpmn and carnot model object hierarchy for a SpringBean
+	 * ApplicationType
+	 * 
+	 * @param sdInterface the StardustInterfaceType object which is the
+	 *            container for the model objects.
+	 */
+	private static void createSpringBeanApplicationModel(StardustInterfaceType sdInterface) {
+		// first delete the previous StardustApplicationType
+		removeApplicationModel(sdInterface);
+
+		// and configure for a PlainJava StardustApplicationType
+		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
+		sdApplication.setElementOid(generateElementOid());
+		sdApplication.setId("SpringBean");
+		sdApplication.setName("SpringBean");
+
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:spring::beanId", "", null));		
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:methodName", "", null));		
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		
 		sdInterface.setStardustApplication(sdApplication);
 	}
 	

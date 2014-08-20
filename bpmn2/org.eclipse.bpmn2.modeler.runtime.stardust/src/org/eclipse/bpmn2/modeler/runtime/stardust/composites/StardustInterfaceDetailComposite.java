@@ -83,10 +83,12 @@ public class StardustInterfaceDetailComposite extends DefaultDetailComposite {
 		case PLAINJAVA:
 			details = new PlainJavaDetailComposite(getAttributesParent(), SWT.NONE);
 			break;
+		case SPRINGBEAN:
+			details = new SpringBeanDetailComposite(getAttributesParent(), SWT.NONE);
+			break;			
 		case JMSRECEIVE:
 		case JMSSEND:
 		case SESSIONBEAN:
-		case SPRINGBEAN:
 		default:
 			break;
 		}
