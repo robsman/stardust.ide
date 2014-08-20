@@ -8,7 +8,7 @@
         <bpmn2:extensionElements>
           <sdbpmn:StardustTimerStartEvent>
             <sdbpmn:StardustAttributes>
-              <carnot:AttributeType xsi:type="carnot:attribute_._type" name="carnot:engine:stopTime" value="1427808858706"/>
+              <carnot:AttributeType xsi:type="carnot:attribute_._type" name="carnot:engine:stopTime" value="1409479276782"/>
             </sdbpmn:StardustAttributes>
           </sdbpmn:StardustTimerStartEvent>
         </bpmn2:extensionElements>
