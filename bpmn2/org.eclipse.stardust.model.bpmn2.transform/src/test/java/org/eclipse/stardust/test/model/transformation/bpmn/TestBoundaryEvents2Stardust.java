@@ -60,7 +60,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestBoundaryEvents2Stardust {
+public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String TEST_ID_GATEWAY = "TestModelGateway";
 	private static final String TEST_ID_TASK_DEFAULT = "TestModelTaskDefault";

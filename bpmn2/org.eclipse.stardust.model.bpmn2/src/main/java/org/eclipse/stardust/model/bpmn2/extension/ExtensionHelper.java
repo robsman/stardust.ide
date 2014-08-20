@@ -23,6 +23,7 @@ import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.Bpmn2Package;
 import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.GlobalUserTask;
@@ -45,6 +46,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
@@ -78,6 +80,8 @@ public class ExtensionHelper {
     private static final Internal MESSAGE_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT;
     private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
     private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
+    
+    private static final Internal GENERAL_ATTRIBUTES_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_ATTRIBUTES;
 
     private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
     private static final Internal ATT_TRIGGER_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF;
@@ -123,6 +127,10 @@ public class ExtensionHelper {
     }
 
     public StardustTimerStartEventType getTimerStartEventExtension(StartEvent element) {
+        return getFirstExtension(StardustTimerStartEventType.class, element, TIMER_START_EVENT_EXT);
+    }
+
+    public StardustTimerStartEventType getEventDefinitionExtensionAttributes(EventDefinition element) {
         return getFirstExtension(StardustTimerStartEventType.class, element, TIMER_START_EVENT_EXT);
     }
 

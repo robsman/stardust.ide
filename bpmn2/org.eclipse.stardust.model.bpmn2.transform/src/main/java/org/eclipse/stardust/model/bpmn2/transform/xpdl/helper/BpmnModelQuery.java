@@ -18,6 +18,11 @@ import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
+import org.eclipse.bpmn2.CallActivity;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataInputAssociation;
+import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataOutputAssociation;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
@@ -25,6 +30,7 @@ import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.Gateway;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
@@ -188,4 +194,28 @@ public class BpmnModelQuery {
 		if (0 > indexOf) return 0;
 		return indexOf;
 	}
+
+
+	public static DataInputAssociation findDataInputAssociationTo(DataInput callerInput, CallActivity caller) {
+		for (DataInputAssociation assoc : caller.getDataInputAssociations()) {
+			if (assoc.getTargetRef() != null && assoc.getTargetRef().equals(callerInput)) {
+				return assoc;
+			}
+		}
+		return null;
+	}
+
+	public static DataOutputAssociation findDataOutputAssociationFrom(DataOutput callerOutput, CallActivity caller) {
+		for (DataOutputAssociation assoc : caller.getDataOutputAssociations()) {
+			if (assoc.getSourceRef() != null) {
+				for (ItemAwareElement out : assoc.getSourceRef()) {
+					if (out != null && out.equals(callerOutput)) {
+						return assoc;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 }

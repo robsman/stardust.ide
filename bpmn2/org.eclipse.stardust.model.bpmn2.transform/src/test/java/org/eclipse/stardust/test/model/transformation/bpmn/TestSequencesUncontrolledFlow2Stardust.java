@@ -34,7 +34,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSequencesUncontrolledFlow2Stardust { //extends TestCase {
+public class TestSequencesUncontrolledFlow2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String SEQ_AB ="TestModelSequenceAtoB";
 	private static final String SEQ_AC = "TestModelSequenceAtoC";

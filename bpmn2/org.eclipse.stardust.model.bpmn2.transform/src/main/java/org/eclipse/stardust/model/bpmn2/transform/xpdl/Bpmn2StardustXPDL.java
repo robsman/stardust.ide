@@ -84,7 +84,6 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Intermediat
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.IntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.NativeBoundaryEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.NativeIntermediateEvent2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust;
@@ -492,6 +491,11 @@ public class Bpmn2StardustXPDL implements Transformator {
 	@Override
 	public void addCallActivity(CallActivity activity, FlowElementsContainer container) {
 		new CallActivity2Stardust(carnotModel, transformedRelatedModelsByDefinitionsId, failures).addCallActivity(activity, container);
+	}
+
+	@Override
+	public void addGlobalCall(CallActivity caller, FlowElementsContainer container) {
+		new CallActivity2Stardust(carnotModel, transformedRelatedModelsByDefinitionsId, failures).addGlobalCall(caller, container);
 	}
 
 	@Override

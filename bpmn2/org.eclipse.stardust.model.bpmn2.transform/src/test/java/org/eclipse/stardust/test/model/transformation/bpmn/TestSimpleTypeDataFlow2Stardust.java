@@ -35,7 +35,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSimpleTypeDataFlow2Stardust {
+public class TestSimpleTypeDataFlow2Stardust extends Bpmn2StardustTestSuite {
 
     private final String TEST_PROCESS_ID = "TestModelProcessPrimitiveData";
 

@@ -35,7 +35,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSequencesConditionalWithDefault2Stardust { //extends TestCase {
+public class TestSequencesConditionalWithDefault2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String TEST_ID_TASK_X ="TestModelTaskX";
 

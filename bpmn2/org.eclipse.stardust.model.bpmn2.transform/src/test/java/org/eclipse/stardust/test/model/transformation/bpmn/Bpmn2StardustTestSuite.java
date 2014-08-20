@@ -38,30 +38,31 @@ import org.junit.runners.Suite;
  * @author Simon Nikles
  *
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses(
-        {TestUserTaskDataFlow2Stardust.class,
-         TestGateways2Stardust.class,
-         TestSequences2Stardust.class,
-         TestStartEvents2Stardust.class,
-         TestSubprocesses2Stardust.class,
-         TestSwimlanes2Stardust.class,
-         TestTasks2Stardust.class,
-         TestWebServiceTask2Stardust.class,
-         TestUserTaskWebApp2Stardust.class,
-         TestSimpleTypeDataFlow2Stardust.class,
-         TestSequencesUncontrolledFlow2Stardust.class,
-         TestSequencesConditionalWithDefault2Stardust.class,
-         TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
-         TestSequencesConditionalPlusGateways2Stardust.class,
-         TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
-         TestMessageEvents2Stardust.class,
-         TestProcessStart2Stardust.class,
-         TestIntermediateTimerEvent2Stardust.class,
-         TestBoundaryEvents2Stardust.class,
-         TestCapro.class,
-         TestModelledTransformation.class
-        })
+//@RunWith(Suite.class)
+//@Suite.SuiteClasses(
+//        {TestUserTaskDataFlow2Stardust.class,
+//         TestGateways2Stardust.class,
+//         TestSequences2Stardust.class,
+//         TestStartEvents2Stardust.class,
+//         TestSubprocesses2Stardust.class,
+//         TestSwimlanes2Stardust.class,
+//         TestTasks2Stardust.class,
+//         TestWebServiceTask2Stardust.class,
+//         TestUserTaskWebApp2Stardust.class,
+//         TestSimpleTypeDataFlow2Stardust.class,
+//         TestSequencesUncontrolledFlow2Stardust.class,
+//         TestSequencesConditionalWithDefault2Stardust.class,
+//         TestSequencesConditionalWithDefaultAndUnconditional2Stardust.class,
+//         TestSequencesConditionalPlusGateways2Stardust.class,
+//         TestConvergingGatewaySequenceWithConditionalSequences2Stardust.class,
+//         TestMessageEvents2Stardust.class,
+//         TestProcessStart2Stardust.class,
+//         TestIntermediateTimerEvent2Stardust.class,
+//         TestBoundaryEvents2Stardust.class,
+//         TestCapro.class,
+//         TestModelledTransformation.class,
+//         TestEmbeddedDataType.class
+//        })
 public class Bpmn2StardustTestSuite {
     public static final String TEST_BPMN_MODEL_DIR = "models/bpmn/";
     public static final String TEST_MODEL_OUTPUT_DIR = "models/output/";

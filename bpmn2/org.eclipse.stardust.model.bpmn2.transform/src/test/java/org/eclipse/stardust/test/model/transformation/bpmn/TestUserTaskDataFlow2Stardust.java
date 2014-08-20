@@ -44,7 +44,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestUserTaskDataFlow2Stardust {
+public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
 
     private final String TEST_PROCESS_ID = "TestProcessDataObjectFlow";
     private final String ITEM_DEFINITION_ID = "TestImportedXmlItemDefinition";

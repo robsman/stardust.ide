@@ -107,6 +107,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
             trigger.setName(event.getName());
             setTimerTriggerDefinition(event, def, trigger);
             Bpmn2StardustXPDLExtension.addTimerStartEventExtensions(event, trigger);
+            Bpmn2StardustXPDLExtension.addTimerStartEventDefinitionExtensions(def, trigger);
             processDef.getTrigger().add(trigger);
         } else {
             failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_CREATION + "(Start event: " + event.getId() + " - trigger type + " + PredefinedConstants.JMS_TRIGGER + " not found)");

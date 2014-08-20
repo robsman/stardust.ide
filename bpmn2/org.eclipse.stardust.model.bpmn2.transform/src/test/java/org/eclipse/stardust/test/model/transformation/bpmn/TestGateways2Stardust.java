@@ -44,7 +44,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestGateways2Stardust {
+public class TestGateways2Stardust extends Bpmn2StardustTestSuite {
 	
 	private static final String TEST_ID_INCLUSIVE_SPLIT = "InclusiveSplitGateway";
 	private static final String TEST_ID_INCLUSIVE_JOIN = "InclusiveMergeGateway";

@@ -33,7 +33,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSubprocesses2Stardust {
+public class TestSubprocesses2Stardust extends Bpmn2StardustTestSuite {
     @Test
     public void testCollapsedSubprocess() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "CollapsedSubprocess.bpmn";

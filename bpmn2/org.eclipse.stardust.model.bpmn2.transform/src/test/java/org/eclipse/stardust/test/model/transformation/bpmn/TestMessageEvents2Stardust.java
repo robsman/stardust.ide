@@ -32,7 +32,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestMessageEvents2Stardust {
+public class TestMessageEvents2Stardust extends Bpmn2StardustTestSuite {
 
 	//private static final String INTERFACE_JMS_TRIGGER_START = "ReceiveOffer";
 	private static final String INTERFACE_JMS_SEND_EVENT = "SendRequestApp";

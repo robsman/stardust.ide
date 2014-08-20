@@ -36,7 +36,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestStartEvents2Stardust {
+public class TestStartEvents2Stardust extends Bpmn2StardustTestSuite {
 
     @Test
     public void testStartEventNone() {

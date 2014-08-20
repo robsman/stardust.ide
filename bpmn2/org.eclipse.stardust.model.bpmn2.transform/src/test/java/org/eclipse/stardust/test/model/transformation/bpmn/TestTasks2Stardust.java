@@ -42,7 +42,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestTasks2Stardust {
+public class TestTasks2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String PERFORMER_ROLE_ADMIN = "Administrator";
 	private static final String PERFORMER_ORGANIZATION = "OrganizationX";

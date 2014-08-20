@@ -98,6 +98,16 @@ public class Bpmn2ProxyResolver {
         return itemDef;
 	}
 
+	public static CallableElement resolveCallableElementProxy(CallableElement callable, Definitions definitions) {
+		if (!callable.eIsProxy()) return callable;
+        URI proxyURI = ((InternalEObject) callable).eProxyURI();
+        if (definitions.eResource() != null) {
+            org.eclipse.emf.ecore.resource.Resource eRes = definitions.eResource();
+            callable = (CallableElement)eRes.getEObject(proxyURI.fragment());
+        }
+        return callable;
+	}
+
 	public static org.eclipse.bpmn2.Error resolveError(org.eclipse.bpmn2.Error error, Definitions definitions) {
 		if (!error.eIsProxy()) return error;
         URI proxyURI = ((InternalEObject) error).eProxyURI();

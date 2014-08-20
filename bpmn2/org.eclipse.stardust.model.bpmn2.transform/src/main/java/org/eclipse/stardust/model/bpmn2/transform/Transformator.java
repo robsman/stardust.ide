@@ -129,4 +129,6 @@ public interface Transformator {
 
 	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container);
 
+	public void addGlobalCall(CallActivity caller, FlowElementsContainer container);
+
 }

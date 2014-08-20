@@ -44,7 +44,8 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestIntermediateTimerEvent2Stardust {
+public class TestIntermediateTimerEvent2Stardust extends Bpmn2StardustTestSuite {
+	
 	private static final String ID_TIMER_EVENT = "TestModelIntermediateTimer";
 	private static final String INTERMEDIATE_EVENT_HOST = null;
 

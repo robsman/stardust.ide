@@ -40,7 +40,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestWebServiceTask2Stardust {
+public class TestWebServiceTask2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String WEBSERVICE_APP_ID = "CROServiceApp";
 	private static final String DATA_ASSOC_ID = "TestModelOutputAssociationTaskA";
@@ -73,6 +73,16 @@ public class TestWebServiceTask2Stardust {
         dataDefinitionAssertions(result, process);
     }
 
+    @Test
+    public void testWebServiceTaskRefactoredTemp() {
+        final String modelFile = TEST_BPMN_MODEL_DIR + "_Refactor_ServiceTaskWebServiceApp.bpmn";
+        final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testServiceTaskWebServiceAppTemp.xpdl";
+
+        Definitions defs = loadBpmnModel(modelFile);
+        ModelType result = transformModel(defs, fileOutput);
+
+    }
+    
     private void serviceTaskAssertions(ActivityType activity) {
         ApplicationType application = activity.getApplication();
         assertNotNull(application);

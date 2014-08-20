@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestSequences2Stardust { //extends TestCase {
+public class TestSequences2Stardust extends Bpmn2StardustTestSuite {
 
     public TestSequences2Stardust() {}
 

@@ -37,7 +37,7 @@ import org.junit.Test;
  * @author Simon Nikles
  *
  */
-public class TestProcessStart2Stardust {
+public class TestProcessStart2Stardust extends Bpmn2StardustTestSuite {
 
 	private static final String TEST_ID_TRANSITION_START_TO_A = "TestIdTransitionStartToA";
 	private static final String TEST_ID_TRANSITION_START_TO_B = "TestIdTransitionStartToB";

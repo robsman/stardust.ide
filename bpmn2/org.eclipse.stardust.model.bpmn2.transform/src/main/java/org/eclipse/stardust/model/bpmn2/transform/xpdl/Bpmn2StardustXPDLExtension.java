@@ -13,12 +13,15 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl;
 import java.text.DateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
+import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
@@ -40,6 +43,8 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
  */
 public class Bpmn2StardustXPDLExtension {
 
+	private static final Logger log = Logger.getLogger(Bpmn2StardustXPDLExtension.class);
+	
     public static void addStartEventExtensions(StartEvent event, TriggerType trigger) {
         StardustStartEventType extension = ExtensionHelper.getInstance().getStartEventExtension(event);
         if (extension!=null) trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
@@ -55,10 +60,17 @@ public class Bpmn2StardustXPDLExtension {
 
     public static void addTimerStartEventExtensions(StartEvent event, TriggerType trigger) {
         StardustTimerStartEventType extension = ExtensionHelper.getInstance().getTimerStartEventExtension(event);
-        System.out.println("Bpmn2StardustXPDLExtension.addTimerStartEventExtensions() " + extension);
         if (extension != null)
             trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
     }
+
+
+	public static void addTimerStartEventDefinitionExtensions(TimerEventDefinition def, TriggerType trigger) {
+		StardustTimerStartEventType extension = ExtensionHelper.getInstance().getEventDefinitionExtensionAttributes(def);
+        log.info("addTimerStartEventDefinitionExtensions " + extension);
+        if (extension != null)
+            trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());	
+	}
 
     public static void addResourceExtension(Resource resource, ModelType model) {
     	StardustResourceType res = ExtensionHelper.getInstance().getResourceExtension(resource);
@@ -165,5 +177,6 @@ public class Bpmn2StardustXPDLExtension {
     		return 0;
     	}
     }
+
 
 }

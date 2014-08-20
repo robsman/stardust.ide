@@ -103,6 +103,7 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
     private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
     private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
+    private Map<FlowElementsContainer, List<CallActivity>> globalCalls;
 	private List<String> processedImportDefinitions = new ArrayList<String>();
     
     public static TransformationControl getInstance(Dialect dialect) {
@@ -120,6 +121,7 @@ public class TransformationControl {
         catchEventsWithDataflow = new HashMap<FlowElementsContainer, List<CatchEvent>>();
         startEventsPerContainer = new HashMap<FlowElementsContainer, List<StartEvent>>();
         potentialStartNodesPerContainer = new HashMap<FlowElementsContainer, List<FlowNode>>();
+        globalCalls = new HashMap<FlowElementsContainer, List<CallActivity>>();
         processingInfo = "";
         transf = dialect.getTransformator();
         processBpmn(definitions, transf);
@@ -212,6 +214,11 @@ public class TransformationControl {
 				processEventDataFlow(event, container);
 			}
 		}
+//		for (FlowElementsContainer container : globalCalls.keySet()) {
+//			for (CallActivity caller : globalCalls.get(container)) {
+//				processGlobalCall(caller, container);
+//			}
+//		}		
     }
 
 	private void processModelImport(Import imp) {
@@ -350,6 +357,10 @@ public class TransformationControl {
 
         } else if (activity instanceof CallActivity) {
             processCallActivity((CallActivity)activity, container);
+            if (!globalCalls.containsKey(container)) {
+            	globalCalls.put(container, new ArrayList<CallActivity>());
+            }
+            globalCalls.get(container).add((CallActivity)activity);            
         }
     }
 
@@ -595,7 +606,11 @@ public class TransformationControl {
     	transf.addCallActivity(activity, container);
     }
 
-
+	private void processGlobalCall(CallActivity caller, FlowElementsContainer container) {
+		/* handle the call (i.e. data mapping of a call activity) finally, when all callable elements have been transformed */
+    	transf.addGlobalCall(caller, container);
+	}
+	
     private void processChoreographyActivity(ChoreographyActivity choreo, FlowElementsContainer container) {
         processingInfo +=   "ChoreographyActivity" + NOT_SUPPORTED;
 

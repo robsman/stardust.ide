@@ -224,7 +224,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         return null;
     }
 
-    private boolean hasAssignment(DataAssociation assoc) {
+    public static boolean hasAssignment(DataAssociation assoc) {
         return (assoc.getAssignment() != null && assoc.getAssignment().size() > 0);
     }
 
@@ -284,4 +284,17 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     	return PredefinedConstants.DEFAULT_CONTEXT;
     }
 
+    public static String getInDataMappingId(DataInput dataInput, DataInputAssociation inputAssociation) {
+    	if (inputAssociation != null) {
+    		return inputAssociation.getId();
+    	}
+    	return dataInput.getId();
+    }
+
+    public static String getOutDataMappingId(DataOutput dataOutput, DataOutputAssociation outputAssociation) {
+    	if (outputAssociation != null) {
+    		return outputAssociation.getId();
+    	}
+    	return dataOutput.getId();
+    }
 }
