@@ -13,6 +13,9 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.adapters;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -36,6 +39,10 @@ public class AttributeTypeExtendedPropertiesAdapter extends ExtendedPropertiesAd
 		
     	setFeatureDescriptor(feature,
 			new FeatureDescriptor<AttributeType>(this,object,feature) {
+
+    			final List<String> multiliners = Arrays.asList("carnot:engine:camel::consumerRoute",
+															   "carnot:engine:camel::routeEntries"); 
+    		
     			@Override
     	   		protected void internalSet(AttributeType sdStardustTimerStartEvent, EStructuralFeature feature, Object value, int index) {
     				// Whenever this AttributeType's "value" feature changes,
@@ -48,6 +55,13 @@ public class AttributeTypeExtendedPropertiesAdapter extends ExtendedPropertiesAd
     				}
     				super.internalSet(object, feature, value, index);
     			}
+    			
+				@Override
+				public boolean isMultiLine() {
+					if (null != object && multiliners.contains(object.getName())) return true;
+					return super.isMultiLine();
+				}
+    			
     	});
 	}
 
