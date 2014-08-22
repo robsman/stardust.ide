@@ -19,7 +19,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.stardust.modeling.transformation,
  org.eclipse.stardust.modeling.common.ui,
  org.eclipse.ui.ide,
- org.eclipse.jface.text
+ org.eclipse.jface.text,
+ org.eclipse.jdt.ui,
+ org.eclipse.stardust.modeling.common.projectnature
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.stardust.modeling.integration.camel.triggerTypes,
  org.eclipse.stardust.modeling.integration.camel.ui,

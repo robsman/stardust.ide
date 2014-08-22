@@ -33,7 +33,7 @@ public class Camel_Messages extends NLS
    public static String label_AdditionalBean;
 
    public static String label_Include_Process_Context_Headers;
-   
+
    public static String label_Transacted_Route;
 
    public static String label_Body_Input_Access_Point;
@@ -49,6 +49,24 @@ public class Camel_Messages extends NLS
    public static String issue_CamelContextID_is_Empty;
 
    public static String issue_No_Issues_Found;
+
+   public static String label_None;
+
+   public static String label_Data_Strucutre;
+
+   public static String label_Data_Type;
+
+   public static String label_Class_Name;
+
+   public static String label_Data;
+
+   public static String label_Document_Type;
+
+   public static String label_Data_Structure;
+
+   public static String label_Primittive_Type;
+
+   public static String label_Parameters_Definition;
 
    static
    {

@@ -19,28 +19,6 @@
                 </and>
             </enabledWhen>
         </page>
-        <page id="_cwm_parameter_mapping_table_" name="%parameterMappings" category="spi" class="org.eclipse.stardust.modeling.integration.camel.triggerTypes.CamelParameterMappingTablePage" icon="icons/full/obj16/trigger.gif">
-            <enabledWhen>
-                <and>
-                    <instanceof value="org.eclipse.stardust.model.xpdl.carnot.TriggerType" />
-                    <test property="com.infinity.properties.metaType" value="camel" />
-                    <not>
-                        <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective" />
-                    </not>
-                </and>
-            </enabledWhen>
-        </page>
-        <page id="_cwm_parameter_mapping_" name="Camel Parameter Mapping Page" category="_cwm_parameter_mapping_table_" class="org.eclipse.stardust.modeling.integration.camel.triggerTypes.CamelParameterMappingPage">
-            <enabledWhen>
-                <and>
-                    <instanceof value="org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType" />
-                    <test property="com.infinity.properties.metaType" value="camel" />
-                    <not>
-                        <test property="com.infinity.properties.perspectiveType" value="ag.carnot.workflow.modeler.businessModelingPerspective" />
-                    </not>
-                </and>
-            </enabledWhen>
-        </page>
         <page id="cwm_spi_camel_general_tab_" name="%generalTab" category="spi" icon="icons/esb.jpg" class="org.eclipse.stardust.modeling.integration.camel.ui.GeneralPropertyPage">
             <enabledWhen>
                 <or>
