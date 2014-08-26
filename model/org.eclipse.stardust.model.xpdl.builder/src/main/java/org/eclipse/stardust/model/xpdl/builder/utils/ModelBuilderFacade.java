@@ -133,6 +133,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
+import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
@@ -159,6 +160,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
+import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
@@ -798,20 +800,59 @@ public class ModelBuilderFacade
       }
       else
       {
+
+
          declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
          ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
                sourceModelID);
 
+         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+               model, typeDeclarationModel);
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
          ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
          if (typeDeclarationModel != null)
          {
-            reference.setLocation(ImportUtils.getPackageRef(null, model,
+            reference.setLocation(getPackageRef(uri, model,
                   typeDeclarationModel).getId());
          }
          reference.setXref(declarationID);
          data.setExternalReference(reference);
       }
       AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
+   }
+
+   public static ExternalPackage getPackageRef(URI uri, ModelType targetModel, ModelType sourceModel)
+   {
+      LinkAttribute linkAttribute;
+      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
+      String packageRef = sourceModel.getId();
+      ExternalPackages packages = targetModel.getExternalPackages();
+      if (packages == null)
+      {
+         packages = xFactory.createExternalPackages();
+         targetModel.setExternalPackages(packages);
+      }
+      ExternalPackage pkg = packages.getExternalPackage(packageRef);
+      if (pkg == null)
+      {
+         pkg = xFactory.createExternalPackage();
+         pkg.setId(packageRef);
+         pkg.setName(sourceModel.getName());
+         pkg.setHref(packageRef);
+
+         if (uri != null)
+         {
+            linkAttribute = new LinkAttribute(uri, false,
+                  false, IConnectionManager.URI_ATTRIBUTE_NAME);
+            linkAttribute.setLinkInfo(pkg, false);
+         }
+
+         packages.getExternalPackage().add(pkg);
+      }
+      return pkg;
    }
 
    /**
