@@ -13,7 +13,8 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl;
 import java.text.DateFormat;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.Resource;
@@ -43,7 +44,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
  */
 public class Bpmn2StardustXPDLExtension {
 
-	private static final Logger log = Logger.getLogger(Bpmn2StardustXPDLExtension.class);
+	private static final Logger log = LogManager.getLogger(Bpmn2StardustXPDLExtension.class);
 	
     public static void addStartEventExtensions(StartEvent event, TriggerType trigger) {
         StardustStartEventType extension = ExtensionHelper.getInstance().getStartEventExtension(event);

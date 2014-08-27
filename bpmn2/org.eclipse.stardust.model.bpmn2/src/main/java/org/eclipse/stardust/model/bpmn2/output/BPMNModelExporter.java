@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.util.Bpmn2Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.stardust.common.log.LogManager;
 
 /**
  * @author Simon Nikles
@@ -31,7 +31,7 @@ public class BPMNModelExporter {
     }
 
     public static void exportModel(Bpmn2Resource resource, String targetFilePath) throws FileNotFoundException, IOException {
-        Logger.getLogger(BPMNModelExporter.class).debug("BPMNModelExporter.exportModel() " + targetFilePath);
+        LogManager.getLogger(BPMNModelExporter.class).debug("BPMNModelExporter.exportModel() " + targetFilePath);
 
         Map<Object, Object> options = new HashMap<Object, Object>();
         options.put(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS, Boolean.TRUE);

@@ -18,7 +18,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.DocumentRoot;
 import org.eclipse.bpmn2.Import;
@@ -28,6 +27,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.ModelConstants;
 import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 
@@ -36,7 +37,7 @@ import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHand
  */
 public class BPMNModelImporter {
 
-    private static Logger log = Logger.getLogger(BPMNModelImporter.class);
+    private static Logger log = LogManager.getLogger(BPMNModelImporter.class);
 
     public BPMNModelImporter() {
 

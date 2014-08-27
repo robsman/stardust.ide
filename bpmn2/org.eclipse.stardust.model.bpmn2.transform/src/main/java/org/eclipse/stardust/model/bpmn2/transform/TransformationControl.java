@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.AdHocSubProcess;
 import org.eclipse.bpmn2.Artifact;
@@ -83,6 +82,8 @@ import org.eclipse.bpmn2.Transaction;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.ModelConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 
@@ -112,7 +113,7 @@ public class TransformationControl {
 
     private TransformationControl(Dialect dialect) {
         this.dialect = dialect;
-        log = Logger.getLogger(this.getClass());
+        log = LogManager.getLogger(this.getClass());
     }
 
     public String transformToTarget(Definitions definitions, OutputStream target) {

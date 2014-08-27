@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.util.Bpmn2Resource;
 import org.eclipse.bpmn2.util.Bpmn2ResourceFactoryImpl;
 import org.eclipse.bpmn2.util.OnlyContainmentTypeInfo;
@@ -17,10 +16,12 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.ElementHandlerImpl;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 
 public class Bpmn2PersistenceHandler
 {
-	private static Logger log = Logger.getLogger(Bpmn2PersistenceHandler.class);
+	private static Logger log = LogManager.getLogger(Bpmn2PersistenceHandler.class);
 
 	public Bpmn2Resource loadModel(String contentName, InputStream modelContent)
 	{

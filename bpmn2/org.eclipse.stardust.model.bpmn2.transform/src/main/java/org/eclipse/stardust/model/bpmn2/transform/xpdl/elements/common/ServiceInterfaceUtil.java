@@ -13,7 +13,8 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
@@ -45,7 +46,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ServiceInterfaceUtil {
 
-	private final Logger logger = Logger.getLogger(this.getClass());
+	private final Logger logger = LogManager.getLogger(this.getClass());
 	private final ModelType carnotModel;
 	private final BpmnModelQuery bpmnquery;
 	private final List<String> failures;

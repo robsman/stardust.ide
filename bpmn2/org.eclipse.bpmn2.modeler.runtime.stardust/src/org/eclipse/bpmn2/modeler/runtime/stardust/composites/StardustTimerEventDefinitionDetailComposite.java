@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeDateTimeEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccesspointInfo;
 import org.eclipse.bpmn2.modeler.ui.property.events.TimerEventDefinitionDetailComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -73,7 +74,11 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 	public void createBindings(EObject be) {
 		// do all of the standard BPMN2 Interface stuff...		
 		super.createBindings(be);
-		
+		try {
+			System.out.println("Activator.start()");
+			IntrinsicJavaAccesspointInfo.main(new String[]{});; // TODO REMOVE
+		} catch (Exception e) {}
+
 		// ...and then the StardustTimerEvent extension
 		StardustTimerStartEventType sdTimerEvent = null;
 		// Here "be" is an org.eclipse.bpmn2.TimerEventDefinition object. If the object

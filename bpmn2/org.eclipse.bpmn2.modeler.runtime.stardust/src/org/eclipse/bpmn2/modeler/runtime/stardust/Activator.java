@@ -1,7 +1,7 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust;
 
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccesspointInfo;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelFactoryImpl;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
