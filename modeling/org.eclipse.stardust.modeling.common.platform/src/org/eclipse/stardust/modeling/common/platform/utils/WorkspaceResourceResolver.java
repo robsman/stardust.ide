@@ -57,7 +57,7 @@ public class WorkspaceResourceResolver implements IResourceResolver
    {
       if(uri.toLowerCase().startsWith("http://")) //$NON-NLS-1$
       {
-         return 0;
+         return 0L;
       }
 
       IProject project = WorkspaceUtils.getProjectFromEObject(context);
