@@ -19,10 +19,11 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.StardustInterfaceSelectionObjectEditor;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.swt.widgets.Composite;
 
 class SpringBeanDetailComposite extends DefaultDetailComposite {
@@ -62,6 +63,12 @@ class SpringBeanDetailComposite extends DefaultDetailComposite {
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Class Name");
+		
+		//AbstractDetailComposite parent, EObject object, EStructuralFeature feature
+		//StardustJavaImport
+		//CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()
+		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdApplication,null);
+		importEditor.createControl(parent,"Class Selector");
 	
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
 		editor = new AttributeTypeTextEditor(this, at);
