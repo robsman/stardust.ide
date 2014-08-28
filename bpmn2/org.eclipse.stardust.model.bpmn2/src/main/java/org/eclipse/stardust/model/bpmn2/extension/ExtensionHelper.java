@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.bpmn2.extension;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.GlobalUserTask;
+import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -46,7 +48,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
@@ -61,6 +62,9 @@ import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.util.XSDConstants;
 
 /**
  * @author Simon Nikles
@@ -68,7 +72,13 @@ import org.eclipse.stardust.model.xpdl.carnot.RoleType;
  */
 public class ExtensionHelper {
 
-	public static final String NS_URI_STARDUST = "http://www.eclipse.org/stardust";
+	public static final String STARDUST_EXTENSION_NAMESPACE = "http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";
+	public static final String STARDUST_EXTENSION_PREFIX = "sdbpmn";
+	public static final String STARDUST_ACCESSPOINT_ID = "sdbpmn:accesspoint";
+	public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
+
+	
+	public static final String NS_URI_STARDUST = "http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";  //"http://www.eclipse.org/stardust";
 	public static final String NS_PREFIX_STARDUST = "stardust";
 
     private static final Internal USER_TASK_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_USER_TASK;
@@ -94,6 +104,12 @@ public class ExtensionHelper {
     private static final Internal MODEL_ATT_VENDOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__VENDOR;
     private static final Internal MODEL_ATT_AUTHOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__AUTHOR;
 
+    //private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_SCHEMA__SCHEMA_FOR_SCHEMA;
+    //private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
+    //private static final EStructuralFeature XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_SCHEMA__CONTENTS;
+    private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
+    
+    
     private static final Map<Class<?>, EClass> classToEClassMap = new HashMap<Class<?>, EClass>();
 
     private static ExtensionHelper instance = null;
@@ -105,6 +121,25 @@ public class ExtensionHelper {
         }
         return instance;
     }
+
+//    public String getExtensionAttributeValue(BaseElement element, String attributeName) {
+//        ExtendedMetaData metadata = XmlExtendedMetadata.INSTANCE;
+//
+//        ExtensionAttributeValue extensionAttributes = getOrCreate(
+//              ExtensionAttributeValue.class, element.getExtensionValues());
+//        FeatureMap extensions = extensionAttributes.getValue();
+//
+//        Object currentValue = null;
+//        for (FeatureMap.Entry extension : extensionAttributes.getValue())
+//        {
+//           if (isInFilter(extension.getEStructuralFeature(), attributeName, NS_URI_STARDUST))
+//           {
+//              currentValue = extension.getValue();
+//              break;
+//           }
+//        }
+//        return null != currentValue ? currentValue.toString() : ""; 
+//    }
 
     public void setStartEventExtension(StartEvent element,  StardustStartEventType extensionValue) {
         setExtension(element, extensionValue, START_EVENT_EXT);
@@ -337,6 +372,10 @@ public class ExtensionHelper {
         return empty;
     }
 
+    public void setExtension(ItemDefinition object, XSDSchema schema) {
+    	setExtensionValue(object, "schema", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, schema);
+    	//http://www.w3.org/2000/xmlns/    	
+    }
 
     public static void setExtensionValue(BaseElement object, String tag, String nsUri, Object value)
     {
@@ -438,5 +477,38 @@ public class ExtensionHelper {
        }
 
        return null;
+    }
+    
+    public void setAnyAttribute(BaseElement element, String name, String value) {
+    	EStructuralFeature attributeAccessor = null;
+    	Object oldValue = null;
+    	for (Iterator<FeatureMap.Entry> i = element.getAnyAttribute().iterator(); i.hasNext(); )
+    	{
+    		FeatureMap.Entry extension = i.next();
+    		if (isInFilter(extension.getEStructuralFeature(), name))
+    		{
+    			attributeAccessor = extension.getEStructuralFeature();
+    			oldValue = extension.getValue();
+    			break;
+    		}
+    	}
+
+    	if (null == attributeAccessor)
+    	{
+    		attributeAccessor = XmlExtendedMetadata.INSTANCE.demandFeature(NS_URI_STARDUST, name, false, false);
+    		attributeAccessor.setChangeable(true);
+    	}
+
+    	if (null == value || value.isEmpty())
+    	{
+    		if (null != oldValue)
+    		{
+    			element.getAnyAttribute().list(attributeAccessor).remove(oldValue);
+    		}
+    	}
+    	else
+    	{
+    		element.getAnyAttribute().set(attributeAccessor, value);
+    	}
     }
 }

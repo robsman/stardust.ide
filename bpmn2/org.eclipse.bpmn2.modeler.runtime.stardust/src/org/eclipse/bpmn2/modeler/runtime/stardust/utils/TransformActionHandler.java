@@ -26,6 +26,10 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class TransformActionHandler extends AbstractHandler {
 
 	@Override
@@ -33,6 +37,7 @@ public class TransformActionHandler extends AbstractHandler {
 		List<IFile> selectedFiles = new ArrayList<IFile>();
 		try {
 			IStructuredSelection selection = (IStructuredSelection) HandlerUtil.getActiveSite(evt).getSelectionProvider().getSelection();
+			@SuppressWarnings("rawtypes")
 			Iterator iterator = selection.iterator();
 			while (iterator.hasNext()) {
 				IFile item = (IFile)iterator.next();
@@ -45,12 +50,6 @@ public class TransformActionHandler extends AbstractHandler {
 		if (selectedFiles.isEmpty()) return null;
 		
 		Shell shell = HandlerUtil.getActiveShell(evt);
-//		WorkspaceResourceDialog fileDialog = new WorkspaceResourceDialog(shell, null, null);
-//		String[] extensionFilter = new String[]{"xpdl"};
-//		IFile firstFile = selectedFiles.get(0);
-//		String filename = firstFile.getName().replace(firstFile.getFileExtension(), "xpdl");
-//		fileDialog.setFileText("Select transformation target file: ");
-//		fileDialog.setAllowMultiple(false);
 		List<ViewerFilter> filters = new ArrayList<ViewerFilter>();
 		filters.add(new ViewerFilter()
 	    {
@@ -70,7 +69,7 @@ public class TransformActionHandler extends AbstractHandler {
 		Definitions definitions = loadBpmnModel(firstFile);
 		if (null != targetFile) {
 	    	File outputFile = targetFile.getRawLocation().toFile(); // getFullPath().toFile();
-	    	String parentFolder = outputFile.getParent();
+	    	//String parentFolder = outputFile.getParent();
 	        TransformationControl transf = TransformationControl.getInstance(new DialectStardustXPDL());
 	        try {
 	            FileOutputStream targetStream = new FileOutputStream(outputFile);
@@ -85,14 +84,6 @@ public class TransformActionHandler extends AbstractHandler {
 	        return (ModelType)transf.getTargetModel();
 		}
 		
-//		FileDialog fileDialog = new FileDialog(shell);
-//		fileDialog.setFilterExtensions(new String[]{"xpdl"});
-//		IFile firstFile = selectedFiles.get(0);
-//		fileDialog.setFileName(firstFile.getName().replace(firstFile.getFileExtension(), "xpdl"));
-//		fileDialog.setText("Select transformation target file: ");
-//		fileDialog.setOverwrite(false);
-//		String targetFile = fileDialog.open();
-//		System.out.println(targetFile);
 		return null;
 	}
 

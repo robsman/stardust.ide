@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.namespace.QName;
+
+import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -25,38 +29,19 @@ import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaApplicationTypeHelper;
 import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
+import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.XSDType2Stardust;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
  * @author Simon Nikles
  *
  */
 public class IntrinsicJavaAccesspointInfo {
-	
-	public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
-		Class<?> cls = findClassInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
-		Method[] mths = cls.getDeclaredMethods();
-		for (Method mth: mths) {
-			System.out.println(mth);
-			System.out.println("encode from java method: " + encodeMethod(mth));
-			System.out.println("----------------------------------------------------");
-		}
-		System.out.println("#######################################################");
-		IType type = findTypeInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
-		IMethod[] imths = type.getMethods();
-		for (IMethod mth: imths) {
-			try {
-				System.out.println(mth);
-				System.out.println("encode from IMethod: " + encodeMethod(mth));
-				System.out.println("----------------------------------------------------");
-				Map<String, String> params = getParams("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp", encodeMethod(mth));
-				for (Entry<String,String> entry : params.entrySet()) {
-					System.out.println("PARAM: " + entry.getKey() + " = " + entry.getValue());
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	public static String encodeMethod(IMethod method) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException
 	{
@@ -116,7 +101,42 @@ public class IntrinsicJavaAccesspointInfo {
 	{
 		return Reflect.decodeConstructor(cls, encodedConstructor);
 	}
-	
+
+	public static ItemDefinition addAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		Method mth = getMethod(method);
+		Class<?> cls = mth.getDeclaringClass();
+		@SuppressWarnings("rawtypes")
+		Map calculateAccessPoints = JavaApplicationTypeHelper.calculateAccessPoints(cls, mth, false, false);
+		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		for (Object v : calculateAccessPoints.values()) {
+			AccessPoint ap = (AccessPoint) v;
+			String id = ap.getId();
+			String displayName = ap.getName();
+			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
+			String typeClass = ap.getAttribute("carnot:engine:className").toString();
+			if ("RETURN_VALUE".equals(flavor) 
+					||  "PARAMETER".equals(flavor)) {
+				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass);
+			}
+		}
+		return ExtensionHelper2.INSTANCE.createAccessPointItemDefinition(wrapper, itemDef);
+	}
+
+	// TODO MAP TYPES
+	private static XSDTypeDefinition getDataType(String typeClass) {
+		XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
+		simpleType.setTargetNamespace(XSDPackage.eNS_URI);
+		if (java.lang.String.class.toString().equals(typeClass)) {
+			simpleType.setName("string");
+		} else if (Integer.TYPE.toString().equals(typeClass)
+		 || Integer.class.toString().equals(typeClass)) {
+			simpleType.setName("integer");
+		} else {
+			simpleType.setName("anyType");
+		}		
+		return simpleType;
+	}
+
 	public static Map<String, String> getMethodParams(IMethod method) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		Method mth = getMethod(method);
 		Class<?> cls = mth.getDeclaringClass();
@@ -148,9 +168,9 @@ public class IntrinsicJavaAccesspointInfo {
 			String id = ap.getId();
 			String displayName = ap.getName();
 			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
-
+			
 			if ("RETURN_VALUE".equals(flavor) 
-					||  "PARAMETER".equals(flavor)) {
+				||  "PARAMETER".equals(flavor)) {
 				paramList.put(displayName, id); // inverse key value pair
 			}
 		}
@@ -220,5 +240,31 @@ public class IntrinsicJavaAccesspointInfo {
 		URL[] urls = (URL[]) urlList.toArray(new URL[urlList.size()]);
 		URLClassLoader classLoader = new URLClassLoader(urls, parentClassLoader);
 		return classLoader;
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		Class<?> cls = findClassInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
+		Method[] mths = cls.getDeclaredMethods();
+		for (Method mth: mths) {
+			System.out.println(mth);
+			System.out.println("encode from java method: " + encodeMethod(mth));
+			System.out.println("----------------------------------------------------");
+		}
+		System.out.println("#######################################################");
+		IType type = findTypeInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
+		IMethod[] imths = type.getMethods();
+		for (IMethod mth: imths) {
+			try {
+				System.out.println(mth);
+				System.out.println("encode from IMethod: " + encodeMethod(mth));
+				System.out.println("----------------------------------------------------");
+				Map<String, String> params = getParams("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp", encodeMethod(mth));
+				for (Entry<String,String> entry : params.entrySet()) {
+					System.out.println("PARAM: " + entry.getKey() + " = " + entry.getValue());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

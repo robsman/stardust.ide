@@ -10,12 +10,13 @@
 	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
 	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
 	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-	xmlns:stardust="http://www.eclipse.org/stardust"
+	xmlns:stardust="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsd_1="http://www.infinity.com/bpm/model/Application/InAccesspoints"
 	xmlns:xsd_2="http://www.infinity.com/bpm/model/Application/OutAccesspoints"
 	xmlns:xsd_3="http://www.infinity.com/bpm/model/Application/CityAddressItem"
 	>
+	<!-- xmlns:stardust="http://www.eclipse.org/stardust" -->
 
 	<itemDefinition id="CityNameItem" structureRef="xsd:string" />
 	<itemDefinition id="CountryNameItem" structureRef="xsd:string" />
@@ -35,7 +36,7 @@
 		</extensionElements>
 	</itemDefinition>
 
-	<itemDefinition stardust:synthetic="true" id="apInItem" structureRef="xsd_1:apInStructure">
+	<itemDefinition stardust:syntheticItemDefinition="true" id="apInItem" structureRef="xsd_1:apInStructure">
 		<extensionElements>
 			<xsd:schema
 				id="apInStructureId"
