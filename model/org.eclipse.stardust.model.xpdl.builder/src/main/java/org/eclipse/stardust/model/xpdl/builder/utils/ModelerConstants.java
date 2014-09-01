@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+
 public class ModelerConstants
 {
    public static final String RULE_SET_ID = "ruleSetId";
@@ -243,8 +244,10 @@ public class ModelerConstants
    public static final String QC_VALUE = "value";
    public static final String QC_VALID_CODES = "validCodes";
    public static final String QC_CODES = "codes";
-
-
+   public static final String EU_EXCLUDE_USER = "excludeUser";
+   public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
+   public static final String EU_EXCLUDE_PERFORMER_DATA = "excludedPerformerData";
+   public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "excludedPerformerDataPath";
 
 
 
