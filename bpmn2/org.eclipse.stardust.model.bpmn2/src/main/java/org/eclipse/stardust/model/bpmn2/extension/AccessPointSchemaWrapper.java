@@ -11,6 +11,12 @@ import org.eclipse.xsd.XSDTypeDefinition;
  */
 public class AccessPointSchemaWrapper {
 
+	public enum Direction {
+		IN,
+		OUT,
+		BOTH
+	}
+	
 	private List<AccessPointSchemaElement> elements = new ArrayList<AccessPointSchemaWrapper.AccessPointSchemaElement>();
 	
 	public List<AccessPointSchemaElement> getElements() {
@@ -25,8 +31,8 @@ public class AccessPointSchemaWrapper {
 		elements.add(element);
 	}
 	
-	public void addElement(String displayName, String accessPointId, XSDTypeDefinition dataType, String elementName, String typeClassName) {
-		elements.add(new AccessPointSchemaElement(displayName, accessPointId, dataType, elementName, typeClassName));
+	public void addElement(String displayName, String accessPointId, XSDTypeDefinition dataType, String elementName, String typeClassName, Direction direction) {
+		elements.add(new AccessPointSchemaElement(displayName, accessPointId, dataType, elementName, typeClassName, direction));
 	}
 
 	public class AccessPointSchemaElement {
@@ -36,8 +42,9 @@ public class AccessPointSchemaWrapper {
 		private String elementName;
 		private String typeClassName;
 		private XSDTypeDefinition dataType;
+		private Direction direction;
 		
-		public AccessPointSchemaElement(String displayName, String accessPointId, XSDTypeDefinition dataType, String elementName, String typeClassName) {
+		public AccessPointSchemaElement(String displayName, String accessPointId, XSDTypeDefinition dataType, String elementName, String typeClassName, Direction direction) {
 			this.displayName = displayName;
 			this.accessPointId = accessPointId;
 			this.dataType = dataType;
@@ -76,5 +83,13 @@ public class AccessPointSchemaWrapper {
 		public String getTypeClassName() {
 			return typeClassName;
 		}
+
+		public Direction getDirection() {
+			return direction;
+		}
+		
+		public void setDirection(Direction direction) {
+			this.direction = direction;
+		}		
 	}
 }

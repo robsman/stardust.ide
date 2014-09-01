@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper;
+import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter;
 import org.eclipse.stardust.model.bpmn2.output.BPMNModelExporter;
@@ -181,7 +182,7 @@ public class TestApplicationAccessPointsAsSchema extends Bpmn2StardustTestSuite 
 		QName xsdQname = XSDType2Stardust.STRING.getXSDQname();
 		simpleString.setTargetNamespace(xsdQname.getNamespaceURI());
 		simpleString.setName(xsdQname.getLocalPart());
-		schemaInfo.addElement("myElementName", "sParam1", simpleString, "Anzeigename", null); 
+		schemaInfo.addElement("Anzeigename", "sParam1", simpleString, "myElementName", null, Direction.BOTH); 
 		return schemaInfo;
 	}
     

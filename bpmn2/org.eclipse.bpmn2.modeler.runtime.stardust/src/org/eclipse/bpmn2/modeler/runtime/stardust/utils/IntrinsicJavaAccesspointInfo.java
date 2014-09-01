@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.xml.namespace.QName;
-
 import org.eclipse.bpmn2.ItemDefinition;
-import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -30,8 +27,8 @@ import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.utils.JavaApplicationTypeHelper;
 import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper;
+import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.XSDType2Stardust;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
@@ -103,6 +100,8 @@ public class IntrinsicJavaAccesspointInfo {
 	}
 
 	public static ItemDefinition addAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		final String RETURN_VALUE = "RETURN_VALUE";
+		final String PARAMETER = "PARAMETER";
 		Method mth = getMethod(method);
 		Class<?> cls = mth.getDeclaringClass();
 		@SuppressWarnings("rawtypes")
@@ -114,9 +113,9 @@ public class IntrinsicJavaAccesspointInfo {
 			String displayName = ap.getName();
 			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
 			String typeClass = ap.getAttribute("carnot:engine:className").toString();
-			if ("RETURN_VALUE".equals(flavor) 
-					||  "PARAMETER".equals(flavor)) {
-				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass);
+			if (RETURN_VALUE.equals(flavor) 
+				||  PARAMETER.equals(flavor)) {
+				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass, RETURN_VALUE.equals(flavor) ? Direction.OUT : PARAMETER.equals(flavor) ? Direction.IN : Direction.BOTH);
 			}
 		}
 		return ExtensionHelper2.INSTANCE.createAccessPointItemDefinition(wrapper, itemDef);
