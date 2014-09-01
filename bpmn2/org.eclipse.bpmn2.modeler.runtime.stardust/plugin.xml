@@ -91,6 +91,12 @@
 			description="BPMN2 Modeler Runtime Extensions for Stardust">
 		</runtime>
 
+		<model
+			resourceFactory="org.eclipse.bpmn2.modeler.runtime.stardust.utils.io.SdbpmnModelerResourceFactoryImpl"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			uri="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn">
+		</model>
+
 		<!--
 		This makes the sdbpmn model known to the editor. The "uri" must be the same as the
 		"nsURI" defined in the EMF model's ecore.

@@ -5,16 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
-
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.util.Bpmn2Resource;
+import org.eclipse.bpmn2.util.Bpmn2ResourceImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.AccessPointSchemaElement;
+import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDCompositor;
@@ -24,6 +25,7 @@ import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -157,6 +159,7 @@ public enum ExtensionHelper2 {
 			e.printStackTrace();
 		}
 		XSDSchema schema = createSchema(schemaInfo, seq, direction);
+		schema.getDocument().normalizeDocument();
 		ExtensionHelper.getInstance().setExtension(itemDef, schema);
 		return itemDef;
 	}
@@ -198,7 +201,12 @@ public enum ExtensionHelper2 {
 			}
 			XSDElementDeclaration ap = factory.createXSDElementDeclaration();
 			ap.setName(typeElement.getElementName());
-			ap.setTypeDefinition(typeElement.getDataType());
+			
+			String typeName = typeElement.getDataType().getName();
+			XSDSimpleTypeDefinition simpleType = schema.getSchemaForSchema().resolveSimpleTypeDefinition(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, typeName);			
+			ap.setTypeDefinition(simpleType);
+			//schema.getContents().add(typeElement.getDataType());
+			
 			XSDParticle particle = factory.createXSDParticle();
 			particle.setContent(ap);				
 			apSeqeuence.getContents().add(particle);

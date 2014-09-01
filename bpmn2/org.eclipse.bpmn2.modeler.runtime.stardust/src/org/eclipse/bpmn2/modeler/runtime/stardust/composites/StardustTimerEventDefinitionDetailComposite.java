@@ -15,10 +15,19 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import java.util.List;
 
+import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataInputAssociation;
+import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.FlowElement;
+import org.eclipse.bpmn2.ItemAwareElement;
+import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.modeler.core.adapters.InsertionAdapter;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
+import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeDateTimeEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccesspointInfo;
@@ -77,6 +86,28 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 		try {
 			System.out.println("Activator.start()");
 			IntrinsicJavaAccesspointInfo.main(new String[]{});; // TODO REMOVE
+			Definitions definitions = ModelUtil.getDefinitions(be);
+			for (RootElement root : definitions.getRootElements()) {
+				if (root instanceof Process) {
+					for (FlowElement flow : ((Process)root).getFlowElements()) {
+						if (flow instanceof Activity) {
+							List<DataInputAssociation> inputAssociations = ((Activity)flow).getDataInputAssociations();
+							System.out.println("data inputs: ");
+							for (DataInput input : ((Activity) flow).getIoSpecification().getDataInputs()) {
+								System.out.println("canonical: " + ModelUtil.toCanonicalString(input));
+							}
+							if (inputAssociations.size() > 0) {
+								List<ItemAwareElement> itemAwareElements = ModelUtil.getItemAwareElements(inputAssociations);
+								System.out.println("item aware elements: ");
+								for (ItemAwareElement e : itemAwareElements) {
+									System.out.println(e);
+									System.out.println("canonical: " + ModelUtil.toCanonicalString(e));
+								}
+							}
+						}
+					}
+				}
+			}
 		} catch (Exception e) {}
 
 		// ...and then the StardustTimerEvent extension
