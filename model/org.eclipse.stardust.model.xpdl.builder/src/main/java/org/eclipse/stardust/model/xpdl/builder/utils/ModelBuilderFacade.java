@@ -1042,6 +1042,33 @@ public class ModelBuilderFacade
       return data;
    }
 
+   public DataType createData(ModelType model, DataTypeType type, String id,
+         String name, String description)
+   {
+      CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
+      DataType data = factory.createDataType();
+      data.setId(id);
+      data.setName(name);
+      data.setType(type);
+      data.setDescription(ModelUtils.createDescription(description));
+      data.setPredefined(true);
+      model.getData().add(data);
+      return data;
+   }
+
+   public void createAttribute(DataType data, String name, String type, String value)
+   {
+      CarnotWorkflowModelFactory factory = CarnotWorkflowModelFactory.eINSTANCE;
+      AttributeType attribute = factory.createAttributeType();
+      attribute.setName(name);
+      if (type != null)
+      {
+         attribute.setType(type);
+      }
+      attribute.setValue(value);
+      data.getAttribute().add(attribute);
+   }
+
    /**
     * Imports a data into an existing model. The model to import the data from is
     * qualified by a full qualified id of the data. If the data exists in a model which
