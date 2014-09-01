@@ -22,4 +22,8 @@ public class AttributeTypeTextEditor extends TextObjectEditor {
 	public AttributeTypeTextEditor(AbstractDetailComposite parent, AttributeType object) {
 		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 	}
+	
+	public void setValue(String value) {
+		super.setValue(value);
+	}
 }

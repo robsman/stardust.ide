@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.swt.widgets.Composite;
 
 class SpringBeanDetailComposite extends DefaultDetailComposite {
@@ -60,19 +61,18 @@ class SpringBeanDetailComposite extends DefaultDetailComposite {
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Spring Bean Id");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
-		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Class Name");
-		
+		AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
+//		editor = new AttributeTypeTextEditor(this, at);
+//		editor.createControl(parent, "Class Name");
 		//AbstractDetailComposite parent, EObject object, EStructuralFeature feature
 		//StardustJavaImport
 		//CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()
-		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdApplication,null);
-		importEditor.createControl(parent,"Class Selector");
-	
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
-		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Method Name");
+		AttributeTypeTextEditor methodNameEditor = new AttributeTypeTextEditor(this, at);
+		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,methodNameEditor,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
+		
+		importEditor.createControl(parent,"Class Selector");
+		methodNameEditor.createControl(parent, "Method Name");
 		
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
