@@ -16,6 +16,7 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.eclipse.bpmn2.modeler.runtime.stardust.utils.messages"; //$NON-NLS-1$
 	public static String StardustInterfaceSelectionObjectEditor_Browse;
 	public static String StardustInterfaceSelectionDialog_Available_Methods;	
+	public static String StardustInterfaceDetailsSection_Import_Action;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
