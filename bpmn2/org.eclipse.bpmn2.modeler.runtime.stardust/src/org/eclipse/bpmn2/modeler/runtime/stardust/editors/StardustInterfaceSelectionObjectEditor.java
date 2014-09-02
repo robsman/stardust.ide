@@ -122,18 +122,25 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 					@Override
 					protected void doExecute() {
 						Definitions definitions = ModelUtil.getDefinitions(object.eResource());
-						ItemDefinition itemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
-						itemDef.setItemKind(ItemKind.INFORMATION);
-						String generateID = ModelUtil.generateID(itemDef, object.eResource(), object.eClass().getName());
-						itemDef.setId(generateID);
+						ItemDefinition inputItemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
+						inputItemDef.setItemKind(ItemKind.INFORMATION);
+						String generateID = ModelUtil.generateID(inputItemDef, object.eResource(), object.eClass().getName());
+						inputItemDef.setId(generateID);
+
+						ItemDefinition outputItemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
+						outputItemDef.setItemKind(ItemKind.INFORMATION);
+						String generateOutputID = ModelUtil.generateID(outputItemDef, object.eResource(), object.eClass().getName());
+						outputItemDef.setId(generateOutputID);
+
 						try {
-							IntrinsicJavaAccesspointInfo.addAccessPointItemDefinitionSchema(selectedMethods[0], itemDef);
+							IntrinsicJavaAccesspointInfo.addInputAccessPointItemDefinitionSchema(selectedMethods[0], inputItemDef);
+							IntrinsicJavaAccesspointInfo.addOutputAccessPointItemDefinitionSchema(selectedMethods[0], outputItemDef);
 						} catch (ClassNotFoundException | NoSuchMethodException
 								| SecurityException | MalformedURLException
 								| CoreException e) {
 							e.printStackTrace();
 						}
-						definitions.getRootElements().add(itemDef);
+						definitions.getRootElements().add(inputItemDef);
 					}
 				});
 			}

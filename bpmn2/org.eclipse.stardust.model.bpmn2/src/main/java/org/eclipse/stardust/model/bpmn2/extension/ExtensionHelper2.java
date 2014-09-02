@@ -1,5 +1,6 @@
 package org.eclipse.stardust.model.bpmn2.extension;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -7,13 +8,19 @@ import java.util.Map;
 
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.ItemDefinition;
-import org.eclipse.bpmn2.util.Bpmn2Resource;
-import org.eclipse.bpmn2.util.Bpmn2ResourceImpl;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
+import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.AccessPointSchemaElement;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.xsd.XSDComplexTypeContent;
@@ -159,9 +166,20 @@ public enum ExtensionHelper2 {
 			e.printStackTrace();
 		}
 		XSDSchema schema = createSchema(schemaInfo, seq, direction);
+		EList<XSDElementDeclaration> elementDeclarations = schema.getElementDeclarations();
+		if (elementDeclarations.size() > 0) {
+			URI uriRef = URI.createURI(elementDeclarations.get(0).getAliasURI());
+			itemDef.setStructureRef(getProxyElement(uriRef));
+		}
 		schema.getDocument().normalizeDocument();
 		ExtensionHelper.getInstance().setExtension(itemDef, schema);
 		return itemDef;
+	}
+	
+	private EObject getProxyElement(URI uri) {
+		DynamicEObjectImpl dyn = new DynamicEObjectImpl();
+		dyn.eSetProxyURI(uri);
+		return dyn;
 	}
 
 	public XSDSchema createSchema(AccessPointSchemaWrapper schemaInfo, int sequence, Direction direction) {

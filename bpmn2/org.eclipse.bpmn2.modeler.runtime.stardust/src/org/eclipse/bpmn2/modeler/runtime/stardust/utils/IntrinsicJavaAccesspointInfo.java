@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.bpmn2.ItemDefinition;
-import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -100,7 +99,7 @@ public class IntrinsicJavaAccesspointInfo {
 		return Reflect.decodeConstructor(cls, encodedConstructor);
 	}
 
-	public static ItemDefinition addAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		final String RETURN_VALUE = "RETURN_VALUE";
 		final String PARAMETER = "PARAMETER";
 		Method mth = getMethod(method);
@@ -119,9 +118,31 @@ public class IntrinsicJavaAccesspointInfo {
 				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass, RETURN_VALUE.equals(flavor) ? Direction.OUT : PARAMETER.equals(flavor) ? Direction.IN : Direction.BOTH);
 			}
 		}
-		return ExtensionHelper2.INSTANCE.createAccessPointItemDefinition(wrapper, itemDef);
+		return ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
 	}
 
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		final String RETURN_VALUE = "RETURN_VALUE";
+		final String PARAMETER = "PARAMETER";
+		Method mth = getMethod(method);
+		Class<?> cls = mth.getDeclaringClass();
+		@SuppressWarnings("rawtypes")
+		Map calculateAccessPoints = JavaApplicationTypeHelper.calculateAccessPoints(cls, mth, false, false);
+		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		for (Object v : calculateAccessPoints.values()) {
+			AccessPoint ap = (AccessPoint) v;
+			String id = ap.getId();
+			String displayName = ap.getName();
+			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
+			String typeClass = ap.getAttribute("carnot:engine:className").toString();
+			if (RETURN_VALUE.equals(flavor) 
+				||  PARAMETER.equals(flavor)) {
+				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass, RETURN_VALUE.equals(flavor) ? Direction.OUT : PARAMETER.equals(flavor) ? Direction.IN : Direction.BOTH);
+			}
+		}
+		return ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+	}
+	
 	// TODO MAP TYPES
 	private static XSDTypeDefinition getDataType(String typeClass) {
 		XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
