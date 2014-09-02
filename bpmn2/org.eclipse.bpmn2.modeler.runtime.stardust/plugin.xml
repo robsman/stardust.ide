@@ -91,6 +91,7 @@
 			description="BPMN2 Modeler Runtime Extensions for Stardust">
 		</runtime>
 
+
 		<model
 			resourceFactory="org.eclipse.bpmn2.modeler.runtime.stardust.utils.io.SdbpmnModelerResourceFactoryImpl"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"

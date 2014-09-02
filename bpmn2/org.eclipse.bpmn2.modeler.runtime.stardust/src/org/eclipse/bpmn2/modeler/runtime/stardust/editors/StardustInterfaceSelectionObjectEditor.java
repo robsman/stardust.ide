@@ -38,10 +38,13 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.utils.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustInterfaceSelectionDialog;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.dd.di.DiagramElement;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -114,11 +117,13 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 		for (int i=0; i<dialog.getIMethods().length; ++i)
 			System.out.println("selectedMethod " + i + ": " + selectedMethods[i].toString() );
 				
-		Display.getDefault().asyncExec( new Runnable() {
-			@Override
-			public void run() {
+//		Display.getDefault().asyncExec( new Runnable() {
+//			@Override
+//			public void run() {
+				
 				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(object.eResource());
-				editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+				BasicCommandStack commandStack = (BasicCommandStack) editingDomain.getCommandStack();
+				commandStack.execute(new RecordingCommand(editingDomain) {
 					@Override
 					protected void doExecute() {
 						Definitions definitions = ModelUtil.getDefinitions(object.eResource());
@@ -135,6 +140,19 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 						try {
 							IntrinsicJavaAccesspointInfo.addInputAccessPointItemDefinitionSchema(selectedMethods[0], inputItemDef);
 							IntrinsicJavaAccesspointInfo.addOutputAccessPointItemDefinitionSchema(selectedMethods[0], outputItemDef);
+							if (null != inputItemDef.getStructureRef()) {
+								DynamicEObjectImpl ref = (DynamicEObjectImpl)inputItemDef.getStructureRef();
+								URI uri = ref.eProxyURI();
+								EObject wrapper = ModelUtil.createStringWrapper(uri.toFileString());
+								inputItemDef.setStructureRef(wrapper);
+							}
+							if (null != outputItemDef.getStructureRef()) {
+								DynamicEObjectImpl ref = (DynamicEObjectImpl)outputItemDef.getStructureRef();
+								URI uri = ref.eProxyURI();
+								EObject wrapper = ModelUtil.createStringWrapper(uri.toFileString());
+								outputItemDef.setStructureRef(wrapper);
+							}
+							
 						} catch (ClassNotFoundException | NoSuchMethodException
 								| SecurityException | MalformedURLException
 								| CoreException e) {
@@ -143,8 +161,13 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 						definitions.getRootElements().add(inputItemDef);
 					}
 				});
-			}
-		});
+				
+				System.out.println("run..............");
+//				commandStack.flush();
+//				System.out.println("flush");
+
+//			}
+//		});
 	}
 	
 	private void resetExistingApp() {

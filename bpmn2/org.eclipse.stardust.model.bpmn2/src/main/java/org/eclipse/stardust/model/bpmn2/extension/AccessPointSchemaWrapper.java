@@ -50,6 +50,7 @@ public class AccessPointSchemaWrapper {
 			this.dataType = dataType;
 			this.elementName = elementName;
 			this.typeClassName = typeClassName;
+			this.direction = direction;
 		}
 		
 		public String getDisplayName() {

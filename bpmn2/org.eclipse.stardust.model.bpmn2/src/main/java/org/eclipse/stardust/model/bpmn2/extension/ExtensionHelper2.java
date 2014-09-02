@@ -144,7 +144,7 @@ public enum ExtensionHelper2 {
 	}		
 
 	public ItemDefinition createInputAccessPointItemDefinition(AccessPointSchemaWrapper schemaInfo, ItemDefinition itemDef) {
-		return createAccessPointItemDefinition(schemaInfo, itemDef, Direction.IN);
+		return createAccessPointItemDefinition(schemaInfo, itemDef, Direction.IN);	
 	}
 
 	public ItemDefinition createOutputAccessPointItemDefinition(AccessPointSchemaWrapper schemaInfo, ItemDefinition itemDef) {
@@ -167,18 +167,29 @@ public enum ExtensionHelper2 {
 		}
 		XSDSchema schema = createSchema(schemaInfo, seq, direction);
 		EList<XSDElementDeclaration> elementDeclarations = schema.getElementDeclarations();
+		schema.updateElement(true);
+		schema.updateDocument();
+		if (null != schema.getDocument()) schema.getDocument().normalizeDocument();
 		if (elementDeclarations.size() > 0) {
 			URI uriRef = URI.createURI(elementDeclarations.get(0).getAliasURI());
 			itemDef.setStructureRef(getProxyElement(uriRef));
 		}
-		schema.getDocument().normalizeDocument();
+		
 		ExtensionHelper.getInstance().setExtension(itemDef, schema);
 		return itemDef;
 	}
 	
-	private EObject getProxyElement(URI uri) {
-		DynamicEObjectImpl dyn = new DynamicEObjectImpl();
-		dyn.eSetProxyURI(uri);
+	private EObject getProxyElement(final URI uri) {
+		DynamicEObjectImpl dyn = new DynamicEObjectImpl() {
+//		dyn.eSet(dyn.eClass().getEStructuralFeature("value"), uri.toString());
+			
+			public URI eProxyURI() {
+				return uri;
+			}
+			public boolean eIsProxy() {
+				return false;
+			}
+		};
 		return dyn;
 	}
 
@@ -202,7 +213,6 @@ public enum ExtensionHelper2 {
 		XSDElementDeclaration element = factory.createXSDElementDeclaration();
 		element.setName("AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
 		element.setTypeDefinition(accessPointsType);			
-		//schema.getElementDeclarations().add(element);
 		schema.getContents().add(element);
 
 		XSDParticle apSeqeuenceParticle = factory.createXSDParticle();
@@ -223,7 +233,7 @@ public enum ExtensionHelper2 {
 			String typeName = typeElement.getDataType().getName();
 			XSDSimpleTypeDefinition simpleType = schema.getSchemaForSchema().resolveSimpleTypeDefinition(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, typeName);			
 			ap.setTypeDefinition(simpleType);
-			//schema.getContents().add(typeElement.getDataType());
+//			schema.getContents().add(typeElement.getDataType());
 			
 			XSDParticle particle = factory.createXSDParticle();
 			particle.setContent(ap);				

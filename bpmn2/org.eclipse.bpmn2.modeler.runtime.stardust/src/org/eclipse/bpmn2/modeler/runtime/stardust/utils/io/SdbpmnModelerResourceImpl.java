@@ -7,6 +7,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.xsd.XSDComponent;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
@@ -46,19 +50,31 @@ public class SdbpmnModelerResourceImpl extends Bpmn2ModelerResourceImpl
 
 		protected void saveElement(EObject o, EStructuralFeature f)
 		{
+//			final EObject ob = o;
 			if (o instanceof XSDComponent)
 			{
-				XSDComponent component = (XSDComponent) o;
-				component.updateElement();
-				if (toDOM)
-				{
-					currentNode.appendChild(document.importNode(component.getElement(), true));
-				}
-				else
-				{
-					Element element = component.getElement();
-					saveDomElement(element);
-				}
+//				Display.getDefault().asyncExec( new Runnable() {
+//					@Override
+//					public void run() {
+//						TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(ob.eResource());
+//						editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+//							@Override
+//							protected void doExecute() {
+								XSDComponent component = (XSDComponent) o;
+								component.updateElement();
+								if (toDOM)
+								{
+									currentNode.appendChild(document.importNode(component.getElement(), true));
+								}
+								else
+								{
+									Element element = component.getElement();
+									saveDomElement(element);
+								}
+//							}
+//						});
+//					}
+//				});						
 				return;
 			}
 
