@@ -1,89 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    Copyright (c) 2012 SunGard CSA LLC and others.
-    All rights reserved. This program and the accompanying materials
-    are made available under the terms of the Eclipse Public License v1.0
-    which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-   
-    Contributors:
-       SunGard CSA LLC - initial API and implementation and/or initial documentation
- -->
+<!-- Copyright (c) 2012 SunGard CSA LLC and others. All rights reserved. 
+   This program and the accompanying materials are made available under the 
+   terms of the Eclipse Public License v1.0 which accompanies this distribution, 
+   and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: 
+   SunGard CSA LLC - initial API and implementation and/or initial documentation -->
 
 <cheatsheet title="Quick Start Tutorial">
-  <intro><description>
-    	Welcome to the Process Manager Cheat Sheet. This cheat sheet guides you through the basic
-		steps of building a workflow model with a process definition and its elements in
-		the <b>Developer Modeling Perspective</b>.</description>
-  </intro>
-  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm" title="Create a New Process Model">
-     <description>1. Select <b>File &gt; New &gt; Process Model.</b><br/>
-     2. In the following dialog, enter the id, the name and optionally the
-     description of the model.<br/>
-  </item>
-  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm" title="Create a Process Definition">
-     <description>. In the <b>Outline view</b> of the Process Workbench Modeler right-click your model. 
-		<br/>. From the pop-up menu, select <b>New Process Definition.</b><br/>
-		. Open the properties page of the new process with a double-click to set properties like id and name.<br/><br/>
-		The new process definition appears in the Outline view and its default diagram 
-		will be opened automatically. With a double-click you open a diagram explicitly.
-	</description>
-<!--     <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateProcessAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>-->
-  </item>
-  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-4.htm" title="Add an Activity">
-     <description>1. In the diagrams toolbar palette select <b>Activities</b> (expand <b>Items</b>).<br/> 
-	2. Choose the activity type.<br/>
-	3. Place the activity box on the diagram canvas.<br/>
-	4. Double-click the symbol to open the properties dialog to set the activity's 
-	properties.</description>
-	<!--
-     <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateActivityAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>
-  -->
-  </item>
-  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-6.htm" title="Adding an Application">
-     <description>1. In the diagrams toolbar palette select <b>Applications</b> or <b>Int. Applications</b> respectively.<br/> 
-	2. Choose the application type.<br/>
-	3. Place the application box on the diagram canvas.<br/>
-	4. Double-click to open the application's properties dialog to set name, id and type-specific properties. 
-     </description>
-<!--     <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddApplicationAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>-->
-  </item>
-  <item skip="true" dialog="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-7.htm" title="Creating Data">
-     <description>1. In the diagram toolbar palette select <b>Data.</b><br/>
-	 2. Choose the data type.<br/>
-     3. Place the data symbol on the diagram canvas.<br/>
-     4. Open the diagram's properties dialog with a double-click to set name, id and type-specific properties.
-     </description>
-<!--     <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddDataAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>-->
-  </item>
-  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-8.htm" title="Specifying Data Mappings">
-     <description>Proceed with setting an In data mapping from the data element to the 
-     activity:<br/>
-    1. In the diagram toolbar palette select <b>Connect.</b><br/> 
-	2. Click on the data symbol.<br/>
-	3. Click on the activity symbol.<br/><br/>
-	To create an Out data mapping click the activity symbol first and the data symbol second.</description> 
-<!--     <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddDataMappingAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>-->
-  </item>
-  <item skip="true" href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-5.htm" title="Creating a Transition between Activities">
-     <description>
-     1. Create a second activity to create the connection to.<br/>
-     2. In the diagram toolbar palette, select <b>Connect</b>.<br/>
-     3. Click on the predecessor activity.<br/> 
-     4. Click the subsequent activity.<br/> 
-     </description>
-<!--     <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateTransitionAction"
-     		 pluginId="org.eclipse.stardust.modeling.core"
-     		 param1=" "/>-->
-  </item>
+   <intro>
+      <description>
+         Welcome to the Process Manager Cheat Sheet. This cheat sheet
+         guides you through the basic steps of building a workflow model
+         with a process definition and its elements in the
+         <b>Developer Modeling Perspective</b>.
+      </description>
+   </intro>
+   <item skip="true" dialog="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-2.htm"
+      title="Create a New Process Model">
+      <description>
+         1. Select
+         <b>File &gt; New &gt; Process Model.</b>
+         <br />
+         2. In the following dialog, enter the id, the name and
+         optionally the
+         description of the model.
+         <br />
+      </description>
+   </item>
+   <item skip="true" dialog="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/tutorial/tut-main-3.htm"
+      title="Create a Process Definition">
+      <description>
+         1. In the
+         <b>Outline view</b>
+         of the Process Workbench Modeler right-click your model.
+         <br />
+         2. From the pop-up menu, select
+         <b>New Process Definition.</b>
+         <br />
+         3. Open the properties page of the new process with a
+         double-click to set properties like Id and name.
+         <br />
+         <br />
+         The new process definition appears in the Outline view and its
+         default diagram
+         will be opened automatically. With a
+         double-click you open a diagram
+         explicitly.
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateProcessAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
+   <item skip="true" dialog="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-4.htm"
+      title="Add an Activity">
+      <description>
+         1. In the diagrams toolbar palette select
+         <b>Activities</b>
+         (expand
+         <b>Items</b>
+         ).
+         <br />
+         2. Choose the activity type.
+         <br />
+         3. Place the activity box on the diagram canvas.
+         <br />
+         4. Double-click the symbol to open the properties dialog to set
+         the activity's
+         properties.
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateActivityAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
+   <item skip="true" dialog="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-6.htm"
+      title="Adding an Application">
+      <description>
+         1. In the diagrams toolbar palette select
+         <b>Applications</b>
+         or
+         <b>Int. Applications</b>
+         respectively.
+         <br />
+         2. Choose the application type.
+         <br />
+         3. Place the application box on the diagram canvas.
+         <br />
+         4. Double-click to open the application's properties dialog to
+         set name, Id and type-specific properties.
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddApplicationAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
+   <item skip="true" dialog="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-7.htm"
+      title="Creating Data">
+      <description>
+         1. In the diagram toolbar palette select
+         <b>Data.</b>
+         <br />
+         2. Choose the data type.
+         <br />
+         3. Place the data symbol on the diagram canvas.
+         <br />
+         4. Open the diagram's properties dialog with a double-click to
+         set name, Id and type-specific properties.
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddDataAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
+   <item skip="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-8.htm"
+      title="Specifying Data Mappings">
+      <description>
+         Proceed with setting an In data mapping from the data element
+         to the
+         activity:
+         <br />
+         1. In the diagram toolbar palette select
+         <b>Connect.</b>
+         <br />
+         2. Click on the data symbol.
+         <br />
+         3. Click on the activity symbol.
+         <br />
+         <br />
+         To create an Out data mapping click the activity symbol first
+         and the data symbol second.
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.AddDataMappingAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
+   <item skip="true"
+      href="/org.eclipse.stardust.docs.dev/html/handbooks/modelling/mg-defdesk-5.htm"
+      title="Creating a Transition between Activities">
+      <description>
+         1. Create a second activity to create the connection to.
+         <br />
+         2. In the diagram toolbar palette, select
+         <b>Connect</b>
+         .
+         <br />
+         3. Click on the predecessor activity.
+         <br />
+         4. Click the subsequent activity.
+         <br />
+      </description>
+      <!-- <action class="org.eclipse.stardust.modeling.core.cheatsheets.CreateTransitionAction" 
+         pluginId="org.eclipse.stardust.modeling.core" param1=" "/> -->
+   </item>
 </cheatsheet>
