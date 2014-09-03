@@ -16,9 +16,13 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 import java.util.List;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
+import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractListComposite;
+import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractPropertiesProvider;
+import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
-import org.eclipse.bpmn2.modeler.ui.property.data.InterfaceDetailComposite;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
@@ -26,7 +30,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public class StardustInterfaceDefinitionDetailComposite extends InterfaceDetailComposite {
+public class StardustInterfaceDefinitionDetailComposite extends DefaultDetailComposite { //InterfaceDetailComposite {
 
 	public StardustInterfaceDefinitionDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
@@ -67,4 +71,38 @@ public class StardustInterfaceDefinitionDetailComposite extends InterfaceDetailC
 		sdInterfaceSection.setBusinessObject(sdInterface);
 		sdInterfaceSection.setTitle("Stardust Interface");
 	}
+	
+	
+	@Override
+	protected AbstractListComposite bindList(EObject object, EStructuralFeature feature, EClass listItemClass) {
+		if ("operations".equals(feature.getName())) { //$NON-NLS-1$
+			StardustOperationListComposite operationsTable = new StardustOperationListComposite(this);
+			EStructuralFeature operationsFeature = object.eClass().getEStructuralFeature("operations"); //$NON-NLS-1$
+			operationsTable.bindList(object, operationsFeature);
+			return operationsTable;
+		}
+		else {
+			return super.bindList(object, feature, listItemClass);
+		}
+	}
+	
+	@Override
+	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
+		if (propertiesProvider==null) {
+			propertiesProvider = new AbstractPropertiesProvider(object) {
+				String[] properties = new String[] {
+						"name", //$NON-NLS-1$
+						"implementationRef", //$NON-NLS-1$
+						"operations" //$NON-NLS-1$
+				};
+				
+				@Override
+				public String[] getProperties() {
+					return properties; 
+				}
+			};
+		}
+		return propertiesProvider;
+	}
+	
 }

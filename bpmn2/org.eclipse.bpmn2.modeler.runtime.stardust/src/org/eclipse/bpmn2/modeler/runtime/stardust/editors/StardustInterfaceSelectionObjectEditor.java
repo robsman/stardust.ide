@@ -117,9 +117,9 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 		for (int i=0; i<dialog.getIMethods().length; ++i)
 			System.out.println("selectedMethod " + i + ": " + selectedMethods[i].toString() );
 				
-//		Display.getDefault().asyncExec( new Runnable() {
-//			@Override
-//			public void run() {
+		Display.getDefault().asyncExec( new Runnable() {
+			@Override
+			public void run() {
 				
 				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(object.eResource());
 				BasicCommandStack commandStack = (BasicCommandStack) editingDomain.getCommandStack();
@@ -161,13 +161,9 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 						definitions.getRootElements().add(inputItemDef);
 					}
 				});
-				
-				System.out.println("run..............");
-//				commandStack.flush();
-//				System.out.println("flush");
 
-//			}
-//		});
+			}
+		});
 	}
 	
 	private void resetExistingApp() {

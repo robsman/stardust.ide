@@ -150,6 +150,13 @@
 			type="org.eclipse.stardust.model.xpdl.carnot.AttributeType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.AttributeTypeExtendedPropertiesAdapter">
 		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.Interface"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.Interface"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfacePropertiesAdapter">
+		</propertyExtension>
 		
 		<!--
 		Enable the Stardust and Carnot model objects here. Unless explicitly enabled, these
