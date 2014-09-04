@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.engine.api.runtime.*;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
@@ -75,6 +76,16 @@ public class InMemoryModelManagementStrategy extends
        }
        return null;
     }
+
+	@Override
+   public String getUniqueModelId(EObject model) {
+	   for (ModelType xpdlModel : models) {
+         if (model == xpdlModel) {
+            return xpdlModel.getId();
+         }
+      }
+      return null;
+   }
 
 	/**
 	 *

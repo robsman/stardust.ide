@@ -66,6 +66,24 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 	   return (null != originalModel) ? originalModel : xpdlModel;
 	}
 
+   protected ModelType getXpdlModel(EObject nativeModel)
+   {
+      if ((nativeModel instanceof ModelType) && xpdlModels.containsKey(((ModelType) nativeModel).getId()))
+      {
+         return (ModelType) nativeModel;
+      }
+
+      for (Map.Entry<ModelType, EObject> mapping : nativeModels.entrySet())
+      {
+         if (nativeModel == mapping.getValue())
+         {
+            return mapping.getKey();
+         }
+      }
+
+      throw new IllegalArgumentException("Unknown model: " + nativeModel);
+   }
+
    /**
 	 *
 	 */

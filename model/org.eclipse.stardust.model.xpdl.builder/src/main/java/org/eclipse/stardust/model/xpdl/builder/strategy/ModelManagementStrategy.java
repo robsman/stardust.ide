@@ -65,6 +65,16 @@ public interface ModelManagementStrategy {
 	 */
 	Map<String, ModelType>  getModels(boolean reload);
 
+   /**
+    * Returns a stable, system-wide unique ID for the given model.
+    * <p>
+    * When being used in multiple sessions of the same deployment, but with the logically
+    * same model, this should provide an identical ID.
+    *
+    * @return a unique ID (there format of this ID does not matter to callers)
+    */
+   String getUniqueModelId(EObject model);
+
 	/*
 	 *
 	 */
