@@ -33,7 +33,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
  */
 public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedPropertiesAdapter<StardustInterfaceType> {
 	private static long elementOid = 10000;
-	private static long appTypeId = 0;
+	private static long appTypeId = 1;
 	private static Hashtable<String, Object> choices = null;
 	
 	public enum ApplicationTypes {
@@ -186,8 +186,8 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// and configure for a WebService StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
-		sdApplication.setId("CROServiceApp");
-		sdApplication.setName("CROServiceApp");
+		sdApplication.setId("WebServiceApp_" + generateAppTypeId());
+		sdApplication.setName("WebServiceApp");
 
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsRuntime", "", null));
@@ -273,7 +273,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// and configure for a PlainJava StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
-		sdApplication.setId("SpringBean");
+		sdApplication.setId("SpringBean_" + generateAppTypeId());
 		sdApplication.setName("SpringBean");
 
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
@@ -301,10 +301,10 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
 		if (camelProducer == true) {
-			sdApplication.setId("CamelProducer");
+			sdApplication.setId("CamelProducer_" + generateAppTypeId()); 
 			sdApplication.setName("CamelProducer");
 		} else {
-			sdApplication.setId("CamelConsumer");
+			sdApplication.setId("CamelConsumer_" + generateAppTypeId());
 			sdApplication.setName("CamelConsumer");
 		}
 		
