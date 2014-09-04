@@ -32,6 +32,7 @@ import org.eclipse.bpmn2.Message;
 import org.eclipse.bpmn2.Operation;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor;
+import org.eclipse.bpmn2.modeler.core.utils.ImportUtil;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccesspointInfo;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.Messages;
@@ -84,10 +85,10 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
     	final StardustInterfaceSelectionDialog dialog = new StardustInterfaceSelectionDialog();
     	dialog.open();
         final IType selectedType = dialog.getIType();
-        System.out.println("Selected Type:" + selectedType.getElementName());
-        System.out.println("Selected Type Full Qulified Name:" + selectedType.getFullyQualifiedName().toString());
-        System.out.println("Selected IType:" + dialog.getIType().toString());
-        System.out.println("Selected Methods:" + dialog.getIMethods().toString());
+//        System.out.println("Selected Type:" + selectedType.getElementName());
+//        System.out.println("Selected Type Full Qulified Name:" + selectedType.getFullyQualifiedName().toString());
+//        System.out.println("Selected IType:" + dialog.getIType().toString());
+//        System.out.println("Selected Methods:" + dialog.getIMethods().toString());
 		final IMethod[] selectedMethods = dialog.getIMethods();
 		String oldClsName = null != super.getText() ? super.getText() : "";
 		String oldMethod = null != methodAttribute.getValue() ? methodAttribute.getValue().toString() : "";
@@ -159,11 +160,49 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 							e.printStackTrace();
 						}
 						definitions.getRootElements().add(inputItemDef);
+						definitions.getRootElements().add(outputItemDef);
+						// Fill in values for ImplementationRef in the implementRef Property
+						populateBPMN2Values(outputItemDef, inputItemDef);
+						
 					}
 				});
 
 			}
 		});
+	}
+	
+	
+	private void populateBPMN2Values(ItemDefinition outputItemDef, ItemDefinition inputItemDef) {
+		if (this.parent.getBusinessObject() instanceof StardustInterfaceType) {
+			Interface interf = (Interface) this.parent.getBusinessObject().eContainer().eContainer();
+			interf.setImplementationRef(sdInterface.getStardustApplication());
+			Definitions definitions = ModelUtil.getDefinitions(interf);
+			if (null != interf.getOperations()) {
+				// Create new Operation object and add it to the interface
+				interf.getOperations().clear();
+				Operation op = Bpmn2Factory.eINSTANCE.createOperation();
+				String opId = ModelUtil.setID(op);
+				//TODO find a better name for the operation
+				op.setName(opId);
+				op.setImplementationRef(interf.getImplementationRef());
+				// Create inMsg and populate it, add it to the operation
+				Message inMsg = Bpmn2Factory.eINSTANCE.createMessage();
+				definitions.getRootElements().add(inMsg);
+				String inMsgId = ModelUtil.setID(inMsg); 
+				inMsg.setName(inMsgId);
+				inMsg.setItemRef(inputItemDef);	
+				op.setInMessageRef(inMsg);
+				// Create inMsg and populate it, add it to the operation				
+				Message outMsg = Bpmn2Factory.eINSTANCE.createMessage();				
+				definitions.getRootElements().add(outMsg);	
+				String outMsgId = ModelUtil.setID(outMsg);
+				outMsg.setName(outMsgId);
+				outMsg.setItemRef(outputItemDef);	
+				op.setOutMessageRef(outMsg);
+				// Add newly created operation to the Interface
+				interf.getOperations().add(op);
+			}
+		}
 	}
 	
 	private void resetExistingApp() {
