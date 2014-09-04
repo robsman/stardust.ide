@@ -69,8 +69,8 @@
 	<bean name="addAttachmentProcessor"
 	  	class="org.eclipse.stardust.engine.extensions.camel.attachment.AddAttachmentProcessor" />
       
-    <bean id="attachmentBeanHandler"
-        class="org.eclipse.stardust.engine.extensions.camel.attachment.AttachmentBeanHandler" />
+    <bean id="documentHandler"
+        class="org.eclipse.stardust.engine.extensions.camel.attachment.DocumentHandler" />
       
 	<camelContext id="defaultCamelContext" trace="true"
 		xmlns="http://camel.apache.org/schema/spring">
