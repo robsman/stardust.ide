@@ -84,8 +84,8 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 		// do all of the standard BPMN2 Interface stuff...		
 		super.createBindings(be);
 		try {
-			System.out.println("Activator.start()");
-			IntrinsicJavaAccesspointInfo.main(new String[]{});; // TODO REMOVE
+//			System.out.println("Activator.start()");
+//			IntrinsicJavaAccesspointInfo.main(new String[]{});; // TODO REMOVE
 			Definitions definitions = ModelUtil.getDefinitions(be);
 			for (RootElement root : definitions.getRootElements()) {
 				if (root instanceof Process) {

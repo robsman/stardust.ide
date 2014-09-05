@@ -121,7 +121,17 @@
 			type="org.eclipse.bpmn2.Interface"
 			label="Interface">
 		</propertyTab>
+		
 
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.dataAssociation.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.dataAssocation.tab"
+			class="default"
+			features="assignment"
+			type="org.eclipse.bpmn2.DataInputAssociation org.eclipse.bpmn2.DataOutputAssociation"
+			label="Data Association">
+		</propertyTab>
+<!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.modelExtension.TimerEvent"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"

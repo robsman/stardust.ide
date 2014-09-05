@@ -17,8 +17,12 @@ import java.util.Hashtable;
 
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
@@ -328,6 +332,20 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 	}	
 
 	private static void removeApplicationModel(StardustInterfaceType sdInterface) {
+		new StardustApplicationConfigurationCleaner().performResetExistingApp(sdInterface);
+//		sdInterface.setApplicationType(null);
 		sdInterface.setStardustApplication(null);
+		
+//		final StardustInterfaceType sdi = sdInterface;
+//		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(sdInterface.eResource());
+//		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+//			
+//			@Override
+//			protected void doExecute() {
+//				new StardustApplicationConfigurationCleaner().performResetExistingApp(sdi);
+//				sdi.setApplicationType(null);
+//				sdi.setStardustApplication(null);
+//			}
+//		});
 	}
 }

@@ -118,7 +118,8 @@ public class IntrinsicJavaAccesspointInfo {
 				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass, RETURN_VALUE.equals(flavor) ? Direction.OUT : PARAMETER.equals(flavor) ? Direction.IN : Direction.BOTH);
 			}
 		}
-		return ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
+		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
 	}
 
 	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
@@ -147,9 +148,9 @@ public class IntrinsicJavaAccesspointInfo {
 	private static XSDTypeDefinition getDataType(String typeClass) {
 		XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
 		simpleType.setTargetNamespace(XSDPackage.eNS_URI);
-		if (java.lang.String.class.toString().equals(typeClass)) {
+		if (java.lang.String.class.getName().equals(typeClass)) {
 			simpleType.setName("string");
-		} else if (Integer.TYPE.toString().equals(typeClass)
+		} else if (Integer.TYPE.getName().equals(typeClass)
 		 || Integer.class.toString().equals(typeClass)) {
 			simpleType.setName("integer");
 		} else {
@@ -263,29 +264,29 @@ public class IntrinsicJavaAccesspointInfo {
 		return classLoader;
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
-		Class<?> cls = findClassInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
-		Method[] mths = cls.getDeclaredMethods();
-		for (Method mth: mths) {
-			System.out.println(mth);
-			System.out.println("encode from java method: " + encodeMethod(mth));
-			System.out.println("----------------------------------------------------");
-		}
-		System.out.println("#######################################################");
-		IType type = findTypeInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
-		IMethod[] imths = type.getMethods();
-		for (IMethod mth: imths) {
-			try {
-				System.out.println(mth);
-				System.out.println("encode from IMethod: " + encodeMethod(mth));
-				System.out.println("----------------------------------------------------");
-				Map<String, String> params = getParams("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp", encodeMethod(mth));
-				for (Entry<String,String> entry : params.entrySet()) {
-					System.out.println("PARAM: " + entry.getKey() + " = " + entry.getValue());
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+//		Class<?> cls = findClassInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
+//		Method[] mths = cls.getDeclaredMethods();
+//		for (Method mth: mths) {
+//			System.out.println(mth);
+//			System.out.println("encode from java method: " + encodeMethod(mth));
+//			System.out.println("----------------------------------------------------");
+//		}
+//		System.out.println("#######################################################");
+//		IType type = findTypeInWorkspace("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp");
+//		IMethod[] imths = type.getMethods();
+//		for (IMethod mth: imths) {
+//			try {
+//				System.out.println(mth);
+//				System.out.println("encode from IMethod: " + encodeMethod(mth));
+//				System.out.println("----------------------------------------------------");
+//				Map<String, String> params = getParams("org.eclipse.bpmn2.modeler.runtime.stardust.JavaApp", encodeMethod(mth));
+//				for (Entry<String,String> entry : params.entrySet()) {
+//					System.out.println("PARAM: " + entry.getKey() + " = " + entry.getValue());
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 }

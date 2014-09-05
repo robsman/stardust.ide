@@ -13,6 +13,9 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust;
 
+import org.eclipse.bpmn2.Assignment;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.bpmn2.modeler.core.IBpmn2RuntimeExtension;
@@ -20,6 +23,8 @@ import org.eclipse.bpmn2.modeler.core.LifecycleEvent;
 import org.eclipse.bpmn2.modeler.core.LifecycleEvent.EventType;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.PropertiesCompositeFactory;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil.Bpmn2DiagramType;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssignmentDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
@@ -63,6 +68,7 @@ public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
 	@Override
 	public void notify(LifecycleEvent event) {
 		if (event.eventType.equals(EventType.EDITOR_INITIALIZED)) {
+			
 			/*
 			 * Register our own Detail Composite class (Property Sheet
 			 * composite) to handle Timer Event Definitions. This is necessary
@@ -79,6 +85,13 @@ public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
 					StardustTimerEventDefinitionDetailComposite.class);
 			PropertiesCompositeFactory.register(Interface.class,
 					StardustInterfaceDefinitionDetailComposite.class);
+			
+			PropertiesCompositeFactory.register(Assignment.class,
+					StardustDataAssignmentDetailComposite.class);
+
+	        PropertiesCompositeFactory.register(DataInput.class, StardustDataAssociationDetailComposite.class);
+	        PropertiesCompositeFactory.register(DataOutput.class, StardustDataAssociationDetailComposite.class);
+
 		}
 	}
 }

@@ -35,6 +35,8 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccesspointInfo;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.Messages;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustDataPathProvider;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustInterfaceSelectionDialog;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.dd.di.DiagramElement;
@@ -55,7 +57,6 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 
 public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectEditor {
 
@@ -81,6 +82,12 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 
 	@Override
 	protected void buttonClicked(int buttonId) {
+		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(object.eResource());		
+		BasicCommandStack commandStack = (BasicCommandStack) editingDomain.getCommandStack();
+		commandStack.execute(new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+		
     	final StardustInterfaceSelectionDialog dialog = new StardustInterfaceSelectionDialog();
     	dialog.open();
         final IType selectedType = dialog.getIType();
@@ -89,43 +96,42 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
         System.out.println("Selected IType:" + dialog.getIType().toString());
         System.out.println("Selected Methods:" + dialog.getIMethods().toString());
 		final IMethod[] selectedMethods = dialog.getIMethods();
-		String oldClsName = null != super.getText() ? super.getText() : "";
+		String oldClsName = null != getText() ? getText() : "";
 		String oldMethod = null != methodAttribute.getValue() ? methodAttribute.getValue().toString() : "";
+		String newClsName = selectedType.getFullyQualifiedName();
+		String newMethod = null;
+		try {
+			newMethod = IntrinsicJavaAccesspointInfo.encodeMethod(selectedMethods[0]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if (selectedMethods.length <= 0) {
-			super.setValue("");
+			setValue("");			
 			methodAttribute.setValue("");
 			resetExistingApp();
 			return;
 		}
 		
-		try {
-			boolean valuesChanged = false;
-			String newClsName = selectedType.getFullyQualifiedName();
-			String newMethod = IntrinsicJavaAccesspointInfo.encodeMethod(selectedMethods[0]);
-			if (!oldClsName.equals(newClsName)) valuesChanged = true;
-			if (!oldMethod.equals(newMethod)) valuesChanged = true;
-			if (valuesChanged) resetExistingApp();
-			
-			super.setValue(newClsName);
-			methodAttribute.setValue(newMethod);
-		} catch (ClassNotFoundException | NoSuchMethodException
-				| SecurityException | MalformedURLException | CoreException e1) {
-			e1.printStackTrace();
-		}
+		boolean valuesChanged = false;
+		if (!oldClsName.equals(newClsName)) valuesChanged = true;
+		if (!oldMethod.equals(newMethod)) valuesChanged = true;
+		if (valuesChanged) resetExistingApp();
+		setValue(newClsName);
+		methodAttribute.setValue(newMethod);
 		
 		for (int i=0; i<dialog.getIMethods().length; ++i)
 			System.out.println("selectedMethod " + i + ": " + selectedMethods[i].toString() );
 				
-		Display.getDefault().asyncExec( new Runnable() {
-			@Override
-			public void run() {
+//		Display.getDefault().asyncExec( new Runnable() {
+//			@Override
+//			public void run() {
 				
-				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(object.eResource());
-				BasicCommandStack commandStack = (BasicCommandStack) editingDomain.getCommandStack();
-				commandStack.execute(new RecordingCommand(editingDomain) {
-					@Override
-					protected void doExecute() {
+//				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(object.eResource());
+//				commandStack = (BasicCommandStack) editingDomain.getCommandStack();
+//				commandStack.execute(new RecordingCommand(editingDomain) {
+//					@Override
+//					protected void doExecute() {
 						Definitions definitions = ModelUtil.getDefinitions(object.eResource());
 						ItemDefinition inputItemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
 						inputItemDef.setItemKind(ItemKind.INFORMATION);
@@ -143,13 +149,13 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 							if (null != inputItemDef.getStructureRef()) {
 								DynamicEObjectImpl ref = (DynamicEObjectImpl)inputItemDef.getStructureRef();
 								URI uri = ref.eProxyURI();
-								EObject wrapper = ModelUtil.createStringWrapper(uri.toFileString());
+								EObject wrapper = ModelUtil.createStringWrapper(uri.toString());
 								inputItemDef.setStructureRef(wrapper);
 							}
 							if (null != outputItemDef.getStructureRef()) {
 								DynamicEObjectImpl ref = (DynamicEObjectImpl)outputItemDef.getStructureRef();
 								URI uri = ref.eProxyURI();
-								EObject wrapper = ModelUtil.createStringWrapper(uri.toFileString());
+								EObject wrapper = ModelUtil.createStringWrapper(uri.toString());
 								outputItemDef.setStructureRef(wrapper);
 							}
 							
@@ -159,26 +165,38 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 							e.printStackTrace();
 						}
 						definitions.getRootElements().add(inputItemDef);
-					}
-				});
-
+						// *******************************************************
+						List<String> dataPaths = StardustDataPathProvider.INSTANCE.getDataPaths(inputItemDef);
+						System.out.println("*******************************************************");
+						for (String path : dataPaths) {
+							System.out.println(path);
+						}
+						System.out.println("*******************************************************");
+						// *******************************************************
+						
+//					}
+//				});
+//
+//			}
+//		});
 			}
 		});
 	}
 	
 	private void resetExistingApp() {
-		Display.getDefault().asyncExec( new Runnable() {
-			@Override
-			public void run() {
-				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(sdInterface.eResource());
-				editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
-					@Override
-					protected void doExecute() {
-						performResetExistingApp();
-					}
-				});
-			}
-		});		
+		new StardustApplicationConfigurationCleaner().performResetExistingApp(sdInterface);
+//		Display.getDefault().asyncExec( new Runnable() {
+//			@Override
+//			public void run() {
+//				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(sdInterface.eResource());
+//				editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
+//					@Override
+//					protected void doExecute() {
+//						new StardustApplicationConfigurationCleaner().performResetExistingApp(sdInterface);
+//					}
+//				});
+//			}
+//		});		
 	}
 	
 	private void performResetExistingApp() {
