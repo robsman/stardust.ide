@@ -16,9 +16,15 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.StardustInterfaceSelectionObjectEditor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.swt.widgets.Composite;
 
 class PlainJavaDetailComposite extends DefaultDetailComposite {
@@ -44,5 +50,33 @@ class PlainJavaDetailComposite extends DefaultDetailComposite {
 		bindAttribute(sdApplication, "name");
 		bindAttribute(sdApplication, "id");
 		bindAttribute(sdApplication, "elementOid");
+		
+		AttributeType at;
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:visibility");
+		editor = new AttributeTypeComboEditor(this, at, new String[] { "Public", "Private" });
+		editor.createControl(parent, "Visibility");
+		
+		AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
+		AttributeType constrAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:constructorName");
+		
+		AttributeTypeTextEditor methodNameEditor = new AttributeTypeTextEditor(this, at);
+		AttributeTypeTextEditor constructorNameEditor = new AttributeTypeTextEditor(this, constrAt);
+		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,methodNameEditor,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
+		importEditor.createControl(parent,"Class Selector");
+		methodNameEditor.createControl(parent, "Method Name");
+		constructorNameEditor.createControl(parent, "Constructor Name");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
+		editor = new AttributeTypeBooleanEditor(this, at);
+		editor.createControl(parent, "Enable Retry");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:number");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Number of Retries");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:time");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Time between Retries (seconds)");
 	}
 }

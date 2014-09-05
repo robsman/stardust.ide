@@ -37,17 +37,17 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
  */
 public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedPropertiesAdapter<StardustInterfaceType> {
 	private static long elementOid = 10000;
+	private static long appTypeId = 1;
 	private static Hashtable<String, Object> choices = null;
 	
 	public enum ApplicationTypes {
 		WEBSERVICE("webservice", "Webservice D"),
-		PLAINJAVA("PlainJava", "Plain Java"),
-		SPRINGBEAN("SpringBean", "Spring Bean"),
-		SESSIONBEAN("SessionBean", "Sessionbean"),
+		PLAINJAVA("plainJava", "Plain Java"),
+		SPRINGBEAN("springBean", "Spring Bean"),
+		SESSIONBEAN("sessionBean", "Session Bean"),
 		CAMELCONSUMER("camelSpringConsumerApplication", "Camel Consumer"),
 		CAMELPRODUCER("camelSpringProducerApplication", "Camel Producer"),
-		JMSSEND("JMSSend", "JMS Sender"),
-		JMSRECEIVE("JMSReceive", "JMS Receiver");
+		JMS("jms", "JMS Application");
 		
 		private String key;
 		public String displayName;
@@ -126,8 +126,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 				case SPRINGBEAN:
 					createSpringBeanApplicationModel(sdInterface);
 					break;					
-				case JMSRECEIVE:
-				case JMSSEND:
+				case JMS:
 				case SESSIONBEAN:
 				default:
 					removeApplicationModel(sdInterface);
@@ -173,6 +172,11 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		return elementOid++;
 	}
 
+	private static long generateAppTypeId() {
+		return appTypeId++;
+	}
+
+	
 	/**
 	 * Creates the sdbpmn and carnot model object hierarchy for a WebService ApplicationType
 	 * 
@@ -186,8 +190,8 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// and configure for a WebService StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
-		sdApplication.setId("CROServiceApp");
-		sdApplication.setName("CROServiceApp");
+		sdApplication.setId("WebServiceApp_" + generateAppTypeId());
+		sdApplication.setName("WebServiceApp");
 
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsRuntime", "", null));
@@ -247,9 +251,15 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// and configure for a PlainJava StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
-		sdApplication.setId("JavaApp");
+		sdApplication.setId("JavaApp_" + generateAppTypeId());
 		sdApplication.setName("JavaApp");
-
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:methodName", "", null));
+		sdApplication.getAttribute().add(createAttributeType("carnot:engine:constructorName", "", null));		
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));		
 		sdInterface.setStardustApplication(sdApplication);
 	}
 	
@@ -267,7 +277,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		// and configure for a PlainJava StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
-		sdApplication.setId("SpringBean");
+		sdApplication.setId("SpringBean_" + generateAppTypeId());
 		sdApplication.setName("SpringBean");
 
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
@@ -295,10 +305,10 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
 		sdApplication.setElementOid(generateElementOid());
 		if (camelProducer == true) {
-			sdApplication.setId("CamelProducer");
+			sdApplication.setId("CamelProducer_" + generateAppTypeId()); 
 			sdApplication.setName("CamelProducer");
 		} else {
-			sdApplication.setId("CamelConsumer");
+			sdApplication.setId("CamelConsumer_" + generateAppTypeId());
 			sdApplication.setName("CamelConsumer");
 		}
 		
