@@ -28,7 +28,8 @@ import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper.AccessPointPathInfo;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
@@ -135,8 +136,12 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
             String assingmentId = assign.getId();
             Expression toExpression = assign.getTo();
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
-            String applicationAccessPath = getExpressionValue(toExpression);
+            AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(toExpression));
+            String applicationAccessPoint = resolveDataPath.getAccessPointId();
+            String applicationAccessPath = resolveDataPath.getAccessPointPath();
+
+//            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+//            String applicationAccessPath = getExpressionValue(toExpression);
 
             String mappingId = assocIn.getId() + "_" + assingmentId;
             DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable, applicationAccessPoint, applicationAccessPath);
@@ -153,8 +158,12 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
             String assingmentId = assign.getId();
             String mappingId = assocOut.getId() + "_" + assingmentId;
 
-            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
-            String applicationAccessPath = getExpressionValue(fromExpression);
+            AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
+            String applicationAccessPoint = resolveDataPath.getAccessPointId();
+            String applicationAccessPath = resolveDataPath.getAccessPointPath();
+
+//            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
+//            String applicationAccessPath = getExpressionValue(fromExpression);
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
 

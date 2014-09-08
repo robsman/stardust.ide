@@ -210,9 +210,9 @@ public class ExtensionHelper {
         return iface;
     }
 
-    public String getAssignmentAccessPointRef(Expression assignment) {
-        return getString(assignment, ATT_APPLICATION_ACCESS_POINT);
-    }
+//    public String getAssignmentAccessPointRef(Expression assignment) {
+//        return getString(assignment, ATT_APPLICATION_ACCESS_POINT);
+//    }
 
     public long getAssignmentParameterMappingOid(Assignment assignment) {
         return getLong(assignment, ATT_TRIGGER_PARAM_MAPPING);
