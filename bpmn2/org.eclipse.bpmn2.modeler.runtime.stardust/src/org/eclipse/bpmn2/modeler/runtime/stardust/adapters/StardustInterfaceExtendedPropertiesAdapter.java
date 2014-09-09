@@ -342,7 +342,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 	}	
 
 	private static void removeApplicationModel(StardustInterfaceType sdInterface) {
-		new StardustApplicationConfigurationCleaner().performResetExistingApp(sdInterface);
+		StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);
 //		sdInterface.setApplicationType(null);
 		sdInterface.setStardustApplication(null);
 		

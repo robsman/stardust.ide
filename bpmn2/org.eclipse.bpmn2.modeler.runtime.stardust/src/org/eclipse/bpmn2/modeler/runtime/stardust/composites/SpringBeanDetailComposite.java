@@ -19,6 +19,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MethodSelectionTextAndObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.StardustInterfaceSelectionObjectEditor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
@@ -61,22 +62,21 @@ class SpringBeanDetailComposite extends DefaultDetailComposite {
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Spring Bean Id");
 
-		AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
-//		editor = new AttributeTypeTextEditor(this, at);
-//		editor.createControl(parent, "Class Name");
-		//AbstractDetailComposite parent, EObject object, EStructuralFeature feature
-		//StardustJavaImport
-		//CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid()
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
-		AttributeTypeTextEditor methodNameEditor = new AttributeTypeTextEditor(this, at);
-		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,methodNameEditor,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
+		final AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
+		AttributeType methodAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
 		
+		MethodSelectionTextAndObjectEditor methodEditor = new MethodSelectionTextAndObjectEditor(this, sdInterface, methodAt, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), clsAt, false); 
+		
+		// initialize method drop down menu
+		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 		importEditor.createControl(parent,"Class Selector");
-		methodNameEditor.createControl(parent, "Method Name");
+		methodEditor.createControl(parent,"Method");
+		
 		
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Enable Retry");
+		
 	
 	}
 }

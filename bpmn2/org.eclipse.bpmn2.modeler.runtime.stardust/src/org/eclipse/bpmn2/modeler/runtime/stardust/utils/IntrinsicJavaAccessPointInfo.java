@@ -38,7 +38,7 @@ import org.eclipse.xsd.XSDTypeDefinition;
  * @author Simon Nikles
  *
  */
-public class IntrinsicJavaAccesspointInfo {
+public class IntrinsicJavaAccessPointInfo {
 
 	public static String encodeMethod(IMethod method) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException
 	{
@@ -84,8 +84,10 @@ public class IntrinsicJavaAccesspointInfo {
 		if (null == constructorMethod) return "";
 		IJavaProject javaProject = constructorMethod.getJavaProject();
 		IType declaringType = constructorMethod.getDeclaringType();
-		Class<?> cls = loadClass(javaProject, declaringType.getTypeQualifiedName());
-		Constructor<?> constructor = cls.getConstructor(getParameterTypes(javaProject, cls, constructorMethod.getParameterTypes()).toArray(new Class<?>[]{}));
+		Class<?> cls = loadClass(javaProject, declaringType.getFullyQualifiedName());
+		List<String> javaTypes = getSignatureTypes(declaringType, constructorMethod);
+		Class<?>[] paramTypes = getParameterTypes(javaProject, cls, javaTypes.toArray(new String[]{})).toArray(new Class<?>[]{});
+		Constructor<?> constructor = cls.getConstructor(paramTypes);
 		return Reflect.encodeConstructor(constructor).toString();
 	}
 
@@ -122,7 +124,17 @@ public class IntrinsicJavaAccesspointInfo {
 		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
-	
+
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(ItemDefinition itemDef, IMethod ... methodAndConstructor) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		for (IMethod meth : methodAndConstructor) {
+			AccessPointSchemaWrapper current = createSchemaWrapper(meth);
+			if (null != current) wrapper.addAll(current.getElements());
+		}		
+		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+
 	public static ItemDefinition addInputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = createSchemaWrapper(method);
 		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
