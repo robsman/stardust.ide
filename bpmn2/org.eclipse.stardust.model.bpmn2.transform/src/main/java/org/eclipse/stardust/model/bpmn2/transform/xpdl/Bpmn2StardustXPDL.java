@@ -138,8 +138,14 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     public void createTargetModel(Definitions definitions) {
     	logger.info("createTargetModel " + definitions.getName());
+    	String modelId = definitions.getId();
+    	if (null == modelId) modelId = definitions.getName();
+    	if (null == modelId) {
+    		failures.add("No Model Id (Definitions) defined");
+    		return;
+    	}
         carnotModel = newBpmModel()
-                .withIdAndName(definitions.getId(), definitions.getName())
+                .withIdAndName(modelId, definitions.getName())
                 .build();
         Bpmn2StardustXPDLExtension.addModelExtensions(definitions, carnotModel);
         Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);

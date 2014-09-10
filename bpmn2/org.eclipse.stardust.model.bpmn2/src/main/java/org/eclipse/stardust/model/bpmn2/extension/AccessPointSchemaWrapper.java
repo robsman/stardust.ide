@@ -3,7 +3,6 @@ package org.eclipse.stardust.model.bpmn2.extension;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.AccessPointSchemaElement;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
