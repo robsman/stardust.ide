@@ -15,6 +15,7 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import java.util.List;
 
+import org.eclipse.bpmn2.Bpmn2Package;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractListComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractPropertiesProvider;
@@ -55,6 +56,7 @@ public class StardustInterfaceDefinitionDetailComposite extends DefaultDetailCom
 		} else {
 			// Otherwise, use the SdbpmnFactory to create a new one.
 			sdInterface = SdbpmnFactory.eINSTANCE.createStardustInterfaceType();
+			sdInterface.setId("SD_"+be.eGet(Bpmn2Package.eINSTANCE.getBaseElement_Id()));
 			// This is the feature that will hold the StardustInterface
 			// instance object within the org.eclipse.bpmn2.Interface
 			// extensionValues container.

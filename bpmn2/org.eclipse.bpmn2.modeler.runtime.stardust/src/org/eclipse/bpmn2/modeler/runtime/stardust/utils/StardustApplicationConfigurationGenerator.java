@@ -71,7 +71,7 @@ public enum StardustApplicationConfigurationGenerator {
 	
 	private void populateBPMN2Values(StardustInterfaceType sdInterface, ItemDefinition outputItemDef, ItemDefinition inputItemDef) {
 		Interface interf = (Interface) sdInterface.eContainer().eContainer();
-		interf.setImplementationRef(sdInterface.getStardustApplication());
+		interf.setImplementationRef(sdInterface); //sdInterface.getStardustApplication());
 		Definitions definitions = ModelUtil.getDefinitions(interf);
 		if (null != interf.getOperations()) {
 			// Create new Operation object and add it to the interface
