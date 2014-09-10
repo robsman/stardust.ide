@@ -31,8 +31,10 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
  * @author Simon Nikles
  *
  */
-public class StardustApplicationConfigurationCleaner {
+public enum StardustApplicationConfigurationCleaner {
 
+	INSTANCE;
+	
 	public void performResetExistingApp(StardustInterfaceType sdInterface) {
 		
 		Interface bpmnInterface = (Interface)(sdInterface.eContainer()).eContainer();
