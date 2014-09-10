@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustApplication <em>Stardust Application</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getStardustTrigger <em>Stardust Trigger</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getApplicationType <em>Application Type</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,5 +104,32 @@ public interface StardustInterfaceType extends EObject {
 	 * @generated
 	 */
 	void setApplicationType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustInterfaceType_Id()
+	 * @model id="true" dataType="org.eclipse.emf.ecore.xml.type.ID"
+	 *        extendedMetaData="kind='attribute' name='id'"
+	 * @generated
+	 */
+	String getId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType#getId <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
+	 * @generated
+	 */
+	void setId(String value);
 
 } // StardustInterfaceType

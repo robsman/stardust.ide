@@ -47,6 +47,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -735,6 +736,60 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	void setParameterMappingOid(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Synthetic Item Definition</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Synthetic Item Definition</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Synthetic Item Definition</em>' attribute.
+	 * @see #isSetSyntheticItemDefinition()
+	 * @see #unsetSyntheticItemDefinition()
+	 * @see #setSyntheticItemDefinition(boolean)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_SyntheticItemDefinition()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='syntheticItemDefinition' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	boolean isSyntheticItemDefinition();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Synthetic Item Definition</em>' attribute.
+	 * @see #isSetSyntheticItemDefinition()
+	 * @see #unsetSyntheticItemDefinition()
+	 * @see #isSyntheticItemDefinition()
+	 * @generated
+	 */
+	void setSyntheticItemDefinition(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetSyntheticItemDefinition()
+	 * @see #isSyntheticItemDefinition()
+	 * @see #setSyntheticItemDefinition(boolean)
+	 * @generated
+	 */
+	void unsetSyntheticItemDefinition();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Synthetic Item Definition</em>' attribute is set.
+	 * @see #unsetSyntheticItemDefinition()
+	 * @see #isSyntheticItemDefinition()
+	 * @see #setSyntheticItemDefinition(boolean)
+	 * @generated
+	 */
+	boolean isSetSyntheticItemDefinition();
 
 	/**
 	 * Returns the value of the '<em><b>Trigger Access Point Ref</b></em>' attribute.

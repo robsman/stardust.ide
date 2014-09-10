@@ -221,13 +221,17 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		// Obtain or create and register interdependencies
 		CarnotWorkflowModelPackageImpl theCarnotWorkflowModelPackage = (CarnotWorkflowModelPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI) instanceof CarnotWorkflowModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI) : CarnotWorkflowModelPackage.eINSTANCE);
 
+		// Load packages
+		theCarnotWorkflowModelPackage.loadPackage();
+
 		// Create package meta-data objects
 		theSdbpmnPackage.createPackageContents();
-//		theCarnotWorkflowModelPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSdbpmnPackage.initializePackageContents();
-//		theCarnotWorkflowModelPackage.initializePackageContents();
+
+		// Fix loaded packages
+		theCarnotWorkflowModelPackage.fixPackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSdbpmnPackage.freeze();
@@ -477,7 +481,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_TriggerAccessPointRef() {
+	public EAttribute getDocumentRoot_SyntheticItemDefinition() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(25);
 	}
 
@@ -486,8 +490,17 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_Vendor() {
+	public EAttribute getDocumentRoot_TriggerAccessPointRef() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(26);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_Vendor() {
+		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(27);
 	}
 
 	/**
@@ -605,6 +618,15 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 */
 	public EAttribute getStardustInterfaceType_ApplicationType() {
 		return (EAttribute)stardustInterfaceTypeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStardustInterfaceType_Id() {
+		return (EAttribute)stardustInterfaceTypeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -967,6 +989,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MODEL_OID);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__OID);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__PARAMETER_MAPPING_OID);
+		createEAttribute(documentRootEClass, DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__VENDOR);
 
@@ -987,6 +1010,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		createEReference(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__STARDUST_APPLICATION);
 		createEReference(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__STARDUST_TRIGGER);
 		createEAttribute(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__APPLICATION_TYPE);
+		createEAttribute(stardustInterfaceTypeEClass, STARDUST_INTERFACE_TYPE__ID);
 
 		stardustMessageStartEventTypeEClass = createEClass(STARDUST_MESSAGE_START_EVENT_TYPE);
 		createEReference(stardustMessageStartEventTypeEClass, STARDUST_MESSAGE_START_EVENT_TYPE__STARDUST_ATTRIBUTES);
@@ -1076,7 +1100,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		stardustUserTaskTypeEClass.getESuperTypes().add(this.getTStardustActivity());
 		tStardustActivityEClass.getESuperTypes().add(this.getTStardustCommon());
 
-		// Initialize classes, features, and operations; add parameters
+		// Initialize classes and features; add operations and parameters
 		initEClass(documentRootEClass, DocumentRoot.class, "DocumentRoot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDocumentRoot_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_XMLNSPrefixMap(), ecorePackage.getEStringToStringMapEntry(), null, "xMLNSPrefixMap", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1103,6 +1127,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		initEAttribute(getDocumentRoot_ModelOID(), theXMLTypePackage.getInteger(), "modelOID", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_Oid(), theXMLTypePackage.getLong(), "oid", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_ParameterMappingOid(), theXMLTypePackage.getString(), "parameterMappingOid", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentRoot_SyntheticItemDefinition(), theXMLTypePackage.getBoolean(), "syntheticItemDefinition", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_TriggerAccessPointRef(), theXMLTypePackage.getString(), "triggerAccessPointRef", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_Vendor(), theXMLTypePackage.getString(), "vendor", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1123,6 +1148,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		initEReference(getStardustInterfaceType_StardustApplication(), this.getStardustApplicationType(), null, "stardustApplication", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStardustInterfaceType_StardustTrigger(), this.getStardustTriggerType(), null, "stardustTrigger", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStardustInterfaceType_ApplicationType(), theXMLTypePackage.getString(), "applicationType", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStardustInterfaceType_Id(), theXMLTypePackage.getID(), "id", null, 0, 1, StardustInterfaceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stardustMessageStartEventTypeEClass, StardustMessageStartEventType.class, "StardustMessageStartEventType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStardustMessageStartEventType_StardustAttributes(), this.getStardustAttributesType(), null, "stardustAttributes", null, 1, 1, StardustMessageStartEventType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1391,6 +1417,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 			 "namespace", "##targetNamespace"
 		   });	
 		addAnnotation
+		  (getDocumentRoot_SyntheticItemDefinition(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "syntheticItemDefinition",
+			 "namespace", "##targetNamespace"
+		   });	
+		addAnnotation
 		  (getDocumentRoot_TriggerAccessPointRef(), 
 		   source, 
 		   new String[] {
@@ -1501,6 +1535,13 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "applicationType"
+		   });	
+		addAnnotation
+		  (getStardustInterfaceType_Id(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "id"
 		   });	
 		addAnnotation
 		  (stardustMessageStartEventTypeEClass, 

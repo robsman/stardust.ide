@@ -26,6 +26,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getStardustApplication <em>Stardust Application</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getStardustTrigger <em>Stardust Trigger</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getApplicationType <em>Application Type</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustInterfaceTypeImpl#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,6 +72,26 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 	 * @ordered
 	 */
 	protected String applicationType = APPLICATION_TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -203,6 +224,27 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(String newId) {
+		String oldId = id;
+		id = newId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.STARDUST_INTERFACE_TYPE__ID, oldId, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -228,6 +270,8 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 				return getStardustTrigger();
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				return getApplicationType();
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__ID:
+				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,6 +292,9 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 				return;
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				setApplicationType((String)newValue);
+				return;
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__ID:
+				setId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -270,6 +317,9 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				setApplicationType(APPLICATION_TYPE_EDEFAULT);
 				return;
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__ID:
+				setId(ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -288,6 +338,8 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 				return stardustTrigger != null;
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__APPLICATION_TYPE:
 				return APPLICATION_TYPE_EDEFAULT == null ? applicationType != null : !APPLICATION_TYPE_EDEFAULT.equals(applicationType);
+			case SdbpmnPackage.STARDUST_INTERFACE_TYPE__ID:
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -304,6 +356,8 @@ public class StardustInterfaceTypeImpl extends MinimalEObjectImpl.Container impl
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (applicationType: ");
 		result.append(applicationType);
+		result.append(", id: ");
+		result.append(id);
 		result.append(')');
 		return result.toString();
 	}

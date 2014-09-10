@@ -75,6 +75,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -281,6 +282,35 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * @ordered
 	 */
 	protected String parameterMappingOid = PARAMETER_MAPPING_OID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isSyntheticItemDefinition() <em>Synthetic Item Definition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSyntheticItemDefinition()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SYNTHETIC_ITEM_DEFINITION_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSyntheticItemDefinition() <em>Synthetic Item Definition</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSyntheticItemDefinition()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean syntheticItemDefinition = SYNTHETIC_ITEM_DEFINITION_EDEFAULT;
+
+	/**
+	 * This is true if the Synthetic Item Definition attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean syntheticItemDefinitionESet;
 
 	/**
 	 * The default value of the '{@link #getTriggerAccessPointRef() <em>Trigger Access Point Ref</em>}' attribute.
@@ -953,6 +983,52 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSyntheticItemDefinition() {
+		return syntheticItemDefinition;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSyntheticItemDefinition(boolean newSyntheticItemDefinition) {
+		boolean oldSyntheticItemDefinition = syntheticItemDefinition;
+		syntheticItemDefinition = newSyntheticItemDefinition;
+		boolean oldSyntheticItemDefinitionESet = syntheticItemDefinitionESet;
+		syntheticItemDefinitionESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION, oldSyntheticItemDefinition, syntheticItemDefinition, !oldSyntheticItemDefinitionESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetSyntheticItemDefinition() {
+		boolean oldSyntheticItemDefinition = syntheticItemDefinition;
+		boolean oldSyntheticItemDefinitionESet = syntheticItemDefinitionESet;
+		syntheticItemDefinition = SYNTHETIC_ITEM_DEFINITION_EDEFAULT;
+		syntheticItemDefinitionESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION, oldSyntheticItemDefinition, SYNTHETIC_ITEM_DEFINITION_EDEFAULT, oldSyntheticItemDefinitionESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSyntheticItemDefinition() {
+		return syntheticItemDefinitionESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getTriggerAccessPointRef() {
 		return triggerAccessPointRef;
 	}
@@ -1097,6 +1173,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return getParameterMappingOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
+				return isSyntheticItemDefinition();
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				return getTriggerAccessPointRef();
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
@@ -1187,6 +1265,9 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid((String)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
+				setSyntheticItemDefinition((Boolean)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				setTriggerAccessPointRef((String)newValue);
@@ -1281,6 +1362,9 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid(PARAMETER_MAPPING_OID_EDEFAULT);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
+				unsetSyntheticItemDefinition();
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				setTriggerAccessPointRef(TRIGGER_ACCESS_POINT_REF_EDEFAULT);
 				return;
@@ -1349,6 +1433,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return isSetOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return PARAMETER_MAPPING_OID_EDEFAULT == null ? parameterMappingOid != null : !PARAMETER_MAPPING_OID_EDEFAULT.equals(parameterMappingOid);
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
+				return isSetSyntheticItemDefinition();
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				return TRIGGER_ACCESS_POINT_REF_EDEFAULT == null ? triggerAccessPointRef != null : !TRIGGER_ACCESS_POINT_REF_EDEFAULT.equals(triggerAccessPointRef);
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
@@ -1385,6 +1471,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 		if (oidESet) result.append(oid); else result.append("<unset>");
 		result.append(", parameterMappingOid: ");
 		result.append(parameterMappingOid);
+		result.append(", syntheticItemDefinition: ");
+		if (syntheticItemDefinitionESet) result.append(syntheticItemDefinition); else result.append("<unset>");
 		result.append(", triggerAccessPointRef: ");
 		result.append(triggerAccessPointRef);
 		result.append(", vendor: ");
