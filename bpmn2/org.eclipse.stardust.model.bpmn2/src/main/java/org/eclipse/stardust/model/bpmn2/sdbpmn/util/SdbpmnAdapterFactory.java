@@ -14,8 +14,12 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
+import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 
 /**
@@ -151,12 +155,28 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 				return createIModelElementAdapter();
 			}
 			@Override
+			public Adapter caseIIdentifiableElement(IIdentifiableElement object) {
+				return createIIdentifiableElementAdapter();
+			}
+			@Override
+			public Adapter caseIExtensibleElement(IExtensibleElement object) {
+				return createIExtensibleElementAdapter();
+			}
+			@Override
 			public Adapter caseIIdentifiableModelElement(IIdentifiableModelElement object) {
 				return createIIdentifiableModelElementAdapter();
 			}
 			@Override
+			public Adapter caseITypedElement(ITypedElement object) {
+				return createITypedElementAdapter();
+			}
+			@Override
 			public Adapter caseAccessPointType(AccessPointType object) {
 				return createAccessPointTypeAdapter();
+			}
+			@Override
+			public Adapter caseIAccessPointOwner(IAccessPointOwner object) {
+				return createIAccessPointOwnerAdapter();
 			}
 			@Override
 			public Adapter caseApplicationType(ApplicationType object) {
@@ -457,6 +477,34 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement <em>IIdentifiable Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement
+	 * @generated
+	 */
+	public Adapter createIIdentifiableElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement <em>IExtensible Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement
+	 * @generated
+	 */
+	public Adapter createIExtensibleElementAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement <em>IIdentifiable Model Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -471,6 +519,20 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.ITypedElement <em>ITyped Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.xpdl.carnot.ITypedElement
+	 * @generated
+	 */
+	public Adapter createITypedElementAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.AccessPointType <em>Access Point Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -481,6 +543,20 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAccessPointTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner <em>IAccess Point Owner</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner
+	 * @generated
+	 */
+	public Adapter createIAccessPointOwnerAdapter() {
 		return null;
 	}
 

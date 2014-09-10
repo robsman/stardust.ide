@@ -12,8 +12,12 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
+import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
+import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
+import org.eclipse.stardust.model.xpdl.carnot.ITypedElement;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 
 /**
@@ -84,7 +88,10 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 				T result = caseStardustAccessPointType(stardustAccessPointType);
 				if (result == null) result = caseAccessPointType(stardustAccessPointType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustAccessPointType);
+				if (result == null) result = caseITypedElement(stardustAccessPointType);
 				if (result == null) result = caseIModelElement(stardustAccessPointType);
+				if (result == null) result = caseIIdentifiableElement(stardustAccessPointType);
+				if (result == null) result = caseIExtensibleElement(stardustAccessPointType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -93,7 +100,11 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 				T result = caseStardustApplicationType(stardustApplicationType);
 				if (result == null) result = caseApplicationType(stardustApplicationType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustApplicationType);
+				if (result == null) result = caseITypedElement(stardustApplicationType);
+				if (result == null) result = caseIAccessPointOwner(stardustApplicationType);
 				if (result == null) result = caseIModelElement(stardustApplicationType);
+				if (result == null) result = caseIIdentifiableElement(stardustApplicationType);
+				if (result == null) result = caseIExtensibleElement(stardustApplicationType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -108,6 +119,9 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 				T result = caseStardustContextType(stardustContextType);
 				if (result == null) result = caseContextType(stardustContextType);
 				if (result == null) result = caseIModelElement(stardustContextType);
+				if (result == null) result = caseIExtensibleElement(stardustContextType);
+				if (result == null) result = caseITypedElement(stardustContextType);
+				if (result == null) result = caseIAccessPointOwner(stardustContextType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -174,7 +188,11 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 				T result = caseStardustTriggerType(stardustTriggerType);
 				if (result == null) result = caseTriggerType(stardustTriggerType);
 				if (result == null) result = caseIIdentifiableModelElement(stardustTriggerType);
+				if (result == null) result = caseITypedElement(stardustTriggerType);
+				if (result == null) result = caseIAccessPointOwner(stardustTriggerType);
 				if (result == null) result = caseIModelElement(stardustTriggerType);
+				if (result == null) result = caseIIdentifiableElement(stardustTriggerType);
+				if (result == null) result = caseIExtensibleElement(stardustTriggerType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -489,6 +507,36 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IIdentifiable Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IIdentifiable Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIIdentifiableElement(IIdentifiableElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IExtensible Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IExtensible Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIExtensibleElement(IExtensibleElement object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>IIdentifiable Model Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -504,6 +552,21 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ITyped Element</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ITyped Element</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseITypedElement(ITypedElement object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Access Point Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -515,6 +578,21 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseAccessPointType(AccessPointType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IAccess Point Owner</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IAccess Point Owner</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIAccessPointOwner(IAccessPointOwner object) {
 		return null;
 	}
 

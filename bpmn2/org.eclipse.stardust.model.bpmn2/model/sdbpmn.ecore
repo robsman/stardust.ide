@@ -31,8 +31,8 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" upperBound="-2"
-        eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//DataTypeType"
-        volatile="true" transient="true" derived="true" containment="true" resolveProxies="false">
+        eType="ecore:EClass carnot.ecore#//DataTypeType" volatile="true" transient="true"
+        derived="true" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="dataType"/>
@@ -169,7 +169,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The name of the user editing this model last.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The name of the user editing this model last.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -179,7 +179,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="carnotVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The software version used to create and edit this model. Opening this&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;model in another version of the software may require an explicit&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;conversion.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The software version used to create and edit this model. Opening this&#xA;&#x9;&#x9;&#x9;&#x9;model in another version of the software may require an explicit&#xA;&#x9;&#x9;&#x9;&#x9;conversion.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -207,7 +207,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelOID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;A 32-bit number assigned to the model during deployment to an audit&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;trail. This number may be changed if the model is deployed to different&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;audit trails or even to the same audit trail multiple times.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A 32-bit number assigned to the model during deployment to an audit&#xA;&#x9;&#x9;&#x9;&#x9;trail. This number may be changed if the model is deployed to different&#xA;&#x9;&#x9;&#x9;&#x9;audit trails or even to the same audit trail multiple times.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -218,7 +218,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="oid" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Long"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;A 64-bit number uniquely identifying the model in the model repository.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A 64-bit number uniquely identifying the model in the model repository.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -236,6 +236,15 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="syntheticItemDefinition"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        unsettable="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="syntheticItemDefinition"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerAccessPointRef"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -249,7 +258,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The vendor of the software used to create and edit this model. Usually&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;this will be &quot;carnot&quot;.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The vendor of the software used to create and edit this model. Usually&#xA;&#x9;&#x9;&#x9;&#x9;this will be &quot;carnot&quot;.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -258,7 +267,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StardustAccessPointType" eSuperTypes="../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//AccessPointType">
+  <eClassifiers xsi:type="ecore:EClass" name="StardustAccessPointType" eSuperTypes="carnot.ecore#//AccessPointType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StardustAccessPointType"/>
       <details key="kind" value="elementOnly"/>
@@ -270,7 +279,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StardustApplicationType" eSuperTypes="../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//ApplicationType">
+  <eClassifiers xsi:type="ecore:EClass" name="StardustApplicationType" eSuperTypes="carnot.ecore#//ApplicationType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StardustApplicationType"/>
       <details key="kind" value="elementOnly"/>
@@ -298,8 +307,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributeType" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//AttributeType"
-        containment="true" resolveProxies="false">
+        eType="ecore:EClass carnot.ecore#//AttributeType" containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="AttributeType"/>
@@ -307,7 +315,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StardustContextType" eSuperTypes="../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//ContextType">
+  <eClassifiers xsi:type="ecore:EClass" name="StardustContextType" eSuperTypes="carnot.ecore#//ContextType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StardustContextType"/>
       <details key="kind" value="elementOnly"/>
@@ -346,6 +354,13 @@
         <details key="name" value="applicationType"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"
+        iD="true">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="id"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StardustMessageStartEventType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -368,7 +383,7 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The name of the user editing this model last.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The name of the user editing this model last.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -378,7 +393,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="carnotVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The software version used to create and edit this model. Opening this&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;model in another version of the software may require an explicit&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;conversion.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The software version used to create and edit this model. Opening this&#xA;&#x9;&#x9;&#x9;&#x9;model in another version of the software may require an explicit&#xA;&#x9;&#x9;&#x9;&#x9;conversion.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -398,7 +413,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelOID" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Integer">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;A 32-bit number assigned to the model during deployment to an audit&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;trail. This number may be changed if the model is deployed to different&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;audit trails or even to the same audit trail multiple times.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A 32-bit number assigned to the model during deployment to an audit&#xA;&#x9;&#x9;&#x9;&#x9;trail. This number may be changed if the model is deployed to different&#xA;&#x9;&#x9;&#x9;&#x9;audit trails or even to the same audit trail multiple times.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -409,7 +424,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="oid" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Long"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;A 64-bit number uniquely identifying the model in the model repository.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;A 64-bit number uniquely identifying the model in the model repository.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -419,7 +434,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;The vendor of the software used to create and edit this model. Usually&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;this will be &quot;carnot&quot;.&#xD;&#xA;               "/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;The vendor of the software used to create and edit this model. Usually&#xA;&#x9;&#x9;&#x9;&#x9;this will be &quot;carnot&quot;.&#xA;               "/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -434,15 +449,15 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stardustConditionalPerformer"
-        eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//ConditionalPerformerType"
-        containment="true" resolveProxies="false">
+        eType="ecore:EClass carnot.ecore#//ConditionalPerformerType" containment="true"
+        resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="StardustConditionalPerformer"/>
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stardustRole" eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//RoleType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stardustRole" eType="ecore:EClass carnot.ecore#//RoleType"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -450,7 +465,7 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="stardustOrganization" eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//OrganizationType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="stardustOrganization" eType="ecore:EClass carnot.ecore#//OrganizationType"
         containment="true" resolveProxies="false">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -506,7 +521,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationProcess"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The model id of the subprocess implementing the activity when the&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;attribute &quot;implementation&quot; is set to &quot;Subprocess&quot;.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;The model id of the subprocess implementing the activity when the&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;attribute &quot;implementation&quot; is set to &quot;Subprocess&quot;.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
@@ -528,7 +543,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StardustTriggerType" eSuperTypes="../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//TriggerType">
+  <eClassifiers xsi:type="ecore:EClass" name="StardustTriggerType" eSuperTypes="carnot.ecore#//TriggerType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="StardustTriggerType"/>
       <details key="kind" value="elementOnly"/>
@@ -580,8 +595,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventHandler" upperBound="-1"
-        eType="ecore:EClass ../../org.eclipse.stardust.model.xpdl/model/carnot.ecore#//EventHandlerType"
-        containment="true" resolveProxies="false">
+        eType="ecore:EClass carnot.ecore#//EventHandlerType" containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The list of event handlers defined for this model element."/>
       </eAnnotations>
@@ -594,7 +608,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hibernateOnCreation" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Determines whether an activity instance is hibernated immediately after beeing created.&#xD;&#xA;               &#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Determines whether an activity instance is hibernated immediately after beeing created.&#xA;               &#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
