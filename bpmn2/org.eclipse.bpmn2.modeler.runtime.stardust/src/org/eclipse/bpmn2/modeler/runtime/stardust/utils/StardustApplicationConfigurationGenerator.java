@@ -15,7 +15,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 
 public enum StardustApplicationConfigurationGenerator {
@@ -58,15 +57,11 @@ public enum StardustApplicationConfigurationGenerator {
 		}
 		definitions.getRootElements().add(inputItemDef);
 		definitions.getRootElements().add(outputItemDef);
-
-		if (object instanceof StardustApplicationType) {
-			System.out.println(object.eContainer().eContainer());
-			StardustInterfaceType interf = (StardustInterfaceType) object.eContainer().eContainer();
+		if (object instanceof StardustInterfaceType) {
+			StardustInterfaceType interf = (StardustInterfaceType) object;
 			// Fill in values for ImplementationRef in the implementRef Property
 			populateBPMN2Values(interf, outputItemDef, inputItemDef);
-		} else System.out
-				.println("StardustApplicationConfigurationGenerator.generateAccessPointInfos() " + object);
-		
+		} 
 	}
 	
 	private void populateBPMN2Values(StardustInterfaceType sdInterface, ItemDefinition outputItemDef, ItemDefinition inputItemDef) {
