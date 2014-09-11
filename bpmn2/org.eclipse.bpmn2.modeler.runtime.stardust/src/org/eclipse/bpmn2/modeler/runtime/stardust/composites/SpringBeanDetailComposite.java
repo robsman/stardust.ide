@@ -13,7 +13,6 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -102,7 +101,7 @@ class SpringBeanDetailComposite extends DefaultDetailComposite implements Modify
 		Class<?> clazz = IntrinsicJavaAccessPointInfo.findClassInWorkspace(clsAt.getValue());
 		Method method = IntrinsicJavaAccessPointInfo.decodeMethod(clazz, methodAt.getValue());
 
-		//StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos((StardustInterfaceType) businessObject, method);
+		StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos((StardustInterfaceType) businessObject, method, null);
 		
 	}
 }

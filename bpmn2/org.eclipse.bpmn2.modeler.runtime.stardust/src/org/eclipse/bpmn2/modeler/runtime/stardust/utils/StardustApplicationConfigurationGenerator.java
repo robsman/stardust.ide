@@ -24,7 +24,9 @@ public enum StardustApplicationConfigurationGenerator {
 	INSTANCE;
 	
 	public void generateAccessPointInfos(EObject object, Method method, Constructor<?> constructor) {
-		generateAccessPointInfos(object, new Method[]{method}, new Constructor<?>[]{constructor});
+		Constructor<?>[] constructors = null != constructor ? new Constructor<?>[]{constructor} : new Constructor<?>[]{};
+		Method[] methods = null != method ? new Method[]{method} : new Method[]{};
+		generateAccessPointInfos(object, methods, constructors);
 	}
 	
 	public void generateAccessPointInfos(EObject object, Method[] methods, Constructor<?>[] constructors) {

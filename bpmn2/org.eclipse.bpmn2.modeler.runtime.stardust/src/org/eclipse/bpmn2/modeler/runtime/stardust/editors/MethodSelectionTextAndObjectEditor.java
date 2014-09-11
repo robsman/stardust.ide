@@ -28,13 +28,11 @@ import org.eclipse.swt.widgets.Shell;
 public class MethodSelectionTextAndObjectEditor extends TextAndButtonObjectEditor {
 	
 	private final AttributeType clsAt;
-	private StardustInterfaceType sdInterface;
 	private boolean withConstructors = false;
 
 	public MethodSelectionTextAndObjectEditor(AbstractDetailComposite parent, StardustInterfaceType sdInterface, EObject object, EStructuralFeature feature, AttributeType clsAt, boolean withConstructors) {
 		super(parent, object, feature);
 		this.clsAt = clsAt;
-		this.sdInterface = sdInterface;
 		this.withConstructors = withConstructors;
 	}
 
