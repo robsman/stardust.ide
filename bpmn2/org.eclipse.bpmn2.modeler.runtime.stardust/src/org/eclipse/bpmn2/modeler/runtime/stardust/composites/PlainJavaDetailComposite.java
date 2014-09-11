@@ -28,7 +28,6 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPoint
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -36,8 +35,6 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 class PlainJavaDetailComposite extends DefaultDetailComposite implements ModifyListener {

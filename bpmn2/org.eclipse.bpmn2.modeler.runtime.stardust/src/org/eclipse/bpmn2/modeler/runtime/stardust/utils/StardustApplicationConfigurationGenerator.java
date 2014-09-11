@@ -28,7 +28,7 @@ public enum StardustApplicationConfigurationGenerator {
 	}
 	
 	public void generateAccessPointInfos(EObject object, Method[] methods, Constructor<?>[] constructors) {
-		if ((null == methods || methods.length <= 0) && (null == methods || methods.length <= 0)) return;
+		if ((null == methods || methods.length <= 0) && (null == constructors || constructors.length <= 0)) return;
 		
 		Definitions definitions = ModelUtil.getDefinitions(object.eResource());
 		ItemDefinition inputItemDef = createItemDef(object);
