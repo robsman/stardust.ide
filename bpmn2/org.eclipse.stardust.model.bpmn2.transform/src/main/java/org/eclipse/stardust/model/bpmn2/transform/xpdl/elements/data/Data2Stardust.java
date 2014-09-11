@@ -51,6 +51,8 @@ public class Data2Stardust extends AbstractElement2Stardust {
     
     public void addItemDefinition(ItemDefinition itemdef) {
 
+    	if (ExtensionHelper2.INSTANCE.isSynthetic(itemdef)) return;
+    	
     	Definitions defs = ModelInfo.getDefinitions(itemdef);
     	TypeDeclarationType declaration = XpdlFactory.eINSTANCE.createTypeDeclarationType();
     	XSDSchema embedded = ExtensionHelper2.INSTANCE.getEmbeddedSchemaExtension(itemdef);

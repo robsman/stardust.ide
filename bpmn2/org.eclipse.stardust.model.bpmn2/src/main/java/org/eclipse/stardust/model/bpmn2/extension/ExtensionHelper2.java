@@ -1,6 +1,5 @@
 package org.eclipse.stardust.model.bpmn2.extension;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -11,16 +10,12 @@ import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
-import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.AccessPointSchemaElement;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.xsd.XSDComplexTypeContent;
@@ -90,7 +85,7 @@ public enum ExtensionHelper2 {
 			if (feature instanceof EAttribute) {
 				EAttribute attr = (EAttribute)feature;
 				if (STARDUST_SYNTHETIC_ITEMDEF.equals(attr.getName())) {
-					return "true".equals(item.getValue());
+					return "true".equals(item.getValue().toString());
 				}
 			}
 		} return false;
@@ -196,8 +191,8 @@ public enum ExtensionHelper2 {
 	public XSDSchema createSchema(AccessPointSchemaWrapper schemaInfo, int sequence, Direction direction) {
 
 		final XSDFactory factory = XSDFactory.eINSTANCE;
-		final String targetNamespace = STARDUST_EXTENSION_NAMESPACE + "/AccessPoints/" + sequence;
-		final String targetNamespacePrefix = "AccessPoints_" + sequence;
+		final String targetNamespace = STARDUST_EXTENSION_NAMESPACE + "/AccessPoints/" + direction + "/" + sequence;
+		final String targetNamespacePrefix = "AccessPoints_" + direction + "_" + sequence;
 
 		XSDSchema schema = factory.createXSDSchema();
 		schema.setSchemaForSchemaQNamePrefix("xsd");
@@ -208,10 +203,10 @@ public enum ExtensionHelper2 {
 		prefixMap.put(targetNamespacePrefix, targetNamespace);
 
 		XSDComplexTypeDefinition accessPointsType = factory.createXSDComplexTypeDefinition();
-		accessPointsType.setName("AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
+		accessPointsType.setName(direction + "AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
 
 		XSDElementDeclaration element = factory.createXSDElementDeclaration();
-		element.setName("AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
+		element.setName(direction + "AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
 		element.setTypeDefinition(accessPointsType);			
 		schema.getContents().add(element);
 

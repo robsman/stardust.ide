@@ -40,6 +40,9 @@ import org.eclipse.xsd.XSDTypeDefinition;
  */
 public class IntrinsicJavaAccessPointInfo {
 
+	private static final String RETURN_VALUE = "RETURN_VALUE";
+	private static final String PARAMETER = "PARAMETER";		
+
 	public static String encodeMethod(IMethod method) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException
 	{
 		return Reflect.encodeMethod(getMethod(method)).toString();
@@ -146,24 +149,66 @@ public class IntrinsicJavaAccessPointInfo {
 		return ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
 	}
 	
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		if (null != methods) {
+			for (Method meth : methods) {
+				AccessPointSchemaWrapper current = createSchemaWrapper(meth);
+				if (null != current) wrapper.addAll(current.getElements());
+			}
+		}
+		if (null != constructors) {
+			for (Constructor<?> constructor : constructors) {
+				AccessPointSchemaWrapper current = createSchemaWrapper(constructor);
+				if (null != current) wrapper.addAll(current.getElements());
+			}
+		}
+		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		if (null != methods) {
+			for (Method meth : methods) {
+				AccessPointSchemaWrapper current = createSchemaWrapper(meth);
+				if (null != current) wrapper.addAll(current.getElements());
+			}
+		}
+		if (null != constructors) {
+			for (Constructor<?> constructor : constructors) {
+				AccessPointSchemaWrapper current = createSchemaWrapper(constructor);
+				if (null != current) wrapper.addAll(current.getElements());
+			}
+		}
+		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+	
 	private static AccessPointSchemaWrapper createSchemaWrapper(IMethod method) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
-		final String RETURN_VALUE = "RETURN_VALUE";
-		final String PARAMETER = "PARAMETER";
-		
-		@SuppressWarnings("rawtypes")
-		Map calculateAccessPoints = null;
-		Class<?> cls = null;
-		
 		if (method.isConstructor()) {
 			Constructor<?> constructor = getConstructor(method);
-			cls = constructor.getDeclaringClass();
-			calculateAccessPoints = JavaApplicationTypeHelper.calculateConstructorAccessPoints(constructor, "Init");			
+			return createSchemaWrapper(constructor);
 		} else {
 			Method mth = getMethod(method);
-			cls = mth.getDeclaringClass();
-			calculateAccessPoints = JavaApplicationTypeHelper.calculateAccessPoints(cls, mth, false, false);
+			return createSchemaWrapper(mth);
 		}
+	}
+	
+	private static AccessPointSchemaWrapper createSchemaWrapper(Method mth) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+		Class<?> cls = mth.getDeclaringClass();
+		Map<?, ?> calculateAccessPoints = null;
+		calculateAccessPoints = JavaApplicationTypeHelper.calculateAccessPoints(cls, mth, false, false);
+		return createWrapper(calculateAccessPoints);
+	}
 
+	private static AccessPointSchemaWrapper createSchemaWrapper(Constructor<?> constructor) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+		Map<?, ?> calculateAccessPoints = null;
+		calculateAccessPoints = JavaApplicationTypeHelper.calculateConstructorAccessPoints(constructor, "Init");			
+		return createWrapper(calculateAccessPoints);
+	}
+
+	private static AccessPointSchemaWrapper createWrapper(Map<?,?> calculateAccessPoints) {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
 		for (Object v : calculateAccessPoints.values()) {
 			AccessPoint ap = (AccessPoint) v;
@@ -178,7 +223,7 @@ public class IntrinsicJavaAccessPointInfo {
 		}
 		return wrapper;
 	}
-	
+
 	// TODO MAP TYPES
 	private static XSDTypeDefinition getDataType(String typeClass) {
 		XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
@@ -226,8 +271,8 @@ public class IntrinsicJavaAccessPointInfo {
 			String displayName = ap.getName();
 			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
 			
-			if ("RETURN_VALUE".equals(flavor) 
-				||  "PARAMETER".equals(flavor)) {
+			if (RETURN_VALUE.equals(flavor) 
+				||  PARAMETER.equals(flavor)) {
 				paramList.put(displayName, id); // inverse key value pair
 			}
 		}

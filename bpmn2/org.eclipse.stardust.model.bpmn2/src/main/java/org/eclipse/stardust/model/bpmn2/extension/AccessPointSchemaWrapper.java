@@ -36,7 +36,7 @@ public class AccessPointSchemaWrapper {
 	}
 
 	public void addAll(List<AccessPointSchemaElement> elements) {
-		elements.addAll(elements);
+		this.elements.addAll(elements);
 	}
 	
 	public class AccessPointSchemaElement {

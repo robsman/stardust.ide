@@ -24,8 +24,10 @@ import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.impl.InterfaceImpl;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.reader.ModelInfo;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
@@ -70,22 +72,26 @@ public class ServiceInterfaceUtil {
 	}
 
 	private ApplicationType getApplicationAndReportFailure(Interface bpmnInterface , FlowElementsContainer container) {
-		Object impl = bpmnInterface.getImplementationRef();
+		//Object impl = bpmnInterface.getImplementationRef();
+		StardustInterfaceType impl = ExtensionHelper.getInstance().getApplicationExtension(bpmnInterface);
 		System.err.println(impl);
-		if (impl != null && impl instanceof AnyType) {
-			String implId = "";
-			System.err.println("ANYTYPE");
-			if (((AnyType)impl).eIsProxy()) {
-				try {
-					implId = ((InternalEObject)((AnyType)impl)).eProxyURI().fragment();
-				} catch (Exception e) {//URISyntaxException e) {
-					logger.error(e.getMessage());
-					failures.add("Stardust Implementation (Application) not resolved (failed to get id fragment) " + bpmnInterface + " in " + container);
+		if (null != impl && impl instanceof StardustInterfaceType) {
+			System.out.println(EcoreUtil.getAllContents((StardustInterfaceType)impl, true));
+			StardustApplicationType stardustApplication = ((StardustInterfaceType)impl).getStardustApplication();
+			if (null != stardustApplication) {
+				String implId = "";
+				if (stardustApplication.eIsProxy()) {
+					try {
+						implId = ((InternalEObject)(stardustApplication)).eProxyURI().fragment();
+					} catch (Exception e) {//URISyntaxException e) {
+						logger.error(e.getMessage());
+						failures.add("Stardust Implementation (Application) not resolved (failed to get id fragment) " + bpmnInterface + " in " + container);
+					}
+				} else {
+					implId = stardustApplication.getId();
 				}
-			} else {
-				implId = ((AnyType)impl).getMixed().toString();
-			}
-			return CarnotModelQuery.findApplication(carnotModel, implId);
+				return CarnotModelQuery.findApplication(carnotModel, implId);
+			} 
 		} else {
 			System.out.println(impl);
 			failures.add("Stardust Implementation Reference (Application) not resolved " + bpmnInterface + " in " + container);
