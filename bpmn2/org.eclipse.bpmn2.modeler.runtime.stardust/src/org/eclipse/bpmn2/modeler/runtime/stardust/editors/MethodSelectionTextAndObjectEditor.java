@@ -8,8 +8,6 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor
 import org.eclipse.bpmn2.modeler.runtime.stardust.dialogs.MemberOfClassSelectionDialog;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.CompositeUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPointInfo;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.bpmn2.modeler.ui.editor.BPMN2Editor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -90,9 +88,6 @@ public class MethodSelectionTextAndObjectEditor extends TextAndButtonObjectEdito
 				}
 			}
 			super.setText(selectedMethodStr);
-			// Clear existing ItemDefinition
-			StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);
-			StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos(sdInterface, selectedMethod);
 		}
 	}
 }
