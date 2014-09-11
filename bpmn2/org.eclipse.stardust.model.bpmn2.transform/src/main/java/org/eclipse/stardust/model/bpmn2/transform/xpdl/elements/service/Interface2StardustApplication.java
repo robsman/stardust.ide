@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.service;
 import java.util.List;
 
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
@@ -43,10 +44,13 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
     	StardustApplicationType application = sdInterface.getStardustApplication();
     	ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, null, failures);
     	if (application != null) {
-    		setApplicationType(sdInterface, application);
-    		serviceUtil.convertAccessPoints(application);
-    		serviceUtil.convertContexts(application);
-    		carnotModel.getApplication().add(application);
+    		EcoreUtil.Copier copier = new EcoreUtil.Copier(true, true);
+    		StardustApplicationType copy =  (StardustApplicationType) copier.copy(application);
+    		
+    		setApplicationType(sdInterface, copy);
+    		serviceUtil.convertAccessPoints(copy);
+    		serviceUtil.convertContexts(copy);
+    		carnotModel.getApplication().add(copy);
     	}
     }
 

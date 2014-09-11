@@ -13,8 +13,6 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
@@ -22,12 +20,11 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
-import org.eclipse.bpmn2.impl.InterfaceImpl;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.stardust.common.log.LogManager;
+import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
-import org.eclipse.stardust.model.bpmn2.reader.ModelInfo;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
@@ -72,8 +69,8 @@ public class ServiceInterfaceUtil {
 	}
 
 	private ApplicationType getApplicationAndReportFailure(Interface bpmnInterface , FlowElementsContainer container) {
-		//Object impl = bpmnInterface.getImplementationRef();
-		StardustInterfaceType impl = ExtensionHelper.getInstance().getApplicationExtension(bpmnInterface);
+		Object impl = bpmnInterface.getImplementationRef();
+//		StardustInterfaceType impl = ExtensionHelper.getInstance().getApplicationExtension(bpmnInterface);
 		System.err.println(impl);
 		if (null != impl && impl instanceof StardustInterfaceType) {
 			System.out.println(EcoreUtil.getAllContents((StardustInterfaceType)impl, true));
