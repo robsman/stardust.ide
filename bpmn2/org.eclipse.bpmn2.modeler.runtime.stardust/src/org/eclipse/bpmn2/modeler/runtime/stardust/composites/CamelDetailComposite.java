@@ -103,15 +103,16 @@ class CamelDetailComposite extends DefaultDetailComposite {
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Multiple Access Points");
 
-		if (!camelProducer) {
-			at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::consumerRoute");
-			editor = new AttributeTypeTextEditor(this, at);
-			editor.createControl(parent, "Camel Consumer Route");
-		}
-				
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::consumerRoute");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Camel Consumer Route");
+			
+		if (camelProducer) {
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::routeEntries");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Camel Producer Route");
+		}
 		
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::processContextHeaders");
 		editor = new AttributeTypeBooleanEditor(this, at);
