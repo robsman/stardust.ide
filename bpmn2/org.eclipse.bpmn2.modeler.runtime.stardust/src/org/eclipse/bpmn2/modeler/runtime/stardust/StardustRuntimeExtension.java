@@ -13,19 +13,24 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust;
 
+import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.bpmn2.modeler.core.IBpmn2RuntimeExtension;
 import org.eclipse.bpmn2.modeler.core.LifecycleEvent;
 import org.eclipse.bpmn2.modeler.core.LifecycleEvent.EventType;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.PropertiesCompositeFactory;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil.Bpmn2DiagramType;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustActivityInputDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustActivityOutputDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssignmentDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTaskDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
 import org.eclipse.bpmn2.modeler.ui.wizards.FileService;
@@ -91,7 +96,9 @@ public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
 
 	        PropertiesCompositeFactory.register(DataInput.class, StardustDataAssociationDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataOutput.class, StardustDataAssociationDetailComposite.class);
-
+	        PropertiesCompositeFactory.register(Activity.class, StardustActivityInputDetailComposite.class);
+	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
+	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
 		}
 	}
 }

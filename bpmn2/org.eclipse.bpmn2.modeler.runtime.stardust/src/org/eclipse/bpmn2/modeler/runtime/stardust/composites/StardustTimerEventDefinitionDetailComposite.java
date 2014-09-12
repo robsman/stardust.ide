@@ -30,6 +30,7 @@ import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeDateTimeEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustEventDefinitionPropertySection;
 import org.eclipse.bpmn2.modeler.ui.property.events.TimerEventDefinitionDetailComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;

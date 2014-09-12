@@ -10,9 +10,10 @@
  *
  * @author Innar Made
  ******************************************************************************/
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
+package org.eclipse.bpmn2.modeler.runtime.stardust.property;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.property.events.TimerEventDefinitionPropertySection;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;

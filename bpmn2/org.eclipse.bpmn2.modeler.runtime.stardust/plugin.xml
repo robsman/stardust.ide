@@ -109,7 +109,7 @@
 		<propertyTab
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.timerEvent.tab"
 			replaceTab="org.eclipse.bpmn2.modeler.timerEvent.tab"
-			class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustEventDefinitionPropertySection"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustEventDefinitionPropertySection"
 			type="org.eclipse.bpmn2.TimerEventDefinition"
 			label="Timer Event">
 		</propertyTab>
@@ -117,7 +117,7 @@
 		<propertyTab
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.interface.tab"
 			replaceTab="org.eclipse.bpmn2.modeler.interface.details.tab"
-			class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionPropertySection"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection"
 			type="org.eclipse.bpmn2.Interface"
 			label="Interface">
 		</propertyTab>
@@ -131,6 +131,16 @@
 			type="org.eclipse.bpmn2.DataInputAssociation org.eclipse.bpmn2.DataOutputAssociation"
 			label="Data Association">
 		</propertyTab>
+		
+		<propertyTab
+	        id="bpmn2.jbpm.serviceTask.tab"
+	        replaceTab="org.eclipse.bpmn2.modeler.serviceTask.tab"
+			afterTab="org.eclipse.bpmn2.modeler.description.tab"
+		    class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustServiceTaskPropertySection"
+		    type="org.eclipse.bpmn2.ServiceTask"
+		    label="Service Task">
+		</propertyTab>
+				
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.modelExtension.TimerEvent"
