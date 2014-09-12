@@ -16,4 +16,4 @@ Bundle-ClassPath: lib/camel-core.jar,
  lib/camel-mail.jar,
  lib/quartz.jar,
  lib/camel-smpp.jar,
- lib/jsmpp.jar
+ lib/org.apache.servicemix.bundles.jsmpp.jar
