@@ -174,7 +174,7 @@ public enum ExtensionHelper2 {
 		return itemDef;
 	}
 	
-	private EObject getProxyElement(final URI uri) {
+	public EObject getProxyElement(final URI uri) {
 		DynamicEObjectImpl dyn = new DynamicEObjectImpl() {
 //		dyn.eSet(dyn.eClass().getEStructuralFeature("value"), uri.toString());
 			

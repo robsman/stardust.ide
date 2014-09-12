@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpmn2.Extension;
 import org.eclipse.bpmn2.util.QNameURIHandler;
 import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -18,6 +19,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMLHandler;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
 /**
@@ -39,6 +41,21 @@ public class StardustBpmnXmlHandler extends SAXXMLHandler {
      */
     @Override
     protected void setValueFromId(EObject object, EReference eReference, String ids) {
+    	if ("structureRef".equals(eReference.getName())) {
+			try {
+				URI uri = URI.createURI(((QNameURIHandler) uriHandler).convertQNameToUri(ids));
+				EObject proxyElement = ExtensionHelper2.INSTANCE.getProxyElement(uri);
+//				if (eReference.isMany()) {
+//					((EList)object.eGet(eReference)).add(value);
+//				}
+//				else {
+					object.eSet(eReference, proxyElement);
+//				}
+				return;
+			} catch (Exception e) {    		
+				e.printStackTrace();
+			}
+    	}
         super.setValueFromId(
                 object,
                 eReference,

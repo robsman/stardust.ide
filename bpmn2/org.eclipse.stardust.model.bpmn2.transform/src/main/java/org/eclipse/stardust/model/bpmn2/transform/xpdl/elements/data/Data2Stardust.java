@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
 import java.util.List;
 
+import org.eclipse.bpmn2.Bpmn2Package;
 import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
@@ -217,7 +218,8 @@ public class Data2Stardust extends AbstractElement2Stardust {
     	if (itemDef.eIsProxy()) {
     		itemDef = Bpmn2ProxyResolver.resolveItemDefinition(itemDef, defs);
     	}
-    	EObject structureRef = (EObject)itemDef.getStructureRef();
+    	//EObject structureRef = (EObject)itemDef.getStructureRef();
+    	EObject structureRef = (EObject)itemDef.eGet(Bpmn2Package.Literals.ITEM_DEFINITION__STRUCTURE_REF);
     	if (structureRef == null) return null;
 
         return ((InternalEObject)structureRef).eProxyURI();
