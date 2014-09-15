@@ -40,6 +40,7 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.Property;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
@@ -67,7 +68,7 @@ public interface Transformator {
 
     public void addStartEvent(StartEvent event, FlowElementsContainer container);
 
-    public void addEndEvent(EndEvent event, FlowElementsContainer container);
+    public void addEndEvent(EndEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId);
 
     public void serializeTargetModel(OutputStream target);
 
@@ -99,7 +100,7 @@ public interface Transformator {
 
     public void addItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports);
 
-    public void addTaskDataFlows(Activity activity, FlowElementsContainer container);
+    public void addTaskDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId);
 
 	public void addInterface(Interface bpmnInterface);
 
@@ -113,9 +114,9 @@ public interface Transformator {
 
 	public void addIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container);
 
-	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container);
+	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId);
 
-	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container);
+	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId);
 
 	public void postTransformProcessStarts(Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer, Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer);
 
@@ -130,5 +131,7 @@ public interface Transformator {
 	public void addInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container);
 
 	public void addGlobalCall(CallActivity caller, FlowElementsContainer container);
+
+	void addProperty(Property property, Map<String, String> predefinedDataForId);
 
 }

@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.DataAssociation;
@@ -46,7 +47,7 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
         super(carnotModel, failures);
     }
 
-    public void addDataFlows(StartEvent event, FlowElementsContainer container) {
+    public void addDataFlows(StartEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
 		ProcessDefinitionType processDef = getProcessAndReportFailure(event, container);
 		if (processDef == null) return;
 
@@ -63,19 +64,19 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
         if (outputAssociations != null && outputAssociations.size() > 0) {
             for (DataOutputAssociation assocOut : outputAssociations) {
                 if (!hasValidSourceAndTarget(assocOut, event, container)) continue;
-                DataOutput output = addParameterMapping(assocOut, sdTrigger, container);
+                DataOutput output = addParameterMapping(assocOut, sdTrigger, container, predefinedDataForId);
                 if (output != null) associatedDataOutputs.add(output);
             }
         }
     }
 
-    private DataOutput addParameterMapping(DataOutputAssociation assocOut, TriggerType trigger, FlowElementsContainer container) {
+    private DataOutput addParameterMapping(DataOutputAssociation assocOut, TriggerType trigger, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
         ItemAwareElement associationTarget = assocOut.getTargetRef();
         if (associationTarget instanceof DataObjectReference) associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
 
         DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
-        DataType toVariable = query.findVariable(associationTarget.getId());
+        DataType toVariable = query.findVariable(associationTarget.getId(), predefinedDataForId);
         if (toVariable == null) failures.add("DATA OUTPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " from Activity " + trigger.getId() + " " + trigger.getName()  + " in "  + container.getId() );
 
         if (hasAssignment(assocOut)) {

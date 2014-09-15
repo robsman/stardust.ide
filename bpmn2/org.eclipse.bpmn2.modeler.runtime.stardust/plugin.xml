@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+
 	<extension point="org.eclipse.ui.menus">
+	
 		<menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-			<command commandId="org.eclipse.stardust.bpmn2.transform" label="Transform" style="push">
-			
-				<visibleWhen checkEnabled="false">
-					<with variable="activeMenuSelection">
-                  		<iterate ifEmpty="false" operator="or">
-					      <adapt type="org.eclipse.core.resources.IResource">
-					         <or>
-					             <test property="org.eclipse.core.resources.extension"
-					                   value="bpmn">
-					             </test>
-					             <test property="org.eclipse.core.resources.extension"
-					                   value="bpmn2">
-					             </test>
-					         </or>
-					      </adapt>
-                     	</iterate>
-                     </with>
-            	</visibleWhen>
-            	
-			</command>
+			<separator>
+			</separator>
+			<menu label="Stardust BPMN2" id="org.eclipse.stardust.model.bpmn2.menu">
+				<command commandId="org.eclipse.stardust.bpmn2.transform" label="Transform" style="push">			
+					<visibleWhen checkEnabled="false">
+						<with variable="activeMenuSelection">
+	                  		<iterate ifEmpty="false" operator="or">
+						      <adapt type="org.eclipse.core.resources.IResource">
+						         <or>
+						             <test property="org.eclipse.core.resources.extension"
+						                   value="bpmn">
+						             </test>
+						             <test property="org.eclipse.core.resources.extension"
+						                   value="bpmn2">
+						             </test>
+						         </or>
+						      </adapt>
+	                     	</iterate>
+	                     </with>
+	            	</visibleWhen>
+				</command>
+			</menu>
 		</menuContribution>
+	
+	<menuContribution
+	    locationURI= "menu:org.eclipse.bpmn2.modeler.diagram.menu?after=additions">
+			<separator>
+			</separator>
+			<menu label="Stardust BPMN2" id="org.eclipse.stardust.model.bpmn2.menu">
+		        <visibleWhen>
+		           <with
+		                 variable="activeEditorId">
+		              <equals
+		                    value="org.eclipse.bpmn2.modeler.ui.bpmn2editor">
+		              </equals>
+		           </with>
+		        </visibleWhen>			
+				<command commandId="org.eclipse.stardust.bpmn2.load.defaults" label="Initialize Stardust defaults" style="push">
+				</command>
+	    	</menu>
+	</menuContribution>
+			
 	</extension>
 	<extension point="org.eclipse.ui.commands">
 		<command defaultHandler="org.eclipse.bpmn2.modeler.runtime.stardust.utils.TransformActionHandler" id="org.eclipse.stardust.bpmn2.transform" name="Transform">
+		</command>
+		<command defaultHandler="org.eclipse.bpmn2.modeler.runtime.stardust.utils.InitDefaultsActionHandler" id="org.eclipse.stardust.bpmn2.load.defaults" name="Load Defaults">
 		</command>
 	</extension>
 

@@ -144,7 +144,7 @@ public class Data2Stardust extends AbstractElement2Stardust {
         return addVariable(data, getName(data));
     }
 
-    private DataType addVariable(ItemAwareElement dataObject, String name) {
+    protected DataType addVariable(ItemAwareElement dataObject, String name) {
         if (refersToPrimitiveType(dataObject)) {
         	return addPrimitiveVariable(dataObject, name);
         } else {

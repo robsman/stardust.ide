@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.Assignment;
@@ -50,7 +51,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         super(carnotModel, failures);
     }
 
-    public void addDataFlows(Activity activity, FlowElementsContainer container) {
+    public void addDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ActivityType sdActivity = query.findActivity(activity, container);
         if (sdActivity == null) {
             failures.add("STARDUST-ACTIVITY NOT FOUND " + activity.getId() + " " + activity.getName() + " in "  + container.getId() );
@@ -68,36 +69,36 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         if (inputAssociations != null && inputAssociations.size() > 0) {
             for (DataInputAssociation assocIn : inputAssociations) {
                 if (!hasValidSourceAndTarget(assocIn, activity, container)) continue;
-                DataInput input = addInDataMapping(assocIn, sdActivity, container);
+                DataInput input = addInDataMapping(assocIn, sdActivity, container, predefinedDataForId);
                 if (input != null) associatedDataInputs.add(input);
             }
         }
         if (outputAssociations != null && outputAssociations.size() > 0) {
             for (DataOutputAssociation assocOut : outputAssociations) {
                 if (!hasValidSourceAndTarget(assocOut, activity, container)) continue;
-                DataOutput output = addOutDataMapping(assocOut, sdActivity, container);
+                DataOutput output = addOutDataMapping(assocOut, sdActivity, container, predefinedDataForId);
                 if (output != null) associatedDataOutputs.add(output);
             }
         }
         for (DataInput input : dataInputs) {
             if (!associatedDataInputs.contains(input)) {
-                addInDataMappingWithoutAssociation(input, sdActivity, container);
+                addInDataMappingWithoutAssociation(input, sdActivity, container, predefinedDataForId);
             }
         }
         for (DataOutput output : dataOutput) {
             if (!associatedDataOutputs.contains(output)) {
-                addOutDataMappingWithoutAssociation(output, sdActivity, container);
+                addOutDataMappingWithoutAssociation(output, sdActivity, container, predefinedDataForId);
             }
         }
     }
 
-    private DataInput addInDataMapping(DataInputAssociation assocIn, ActivityType activity, FlowElementsContainer container) {
+    private DataInput addInDataMapping(DataInputAssociation assocIn, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ItemAwareElement associationTarget = assocIn.getTargetRef();
         ItemAwareElement associationSource = getFirstAssociationSource(assocIn);
         if (associationSource instanceof DataObjectReference)
             associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
         DataInput dataInput = associationTarget instanceof DataInput ? (DataInput)associationTarget : null;
-        DataType fromVariable = query.findVariable(associationSource.getId());
+        DataType fromVariable = query.findVariable(associationSource.getId(), predefinedDataForId);
         if (fromVariable == null) failures.add("DATA INPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " to Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
 
         if (hasAssignment(assocIn)) {
@@ -111,13 +112,13 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         return dataInput;
     }
 
-    private DataOutput addOutDataMapping(DataOutputAssociation assocOut, ActivityType activity, FlowElementsContainer container) {
+    private DataOutput addOutDataMapping(DataOutputAssociation assocOut, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
         ItemAwareElement associationTarget = assocOut.getTargetRef();
         if (associationTarget instanceof DataObjectReference) associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
 
         DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
-        DataType toVariable = query.findVariable(associationTarget.getId());
+        DataType toVariable = query.findVariable(associationTarget.getId(), predefinedDataForId);
         if (toVariable == null) failures.add("DATA OUTPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " from Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
 
         if (hasAssignment(assocOut)) {
@@ -173,16 +174,16 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             mapping.setDataPath(toExpressionValue);
         }
     }
-    private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container) {
-        DataType inVariable = query.findVariable(input.getId());
+    private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        DataType inVariable = query.findVariable(input.getId(), predefinedDataForId);
         if (inVariable == null) {
             inVariable = new Data2Stardust(carnotModel, failures).addDataInputVariable(input);
         }
         buildInDataMapping(activity, input.getId(), input.getName(), inVariable, "", "");
     }
 
-    private void addOutDataMappingWithoutAssociation(DataOutput output, ActivityType activity, FlowElementsContainer container) {
-        DataType outVariable = query.findVariable(output.getId());
+    private void addOutDataMappingWithoutAssociation(DataOutput output, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        DataType outVariable = query.findVariable(output.getId(), predefinedDataForId);
         if (outVariable == null) {
             outVariable = new Data2Stardust(carnotModel, failures).addDataOutputVariable(output);
         }

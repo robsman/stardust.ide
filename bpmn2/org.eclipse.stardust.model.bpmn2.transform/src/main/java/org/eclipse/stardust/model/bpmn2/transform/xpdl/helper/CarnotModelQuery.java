@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.helper;
 
+import java.util.Map;
+
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.SequenceFlow;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.BoundaryEvent2Stardust;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
@@ -115,7 +116,11 @@ public class CarnotModelQuery {
     }
 
     public DataType findVariable(String id) {
-        return findVariable(carnotModel, id);
+        return findVariable(carnotModel, id, null);
+    }
+
+    public DataType findVariable(String id, Map<String, String> predefinedDataForId) {
+        return findVariable(carnotModel, id, predefinedDataForId);
     }
 
 	public ApplicationType findApplication(String id) {
@@ -170,7 +175,8 @@ public class CarnotModelQuery {
         return null;
     }
 
-    public static DataType findVariable(ModelType model, String id) {
+    public static DataType findVariable(ModelType model, String id, Map<String, String> predefinedDataForId) {
+    	if (null != predefinedDataForId && predefinedDataForId.containsKey(id)) id = predefinedDataForId.get(id);
         for (DataType data : model.getData()) {
             if (data.getId().equals(id)) return data;
         }

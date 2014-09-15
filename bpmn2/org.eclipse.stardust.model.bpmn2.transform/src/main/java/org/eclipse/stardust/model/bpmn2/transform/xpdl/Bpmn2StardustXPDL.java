@@ -48,6 +48,7 @@ import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.Property;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
@@ -95,6 +96,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingS
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Property2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust;
@@ -337,8 +339,8 @@ public class Bpmn2StardustXPDL implements Transformator {
 		new NativeIntermediateEvent2Stardust(carnotModel, failures).addIntermediateThrowEvent(event, container);
 	}
 
-    public void addEndEvent(EndEvent event, FlowElementsContainer container) {
-    	new EndEvent2Stardust(carnotModel, failures).addEndEvent(event, container);
+    public void addEndEvent(EndEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+    	new EndEvent2Stardust(carnotModel, failures).addEndEvent(event, container, predefinedDataForId);
     }
 
     public void addExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
@@ -435,9 +437,9 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     }
 
-    public void addTaskDataFlows(Activity activity, FlowElementsContainer container) {
+    public void addTaskDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         logger.debug("addTaskDataFlows " + activity.getId() + " " + activity.getName());
-        new TaskDataFlow2Stardust(carnotModel,failures).addDataFlows(activity, container);
+        new TaskDataFlow2Stardust(carnotModel,failures).addDataFlows(activity, container, predefinedDataForId);
     }
 
 	public void addInterface(Interface bpmnInterface) {
@@ -470,19 +472,19 @@ public class Bpmn2StardustXPDL implements Transformator {
 	}
 
 	@Override
-	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container) {
+	public void addEventDataFlows(CatchEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
 		logger.debug("addEventDataFlows for catch event (" + event + ").");
 		if (event instanceof StartEvent) {
-			new StartEventDataFlow2Stardust(carnotModel, failures).addDataFlows((StartEvent)event, container);
+			new StartEventDataFlow2Stardust(carnotModel, failures).addDataFlows((StartEvent)event, container, predefinedDataForId);
 		} else {
-			new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
+			new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
 		}
 	}
 
 	@Override
-	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container) {
+	public void addEventDataFlows(ThrowEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
 		logger.debug("addEventDataFlows for throw event (" + event + ").");
-		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
+		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
 	}
 
 	@Override
@@ -674,6 +676,11 @@ public class Bpmn2StardustXPDL implements Transformator {
 		      }
 		      return conditionType;
 		   }
+
+	@Override
+	public void addProperty(Property property, Map<String, String> predefinedDataForId) {
+		new Property2Stardust(carnotModel, failures).addProperty(property, predefinedDataForId);
+	}
 
 
 }

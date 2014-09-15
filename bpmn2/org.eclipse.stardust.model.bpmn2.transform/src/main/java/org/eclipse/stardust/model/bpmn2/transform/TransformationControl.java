@@ -66,6 +66,7 @@ import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.PartnerRole;
 import org.eclipse.bpmn2.Process;
+import org.eclipse.bpmn2.Property;
 import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
@@ -107,6 +108,8 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<CallActivity>> globalCalls;
 	private List<String> processedImportDefinitions = new ArrayList<String>();
     
+	private Map<String, String> predefinedDataForId = new HashMap<String, String>();
+		
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
     }
@@ -202,17 +205,17 @@ public class TransformationControl {
 
         for (FlowElementsContainer container : tasksWithDataflow.keySet()) {
             for (Activity activity : tasksWithDataflow.get(container)) {
-                processTaskDataFlow(activity, container);
+                processTaskDataFlow(activity, container, predefinedDataForId);
             }
         }
 		for (FlowElementsContainer container : throwEventsWithDataflow.keySet()) {
 			for (ThrowEvent event : throwEventsWithDataflow.get(container)) {
-				processEventDataFlow(event, container);
+				processEventDataFlow(event, container, predefinedDataForId);
 			}
 		}
 		for (FlowElementsContainer container : catchEventsWithDataflow.keySet()) {
 			for (CatchEvent event : catchEventsWithDataflow.get(container)) {
-				processEventDataFlow(event, container);
+				processEventDataFlow(event, container, predefinedDataForId);
 			}
 		}
 //		for (FlowElementsContainer container : globalCalls.keySet()) {
@@ -244,6 +247,7 @@ public class TransformationControl {
 	}
 
 	private  void processProcess(Process process) {
+		processProperties(process);
         transf.addProcess(process);
         transf.addIOBinding(process.getIoBinding(), process);
         for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
@@ -252,7 +256,13 @@ public class TransformationControl {
         processFlowElementsContainer(process);
     }
 
-    private  void processFlowElementsContainer(FlowElementsContainer container) {
+    private void processProperties(Process process) {
+    	for (Property prop : process.getProperties()) {
+    		transf.addProperty(prop, predefinedDataForId);
+    	}
+	}
+
+	private  void processFlowElementsContainer(FlowElementsContainer container) {
         List<SequenceFlow> sequenceFlows = new ArrayList<SequenceFlow>();
         List<Gateway> gateways = new ArrayList<Gateway>();
         List<FlowNode> routingFlowNodes = new ArrayList<FlowNode>();
@@ -439,7 +449,7 @@ public class TransformationControl {
             processStartEvent((StartEvent)event, container);
         } else if (event instanceof EndEvent) {
         	addToThrowEventsWithDataFlow((EndEvent)event, container);
-            processEndEvent((EndEvent)event, container);
+            processEndEvent((EndEvent)event, container, predefinedDataForId);
         } else if (event instanceof BoundaryEvent) {
             processBoundaryEvent((BoundaryEvent)event, container);
         } else if (event instanceof IntermediateCatchEvent) {
@@ -473,8 +483,8 @@ public class TransformationControl {
         transf.addStartEvent(event, container);
     }
 
-    private void processEndEvent(EndEvent event, FlowElementsContainer container) {
-        transf.addEndEvent(event, container);
+    private void processEndEvent(EndEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        transf.addEndEvent(event, container, predefinedDataForId);
     }
 
     private void processExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
@@ -509,16 +519,16 @@ public class TransformationControl {
         processFlowElementsContainer(activity);
     }
 
-    private void processTaskDataFlow(Activity activity, FlowElementsContainer container) {
-        transf.addTaskDataFlows(activity, container);
+    private void processTaskDataFlow(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        transf.addTaskDataFlows(activity, container, predefinedDataForId);
     }
 
-    private void processEventDataFlow(ThrowEvent event, FlowElementsContainer container) {
-    	transf.addEventDataFlows(event, container);
+    private void processEventDataFlow(ThrowEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+    	transf.addEventDataFlows(event, container, predefinedDataForId);
 	}
 
-	private void processEventDataFlow(CatchEvent event, FlowElementsContainer container) {
-		transf.addEventDataFlows(event, container);
+	private void processEventDataFlow(CatchEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+		transf.addEventDataFlows(event, container, predefinedDataForId);
 	}
 
     private void processSequenceFlow(SequenceFlow seq, FlowElementsContainer container) {

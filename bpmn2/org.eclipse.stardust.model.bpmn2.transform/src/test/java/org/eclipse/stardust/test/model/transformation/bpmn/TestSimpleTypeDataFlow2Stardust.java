@@ -62,8 +62,8 @@ public class TestSimpleTypeDataFlow2Stardust extends Bpmn2StardustTestSuite {
         assertNotNull(activity);
 
         // VARIABLES - not predefined primitive string / int
-        DataType integerData = CarnotModelQuery.findVariable(result, DATA_OBJECT_INT_INPUT_ID);
-        DataType stringData = CarnotModelQuery.findVariable(result, DATA_OBJECT_STRING_OUTPUT_ID);
+        DataType integerData = CarnotModelQuery.findVariable(result, DATA_OBJECT_INT_INPUT_ID, null);
+        DataType stringData = CarnotModelQuery.findVariable(result, DATA_OBJECT_STRING_OUTPUT_ID, null);
 
         assertNotNull(integerData);
         assertNotNull(stringData);

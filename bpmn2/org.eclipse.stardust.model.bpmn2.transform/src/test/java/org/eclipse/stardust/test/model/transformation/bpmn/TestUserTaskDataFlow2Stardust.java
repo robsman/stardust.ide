@@ -10,14 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_B;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_C;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -80,7 +72,7 @@ public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
 
     @Test
     public void testDataObject2DataField() {
-        DataType data = CarnotModelQuery.findVariable(resultModel, DATA_OBJECT_ID);
+        DataType data = CarnotModelQuery.findVariable(resultModel, DATA_OBJECT_ID, null);
         assertNotNull(data);
         assertEquals(ITEM_DEFINITION_ID, AttributeUtil.getAttributeValue(data, StructuredDataConstants.TYPE_DECLARATION_ATT));
     }

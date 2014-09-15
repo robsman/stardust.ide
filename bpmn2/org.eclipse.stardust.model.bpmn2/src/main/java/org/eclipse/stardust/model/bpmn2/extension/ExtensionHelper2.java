@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.Property;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -49,6 +51,8 @@ public enum ExtensionHelper2 {
 	public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX = "Type";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX = "Element";
+	public static final String STARDUST_PROPERTY_ID = "stardustPropertyId";
+	
 
 	public XSDSchema getEmbeddedSchemaExtension(ItemDefinition itemdef) {
 		final String featureName = XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA.getName();
@@ -75,8 +79,8 @@ public enum ExtensionHelper2 {
 		return null;
 	}
 
-	public boolean isSynthetic(ItemDefinition itemDef) {
-		Iterator<Entry> iterator = itemDef.getAnyAttribute().iterator();
+	public boolean isSynthetic(BaseElement element) {
+		Iterator<Entry> iterator = element.getAnyAttribute().iterator();
 		while (iterator.hasNext()) {
 			Entry item = iterator.next();
 			EStructuralFeature feature = item.getEStructuralFeature();
@@ -91,6 +95,38 @@ public enum ExtensionHelper2 {
 		} return false;
 	}
 
+	public String getStardustPropertyId(Property prop) {
+		Iterator<Entry> iterator = prop.getAnyAttribute().iterator();
+		while (iterator.hasNext()) {
+			Entry item = iterator.next();
+			EStructuralFeature feature = item.getEStructuralFeature();
+			String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(feature);
+			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
+			if (feature instanceof EAttribute) {
+				EAttribute attr = (EAttribute)feature;
+				if (STARDUST_PROPERTY_ID.equals(attr.getName())) {
+					return item.getValue().toString();
+				}
+			}
+		} return null;
+	}
+
+	public boolean hasStardustPropertyId(Property prop, String propId) {
+		Iterator<Entry> iterator = prop.getAnyAttribute().iterator();
+		while (iterator.hasNext()) {
+			Entry item = iterator.next();
+			EStructuralFeature feature = item.getEStructuralFeature();
+			String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(feature);
+			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
+			if (feature instanceof EAttribute) {
+				EAttribute attr = (EAttribute)feature;
+				if (STARDUST_PROPERTY_ID.equals(attr.getName())) {
+					return propId.equals(item.getValue().toString());
+				}
+			}
+		} return false;
+	}
+	
 	/**
 	 * Returns the value of the attribute named <code>localName</code> in the namespace <code>attributeNamespaceUri</code>
 	 * of an element named <code>elementName</code> of the complexType of the given <code>schemaElement</code>.

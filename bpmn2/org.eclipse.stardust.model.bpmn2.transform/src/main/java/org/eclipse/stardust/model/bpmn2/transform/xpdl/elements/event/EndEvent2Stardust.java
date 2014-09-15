@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.bpmn2.EndEvent;
 import org.eclipse.bpmn2.EventDefinition;
@@ -31,13 +32,13 @@ public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 		bpmnquery = new BpmnModelQuery(logger);
 	}
 
-	public void addEndEvent(EndEvent event, FlowElementsContainer container) {
+	public void addEndEvent(EndEvent event, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
 		logger.debug("addEndEvent " + event);
 
 		EventDefinition def = bpmnquery.getFirstEventDefinition(event);
 		if (!checkAndReportElementSupport(event, def, container)) return;
 		addEvent(event, container);
-		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container);
+		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
 	}
 
     private boolean checkAndReportElementSupport(EndEvent event, EventDefinition def, FlowElementsContainer container) {

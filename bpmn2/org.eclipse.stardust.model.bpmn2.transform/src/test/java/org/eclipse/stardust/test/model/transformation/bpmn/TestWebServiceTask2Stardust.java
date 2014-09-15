@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_BPMN_MODEL_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_ID_TASK_A;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.TEST_MODEL_OUTPUT_DIR;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.getResourceFilePath;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel;
-import static org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.transformModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -79,7 +73,7 @@ public class TestWebServiceTask2Stardust extends Bpmn2StardustTestSuite {
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testServiceTaskWebServiceAppTemp.xpdl";
 
         Definitions defs = loadBpmnModel(modelFile);
-        ModelType result = transformModel(defs, fileOutput);
+        transformModel(defs, fileOutput);
 
     }
     
@@ -116,7 +110,7 @@ public class TestWebServiceTask2Stardust extends Bpmn2StardustTestSuite {
     }
 
     private void dataObjectAssertions(ModelType result, ProcessDefinitionType process) {
-    	DataType variable = CarnotModelQuery.findVariable(result, DATA_OBJECT_ID);
+    	DataType variable = CarnotModelQuery.findVariable(result, DATA_OBJECT_ID, null);
 
     	assertNotNull(variable);
 
