@@ -13,6 +13,8 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,9 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEd
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPointInfo;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -94,6 +99,14 @@ class CamelDetailComposite extends DefaultDetailComposite {
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Enable Retry");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:number");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Number of Retries");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:time");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Time between Retries (seconds)");
 
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::camelContextId");
 		editor = new AttributeTypeTextEditor(this, at);
@@ -242,6 +255,11 @@ class CamelDetailComposite extends DefaultDetailComposite {
 			at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("RootElement", "", "boolean");
 			param.getAttribute().add(at);
 			
+			// Remove ItemDefinition and write new ItemDefinition with newly added ListItem (Camel AccessPoint)
+//			StardustInterfaceType sdIntType = (StardustInterfaceType) businessObject;
+//			StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdIntType);
+//			StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos((StardustInterfaceType) businessObject, method, constr );
+//			StardustApplicationConfigurationGenerator.INSTANCE.
 			return param;
 		}
 

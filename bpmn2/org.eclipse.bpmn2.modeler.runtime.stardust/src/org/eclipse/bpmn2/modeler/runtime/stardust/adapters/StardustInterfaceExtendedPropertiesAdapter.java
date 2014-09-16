@@ -285,6 +285,8 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:methodName", "", null));		
 		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));	
 		
 		sdInterface.setStardustApplication(sdApplication);
 	}
@@ -327,6 +329,9 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::routeEntries", "", null));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::processContextHeaders", "false", "boolean"));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::outBodyAccessPoint", "", null));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));	
 
 		StardustAccessPointType sdAccessPoint;
 		

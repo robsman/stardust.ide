@@ -79,11 +79,18 @@ class SpringBeanDetailComposite extends DefaultDetailComposite implements Modify
 		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 		importEditor.createControl(parent,"Class Selector");
 		methodEditor.createControl(parent,"Method");
-		
-		
+				
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Enable Retry");
+				
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:number");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Number of Retries");
+		
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:time");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Time between Retries (seconds)");
 		
 	}
 
