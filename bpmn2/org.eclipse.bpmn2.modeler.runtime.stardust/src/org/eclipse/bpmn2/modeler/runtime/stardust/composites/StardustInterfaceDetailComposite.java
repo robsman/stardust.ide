@@ -75,10 +75,13 @@ public class StardustInterfaceDetailComposite extends DefaultDetailComposite {
 			details = new WebServiceDetailComposite(getAttributesParent(), SWT.NONE);
 			break;
 		case CAMELCONSUMER:
-			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE,false);
+			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE, appType);
 			break;
-		case CAMELPRODUCER:
-			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE,true);
+		case CAMELPRODUCER_SEND:
+			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE, appType);
+			break;
+		case CAMELPRODUCER_SENDRECEIVE:
+			details = new CamelDetailComposite(getAttributesParent(), SWT.NONE, appType);
 			break;
 		case PLAINJAVA:
 			details = new PlainJavaDetailComposite(getAttributesParent(), SWT.NONE);

@@ -41,7 +41,8 @@ public class AttributeTypeExtendedPropertiesAdapter extends ExtendedPropertiesAd
 			new FeatureDescriptor<AttributeType>(this,object,feature) {
 
     			final List<String> multiliners = Arrays.asList("carnot:engine:camel::consumerRoute",
-															   "carnot:engine:camel::routeEntries"); 
+															   "carnot:engine:camel::routeEntries",
+															   "carnot:engine:camel::additionalSpringBeanDefinitions"); 
     		
     			@Override
     	   		protected void internalSet(AttributeType sdStardustTimerStartEvent, EStructuralFeature feature, Object value, int index) {

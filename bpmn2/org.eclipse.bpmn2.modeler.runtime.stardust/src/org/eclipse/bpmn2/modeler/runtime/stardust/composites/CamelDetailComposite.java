@@ -13,8 +13,6 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +28,11 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPointInfo;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -46,44 +42,51 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 class CamelDetailComposite extends DefaultDetailComposite {
 
-	private boolean camelProducer;
+	//Consumer, Prducer (send and send/receive)
+	private ApplicationTypes camelTypes;
 	
 	public CamelDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
 
-	public CamelDetailComposite(Composite parent, int style, boolean camelType) {
+	public CamelDetailComposite(Composite parent, int style, ApplicationTypes camelType) {
 		super(parent, style);
-		camelProducer = camelType;
+		camelTypes = camelType;
 	}
 
 	@Override
 	public void createBindings(EObject be) {
 		Composite parent = this.getAttributesParent();
 
-		if (camelProducer==true) {
-			setTitle("Camel Producer Service Configuration");			
+		if (camelTypes.equals(ApplicationTypes.CAMELCONSUMER)) {
+			setTitle("Camel Consumer Service Configuration (receive)");			
+		} else if (camelTypes.equals(ApplicationTypes.CAMELPRODUCER_SEND)) {
+			setTitle("Camel Producer Service Configuration (send)");			
 		} else {
-			setTitle("Camel Consumer Service Configuration");			
+			setTitle("Camel Producer Service Configuration (send/receive)");
 		}
 		
 		StardustInterfaceType sdInterface = (StardustInterfaceType) be;
 
 		ObjectEditor editor = null;
-
-		StardustApplicationType sdApplication = sdInterface.getStardustApplication();
+		StardustApplicationType sdApplication;
+		sdApplication = sdInterface.getStardustApplication();
 		bindAttribute(sdApplication, "name");
 		bindAttribute(sdApplication, "id");
 		bindAttribute(sdApplication, "elementOid");
 
 		AttributeType at;
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::camelContextId");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Context Id");
+		
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:visibility");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "Public", "Private" });
 		editor.createControl(parent, "Visibility");
@@ -108,33 +111,43 @@ class CamelDetailComposite extends DefaultDetailComposite {
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Time between Retries (seconds)");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::camelContextId");
-		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Context Id");
-
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::supportMultipleAccessPoints");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Multiple Access Points");
-
 		
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::consumerRoute");
-		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Camel Consumer Route");
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::transactedRoute");
+		editor = new AttributeTypeBooleanEditor(this, at);
+		editor.createControl(parent, "Transacted Route");
+		
+		if (camelTypes.equals(ApplicationTypes.CAMELCONSUMER) || camelTypes.equals(ApplicationTypes.CAMELPRODUCER_SENDRECEIVE)) {
+			at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::consumerRoute");
+			editor = new AttributeTypeTextEditor(this, at);
+			editor.createControl(parent, "Camel Consumer Route");
+		}
 			
-		if (camelProducer) {
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::routeEntries");
-		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Camel Producer Route");
+		if (camelTypes.equals(ApplicationTypes.CAMELPRODUCER_SENDRECEIVE) || camelTypes.equals(ApplicationTypes.CAMELPRODUCER_SEND)) {
+			at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::processContextHeaders");
+			editor = new AttributeTypeBooleanEditor(this, at);
+			editor.createControl(parent, "Include Process Context Headers in Producer Route ");			
+				
+			at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::routeEntries");
+			editor = new AttributeTypeTextEditor(this, at);
+			editor.createControl(parent, "Camel Producer Route");
 		}
 		
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::processContextHeaders");
-		editor = new AttributeTypeBooleanEditor(this, at);
-		editor.createControl(parent, "Process Context Headers");
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::inBodyAccessPoint");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Body Input Access Point");
 
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::outBodyAccessPoint");
 		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Body Access Point");
-		
+		editor.createControl(parent, "Body Output Access Point");
+
+		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::additionalSpringBeanDefinitions");
+		editor = new AttributeTypeTextEditor(this, at);
+		editor.createControl(parent, "Additional Spring Bean Definitions");
+
+		// AccesPointsSection for Input and Output AccessPoint definitions
 		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
 		
 		// create two lists, one for Input and one for Output Access Points
