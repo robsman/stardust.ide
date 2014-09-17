@@ -14,6 +14,7 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -23,6 +24,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultListComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.ListCompositeColumnProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.ListCompositeContentProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.TableColumn;
+import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.IntObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
@@ -51,6 +53,45 @@ class CamelDetailComposite extends DefaultDetailComposite {
 
 	//Consumer, Prducer (send and send/receive)
 	private ApplicationTypes camelTypes;
+	
+	public enum CamelAcessPointDataTypes {
+		TYPE("carnot:engine:type", "primitive", "Primitive Data"),
+		DATATYPE("carnot:engine:dataType", "struct", "Structured Data"),
+		CLASSNAME("carnot:engine:className", "serializable", "Serializable");
+		
+		private String key;
+		private String type;
+		public String displayName;
+
+		private CamelAcessPointDataTypes(String key, String type, String displayName) {
+			this.setKey(key);
+			this.displayName = displayName;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getDisplayName() {
+			return displayName;
+		}
+
+		public String getType() {
+			return type;
+		}		
+
+		public static CamelAcessPointDataTypes forKey(String key) {
+			if (null == key) return null;
+			for (CamelAcessPointDataTypes t : values()) {
+				if (key.equals(t.key)) return t;
+			}
+			return null;
+		}	
+	}
 	
 	public CamelDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
@@ -261,7 +302,7 @@ class CamelDetailComposite extends DefaultDetailComposite {
 			at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("carnot:engine:type", "", null);
 			param.getAttribute().add(at);
 			
-			at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("RootElement", "", "boolean");
+			at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("RootElement", "", "");
 			param.getAttribute().add(at);
 			
 			// Remove ItemDefinition and write new ItemDefinition with newly added ListItem (Camel AccessPoint)
@@ -316,7 +357,7 @@ class CamelDetailComposite extends DefaultDetailComposite {
 		
 		@Override
 		public void createBindings(EObject be) {
-			StardustAccessPointType accessPoint = (StardustAccessPointType) be;
+			final StardustAccessPointType accessPoint = (StardustAccessPointType) be;
 			Composite parent = getAttributesParent();
 			ObjectEditor editor;
 
@@ -327,13 +368,51 @@ class CamelDetailComposite extends DefaultDetailComposite {
 			
 			editor = new TextObjectEditor(this, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
 			editor.createControl(parent, "Name");
-			editor.setEditable(false);
+			editor.setEditable(true);
+			
+			//Present a Combo Box to 
+			ComboObjectEditor objectEditor= new ComboObjectEditor(this, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getAccessPointType_Type()) {
 
+				@Override
+				protected boolean setValue(final Object newValue) {
+					final Object oldValue = getValue();
+//					if (super.setValue(newValue)) {
+//						// "newValue" should be a String or null
+//						if (oldValue != newValue) {
+//							// This will force a rebuild of the entire Property
+//							// Sheet tab.
+//							setBusinessObject(accessPoint);
+//							// Set additional attributes
+//							
+//						}
+//						return true;
+//					}
+					return false;
+				}
+				
+				@Override
+				protected Hashtable<String,Object> getChoiceOfValues(EObject object, EStructuralFeature feature){
+					if (choices==null) {
+						choices = new Hashtable<String, Object>();
+						for (CamelAcessPointDataTypes type : CamelAcessPointDataTypes.values()) {
+							choices.put(type.getDisplayName(), type.getKey());
+						}
+					}
+					return choices;
+				}
+			
+			};
+			
+			
+			
+			objectEditor.createControl(this, "AccessPoint Data Type");
+			
 			// Create editors for the two AttributeType objects contained by the Access Point.
 			for (String name : attributeTypes) {
 				AttributeType at = StardustInterfaceDefinitionPropertySection.findAttributeType(accessPoint, name);
 				if (at!=null) {
-					if ("boolean".equals(at.getType())) {
+					System.out.println("AttributeType: " + at.getName());
+					if ("RootElement".equals(at.getName())) {
 						editor = new AttributeTypeBooleanEditor(this, at);
 					}
 					else {
