@@ -95,10 +95,6 @@ class CamelDetailComposite extends DefaultDetailComposite {
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "Synchronous", "Asynchronous" });
 		editor.createControl(parent, "Invocation Type");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:camel::invocationPattern");
-		editor = new AttributeTypeComboEditor(this, at, new String[] { "Send", "Send/Receive", "Receive" });
-		editor.createControl(parent, "Invocation Pattern");
-
 		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Enable Retry");

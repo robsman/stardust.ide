@@ -324,7 +324,6 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::invocationType", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::invocationPattern", "", null));
 		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "false", "boolean"));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::camelContextId", "defaultCamelContext", null));
 		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::supportMultipleAccessPoints", "true", "boolean"));
