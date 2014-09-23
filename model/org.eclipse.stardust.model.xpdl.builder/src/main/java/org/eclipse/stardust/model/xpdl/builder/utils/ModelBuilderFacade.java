@@ -3310,10 +3310,13 @@ public class ModelBuilderFacade
       if (attribute instanceof ExtendedAttributeType)
       {
          ExtendedAttributeType attributeType = (ExtendedAttributeType) attribute;
-         if (attributeType.getValue().equalsIgnoreCase("true")
-               || attributeType.getValue().equalsIgnoreCase("false"))
+         if (((ExtendedAttributeType) attribute).getValue() != null)
          {
-            return true;
+            if (attributeType.getValue().equalsIgnoreCase("true")
+                  || attributeType.getValue().equalsIgnoreCase("false"))
+            {
+               return true;
+            }
          }
       }
       if (attribute instanceof AttributeType)
