@@ -246,7 +246,7 @@ public class IdRefImpl extends EObjectImpl implements IdRef
       // TODO: consider caching
       T result = null;
       ModelType model = ModelUtils.findContainingModel(this);
-      if (getPackageRef() != null)
+      if (getPackageRef() != null && model != null)
       {
          IConnectionManager manager = model.getConnectionManager();
          model = manager == null ? null : manager.find(getPackageRef());
