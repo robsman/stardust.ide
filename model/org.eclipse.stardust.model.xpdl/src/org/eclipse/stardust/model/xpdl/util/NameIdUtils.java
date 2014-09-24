@@ -72,6 +72,13 @@ public class NameIdUtils
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Code(),
                      CarnotWorkflowModelPackage.eINSTANCE.getCode_Name());
       }
+      else if (element instanceof FormalParameterType)
+      {
+         factory = new IdFactory(base, base,
+               XpdlPackage.eINSTANCE.getFormalParameterType(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Id(),
+               XpdlPackage.eINSTANCE.getFormalParameterType_Name());
+      }
       else if (element instanceof IIdentifiableElement)
       {
          factory = new IdFactory(base, base);
