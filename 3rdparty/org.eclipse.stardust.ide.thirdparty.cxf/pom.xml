@@ -24,7 +24,11 @@
   <version>2.6.1</version>
 
   <packaging>eclipse-plugin</packaging>
-  
+
+  <properties>
+    <skipLibFolderOnCleanup>false</skipLibFolderOnCleanup>
+  </properties>
+
   <!-- see https://github.com/sonatype/sonatype-tycho/blob/master/tycho-demo/itp02/build01/pomfirst-thirdparty/pom.xml -->
   <dependencies>
     <dependency>

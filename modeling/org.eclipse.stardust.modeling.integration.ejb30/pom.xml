@@ -23,8 +23,12 @@
 
   <artifactId>org.eclipse.stardust.modeling.integration.ejb30</artifactId>
 
+  <properties>
+    <skipLibFolderOnCleanup>false</skipLibFolderOnCleanup>
+  </properties>
+
   <dependencies>
-    <dependency>      
+    <dependency>
       <groupId>javax.ejb</groupId>
       <artifactId>ejb-api</artifactId>    
       <version>${ejb-api.version}</version>

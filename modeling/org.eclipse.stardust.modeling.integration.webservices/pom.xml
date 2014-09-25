@@ -16,7 +16,11 @@
   <artifactId>org.eclipse.stardust.modeling.integration.webservices</artifactId>
 
   <packaging>eclipse-plugin</packaging>
-  
+
+  <properties>
+    <skipLibFolderOnCleanup>false</skipLibFolderOnCleanup>
+  </properties>
+
   <dependencies>
      <dependency>
         <groupId>org.eclipse.stardust.engine</groupId>
