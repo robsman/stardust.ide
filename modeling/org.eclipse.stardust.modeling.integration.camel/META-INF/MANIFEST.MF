@@ -20,6 +20,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.stardust.modeling.common.ui,
  org.eclipse.ui.ide,
  org.eclipse.jface.text,
+ org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
  org.eclipse.stardust.modeling.common.projectnature
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
