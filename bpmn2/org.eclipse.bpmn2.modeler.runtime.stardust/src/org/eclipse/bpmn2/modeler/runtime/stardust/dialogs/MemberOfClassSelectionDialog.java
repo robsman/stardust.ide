@@ -3,7 +3,7 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.dialogs;
 import java.net.MalformedURLException;
 import java.util.List;
 
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPointInfo;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint.IntrinsicJavaAccessPointInfo;
 import org.eclipse.bpmn2.modeler.ui.editor.BPMN2Editor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;

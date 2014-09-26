@@ -194,26 +194,33 @@ public class Data2Stardust extends AbstractElement2Stardust {
     	return variable;
     }
 
-    private boolean refersToPrimitiveType(ItemAwareElement data) {
+    public static boolean refersToPrimitiveType(ItemAwareElement data) {
         URI typeUri = getDataStructureURI(data);
         if (typeUri == null) return false;
         return isXsdType(typeUri);
     }
 
-    private boolean isXsdType(URI typeUri) {
+    public static boolean refersToPrimitiveType(ItemDefinition data) {
+    	Definitions defs = ModelInfo.getDefinitions(data);
+        URI typeUri = getDataStructureURI(data, defs);
+        if (typeUri == null) return false;
+        return isXsdType(typeUri);
+    }
+
+    private static boolean isXsdType(URI typeUri) {
     	if (typeUri == null) return false;
     	URI baseUri = typeUri.trimFragment();
         return baseUri.toString().equals(XML_SCHEMA_URI);
     }
 
-    private URI getDataStructureURI(ItemAwareElement data) {
+    private static URI getDataStructureURI(ItemAwareElement data) {
     	if (data == null) return null;
     	ItemDefinition itemDef = data.getItemSubjectRef();
     	Definitions defs = ModelInfo.getDefinitions(data);
         return getDataStructureURI(itemDef, defs);
     }
 
-    private URI getDataStructureURI(ItemDefinition itemDef, Definitions defs) {
+    private static URI getDataStructureURI(ItemDefinition itemDef, Definitions defs) {
     	if (itemDef == null) return null;
     	if (itemDef.eIsProxy()) {
     		itemDef = Bpmn2ProxyResolver.resolveItemDefinition(itemDef, defs);

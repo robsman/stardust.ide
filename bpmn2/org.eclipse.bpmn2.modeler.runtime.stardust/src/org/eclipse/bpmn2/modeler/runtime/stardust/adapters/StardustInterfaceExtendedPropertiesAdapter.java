@@ -17,19 +17,15 @@ import java.util.Hashtable;
 
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 
 /**
@@ -45,7 +41,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		PLAINJAVA("plainJava", "Plain Java"),
 		SPRINGBEAN("springBean", "Spring Bean"),
 		SESSIONBEAN("sessionBean", "Session Bean"),
-		CAMELCONSUMER("camelSpringConsumerApplication", "Camel Consumer"),
+		CAMELCONSUMER("camelConsumerApplication", "Camel Consumer"),
 		CAMELPRODUCER_SEND("camelSpringProducerApplication", "Camel Producer (send)"),
 		CAMELPRODUCER_SENDRECEIVE("camelSpringProducerApplicationSendReceive", "Camel Producer (send/receive)"),
 		JMS("jms", "JMS Application");
@@ -151,18 +147,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
     	});
 	}
 
-	public static AttributeType createAttributeType(String name, String value, String type) {
-		AttributeType at = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
-		at.setName(name);
-		at.setValue(value);
-		if (type != null && !type.isEmpty())
-			at.setType(type);
-		return at;
-	}
-
-
-	private static StardustAccessPointType createStardustAccessPointType(long elementOid, String id, String name,
-			DirectionType direction, String typeRef) {
+	private static StardustAccessPointType createStardustAccessPointType(long elementOid, String id, String name, DirectionType direction, String typeRef) {
 		StardustAccessPointType ac = SdbpmnFactory.eINSTANCE.createStardustAccessPointType();
 		ac.setElementOid(elementOid);
 		ac.setId(id);
@@ -197,45 +182,45 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setId("WebServiceApp_" + generateAppTypeId());
 		sdApplication.setName("WebServiceApp");
 
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsRuntime", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsdlUrl", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsServiceName", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsPortName", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsOperationName", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:wsSoapProtocol", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:browsable", "true", "boolean"));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:dataType", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:transformation", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:path:separator", "/", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsRuntime", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsdlUrl", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsServiceName", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsPortName", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsOperationName", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsSoapProtocol", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:browsable", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:transformation", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:path:separator", "/", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));
 
 		StardustAccessPointType sdAccessPoint;
 
 		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "carnot:engine:endpointAddress", "Endpoint Address", DirectionType.IN_LITERAL, "serializable");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:className", "", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:browsable", "true", "boolean"));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
 		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.IN_LITERAL, "plainXML");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:browsable", "true", "boolean"));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
 		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.OUT_LITERAL, "plainXML");
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
 		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "getCRO", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:transformation", "DOM", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:separator", "/", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "getCRO", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:transformation", "DOM", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:separator", "/", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
 		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "getCROResponse", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:separator", "/", null));
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "getCROResponse", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:separator", "/", null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
 		sdInterface.setStardustApplication(sdApplication);
@@ -257,13 +242,13 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setElementOid(generateElementOid());
 		sdApplication.setId("JavaApp_" + generateAppTypeId());
 		sdApplication.setName("JavaApp");
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:methodName", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:constructorName", "", null));		
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:methodName", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:constructorName", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:time", "", null));		
 		sdInterface.setStardustApplication(sdApplication);
 	}
 	
@@ -284,13 +269,13 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setId("SpringBean_" + generateAppTypeId());
 		sdApplication.setName("SpringBean");
 
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:spring::beanId", "", null));		
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:methodName", "", null));		
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));	
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:spring::beanId", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:methodName", "", null));		
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:time", "", null));	
 		
 		sdInterface.setStardustApplication(sdApplication);
 	}
@@ -322,62 +307,51 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 			sdApplication.setName("CamelConsumer");
 		}
 		
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:visibility", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::invocationType", "", null));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "false", "boolean"));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::camelContextId", "defaultCamelContext", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::supportMultipleAccessPoints", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::invocationType", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:enable", "false", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::camelContextId", "defaultCamelContext", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::supportMultipleAccessPoints", "true", "boolean"));
 		// GG supposed to be generated by stardust engine: sdApplication.getAttribute().add(createAttributeType("messageTransformation:TransformationProperty::", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::transactedRoute", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::transactedRoute", "true", "boolean"));
 		// Consumer Route is needed for Camel consumer and Camel producer!
 		if (camelAppType.equals(ApplicationTypes.CAMELCONSUMER) || (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SENDRECEIVE))) {
-			sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::consumerRoute", "", null));			
+			sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::consumerRoute", "", null));			
 		}
 		if (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SEND) || (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SENDRECEIVE))) {
-			sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::processContextHeaders", "false", "boolean"));
-			sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::routeEntries", "", null));
+			sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::processContextHeaders", "false", "boolean"));
+			sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::routeEntries", "", null));
+			
 		}
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::inBodyAccessPoint", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::outBodyAccessPoint", "", null));
-		sdApplication.getAttribute().add(createAttributeType("carnot:engine:camel::additionalSpringBeanDefinitions", "", null));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:enable", "true", "boolean"));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:number", "", null));
-		sdApplication.getAttribute().add(createAttributeType("synchronous:retry:time", "", null));	
-
-		StardustAccessPointType sdAccessPoint;
+		String invocationPattern = "";
+		if (camelAppType.equals(ApplicationTypes.CAMELCONSUMER)) invocationPattern = "receive";
+		else if (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SEND)) invocationPattern = "send";
+		else if (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SENDRECEIVE)) invocationPattern = "sendReceive";
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::invocationPattern", invocationPattern, null));
 		
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
-//		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "", null));
-//		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
-		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
-		sdApplication.getAccessPoint().add(sdAccessPoint);
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::inBodyAccessPoint", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::outBodyAccessPoint", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::additionalSpringBeanDefinitions", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:enable", "true", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:number", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:time", "", null));	
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
-		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:type", "", null));
-//		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:dataType", "", null));
-//		sdAccessPoint.getAttribute().add(createAttributeType("carnot:engine:className", "", null));		
-		sdAccessPoint.getAttribute().add(createAttributeType("RootElement", "", null));
-		sdApplication.getAccessPoint().add(sdAccessPoint);
+//		StardustAccessPointType sdAccessPoint;
+//		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
+//		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", null));
+//		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", "", null));
+//		sdApplication.getAccessPoint().add(sdAccessPoint);
+//
+//		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
+//		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", null));
+//		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", "", null));
+//		sdApplication.getAccessPoint().add(sdAccessPoint);
 		
 		sdInterface.setStardustApplication(sdApplication);
 	}	
 
 	private static void removeApplicationModel(StardustInterfaceType sdInterface) {
 		StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);
-//		sdInterface.setApplicationType(null);
 		sdInterface.setStardustApplication(null);
-		
-//		final StardustInterfaceType sdi = sdInterface;
-//		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(sdInterface.eResource());
-//		editingDomain.getCommandStack().execute(new RecordingCommand(editingDomain) {
-//			
-//			@Override
-//			protected void doExecute() {
-//				new StardustApplicationConfigurationCleaner().performResetExistingApp(sdi);
-//				sdi.setApplicationType(null);
-//				sdi.setStardustApplication(null);
-//			}
-//		});
 	}
 }

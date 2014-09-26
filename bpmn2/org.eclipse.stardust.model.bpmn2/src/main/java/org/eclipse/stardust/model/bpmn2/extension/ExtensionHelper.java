@@ -511,4 +511,37 @@ public class ExtensionHelper {
     		element.getAnyAttribute().set(attributeAccessor, value);
     	}
     }
+    
+    public void setAnyAttribute(BaseElement element, String name, Object value) {
+    	EStructuralFeature attributeAccessor = null;
+    	Object oldValue = null;
+    	for (Iterator<FeatureMap.Entry> i = element.getAnyAttribute().iterator(); i.hasNext(); )
+    	{
+    		FeatureMap.Entry extension = i.next();
+    		if (isInFilter(extension.getEStructuralFeature(), name))
+    		{
+    			attributeAccessor = extension.getEStructuralFeature();
+    			oldValue = extension.getValue();
+    			break;
+    		}
+    	}
+
+    	if (null == attributeAccessor)
+    	{
+    		attributeAccessor = XmlExtendedMetadata.INSTANCE.demandFeature(NS_URI_STARDUST, name, false, false);
+    		attributeAccessor.setChangeable(true);
+    	}
+
+    	if (null == value)
+    	{
+    		if (null != oldValue)
+    		{
+    			element.getAnyAttribute().list(attributeAccessor).remove(oldValue);
+    		}
+    	}
+    	else
+    	{
+    		element.getAnyAttribute().set(attributeAccessor, value);
+    	}
+    }    
 }

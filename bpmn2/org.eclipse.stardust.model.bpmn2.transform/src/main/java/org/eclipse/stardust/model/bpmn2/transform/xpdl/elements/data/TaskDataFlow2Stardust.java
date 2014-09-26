@@ -202,6 +202,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
 
     private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
+    	if (null != path && path.trim().equals("/")) path = "";
     	return BpmModelBuilder.newOutDataMapping(activity)
                 .withIdAndName(id, name)
                 .toVariable(toVariable)

@@ -1,4 +1,4 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.utils;
+package org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

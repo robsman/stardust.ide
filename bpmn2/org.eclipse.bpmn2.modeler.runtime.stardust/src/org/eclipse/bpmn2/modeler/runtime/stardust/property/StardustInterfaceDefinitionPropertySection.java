@@ -15,8 +15,6 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.property;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.property.data.InterfacePropertySection;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 
@@ -40,13 +38,5 @@ public class StardustInterfaceDefinitionPropertySection extends InterfacePropert
 	@Override
 	public AbstractDetailComposite createSectionRoot(Composite parent, int style) {
 		return new StardustInterfaceDefinitionDetailComposite(parent, style);
-	}
-
-	public static AttributeType findAttributeType(IExtensibleElement element, String name) {
-		for (AttributeType at : element.getAttribute()) {
-			if (at.getName().equals(name))
-				return at;
-		}
-		return null;
 	}
 }

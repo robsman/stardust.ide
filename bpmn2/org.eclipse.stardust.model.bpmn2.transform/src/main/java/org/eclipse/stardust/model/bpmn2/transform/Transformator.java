@@ -56,7 +56,7 @@ import org.eclipse.bpmn2.UserTask;
  */
 public interface Transformator {
 
-    public void createTargetModel(Definitions definitions);
+    public void createTargetModel(Definitions definitions) throws Exception;
 
     public Object getTargetModel();
 

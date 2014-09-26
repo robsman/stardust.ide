@@ -72,6 +72,32 @@ public enum StardustApplicationConfigurationCleaner {
 		if (null != outMessage) EcoreUtil.delete(outMessage);
 	}	
 	
+//	public void performResetAccessPoints(StardustInterfaceType sdInterface) {
+//		Interface iface = (Interface)sdInterface.eContainer();
+//		StardustApplicationType sdApp = sdInterface.getStardustApplication();
+//		sdApp.getAccessPoint1().clear();
+//		
+//		List<Operation> operations = iface.getOperations();
+//		for (Operation op : operations) {
+//			Message mIn = op.getInMessageRef();
+//			Message mOut = op.getOutMessageRef();
+//
+//			op.setInMessageRef(null);
+//			op.setOutMessageRef(null);
+//			
+//			if (null != mIn) {
+//				ItemDefinition itemRef = mIn.getItemRef();
+//				if (null != itemRef) EcoreUtil.delete(itemRef);
+//			}
+//			if (null != mOut) {
+//				ItemDefinition itemRef = mOut.getItemRef();
+//				if (null != itemRef) EcoreUtil.delete(itemRef);
+//			}
+//			if (null != mIn) EcoreUtil.delete(mIn);
+//			if (null != mOut) EcoreUtil.delete(mOut);
+//		}
+//	}
+	
 	@SuppressWarnings("unchecked")
 	private void resetReferencingActivities(List<BaseElement> referencingActivities) {
 		for (BaseElement element : referencingActivities) {
@@ -145,4 +171,5 @@ public enum StardustApplicationConfigurationCleaner {
 		}
 		return referencingActivities;
 	}
+
 }

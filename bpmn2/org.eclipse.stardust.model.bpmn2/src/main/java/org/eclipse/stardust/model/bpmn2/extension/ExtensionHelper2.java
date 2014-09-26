@@ -187,14 +187,12 @@ public enum ExtensionHelper2 {
 	}
 
 	private ItemDefinition createAccessPointItemDefinition(AccessPointSchemaWrapper schemaInfo, ItemDefinition itemDef, Direction direction) {
-		ExtensionHelper.getInstance().setAnyAttribute(itemDef, STARDUST_SYNTHETIC_ITEMDEF, "true");
+		ExtensionHelper.getInstance().setAnyAttribute(itemDef, STARDUST_SYNTHETIC_ITEMDEF, Boolean.TRUE);
 		int seq = 0;
 		try {
-			System.out.println("substring: " + itemDef.getId().substring(itemDef.getId().lastIndexOf("_")));
 			String substring = itemDef.getId().substring(itemDef.getId().lastIndexOf("_")+1);
 			seq = Integer.valueOf(substring);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) { // ignore - first one is not numbered
 		}
 		XSDSchema schema = createSchema(schemaInfo, seq, direction);
 		EList<XSDElementDeclaration> elementDeclarations = schema.getElementDeclarations();
@@ -261,7 +259,7 @@ public enum ExtensionHelper2 {
 			XSDElementDeclaration ap = factory.createXSDElementDeclaration();
 			ap.setName(typeElement.getElementName());
 			
-			String typeName = typeElement.getDataType().getName();
+			String typeName = null != typeElement.getDataType() ? typeElement.getDataType().getName() : "Undefined";
 			XSDSimpleTypeDefinition simpleType = schema.getSchemaForSchema().resolveSimpleTypeDefinition(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, typeName);			
 			ap.setTypeDefinition(simpleType);
 //			schema.getContents().add(typeElement.getDataType());

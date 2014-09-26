@@ -10,10 +10,15 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.namespace.QName;
 
+import org.eclipse.stardust.common.reflect.Reflect;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
-import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 
 /**
  * @author Simon Nikles
@@ -21,38 +26,33 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
  */
 public enum XSDType2Stardust {
 
-	BYTE("byte", Type.Byte, null),
-	DATE("date", Type.Calendar, ModelerConstants.DATE_PRIMITIVE_DATA_TYPE),
-	DATE_TIME("dateTime", Type.Calendar, ModelerConstants.DATE_PRIMITIVE_DATA_TYPE),
-	TIME("time", Type.Timestamp, null),
-	DECIMAL("decimal", Type.Double, ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE),
-	DOUBLE("double", Type.Double, ModelerConstants.DOUBLE_PRIMITIVE_DATA_TYPE),
-	FLOAT("float", Type.Float, null),
-	INTEGER("integer", Type.Integer, ModelerConstants.INTEGER_PRIMITIVE_DATA_TYPE),
-	INT("int", Type.Integer, ModelerConstants.DECIMAL_PRIMITIVE_DATA_TYPE),
-	LONG("long", Type.Long, null),
-	SHORT("short", Type.Short, null),
-	STRING("string", Type.String, ModelerConstants.STRING_PRIMITIVE_DATA_TYPE),
-	ANY_URI("anyURI", null, null),
-	BASE_64("base64Binary", null, null),
-	BOOLEAN("boolean", null, null),
-	DURATION("duration", null, null);
+	BYTE("byte", Type.Byte, Type.Byte.getId()),
+	DATE("date", Type.Calendar, Type.Calendar.getId()),
+	DATE_TIME("dateTime", Type.Timestamp, Type.Timestamp.getId()),
+	DOUBLE("double", Type.Double, Type.Double.getId()),
+	FLOAT("float", Type.Float, Type.Float.getId()),
+	INTEGER("integer", Type.Integer, Type.Integer.getId()),
+	INT("int", Type.Integer, Type.Integer.getId()),
+	LONG("long", Type.Long, Type.Long.getId()),
+	SHORT("short", Type.Short, Type.Short.getId()),
+	STRING("string", Type.String, Type.String.getId()),
+	BOOLEAN("boolean", Type.Boolean, Type.Boolean.getId());
+	
+	public static final String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
 
-	private static final String XML_SCHEMA_URI = "http://www.w3.org/2001/XMLSchema";
-
-	private String name;
+	private String xsdName;
 	private Type type;
 	private String primitive;
 
 	private XSDType2Stardust(String name, Type type, String primitive) {
-		this.name = name;
+		this.xsdName = name;
 		this.type = type;
 		this.primitive = primitive;
 	}
 
 	public static XSDType2Stardust byXsdName(String name) {
 		for (XSDType2Stardust type : values()) {
-			if (name.equals(type.name)) return type;
+			if (name.equals(type.xsdName)) return type;
 		}
 		return null;
 	}
@@ -64,8 +64,15 @@ public enum XSDType2Stardust {
 		return null;
 	}
 
+	public static XSDType2Stardust byTypeName(String sdType) {
+		for (XSDType2Stardust xst : values()) {
+			if (sdType.equals(xst.primitive)) return xst;
+		}
+		return null;
+	}
+
 	public String getName() {
-		return name;
+		return xsdName;
 	}
 
 	public Type getType() {
@@ -77,8 +84,31 @@ public enum XSDType2Stardust {
 	}
 
 	public QName getXSDQname() {
-		return new QName(XML_SCHEMA_URI, name);
+		return new QName(XML_SCHEMA_URI, xsdName);
 	}
+
+//	public String convertXsdValueToStardust(String xsdValue) {
+//		String stardustValue = null;
+//		switch(this) {
+//		case DATE:
+//			try {
+//				GregorianCalendar calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(xsdValue).toGregorianCalendar();
+//				return Reflect.convertObjectToString(calendar);
+//			} catch (DatatypeConfigurationException e) {}
+//			break;
+//		case DATE_TIME:
+//			try {
+//				GregorianCalendar calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(xsdValue).toGregorianCalendar();
+//				Date dateTime = calendar.getTime();
+//				return Reflect.convertObjectToString(dateTime);
+//			} catch (DatatypeConfigurationException e) {}
+//			break;
+//		default:
+//			stardustValue = xsdValue;
+//		}
+//		return stardustValue;
+//	}
+
 
 }
 

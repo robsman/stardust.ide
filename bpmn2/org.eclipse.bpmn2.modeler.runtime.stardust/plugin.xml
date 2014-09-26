@@ -188,6 +188,13 @@
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter">
 		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.CamelAccessPoint"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.camel.CamelAccesspointsExtendedPropertiesAdapter">
+		</propertyExtension>
 		
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.AttributeType"
@@ -218,6 +225,34 @@
 			<enable object="StardustStartEventType"/>
 			<enable object="StardustAccessPointType"/>
 		</modelEnablement>
+		
+		
+		<typeLanguage name="XSD Schema" uri="http://www.w3.org/2001/XMLSchema" prefix="xs">
+			<type name="string"/>
+			<type name="date"/>
+			<type name="dateTime"/>			
+			<type name="byte"/>
+			<type name="double"/>
+			<type name="int"/>
+			<type name="integer"/>
+			<type name="long"/>
+			<type name="short"/>
+			<type name="boolean"/>
+		</typeLanguage>
+		
+		<typeLanguage name="Java Types" uri="http://www.java.com/javaTypes" prefix="java">
+			<type name="Boolean" qname="java.lang.Boolean"/>
+			<type name="Byte" qname="java.lang.Byte"/>
+			<type name="Character" qname="java.lang.Character"/>
+			<type name="Float" qname="java.lang.Float"/>
+			<type name="Integer" qname="java.lang.Integer"/>
+			<type name="Long" qname="java.lang.Long"/>
+			<type name="Short" qname="java.lang.Short"/>
+			<type name="Double" qname="java.lang.Double"/>
+			<type name="String" qname="java.lang.String"/>
+			<type name="Object" qname="java.lang.Object"/>
+		</typeLanguage>
+				
 	</extension>
 
 </plugin>

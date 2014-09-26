@@ -22,10 +22,10 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.IntObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
@@ -61,31 +61,31 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 		bindAttribute(sdApplication, "elementOid");
 
 		AttributeType at;
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:visibility");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:visibility");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "Public", "Private" });
 		editor.createControl(parent, "Visibility");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsRuntime");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsRuntime");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "jaxws", "axis" });
 		editor.createControl(parent, "Implementation");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsdlUrl");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsdlUrl");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "WSDL URL");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsServiceName");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsServiceName");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Service Name");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsPortName");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsPortName");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Port Name");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsOperationName");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsOperationName");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Operation Name");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:wsSoapProtocol");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsSoapProtocol");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "SOAP1.1Protocol", "SOAP1.2Protocol" });
 		editor.createControl(parent, "SOAP Protocol");
 		
@@ -150,7 +150,7 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 			editor.setEditable(false);
 
 			for (String name : attributeTypes) {
-				AttributeType at = StardustInterfaceDefinitionPropertySection.findAttributeType(accessPoint, name);
+				AttributeType at = PropertyAdapterCommons.findAttributeType(accessPoint, name);
 				if (at!=null) {
 					if ("boolean".equals(at.getType())) {
 						editor = new AttributeTypeBooleanEditor(detailsComposite, at);

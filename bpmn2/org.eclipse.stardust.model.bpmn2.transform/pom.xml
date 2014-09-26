@@ -45,6 +45,11 @@
 			<artifactId>carnot-spring</artifactId>
 			<version>${version.stardust}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.stardust.engine</groupId>
+			<artifactId>stardust-engine-camel</artifactId>
+			<version>${version.stardust}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
@@ -128,6 +133,15 @@
 									<overWrite>true</overWrite>
 									<outputDirectory>lib</outputDirectory>
 								</artifactItem>
+								<artifactItem>
+									<groupId>org.eclipse.stardust.engine</groupId>
+									<artifactId>stardust-engine-camel</artifactId>
+									<version>${version.stardust}</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>lib</outputDirectory>
+								</artifactItem>
+								
 							</artifactItems>
 						</configuration>
 					</execution>

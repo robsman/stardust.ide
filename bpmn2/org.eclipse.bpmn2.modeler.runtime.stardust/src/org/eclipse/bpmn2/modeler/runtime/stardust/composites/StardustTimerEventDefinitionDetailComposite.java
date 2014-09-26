@@ -28,7 +28,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
-import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeDateTimeEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustEventDefinitionPropertySection;
 import org.eclipse.bpmn2.modeler.ui.property.events.TimerEventDefinitionDetailComposite;
@@ -130,7 +130,7 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 				// if the attribute does not exist (not likely, but better to be safe)
 				// then create a new one and use InsertionAdapters to add it to the
 				// sdTimerEvent's attributes container when its value changes.
-				at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("carnot:engine:stopTime", "", null);
+				at = PropertyAdapterCommons.createAttributeType("carnot:engine:stopTime", "", null);
 				// create a StardustAttributes container
 				StardustAttributesType sdAttributesType = SdbpmnFactory.eINSTANCE.createStardustAttributesType();
 				// for the sdTimerEvent
@@ -149,7 +149,7 @@ public class StardustTimerEventDefinitionDetailComposite extends TimerEventDefin
 			// and insert it into sdTimerEvent's attributes list. Note that this will
 			// not cause any changes to our Resource yet, since the sdTimerEvent is
 			// not yet contained in our Resource. Hence, no EMF Transaction is required.
-			at = StardustInterfaceExtendedPropertiesAdapter.createAttributeType("carnot:engine:stopTime", "", null);
+			at = PropertyAdapterCommons.createAttributeType("carnot:engine:stopTime", "", null);
 			// create a StardustAttributes container
 			StardustAttributesType sdAttributesType = SdbpmnFactory.eINSTANCE.createStardustAttributesType();
 			// for the sdTimerEvent

@@ -13,7 +13,7 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustDataPathProvider;
@@ -57,7 +57,7 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 			@Override
 			protected void doExecute() {
 				final StardustInterfaceSelectionDialog dialog = new StardustInterfaceSelectionDialog();
-				dialog.open();
+				if (StardustInterfaceSelectionDialog.CANCEL == dialog.open()) return;
 				final IType selectedType = dialog.getIType();
 				String oldClsName = null != getText() ? getText() : "";
 				String newClsName = selectedType.getFullyQualifiedName();
@@ -67,9 +67,9 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 					valuesChanged = true;
 				if (valuesChanged) {
 					if (null != sdInterface.getStardustApplication()) {
-						AttributeType methodAttribute = StardustInterfaceDefinitionPropertySection.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:methodName");
+						AttributeType methodAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:methodName");
 						if (null != methodAttribute) methodAttribute.setValue("");
-						AttributeType constructorAttribute = StardustInterfaceDefinitionPropertySection.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:constructorName");
+						AttributeType constructorAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:constructorName");
 						if (null != constructorAttribute) constructorAttribute.setValue("");
 					}
 					StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);

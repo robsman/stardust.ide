@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.stardust.model.bpmn2.transform;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/ipp-bpm-model-builder-2.0.0.jar,
- lib/carnot-spring-2.0.0.jar
+ lib/carnot-spring-2.0.0.jar,
+ lib/stardust-engine-camel-2.0.0.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -23,6 +24,7 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.stardust.model.bpmn2.transform,
  org.eclipse.stardust.model.bpmn2.transform.util,
  org.eclipse.stardust.model.bpmn2.transform.xpdl,
+ org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data,
  org.eclipse.stardust.model.bpmn2.transform.xpdl.helper
 Import-Package: org.eclipse.stardust.modeling.integration.spring.application
 

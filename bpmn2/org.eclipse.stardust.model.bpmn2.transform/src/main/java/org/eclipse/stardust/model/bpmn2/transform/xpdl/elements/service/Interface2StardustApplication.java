@@ -57,6 +57,10 @@ public class Interface2StardustApplication extends AbstractElement2Stardust {
 	private void setApplicationType(StardustInterfaceType sdInterface, StardustApplicationType application) {
     	String applicationTypeId = sdInterface.getApplicationType();
     	if (applicationTypeId != null && !applicationTypeId.isEmpty()) {
+    		if ("camelSpringProducerApplicationSendReceive".equals(applicationTypeId)) {
+    			applicationTypeId = "camelSpringProducerApplication";
+    			sdInterface.setApplicationType(applicationTypeId);    			
+    		}
     		ApplicationTypeType applicationType = (ApplicationTypeType)ModelUtils.findIdentifiableElement(carnotModel,
     				 CarnotWorkflowModelPackage.eINSTANCE.getModelType_ApplicationType(), applicationTypeId);
     		if (applicationType != null) application.setType(applicationType);

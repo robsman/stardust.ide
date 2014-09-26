@@ -3,6 +3,7 @@ package org.eclipse.stardust.model.bpmn2.extension;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.xsd.XSDTypeDefinition;
 
 /**
@@ -14,7 +15,13 @@ public class AccessPointSchemaWrapper {
 	public enum Direction {
 		IN,
 		OUT,
-		BOTH
+		BOTH;
+
+		public static Direction valueOf(DirectionType directionType) {
+			if (DirectionType.IN_LITERAL.equals(directionType)) return IN;
+			if (DirectionType.OUT_LITERAL.equals(directionType)) return OUT;
+			return null;
+		}
 	}
 	
 	private List<AccessPointSchemaElement> elements = new ArrayList<AccessPointSchemaWrapper.AccessPointSchemaElement>();

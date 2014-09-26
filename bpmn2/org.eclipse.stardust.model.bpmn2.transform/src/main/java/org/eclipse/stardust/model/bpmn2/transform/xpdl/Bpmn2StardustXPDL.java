@@ -76,6 +76,9 @@ import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimeStampEmi
 import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimerAccessPointProvider;
 import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimerValidator;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
+import org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance;
+import org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator;
+import org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator;
 import org.eclipse.stardust.engine.extensions.jms.trigger.JMSTriggerValidator;
 import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanAccessPointProvider;
@@ -140,13 +143,13 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     private CarnotModelQuery query;
 
-    public void createTargetModel(Definitions definitions) {
+    public void createTargetModel(Definitions definitions) throws Exception {
     	logger.info("createTargetModel " + definitions.getName());
     	String modelId = definitions.getId();
     	if (null == modelId) modelId = definitions.getName();
     	if (null == modelId) {
     		failures.add("No Model Id (Definitions) defined");
-    		return;
+    		throw new Exception("No Model Id (Definitions) defined");
     	}
     	carnotModel = newBpmModel()
     			.withIdAndName(modelId, definitions.getName())
@@ -159,6 +162,8 @@ public class Bpmn2StardustXPDL implements Transformator {
     	initializer.initializeModel(carnotModel);
     	initializer.initializeTriggerType(carnotModel, PredefinedConstants.MAIL_TRIGGER, "Mail Trigger", false, MailTriggerValidator.class);
     	initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger", false, TimerTriggerValidator.class);
+    	initializer.initializeTriggerType(carnotModel, "camel", "Camel Trigger", false, CamelTriggerValidator.class);
+    	
     	initializer.initializeInteractionContextTypes(carnotModel);
     	
     	initializer.initializeApplicationType(carnotModel, 
@@ -168,7 +173,20 @@ public class Bpmn2StardustXPDL implements Transformator {
 			                				 SpringBeanApplicationInstance.class, 
 			                				 SpringBeanValidator.class);
 
-    	
+    	initializer.initializeApplicationType(carnotModel, 
+				 "camelConsumerApplication",
+				 "Camel Consumer Application", 
+				 null,
+				 CamelProducerSpringBeanApplicationInstance.class, 
+				 CamelProducerSpringBeanValidator.class);
+
+    	initializer.initializeApplicationType(carnotModel, 
+				 "camelSpringProducerApplication",
+				 "Camel Consumer Application", 
+				 null,
+				 CamelProducerSpringBeanApplicationInstance.class, 
+				 CamelProducerSpringBeanValidator.class);
+
     	if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
     		TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
     		typeDef.setId(PredefinedConstants.JMS_TRIGGER);

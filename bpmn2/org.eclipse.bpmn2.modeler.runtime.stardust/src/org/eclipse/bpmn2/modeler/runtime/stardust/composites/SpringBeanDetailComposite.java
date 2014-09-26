@@ -18,15 +18,15 @@ import java.lang.reflect.Method;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MethodSelectionTextAndObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.StardustInterfaceSelectionObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustInterfaceDefinitionPropertySection;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.IntrinsicJavaAccessPointInfo;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
+import org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint.IntrinsicJavaAccessPointInfo;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
@@ -35,6 +35,7 @@ import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
 class SpringBeanDetailComposite extends DefaultDetailComposite implements ModifyListener{
 
@@ -62,33 +63,35 @@ class SpringBeanDetailComposite extends DefaultDetailComposite implements Modify
 		bindAttribute(sdApplication, "elementOid");
 		
 		AttributeType at;
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:visibility");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:visibility");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "Public", "Private" });
 		editor.createControl(parent, "Visibility");
 
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:spring::beanId");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:spring::beanId");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Spring Bean Id");
 
-		final AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:className");
-		AttributeType methodAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "carnot:engine:methodName");
+		final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:className");
+		AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:methodName");
 		
 		MethodSelectionTextAndObjectEditor methodEditor = new MethodSelectionTextAndObjectEditor(this, sdInterface, methodAt, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), clsAt, false); 
 		
 		// initialize method drop down menu
 		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this,sdInterface,clsAt,CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
-		importEditor.createControl(parent,"Class Selector");
-		methodEditor.createControl(parent,"Method");
-				
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:enable");
+		Text textCls = (Text)importEditor.createControl(parent,"Class Selector");
+		Text textMeth = (Text)methodEditor.createControl(parent,"Method");
+		textCls.addModifyListener(this);
+		textMeth.addModifyListener(this);
+		
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:enable");
 		editor = new AttributeTypeBooleanEditor(this, at);
 		editor.createControl(parent, "Enable Retry");
 				
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:number");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:number");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Number of Retries");
 		
-		at = StardustInterfaceDefinitionPropertySection.findAttributeType(sdApplication, "synchronous:retry:time");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:time");
 		editor = new AttributeTypeTextEditor(this, at);
 		editor.createControl(parent, "Time between Retries (seconds)");
 		
@@ -103,8 +106,8 @@ class SpringBeanDetailComposite extends DefaultDetailComposite implements Modify
 		StardustInterfaceType sdIntType = (StardustInterfaceType) businessObject;
 		StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdIntType);
 		
-		final AttributeType clsAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:className");
-		final AttributeType methodAt = StardustInterfaceDefinitionPropertySection.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:methodName");
+		final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:className");
+		final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:methodName");
 		
 		Class<?> clazz = IntrinsicJavaAccessPointInfo.findClassInWorkspace(clsAt.getValue());
 		Method method = IntrinsicJavaAccessPointInfo.decodeMethod(clazz, methodAt.getValue());

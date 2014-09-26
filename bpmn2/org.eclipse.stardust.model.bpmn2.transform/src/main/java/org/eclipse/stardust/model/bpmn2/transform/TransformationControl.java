@@ -147,7 +147,11 @@ public class TransformationControl {
 
     private  void processBpmn(Definitions definitions, Transformator transf) {
 
-        transf.createTargetModel(definitions);
+    	try {
+    		transf.createTargetModel(definitions);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
 
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
