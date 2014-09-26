@@ -15,17 +15,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+
 import org.eclipse.stardust.common.Assert;
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.config.GlobalParameters;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.config.ParametersFacade;
 import org.eclipse.stardust.common.error.InternalException;
@@ -33,31 +31,14 @@ import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.engine.api.model.IActivity;
-import org.eclipse.stardust.engine.api.model.IApplicationContextType;
-import org.eclipse.stardust.engine.api.model.IData;
-import org.eclipse.stardust.engine.api.model.IDataMapping;
-import org.eclipse.stardust.engine.api.model.IDataType;
-import org.eclipse.stardust.engine.api.model.IExternalPackage;
-import org.eclipse.stardust.engine.api.model.IModel;
-import org.eclipse.stardust.engine.api.model.IProcessDefinition;
-import org.eclipse.stardust.engine.api.model.ImplementationType;
-import org.eclipse.stardust.engine.api.model.Inconsistency;
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.model.*;
 import org.eclipse.stardust.engine.api.runtime.ActivityInstance;
 import org.eclipse.stardust.engine.api.runtime.ProcessInstance;
 import org.eclipse.stardust.engine.api.runtime.WorkflowService;
 import org.eclipse.stardust.engine.core.model.beans.DefaultXMLReader;
 import org.eclipse.stardust.engine.core.model.xpdl.XpdlUtils;
 import org.eclipse.stardust.engine.core.persistence.jdbc.SessionFactory;
-import org.eclipse.stardust.engine.core.runtime.beans.BpmRuntimeEnvironment;
-import org.eclipse.stardust.engine.core.runtime.beans.IActivityInstance;
-import org.eclipse.stardust.engine.core.runtime.beans.IProcessInstance;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelManagerFactory;
-import org.eclipse.stardust.engine.core.runtime.beans.ModelManagerLoader;
-import org.eclipse.stardust.engine.core.runtime.beans.NullWatcher;
-import org.eclipse.stardust.engine.core.runtime.beans.ProcessInstanceBean;
-import org.eclipse.stardust.engine.core.runtime.beans.TransitionTokenBean;
+import org.eclipse.stardust.engine.core.runtime.beans.*;
 import org.eclipse.stardust.engine.core.runtime.beans.interceptors.PropertyLayerProviderInterceptor;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.ItemDescription;
 import org.eclipse.stardust.engine.core.runtime.beans.removethis.ItemLocatorUtils;
@@ -67,11 +48,7 @@ import org.eclipse.stardust.modeling.debug.Constants;
 import org.eclipse.stardust.modeling.debug.Internal_Debugger_Messages;
 import org.eclipse.stardust.modeling.debug.debugger.types.ActivityInstanceDigest;
 import org.eclipse.stardust.modeling.debug.debugger.types.TransitionTokenDigest;
-import org.eclipse.stardust.modeling.debug.engine.DebugActivityThreadContext;
-import org.eclipse.stardust.modeling.debug.engine.DebugServiceFactory;
-import org.eclipse.stardust.modeling.debug.engine.DebugSession;
-import org.eclipse.stardust.modeling.debug.engine.WorkflowCompletionWaiter;
-import org.eclipse.stardust.modeling.debug.engine.WorkflowEventListener;
+import org.eclipse.stardust.modeling.debug.engine.*;
 
 /**
  * @author sborn
@@ -416,7 +393,10 @@ public class Debugger
                }
             }
          }
-         
+         ParametersFacade.pushGlobals();
+         GlobalParameters.globals().set(
+               ModelManager.class.getSimpleName() + ".CHECK_AUDITTRAIL_VERSION",
+               Boolean.FALSE);
          debugServiceFactory = new DebugServiceFactory(oldStyleModels);
          Parameters.instance().set(Constants.CURRENT_SERVICE_FACTORY_PARAM,
                debugServiceFactory);
