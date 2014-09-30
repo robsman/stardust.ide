@@ -31,7 +31,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 
    private Map<ModelType, EObject> nativeModels = newHashMap();
 
-   private final EObjectUUIDMapper eObjectUUIDMapper = new EObjectUUIDMapper();
+   protected EObjectUUIDMapper eObjectUUIDMapper;
 
     /* (non-Javadoc)
      * @see org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy#initialize(java.util.Map)
@@ -108,10 +108,14 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
       return xpdlModels;
    }
 
-	public EObjectUUIDMapper uuidMapper()
-	{
-	   return eObjectUUIDMapper;
-	}
+   public EObjectUUIDMapper uuidMapper()
+   {
+      if (eObjectUUIDMapper == null)
+      {
+         eObjectUUIDMapper = new EObjectUUIDMapper();
+      }
+      return eObjectUUIDMapper;
+   }
 
    /**
     * Maps the model and it's elements to a UUID which will remain constant through out the session.
@@ -119,10 +123,10 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
     *
     * This method needs to be called whenever a model is loaded.
     */
-   protected void loadEObjectUUIDMap(ModelType model)
+   public void loadEObjectUUIDMap(ModelType model)
    {
       // Load if not already loaded.
-      if (null == eObjectUUIDMapper.getUUID(model))
+      if (null == uuidMapper().getUUID(model))
       {
          eObjectUUIDMapper.map(model);
          for (Iterator<EObject> i = model.eAllContents(); i.hasNext();)

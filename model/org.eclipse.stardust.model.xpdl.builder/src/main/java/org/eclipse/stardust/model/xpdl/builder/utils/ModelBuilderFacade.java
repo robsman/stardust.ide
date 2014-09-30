@@ -3626,7 +3626,7 @@ public class ModelBuilderFacade
 
       if (isEmpty(id))
       {
-         id = UUID.randomUUID().toString();
+         id = modelManagementStrategy.uuidMapper().map(transition);
       }
 
       transition.setId(id);
