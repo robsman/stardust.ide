@@ -1,4 +1,4 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import java.util.Hashtable;
 
@@ -8,7 +8,6 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.IntObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.AccessPointChangeListener;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
@@ -28,6 +27,14 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 	public AccessPointTypeDetailComposite(Composite parent, AccessPointChangeListener listener) {
 		super(parent, SWT.NONE);
 		this.listener = listener;
+	}
+	
+	protected Hashtable<String, Object> getDatatypeComboChoice() {
+		Hashtable<String, Object> choices = new Hashtable<String, Object>();
+		for (AcessPointDataTypes type : AcessPointDataTypes.values()) {
+			choices.put(type.getDisplayName(), type.getKey());
+		}
+		return choices;
 	}
 	
 	@Override
@@ -62,10 +69,7 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 			@Override
 			protected Hashtable<String,Object> getChoiceOfValues(EObject object, EStructuralFeature feature){
 				if (choices==null) {
-					choices = new Hashtable<String, Object>();
-					for (CamelAcessPointDataTypes type : CamelAcessPointDataTypes.values()) {
-						choices.put(type.getDisplayName(), type.getKey());
-					}
+					choices = getDatatypeComboChoice();
 				}
 				return choices;
 			}
@@ -76,18 +80,18 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 
 		AbstractDetailComposite subComposite = null;
 		String apTypeStr = accessPoint.getTypeRef();
-		CamelAcessPointDataTypes typeCategory = CamelAcessPointDataTypes.forKey(apTypeStr);
+		AcessPointDataTypes typeCategory = AcessPointDataTypes.forKey(apTypeStr);
 		if (null == typeCategory) return;
 		
 		switch(typeCategory) {
 		case PRIMITIVE_TYPE:
-			subComposite = new CamelPrimitiveTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
+			subComposite = new PrimitiveTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
 			break;
 		case SERIALIZABLE_TYPE:
-			subComposite = new CamelSerializableTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
+			subComposite = new SerializableTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
 			break;
 		case STRUCT_TYPE:
-			subComposite = new CamelStructuredTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
+			subComposite = new StructuredTypeAccessPointSubComposite(getAttributesParent(), SWT.NONE, this);
 			break;
 		default:
 			break;
@@ -96,8 +100,6 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 		// rebuild the service-specific details section
 		if (subComposite != null)
 			subComposite.setBusinessObject(accessPoint);
-		
-		
 	}
 
 	@Override

@@ -10,14 +10,19 @@ import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.modeler.core.utils.ImportUtil;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint.CamelAcessPointDataTypes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AcessPointDataTypes;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.XSDType2Stardust;
+import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDFactory;
@@ -32,23 +37,63 @@ public class AccessPointInfoProvider {
 		return itemDef;
 	}
 
-	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(StardustApplicationType app, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
-		AccessPointSchemaWrapper wrapper = createSchemaWrapper(app);
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(StardustContextType appCtx, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		AccessPointSchemaWrapper wrapper = createSchemaWrapper(appCtx);
 		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
 
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(StardustContextType appCtx, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		AccessPointSchemaWrapper wrapper = createSchemaWrapper(appCtx);
+		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(StardustApplicationType app, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		AccessPointSchemaWrapper wrapper = createSchemaWrapper(app);
+		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+
 	private static AccessPointSchemaWrapper createSchemaWrapper(StardustApplicationType app) {
+		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(app.getAccessPoint1());
+		schemaWrapper.setOwnerApplicationId(app.getId());
+		return schemaWrapper;
+	}
+
+	private static AccessPointSchemaWrapper createSchemaWrapper(StardustContextType appCtx) {
+		EList<StardustAccessPointType> sdApoints = new BasicEList<StardustAccessPointType>();
+		if (null == appCtx) return null;
+		for (AccessPointType ap : appCtx.getAccessPoint()) {
+			if (ap instanceof StardustAccessPointType) {
+				sdApoints.add((StardustAccessPointType)ap);
+			} else {
+				StardustAccessPointType sdap = SdbpmnFactory.eINSTANCE.createStardustAccessPointType();
+				sdap.setDirection(ap.getDirection());
+				sdap.setDescription(ap.getDescription());
+				sdap.setElementOid(ap.getElementOid());
+				sdap.setName(ap.getName());
+				sdap.setId(ap.getId());
+				sdap.setTypeRef(null != ap.getType() ? ap.getType().getId() : "");
+				sdApoints.add(sdap);
+			}
+		}
+		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(sdApoints);
+		schemaWrapper.setOwnerApplicationId(((StardustApplicationType)appCtx.eContainer()).getId());
+		return schemaWrapper;
+	}
+
+	private static AccessPointSchemaWrapper createSchemaWrapper(EList<StardustAccessPointType> accessPoints) {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
-		for (StardustAccessPointType ap : app.getAccessPoint1()) {
+		for (StardustAccessPointType ap : accessPoints) { //app.getAccessPoint1()) {
 			//AccessPoint ap = (AccessPoint) v;
 			String id = ap.getId();
 			String type = ap.getTypeRef(); // ap.getType().getId();
 			String displayName = ap.getName();
 			String typeClass = "";
 			XSDTypeDefinition typeDef = null;
-			if (CamelAcessPointDataTypes.PRIMITIVE_TYPE.getKey().equals(type)) {
-				String prop = CamelAcessPointDataTypes.PRIMITIVE_TYPE.getType();
+			if (AcessPointDataTypes.PRIMITIVE_TYPE.getKey().equals(type)) {
+				String prop = AcessPointDataTypes.PRIMITIVE_TYPE.getType();
 				String typeRef = getStringAttribute(ap, prop); //ap.getTypeRef(); //ap.getStringAttribute(prop);
 				XSDType2Stardust byTypeName = XSDType2Stardust.byTypeName(typeRef);
 				XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
@@ -57,24 +102,24 @@ public class AccessPointInfoProvider {
 				simpleType.setTargetNamespace(qname.getNamespaceURI());
 				simpleType.setName(qname.getLocalPart());
 				typeDef = simpleType;
-			} else if (CamelAcessPointDataTypes.SERIALIZABLE_TYPE.getKey().equals(type)) {
-				String prop = CamelAcessPointDataTypes.SERIALIZABLE_TYPE.getType();
+			} else if (AcessPointDataTypes.SERIALIZABLE_TYPE.getKey().equals(type)) {
+				String prop = AcessPointDataTypes.SERIALIZABLE_TYPE.getType();
 				String typeRef = getStringAttribute(ap, prop); //ap.getStringAttribute(prop);
 				XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
 				simpleType.setTargetNamespace(ImportUtil.IMPORT_KIND_XML_SCHEMA);
 				simpleType.setName("anyType");
 				typeDef = simpleType;		
-				ItemDefinition refItemDef = findItemDefinition(app, typeRef);
+				ItemDefinition refItemDef = findItemDefinition(ap, typeRef);
 				if (null != refItemDef) {
 					if (null != refItemDef.getStructureRef()) {
 						typeClass = refItemDef.getStructureRef().toString();
 					}
 				}
 				
-			} else if (CamelAcessPointDataTypes.STRUCT_TYPE.getKey().equals(type)) {
-				String prop = CamelAcessPointDataTypes.STRUCT_TYPE.getType();
+			} else if (AcessPointDataTypes.STRUCT_TYPE.getKey().equals(type)) {
+				String prop = AcessPointDataTypes.STRUCT_TYPE.getType();
 				String typeRef = getStringAttribute(ap, prop); // ap.getStringAttribute(prop);
-				ItemDefinition refItemDef = findItemDefinition(app, typeRef);
+				ItemDefinition refItemDef = findItemDefinition(ap, typeRef);
 				if (null != refItemDef) {
 					if (refItemDef.getStructureRef() instanceof XSDElementDeclaration) {
 						XSDElementDeclaration decl = (XSDElementDeclaration)refItemDef.getStructureRef();
@@ -105,7 +150,7 @@ public class AccessPointInfoProvider {
 		return null;
 	}
 
-	private static ItemDefinition findItemDefinition(StardustApplicationType app, String typeRef) {
+	private static ItemDefinition findItemDefinition(EObject app, String typeRef) {
 		if (null == typeRef) return null;
 		Definitions definitions = ModelUtil.getDefinitions(app.eResource());
 		if (null == definitions) return null;

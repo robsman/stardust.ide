@@ -1,6 +1,6 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
-public enum CamelAcessPointDataTypes {
+public enum AcessPointDataTypes {
 	PRIMITIVE_TYPE("primitive", "carnot:engine:type", "Primitive Data"),
 	STRUCT_TYPE("struct", "carnot:engine:dataType", "Structured Data"),
 	SERIALIZABLE_TYPE("serializable", "carnot:engine:className", "Serializable");
@@ -9,7 +9,7 @@ public enum CamelAcessPointDataTypes {
 	private String type;
 	public String displayName;
 
-	private CamelAcessPointDataTypes(String key, String type, String displayName) {
+	private AcessPointDataTypes(String key, String type, String displayName) {
 		this.setKey(key);
 		this.displayName = displayName;
 		this.key = key;
@@ -32,9 +32,9 @@ public enum CamelAcessPointDataTypes {
 		return type;
 	}		
 
-	public static CamelAcessPointDataTypes forKey(String key) {
+	public static AcessPointDataTypes forKey(String key) {
 		if (null == key) return null;
-		for (CamelAcessPointDataTypes t : values()) {
+		for (AcessPointDataTypes t : values()) {
 			if (key.equals(t.key)) return t;
 		}
 		return null;

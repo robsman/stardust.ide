@@ -11,14 +11,15 @@
  * @author Bob Brodt
  ******************************************************************************/
 
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.camel;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.AccessPointListComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointChangeListener;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointListComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
@@ -135,11 +136,11 @@ public class CamelDetailComposite extends DefaultDetailComposite implements Acce
 		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
 		
 		// create two lists, one for Input and one for Output Access Points
-		AccessPointListComposite inputParams = new AccessPointListComposite(accessPointsSection, true, this);
+		AccessPointListComposite inputParams = new CamelAccessPointListComposite(accessPointsSection, true, this);
 		inputParams.bindList(sdApplication, SdbpmnPackage.eINSTANCE.getStardustApplicationType_AccessPoint1());
 		inputParams.setTitle("Inputs");
 
-		AccessPointListComposite outputParams = new AccessPointListComposite(accessPointsSection, false, this);
+		AccessPointListComposite outputParams = new CamelAccessPointListComposite(accessPointsSection, false, this);
 		outputParams.bindList(sdApplication, SdbpmnPackage.eINSTANCE.getStardustApplicationType_AccessPoint1());
 		outputParams.setTitle("Outputs");
 	}

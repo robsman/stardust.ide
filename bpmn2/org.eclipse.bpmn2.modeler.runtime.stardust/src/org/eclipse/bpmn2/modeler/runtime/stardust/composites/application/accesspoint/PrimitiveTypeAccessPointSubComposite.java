@@ -1,10 +1,9 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown.DatatypeChangeListener;
 import org.eclipse.emf.ecore.EObject;
@@ -16,15 +15,15 @@ import org.eclipse.swt.widgets.Composite;
  * @author Simon Nikles
  *
  */
-public class CamelPrimitiveTypeAccessPointSubComposite extends DefaultDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
+public class PrimitiveTypeAccessPointSubComposite extends DefaultDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
 
 	private AccessPointChangeListener listener;
 	
-	public CamelPrimitiveTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
+	public PrimitiveTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
 
-	public CamelPrimitiveTypeAccessPointSubComposite(Composite parent, int style, AccessPointChangeListener listener) {
+	public PrimitiveTypeAccessPointSubComposite(Composite parent, int style, AccessPointChangeListener listener) {
 		super(parent, style);
 		this.listener = listener;
 	}
@@ -35,11 +34,11 @@ public class CamelPrimitiveTypeAccessPointSubComposite extends DefaultDetailComp
 		Composite parent = this.getAttributesParent();
 		
 		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:type");
-		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, CamelAcessPointDataTypes.PRIMITIVE_TYPE, this);
+		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.PRIMITIVE_TYPE, this);
 		editor.createControl(parent, "Type");
 
 		//	sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", "org.eclipse.stardust.engine.core.pojo.data.Type"));
-		setTitle(CamelAcessPointDataTypes.PRIMITIVE_TYPE.getDisplayName());
+		setTitle(AcessPointDataTypes.PRIMITIVE_TYPE.getDisplayName());
 	}
 
 	@Override

@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.EStructuralFeature.Internal;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl.SimpleFeatureMapEntry;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
@@ -293,11 +294,23 @@ public class ExtensionHelper {
         return modelvalues;
     }
 
-    private <T> T getFirstExtension(Class<T> type, BaseElement element, Internal feature) {
-        @SuppressWarnings("unchecked")
-        List<T> extensionList = (List<T>)getExtension(element, feature);
-        T taskExtension = extensionList != null && extensionList.size() > 0 ? extensionList.get(0) : null;
-        return taskExtension;
+//    private <T> T getFirstExtension(Class<T> type, BaseElement element, Internal feature) {
+//        @SuppressWarnings("unchecked")
+//        List<T> extensionList = (List<T>)getExtension(element, feature);
+//        T taskExtension = extensionList != null && extensionList.size() > 0 ? extensionList.get(0) : null;
+//        return taskExtension;
+//    }
+
+    @SuppressWarnings("unchecked")
+	private <T> T getFirstExtension(Class<T> type, BaseElement element, Internal feature) {
+        for (ExtensionAttributeValue extensionAttributeValue : element.getExtensionValues()) {
+            FeatureMap extensionElements = extensionAttributeValue.getValue();
+            for (Entry extEntry : extensionElements) {
+            	if (null != extEntry && extEntry.getEStructuralFeature().equals(feature))
+	            return (T)extEntry.getValue();
+            }
+        }
+        return null;
     }
 
     private Object getExtension(BaseElement element, Internal feature) {

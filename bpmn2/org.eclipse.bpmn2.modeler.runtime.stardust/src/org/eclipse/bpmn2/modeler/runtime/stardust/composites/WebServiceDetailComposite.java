@@ -13,8 +13,6 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
-import static org.eclipse.stardust.model.xpdl.carnot.DirectionType.*;
-
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;

@@ -172,8 +172,23 @@ public class ServiceInterfaceUtil {
 			contexts.add(ctxt);
 			ApplicationContextTypeType contextType = getContextType(ctxt.getTypeRef());
 			ctxt.setType(contextType);
+			convertContextAccessPoints(ctxt);
 		}
 		application.getContext().addAll(contexts);
+	}
+
+	private void convertContextAccessPoints(StardustContextType ctxt) {
+		List<AccessPointType> aptypes = new ArrayList<AccessPointType>();
+		for(AccessPointType ap : ctxt.getAccessPoint()) {
+			if (ap instanceof StardustAccessPointType) {
+				StardustAccessPointType sdap = (StardustAccessPointType)ap;
+				DataTypeType type = getMetaDataType(sdap.getTypeRef());
+				ap.setType(type);
+			}
+			aptypes.add(ap);
+		}
+		ctxt.getAccessPoint().addAll(aptypes);
+
 	}
 
 	public void convertAccessPoints(StardustApplicationType application) {

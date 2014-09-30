@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.stardust.model.bpmn2.extension.AccessPointSchemaWrapper.Direction;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 
 /**
@@ -32,6 +33,24 @@ public enum StardustApplicationConfigurationGenerator {
 
 	INSTANCE;
 
+	public void generateAccessPointInfos(StardustContextType appCtx) {
+		Definitions definitions = ModelUtil.getDefinitions(appCtx.eResource());
+		ItemDefinition inputItemDef = findOrCreateItemDef(appCtx, Direction.IN);
+		ItemDefinition outputItemDef = findOrCreateItemDef(appCtx, Direction.OUT);
+		inputItemDef.getExtensionValues().clear();
+		outputItemDef.getExtensionValues().clear();
+		try {
+			AccessPointInfoProvider.addInputAccessPointItemDefinitionSchema(appCtx, inputItemDef);
+			AccessPointInfoProvider.addOutputAccessPointItemDefinitionSchema(appCtx, outputItemDef);
+			insertStructureReferences(inputItemDef, outputItemDef);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		definitions.getRootElements().add(inputItemDef);
+		definitions.getRootElements().add(outputItemDef);
+		updateBPMN2Values((StardustInterfaceType)appCtx.eContainer().eContainer(), outputItemDef, inputItemDef);
+	}
+
 	public void generateAccessPointInfos(StardustApplicationType appType) {
 		Definitions definitions = ModelUtil.getDefinitions(appType.eResource());
 		ItemDefinition inputItemDef = findOrCreateItemDef(appType, Direction.IN);
@@ -40,7 +59,7 @@ public enum StardustApplicationConfigurationGenerator {
 		outputItemDef.getExtensionValues().clear();
 		try {
 			AccessPointInfoProvider.addInputAccessPointItemDefinitionSchema(appType, inputItemDef);
-			AccessPointInfoProvider.addInputAccessPointItemDefinitionSchema(appType, outputItemDef);
+			AccessPointInfoProvider.addOutputAccessPointItemDefinitionSchema(appType, outputItemDef);
 			insertStructureReferences(inputItemDef, outputItemDef);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -62,10 +81,14 @@ public enum StardustApplicationConfigurationGenerator {
 		Definitions definitions = ModelUtil.getDefinitions(object.eResource());
 		ItemDefinition inputItemDef = createItemDef(object);
 		ItemDefinition outputItemDef = createItemDef(object);
+		String ownerId = null;
+		if (object instanceof StardustInterfaceType && null != ((StardustInterfaceType) object).getStardustApplication()) {
+			ownerId = ((StardustInterfaceType) object).getStardustApplication().getId();
+		}
 
 		try {
-			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(inputItemDef, methods, constructors);
-			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(outputItemDef, methods, constructors);
+			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, inputItemDef, methods, constructors);
+			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, outputItemDef, methods, constructors);
 			
 			insertStructureReferences(inputItemDef, outputItemDef);
 			
@@ -89,10 +112,14 @@ public enum StardustApplicationConfigurationGenerator {
 		Definitions definitions = ModelUtil.getDefinitions(object.eResource());
 		ItemDefinition inputItemDef = createItemDef(object);
 		ItemDefinition outputItemDef = createItemDef(object);
-
+		String ownerId = null;
+		if (object instanceof StardustInterfaceType && null != ((StardustInterfaceType) object).getStardustApplication()) {
+			ownerId = ((StardustInterfaceType) object).getStardustApplication().getId();
+		}
+		
 		try {
-			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(inputItemDef, methodAndConstructor);
-			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(outputItemDef, methodAndConstructor);
+			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, inputItemDef, methodAndConstructor);
+			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, outputItemDef, methodAndConstructor);
 			
 			insertStructureReferences(inputItemDef, outputItemDef);
 			
@@ -149,7 +176,25 @@ public enum StardustApplicationConfigurationGenerator {
 		}
 		return createItemDef(appType);
 	}
-	
+
+	private ItemDefinition findOrCreateItemDef(StardustContextType appCtx, Direction direction) {
+		StardustInterfaceType sdiface = (StardustInterfaceType)appCtx.eContainer().eContainer();
+		Interface iface = (Interface)sdiface.eContainer().eContainer();
+		List<Operation> operations = iface.getOperations();
+		Message msg = null;
+		for (Operation op: operations) {
+			if (Direction.IN.equals(direction)) {
+				msg = op.getInMessageRef();
+			} else {
+				msg = op.getOutMessageRef();
+			}
+		}
+		if (null != msg) {
+			if (null != msg.getItemRef()) return msg.getItemRef();
+		}
+		return createItemDef(appCtx);
+	}
+
 	private ItemDefinition createItemDef(EObject object) {
 		ItemDefinition itemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
 		itemDef.setItemKind(ItemKind.INFORMATION);

@@ -14,17 +14,24 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.adapters;
 
 import java.util.Hashtable;
+import java.util.List;
 
+import org.eclipse.bpmn2.Definitions;
+import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
+import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
+import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 
@@ -32,7 +39,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
  *
  */
 public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedPropertiesAdapter<StardustInterfaceType> {
-	private static long elementOid = 10000;
+	private static Long elementOid = null; 
 	private static long appTypeId = 1;
 	private static Hashtable<String, Object> choices = null;
 	
@@ -44,7 +51,9 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		CAMELCONSUMER("camelConsumerApplication", "Camel Consumer"),
 		CAMELPRODUCER_SEND("camelSpringProducerApplication", "Camel Producer (send)"),
 		CAMELPRODUCER_SENDRECEIVE("camelSpringProducerApplicationSendReceive", "Camel Producer (send/receive)"),
-		JMS("jms", "JMS Application");
+		JMS("jms", "JMS Application"),
+		EXTERNAL_WEBAPP("externalWebApp", "External Web Application")
+		;
 		
 		private String key;
 		public String displayName;
@@ -126,6 +135,9 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 				case SPRINGBEAN:
 					createSpringBeanApplicationModel(sdInterface);
 					break;					
+				case EXTERNAL_WEBAPP:
+					createExternalWebappApplicationModel(sdInterface);
+					break;
 				case JMS:
 				case SESSIONBEAN:
 				default:
@@ -147,6 +159,20 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
     	});
 	}
 
+	private static Long maxAppOid(Resource resource) {
+		Definitions definitions = ModelUtil.getDefinitions(resource);
+		Long maxOid = Long.valueOf(0);
+		List<Interface> ifaces = ModelUtil.getAllRootElements(definitions, Interface.class);
+		for (Interface iface : ifaces) {
+			List<StardustApplicationType> applications = ModelDecorator.getAllExtensionAttributeValues(iface, StardustApplicationType.class);
+			if (null != applications && applications.size() > 0) {
+				Long appOid = applications.get(0).getElementOid();
+				if (null != appOid) maxOid = Math.max(appOid, maxOid);
+			}
+		}
+		return maxOid;
+	}
+
 	private static StardustAccessPointType createStardustAccessPointType(long elementOid, String id, String name, DirectionType direction, String typeRef) {
 		StardustAccessPointType ac = SdbpmnFactory.eINSTANCE.createStardustAccessPointType();
 		ac.setElementOid(elementOid);
@@ -157,7 +183,8 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		return ac;
 	}
 
-	private static long generateElementOid() {
+	private static long generateElementOid(Resource resource) {
+		if (null == elementOid) elementOid = maxAppOid(resource)+1;
 		return elementOid++;
 	}
 
@@ -178,7 +205,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		// and configure for a WebService StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
-		sdApplication.setElementOid(generateElementOid());
+		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
 		sdApplication.setId("WebServiceApp_" + generateAppTypeId());
 		sdApplication.setName("WebServiceApp");
 
@@ -198,31 +225,51 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		StardustAccessPointType sdAccessPoint;
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "carnot:engine:endpointAddress", "Endpoint Address", DirectionType.IN_LITERAL, "serializable");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(sdApplication.eResource()), "carnot:engine:endpointAddress", "Endpoint Address", DirectionType.IN_LITERAL, "serializable");
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.IN_LITERAL, "plainXML");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(sdApplication.eResource()), "parameters", "parameters", DirectionType.IN_LITERAL, "plainXML");
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:browsable", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters", "parameters", DirectionType.OUT_LITERAL, "plainXML");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(sdApplication.eResource()), "parameters", "parameters", DirectionType.OUT_LITERAL, "plainXML");
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(sdApplication.eResource()), "parameters_struct", "parameters_struct", DirectionType.IN_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "getCRO", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:transformation", "DOM", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:separator", "/", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
-		sdAccessPoint = createStardustAccessPointType(generateElementOid(), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
+		sdAccessPoint = createStardustAccessPointType(generateElementOid(sdApplication.eResource()), "parameters_struct", "parameters_struct", DirectionType.OUT_LITERAL, "struct");
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "getCROResponse", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:separator", "/", null));
 		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:bidirectional", "true", "boolean"));
 		sdApplication.getAccessPoint().add(sdAccessPoint);
 
+		sdInterface.setStardustApplication(sdApplication);
+	}
+
+	private static void createExternalWebappApplicationModel(StardustInterfaceType sdInterface) {
+		removeApplicationModel(sdInterface);
+
+		// and configure for a WebService StardustApplicationType
+		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
+		StardustContextType contextType = SdbpmnFactory.eINSTANCE.createStardustContextType();
+		contextType.setTypeRef(ApplicationTypes.EXTERNAL_WEBAPP.getKey());
+		sdApplication.getContext1().add(contextType);
+		
+		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
+		sdApplication.setId("ExternalWebApplicationApp_" + generateAppTypeId());
+		sdApplication.setName("ExternalWebApplicationApp");
+		sdApplication.setInteractive(true);
+
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		contextType.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:ui:externalWebApp:uri", "", null));
+		
 		sdInterface.setStardustApplication(sdApplication);
 	}
 
@@ -239,7 +286,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		// and configure for a PlainJava StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
-		sdApplication.setElementOid(generateElementOid());
+		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
 		sdApplication.setId("JavaApp_" + generateAppTypeId());
 		sdApplication.setName("JavaApp");
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
@@ -265,7 +312,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		// and configure for a PlainJava StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
-		sdApplication.setElementOid(generateElementOid());
+		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
 		sdApplication.setId("SpringBean_" + generateAppTypeId());
 		sdApplication.setName("SpringBean");
 
@@ -294,7 +341,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 
 		// and configure for a Camel StardustApplicationType
 		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
-		sdApplication.setElementOid(generateElementOid());
+		sdApplication.setElementOid(generateElementOid(sdInterface.eResource()));
 		if (camelAppType.equals(ApplicationTypes.CAMELPRODUCER_SEND)) {
 			sdApplication.setId("CamelProducerSend_" + generateAppTypeId()); 
 			sdApplication.setName("CamelProducerSend");

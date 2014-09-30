@@ -237,10 +237,11 @@ public enum ExtensionHelper2 {
 		prefixMap.put(targetNamespacePrefix, targetNamespace);
 
 		XSDComplexTypeDefinition accessPointsType = factory.createXSDComplexTypeDefinition();
-		accessPointsType.setName(direction + "AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
+		String name = null != schemaInfo.getOwnerApplicationId() ? schemaInfo.getOwnerApplicationId() : "AccessPoint"+sequence; 
+		accessPointsType.setName(direction + name + STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
 
 		XSDElementDeclaration element = factory.createXSDElementDeclaration();
-		element.setName(direction + "AccessPoint"+sequence+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
+		element.setName(direction+name+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
 		element.setTypeDefinition(accessPointsType);			
 		schema.getContents().add(element);
 

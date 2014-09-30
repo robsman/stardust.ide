@@ -1,17 +1,14 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultListComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.ListCompositeColumnProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.ListCompositeContentProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.TableColumn;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.AccessPointChangeListener;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint.AccessPointTypeDetailComposite;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -27,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Bob
  *
  */
-public class AccessPointListComposite extends DefaultListComposite implements AccessPointChangeListener {
+public abstract class AccessPointListComposite extends DefaultListComposite implements AccessPointChangeListener {
 
 	private boolean isInput;
 	private AccessPointChangeListener listener;
@@ -166,11 +163,11 @@ public class AccessPointListComposite extends DefaultListComposite implements Ac
 		return removeListItem;
 	}
 
-	@Override
-	public AbstractDetailComposite createDetailComposite(Class eClass, Composite parent, int style) {
-		AbstractDetailComposite composite = new AccessPointTypeDetailComposite(parent, (AccessPointChangeListener)this);
-		return composite;
-	}
+//	@Override
+//	public AbstractDetailComposite createDetailComposite(Class eClass, Composite parent, int style) {
+//		AbstractDetailComposite composite = new AccessPointTypeDetailComposite(parent, (AccessPointChangeListener)this);
+//		return composite;
+//	}
 
 	@Override
 	public void accessPointsChanged() {

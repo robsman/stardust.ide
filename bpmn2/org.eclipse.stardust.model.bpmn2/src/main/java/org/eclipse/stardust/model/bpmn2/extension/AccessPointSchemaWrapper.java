@@ -25,6 +25,7 @@ public class AccessPointSchemaWrapper {
 	}
 	
 	private List<AccessPointSchemaElement> elements = new ArrayList<AccessPointSchemaWrapper.AccessPointSchemaElement>();
+	private String ownerApplicationId = null;
 	
 	public List<AccessPointSchemaElement> getElements() {
 		return elements;
@@ -46,6 +47,14 @@ public class AccessPointSchemaWrapper {
 		this.elements.addAll(elements);
 	}
 	
+	public String getOwnerApplicationId() {
+		return ownerApplicationId;
+	}
+
+	public void setOwnerApplicationId(String ownerApplicationId) {
+		this.ownerApplicationId = ownerApplicationId;
+	}
+
 	public class AccessPointSchemaElement {
 		
 		private String displayName;

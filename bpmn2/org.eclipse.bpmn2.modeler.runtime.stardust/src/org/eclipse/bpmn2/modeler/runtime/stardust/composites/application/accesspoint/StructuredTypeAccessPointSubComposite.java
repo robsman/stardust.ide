@@ -1,10 +1,9 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown.DatatypeChangeListener;
 import org.eclipse.emf.ecore.EObject;
@@ -16,15 +15,15 @@ import org.eclipse.swt.widgets.Composite;
  * @author Simon Nikles
  *
  */
-public class CamelStructuredTypeAccessPointSubComposite extends AbstractDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
+public class StructuredTypeAccessPointSubComposite extends AbstractDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
 
 	private AccessPointChangeListener listener;
 	
-	public CamelStructuredTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
+	public StructuredTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
 
-	public CamelStructuredTypeAccessPointSubComposite(Composite parent, int style, AccessPointChangeListener listener) {
+	public StructuredTypeAccessPointSubComposite(Composite parent, int style, AccessPointChangeListener listener) {
 		super(parent, style);
 		this.listener = listener;
 	}
@@ -37,7 +36,7 @@ public class CamelStructuredTypeAccessPointSubComposite extends AbstractDetailCo
 				.println("CamelStructuredTypeAccessPointSubComposite.createBindings()");
 
 		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:dataType");
-		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, CamelAcessPointDataTypes.STRUCT_TYPE, this);
+		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.STRUCT_TYPE, this);
 		editor.createControl(parent, "Datastructure");
 
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "", null));
@@ -45,7 +44,7 @@ public class CamelStructuredTypeAccessPointSubComposite extends AbstractDetailCo
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));		
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
 
-		setTitle(CamelAcessPointDataTypes.STRUCT_TYPE.getDisplayName());
+		setTitle(AcessPointDataTypes.STRUCT_TYPE.getDisplayName());
 	}
 
 	@Override

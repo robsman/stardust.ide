@@ -1,4 +1,4 @@
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 /**
  * @author Simon Nikles

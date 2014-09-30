@@ -18,7 +18,10 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.CamelDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.camel.CamelDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.java.PlainJavaDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.spring.SpringBeanDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.webapp.ExtWebApplicationDetailComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
@@ -89,7 +92,10 @@ public class StardustInterfaceDetailComposite extends DefaultDetailComposite {
 			break;
 		case SPRINGBEAN:
 			details = new SpringBeanDetailComposite(getAttributesParent(), SWT.NONE);
-			break;			
+			break;
+		case EXTERNAL_WEBAPP:
+			details = new ExtWebApplicationDetailComposite(getAttributesParent(), SWT.NONE);
+			break;
 		case JMS:
 		case SESSIONBEAN:
 		default:

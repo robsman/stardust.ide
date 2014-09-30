@@ -118,8 +118,9 @@ public class IntrinsicJavaAccessPointInfo {
 		return Reflect.decodeConstructor(cls, encodedConstructor);
 	}
 
-	public static ItemDefinition addInputAccessPointItemDefinitionSchema(ItemDefinition itemDef, IMethod ... methodAndConstructor) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(String ownerId, ItemDefinition itemDef, IMethod ... methodAndConstructor) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		wrapper.setOwnerApplicationId(ownerId);
 		for (IMethod meth : methodAndConstructor) {
 			AccessPointSchemaWrapper current = createSchemaWrapper(meth);
 			if (null != current) wrapper.addAll(current.getElements());
@@ -128,8 +129,9 @@ public class IntrinsicJavaAccessPointInfo {
 		return itemDef;
 	}
 
-	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(ItemDefinition itemDef, IMethod ... methodAndConstructor) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(String ownerId, ItemDefinition itemDef, IMethod ... methodAndConstructor) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		wrapper.setOwnerApplicationId(ownerId);
 		for (IMethod meth : methodAndConstructor) {
 			AccessPointSchemaWrapper current = createSchemaWrapper(meth);
 			if (null != current) wrapper.addAll(current.getElements());
@@ -138,19 +140,22 @@ public class IntrinsicJavaAccessPointInfo {
 		return itemDef;
 	}
 
-	public static ItemDefinition addInputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(String ownerId, IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = createSchemaWrapper(method);
+		wrapper.setOwnerApplicationId(ownerId);
 		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
 
-	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(String ownerId, IMethod method, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = createSchemaWrapper(method);
+		wrapper.setOwnerApplicationId(ownerId);
 		return ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
 	}
 	
-	public static ItemDefinition addInputAccessPointItemDefinitionSchema(ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+	public static ItemDefinition addInputAccessPointItemDefinitionSchema(String ownerId, ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		wrapper.setOwnerApplicationId(ownerId);
 		if (null != methods) {
 			for (Method meth : methods) {
 				AccessPointSchemaWrapper current = createSchemaWrapper(meth);
@@ -167,8 +172,9 @@ public class IntrinsicJavaAccessPointInfo {
 		return itemDef;
 	}
 
-	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(String ownerId, ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
+		wrapper.setOwnerApplicationId(ownerId);
 		if (null != methods) {
 			for (Method meth : methods) {
 				AccessPointSchemaWrapper current = createSchemaWrapper(meth);

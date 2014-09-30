@@ -146,7 +146,14 @@
 			type="org.eclipse.bpmn2.Interface"
 			label="Interface">
 		</propertyTab>
-		
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.usertask.implementation.tab"
+			afterTab="org.eclipse.bpmn2.modeler.userTask.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustUserTaskImplementationPropertySection"
+			type="org.eclipse.bpmn2.UserTask"
+			label="Interactive Application">
+		</propertyTab>	
 
 		<propertyTab
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.dataAssociation.tab"
@@ -193,7 +200,7 @@
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.CamelAccessPoint"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType"
-			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.camel.CamelAccesspointsExtendedPropertiesAdapter">
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.camel.CamelAccesspointsExtendedPropertiesAdapter">
 		</propertyExtension>
 		
 		<propertyExtension
@@ -209,6 +216,13 @@
 			type="org.eclipse.bpmn2.Interface"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfacePropertiesAdapter">
 		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustUserTask"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustUserTaskPropertiesAdapter">
+		</propertyExtension>
 		
 		<!--
 		Enable the Stardust and Carnot model objects here. Unless explicitly enabled, these
@@ -222,8 +236,10 @@
 				description="Stardust elements and attributes">
 			<enable object="StardustInterfaceType"/>
 			<enable object="StardustApplicationType"/>
+			<enable object="StardustContextType" />
 			<enable object="StardustStartEventType"/>
 			<enable object="StardustAccessPointType"/>
+			<enable object="StardustUserTaskType"/>
 		</modelEnablement>
 		
 		

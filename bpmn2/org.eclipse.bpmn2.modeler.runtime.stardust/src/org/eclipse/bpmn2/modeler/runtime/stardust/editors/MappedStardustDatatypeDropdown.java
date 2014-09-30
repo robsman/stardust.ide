@@ -11,7 +11,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.core.utils.NamespaceUtil;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.camel.accesspoint.CamelAcessPointDataTypes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AcessPointDataTypes;
 import org.eclipse.bpmn2.modeler.ui.adapters.properties.ItemDefinitionPropertiesAdapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -28,14 +28,14 @@ import org.eclipse.xsd.util.XSDConstants;
  */
 public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 
-	private CamelAcessPointDataTypes datatypeCategory;
+	private AcessPointDataTypes datatypeCategory;
 	private DatatypeChangeListener listener; 
 	
 	public interface DatatypeChangeListener {
 		public void comboChanged();
 	}
 	
-	public MappedStardustDatatypeDropdown(AbstractDetailComposite parent, AttributeType object, CamelAcessPointDataTypes datatypeCategory, DatatypeChangeListener listener) {
+	public MappedStardustDatatypeDropdown(AbstractDetailComposite parent, AttributeType object, AcessPointDataTypes datatypeCategory, DatatypeChangeListener listener) {
 		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 		if (null == NamespaceUtil.getPrefixForNamespace(parent.getBusinessObject().eResource(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
 			NamespaceUtil.addNamespace(parent.getBusinessObject().eResource(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
@@ -53,7 +53,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 		ItemDefinition newItemDef = (ItemDefinition)newValue;
 		
 		
-		if (CamelAcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
+		if (AcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
 			String newValueName = null != newItemDef ? newItemDef.getStructureRef().toString() : null;
 			if (null != newValueName) {
 				int delimPos = newValueName.indexOf(":");
@@ -67,7 +67,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 				}
 				return true;
 			}
-		} else if (CamelAcessPointDataTypes.SERIALIZABLE_TYPE.equals(datatypeCategory)) {
+		} else if (AcessPointDataTypes.SERIALIZABLE_TYPE.equals(datatypeCategory)) {
 			final String newValueId = null != newItemDef && null != newItemDef.getStructureRef() ? newItemDef.getStructureRef().toString() : null;
 			if (super.setValue(newValueId)) {
 				if (oldValue != newValueId) {
@@ -91,12 +91,12 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 	public Object getValue() {
 		Object stardustValue = super.getValue();
 		if (null == stardustValue) return null;
-		if (CamelAcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
+		if (AcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
 			XSDType2Stardust newStardustValue = XSDType2Stardust.byTypeName(stardustValue.toString());
 			String newSdStr = null != newStardustValue ? newStardustValue.getName() : null;
 			if (null == newSdStr) return null;
 			return getChoiceOfValues(object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value()).get(addXsdPrefix(newSdStr)); 
-		} else if (CamelAcessPointDataTypes.SERIALIZABLE_TYPE.equals(datatypeCategory)) {
+		} else if (AcessPointDataTypes.SERIALIZABLE_TYPE.equals(datatypeCategory)) {
 			return getItemDefinitionByRefString(object, stardustValue.toString());
 		} else {
 			return getItemDefinitionById(object, stardustValue.toString());

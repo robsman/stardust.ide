@@ -99,6 +99,7 @@ public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityInputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
+	        
 		}
 	}
 }

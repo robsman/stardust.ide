@@ -54,7 +54,8 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 		String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
 
 		ActivityType activity =
-				taskWithoutImplementationSpec(task)
+				//taskWithoutImplementationSpec(task)
+				taskWithoutAppRef(task)
 				? buildManualActivity(processDef, task, descr)
 				: buildInteractiveActivity(processDef, task, descr);
 
@@ -66,6 +67,11 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 				setTaskPerformer(activity, role, task, org.eclipse.stardust.model.bpmn2.reader.ModelInfo.getDefinitions(container));
 			}
 		}
+	}
+
+	private boolean taskWithoutAppRef(UserTask task) {
+		String ref = Bpmn2StardustXPDLExtension.getUserTaskApplicationRef(task);
+		return null == ref || ref.trim().isEmpty();
 	}
 
 	public void addGlobalUserTask(GlobalUserTask globalTask, Definitions container) {
