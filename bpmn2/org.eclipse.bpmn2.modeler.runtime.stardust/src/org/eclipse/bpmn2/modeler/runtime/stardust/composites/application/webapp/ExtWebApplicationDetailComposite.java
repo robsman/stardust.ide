@@ -19,6 +19,8 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointListComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
+import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.emf.ecore.EObject;
@@ -55,11 +57,15 @@ public class ExtWebApplicationDetailComposite extends DefaultDetailComposite imp
 		bindAttribute(sdApplication, "id");
 		bindAttribute(sdApplication, "elementOid");
 
+		AttributeType at;
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, Visibility.NAME);
+		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
+		editor.createControl(parent, "Visibility");
+
 		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
 		StardustContextType appCtx = sdApplication.getContext1().size() > 0 ? sdApplication.getContext1().get(0) : null;
 		
 		if (null != appCtx) {
-			AttributeType at;
 			at = PropertyAdapterCommons.findAttributeType(appCtx, "carnot:engine:ui:externalWebApp:uri");
 			editor = new AttributeTypeTextEditor(this, at);
 			editor.createControl(parent, "External Webapplication URI");

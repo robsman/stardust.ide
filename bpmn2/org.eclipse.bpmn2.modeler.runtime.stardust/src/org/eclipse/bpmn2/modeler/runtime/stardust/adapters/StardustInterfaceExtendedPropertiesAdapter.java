@@ -23,6 +23,7 @@ import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -209,7 +210,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setId("WebServiceApp_" + generateAppTypeId());
 		sdApplication.setName("WebServiceApp");
 
-		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsRuntime", "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsdlUrl", "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:wsServiceName", "", null));
@@ -267,7 +268,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setName("ExternalWebApplicationApp");
 		sdApplication.setInteractive(true);
 
-		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
 		contextType.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:ui:externalWebApp:uri", "", null));
 		
 		sdInterface.setStardustApplication(sdApplication);
@@ -289,7 +290,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
 		sdApplication.setId("JavaApp_" + generateAppTypeId());
 		sdApplication.setName("JavaApp");
-		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));		
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:methodName", "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:constructorName", "", null));		
@@ -316,7 +317,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		sdApplication.setId("SpringBean_" + generateAppTypeId());
 		sdApplication.setName("SpringBean");
 
-		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:spring::beanId", "", null));		
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));		
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:methodName", "", null));		
@@ -354,7 +355,7 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 			sdApplication.setName("CamelConsumer");
 		}
 		
-		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::invocationType", "", null));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("synchronous:retry:enable", "false", "boolean"));
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:camel::camelContextId", "defaultCamelContext", null));

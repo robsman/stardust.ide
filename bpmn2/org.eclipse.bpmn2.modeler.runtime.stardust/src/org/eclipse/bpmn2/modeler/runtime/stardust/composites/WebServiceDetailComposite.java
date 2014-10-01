@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
@@ -59,8 +60,8 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 		bindAttribute(sdApplication, "elementOid");
 
 		AttributeType at;
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:visibility");
-		editor = new AttributeTypeComboEditor(this, at, new String[] { "Public", "Private" });
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, Visibility.NAME);
+		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
 		editor.createControl(parent, "Visibility");
 
 		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsRuntime");
