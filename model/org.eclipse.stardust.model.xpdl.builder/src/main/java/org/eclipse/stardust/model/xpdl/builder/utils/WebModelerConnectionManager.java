@@ -423,10 +423,13 @@ public class WebModelerConnectionManager implements IConnectionManager
    public void open(Connection connection) throws CoreException
    {
       ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
-      handler = createHandler(connection.getType());
-      EObjectDescriptor.setURIS(false);
-      handler.open(connection);
-      handlers.put(connection, handler);
+      if (null == handler)
+      {
+         handler = createHandler(connection.getType());
+         EObjectDescriptor.setURIS(false);
+         handler.open(connection);
+         handlers.put(connection, handler);
+      }
    }
 
    private ConnectionHandler createHandler(String type) throws CoreException
