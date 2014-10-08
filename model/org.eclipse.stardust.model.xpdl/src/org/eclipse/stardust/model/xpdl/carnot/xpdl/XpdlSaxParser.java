@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.transform.OutputKeys;
@@ -26,6 +28,7 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 
+import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.error.InternalException;
 import org.eclipse.stardust.common.error.PublicException;
 import org.eclipse.stardust.common.log.LogManager;
@@ -49,7 +52,8 @@ public class XpdlSaxParser extends SAXParser
 {
    private static final Logger trace = LogManager.getLogger(XpdlSaxParser.class);
    
-   private static Transformer xpdl2cwmTransformer;
+   private static Queue<Transformer> xpdl2cwmTransformersPool = new ArrayBlockingQueue<Transformer>(
+         Parameters.instance().getInteger("Carnot.Xpdl.Serializer.PoolSize", 12));
 
    private final SAXParser cwmParser;
 
@@ -139,8 +143,15 @@ public class XpdlSaxParser extends SAXParser
       {
          Thread.currentThread().setContextClassLoader(XpdlSaxParser.class.getClassLoader());
       
-         Transformer xpdlTransformer = getXpdlTransformer();
-         xpdlTransformer.transform(new SAXSource(xpdlReader, is), result);
+         Transformer xpdlTransformer = allocateXpdlTransformer();
+         try
+         {
+            xpdlTransformer.transform(new SAXSource(xpdlReader, is), result);
+         }
+         finally
+         {
+            releaseXpdlTransformer(xpdlTransformer);
+         }
       }
       catch (TransformerException e)
       {
@@ -228,10 +239,15 @@ public class XpdlSaxParser extends SAXParser
       }
    }
    
-   private synchronized Transformer getXpdlTransformer()
+   private Transformer allocateXpdlTransformer()
    {
+      // try to retrieve transformer from pool (reusing a previously initialized instance)
+      Transformer xpdl2cwmTransformer = xpdl2cwmTransformersPool.poll();
       if (null == xpdl2cwmTransformer)
       {
+         trace.info("Initializing XPDL transformer ...");
+
+         // no reusable transformer available, need to accept cost of creating a new one
          final URL xsltURL = XpdlUtils.getXpdl2CarnotStylesheet();
          if (null == xsltURL)
          {
@@ -250,22 +266,52 @@ public class XpdlSaxParser extends SAXParser
             {
                throw new PublicException(Model_Messages.MSG_UNABLE_TO_LOAD_XPDL_IMPORT, e); //$NON-NLS-1$
             }
-
-            xpdl2cwmTransformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
-            xpdl2cwmTransformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
-            xpdl2cwmTransformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", //$NON-NLS-1$
-                  Integer.toString(3));
-            xpdl2cwmTransformer.setOutputProperty(OutputKeys.ENCODING, XpdlUtils.UTF8_ENCODING);
-
-            xpdl2cwmTransformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS,
-                  "description annotationSymbol expression"); //$NON-NLS-1$
          }
          catch (TransformerConfigurationException e)
          {
             throw new PublicException(Model_Messages.MSG_INVALID_JAXP_SETUP, e); //$NON-NLS-1$
          }
       }
+      else if (trace.isDebugEnabled())
+      {
+         trace.debug("Obtained XPDL transformer from pool.");
+      }
+
+      xpdl2cwmTransformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
+      xpdl2cwmTransformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
+      xpdl2cwmTransformer.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", //$NON-NLS-1$
+            Integer.toString(3));
+      xpdl2cwmTransformer.setOutputProperty(OutputKeys.ENCODING, XpdlUtils.UTF8_ENCODING);
+
+      xpdl2cwmTransformer.setOutputProperty(OutputKeys.CDATA_SECTION_ELEMENTS,
+            "description annotationSymbol expression"); //$NON-NLS-1$
       
       return xpdl2cwmTransformer;
+   }
+
+   private void releaseXpdlTransformer(Transformer xpdlTransformer)
+   {
+      try
+      {
+         // need to reset transformer before considering reuse
+         xpdlTransformer.reset();
+
+         // if reset succeeds, offer for reuse
+         if ( !xpdl2cwmTransformersPool.offer(xpdlTransformer))
+         {
+            trace.info("Failed to place XPDL transformer into pool (if this happens frequently, please consider adjusting the transformer pool size).");
+         }
+         else if (trace.isDebugEnabled())
+         {
+            trace.debug("Placed XPDL transformer into pool (allowing reuse).");
+         }
+      }
+      catch (UnsupportedOperationException uoe)
+      {
+         if (trace.isDebugEnabled())
+         {
+            trace.debug("Failed resetting XPDL transformer, thus transformers can't be safely reused.");
+         }
+      }
    }
 }
