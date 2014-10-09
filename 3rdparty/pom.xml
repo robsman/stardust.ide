@@ -14,6 +14,10 @@
     <relativePath>../../org.eclipse.stardust/org.eclipse.stardust-tycho/pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <stardust-site>file:///${basedir}/../../../repository/org.eclipse.stardust.modeling.repository/target/repository</stardust-site>
+  </properties>
+
   <modules>
     <module>org.eclipse.stardust.ide.thirdparty.commons.logging</module>
     <module>org.eclipse.stardust.ide.thirdparty.cxf</module>
