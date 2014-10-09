@@ -99,6 +99,14 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 				return createStardustContextTypeAdapter();
 			}
 			@Override
+			public Adapter caseStardustDataObjectType(StardustDataObjectType object) {
+				return createStardustDataObjectTypeAdapter();
+			}
+			@Override
+			public Adapter caseStardustDataStoreType(StardustDataStoreType object) {
+				return createStardustDataStoreTypeAdapter();
+			}
+			@Override
 			public Adapter caseStardustInterfaceType(StardustInterfaceType object) {
 				return createStardustInterfaceTypeAdapter();
 			}
@@ -277,6 +285,34 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStardustContextTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType <em>Stardust Data Object Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType
+	 * @generated
+	 */
+	public Adapter createStardustDataObjectTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType <em>Stardust Data Store Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType
+	 * @generated
+	 */
+	public Adapter createStardustDataStoreTypeAdapter() {
 		return null;
 	}
 

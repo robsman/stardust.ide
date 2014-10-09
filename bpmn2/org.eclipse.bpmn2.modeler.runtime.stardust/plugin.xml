@@ -63,11 +63,10 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated sdbpmn -->
+      <!-- @generated NOT sdbpmn -->
       <package
             uri="http://www.carnot.ag/org.eclipse.stardust.model.xpdl/3.1"
-            class="org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage"
-            genModel="model/sdbpmn.genmodel"/>
+            class="org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
@@ -78,11 +77,10 @@
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated sdbpmn -->
+      <!-- @generated NOT sdbpmn -->
       <package
             uri="http://www.wfmc.org/2008/XPDL2.1"
-            class="org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage"
-            genModel="model/sdbpmn.genmodel"/>
+            class="org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage" />
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
@@ -96,8 +94,7 @@
       <!-- @generated sdbpmn -->
       <package
             uri="http://www.carnot.ag/workflowmodel/3.1/org.eclipse.stardust.model.xpdl/extensions"
-            class="org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionsPackage"
-            genModel="model/sdbpmn.genmodel"/>
+            class="org.eclipse.stardust.model.xpdl.xpdl2.extensions.ExtensionsPackage" />
    </extension>
 
    <extension point="org.eclipse.emf.ecore.extension_parser">
@@ -165,13 +162,46 @@
 		</propertyTab>
 		
 		<propertyTab
-	        id="bpmn2.jbpm.serviceTask.tab"
+	        id="org.eclipse.bpmn2.modeler.runtime.stardust.serviceTask.tab"
 	        replaceTab="org.eclipse.bpmn2.modeler.serviceTask.tab"
 			afterTab="org.eclipse.bpmn2.modeler.description.tab"
 		    class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustServiceTaskPropertySection"
 		    type="org.eclipse.bpmn2.ServiceTask"
 		    label="Service Task">
 		</propertyTab>
+
+		<propertyTab
+	        id="org.eclipse.bpmn2.modeler.runtime.stardust.datastore.tab"
+	        replaceTab="org.eclipse.bpmn2.modeler.datastore.tab"
+		    class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustDataStorePropertySection"
+		    type="org.eclipse.bpmn2.DataStore org.eclipse.bpmn2.DataStoreReference"
+		    label="Data Store">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.datastoreref.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.datastoreref.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustDataStoreReferencePropertySection"
+			type="org.eclipse.bpmn2.DataStoreReference"
+			label="Datastore Reference">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.dataobject.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.dataobject.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustDataObjectPropertySection"
+			type="org.eclipse.bpmn2.DataObject org.eclipse.bpmn2.DataObjectReference"
+			label="Data Object">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.dataobjectref.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.dataobjectref.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustDataObjectReferencePropertySection"
+			type="org.eclipse.bpmn2.DataObjectReference"
+			label="Dataobject Reference">
+		</propertyTab>
+				
 				
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
@@ -194,6 +224,20 @@
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter">
+		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataObject"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustDataObjectExtendedPropertiesAdapter">
+		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataStore"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustDataStoreExtendedPropertiesAdapter">
 		</propertyExtension>
 
 		<propertyExtension
@@ -240,6 +284,9 @@
 			<enable object="StardustStartEventType"/>
 			<enable object="StardustAccessPointType"/>
 			<enable object="StardustUserTaskType"/>
+			<enable object="StardustDataStoreType"/>
+			<enable object="StardustDataObjectType"/>
+			<enable object="XSDSchema"/>
 		</modelEnablement>
 		
 		

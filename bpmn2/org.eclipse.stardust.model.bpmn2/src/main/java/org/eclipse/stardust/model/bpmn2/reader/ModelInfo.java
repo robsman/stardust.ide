@@ -16,6 +16,8 @@ import java.util.List;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataStore;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -23,6 +25,7 @@ import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.PartnerRole;
+import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.emf.ecore.EObject;
 
@@ -101,4 +104,37 @@ public class ModelInfo {
         return refs;
     }
 
+    public static List<DataStoreReference> getDataStoreReferencesTo(DataStore dataStore) {
+        List<DataStoreReference> refs = new ArrayList<DataStoreReference>();
+        Definitions definitions = getDefinitions(dataStore);
+        List<Process> processes = getRootElements(definitions, Process.class);
+        //FlowElementsContainer container = (FlowElementsContainer)getContainer(dataStore);
+        for (Process container : processes) {
+        	if (container != null) {
+        		for (FlowElement e : container.getFlowElements()) {
+        			if (e instanceof DataStoreReference) {
+        				DataStoreReference ref = ((DataStoreReference) e);
+        				DataStore obj = ref.getDataStoreRef();
+        				if (obj != null && obj.equals(dataStore)) {
+        					refs.add(ref);
+        				}
+        			}
+        		}
+        	}
+        }
+        return refs;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public static <T> List<T> getRootElements(Definitions defs, Class<T> cls) {
+    	if (null == defs) return new ArrayList<T>();
+    	List<T> result = new ArrayList<T>();
+    	for (RootElement r : defs.getRootElements()) {
+    		if (null == cls || cls.isAssignableFrom(r.getClass())) {
+    			result.add((T)r);
+    		}
+    	}
+    	return result;
+    }
+    
 }

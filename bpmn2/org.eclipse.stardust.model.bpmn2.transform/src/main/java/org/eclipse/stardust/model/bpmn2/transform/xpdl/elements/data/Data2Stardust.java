@@ -17,6 +17,8 @@ import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataStore;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.Import;
 import org.eclipse.bpmn2.ItemAwareElement;
@@ -27,15 +29,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.reader.ModelInfo;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
 import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
@@ -133,6 +141,12 @@ public class Data2Stardust extends AbstractElement2Stardust {
         String name = getName(dataObject);
         addVariable(dataObject, name);
     }
+    
+	public void addDataStore(DataStore dataStore) {
+        if (dataStore == null) return;
+        String name = getName(dataStore);
+        addVariable(dataStore, name);		
+	}
 
 	public DataType addDataInputVariable(DataInput data) {
         if (data == null) return null;
@@ -143,13 +157,103 @@ public class Data2Stardust extends AbstractElement2Stardust {
         if (data == null) return null;
         return addVariable(data, getName(data));
     }
-
-    protected DataType addVariable(ItemAwareElement dataObject, String name) {
-        if (refersToPrimitiveType(dataObject)) {
-        	return addPrimitiveVariable(dataObject, name);
+    
+    protected DataType addVariable(ItemAwareElement bpmnData, String name) {
+        if (refersToPrimitiveType(bpmnData)) {
+        	return addPrimitiveVariable(bpmnData, name);
         } else {
-        	return addStructuredVariable(dataObject, name);
+       		return addStructuredVariable(bpmnData, name);
         }
+	}
+    
+    protected DataType addVariable(DataStore bpmnData, String name) {
+    	StardustDataStoreType extension = ExtensionHelper.getInstance().getDataStoreExtension((DataStore)bpmnData);
+    	DataTypeEnum type = null;
+    	if (null != extension) {
+    		type = DataTypeEnum.forKey(extension.getType());
+    		DataType data = null;
+    		if (null != type) {
+    			switch (type) {
+    			case DOCUMENT:
+    				data = addDocumentVariable(bpmnData, name, extension);
+    				break;
+    			case DOCUMENT_FOLDER:
+    				data = addDocumentFolderVariable(bpmnData, name, extension);
+    				break;
+    			case DOCUMENT_FOLDER_LIST:
+    				data = addDocumentFolderListVariable(bpmnData, name, extension);
+    				break;
+    			case DOCUMENT_LIST:
+    				data = addDocumentListVariable(bpmnData, name, extension);
+    				break;
+    			case ENTITY_BEAN:
+    			default:
+    				break;
+    			}
+    			if (null != data && null != extension.getStardustAttributes()) {
+    				data.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
+    			}
+    			carnotModel.getData().add(data);
+    			return data;
+    		}    		
+    	}
+    	return addStructuredVariable(bpmnData, name);
+    }
+
+    private DataType addDocumentVariable(DataStore bpmnData, String name, StardustDataStoreType extension) {
+    	DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+    	data.setId(bpmnData.getId());
+    	data.setName(name);
+    	DataTypeType dmsType = ModelUtils.findIdentifiableElement(carnotModel.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT);
+    	data.setType(dmsType);
+    	String typeId = getNonSyntheticTypeId(bpmnData);
+    	if (null != typeId) AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, typeId);
+        AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true);       
+        AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document");    
+
+        return data;
+	}
+
+    private DataType addDocumentListVariable(DataStore bpmnData, String name, StardustDataStoreType extension) {
+    	DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+    	data.setId(bpmnData.getId());
+    	data.setName(name);
+    	DataTypeType dmsType = ModelUtils.findIdentifiableElement(carnotModel.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
+    	data.setType(dmsType);    	
+    	String typeId = getNonSyntheticTypeId(bpmnData);
+    	if (null != typeId) AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, typeId);
+        AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true);       
+        AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT, "java.util.List");
+        
+        return data;
+	}
+
+    private DataType addDocumentFolderVariable(DataStore bpmnData, String name, StardustDataStoreType extension) {
+    	DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+    	data.setId(bpmnData.getId());
+    	data.setName(name);
+    	DataTypeType dmsType = ModelUtils.findIdentifiableElement(carnotModel.getDataType(), DmsConstants.DATA_TYPE_DMS_FOLDER);
+    	data.setType(dmsType);    	
+    	String typeId = getNonSyntheticTypeId(bpmnData);
+    	if (null != typeId) AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, typeId);
+        AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true);       
+        AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Folder");
+        
+        return data;
+	}
+
+    private DataType addDocumentFolderListVariable(DataStore bpmnData, String name, StardustDataStoreType extension) {
+    	DataType data = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+    	data.setId(bpmnData.getId());
+    	data.setName(name);
+    	DataTypeType dmsType = ModelUtils.findIdentifiableElement(carnotModel.getDataType(), DmsConstants.DATA_TYPE_DMS_FOLDER_LIST);
+    	data.setType(dmsType);    	    	
+    	String typeId = getNonSyntheticTypeId(bpmnData);
+    	if (null != typeId) AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, typeId);
+        AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true);       
+        AttributeUtil.setAttribute(data, PredefinedConstants.CLASS_NAME_ATT, "java.util.List");
+        
+        return data;
 	}
 
     private DataType addStructuredVariable(ItemAwareElement data, String name) {
@@ -232,6 +336,22 @@ public class Data2Stardust extends AbstractElement2Stardust {
         return ((InternalEObject)structureRef).eProxyURI();
     }
 
+    private String getNonSyntheticTypeId(ItemAwareElement data) {
+        String typeId = null;
+        ItemDefinition itemDef = null;
+        if (data.getItemSubjectRef() != null) {
+            if (data.getItemSubjectRef().eIsProxy()) {
+            	itemDef = Bpmn2ProxyResolver.resolveItemDefinition(data.getItemSubjectRef(), ModelInfo.getDefinitions(data));
+            } else {
+            	itemDef = data.getItemSubjectRef();
+            }
+            if (null == itemDef) return null;
+            if (ExtensionHelper2.INSTANCE.isSynthetic(itemDef)) return null;
+            return itemDef.getId();
+        }
+        return typeId;
+    }
+    
     private String getTypeId(ItemAwareElement data) {
         String typeId =
                 data.getItemSubjectRef() != null
@@ -248,6 +368,14 @@ public class Data2Stardust extends AbstractElement2Stardust {
     		name = findDataObjectReferenceName(dataObject);
     	}
         return getNonEmptyName(name, dataObject.getId(), dataObject);
+    }
+
+    private String getName(DataStore dataStore) {
+    	String name = dataStore.getName();
+    	if (dataStore.getName() == null || dataStore.getName().trim().isEmpty()) {
+    		name = findDataStoreReferenceName(dataStore);
+    	}
+        return getNonEmptyName(name, dataStore.getId(), dataStore);
     }
 
 	private String getName(DataInput data) {
@@ -269,6 +397,15 @@ public class Data2Stardust extends AbstractElement2Stardust {
     	}
 		return null;
 	}
+
+    private String findDataStoreReferenceName(DataStore dataStore) {
+    	List<DataStoreReference> refs = ModelInfo.getDataStoreReferencesTo(dataStore);
+    	for (DataStoreReference ref : refs) {
+    		if (ref.getName() != null && !ref.getName().trim().isEmpty()) return ref.getName();
+    	}
+		return null;
+	}
+
 
 //    private String getNonEmpty(String name, String id, Object data) {
 //        if (name != null && !name.isEmpty()) {

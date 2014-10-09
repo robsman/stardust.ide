@@ -637,8 +637,8 @@ public class TransformationControl {
     }
 
     private  void processDataStore(DataStore data) {
-        processingInfo +=   "DataStore" + NOT_SUPPORTED;
-
+        //processingInfo +=   "DataStore" + NOT_SUPPORTED;
+    	transf.addDataStore(data);
     }
 
     private  void processPartnerRole(PartnerRole role) {

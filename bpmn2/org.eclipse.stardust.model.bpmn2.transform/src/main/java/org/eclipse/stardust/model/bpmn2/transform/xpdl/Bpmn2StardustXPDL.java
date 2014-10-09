@@ -27,6 +27,7 @@ import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.DocumentRoot;
@@ -448,12 +449,18 @@ public class Bpmn2StardustXPDL implements Transformator {
     }
 
     public void addDataObjectReference(DataObjectReference flowElement, FlowElementsContainer container) {
-
+    	// nop
     }
 
     public void addDataStoreReference(DataStoreReference flowElement, FlowElementsContainer container) {
-
+    	// nop
     }
+
+	@Override
+	public void addDataStore(DataStore dataStore) {
+    	logger.debug("addDataObject " + dataStore.getId() + " " + dataStore.getName());
+        new Data2Stardust(carnotModel, failures).addDataStore(dataStore);
+	}
 
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         logger.debug("addTaskDataFlows " + activity.getId() + " " + activity.getName());

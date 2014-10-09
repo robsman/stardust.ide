@@ -67,6 +67,24 @@ public interface SdbpmnFactory extends EFactory {
 	StardustContextType createStardustContextType();
 
 	/**
+	 * Returns a new object of class '<em>Stardust Data Object Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Stardust Data Object Type</em>'.
+	 * @generated
+	 */
+	StardustDataObjectType createStardustDataObjectType();
+
+	/**
+	 * Returns a new object of class '<em>Stardust Data Store Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Stardust Data Store Type</em>'.
+	 * @generated
+	 */
+	StardustDataStoreType createStardustDataStoreType();
+
+	/**
 	 * Returns a new object of class '<em>Stardust Interface Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

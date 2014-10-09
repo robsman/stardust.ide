@@ -125,6 +125,18 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SdbpmnPackage.STARDUST_DATA_OBJECT_TYPE: {
+				StardustDataObjectType stardustDataObjectType = (StardustDataObjectType)theEObject;
+				T result = caseStardustDataObjectType(stardustDataObjectType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SdbpmnPackage.STARDUST_DATA_STORE_TYPE: {
+				StardustDataStoreType stardustDataStoreType = (StardustDataStoreType)theEObject;
+				T result = caseStardustDataStoreType(stardustDataStoreType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE: {
 				StardustInterfaceType stardustInterfaceType = (StardustInterfaceType)theEObject;
 				T result = caseStardustInterfaceType(stardustInterfaceType);
@@ -293,6 +305,36 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStardustContextType(StardustContextType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Stardust Data Object Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Stardust Data Object Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStardustDataObjectType(StardustDataObjectType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Stardust Data Store Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Stardust Data Store Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStardustDataStoreType(StardustDataStoreType object) {
 		return null;
 	}
 

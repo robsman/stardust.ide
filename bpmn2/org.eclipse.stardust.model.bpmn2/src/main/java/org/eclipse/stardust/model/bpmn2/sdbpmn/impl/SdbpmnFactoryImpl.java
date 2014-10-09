@@ -61,6 +61,8 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
 			case SdbpmnPackage.STARDUST_APPLICATION_TYPE: return createStardustApplicationType();
 			case SdbpmnPackage.STARDUST_ATTRIBUTES_TYPE: return createStardustAttributesType();
 			case SdbpmnPackage.STARDUST_CONTEXT_TYPE: return createStardustContextType();
+			case SdbpmnPackage.STARDUST_DATA_OBJECT_TYPE: return createStardustDataObjectType();
+			case SdbpmnPackage.STARDUST_DATA_STORE_TYPE: return createStardustDataStoreType();
 			case SdbpmnPackage.STARDUST_INTERFACE_TYPE: return createStardustInterfaceType();
 			case SdbpmnPackage.STARDUST_MESSAGE_START_EVENT_TYPE: return createStardustMessageStartEventType();
 			case SdbpmnPackage.STARDUST_MODEL_TYPE: return createStardustModelType();
@@ -127,6 +129,26 @@ public class SdbpmnFactoryImpl extends EFactoryImpl implements SdbpmnFactory {
 	public StardustContextType createStardustContextType() {
 		StardustContextTypeImpl stardustContextType = new StardustContextTypeImpl();
 		return stardustContextType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StardustDataObjectType createStardustDataObjectType() {
+		StardustDataObjectTypeImpl stardustDataObjectType = new StardustDataObjectTypeImpl();
+		return stardustDataObjectType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StardustDataStoreType createStardustDataStoreType() {
+		StardustDataStoreTypeImpl stardustDataStoreType = new StardustDataStoreTypeImpl();
+		return stardustDataStoreType;
 	}
 
 	/**

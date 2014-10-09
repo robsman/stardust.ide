@@ -49,6 +49,7 @@ public enum ExtensionHelper2 {
 	public static final String STARDUST_ACCESSPOINT_TYPE_CLASSNAME = "sdbpmn:typeClass";
 	public static final String STARDUST_ACCESSPOINT_DISPLAY_NAME = "sdbpmn:displayName";		
 	public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
+	public static final String STARDUST_SYNTHETIC_PROPERTY = "syntheticProperty";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX = "Type";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX = "Element";
 	public static final String STARDUST_PROPERTY_ID = "stardustPropertyId";
@@ -70,9 +71,10 @@ public enum ExtensionHelper2 {
 				if (null != feature
 						&& featureName.equals(feature.getName())
 						&& consideredNamespaces.contains(ExtendedMetaData.INSTANCE.getNamespace(feature))) {
+					System.out.println("ExtensionHelper2.getEmbeddedSchemaExtension() e " + e + " e.getValue() " + e.getValue().getClass());
 					if (e.getValue() instanceof XSDSchema) {
 						return (XSDSchema)e.getValue();
-					}
+					} 
 				}
 			}
 		}
@@ -88,7 +90,7 @@ public enum ExtensionHelper2 {
 			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
 			if (feature instanceof EAttribute) {
 				EAttribute attr = (EAttribute)feature;
-				if (STARDUST_SYNTHETIC_ITEMDEF.equals(attr.getName())) {
+				if (STARDUST_SYNTHETIC_PROPERTY.equals(attr.getName()) || STARDUST_SYNTHETIC_ITEMDEF.equals(attr.getName())) {
 					return "true".equals(item.getValue().toString());
 				}
 			}

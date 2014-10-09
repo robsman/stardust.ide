@@ -69,7 +69,7 @@ public class BpmnDefaultContentsUtil {
 		if (null != findPropertyByStardustPropertyId(process, info.id)) return;
 		Property prop = Bpmn2Factory.eINSTANCE.createProperty();
 		//prop.setId(info.id);
-		ExtensionHelper.getInstance().setAnyAttribute(prop, ExtensionHelper2.STARDUST_SYNTHETIC_ITEMDEF, "true");
+		ExtensionHelper.getInstance().setAnyAttribute(prop, ExtensionHelper2.STARDUST_SYNTHETIC_PROPERTY, "true");
 		ExtensionHelper.getInstance().setAnyAttribute(prop, ExtensionHelper2.STARDUST_PROPERTY_ID, info.id);
 		prop.setName(info.name);
 		prop.setItemSubjectRef(typeMap.get(info.type));

@@ -29,7 +29,11 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.editors.StardustInterfaceSelec
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationCleaner;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint.IntrinsicJavaAccessPointInfo;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -101,22 +105,37 @@ public class PlainJavaDetailComposite extends DefaultDetailComposite implements 
 	}
 
 	@Override
-	public void modifyText(ModifyEvent arg0) {
-		System.out.println("Constructor has been changed (Source): " + arg0.getSource());
-		System.out.println("Constructor has been changed (toString): " + arg0.toString());
-		// Clear existing ItemDefinition
-		
-		StardustInterfaceType sdIntType = (StardustInterfaceType) businessObject;
-		StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdIntType);
-		
-		final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:className");
-		final AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:constructorName");		
-		final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:methodName");
-		
-		Class<?> clazz = IntrinsicJavaAccessPointInfo.findClassInWorkspace(clsAt.getValue());
-		Method method = IntrinsicJavaAccessPointInfo.decodeMethod(clazz, methodAt.getValue());
-		Constructor<?> constr = IntrinsicJavaAccessPointInfo.decodeConstructor(clazz, constrAt.getValue());
+	public void modifyText(final ModifyEvent event) {
+		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(businessObject.eResource());
+		BasicCommandStack commandStack = (BasicCommandStack) editingDomain.getCommandStack();
+		commandStack.execute(new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
 
-		StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos((StardustInterfaceType) businessObject, method, constr );
+				System.out.println("Constructor has been changed (Source): " + event.getSource());
+				System.out.println("Constructor has been changed (toString): " + event.toString());
+				// Clear existing ItemDefinition
+
+				StardustInterfaceType sdIntType = (StardustInterfaceType) businessObject;
+				StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdIntType);
+
+				final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:className");
+				final AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:constructorName");		
+				final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:methodName");
+
+				Class<?> clazz = null;
+				Method method = null;
+				Constructor<?> constr = null;
+
+				if (null != clsAt.getValue()) {
+					clazz = IntrinsicJavaAccessPointInfo.findClassInWorkspace(clsAt.getValue());
+					if (null != clazz) {
+						if (null != methodAt.getValue() && !methodAt.getValue().isEmpty()) method = IntrinsicJavaAccessPointInfo.decodeMethod(clazz, methodAt.getValue());
+						if (null != constrAt.getValue() && !constrAt.getValue().isEmpty()) constr = IntrinsicJavaAccessPointInfo.decodeConstructor(clazz, constrAt.getValue());
+					}
+					StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos((StardustInterfaceType) businessObject, method, constr );
+				}
+			}
+		});
 	}
 }

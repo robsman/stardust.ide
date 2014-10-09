@@ -16,7 +16,11 @@ package org.eclipse.bpmn2.modeler.runtime.stardust;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataObject;
+import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataStore;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.TimerEventDefinition;
@@ -32,17 +36,21 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssocia
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTaskDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataStoreDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
 import org.eclipse.bpmn2.modeler.ui.wizards.FileService;
+import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
 import org.eclipse.ui.IEditorInput;
 import org.xml.sax.InputSource;
 
 /**
  * @author Bob Brodt
+ * @param <ExtensionsPackageImpl>
  *
  */
 
-public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
+public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2RuntimeExtension {
 	
 	public static final String RUNTIME_ID = "org.eclipse.bpmn2.modeler.runtime.stardust";
 	
@@ -100,6 +108,12 @@ public class StardustRuntimeExtension implements IBpmn2RuntimeExtension {
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
 	        
+	        PropertiesCompositeFactory.register(DataObject.class, StardustDataObjectDetailComposite.class);
+	        PropertiesCompositeFactory.register(DataObjectReference.class, StardustDataObjectDetailComposite.class);
+
+	        PropertiesCompositeFactory.register(DataStore.class, StardustDataStoreDetailComposite.class);
+	        PropertiesCompositeFactory.register(DataStoreReference.class, StardustDataStoreDetailComposite.class);
+
 		}
 	}
 }

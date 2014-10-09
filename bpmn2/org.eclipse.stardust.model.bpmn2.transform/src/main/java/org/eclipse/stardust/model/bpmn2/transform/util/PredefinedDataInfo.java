@@ -6,14 +6,21 @@ import java.util.List;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class PredefinedDataInfo {
 
 	public static List<String> getTypeClasses() {
 		return Arrays.asList(
 				"org.eclipse.stardust.engine.core.runtime.beans.IUser",
-				"org.eclipse.stardust.engine.api.runtime.DeployedModelDescription");
+				"org.eclipse.stardust.engine.api.runtime.DeployedModelDescription",
+				"org.eclipse.stardust.engine.api.runtime.Document",
+				"org.eclipse.stardust.engine.api.runtime.Folder",
+				"java.util.List");
 	}
-	
+
 	public List<DataInfo> getPredefinedData() {
 		List<DataInfo> dataList = new ArrayList<PredefinedDataInfo.DataInfo>();
 		dataList.add(new DataInfo(PredefinedConstants.PROCESS_ID, "Process OID", "integer"));
@@ -25,7 +32,7 @@ public class PredefinedDataInfo {
 		dataList.add(new DataInfo(PredefinedConstants.CURRENT_USER, "Current User", "org.eclipse.stardust.engine.core.runtime.beans.IUser"));
 		dataList.add(new DataInfo(PredefinedConstants.LAST_ACTIVITY_PERFORMER, "Last activity performer", "org.eclipse.stardust.engine.core.runtime.beans.IUser"));
 		dataList.add(new DataInfo(PredefinedConstants.CURRENT_MODEL, "Current Model", "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"));
-		
+
 		return dataList;
 	}
 	

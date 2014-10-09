@@ -23,6 +23,8 @@ import org.eclipse.bpmn2.Assignment;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.Bpmn2Package;
+import org.eclipse.bpmn2.DataObject;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.Expression;
@@ -49,6 +51,7 @@ import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
@@ -76,7 +79,7 @@ public class ExtensionHelper {
 	public static final String STARDUST_EXTENSION_NAMESPACE = "http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";
 	public static final String STARDUST_EXTENSION_PREFIX = "sdbpmn";
 	public static final String STARDUST_ACCESSPOINT_ID = "sdbpmn:accesspoint";
-	public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
+	//public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
 
 	
 	public static final String NS_URI_STARDUST = "http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";  //"http://www.eclipse.org/stardust";
@@ -89,6 +92,10 @@ public class ExtensionHelper {
     private static final Internal START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_START_EVENT;
     private static final Internal TIMER_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT;
     private static final Internal MESSAGE_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT;
+    
+    private static final Internal DATA_STORE_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_STORE;
+    private static final Internal DATA_OBJECT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_OBJECT;
+    
     private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
     private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
     
@@ -188,6 +195,14 @@ public class ExtensionHelper {
 
     public StardustServiceTaskType getServiceTaskExtension(ServiceTask serviceTask) {
         return getFirstExtension(StardustServiceTaskType.class, serviceTask, SERVICE_TASK_EXT);
+    }
+
+    public StardustDataStoreType getDataStoreExtension(DataStore dataStore) {
+        return getFirstExtension(StardustDataStoreType.class, dataStore, DATA_STORE_EXT);
+    }
+
+    public StardustServiceTaskType getDataObjectExtension(DataObject dataObject) {
+        return getFirstExtension(StardustServiceTaskType.class, dataObject, DATA_OBJECT_EXT);
     }
 
     public void setSubprocessExtension(SubProcess element, StardustSubprocessType extensionValue) {

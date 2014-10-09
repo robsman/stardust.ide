@@ -1,0 +1,542 @@
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestSimpleTypeDataFlow2Stardust.testPrimitiveDataFlow(TestSimpleTypeDataFlow2Stardust.java:53)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@5acac268
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@37d7f3f4, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@42d134d0]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@37d7f3f4
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@6eef9525 (id: TestStringItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@2c7103af (id: TestIntegerItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel /C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.common.config.Parameters - CARNOT version: 2.0.0.20140611-1022
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Object: org.eclipse.stardust.common.config.GlobalParameters@55e1a0ee, Class: org.eclipse.stardust.common.config.GlobalParameters, Classloader: sun.misc.Launcher$AppClassLoader@5acac268
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestSimpleTypeDataFlow2Stardust.testPrimitiveDataFlow(TestSimpleTypeDataFlow2Stardust.java:53)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@5acac268
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@20dbd794, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@41264666]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@20dbd794
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@4ecd200f (id: TestStringItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@2820224a (id: TestIntegerItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addProcess org.eclipse.bpmn2.impl.ProcessImpl@51970991 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.UserTask2Stardust - Add user task: org.eclipse.bpmn2.impl.UserTaskImpl@3f610944 (id: TestModelTaskA, anyAttribute: null) (name: Enter string for number) (completionQuantity: 1, isForCompensation: false, startQuantity: 1) (implementation: unspecified)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject TestModelNumberDataInputObject null in org.eclipse.bpmn2.impl.ProcessImpl@51970991 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject TestModelStringDataOutputObject null in org.eclipse.bpmn2.impl.ProcessImpl@51970991 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addTaskDataFlows TestModelTaskA Enter string for number
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataInputAssociationImpl@bb0620c (id: TestModelNumberDataInputAssociationTaskA, anyAttribute: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataOutputAssociationImpl@6b6d079a (id: TestModelStringDataOutputAssociationTaskA, anyAttribute: null)
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - Finalize transformation.
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - serializeTargetModel
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - 
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel /C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.common.config.Parameters - CARNOT version: 2.0.0.20140611-1022
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Object: org.eclipse.stardust.common.config.GlobalParameters@6bd38b87, Class: org.eclipse.stardust.common.config.GlobalParameters, Classloader: sun.misc.Launcher$AppClassLoader@12360be0
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestSimpleTypeDataFlow2Stardust.testPrimitiveDataFlow(TestSimpleTypeDataFlow2Stardust.java:53)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@12360be0
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@50a69b6b, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@6a25b72a]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@50a69b6b
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@1fb88122 (id: TestStringItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@2bd9e5ad (id: TestIntegerItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addProcess org.eclipse.bpmn2.impl.ProcessImpl@6e75d758 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.UserTask2Stardust - Add user task: org.eclipse.bpmn2.impl.UserTaskImpl@11c0b8a0 (id: TestModelTaskA, anyAttribute: null) (name: Enter string for number) (completionQuantity: 1, isForCompensation: false, startQuantity: 1) (implementation: unspecified)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject TestModelNumberDataInputObject null in org.eclipse.bpmn2.impl.ProcessImpl@6e75d758 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject TestModelStringDataOutputObject null in org.eclipse.bpmn2.impl.ProcessImpl@6e75d758 (id: TestModelProcessPrimitiveData, anyAttribute: null) (name: Hauptprozess) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addTaskDataFlows TestModelTaskA Enter string for number
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataInputAssociationImpl@10f1f34a (id: TestModelNumberDataInputAssociationTaskA, anyAttribute: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataOutputAssociationImpl@7e566633 (id: TestModelStringDataOutputAssociationTaskA, anyAttribute: null)
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - Finalize transformation.
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - serializeTargetModel
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - 
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel /C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/SimpleTypeDataFlow.bpmn
+INFO main org.eclipse.stardust.common.config.Parameters - CARNOT version: 2.0.0.20140611-1022
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Object: org.eclipse.stardust.common.config.GlobalParameters@1824c22b, Class: org.eclipse.stardust.common.config.GlobalParameters, Classloader: sun.misc.Launcher$AppClassLoader@5acac268
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestSimpleTypeDataFlow2Stardust.testPrimitiveDataFlow(TestSimpleTypeDataFlow2Stardust.java:53)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@5acac268).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@5acac268
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@28825459, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@46fb3d6]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@28825459
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@1b7adb4a (id: TestStringItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@e58ff51 (id: TestIntegerItem, anyAttribute: null) (isCollection: false, itemKind: Information)
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel /C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/EmbeddedSchemaDataObject.bpmn
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/EmbeddedSchemaDataObject.bpmn
+INFO main org.eclipse.stardust.common.config.Parameters - CARNOT version: 2.0.0.20140611-1022
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Object: org.eclipse.stardust.common.config.GlobalParameters@6bd38b87, Class: org.eclipse.stardust.common.config.GlobalParameters, Classloader: sun.misc.Launcher$AppClassLoader@12360be0
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestEmbeddedDataType.testEmbeddedType(TestEmbeddedDataType.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@12360be0).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@12360be0
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@14b5d05b, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@2c8210fc]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@14b5d05b
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@caa559d (id: CustomerInfoItemDefinition, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addProcess org.eclipse.bpmn2.impl.ProcessImpl@226e8504 (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addStartEventStartEvent_1 Start Event 1 in org.eclipse.bpmn2.impl.ProcessImpl@226e8504 (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust - addStartEvent org.eclipse.bpmn2.impl.StartEventImpl@5025bd56 (id: StartEvent_1, anyAttribute: null) (name: Start Event 1) (parallelMultiple: false) (isInterrupting: true)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust - addManualTrigger org.eclipse.bpmn2.impl.StartEventImpl@5025bd56 (id: StartEvent_1, anyAttribute: null) (name: Start Event 1) (parallelMultiple: false) (isInterrupting: true)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust - addEndEvent org.eclipse.bpmn2.impl.EndEventImpl@4950b45a (id: EndEvent_1, anyAttribute: null) (name: End Event 1)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject DataObject_1 CustomerInfoDataObject in org.eclipse.bpmn2.impl.ProcessImpl@226e8504 (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.UserTask2Stardust - Add user task: org.eclipse.bpmn2.impl.UserTaskImpl@20773d03 (id: UserTask_1, anyAttribute: null) (name: DummyUserTaskInputOutputCustomerInfo) (completionQuantity: 1, isForCompensation: false, startQuantity: 1) (implementation: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addSequenceFlow org.eclipse.bpmn2.impl.SequenceFlowImpl@77bdbf9d (id: SequenceFlow_1, anyAttribute: null) (name: Sequence Flow 1) (isImmediate: false)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust - transition: SequenceFlow_1 setSequenceTrueCondition
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addSequenceFlow org.eclipse.bpmn2.impl.SequenceFlowImpl@40f12b72 (id: SequenceFlow_2, anyAttribute: null) (name: null) (isImmediate: false)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addTaskDataFlows UserTask_1 DummyUserTaskInputOutputCustomerInfo
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataInputAssociationImpl@40b890dc (id: DataInputAssociation_1, anyAttribute: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataOutputAssociationImpl@4cd297c0 (id: DataOutputAssociation_1, anyAttribute: null)
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - Finalize transformation.
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - serializeTargetModel
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - StartEvent - no event definition available (StartEvent_1). Manual Start is assumed.
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - No Event Definition found. (Event org.eclipse.bpmn2.impl.EndEventImpl@4950b45a (id: EndEvent_1, anyAttribute: null) (name: End Event 1) in org.eclipse.bpmn2.impl.ProcessImpl@226e8504 (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None))
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - 
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel /C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/EmbeddedSchemaDataObject.bpmn
+INFO main org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter - importModel file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/target/test-classes/models/bpmn/EmbeddedSchemaDataObject.bpmn
+INFO main org.eclipse.stardust.common.config.Parameters - CARNOT version: 2.0.0.20140611-1022
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Object: org.eclipse.stardust.common.config.GlobalParameters@92696c2, Class: org.eclipse.stardust.common.config.GlobalParameters, Classloader: sun.misc.Launcher$AppClassLoader@1a45a877
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - Call stack (no error):
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.log.LogUtils.traceObject(LogUtils.java:83)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.<init>(GlobalParameters.java:102)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.getSingleton(GlobalParameters.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.GlobalParameters.globals(GlobalParameters.java:72)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.getGlobals(ParametersFacade.java:147)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.ParametersFacade.get(ParametersFacade.java:43)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.common.config.Parameters.getString(Parameters.java:118)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.engine.core.runtime.utils.XmlUtils.newSaxParserFactory(XmlUtils.java:235)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.StardustBpmn2XmlLoad.makeParser(StardustBpmn2XmlLoad.java:41)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl.load(XMLLoadImpl.java:138)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl.doLoad(XMLResourceImpl.java:253)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.emf.ecore.resource.impl.ResourceImpl.load(ResourceImpl.java:1518)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler.loadModel(Bpmn2PersistenceHandler.java:70)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:88)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.model.bpmn2.input.BPMNModelImporter.importModel(BPMNModelImporter.java:49)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.Bpmn2StardustTestSuite.loadBpmnModel(Bpmn2StardustTestSuite.java:128)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.stardust.test.model.transformation.bpmn.TestEmbeddedDataType.testEmbeddedType(TestEmbeddedDataType.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at java.lang.reflect.Method.invoke(Method.java:597)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)
+DEBUG main org.eclipse.stardust.common.log.Bootstrap - 	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/itpearls-src/stardust-bpmn2/org.eclipse.stardust.model.bpmn2.transform/lib/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.GlobalParametersProviderFactory = org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-spring/2.0.0/carnot-spring-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.GlobalParametersProviderFactory)
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@1a45a877).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@1a45a877).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (classloader: sun.misc.Launcher$AppClassLoader@1a45a877).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Found factory class org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (classloader: sun.misc.Launcher$AppClassLoader@1a45a877).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - Ignoring multiple occurance of provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+WARN main org.eclipse.stardust.common.config.DefaultPropertiesProvider - Property bundle 'carnot.properties' not found. Current classloader = sun.misc.Launcher$AppClassLoader@1a45a877
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.common.config.DefaultPropertiesProvider.
+INFO main org.eclipse.stardust.common.config.GlobalParameters - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+DEBUG main org.eclipse.stardust.common.config.GlobalParameters - About to add properties from provider org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProvider.
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - createTargetModel null
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Found META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Workspaces/itpearls/Stardust%20BPMN2/.metadata/.plugins/org.eclipse.pde.core/.external_libraries/org.eclipse.stardust.ide.engine.core_2.0.0.v20140611-1022/lib/carnot-engine.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.FactoryFinder - Loaded from services: org.eclipse.stardust.common.config.extensions.ExtensionsManager = org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager (jar:file:/C:/DEV/Clean-SDBPMN/Repository/org/eclipse/stardust/engine/carnot-engine/2.0.0/carnot-engine-2.0.0.jar!/META-INF/services/org.eclipse.stardust.common.config.extensions.ExtensionsManager)
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing static extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.common.config.extensions.spi.ExtensionsResolver: []
+INFO main org.eclipse.stardust.common.config.log.extensions - Initializing Service Provider extensions resolver
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered 2 service providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager: [org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@636f2067, org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@14b87d31]
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Ignoring 1 additional providers for SPI type interface org.eclipse.stardust.common.config.extensions.ExtensionsManager
+INFO main org.eclipse.stardust.common.config.log.extensions - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@636f2067
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Scanning classpath for service providers for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer
+DEBUG main org.eclipse.stardust.common.config.log.extensions - Discovered no service provider for SPI type interface org.eclipse.stardust.model.xpdl.builder.spi.ModelInitializer: []
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addItemDefinition org.eclipse.bpmn2.impl.ItemDefinitionImpl@2fc5809e (id: CustomerInfoItemDefinition, anyAttribute: null) (isCollection: false, itemKind: Information)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addProcess org.eclipse.bpmn2.impl.ProcessImpl@57fcca7b (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addStartEventStartEvent_1 Start Event 1 in org.eclipse.bpmn2.impl.ProcessImpl@57fcca7b (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust - addStartEvent org.eclipse.bpmn2.impl.StartEventImpl@69a18ee2 (id: StartEvent_1, anyAttribute: null) (name: Start Event 1) (parallelMultiple: false) (isInterrupting: true)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.StartEvent2Stardust - addManualTrigger org.eclipse.bpmn2.impl.StartEventImpl@69a18ee2 (id: StartEvent_1, anyAttribute: null) (name: Start Event 1) (parallelMultiple: false) (isInterrupting: true)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.event.EndEvent2Stardust - addEndEvent org.eclipse.bpmn2.impl.EndEventImpl@58f41393 (id: EndEvent_1, anyAttribute: null) (name: End Event 1)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addDataObject DataObject_1 CustomerInfoDataObject in org.eclipse.bpmn2.impl.ProcessImpl@57fcca7b (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.UserTask2Stardust - Add user task: org.eclipse.bpmn2.impl.UserTaskImpl@4a6f19d5 (id: UserTask_1, anyAttribute: null) (name: DummyUserTaskInputOutputCustomerInfo) (completionQuantity: 1, isForCompensation: false, startQuantity: 1) (implementation: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addSequenceFlow org.eclipse.bpmn2.impl.SequenceFlowImpl@4d092447 (id: SequenceFlow_1, anyAttribute: null) (name: Sequence Flow 1) (isImmediate: false)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust - transition: SequenceFlow_1 setSequenceTrueCondition
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addSequenceFlow org.eclipse.bpmn2.impl.SequenceFlowImpl@1efd9b97 (id: SequenceFlow_2, anyAttribute: null) (name: null) (isImmediate: false)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - addTaskDataFlows UserTask_1 DummyUserTaskInputOutputCustomerInfo
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataInputAssociationImpl@264d40df (id: DataInputAssociation_1, anyAttribute: null)
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust - DataInputAssociation without assignment org.eclipse.bpmn2.impl.DataOutputAssociationImpl@67a5fb5a (id: DataOutputAssociation_1, anyAttribute: null)
+INFO main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - Finalize transformation.
+DEBUG main org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL - serializeTargetModel
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - StartEvent - no event definition available (StartEvent_1). Manual Start is assumed.
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - No Event Definition found. (Event org.eclipse.bpmn2.impl.EndEventImpl@58f41393 (id: EndEvent_1, anyAttribute: null) (name: End Event 1) in org.eclipse.bpmn2.impl.ProcessImpl@57fcca7b (id: EmbeddedSchemaDataObject, anyAttribute: null) (name: Default Process) (isClosed: false, isExecutable: false, processType: None))
+INFO main org.eclipse.stardust.model.bpmn2.transform.TransformationControl - 

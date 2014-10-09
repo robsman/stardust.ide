@@ -9,6 +9,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class InitDefaultsActionHandler extends AbstractHandler {
 
 	@Override

@@ -20,6 +20,7 @@ import org.eclipse.bpmn2.CallActivity;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataObject;
 import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.EndEvent;
@@ -133,5 +134,7 @@ public interface Transformator {
 	public void addGlobalCall(CallActivity caller, FlowElementsContainer container);
 
 	void addProperty(Property property, Map<String, String> predefinedDataForId);
+
+	public void addDataStore(DataStore data);
 
 }

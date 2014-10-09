@@ -3,31 +3,26 @@
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
 import java.math.BigInteger;
-
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
@@ -40,7 +35,6 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
-
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 
 /**
@@ -57,6 +51,8 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustActivity <em>Stardust Activity</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustAttributes <em>Stardust Attributes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustCommon <em>Stardust Common</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustDataObject <em>Stardust Data Object</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustDataStore <em>Stardust Data Store</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustModel <em>Stardust Model</em>}</li>
@@ -75,7 +71,9 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustPropertyId <em>Stardust Property Id</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isSyntheticProperty <em>Synthetic Property</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -284,6 +282,26 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	protected String parameterMappingOid = PARAMETER_MAPPING_OID_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #getStardustPropertyId() <em>Stardust Property Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStardustPropertyId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String STARDUST_PROPERTY_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getStardustPropertyId() <em>Stardust Property Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getStardustPropertyId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String stardustPropertyId = STARDUST_PROPERTY_ID_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #isSyntheticItemDefinition() <em>Synthetic Item Definition</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -311,6 +329,35 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * @ordered
 	 */
 	protected boolean syntheticItemDefinitionESet;
+
+	/**
+	 * The default value of the '{@link #isSyntheticProperty() <em>Synthetic Property</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSyntheticProperty()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SYNTHETIC_PROPERTY_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSyntheticProperty() <em>Synthetic Property</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSyntheticProperty()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean syntheticProperty = SYNTHETIC_PROPERTY_EDEFAULT;
+
+	/**
+	 * This is true if the Synthetic Property attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean syntheticPropertyESet;
 
 	/**
 	 * The default value of the '{@link #getTriggerAccessPointRef() <em>Trigger Access Point Ref</em>}' attribute.
@@ -513,6 +560,60 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 */
 	public void setStardustCommon(TStardustCommon newStardustCommon) {
 		((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_COMMON, newStardustCommon);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StardustDataObjectType getStardustDataObject() {
+		return (StardustDataObjectType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_OBJECT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStardustDataObject(StardustDataObjectType newStardustDataObject, NotificationChain msgs) {
+		return ((FeatureMap.Internal)getMixed()).basicAdd(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_OBJECT, newStardustDataObject, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustDataObject(StardustDataObjectType newStardustDataObject) {
+		((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_OBJECT, newStardustDataObject);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public StardustDataStoreType getStardustDataStore() {
+		return (StardustDataStoreType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_STORE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStardustDataStore(StardustDataStoreType newStardustDataStore, NotificationChain msgs) {
+		return ((FeatureMap.Internal)getMixed()).basicAdd(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_STORE, newStardustDataStore, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustDataStore(StardustDataStoreType newStardustDataStore) {
+		((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_STORE, newStardustDataStore);
 	}
 
 	/**
@@ -983,6 +1084,27 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getStardustPropertyId() {
+		return stardustPropertyId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustPropertyId(String newStardustPropertyId) {
+		String oldStardustPropertyId = stardustPropertyId;
+		stardustPropertyId = newStardustPropertyId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID, oldStardustPropertyId, stardustPropertyId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isSyntheticItemDefinition() {
 		return syntheticItemDefinition;
 	}
@@ -1022,6 +1144,52 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 */
 	public boolean isSetSyntheticItemDefinition() {
 		return syntheticItemDefinitionESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSyntheticProperty() {
+		return syntheticProperty;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSyntheticProperty(boolean newSyntheticProperty) {
+		boolean oldSyntheticProperty = syntheticProperty;
+		syntheticProperty = newSyntheticProperty;
+		boolean oldSyntheticPropertyESet = syntheticPropertyESet;
+		syntheticPropertyESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY, oldSyntheticProperty, syntheticProperty, !oldSyntheticPropertyESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetSyntheticProperty() {
+		boolean oldSyntheticProperty = syntheticProperty;
+		boolean oldSyntheticPropertyESet = syntheticPropertyESet;
+		syntheticProperty = SYNTHETIC_PROPERTY_EDEFAULT;
+		syntheticPropertyESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY, oldSyntheticProperty, SYNTHETIC_PROPERTY_EDEFAULT, oldSyntheticPropertyESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetSyntheticProperty() {
+		return syntheticPropertyESet;
 	}
 
 	/**
@@ -1088,6 +1256,10 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return basicSetStardustAttributes(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
 				return basicSetStardustCommon(null, msgs);
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_OBJECT:
+				return basicSetStardustDataObject(null, msgs);
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_STORE:
+				return basicSetStardustDataStore(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
 				return basicSetStardustInterface(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
@@ -1137,6 +1309,10 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getStardustAttributes();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
 				return getStardustCommon();
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_OBJECT:
+				return getStardustDataObject();
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_STORE:
+				return getStardustDataStore();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
 				return getStardustInterface();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
@@ -1173,8 +1349,12 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return getParameterMappingOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
+				return getStardustPropertyId();
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
 				return isSyntheticItemDefinition();
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY:
+				return isSyntheticProperty();
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				return getTriggerAccessPointRef();
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
@@ -1211,6 +1391,12 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
 				setStardustCommon((TStardustCommon)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_OBJECT:
+				setStardustDataObject((StardustDataObjectType)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_STORE:
+				setStardustDataStore((StardustDataStoreType)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
 				setStardustInterface((StardustInterfaceType)newValue);
@@ -1266,8 +1452,14 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid((String)newValue);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
+				setStardustPropertyId((String)newValue);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
 				setSyntheticItemDefinition((Boolean)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY:
+				setSyntheticProperty((Boolean)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				setTriggerAccessPointRef((String)newValue);
@@ -1307,6 +1499,12 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
 				setStardustCommon((TStardustCommon)null);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_OBJECT:
+				setStardustDataObject((StardustDataObjectType)null);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_STORE:
+				setStardustDataStore((StardustDataStoreType)null);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
 				setStardustInterface((StardustInterfaceType)null);
@@ -1362,8 +1560,14 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid(PARAMETER_MAPPING_OID_EDEFAULT);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
+				setStardustPropertyId(STARDUST_PROPERTY_ID_EDEFAULT);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
 				unsetSyntheticItemDefinition();
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY:
+				unsetSyntheticProperty();
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				setTriggerAccessPointRef(TRIGGER_ACCESS_POINT_REF_EDEFAULT);
@@ -1397,6 +1601,10 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getStardustAttributes() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_COMMON:
 				return getStardustCommon() != null;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_OBJECT:
+				return getStardustDataObject() != null;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_DATA_STORE:
+				return getStardustDataStore() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_INTERFACE:
 				return getStardustInterface() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT:
@@ -1433,8 +1641,12 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return isSetOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return PARAMETER_MAPPING_OID_EDEFAULT == null ? parameterMappingOid != null : !PARAMETER_MAPPING_OID_EDEFAULT.equals(parameterMappingOid);
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
+				return STARDUST_PROPERTY_ID_EDEFAULT == null ? stardustPropertyId != null : !STARDUST_PROPERTY_ID_EDEFAULT.equals(stardustPropertyId);
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
 				return isSetSyntheticItemDefinition();
+			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_PROPERTY:
+				return isSetSyntheticProperty();
 			case SdbpmnPackage.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF:
 				return TRIGGER_ACCESS_POINT_REF_EDEFAULT == null ? triggerAccessPointRef != null : !TRIGGER_ACCESS_POINT_REF_EDEFAULT.equals(triggerAccessPointRef);
 			case SdbpmnPackage.DOCUMENT_ROOT__VENDOR:
@@ -1471,8 +1683,12 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 		if (oidESet) result.append(oid); else result.append("<unset>");
 		result.append(", parameterMappingOid: ");
 		result.append(parameterMappingOid);
+		result.append(", stardustPropertyId: ");
+		result.append(stardustPropertyId);
 		result.append(", syntheticItemDefinition: ");
 		if (syntheticItemDefinitionESet) result.append(syntheticItemDefinition); else result.append("<unset>");
+		result.append(", syntheticProperty: ");
+		if (syntheticPropertyESet) result.append(syntheticProperty); else result.append("<unset>");
 		result.append(", triggerAccessPointRef: ");
 		result.append(triggerAccessPointRef);
 		result.append(", vendor: ");

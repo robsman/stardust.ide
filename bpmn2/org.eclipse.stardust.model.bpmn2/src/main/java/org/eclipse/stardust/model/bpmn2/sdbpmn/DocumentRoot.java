@@ -29,6 +29,8 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustActivity <em>Stardust Activity</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustAttributes <em>Stardust Attributes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustCommon <em>Stardust Common</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustDataObject <em>Stardust Data Object</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustDataStore <em>Stardust Data Store</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustModel <em>Stardust Model</em>}</li>
@@ -47,7 +49,9 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelOID <em>Model OID</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustPropertyId <em>Stardust Property Id</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticProperty <em>Synthetic Property</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getTriggerAccessPointRef <em>Trigger Access Point Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -218,6 +222,60 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	void setStardustCommon(TStardustCommon value);
+
+	/**
+	 * Returns the value of the '<em><b>Stardust Data Object</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Data Object</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Data Object</em>' containment reference.
+	 * @see #setStardustDataObject(StardustDataObjectType)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustDataObject()
+	 * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+	 *        extendedMetaData="kind='element' name='StardustDataObject' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	StardustDataObjectType getStardustDataObject();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustDataObject <em>Stardust Data Object</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Data Object</em>' containment reference.
+	 * @see #getStardustDataObject()
+	 * @generated
+	 */
+	void setStardustDataObject(StardustDataObjectType value);
+
+	/**
+	 * Returns the value of the '<em><b>Stardust Data Store</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Data Store</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Data Store</em>' containment reference.
+	 * @see #setStardustDataStore(StardustDataStoreType)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustDataStore()
+	 * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+	 *        extendedMetaData="kind='element' name='StardustDataStore' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	StardustDataStoreType getStardustDataStore();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustDataStore <em>Stardust Data Store</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Data Store</em>' containment reference.
+	 * @see #getStardustDataStore()
+	 * @generated
+	 */
+	void setStardustDataStore(StardustDataStoreType value);
 
 	/**
 	 * Returns the value of the '<em><b>Stardust Interface</b></em>' containment reference.
@@ -738,6 +796,33 @@ public interface DocumentRoot extends EObject {
 	void setParameterMappingOid(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Stardust Property Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Property Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Property Id</em>' attribute.
+	 * @see #setStardustPropertyId(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustPropertyId()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='stardustPropertyId' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	String getStardustPropertyId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustPropertyId <em>Stardust Property Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Property Id</em>' attribute.
+	 * @see #getStardustPropertyId()
+	 * @generated
+	 */
+	void setStardustPropertyId(String value);
+
+	/**
 	 * Returns the value of the '<em><b>Synthetic Item Definition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -790,6 +875,60 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	boolean isSetSyntheticItemDefinition();
+
+	/**
+	 * Returns the value of the '<em><b>Synthetic Property</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Synthetic Property</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Synthetic Property</em>' attribute.
+	 * @see #isSetSyntheticProperty()
+	 * @see #unsetSyntheticProperty()
+	 * @see #setSyntheticProperty(boolean)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_SyntheticProperty()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='syntheticProperty' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	boolean isSyntheticProperty();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticProperty <em>Synthetic Property</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Synthetic Property</em>' attribute.
+	 * @see #isSetSyntheticProperty()
+	 * @see #unsetSyntheticProperty()
+	 * @see #isSyntheticProperty()
+	 * @generated
+	 */
+	void setSyntheticProperty(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticProperty <em>Synthetic Property</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetSyntheticProperty()
+	 * @see #isSyntheticProperty()
+	 * @see #setSyntheticProperty(boolean)
+	 * @generated
+	 */
+	void unsetSyntheticProperty();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticProperty <em>Synthetic Property</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Synthetic Property</em>' attribute is set.
+	 * @see #unsetSyntheticProperty()
+	 * @see #isSyntheticProperty()
+	 * @see #setSyntheticProperty(boolean)
+	 * @generated
+	 */
+	boolean isSetSyntheticProperty();
 
 	/**
 	 * Returns the value of the '<em><b>Trigger Access Point Ref</b></em>' attribute.
