@@ -31,7 +31,7 @@ public class CategoryAnnotation implements IAnnotation
    private XSDElementDeclaration element;
    private List<IAnnotation> children;
    private AnnotationContentProvider provider;
-   
+
    static final String ANY = "any"; //$NON-NLS-1$
 
    public CategoryAnnotation(AnnotationContentProvider provider,
@@ -100,7 +100,7 @@ public class CategoryAnnotation implements IAnnotation
       }
       return false;
    }
-   
+
    public String getNamespace()
    {
       return config.getAttribute("namespace"); //$NON-NLS-1$
@@ -129,7 +129,7 @@ public class CategoryAnnotation implements IAnnotation
    public void setRawValue(XSDElementDeclaration element, String value)
    {
    }
-   
+
    public XSDAnnotation getAnnotation(XSDElementDeclaration element, boolean create, boolean forceInternal)
    {
       if (create && forceInternal)
@@ -215,9 +215,7 @@ public class CategoryAnnotation implements IAnnotation
          return CategoryAnnotation.ANY;
       }
       List<String> path = CollectionUtils.newList();
-      //XSDConcreteComponent component = element;
-      while (!(component == null || component instanceof XSDSchema
-            || component == provider.getRoot()))
+      while (!(component == null || component instanceof XSDSchema))
       {
          if (component instanceof XSDElementDeclaration)
          {
@@ -230,7 +228,6 @@ public class CategoryAnnotation implements IAnnotation
          component = component.getContainer();
       }
       StringBuffer sb = new StringBuffer();
-      //sb.append(provider.getRoot().getName());
       for (int i = path.size() - 1; i >= 0; i--)
       {
          sb.append((String) path.get(i));
