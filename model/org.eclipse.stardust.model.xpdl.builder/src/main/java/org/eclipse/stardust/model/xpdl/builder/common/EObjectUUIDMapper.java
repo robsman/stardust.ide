@@ -20,14 +20,14 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Shrikant.Gangal
- * 
+ *
  */
 public class EObjectUUIDMapper
 {
    /**
-    * 
+    *
     */
-   private Map<UUID, EObject> uuidEObjectMap = new HashMap<UUID, EObject>();
+   protected Map<UUID, EObject> uuidEObjectMap = new HashMap<UUID, EObject>();
 
    /**
     * @param obj
@@ -36,7 +36,7 @@ public class EObjectUUIDMapper
    {
       UUID uuid = UUID.randomUUID();
       uuidEObjectMap.put(uuid, obj);
-      
+
       return uuid.toString();
    }
 
@@ -59,7 +59,7 @@ public class EObjectUUIDMapper
 
       return uuidEObjectMap.get(UUID.fromString(uuid));
    }
-   
+
    /**
     * @param obj
     * @return
@@ -80,7 +80,7 @@ public class EObjectUUIDMapper
 
       return null;
    }
-   
+
    public void empty()
    {
       uuidEObjectMap = new HashMap<UUID, EObject>();
