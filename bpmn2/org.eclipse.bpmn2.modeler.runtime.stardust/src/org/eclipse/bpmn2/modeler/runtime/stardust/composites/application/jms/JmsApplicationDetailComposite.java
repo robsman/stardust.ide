@@ -11,7 +11,7 @@
  * @author Bob Brodt
  ******************************************************************************/
 
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.webapp;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
@@ -20,6 +20,7 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapte
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointListComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.webapp.ExtWebApplicationAccessPointListComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
@@ -36,15 +37,15 @@ import org.eclipse.swt.widgets.Composite;
  * @author Simon Nikles
  *
  */
-public class ExtWebApplicationDetailComposite extends DefaultDetailComposite implements AccessPointChangeListener {
+public class JmsApplicationDetailComposite extends DefaultDetailComposite implements AccessPointChangeListener {
 
 	private StardustInterfaceType sdInterface;
 	
-	public ExtWebApplicationDetailComposite(AbstractBpmn2PropertySection section) {
+	public JmsApplicationDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
 
-	public ExtWebApplicationDetailComposite(Composite parent, int style) {
+	public JmsApplicationDetailComposite(Composite parent, int style) {
 		super(parent, style);
 	}
 

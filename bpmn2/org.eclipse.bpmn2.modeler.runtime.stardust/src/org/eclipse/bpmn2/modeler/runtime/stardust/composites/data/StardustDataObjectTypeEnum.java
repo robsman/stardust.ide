@@ -6,11 +6,10 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites.data;
  */
 public enum StardustDataObjectTypeEnum {
 
-	DOCUMENT(true, "dmsDocument", "DMS Document"),
-	DOCUMENT_LIST(true, "dmsDocumentList", "DMS Document List"),
-	DOCUMENT_FOLDER(true, "dmsFolder", "DMS Folder"),
-	DOCUMENT_FOLDER_LIST(true, "dmsFolderList", "DMS Folder List"),
-	ENTITY_BEAN(false, "entity", "Entity Bean");
+	PRIMITIVE(true, "primitive", "Primitive Type"),
+	STRUCTURED(true, "struct", "Structured Type"),
+	SERIALIZABLE(true, "serializable", "Serializable")
+	;
 	
 	private boolean active;
 	private String key;

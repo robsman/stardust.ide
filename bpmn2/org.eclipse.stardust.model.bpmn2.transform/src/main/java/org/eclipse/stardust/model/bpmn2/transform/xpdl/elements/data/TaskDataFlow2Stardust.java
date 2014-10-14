@@ -149,6 +149,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String mappingId = assocIn.getId() + "_" + assingmentId;
             DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable, applicationAccessPoint, applicationAccessPath);
             String fromExpressionValue = getExpressionValue(fromExpression);
+            fromExpressionValue = cleanPath(fromExpressionValue);
             mapping.setDataPath(fromExpressionValue);
         }
     }
@@ -171,9 +172,11 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
 
             String toExpressionValue = getExpressionValue(toExpression);
+            toExpressionValue = cleanPath(toExpressionValue);
             mapping.setDataPath(toExpressionValue);
         }
     }
+
     private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         DataType inVariable = query.findVariable(input.getId(), predefinedDataForId);
         if (inVariable == null) {
@@ -192,6 +195,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
 
     private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
+    	path = cleanPath(path);
         return BpmModelBuilder.newInDataMapping(activity)
                 .withIdAndName(id, name)
                 .fromVariable(fromVariable)
@@ -202,7 +206,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
 
     private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
-    	if (null != path && path.trim().equals("/")) path = "";
+    	path = cleanPath(path);
     	return BpmModelBuilder.newOutDataMapping(activity)
                 .withIdAndName(id, name)
                 .toVariable(toVariable)
@@ -222,6 +226,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
                  expr = ModelUtils.getCDataString(assoc.getTransformation().getMixed());
                  logger.debug("Set Datapath from Mixed value: " + expr + " (" + assoc + ")");
             }
+            expr = cleanPath(expr);
             mapping.setDataPath(expr);
         }
     }
@@ -308,4 +313,11 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     	}
     	return dataOutput.getId();
     }
+    
+    private String cleanPath(String path) {
+    	if (null == path || path.trim().equals("/")) return "";
+    	return path.trim();
+	}
+
+
 }

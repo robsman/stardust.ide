@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.eclipse.bpmn2.Bpmn2Factory;
 import org.eclipse.bpmn2.DataStore;
-import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.ItemDefinition;
@@ -20,6 +19,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.swt.widgets.Composite;
 
@@ -40,8 +40,14 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 	@Override
 	public void createBindings(final EObject be) {
 		final EObject parentBo = ((DefaultDetailComposite)getParent()).getBusinessObject();
-
-		EStructuralFeature feature = SdbpmnPackage.eINSTANCE.getStardustDataStoreType_Type();
+		final DefaultDetailComposite parentComp = (DefaultDetailComposite)getParent();
+		setTitle("Stardust Type");
+		EStructuralFeature feature = null;
+		if (be instanceof StardustDataStoreType) {
+			feature = SdbpmnPackage.eINSTANCE.getStardustDataStoreType_Type();
+		} else {
+			feature = SdbpmnPackage.eINSTANCE.getStardustDataObjectType_Type();
+		}
 		ObjectEditor editor = new ComboObjectEditor(this, be, feature) {
 
 			@Override
@@ -58,7 +64,8 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 							};			
 							editingDomain.getCommandStack().execute(command);							
 						}
-						setBusinessObject(be);
+						//setBusinessObject(be);
+						parentComp.setBusinessObject(parentBo);
 					}
 					return true;
 				}
@@ -67,7 +74,43 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 
 		};
 		editor.createControl(getAttributesParent(), "Type");
-
+//		
+//		if (be instanceof StardustDataObjectType) {
+//			final DataObject dataObject = (DataObject)parentBo;
+//			if (null == dataObject) return;
+//
+//			if (null == dataObject.getItemSubjectRef()) {
+//				RecordingCommand command = new RecordingCommand(editingDomain) {				
+//					@Override
+//					protected void doExecute() {
+//						StardustDataObjectType sdDataStore = (StardustDataObjectType)be;
+//						StardustDataObjectTypeEnum dataType = null;
+//						if (null != sdDataStore.getType()) 
+//							dataType = StardustDataObjectTypeEnum.forKey(sdDataStore.getType().toString());
+//						if (null != dataType) {
+//							ItemDefinition itemDefinition = null;
+//							switch(dataType) {
+//							case PRIMITIVE:
+//								itemDefinition = getDefaultItemDefinition(dataObject, "org.eclipse.stardust.engine.api.runtime.Document");
+//								dataObject.setItemSubjectRef(itemDefinition);
+//								break;
+//							case STRUCTURED:
+//								itemDefinition = getDefaultItemDefinition(dataObject, "java.util.List");
+//								dataObject.setItemSubjectRef(itemDefinition);
+//								break;
+//							case SERIALIZABLE:
+//								itemDefinition = getDefaultItemDefinition(dataObject, "org.eclipse.stardust.engine.api.runtime.Folder");
+//								dataObject.setItemSubjectRef(itemDefinition);
+//								break;
+//							default:
+//								break;
+//							}
+//						}
+//					}
+//				};			
+//				editingDomain.getCommandStack().execute(command);				
+//			}
+//		}  
 		if (be instanceof StardustDataStoreType) {
 			final DataStore dataStore = (DataStore)parentBo;
 			if (null == dataStore) return;
@@ -85,19 +128,19 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 							ItemDefinition itemDefinition = null;
 							switch(dataType) {
 							case DOCUMENT:
-								itemDefinition = getDefaultItemDefinition(dataStore, "org.eclipse.stardust.engine.api.runtime.Document");
+								itemDefinition = getDefaultItemDefinition(dataStore, StardustDataStoreTypeEnum.DOCUMENT.getDefaultClass());
 								dataStore.setItemSubjectRef(itemDefinition);
 								break;
 							case DOCUMENT_LIST:
-								itemDefinition = getDefaultItemDefinition(dataStore, "java.util.List");
+								itemDefinition = getDefaultItemDefinition(dataStore, StardustDataStoreTypeEnum.DOCUMENT_LIST.getDefaultClass());
 								dataStore.setItemSubjectRef(itemDefinition);
 								break;
 							case DOCUMENT_FOLDER:
-								itemDefinition = getDefaultItemDefinition(dataStore, "org.eclipse.stardust.engine.api.runtime.Folder");
+								itemDefinition = getDefaultItemDefinition(dataStore, StardustDataStoreTypeEnum.DOCUMENT_FOLDER.getDefaultClass());
 								dataStore.setItemSubjectRef(itemDefinition);
 								break;
 							case DOCUMENT_FOLDER_LIST:
-								itemDefinition = getDefaultItemDefinition(dataStore, "java.util.List");
+								itemDefinition = getDefaultItemDefinition(dataStore, StardustDataStoreTypeEnum.DOCUMENT_FOLDER_LIST.getDefaultClass());
 								dataStore.setItemSubjectRef(itemDefinition);
 							case ENTITY_BEAN:
 								break;
@@ -149,7 +192,12 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
-		if (object instanceof DataStoreReference) {
+//		if (object instanceof DataStoreReference 
+//		 || object instanceof DataObjectReference 
+//		 || object instanceof DataStore 
+//		 || object instanceof DataObject) {
+		if (object instanceof StardustDataObjectType
+		 || object instanceof StardustDataStoreType) {
 			if (propertiesProvider == null) {
 				propertiesProvider = new AbstractPropertiesProvider(object) {
 					String[] properties = new String[] {"type"};

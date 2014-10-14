@@ -46,8 +46,13 @@ public class StardustDataStoreDetailComposite extends DefaultDetailComposite {
 			ModelDecorator.addExtensionAttributeValue(be, feature, sdData, true);
 		}
 		StardustDataDetailComposite sdDataSection = new StardustDataDetailComposite(this, SWT.NONE);
+		sdDataSection.setTitle("Stardust Type");
 		sdDataSection.setBusinessObject(sdData);
-		sdDataSection.setTitle("Details");
+
+		StardustDataStoreBpmnDetailComposite bpmnSection = new StardustDataStoreBpmnDetailComposite(this, SWT.NONE);
+		bpmnSection.setTitle("Details");
+		bpmnSection.setBusinessObject(be);
+		
 	}
 
 	@Override
@@ -55,7 +60,7 @@ public class StardustDataStoreDetailComposite extends DefaultDetailComposite {
 		if (object instanceof DataStore) {
 			if (propertiesProvider == null) {
 				propertiesProvider = new AbstractPropertiesProvider(object) {
-					String[] properties = new String[] { "id", "name", "itemSubjectRef" }; 
+					String[] properties = new String[] { "id" }; 
 					@Override
 					public String[] getProperties() {
 						return properties;

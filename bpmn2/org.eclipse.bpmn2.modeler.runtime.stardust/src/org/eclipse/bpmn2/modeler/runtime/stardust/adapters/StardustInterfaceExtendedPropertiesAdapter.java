@@ -140,6 +140,8 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 					createExternalWebappApplicationModel(sdInterface);
 					break;
 				case JMS:
+					createJmsApplicationModel(sdInterface);
+					break;
 				case SESSIONBEAN:
 				default:
 					removeApplicationModel(sdInterface);
@@ -262,10 +264,10 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		StardustContextType contextType = SdbpmnFactory.eINSTANCE.createStardustContextType();
 		contextType.setTypeRef(ApplicationTypes.EXTERNAL_WEBAPP.getKey());
 		sdApplication.getContext1().add(contextType);
-		
+		long appNr = generateAppTypeId();
 		sdApplication.setElementOid(generateElementOid(sdApplication.eResource()));
-		sdApplication.setId("ExternalWebApplicationApp_" + generateAppTypeId());
-		sdApplication.setName("ExternalWebApplicationApp");
+		sdApplication.setId("ExternalWebApplicationApp_" + appNr);
+		sdApplication.setName("ExternalWebApplicationApp " + appNr);
 		sdApplication.setInteractive(true);
 
 		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "", null));
@@ -397,6 +399,28 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 		
 		sdInterface.setStardustApplication(sdApplication);
 	}	
+
+	private void createJmsApplicationModel(StardustInterfaceType sdInterface) {
+		removeApplicationModel(sdInterface);
+		StardustApplicationType sdApplication = SdbpmnFactory.eINSTANCE.createStardustApplicationType();
+		sdApplication.setElementOid(generateElementOid(sdInterface.eResource()));
+		long appTypeId = generateAppTypeId();
+		sdApplication.setId("JavaMessagingService_" + appTypeId); 
+		sdApplication.setName("JavaMessagingService " + appTypeId);
+
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:visibility", "Public", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", "org.eclipse.stardust.engine.extensions.jms.app.JMSDirection"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:messageProvider", "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:requestMessageType", "Map", "org.eclipse.stardust.engine.extensions.jms.app.MessageType"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:includeOidHeaders", "false", "boolean"));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:messageAcceptor", "org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:responseMessageType", "Map", "org.eclipse.stardust.engine.extensions.jms.app.MessageType"));
+	
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:queueConnectionFactory.jndiName", "", null));
+		sdApplication.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:queue.jndiName", "", null));
+
+		sdInterface.setStardustApplication(sdApplication);
+	}
 
 	private static void removeApplicationModel(StardustInterfaceType sdInterface) {
 		StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);
