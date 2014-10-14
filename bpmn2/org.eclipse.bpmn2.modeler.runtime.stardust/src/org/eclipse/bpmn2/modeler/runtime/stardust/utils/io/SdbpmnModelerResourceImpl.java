@@ -1,13 +1,23 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils.io;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
 import org.eclipse.bpmn2.modeler.core.model.Bpmn2ModelerResourceImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
 import org.eclipse.xsd.XSDComponent;
+import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDSchema;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -18,6 +28,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class SdbpmnModelerResourceImpl extends Bpmn2ModelerResourceImpl
 {
@@ -27,11 +38,79 @@ public class SdbpmnModelerResourceImpl extends Bpmn2ModelerResourceImpl
 	}
 
 	@Override
-	protected XMLLoad createXMLLoad()
-	{
-		return super.createXMLLoad();
+	protected XMLLoad createXMLLoad() {
+		return new XMLLoadImpl(createXMLHelper()) {
+			Bpmn2ModelerXmlHandler handler;
+			
+			@Override
+			protected DefaultHandler makeDefaultHandler() {
+				handler = new Bpmn2ModelerXmlHandler(resource, helper, options);
+				return handler;
+			}
+		};
 	}
-
+	protected static class SdbpmnModelerXmlHandler  extends Bpmn2ModelerXmlHandler {
+		EmbeddedXSDResourceImpl embeddedSchemas = null;
+		int schemaIndex = 0;
+		
+		/**
+		 * @param xmiResource
+		 * @param helper
+		 * @param options
+		 */
+		public SdbpmnModelerXmlHandler(XMLResource xmiResource, XMLHelper helper, Map<?, ?> options) {
+			super(xmiResource, helper, options);
+		}
+		@Override
+        public void endElement(String uri, String localName, String name) {
+			int i = name.indexOf(":"); //$NON-NLS-1$
+			if (i > 0) {
+				// parse out prefix and localName from name
+				// and check if this is an XSD Schema object
+				String prefix = name.substring(0, i);
+				localName = name.substring(i + 1);
+				String namespace = helper.getNamespaceURI(prefix);
+				if ("schema".equals(localName) && "http://www.w3.org/2001/XMLSchema".equals(namespace)) {
+					// this is an embedded "xsd:schema" element: use an XSDResource to load
+					// all embedded schema definitions the first time only:
+					if (embeddedSchemas==null) {
+						embeddedSchemas = new EmbeddedXSDResourceImpl(xmlResource.getURI());
+						InputStream inputStream = null;
+						try {
+							URIConverter uriConverter = getURIConverter();
+							Map<Object, Object> options = xmlResource.getDefaultLoadOptions();
+							URI xsduri = xmlResource.getURI();
+							inputStream = uriConverter.createInputStream(xsduri, options);
+							embeddedSchemas.load(inputStream, options);
+						} catch (IOException exception) {
+							exception.printStackTrace();
+						}
+					}
+					try {
+						// If there are more than one embedded schemas, they will be
+						// defined in the same order as the XSDResource contents, so
+						// just use an index to fetch the next definition.
+						EList<EObject> contents = embeddedSchemas.getContents();
+						XSDSchema schema = (XSDSchema) contents.get(schemaIndex++);
+						// pop the current object from the parser's EObject stack
+						// (this should be an "AnyType" object) and replace it with
+						// the XSDSchema object.
+						objects.pop();
+						objects.push(schema);
+						types.pop();
+						types.push(XSDPackage.eINSTANCE.getXSDSchema());
+						// (not sure if this is needed - double check!)
+						mixedTargets.push(null);
+					}
+					catch (Exception exception) {
+						exception.printStackTrace();
+					}
+				}
+			}
+            super.endElement(uri, localName, name);
+        }
+	}
+	
 	@Override
 	protected XMLSave createXMLSave()
 	{
