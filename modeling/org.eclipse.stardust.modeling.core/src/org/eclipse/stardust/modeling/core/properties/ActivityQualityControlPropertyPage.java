@@ -362,5 +362,13 @@ public class ActivityQualityControlPropertyPage extends AbstractModelElementProp
       transitionConditionEditor.getAdaptedSourceViewer().setVisibleRegion(
             expressionRegion.getOffset(), expressionRegion.getLength());
       transitionConditionEditor.setLineOffset(expressionRegion.getLineOffset());
-   }      
+   }    
+   
+   @Override
+   public void dispose()
+   {
+      sourceViewerComposite.dispose();
+      transitionConditionEditor.dispose();
+      super.dispose();
+   }
 }

@@ -78,7 +78,8 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 	private LabeledText htmlTemplateText;
 	private LabeledText htmlFooterText;
 	private ObjectTable outputValues;
-    private Button subjectUniqueIdentified; 
+    private Button subjectUniqueIdentified;
+   private Font courier9pt; 
 
 //	private Button mailResponseButton;
 
@@ -213,7 +214,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 	 */
 	public Control createBody(final Composite parent)
 	{		
-		Font courier9pt =new Font(parent.getDisplay(), "Courier", 9, SWT.NORMAL); //$NON-NLS-1$
+		courier9pt = new Font(parent.getDisplay(), "Courier", 9, SWT.NORMAL);
 		
 		Composite mainComposite = new Composite(parent, SWT.NONE);
 		
@@ -478,5 +479,12 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage
 	     String value = AttributeUtil.getAttributeValue(element, key);      
 
 	     return StringUtils.isEmpty(value) ? "" : value; //$NON-NLS-1$
+	}
+	
+	@Override
+	public void dispose()
+	{
+	   courier9pt.dispose();
+	   super.dispose();
 	}
 }
