@@ -12,6 +12,9 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
  */
 public class PredefinedDataInfo {
 
+	public static final String VAR_START_EVENT_ID = "StartEventId";
+	public static final String LBL_START_EVENT_ID = "Start Event Id";
+
 	public static List<String> getTypeClasses() {
 		return Arrays.asList(
 				"org.eclipse.stardust.engine.core.runtime.beans.IUser",
@@ -32,10 +35,11 @@ public class PredefinedDataInfo {
 		dataList.add(new DataInfo(PredefinedConstants.CURRENT_USER, "Current User", "org.eclipse.stardust.engine.core.runtime.beans.IUser"));
 		dataList.add(new DataInfo(PredefinedConstants.LAST_ACTIVITY_PERFORMER, "Last activity performer", "org.eclipse.stardust.engine.core.runtime.beans.IUser"));
 		dataList.add(new DataInfo(PredefinedConstants.CURRENT_MODEL, "Current Model", "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"));
+		dataList.add(new DataInfo(VAR_START_EVENT_ID, LBL_START_EVENT_ID, "string"));
 
 		return dataList;
 	}
-	
+
 	public static class DataInfo {
 		public String type;
 		public String name;

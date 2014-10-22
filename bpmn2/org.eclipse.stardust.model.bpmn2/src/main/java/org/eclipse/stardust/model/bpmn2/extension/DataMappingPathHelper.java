@@ -17,15 +17,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Generates and evaluates paths based on a schema definition. 
- * 
+ * Generates and evaluates paths based on a schema definition.
+ *
  * @author Simon Nikles
  *
  */
 public enum DataMappingPathHelper {
-	
+
 	INSTANCE;
-	
+
 	public AccessPointPathInfo resolveAccessPointPath(String dataPath) {
 		String[] segments = getPathSegments(dataPath);
 		AccessPointPathInfo info = new AccessPointPathInfo();
@@ -33,14 +33,14 @@ public enum DataMappingPathHelper {
 			info.setAccessPointId(segments[0]);
 		}
 		if (1 < segments.length) {
-			getPathAfterFirst(segments);
+		    info.setAccessPointPath(getPathAfterFirst(segments));
 		}
 		return info;
 	}
 
 	private String getPathAfterFirst(String[] segments) {
 		if (null == segments || segments.length < 2) return "";
-		List<String> subList = Arrays.asList(segments).subList(1, segments.length-1);
+		List<String> subList = Arrays.asList(segments).subList(1, segments.length);
 		StringBuffer buf = new StringBuffer();
 		String delim = "";
 		for (String sub : subList) {
@@ -72,21 +72,21 @@ public enum DataMappingPathHelper {
 		if (null == itemDef) return paths;
 		Object structureRef = itemDef.getStructureRef();
 		System.out.println("structureRef " + structureRef);
-		
+
 		// use the type of the referenced element declaration
 		if (structureRef instanceof XSDElementDeclaration) {
 			System.out.println("is element decl");
 			return buildPaths(((XSDElementDeclaration)structureRef).getType().getElement(), "", paths);
 		}
-		// use the referenced type 
+		// use the referenced type
 		if (structureRef instanceof XSDTypeDefinition) {
 			System.out.println("is type definition");
 			return buildPaths(((XSDElementDeclaration)structureRef).getType().getElement(), "", paths);
-		} 	
-		
+		}
+
 		// lookup embedded schema
 		XSDSchema schema = ExtensionHelper2.INSTANCE.getEmbeddedSchemaExtension(itemDef);
-		if (null == schema) return paths;		
+		if (null == schema) return paths;
 		schema.updateDocument();
 
 		// resolve structureRef (as uri from String)
@@ -102,7 +102,7 @@ public enum DataMappingPathHelper {
 				if (null != element) {
 					System.out.println("resolved structureRef as embedded element definition");
 					return buildPaths(element.getType().getElement(), "", paths);
-				} 
+				}
 				// try to resolve as type reference
 				XSDComplexTypeDefinition type = schema.resolveComplexTypeDefinitionURI(structureRef.toString());
 				if (null != type) {
@@ -112,8 +112,8 @@ public enum DataMappingPathHelper {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-		}	
-		
+		}
+
 		if (null == schema.getElement()) return paths;
 
 		// use type of the first element declaration in the embedded schema
@@ -132,10 +132,10 @@ public enum DataMappingPathHelper {
 				return buildPaths(typeDefinitions.get(0).getElement(), "", paths);
 			}
 		}
-		
+
 		return paths; // no results
 	}
-	
+
 	private List<String> buildPaths(Node element, String parentPath, List<String> paths) {
 		if (null == element) return paths;
 		if ("element".equals(element.getLocalName())) {
@@ -171,7 +171,7 @@ public enum DataMappingPathHelper {
 		private String accessPointPath;
 
 		public AccessPointPathInfo() {}
-		
+
 		public AccessPointPathInfo(String accessPoint, String accessPointPath) {
 			this.accessPointId = accessPoint;
 			this.accessPointPath = accessPointPath;

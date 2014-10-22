@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>org.eclipse.stardust.bpmn2</groupId>
 			<artifactId>org.eclipse.stardust.model.bpmn2</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.stardust.modeling.model</groupId>
@@ -141,7 +141,7 @@
 									<overWrite>true</overWrite>
 									<outputDirectory>lib</outputDirectory>
 								</artifactItem>
-								
+
 							</artifactItems>
 						</configuration>
 					</execution>

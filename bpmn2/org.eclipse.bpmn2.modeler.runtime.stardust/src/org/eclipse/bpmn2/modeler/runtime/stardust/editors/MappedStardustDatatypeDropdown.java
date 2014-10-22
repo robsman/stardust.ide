@@ -29,12 +29,12 @@ import org.eclipse.xsd.util.XSDConstants;
 public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 
 	private AcessPointDataTypes datatypeCategory;
-	private DatatypeChangeListener listener; 
-	
+	private DatatypeChangeListener listener;
+
 	public interface DatatypeChangeListener {
 		public void comboChanged();
 	}
-	
+
 	public MappedStardustDatatypeDropdown(AbstractDetailComposite parent, AttributeType object, AcessPointDataTypes datatypeCategory, DatatypeChangeListener listener) {
 		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 		if (null == NamespaceUtil.getPrefixForNamespace(parent.getBusinessObject().eResource(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
@@ -43,16 +43,16 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 		this.listener = listener;
 		this.datatypeCategory = datatypeCategory;
 	}
-	
+
 	@Override
 	protected boolean setValue(final Object newValue) {
 		final Object oldValue = getValue();
-		
-		if (null != newValue && !(newValue instanceof ItemDefinition)) return super.setValue(newValue); 
-		
+
+		if (null != newValue && !(newValue instanceof ItemDefinition)) return super.setValue(newValue);
+
 		ItemDefinition newItemDef = (ItemDefinition)newValue;
-		
-		
+
+
 		if (AcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
 			String newValueName = null != newItemDef ? newItemDef.getStructureRef().toString() : null;
 			if (null != newValueName) {
@@ -62,7 +62,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 			XSDType2Stardust newStardustValue = XSDType2Stardust.byXsdName(newValueName);
 			String newSdStr = null != newStardustValue ? newStardustValue.getPrimitive() : null;
 			if (super.setValue(newSdStr)) {
-				if (oldValue != newValueName) {					
+				if (oldValue != newValueName) {
 					if (null != listener) listener.comboChanged();
 				}
 				return true;
@@ -74,7 +74,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 					if (null != listener) listener.comboChanged();
 				}
 				return true;
-			}			
+			}
 		} else {
 			final String newValueId = null != newItemDef ? newItemDef.getId() : null;
 			if (super.setValue(newValueId)) {
@@ -89,20 +89,23 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 
 	@Override
 	public Object getValue() {
-		Object stardustValue = super.getValue();
+		Object stardustValue = null;
+		try {
+			stardustValue = super.getValue();
+		} catch (Exception e) {}
 		if (null == stardustValue) return null;
 		if (AcessPointDataTypes.PRIMITIVE_TYPE.equals(datatypeCategory)) {
 			XSDType2Stardust newStardustValue = XSDType2Stardust.byTypeName(stardustValue.toString());
 			String newSdStr = null != newStardustValue ? newStardustValue.getName() : null;
 			if (null == newSdStr) return null;
-			return getChoiceOfValues(object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value()).get(addXsdPrefix(newSdStr)); 
+			return getChoiceOfValues(object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value()).get(addXsdPrefix(newSdStr));
 		} else if (AcessPointDataTypes.SERIALIZABLE_TYPE.equals(datatypeCategory)) {
 			return getItemDefinitionByRefString(object, stardustValue.toString());
 		} else {
 			return getItemDefinitionById(object, stardustValue.toString());
 		}
 	}
-	
+
 	private Object addXsdPrefix(String newSdStr) {
 		return NamespaceUtil.getPrefixForNamespace(parent.getBusinessObject().eResource(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001) + ":" + newSdStr;
 	}
@@ -115,7 +118,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 		for (Entry<String, Object> entry : initialMap.entrySet()) {
 			if (entry.getValue() instanceof ItemDefinition) {
 				ItemDefinition itemDef = (ItemDefinition)entry.getValue();
-				
+
 				switch(datatypeCategory) {
 				case PRIMITIVE_TYPE:
 					if (isPrimitive(itemDef)) filteredMap.put(entry.getKey(), entry.getValue());
@@ -144,7 +147,7 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 			} catch (Exception e) {
 				return false;
 			}
-			return null != uri && uri.isAbsolute(); 
+			return null != uri && uri.isAbsolute();
 		}
 		System.out.println("MappedStardustDatatypeDropdown.isStructured(?) " +  uri);
 		return false;
@@ -159,18 +162,18 @@ public class MappedStardustDatatypeDropdown extends ComboObjectEditor {
 			} catch (Exception e) {
 				return false;
 			}
-			return null == uri || !uri.isAbsolute(); 
+			return null == uri || !uri.isAbsolute();
 		}
 		return false;
 	}
 
 	/**
 	 * Considers (only) XSD defined types as primitive types.
-	 * 
+	 *
 	 * @param itemDef
 	 * @return
 	 */
-	private boolean isPrimitive(ItemDefinition itemDef) { 
+	private boolean isPrimitive(ItemDefinition itemDef) {
 		if (null == itemDef || null == itemDef.getStructureRef()) return false;
 		String ref = itemDef.getStructureRef().toString();
 		if (0 > ref.indexOf(":")) return false;

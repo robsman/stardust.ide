@@ -25,7 +25,9 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.StartEvent;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper.AccessPointPathInfo;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
@@ -94,8 +96,15 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
         for (Assignment assign : assocOut.getAssignment()) {
             Expression fromExpression = assign.getFrom();
             Expression toExpression = assign.getTo();
-            String triggerAccessPoint = ExtensionHelper.getInstance().getAssignmentTriggerAccessPointRef(fromExpression);
-            String triggerAccessPath = getExpressionValue(fromExpression);
+
+//            String triggerAccessPoint = ExtensionHelper.getInstance().getAssignmentTriggerAccessPointRef(fromExpression);
+//            String triggerAccessPath = getExpressionValue(fromExpression);
+
+            AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
+            String triggerAccessPoint = resolveDataPath.getAccessPointId();
+            String triggerAccessPath = resolveDataPath.getAccessPointPath();
+
+
             String toExpressionValue = getExpressionValue(toExpression);
             long oid = ExtensionHelper.getInstance().getAssignmentParameterMappingOid(assign);
             ParameterMappingType mapping = buildParameterMapping(trigger, oid, toVariable, toExpressionValue, triggerAccessPoint, triggerAccessPath);

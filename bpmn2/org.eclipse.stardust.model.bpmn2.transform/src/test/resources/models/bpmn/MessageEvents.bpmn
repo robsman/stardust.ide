@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="05.10.2012 16:41:15" itp:modificationDate="08.10.2012 12:23:03" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_45fb976a-d97f-4101-8904-1b395fe0930d" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Manager 6 for Microsoft Visio"
+	exporterVersion="5.2769.13758 "
+	itp:name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="05.10.2012 16:41:15"
+	itp:modificationDate="08.10.2012 12:23:03"
+	itp:createdWithVersion="5.2769.13758 "
+	itp:conformanceSubClass="Full"
+	id="_45fb976a-d97f-4101-8904-1b395fe0930d"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
 	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
+	<message id="ReceiveOfferOperationOutput" itemRef="ReceiveOfferOutput"></message>
 
+	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
+	<itemDefinition id="SendRequestInput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#SendRequestInput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apSendRequestInput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="SendRequestInput" type="SendRequestInputType"/>
+	      <xsd:complexType name="SendRequestInputType">
+	        <xsd:sequence>
+	          <xsd:element name="content" sdbpmn:accesspoint="content" sdbpmn:displayName="content" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+	<itemDefinition id="ReceiveResponseOutput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#ReceiveResponseOutput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="ReceiveResponseOutput" type="ReceiveResponseOutputType"/>
+	      <xsd:complexType name="ReceiveResponseOutputType">
+	        <xsd:sequence>
+	          <xsd:element name="content" sdbpmn:accesspoint="content" sdbpmn:displayName="content" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+	<itemDefinition id="SendOrderInput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#SendOrderInput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="SendOrderInput" type="SendOrderInputType"/>
+	      <xsd:complexType name="SendOrderInputType">
+	        <xsd:sequence>
+	          <xsd:element name="content" sdbpmn:accesspoint="content" sdbpmn:displayName="content" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+	<itemDefinition id="ReceiveOfferOutput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#ReceiveOfferOutput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="ReceiveOfferOutput" type="ReceiveOfferOutputType"/>
+	      <xsd:complexType name="ReceiveOfferOutputType">
+	        <xsd:sequence>
+	          <xsd:element name="content" sdbpmn:accesspoint="content" sdbpmn:displayName="content" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
 	<interface id="SendRequest" name="SendRequest" implementationRef="SendRequestApp">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
+			<sdbpmn:StardustInterface applicationType="jms" id="SendRequestApp">
 				<sdbpmn:StardustApplication elementOid="10073" id="SendRequestApp" name="send request">
 					<stardust:attribute name="carnot:engine:visibility" value="Public" />
 					<stardust:attribute name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="out" />
@@ -31,9 +98,9 @@
 			<outMessageRef>SendRequestOperationOutput</outMessageRef>
 		</operation>
 	</interface>
-	<interface id="ReceiveResponse" name="ReceiveResponse" implementationRef="ReceiveResponseApp">
+	<interface id="ReceiveResponse" name="ReceiveResponse" implementationRef="ReceiveResponseAppInterface">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
+			<sdbpmn:StardustInterface applicationType="jms" id="ReceiveResponseAppInterface">
 				<sdbpmn:StardustApplication elementOid="10076" id="ReceiveResponseApp" name="receive response" >
 					<stardust:attribute name="carnot:engine:visibility" value="Public" />
 					<stardust:attribute name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="in" />
@@ -52,10 +119,10 @@
 			<outMessageRef>ReceiveResponseOperationOutput</outMessageRef>
 		</operation>
 	</interface>
-	<interface id="SendOrder" name="SendOrder" implementationRef="SendOrderApp">
-	<!-- implementationRef="SendOrderApp">  --> 
+	<interface id="SendOrder" name="SendOrder" implementationRef="SendOrderAppInterface">
+	<!-- implementationRef="SendOrderApp">  -->
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
+			<sdbpmn:StardustInterface applicationType="jms" id="SendOrderAppInterface">
 				<sdbpmn:StardustApplication elementOid="10079" id="SendOrderApp" name="send order">
 					<stardust:attribute name="carnot:engine:visibility" value="Public" />
 					<stardust:attribute name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="out" />
@@ -77,9 +144,9 @@
 			<outMessageRef>SendOrderOperationOutput</outMessageRef>
 		</operation>
 	</interface>
-	<interface id="ReceiveOffer" name="ReceiveOffer">
+	<interface id="ReceiveOffer" name="ReceiveOffer" implementationRef="ReceiveOfferApp">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="jms">
+			<sdbpmn:StardustInterface applicationType="jms" id="ReceiveOfferApp">
 				<sdbpmn:StardustTrigger elementOid="10048" id="ReceiveOfferApp" name="Receive Offer">
 					<stardust:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
 					<stardust:attribute name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
@@ -97,16 +164,17 @@
 		</operation>
 	</interface>
 
+
   <process id="_cf986081-5a6e-4429-a2d0-cc8c336c60ce" name="Hauptprozess" processType="None">
 
     <startEvent id="TestModelStartEvent" name="ReceiveOffer">
-      <dataOutput id="TestModelStartEventOutput">
+      <dataOutput id="TestModelStartEventOutput" itemSubjectRef="ReceiveOfferOutput">
       </dataOutput>
       <dataOutputAssociation id="_5e8d0c47-d08c-4496-9a99-d73802377485">
         <sourceRef>TestModelStartEventOutput</sourceRef>
 		<targetRef>TestModelDataObjectRefA</targetRef>
-		<assignment id="TestAssignmentOutputTaskA" sdbpmn:parameterMappingOid="10093">
-			<from sdbpmn:triggerAccessPointRef="content"></from>
+		<assignment id="TestAssignmentOutputTaskA">
+			<from xsi:type="tFormalExpression">content</from>
 			<to></to>
 		</assignment>
       </dataOutputAssociation>

@@ -22,6 +22,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -201,6 +202,13 @@ public class CarnotModelQuery {
 	public static EventHandlerType findEventHandler(ActivityType activity, String id) {
 		for (EventHandlerType handler : activity.getEventHandler()) {
 			if (handler != null && handler.getId().equals(id)) return handler;
+		}
+		return null;
+	}
+
+	public DataTypeType findDataType(String serializableData) {
+		for (DataTypeType type : carnotModel.getDataType()) {
+			if (type.equals(serializableData)) return type;
 		}
 		return null;
 	}

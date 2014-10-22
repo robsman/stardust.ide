@@ -3,13 +3,16 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 import java.util.List;
 
 import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.DataAssociation;
 import org.eclipse.bpmn2.DataInput;
 import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.InputOutputSpecification;
 import org.eclipse.bpmn2.ItemAwareElement;
+import org.eclipse.bpmn2.ThrowEvent;
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesProvider;
 import org.eclipse.bpmn2.modeler.core.adapters.InsertionAdapter;
@@ -40,7 +43,7 @@ import org.eclipse.swt.widgets.Group;
 public class StardustDataAssociationDetailComposite extends DataAssociationDetailComposite {
 
 	protected Group assignmentGroup;
-	
+
 	public StardustDataAssociationDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -56,13 +59,14 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 
 	@Override
 	public void createBindings(EObject be) {
-		
+
 		EObject container = ModelUtil.getContainer(be);
-		if (!(container instanceof InputOutputSpecification)) {
+		if (!(container instanceof InputOutputSpecification)
+		&& !(container instanceof Event)) {
 			super.createBindings(be);
 			return;
 		}
-		
+
 		association = null;
 		if (be instanceof DataInput) {
 			isInput = true;
@@ -95,17 +99,19 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 		if (!showToGroup) {
 			toGroup.setVisible(false);
 			gridData.exclude = true;
-		}		
-		
+		}
+
 		assignmentGroup = new Group(this, SWT.NONE);
 		assignmentGroup.setLayout(new GridLayout(3,false));
 		gridData = new GridData(SWT.FILL,SWT.TOP,true,false,3,1);
 		assignmentGroup.setLayoutData(gridData);
 
 		final Group group = isInput ? toGroup : fromGroup;
-		
+
 		Activity activity = null;
+		Event event = null;
 		List<? extends DataAssociation> associations = null;
+
 		if (container instanceof InputOutputSpecification) {
 			EObject containerContainer = ModelUtil.getContainer(container);
 			if (containerContainer instanceof Activity) {
@@ -116,6 +122,19 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 					associations = activity.getDataOutputAssociations();
 			}
 			else {
+				super.createBindings(be);
+				return;
+			}
+			DataInputOutputDetailComposite details = createDataInputOutputDetailComposite(be, group,SWT.NONE);
+			details.setBusinessObject(be);
+		}
+		if (container instanceof Event) {
+			event = (Event)container;
+			if (isInput && container instanceof ThrowEvent)
+				associations = ((ThrowEvent)container).getDataInputAssociation();
+			else if (!isInput && container instanceof CatchEvent) {
+				associations = ((CatchEvent)container).getDataOutputAssociation();
+			} else {
 				super.createBindings(be);
 				return;
 			}
@@ -143,27 +162,27 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 						break;
 				}
 			}
-			if (association==null && activity!=null) {
+			if (association==null && (activity!=null || event!=null)) {
 				// create a new DataAssociation
 				if (isInput) {
 					association = createModelObject(DataInputAssociation.class);
 					association.setTargetRef((ItemAwareElement) be);
-					InsertionAdapter.add(activity, PACKAGE.getActivity_DataInputAssociations(), association);
+					InsertionAdapter.add(null != activity ? activity : event, PACKAGE.getActivity_DataInputAssociations(), association);
 				}
 				else {
 					association = createModelObject(DataOutputAssociation.class);
 					association.getSourceRef().add((ItemAwareElement) be);
-					InsertionAdapter.add(activity, PACKAGE.getActivity_DataOutputAssociations(), association);
+					InsertionAdapter.add(null != activity ? activity : event, PACKAGE.getActivity_DataOutputAssociations(), association);
 				}
 			}
 		}
-		
+
 		showPropertyWidgets();
 		showAssignmentsWidgets();
-		
+
 	}
-	
-	
+
+
 	private void showAssignmentsWidgets() {
 		Group group = assignmentGroup;
 		if (assignmentsComposite==null) {
@@ -181,7 +200,7 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 		assignmentsTable.setLayoutData(new GridData(SWT.FILL,SWT.TOP,true,false,1,1));
 		assignmentsTable.bindList(association, association.eClass().getEStructuralFeature("assignment")); //$NON-NLS-1$
 		assignmentsTable.setTitle(Messages.DataAssociationDetailComposite_Assignments_Title);
-		
+
 		assignmentsWidgetsShowing = true;
 	}
 
@@ -225,7 +244,7 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 											"targetRef" //$NON-NLS-1$
 									};
 								}
-								return properties; 
+								return properties;
 							}
 						};
 					}
@@ -246,7 +265,7 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 
 				protected boolean isEmpty() {
 					return false;
-				}						
+				}
 			};
 			propertyDetailsComposite.setBusinessObject(association);
 			propertyDetailsComposite.setTitle(Messages.DataAssociationDetailComposite_DataItems_Title);
@@ -258,8 +277,8 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 	protected DataInputOutputDetailComposite createDataInputOutputDetailComposite(EObject be, Composite parent, int style) {
 	    return new DataInputOutputDetailComposite(parent, style) {
 	    	// TODO Refactor as soon as we don't override DataAssociationDetailComposite anymore or ItemAwareElementDetailComposite doesn't hide the propertiesProvider anymore
-	    	private AbstractPropertiesProvider propertiesProvider = null;   
-	    	
+	    	private AbstractPropertiesProvider propertiesProvider = null;
+
 	    	@Override
 	    	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
 	    		if (null == propertiesProvider) { // ItemAwareElementDetailComposite hides this
@@ -268,10 +287,10 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 	    						"id", //$NON-NLS-1$
 	    						"name", //$NON-NLS-1$
 	    						"itemSubjectRef", //$NON-NLS-1$
-	    				};				
+	    				};
 	    				@Override
 	    				public String[] getProperties() {
-	    					return properties; 
+	    					return properties;
 	    				}
 	    			};
 	    		}
@@ -286,7 +305,7 @@ public class StardustDataAssociationDetailComposite extends DataAssociationDetai
 	 *
 	 */
 	public class StardustAssignmentListComposite extends AssignmentListComposite {
-		
+
 		public StardustAssignmentListComposite(Composite parent) {
 			super(parent);
 		}

@@ -1,57 +1,52 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.camel;
 
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.AccesspointsExtendedPropertiesAdapter;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.StardustAccesspointsExtendedPropertiesAdapter;
+import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.StardustAccesspointsExtendedPropertiesAdapter.StardustAccesspointsFeatureDescriptorFactory;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AcessPointDataTypes;
-import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 
 /**
  * @author Simon Nikles
  *
  */
-public class CamelAccesspointsExtendedPropertiesAdapter extends AccesspointsExtendedPropertiesAdapter {
+public enum CamelAccesspointsExtendedPropertiesAdapter implements StardustAccesspointsFeatureDescriptorFactory {
 
-	/**
-	 * @param adapterFactory
-	 * @param object
-	 */
-	public CamelAccesspointsExtendedPropertiesAdapter(AdapterFactory adapterFactory, StardustAccessPointType object) {
-		super(adapterFactory, object);
-		
-		EStructuralFeature feature = SdbpmnPackage.eINSTANCE.getStardustAccessPointType_TypeRef();
-		
-		setProperty(feature, UI_CAN_SET_NULL, Boolean.TRUE);
-		setProperty(feature, UI_IS_MULTI_CHOICE, Boolean.TRUE);
-		
-		setFeatureDescriptor(feature,
-				new FeatureDescriptor<StardustAccessPointType>(this,object,feature) {
+	INSTANCE;
+
+	@Override
+	public FeatureDescriptor<StardustAccessPointType> createFeatureDescriptor(
+			final StardustAccesspointsExtendedPropertiesAdapter accessPointPropertyAdapter,
+			StardustAccessPointType object, EStructuralFeature feature) {
+
+		return new FeatureDescriptor<StardustAccessPointType>(accessPointPropertyAdapter,object,feature) {
+
 			@Override
 			protected void internalSet(StardustAccessPointType sdAccessPoint, EStructuralFeature feature, Object value, int index) {
 
 				super.internalSet(object, feature, value, index);
 
 				if (null == value) {
-					clearSubModels(sdAccessPoint);
+					accessPointPropertyAdapter.clearSubModels(sdAccessPoint);
 					return;
 				}
 				AcessPointDataTypes apType = AcessPointDataTypes.forKey(value.toString());
-				clearSubModels(sdAccessPoint);
+				accessPointPropertyAdapter.clearSubModels(sdAccessPoint);
 				switch(apType) {
 				case PRIMITIVE_TYPE:
-					createPrimitiveTypeModel(sdAccessPoint);
+					accessPointPropertyAdapter.createPrimitiveTypeModel(sdAccessPoint);
 					break;
 				case SERIALIZABLE_TYPE:
-					createSerializableTypeModel(sdAccessPoint);
+					accessPointPropertyAdapter.createSerializableTypeModel(sdAccessPoint);
 					break;
 				case STRUCT_TYPE:
-					createStructuredTypeModel(sdAccessPoint);
+					accessPointPropertyAdapter.createStructuredTypeModel(sdAccessPoint);
 					break;
 				}
 			}
-		});
+		};
 	}
-	
+
+
 }

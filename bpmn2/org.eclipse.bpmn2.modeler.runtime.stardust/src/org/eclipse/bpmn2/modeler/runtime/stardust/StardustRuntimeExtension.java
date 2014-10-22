@@ -21,6 +21,7 @@ import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
+import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.TimerEventDefinition;
@@ -39,8 +40,8 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventD
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataStoreDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
+import org.eclipse.bpmn2.modeler.ui.property.events.CatchEventDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.wizards.FileService;
-import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsPackage;
 import org.eclipse.ui.IEditorInput;
 import org.xml.sax.InputSource;
 
@@ -51,9 +52,9 @@ import org.xml.sax.InputSource;
  */
 
 public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2RuntimeExtension {
-	
+
 	public static final String RUNTIME_ID = "org.eclipse.bpmn2.modeler.runtime.stardust";
-	
+
 	private static final String targetNamespace = "http://org.eclipse.bpmn2.modeler.runtime.stardust";
 
 	/* (non-Javadoc)
@@ -81,7 +82,7 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 	@Override
 	public void notify(LifecycleEvent event) {
 		if (event.eventType.equals(EventType.EDITOR_INITIALIZED)) {
-			
+
 			/*
 			 * Register our own Detail Composite class (Property Sheet
 			 * composite) to handle Timer Event Definitions. This is necessary
@@ -98,7 +99,7 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 					StardustTimerEventDefinitionDetailComposite.class);
 			PropertiesCompositeFactory.register(Interface.class,
 					StardustInterfaceDefinitionDetailComposite.class);
-			
+
 			PropertiesCompositeFactory.register(Assignment.class,
 					StardustDataAssignmentDetailComposite.class);
 
@@ -107,13 +108,12 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityInputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
-	        
+
 	        PropertiesCompositeFactory.register(DataObject.class, StardustDataObjectDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataObjectReference.class, StardustDataObjectDetailComposite.class);
 
 	        PropertiesCompositeFactory.register(DataStore.class, StardustDataStoreDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataStoreReference.class, StardustDataStoreDetailComposite.class);
-
 		}
 	}
 }

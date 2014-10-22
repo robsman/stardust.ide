@@ -3,12 +3,12 @@
 <plugin>
 
 	<extension point="org.eclipse.ui.menus">
-	
+
 		<menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
 			<separator>
 			</separator>
 			<menu label="Stardust BPMN2" id="org.eclipse.stardust.model.bpmn2.menu">
-				<command commandId="org.eclipse.stardust.bpmn2.transform" label="Transform" style="push">			
+				<command commandId="org.eclipse.stardust.bpmn2.transform" label="Transform" style="push">
 					<visibleWhen checkEnabled="false">
 						<with variable="activeMenuSelection">
 	                  		<iterate ifEmpty="false" operator="or">
@@ -28,7 +28,7 @@
 				</command>
 			</menu>
 		</menuContribution>
-	
+
 	<menuContribution
 	    locationURI= "menu:org.eclipse.bpmn2.modeler.diagram.menu?after=additions">
 			<separator>
@@ -41,12 +41,12 @@
 		                    value="org.eclipse.bpmn2.modeler.ui.bpmn2editor">
 		              </equals>
 		           </with>
-		        </visibleWhen>			
+		        </visibleWhen>
 				<command commandId="org.eclipse.stardust.bpmn2.load.defaults" label="Initialize Stardust defaults" style="push">
 				</command>
 	    	</menu>
 	</menuContribution>
-			
+
 	</extension>
 	<extension point="org.eclipse.ui.commands">
 		<command defaultHandler="org.eclipse.bpmn2.modeler.runtime.stardust.utils.TransformActionHandler" id="org.eclipse.stardust.bpmn2.transform" name="Transform">
@@ -106,7 +106,7 @@
 
 	<extension
 		point="org.eclipse.bpmn2.modeler.runtime">
-		
+
 		<runtime name="Stardust" versions="1.0"
 			id="org.eclipse.bpmn2.modeler.runtime.stardust"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.StardustRuntimeExtension"
@@ -135,7 +135,7 @@
 			type="org.eclipse.bpmn2.TimerEventDefinition"
 			label="Timer Event">
 		</propertyTab>
-		
+
 		<propertyTab
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.interface.tab"
 			replaceTab="org.eclipse.bpmn2.modeler.interface.details.tab"
@@ -150,7 +150,7 @@
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustUserTaskImplementationPropertySection"
 			type="org.eclipse.bpmn2.UserTask"
 			label="Interactive Application">
-		</propertyTab>	
+		</propertyTab>
 
 		<propertyTab
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.dataAssociation.tab"
@@ -160,7 +160,7 @@
 			type="org.eclipse.bpmn2.DataInputAssociation org.eclipse.bpmn2.DataOutputAssociation"
 			label="Data Association">
 		</propertyTab>
-		
+
 		<propertyTab
 	        id="org.eclipse.bpmn2.modeler.runtime.stardust.serviceTask.tab"
 	        replaceTab="org.eclipse.bpmn2.modeler.serviceTask.tab"
@@ -201,8 +201,15 @@
 			type="org.eclipse.bpmn2.DataObjectReference"
 			label="Dataobject Reference">
 		</propertyTab>
-				
-				
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.catchevent.tab"
+			afterTab="org.eclipse.bpmn2.modeler.commonEvent.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustCatchEventPropertySection"
+			type="org.eclipse.bpmn2.CatchEvent"
+			label="Event Data">
+		</propertyTab>
+
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.modelExtension.TimerEvent"
@@ -211,7 +218,7 @@
 			type="TimerEventDefinition">
 			<property name="stopTime" type="EDate" label="Stop Time"/>
 		</modelExtension>-->
-		
+
 		<!--
 		This adapter is responsible for constructing the appropriate object hierarchy for
 		a given Application Type. Whenever the user selects an Application Type from the
@@ -241,12 +248,12 @@
 		</propertyExtension>
 
 		<propertyExtension
-			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.CamelAccessPoint"
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.AccessPoint"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType"
-			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.camel.CamelAccesspointsExtendedPropertiesAdapter">
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.StardustAccesspointsExtendedPropertiesAdapter">
 		</propertyExtension>
-		
+
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.AttributeType"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
@@ -267,7 +274,7 @@
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustUserTaskPropertiesAdapter">
 		</propertyExtension>
-		
+
 		<!--
 		Enable the Stardust and Carnot model objects here. Unless explicitly enabled, these
 		objects will not be rendered in Property Sheets.
@@ -286,14 +293,23 @@
 			<enable object="StardustUserTaskType"/>
 			<enable object="StardustDataStoreType"/>
 			<enable object="StardustDataObjectType"/>
+			<enable object="CatchEvent"/>
+			<enable object="Event"/>
+			<enable object="IntermediateCatchEvent"/>
+			<enable object="DataInput" feature="name"/>
+			<enable object="DataOutput" feature="name"/>
 			<enable object="XSDSchema"/>
+
+			<enable object="StartEvent" feature="dataOutputs"/>
+			<enable object="IntermediateCatchEvent" feature="dataOutputs"/>
+
 		</modelEnablement>
-		
-		
+
+
 		<typeLanguage name="XSD Schema" uri="http://www.w3.org/2001/XMLSchema" prefix="xs">
 			<type name="string"/>
 			<type name="date"/>
-			<type name="dateTime"/>			
+			<type name="dateTime"/>
 			<type name="byte"/>
 			<type name="double"/>
 			<type name="int"/>
@@ -302,7 +318,7 @@
 			<type name="short"/>
 			<type name="boolean"/>
 		</typeLanguage>
-		
+
 		<typeLanguage name="Java Types" uri="http://www.java.com/javaTypes" prefix="java">
 			<type name="Boolean" qname="java.lang.Boolean"/>
 			<type name="Byte" qname="java.lang.Byte"/>
@@ -315,7 +331,7 @@
 			<type name="String" qname="java.lang.String"/>
 			<type name="Object" qname="java.lang.Object"/>
 		</typeLanguage>
-				
+
 	</extension>
 
 </plugin>

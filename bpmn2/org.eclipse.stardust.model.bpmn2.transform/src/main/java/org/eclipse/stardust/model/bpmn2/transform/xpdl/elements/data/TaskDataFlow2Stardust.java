@@ -142,7 +142,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(toExpression));
             String applicationAccessPoint = resolveDataPath.getAccessPointId();
             String applicationAccessPath = resolveDataPath.getAccessPointPath();
-            
+
             //String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
             //String applicationAccessPath = getExpressionValue(toExpression);
 
@@ -165,9 +165,6 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
             String applicationAccessPoint = resolveDataPath.getAccessPointId();
             String applicationAccessPath = resolveDataPath.getAccessPointPath();
-
-//            String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(fromExpression);
-//            String applicationAccessPath = getExpressionValue(fromExpression);
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
 
@@ -313,7 +310,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     	}
     	return dataOutput.getId();
     }
-    
+
     private String cleanPath(String path) {
     	if (null == path || path.trim().equals("/")) return "";
     	return path.trim();

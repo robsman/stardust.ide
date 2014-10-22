@@ -61,7 +61,7 @@ public class TestUserTaskDataFlow2Stardust extends Bpmn2StardustTestSuite {
         TypeDeclarationType typeDeclaration = CarnotModelQuery.findTypeDeclaration(resultModel, ITEM_DEFINITION_ID);
 
         assertNotNull(typeDeclaration);
-        assertTrue(structRef.eIsProxy());
+        //assertTrue(structRef.eIsProxy());
 
         String uriFragment = ((InternalEObject)structRef).eProxyURI().fragment();
         // external reference

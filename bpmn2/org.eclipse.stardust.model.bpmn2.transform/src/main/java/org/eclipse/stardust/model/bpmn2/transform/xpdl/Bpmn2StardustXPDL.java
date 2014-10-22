@@ -87,6 +87,7 @@ import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanApplicationIn
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanValidator;
 import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
+import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.CallActivity2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.Subprocess2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.activity.task.ServiceTask2Stardust;
@@ -113,8 +114,11 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.defaults.DefaultTypesInitializer;
 import org.eclipse.stardust.model.xpdl.builder.model.BpmPackageBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
+import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
@@ -137,7 +141,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     protected ModelType carnotModel = null;
     private Map<String, ModelType> transformedRelatedModelsByDefinitionsId;
-    
+
     private List<String> failures = new ArrayList<String>();
 
     private final Logger logger = LogManager.getLogger(this.getClass());
@@ -159,33 +163,37 @@ public class Bpmn2StardustXPDL implements Transformator {
     	Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);
     	query = new CarnotModelQuery(carnotModel);
 
+        ModelBuilderFacade facade = new ModelBuilderFacade();
+        DataType data = facade.createPrimitiveData(carnotModel, PredefinedDataInfo.VAR_START_EVENT_ID, PredefinedDataInfo.LBL_START_EVENT_ID, ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+        data.setPredefined(true);
+
     	DefaultTypesInitializer initializer = new DefaultTypesInitializer();
     	initializer.initializeModel(carnotModel);
     	initializer.initializeTriggerType(carnotModel, PredefinedConstants.MAIL_TRIGGER, "Mail Trigger", false, MailTriggerValidator.class);
     	initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger", false, TimerTriggerValidator.class);
     	initializer.initializeTriggerType(carnotModel, "camel", "Camel Trigger", false, CamelTriggerValidator.class);
-    	
+
     	initializer.initializeInteractionContextTypes(carnotModel);
-    	
-    	initializer.initializeApplicationType(carnotModel, 
+
+    	initializer.initializeApplicationType(carnotModel,
     										 PredefinedConstants.SPRINGBEAN_APPLICATION,
-			                				 "Spring Bean Application", 
+			                				 "Spring Bean Application",
 			                				 SpringBeanAccessPointProvider.class,
-			                				 SpringBeanApplicationInstance.class, 
+			                				 SpringBeanApplicationInstance.class,
 			                				 SpringBeanValidator.class);
 
-    	initializer.initializeApplicationType(carnotModel, 
+    	initializer.initializeApplicationType(carnotModel,
 				 "camelConsumerApplication",
-				 "Camel Consumer Application", 
+				 "Camel Consumer Application",
 				 null,
-				 CamelProducerSpringBeanApplicationInstance.class, 
+				 CamelProducerSpringBeanApplicationInstance.class,
 				 CamelProducerSpringBeanValidator.class);
 
-    	initializer.initializeApplicationType(carnotModel, 
+    	initializer.initializeApplicationType(carnotModel,
 				 "camelSpringProducerApplication",
-				 "Camel Consumer Application", 
+				 "Camel Consumer Application",
 				 null,
-				 CamelProducerSpringBeanApplicationInstance.class, 
+				 CamelProducerSpringBeanApplicationInstance.class,
 				 CamelProducerSpringBeanValidator.class);
 
     	if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
@@ -578,7 +586,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 
 	/**
 	 * TODO refactor
-	 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency 
+	 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency
 	 */
 	   public static EventConditionTypeType decodeEventHandlerType(String conditionTypeId, ModelType model)
 	   {
@@ -597,7 +605,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 
 		/**
 		 * TODO refactor
-		 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency 
+		 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency
 		 */
 	   public static EventActionTypeType decodeEventActionType(String actionTypeId, ModelType model)
 	   {
@@ -613,10 +621,10 @@ public class Bpmn2StardustXPDL implements Transformator {
 	      }
 	      return null;
 	   }
-	   
+
 		/**
 		 * TODO refactor
-		 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency 
+		 * TAKEN FROM org.eclipse.stardust.ui.web.modeler.xpdl.marshalling.EventMarshallingUtils to ommit web-modeller dependency
 		 */
 	   private static EventActionTypeType injectPredefinedActionType(ModelType model, String actionTypeId)
 	   {
@@ -638,7 +646,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 	      model.getEventActionType().add(actionType);
 	      return actionType;
 	   }
-	   
+
 	   private static EventActionTypeType newActionType(String id, String name, boolean isProcessAction, boolean isActivityAction,
 		         String supportedConditionTypes, String unsupportedContexts, String[][] attributes)
 		   {

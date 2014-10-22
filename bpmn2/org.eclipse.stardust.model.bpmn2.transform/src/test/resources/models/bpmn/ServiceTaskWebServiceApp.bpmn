@@ -1,28 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio"
-	exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="10.09.2012 11:01:10"
-	itp:modificationDate="10.09.2012 11:58:33" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f"
-	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Manager 6 for Microsoft Visio"
+	exporterVersion="5.2769.13758 "
+	itp:name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="05.10.2012 16:41:15"
+	itp:modificationDate="08.10.2012 12:23:03"
+	itp:createdWithVersion="5.2769.13758 "
+	itp:conformanceSubClass="Full"
+	id="_45fb976a-d97f-4101-8904-1b395fe0930d"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
 	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
 	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
-	xmlns:WSExportRDFServiceHttpEndpoint="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl"
-	>
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:rdfserviceendpoint="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl">
 
-<!-- 	<import location="Customer.xsd" namespace="http://stardust.eclipse.org/Customer" importType="http://www.w3.org/2001/XMLSchema" /> -->
+	<message id="ReceiveOfferOperationOutput" itemRef="ReceiveOfferOutput"></message>
 	<import location="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" namespace="http://ws.dao.athene.fhnw.ch" importType="http://schemas.xmlsoap.org/wsdl/" />
 
-	<itemDefinition id="getCRORequest" structureRef="WSExportRDFServiceHttpEndpoint:getCRO"></itemDefinition>
-	<itemDefinition id="getCROResponse" structureRef="WSExportRDFServiceHttpEndpoint:getCROResponse"></itemDefinition>
+	<message id="getCROMessageInput" name="getCRORequest" itemRef="croInput"></message>
+	<message id="getCROMessageOutput" name="getCROResponse" itemRef="croOutput"></message>
 
-	<message id="getCROMessageInput" name="getCRORequest" itemRef="getCRORequest"></message>
-	<message id="getCROMessageOutput" name="getCROResponse" itemRef="getCROResponse"></message>
+	<itemDefinition id="getCRORequest" structureRef="rdfserviceendpoint:getCRORequest"></itemDefinition>
+	<itemDefinition id="getCROResponse" structureRef="rdfserviceendpoint:getCROResponse"></itemDefinition>
 
-	<interface id="CROServiceAppInterface" name="CROServiceAppInterface" implementationRef="CROServiceApp">
+	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
+
+	<itemDefinition id="croInput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#croInput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="croInput" type="croInputType"/>
+	      <xsd:complexType name="croInputType">
+	        <xsd:sequence>
+	          <xsd:element name="endpointAddress" sdbpmn:accesspoint="carnot:engine:endpointAddress" sdbpmn:displayName="Endpoint Address" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	          <xsd:element name="parameters" sdbpmn:accesspoint="parameters" sdbpmn:displayName="parameters" type="xsd:string"/>
+	          <xsd:element name="parameters_struct" sdbpmn:accesspoint="parameters_struct" sdbpmn:displayName="parameters_struct (getCRO)" type="rdfserviceendpoint:getCRO"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+	<itemDefinition id="croOutput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#croOutput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="croOutput" type="croOutputType"/>
+	      <xsd:complexType name="croOutputType">
+	        <xsd:sequence>
+	          <xsd:element name="endpointAddress" sdbpmn:accesspoint="carnot:engine:endpointAddress" sdbpmn:displayName="Endpoint Address" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	          <xsd:element name="parameters" sdbpmn:accesspoint="parameters" sdbpmn:displayName="parameters" type="xsd:string"/>
+	          <xsd:element name="parameters_struct" sdbpmn:accesspoint="parameters_struct" sdbpmn:displayName="parameters_struct (getCROResponse)" type="rdfserviceendpoint:getCROResponse"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+
+	<interface id="CROServiceAppInterface" name="CROServiceAppInterface" implementationRef="StardustCROServiceApp">
 		<extensionElements>
-			<sdbpmn:StardustInterface applicationType="webservice">
-				<sdbpmn:StardustApplication elementOid="10058" id="CROServiceApp" name="CROServiceApp">
+			<sdbpmn:StardustInterface id="StardustCROServiceApp" name="StardustCROServiceApp" applicationType="webservice">
+				<sdbpmn:StardustApplication oid="10058" id="CROServiceApp" name="CROServiceApp">
 					<stardust:attribute name="carnot:engine:visibility" value="Public" />
 					<stardust:attribute name="carnot:engine:wsRuntime" value="jaxws" />
 					<stardust:attribute name="carnot:engine:wsdlUrl" value="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" />
@@ -34,21 +79,21 @@
 					<stardust:attribute name="carnot:engine:wsOutputOrder" value="parameters" />
 					<stardust:attribute name="synchronous:retry:enable" type="boolean" value="false" />
 					<stardust:attribute name="carnot:engine:wsSoapActionUri" value="urn:getCRO" />
-					<sdbpmn:accessPoint elementOid="10060" id="carnot:engine:endpointAddress" name="Endpoint Address" direction="IN" typeRef="serializable">
+					<sdbpmn:accessPoint oid="10060" id="carnot:engine:endpointAddress" name="Endpoint Address" direction="IN" typeRef="serializable">
 						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
 						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
 					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10061" id="parameters" name="parameters" direction="IN" typeRef="plainXML">
+					<sdbpmn:accessPoint oid="10061" id="parameters" name="parameters" direction="IN" typeRef="plainXML">
 						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
 					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10062" id="parameters" name="parameters" direction="OUT" typeRef="plainXML" />
-					<sdbpmn:accessPoint elementOid="10074" id="parameters_struct" name="parameters_struct (getCRO)" direction="IN" typeRef="struct">
+					<sdbpmn:accessPoint oid="10062" id="parameters" name="parameters" direction="OUT" typeRef="plainXML" />
+					<sdbpmn:accessPoint oid="10074" id="parameters_struct" name="parameters_struct (getCRO)" direction="IN" typeRef="struct">
 						<stardust:attribute name="carnot:engine:dataType" value="getCRO" />
 						<stardust:attribute name="carnot:engine:transformation" value="DOM" />
 						<stardust:attribute name="carnot:engine:path:separator" value="/" />
 						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
 					</sdbpmn:accessPoint>
-					<sdbpmn:accessPoint elementOid="10075" id="parameters_struct" name="parameters_struct (getCROResponse)" direction="OUT" typeRef="struct">
+					<sdbpmn:accessPoint oid="10075" id="parameters_struct" name="parameters_struct (getCROResponse)" direction="OUT" typeRef="struct">
 						<stardust:attribute name="carnot:engine:dataType" value="getCROResponse" />
 						<stardust:attribute name="carnot:engine:path:separator" value="/" />
 						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
@@ -68,12 +113,9 @@
 
 		<startEvent id="TestModelStartEventId" isInterrupting="true" />
 
-		<!-- <activity oid="10063" id="CallCROWebService" name="call CRO WebService" allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false"
-			implementation="Application"> -->
 		<serviceTask id="TestModelTaskA" name="get CRO" implementation="##WebService" operationRef="OperationGetCRO">
-			<!-- allowsAbortByPerformer="false" application="CROServiceApp" hibernateOnCreation="false" -->
 			<ioSpecification id="ioSpec">
-				<dataOutput id="TestModelDataOutputTaskA">
+				<dataOutput id="TestModelDataOutputTaskA" itemSubjectRef="croOutput">
 				</dataOutput>
 				<inputSet id="InputSet" />
 				<outputSet id="OutputSet">
@@ -84,7 +126,7 @@
 				<sourceRef>TestModelDataOutputTaskA</sourceRef>
 				<targetRef>TestModelDataObjectReferenceA</targetRef>
 				<assignment id="TestAssignmentOutputTaskA">
-					<from sdbpmn:applicationAccessPointRef="parameters_struct" xsi:type="tFormalExpression">return</from>
+					<from xsi:type="tFormalExpression">parameters_struct/return</from>
 					<to xsi:type="tFormalExpression">return</to>
 				</assignment>
 			</dataOutputAssociation>
@@ -97,8 +139,8 @@
 		<sequenceFlow id="TestModelSequenceTaskToEnd" sourceRef="TestModelTaskA" targetRef="TestModelEndEvent"/>
 
 		<dataObjectReference id="TestModelDataObjectReferenceA" dataObjectRef="TestModelDataObjectA"></dataObjectReference>
-
 	</process>
+
 	<bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
 		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessWebServiceApplication">
 			<bpmndi:BPMNShape id="_FE09CB07-5DE3-408B-ABF2-34176656681A" bpmnElement="TestModelStartEventId" itp:label="(unbenannt)" itp:elementType="startEvent">

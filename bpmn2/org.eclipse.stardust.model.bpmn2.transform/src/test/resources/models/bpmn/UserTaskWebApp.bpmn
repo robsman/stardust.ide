@@ -28,6 +28,19 @@
 
 	<itemDefinition id="TestImportedXmlItemDefinition" itemKind="Information" isCollection="false" structureRef="cust:Customer"></itemDefinition>
 
+	<itemDefinition id="JsfAccessPointItemDef" sdbpmn:syntheticItemDefinition="true" structureRef="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/jsf#JsfBeanMethod">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/4" xmlns:AccessPoints_IN_4="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/jsf" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="JsfBeanMethod" type="JsfBeanMethodType"/>
+	      <xsd:complexType name="JsfBeanMethodType">
+	        <xsd:sequence>
+	          <xsd:element name="getCustomerData" sdbpmn:accesspoint="getCustomerData" sdbpmn:displayName="getCustomerData" type="cust:Customer"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+
 	<message id="getCustomerDataOutputMessage" name="getCustomerDataOutputMessage" itemRef="TestImportedXmlItemDefinition"></message>
 
 	<interface id="JSFUserTaskApp" name="JSFUserTaskApp">
@@ -74,7 +87,8 @@
 				<sourceRef>TestModelDataOutputTaskA</sourceRef>
 				<targetRef>TestModelDataObjectReferenceA</targetRef>
 				<assignment id="TestAssignmentOutputTaskA">
-					<from sdbpmn:applicationAccessPointRef="getCustomerData()" xsi:type="tFormalExpression"></from>
+<!-- 					<from sdbpmn:applicationAccessPointRef="getCustomerData()" xsi:type="tFormalExpression"></from> -->
+					<from xsi:type="tFormalExpression">getCustomerData()</from>
 					<to xsi:type="tFormalExpression"></to>
 				</assignment>
 			</dataOutputAssociation>
