@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.NameInfo;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -34,7 +34,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Resource </b> associated with the package.
@@ -46,7 +45,7 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
 {
    private static final String XMLNS_PREFIX = ExtendedMetaData.XMLNS_PREFIX;
    private static final String XMLNS_PREFIX_WITH_COLON = XMLNS_PREFIX + ':';
-   
+
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -97,8 +96,8 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
             ModelType model = ModelUtils.findContainingModel(obj);
             if (model != null && model.getExternalPackages() != null)
             {
-               URI eProxyURI = ((EObjectImpl) obj).eProxyURI();
-               if(eProxyURI != null)
+               URI eProxyURI = ((InternalEObject) obj).eProxyURI();
+               if (eProxyURI != null)
                {
                   String id = eProxyURI.toString();
                   for (ExternalPackage pkg : model.getExternalPackages().getExternalPackage())
@@ -116,7 +115,7 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
                   }
                }
             }
-            
+
             return super.getHREF(obj);
          }
 
@@ -135,7 +134,7 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
          }
       };
    }
-   
+
    public OutputStream getNewOutputStream() throws IOException
    {
       return getURIConverter().createOutputStream(getURI());
