@@ -15,6 +15,7 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteAc
 
 import java.util.List;
 
+import org.eclipse.bpmn2.EscalationEventDefinition;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -23,6 +24,8 @@ import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.MessageEventDefinition;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.ActivityInstanceState;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common.ServiceInterfaceUtil;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.bindaction.BpmScheduleActivityBindActionBuilder;
@@ -33,25 +36,32 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 @Deprecated
 public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 
 	private BpmnModelQuery bpmnquery;
 
+	@Deprecated
 	public IntermediateEvent2Stardust(ModelType carnotModel, List<String> failures) {
 		super(carnotModel, failures);
 		bpmnquery = new BpmnModelQuery(logger);
 	}
 
+	@Deprecated
 	public void addIntermediateCatchEvent(IntermediateCatchEvent event, FlowElementsContainer container) {
 		logger.debug("addIntermediateCatchEvent " + event);
 		addEvent(event, container);
 	}
 
+	@Deprecated
 	public void addIntermediateThrowEvent(IntermediateThrowEvent event, FlowElementsContainer container) {
 		logger.debug("addIntermediateThrowEvent " + event);
 		addEvent(event, container);
@@ -106,6 +116,7 @@ public class IntermediateEvent2Stardust extends AbstractElement2Stardust {
 				.newCompleteActivityAction(handler)
 				.build();
 	}
+
 
 	private ActivityType createApplicationActivity(ProcessDefinitionType processDef, String id, String name, String descr, ApplicationType application) {
 		BpmApplicationActivityBuilder builder =

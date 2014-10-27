@@ -23,6 +23,9 @@ import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionType;
+import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -208,7 +211,21 @@ public class CarnotModelQuery {
 
 	public DataTypeType findDataType(String serializableData) {
 		for (DataTypeType type : carnotModel.getDataType()) {
-			if (type.equals(serializableData)) return type;
+			if (type.getId().equals(serializableData)) return type;
+		}
+		return null;
+	}
+
+	public EventConditionTypeType findPredefinedEventCondition(String conditionId) {
+		for (EventConditionTypeType condition : carnotModel.getEventConditionType()) {
+			if (condition.getId().equals(conditionId)) return condition;
+		}
+		return null;
+	}
+
+	public EventActionTypeType findPredefinedEventAction(String actionId) {
+		for (EventActionTypeType action : carnotModel.getEventActionType()) {
+			if (action.getId().equals(actionId)) return action;
 		}
 		return null;
 	}

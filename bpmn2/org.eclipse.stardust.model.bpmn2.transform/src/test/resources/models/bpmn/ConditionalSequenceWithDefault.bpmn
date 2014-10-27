@@ -10,13 +10,13 @@
     <task id="TestModelTaskC" name="c" />
 
     <sequenceFlow id="TestModelSequenceConditionalXtoA" name="&quot;A&quot;==&quot;A&quot;" sourceRef="TestModelTaskX" targetRef="TestModelTaskA">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"A"=="A";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"A"=="A";</conditionExpression>
     </sequenceFlow>
 
     <sequenceFlow id="TestModelSequenceDefaultlXtoC" sourceRef="TestModelTaskX" targetRef="TestModelTaskC" />
 
     <sequenceFlow id="TestModelSequenceConditionalXtoB" name="&quot;B&quot;==&quot;B&quot;" sourceRef="TestModelTaskX" targetRef="TestModelTaskB">
-		<conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"B"=="B";</conditionExpression>
+		<conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"B"=="B";</conditionExpression>
     </sequenceFlow>
 
   </process>

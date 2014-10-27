@@ -60,7 +60,6 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
         }
 
         List<DataOutputAssociation> outputAssociations = event.getDataOutputAssociation();
-        //List<DataOutput> dataOutputs = event.getDataOutputs();
         List<DataOutput> associatedDataOutputs = new ArrayList<DataOutput>();
 
         if (outputAssociations != null && outputAssociations.size() > 0) {
@@ -97,13 +96,9 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
             Expression fromExpression = assign.getFrom();
             Expression toExpression = assign.getTo();
 
-//            String triggerAccessPoint = ExtensionHelper.getInstance().getAssignmentTriggerAccessPointRef(fromExpression);
-//            String triggerAccessPath = getExpressionValue(fromExpression);
-
             AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
             String triggerAccessPoint = resolveDataPath.getAccessPointId();
             String triggerAccessPath = resolveDataPath.getAccessPointPath();
-
 
             String toExpressionValue = getExpressionValue(toExpression);
             long oid = ExtensionHelper.getInstance().getAssignmentParameterMappingOid(assign);

@@ -188,6 +188,7 @@ public class BoundaryEvent2Stardust extends AbstractElement2Stardust {
 	}
 
 	private EventHandlerType createBoundaryErrorHandler(BoundaryEvent event, ActivityType activity, String id, String name, String errorCode) {
+
 		return BpmActivityExceptionEventHandlerBuilder
 				.newActivityExceptionEventHandler(activity)
 				.withId(id)

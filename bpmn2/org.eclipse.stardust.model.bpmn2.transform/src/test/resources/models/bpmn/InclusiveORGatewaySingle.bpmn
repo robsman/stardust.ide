@@ -5,10 +5,10 @@
   <process id="_7242afea-9c6c-4892-9875-f6390346905c" name="Hauptprozess">
     <sequenceFlow id="_cb8558bb-fc7f-48d9-89fe-d2df6e37bbd2" sourceRef="TestModelTaskA" targetRef="InclusiveSplitGateway"/>
     <sequenceFlow id="TestModelConditionalSequenceFlow1" name="Condition to B" sourceRef="InclusiveSplitGateway" targetRef="TestModelTaskB">
-      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1" evaluatesToTypeRef="ItemDefinition_36" language="http://www.java.com/java">ConditionToB == true;</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_1" evaluatesToTypeRef="ItemDefinition_36" language="http://www.ecmascript.org/ECMA">ConditionToB == true;</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="_b6a578ba-d556-4867-ab1d-31d05a33a35e" sourceRef="InclusiveSplitGateway" targetRef="TestModelTaskC">
-      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2" evaluatesToTypeRef="ItemDefinition_36" language="http://www.java.com/java">conditionToC==true;</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression" id="FormalExpression_2" evaluatesToTypeRef="ItemDefinition_36" language="http://www.ecmascript.org/ECMA">conditionToC==true;</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelDefaultSequenceFlow" sourceRef="InclusiveSplitGateway" targetRef="TestModelTaskD"/>
     <sequenceFlow id="_fb92c3da-c942-4350-bc9f-1b87e5f70023" sourceRef="TestModelTaskB" targetRef="InclusiveMergeGateway"/>

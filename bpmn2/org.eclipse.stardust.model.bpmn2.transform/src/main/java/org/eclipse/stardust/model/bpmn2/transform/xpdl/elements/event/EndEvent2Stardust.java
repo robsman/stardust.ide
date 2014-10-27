@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.bpmn2.EndEvent;
+import org.eclipse.bpmn2.ErrorEventDefinition;
+import org.eclipse.bpmn2.EscalationEventDefinition;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.MessageEventDefinition;
@@ -37,7 +39,7 @@ public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 
 		EventDefinition def = bpmnquery.getFirstEventDefinition(event);
 		if (!checkAndReportElementSupport(event, def, container)) return;
-		addEvent(event, container);
+		addEndEvent(event, container);
 		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
 	}
 
@@ -54,7 +56,11 @@ public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 			return true;
 		} else if (def instanceof TerminateEventDefinition) {
 			return true;
-    	} else {
+    	} else if (def instanceof ErrorEventDefinition) {
+			return true;
+    	}  else if (def instanceof EscalationEventDefinition) {
+			return true;
+    	}  else {
 			failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "EndEvent " + event.getId()
 					+ " EventDefinition " + def.getClass().getName());
 			return false;

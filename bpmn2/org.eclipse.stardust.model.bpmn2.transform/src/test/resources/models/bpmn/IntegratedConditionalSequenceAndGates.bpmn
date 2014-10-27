@@ -13,19 +13,19 @@
     <sequenceFlow id="TestModelSequenceXtoA" sourceRef="TestModelTaskX" targetRef="TestModelTaskA" />
     <sequenceFlow id="TestModelSequenceXtoGateA" sourceRef="TestModelTaskX" targetRef="TestModelGateA" />
     <sequenceFlow id="TestModelSequenceXtoB" name="&quot;B&quot;==&quot;B&quot;" sourceRef="TestModelTaskX" targetRef="TestModelTaskB">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"B"=="B";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"B"=="B";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceGateAtoGateB" name="&quot;C&quot;==&quot;C&quot;" sourceRef="TestModelGateA" targetRef="TestModelGateB">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"C"=="C";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"C"=="C";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceGateAtoE" name="&quot;B&quot;==&quot;E&quot;" sourceRef="TestModelGateA" targetRef="TestModelTaskE">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"B"=="E";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"B"=="E";</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="TestModelSequenceGateBtoC" name="&quot;C&quot;==&quot;C&quot;;" sourceRef="TestModelGateB" targetRef="TestModelTaskC">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"C"=="C";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"C"=="C";</conditionExpression>
     </sequenceFlow>
         <sequenceFlow id="TestModelSequenceGateBtoD" name="&quot;B&quot;==&quot;D&quot;;" sourceRef="TestModelGateB" targetRef="TestModelTaskD">
-      <conditionExpression language="http://www.java.com/java" xsi:type="tFormalExpression">"B"=="D";</conditionExpression>
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"B"=="D";</conditionExpression>
     </sequenceFlow>
 
     <exclusiveGateway id="TestModelGateA" name="GateA" gatewayDirection="Diverging" />

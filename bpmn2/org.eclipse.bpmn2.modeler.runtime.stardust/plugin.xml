@@ -332,6 +332,8 @@
 			<type name="Object" qname="java.lang.Object"/>
 		</typeLanguage>
 
+		<expressionLanguage name="ECMA" uri="http://www.ecmascript.org/ECMA"/>
+
 	</extension>
 
 </plugin>

@@ -38,6 +38,8 @@ public class TransitionUtil {
     public static final String OTHERWISE_KEY = "OTHERWISE";
     // TODO Change to JavaScript: e.g. http://ecma-international.org/ecma-262 (?)
     public static final String EXPRESSION_LANGUAGE_JAVA = "http://www.java.com/java"; //"http://www.sun.com/java";
+    public static final String EXPRESSION_LANGUAGE_ECMA = "http://www.ecmascript.org/ECMA";
+
 
     public static TransitionType createTransition(String id, String name, String documentation, ProcessDefinitionType process, ActivityType sourceActivity, ActivityType targetActivity) {
         TransitionType transition =
@@ -105,7 +107,8 @@ public class TransitionUtil {
     }
 
     public static void setSequenceFormalCondition(TransitionType transition, FormalExpression formalExpression, List<String> failures) {
-        if (formalExpression.getLanguage().equals(EXPRESSION_LANGUAGE_JAVA)) {
+        if (null != formalExpression.getLanguage()
+        && formalExpression.getLanguage().equals(EXPRESSION_LANGUAGE_ECMA)) {
                 transition.setCondition(CONDITION_KEY);
                 XmlTextNode expression = CarnotWorkflowModelFactory.eINSTANCE.createXmlTextNode();
                 ModelUtils.setCDataString(expression.getMixed(), formalExpression.getBody(), true);
@@ -141,6 +144,6 @@ public class TransitionUtil {
         String condition = "ON_BOUNDARY_EVENT("+sourceNode.getId()+"Hdl)";
         ModelUtils.setCDataString(expression.getMixed(), condition, true);
         transition.setExpression(expression);
-		//<Condition Type="CONDITION">ON_BOUNDARY_EVENT(BoundaryTimer)</Condition>		
+		//<Condition Type="CONDITION">ON_BOUNDARY_EVENT(BoundaryTimer)</Condition>
 	}
 }

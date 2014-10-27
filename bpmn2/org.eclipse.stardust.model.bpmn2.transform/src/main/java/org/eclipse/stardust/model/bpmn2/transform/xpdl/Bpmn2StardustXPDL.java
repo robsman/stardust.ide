@@ -118,6 +118,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
@@ -173,6 +174,22 @@ public class Bpmn2StardustXPDL implements Transformator {
     	initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger", false, TimerTriggerValidator.class);
     	initializer.initializeTriggerType(carnotModel, "camel", "Camel Trigger", false, CamelTriggerValidator.class);
 
+        EventActionTypeType throwEscalationActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        throwEscalationActionType.setId("throwEscalation");
+        throwEscalationActionType.setName("Throw Escalation Action");
+        throwEscalationActionType.setIsPredefined(true);
+        throwEscalationActionType.setActivityAction(true);
+        throwEscalationActionType.setSupportedConditionTypes(PredefinedConstants.ACTIVITY_STATECHANGE_CONDITION + "," + PredefinedConstants.EXCEPTION_CONDITION);
+        carnotModel.getEventActionType().add(throwEscalationActionType);
+
+        EventActionTypeType throwErrorActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
+        throwErrorActionType.setId("throwError");
+        throwErrorActionType.setName("Throw Error Action");
+        throwErrorActionType.setIsPredefined(true);
+        throwErrorActionType.setActivityAction(true);
+        throwErrorActionType.setSupportedConditionTypes(PredefinedConstants.ACTIVITY_STATECHANGE_CONDITION);
+        carnotModel.getEventActionType().add(throwErrorActionType);
+
     	initializer.initializeInteractionContextTypes(carnotModel);
 
     	initializer.initializeApplicationType(carnotModel,
@@ -220,112 +237,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     	decodeEventActionType("completeActivity", carnotModel);
     	decodeEventActionType("abortActivity", carnotModel);
-
-
-    	//        initializer.initializeDataTypes(carnotModel);
-    	//        initializer.initializeApplicationTypes(carnotModel);
-    	//        initializer.initializeTriggerTypes(carnotModel);
-    	//        initializer.initializeInteractionContextTypes(carnotModel);
     }
-
-    //    public void createTargetModel(Definitions definitions) {
-    //    	logger.info("createTargetModel " + definitions.getName());
-    //        carnotModel = newBpmModel()
-    //                .withIdAndName(definitions.getId(), definitions.getName())
-    //                .build();
-    //        Bpmn2StardustXPDLExtension.addModelExtensions(definitions, carnotModel);
-    //        Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);
-    //        query = new CarnotModelQuery(carnotModel);
-    //
-    //        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //        //////////TODO REMOVE IF DEFAULTTYPESINITIALIZER IS COMPLETE (OR WHAT IS ABOUT THESE TYPES?)!!! ////////////////////
-    //        DefaultTypesInitializer initializer = new DefaultTypesInitializer();
-    ////FIXME (?) DefaultTypesInitializer.initializeTriggerType checks for already existing APPLICATION-TYPE by name - JMS_TRIGGER has the same value (name) as jms application...
-    ////        initializer.initializeTriggerType(carnotModel, PredefinedConstants.JMS_TRIGGER, "JMS Trigger",
-    ////        false, JMSTriggerValidator.class);
-    ////        model.getTriggerType().add(typeDef);
-    //        initializer.initializeTriggerType(carnotModel, PredefinedConstants.MAIL_TRIGGER, "Mail Trigger",
-    //        false, MailTriggerValidator.class);
-    //        initializer.initializeTriggerType(carnotModel, PredefinedConstants.TIMER_TRIGGER, "Timer Trigger",
-    //        false, TimerTriggerValidator.class);
-    //        initializer.initializeInteractionContextTypes(carnotModel);
-    //
-    //        if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
-    //	        TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
-    //	        typeDef.setId(PredefinedConstants.JMS_TRIGGER);
-    //	        typeDef.setName("JMS Trigger");
-    //	        typeDef.setPullTrigger(false);
-    //	        typeDef.setIsPredefined(true);
-    //	        AttributeUtil.setAttribute(typeDef, PredefinedConstants.VALIDATOR_CLASS_ATT, JMSTriggerValidator.class.getName());
-    //	        carnotModel.getTriggerType().add(typeDef);
-    //    	}
-    //
-    //        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.APPLICATION_CONTEXT))
-    //        {
-    //           ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
-    //           typeDef.setId(PredefinedConstants.APPLICATION_CONTEXT);
-    //           typeDef.setName("Noninteractive Application Context");
-    //           typeDef.setIsPredefined(true);
-    //
-    //           typeDef.setHasApplicationPath(true);
-    //           typeDef.setHasMappingId(false);
-    //           carnotModel.getApplicationContextType().add(typeDef);
-    //        }
-    //        if (null == ModelUtils.findElementById(carnotModel.getApplicationContextType(), PredefinedConstants.JSF_CONTEXT))
-    //        {
-    //           ApplicationContextTypeType typeDef = BpmPackageBuilder.F_CWM.createApplicationContextTypeType();
-    //           typeDef.setId(PredefinedConstants.JSF_CONTEXT);
-    //           typeDef.setName("JSF Application");
-    //           typeDef.setIsPredefined(true);
-    //           typeDef.setHasApplicationPath(true);
-    //           typeDef.setHasMappingId(false);
-    //           carnotModel.getApplicationContextType().add(typeDef);
-    //        }
-    //
-    //        EventActionTypeType scheduleActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-    //        scheduleActionType.setId(PredefinedConstants.SCHEDULE_ACTIVITY_ACTION);
-    //        scheduleActionType.setIsPredefined(true);
-    //        scheduleActionType.setActivityAction(true);
-    //
-    //        EventActionTypeType completeActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-    //        completeActionType.setId(PredefinedConstants.COMPLETE_ACTIVITY_ACTION);
-    //        completeActionType.setIsPredefined(true);
-    //        completeActionType.setActivityAction(true);
-    //
-    //        EventActionTypeType abortActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-    //        abortActionType.setId(PredefinedConstants.ABORT_ACTIVITY_ACTION);
-    //        abortActionType.setIsPredefined(true);
-    //        abortActionType.setActivityAction(true);
-    //
-    //        EventActionTypeType setDataActionType = CarnotWorkflowModelFactory.eINSTANCE.createEventActionTypeType();
-    //        setDataActionType.setId(PredefinedConstants.SET_DATA_ACTION);
-    //        setDataActionType.setIsPredefined(true);
-    //        setDataActionType.setActivityAction(true);
-    //
-    //        EventConditionTypeType timerEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
-    //        timerEventHandlerType.setId(PredefinedConstants.TIMER_CONDITION);
-    //        timerEventHandlerType.setIsPredefined(true);
-    //        timerEventHandlerType.setActivityCondition(true);
-    //        timerEventHandlerType.setImplementation(ImplementationType.PULL_LITERAL);
-    //
-    //        EventConditionTypeType exceptionEventHandlerType = CarnotWorkflowModelFactory.eINSTANCE.createEventConditionTypeType();
-    //        exceptionEventHandlerType.setId(PredefinedConstants.EXCEPTION_CONDITION);
-    //        exceptionEventHandlerType.setIsPredefined(true);
-    //        exceptionEventHandlerType.setActivityCondition(true);
-    //        exceptionEventHandlerType.setImplementation(ImplementationType.ENGINE_LITERAL);
-    //
-    //        carnotModel.getEventActionType().add(scheduleActionType);
-    //        carnotModel.getEventActionType().add(completeActionType);
-    //        carnotModel.getEventActionType().add(abortActionType);
-    //        carnotModel.getEventActionType().add(setDataActionType);
-    //
-    //        carnotModel.getEventConditionType().add(timerEventHandlerType);
-    //        carnotModel.getEventConditionType().add(exceptionEventHandlerType);
-    //
-    //        ///**************************************************************************************************************///
-    //        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //    }
 
     public ModelType getTargetModel() {
         // TODO review alternative use of ModelOidUtil

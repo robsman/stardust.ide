@@ -20,26 +20,23 @@ import java.util.Set;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.StartEvent;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.extensions.jms.app.JMSLocation;
 import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
-import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
-import org.eclipse.stardust.model.xpdl.builder.variable.AbstractApplicationAccessPointBuilder;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 /**
@@ -90,7 +87,7 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 			for (FlowNode target : successors) {
 	        	ActivityType targetActivity = query.findActivity(target, container);
 	        	TransitionType transition = TransitionUtil.createTransition(START_ROUTE_PRE_FIX + targetActivity.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, startRoute, targetActivity);
-	        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==" + startEvent.getId());
+	        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEvent.getId() + "\";");
 	        	addJmsStartEventHeaders(startEvent, processDef);
 			}
 		}
@@ -112,7 +109,7 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
         ap.setType(query.findDataType(PredefinedConstants.SERIALIZABLE_DATA));
 
         AttributeUtil.setBooleanAttribute(ap, PredefinedConstants.BROWSABLE_ATT, true);
-        AttributeUtil.setAttribute(ap, PredefinedConstants.JMS_LOCATION_PROPERTY, JMSLocation.HEADER.getId(), JMSLocation.class.getName());
+        AttributeUtil.setAttribute(ap, PredefinedConstants.JMS_LOCATION_PROPERTY, JMSLocation.class.getName(), JMSLocation.HEADER.getId());
         AttributeUtil.setAttribute(ap, PredefinedConstants.CLASS_NAME_ATT, String.class.getName());
 
         trigger.getAccessPoint().add(ap);
@@ -121,9 +118,14 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 	}
 
 	private void addJmsStartEventIdDataFlow(TriggerType trigger, AccessPointType ap) {
-		// TODO Auto-generated method stub
+		DataType startEventVar = query.findVariable(PredefinedDataInfo.VAR_START_EVENT_ID);
+		ParameterMappingType mapping = CarnotWorkflowModelFactory.eINSTANCE.createParameterMappingType();
+		mapping.setParameter(ap.getId());
+		mapping.setData(startEventVar);
 
+		trigger.getParameterMapping().add(mapping);
 	}
+
 
 	private ActivityType insertOrSplitRoute(FlowElementsContainer container, ProcessDefinitionType processDef) {
 		ActivityType route = createRouteActivity(processDef, container.getId() + START_ROUTE_POST_FIX, START_ROUTE_NAME);
