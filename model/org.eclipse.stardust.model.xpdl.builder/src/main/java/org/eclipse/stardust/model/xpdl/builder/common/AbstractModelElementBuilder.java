@@ -68,7 +68,7 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
             || (element instanceof IModelParticipant)
             || (element instanceof ProcessDefinitionType))
       {
-         AttributeUtil.setAttribute((IIdentifiableModelElement) element, "stardust:model:uuid", UUID
+         AttributeUtil.setAttribute((IIdentifiableModelElement) element, "carnot:model:uuid", UUID
                .randomUUID().toString());
       }
 
