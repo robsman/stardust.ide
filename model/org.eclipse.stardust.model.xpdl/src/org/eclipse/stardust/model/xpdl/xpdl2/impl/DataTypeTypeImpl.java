@@ -508,7 +508,7 @@ public class DataTypeTypeImpl extends EObjectImpl implements DataTypeType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (carnotType: "); //$NON-NLS-1$
+      result.append(" (carnotType: ");
       result.append(carnotType);
       result.append(')');
       return result.toString();

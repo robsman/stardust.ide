@@ -289,11 +289,11 @@ public class ScriptTypeImpl extends EObjectImpl implements ScriptType
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (grammar: "); //$NON-NLS-1$
+      result.append(" (grammar: ");
       result.append(grammar);
-      result.append(", type: "); //$NON-NLS-1$
+      result.append(", type: ");
       result.append(type);
-      result.append(", version: "); //$NON-NLS-1$
+      result.append(", version: ");
       result.append(version);
       result.append(')');
       return result.toString();

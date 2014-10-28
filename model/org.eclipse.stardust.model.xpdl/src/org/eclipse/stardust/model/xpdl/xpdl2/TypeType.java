@@ -31,7 +31,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>STRING</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #STRING
+    * @see #STRING_VALUE
     * @generated
     * @ordered
     */
@@ -40,7 +40,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>FLOAT</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #FLOAT
+    * @see #FLOAT_VALUE
     * @generated
     * @ordered
     */
@@ -49,7 +49,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>INTEGER</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #INTEGER
+    * @see #INTEGER_VALUE
     * @generated
     * @ordered
     */
@@ -58,7 +58,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>REFERENCE</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #REFERENCE
+    * @see #REFERENCE_VALUE
     * @generated
     * @ordered
     */
@@ -67,7 +67,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>DATETIME</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #DATETIME
+    * @see #DATETIME_VALUE
     * @generated
     * @ordered
     */
@@ -76,7 +76,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>BOOLEAN</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #BOOLEAN
+    * @see #BOOLEAN_VALUE
     * @generated
     * @ordered
     */
@@ -85,7 +85,7 @@ public enum TypeType implements Enumerator
     * The '<em><b>PERFORMER</b></em>' literal object.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-    * @see #PERFORMER
+    * @see #PERFORMER_VALUE
     * @generated
     * @ordered
     */
