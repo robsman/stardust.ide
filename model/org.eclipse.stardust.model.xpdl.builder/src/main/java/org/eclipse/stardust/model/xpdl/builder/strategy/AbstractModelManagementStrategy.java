@@ -94,18 +94,20 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
          this.hasLoaded = true;
          xpdlModels.clear();
          nativeModels.clear();
-         for (ModelDescriptor modelDescriptor : loadModels())
-         {
-            xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
-            if (modelDescriptor.xpdlModel != modelDescriptor.nativeModel)
-            {
-               // register native representation (in order to smoothly transition to BPMN2)
-               nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
-            }
-         }
+         loadModels();
       }
 
       return xpdlModels;
+   }
+
+   protected void registerModel(ModelDescriptor modelDescriptor)
+   {
+      xpdlModels.put(modelDescriptor.id, modelDescriptor.xpdlModel);
+      if (modelDescriptor.xpdlModel != modelDescriptor.nativeModel)
+      {
+         // register native representation (in order to smoothly transition to BPMN2)
+         nativeModels.put(modelDescriptor.xpdlModel, modelDescriptor.nativeModel);
+      }
    }
 
 	public EObjectUUIDMapper uuidMapper()

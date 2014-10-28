@@ -21,14 +21,15 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.CollectionUtils;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.runtime.DocumentManagementService;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
 import org.eclipse.stardust.model.xpdl.builder.utils.PepperIconFactory;
@@ -37,26 +38,15 @@ import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.IconFactory;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
-import org.eclipse.stardust.modeling.repository.common.IFilter;
-import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ImportCancelledException;
-import org.eclipse.stardust.modeling.repository.common.ImportableDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
-import org.eclipse.stardust.modeling.repository.common.SimpleImportStrategy;
+import org.eclipse.stardust.modeling.repository.common.*;
 import org.eclipse.stardust.modeling.repository.common.descriptors.CategoryDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
-
 public class WebModelerConnectionHandler implements ConnectionHandler
 {
    DocumentManagementService documentManagementService;
-
-   private static final String MODELS_DIR = "/process-models/";
-
 
    private boolean open;
    private URI uri;
@@ -67,8 +57,6 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    private static final List<String> PARTICIPANTS = Arrays.asList(new String[] {
          "role", "organization", "conditionalPerformer"
    });
-
-   private boolean init = false;
 
    private EObjectDescriptor modelDescriptor;
    private ModelType model;
@@ -122,14 +110,14 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       }
    }
 
-   public EObject resolve(ModelType model, EObject object)
+   public EObject resolve(ModelType model, final EObject object)
    {
       URI uri = WebModelerConnectionManager.getURI(object);
       {
          IObjectDescriptor node = find(uri);
-         if (node != null)
+         if (node instanceof ModelElementDescriptor)
          {
-            return ((ModelElementDescriptor) node).resolveElement(object);
+            return EObjectProxyHandler.createProxy(object, ((ModelElementDescriptor) node).<EObject>getEObject());
          }
       }
       return object;
@@ -141,6 +129,8 @@ public class WebModelerConnectionHandler implements ConnectionHandler
       {
          return modelDescriptor;
       }
+      String uuid = parseQuery(uri.query()).get("uuid");
+      uri = uri.trimQuery();
       for (IObjectDescriptor child : children)
       {
          if (uri.equals(child.getURI()))
@@ -152,11 +142,51 @@ public class WebModelerConnectionHandler implements ConnectionHandler
             URI categoryUri = child.getURI();
             if (isChildOf(categoryUri, uri))
             {
-               return ((CategoryDescriptor) child).find(uri);
+               IObjectDescriptor item = ((CategoryDescriptor) child).find(uri);
+               if (!StringUtils.isEmpty(uuid))
+               {
+                  if (!matches(uuid, item))
+                  {
+                     item = findByUUID(uuid, (CategoryDescriptor) child);
             }
+         }
+               return item;
+      }
          }
       }
       return null;
+   }
+
+   private boolean matches(String uuid, IObjectDescriptor item)
+   {
+      return item instanceof EObjectDescriptor && uuid.equals(ModelUtils.getUUID(((EObjectDescriptor) item).<EObject>getEObject()));
+   }
+
+   private IObjectDescriptor findByUUID(String uuid, CategoryDescriptor category)
+   {
+      for (IObjectDescriptor item : category.getChildren())
+      {
+         if (matches(uuid, item))
+         {
+            return item;
+         }
+      }
+      return null;
+   }
+
+   private Map<String, String> parseQuery(String query)
+   {
+      if (StringUtils.isEmpty(query))
+      {
+         return Collections.emptyMap();
+      }
+      Map<String, String> map = CollectionUtils.newMap();
+      for (String token : query.split("&"))
+      {
+         int ix = token.indexOf('=');
+         map.put(ix < 0 ? token : token.substring(0, ix), ix < 0 ? token : token.substring(ix + 1));
+      }
+      return map;
    }
 
    public boolean isChildOf(URI categoryUri, URI uri)
@@ -259,7 +289,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
 
       if(model == null)
       {
-         throw new IllegalArgumentException("Model not found: " + id);
+         throw new IOException("Model not found: " + id);
       }
 
       IconFactory iconFactory = new PepperIconFactory();
