@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl.SimpleFeatureMapEntry;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -46,7 +45,7 @@ public class CwmXmlSave extends XMLSaveImpl
             && CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement()
                   .isSuperTypeOf((EClass) eFtr.getEType())
             && (null != eFtr.getEAnnotation(ElementIdRefs.ANNOTATION_ID));
-         
+
       if (isElementIdRef)
       {
          EAnnotation aEIdRef = eFtr.getEAnnotation(ElementIdRefs.ANNOTATION_ID);
@@ -59,8 +58,8 @@ public class CwmXmlSave extends XMLSaveImpl
                refType = detail.getValue();
             }
          }
-         
-         EObjectImpl value = (EObjectImpl) helper.getValue(o, eFtr);
+
+         EObject value = (EObject) helper.getValue(o, eFtr);
          String id = getId(o, value, refType);
          if ( !toDOM)
          {
@@ -84,16 +83,16 @@ public class CwmXmlSave extends XMLSaveImpl
    }
 
    protected void saveHref(EObject remote, EStructuralFeature f)
-   {   
+   {
      String href = helper.getHREF(remote);
      if (href != null)
      {
        href = convertURI(href);
        EClass eClass = remote.eClass();
        EClass expectedType = (EClass) f.getEType();
-       boolean shouldSaveType = 
-         saveTypeInfo ? 
-           xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : 
+       boolean shouldSaveType =
+         saveTypeInfo ?
+           xmlTypeInfo.shouldSaveType(eClass, expectedType, f) :
            eClass != expectedType && (expectedType.isAbstract() || f.getEGenericType().getETypeParameter() != null);
        if (elementHandler != null)
        {
@@ -112,7 +111,7 @@ public class CwmXmlSave extends XMLSaveImpl
        else
        {
          helper.populateNameInfo(nameInfo, f);
-         Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());       
+         Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
          currentNode = currentNode.appendChild(elem);
          handler.recordValues(elem, remote.eContainer(), f, remote);
        }
@@ -246,7 +245,7 @@ public class CwmXmlSave extends XMLSaveImpl
       }
       super.processAttributeExtensions(object);
    }
-   
+
    protected void saveElement(EObject o, EStructuralFeature f)
    {
       if (o instanceof XSDComponent)
