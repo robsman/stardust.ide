@@ -328,7 +328,7 @@ public class ModelBuilderFacade
       model.getTypeDeclarations().getTypeDeclaration().add(structuredDataType);
       Object o = structuredDataType.getSchema().eResource();
 
-      setAttribute(structuredDataType, "stardust:model:uuid", UUID.randomUUID().toString());
+      setAttribute(structuredDataType, "carnot:model:uuid", UUID.randomUUID().toString());
 
 
 
