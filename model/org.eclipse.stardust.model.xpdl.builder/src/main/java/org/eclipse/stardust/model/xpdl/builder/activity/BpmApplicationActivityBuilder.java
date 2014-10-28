@@ -76,11 +76,11 @@ public class BpmApplicationActivityBuilder
          idRef.setRef(application.getId());
          idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, applicationModel));
          activity.setExternalRef(idRef);
-         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "stardust:model:uuid");
+         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
          if (uuidAttribute != null)
          {
             AttributeUtil.setAttribute((IIdentifiableModelElement) element,
-                  "stardust:connection:uuid", uuidAttribute.getValue());
+                  "carnot:connection:uuid", uuidAttribute.getValue());
 
          }
       }

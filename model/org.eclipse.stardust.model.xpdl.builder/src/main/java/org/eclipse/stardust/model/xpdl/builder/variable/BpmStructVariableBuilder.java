@@ -129,7 +129,7 @@ public class BpmStructVariableBuilder
             reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
          }
          reference.setXref(declId);
-         String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "stardust:model:uuid");
+         String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
          if (uuid != null)
          {
             reference.setUuid(uuid);
