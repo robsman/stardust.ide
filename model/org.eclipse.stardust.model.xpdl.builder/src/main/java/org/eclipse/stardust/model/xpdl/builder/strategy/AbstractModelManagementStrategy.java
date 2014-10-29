@@ -94,6 +94,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
          this.hasLoaded = true;
          xpdlModels.clear();
          nativeModels.clear();
+         eObjectUUIDMapper.empty();
          loadModels();
       }
 
