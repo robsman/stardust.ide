@@ -1117,8 +1117,10 @@ public class ModelBuilderFacade
       }
       catch (ObjectNotFoundException ex)
       {
-
+         // ignore
       }
+
+      // TODO: check for local data ?
 
       if (data == null && dataFullID.endsWith(DmsConstants.DATA_ID_ATTACHMENTS))
       {
@@ -1127,29 +1129,48 @@ public class ModelBuilderFacade
 
       if (!dataModelId.equals(model.getId()))
       {
-         /*String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-               model, dataModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ModelType loadModel = getModelManagementStrategy().loadModel(
-               dataModelId);
-         // DataType dataCopy = findData(loadModel, stripFullId(dataFullID));
-         DataType dataCopy = findData(dataModel, stripFullId(dataFullID));
-         // if (dataCopy == null)
-         // {
-         ElementCopier copier = new ElementCopier(dataModel, null);
-            dataCopy = (DataType) copier.copy(data);
-         // }
-
-         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-               uri, dataCopy, bundleId, null, true);
-         descriptor.importElements(model, new SimpleImportStrategy(true));
-         data = findData(model, stripFullId(dataFullID));*/
          data = EObjectProxyHandler.importElement(model, data);
       }
       return data;
+   }
+
+   public IModelParticipant importParticipant(ModelType model, String participantFullId)
+   {
+      IModelParticipant participant = null;
+      String participantModelId = getModelId(participantFullId);
+      String participantId = stripFullId(participantFullId);
+      ModelType participantModel = getModelManagementStrategy().getModels().get(participantModelId);
+      try
+      {
+         participant = findParticipant(participantModel, participantId);
+      }
+      catch (ObjectNotFoundException ex)
+      {
+         // ignore
+      }
+
+      if (!participantModelId.equals(model.getId()))
+      {
+         IModelParticipant localParticipant = null;
+         try
+         {
+            localParticipant = findParticipant(model, participantId);
+         }
+         catch (ObjectNotFoundException e)
+         {
+            // Ignore
+         }
+         if (localParticipant == null)
+         {
+            localParticipant = EObjectProxyHandler.importElement(model, participant);
+         }
+         else
+         {
+            // TODO: check...
+         }
+         participant = localParticipant;
+      }
+      return participant;
    }
 
    /**
@@ -1233,53 +1254,7 @@ public class ModelBuilderFacade
 
       if (participantFullID != null)
       {
-         String participantModelID = getModelId(participantFullID);
-         if (StringUtils.isEmpty(participantModelID))
-         {
-            participantModelID = model.getId();
-         }
-         ModelType participantModel = model;
-         if ( !participantModelID.equals(model.getId()))
-         {
-            participantModel = getModelManagementStrategy().getModels().get(
-                  participantModelID);
-         }
-
-         IModelParticipant modelParticipant = findParticipant(
-               getModelManagementStrategy().getModels().get(participantModelID),
-               stripFullId(participantFullID));
-
-         if ( !participantModelID.equals(model.getId()))
-         {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-                  model, participantModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID);
-            /*
-             * IModelParticipant participantCopy = findParticipant(loadModel,
-             * stripFullId(participantFullID));
-             */
-            IModelParticipant participantCopy = findParticipant(participantModel,
-                  stripFullId(participantFullID));
-
-            // if (participantCopy == null)
-            // {
-            ElementCopier copier = new ElementCopier(participantModel, null);
-            participantCopy = (IModelParticipant) copier.copy(modelParticipant);
-            // }
-
-            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-                  uri, participantCopy, bundleId, null, true);
-            descriptor.importElements(model, new SimpleImportStrategy(true));
-            modelParticipant = findParticipant(model, stripFullId(participantFullID));
-         }
-
-         LaneParticipantUtil.setParticipant(laneSymbol, modelParticipant);
-
+         LaneParticipantUtil.setParticipant(laneSymbol, importParticipant(model, participantFullID));
       }
       return laneSymbol;
    }
