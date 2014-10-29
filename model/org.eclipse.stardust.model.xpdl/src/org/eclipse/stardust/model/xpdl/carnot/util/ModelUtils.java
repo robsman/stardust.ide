@@ -1513,13 +1513,13 @@ public class ModelUtils
       String uuid = null;
       if (obj instanceof IExtensibleElement)
       {
-         uuid = AttributeUtil.getAttributeValue((IExtensibleElement) obj, "stardust:model:uuid");
+         uuid = AttributeUtil.getAttributeValue((IExtensibleElement) obj, "carnot:model:uuid");
       }
       else
       {
          if (obj instanceof Extensible)
          {
-            uuid = ExtendedAttributeUtil.getAttributeValue((Extensible) obj, "stardust:model:uuid");
+            uuid = ExtendedAttributeUtil.getAttributeValue((Extensible) obj, "carnot:model:uuid");
          }
       }
       return uuid;
