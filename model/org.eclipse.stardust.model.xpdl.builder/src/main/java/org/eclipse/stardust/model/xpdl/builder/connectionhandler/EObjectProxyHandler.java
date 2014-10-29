@@ -64,10 +64,12 @@ public class EObjectProxyHandler implements InvocationHandler, Adapter
       {
          EStructuralFeature feature = target.eClass().getEStructuralFeature(
                Introspector.decapitalize(name.substring(3)));
-         List<EReference> containments = target.eClass().getEAllContainments();
-         if (feature == null || (!feature.isMany() && !object.eIsSet(feature)) || containments.contains(feature))
+         if (feature != null)
          {
-            instance = target;
+            if (!feature.isMany() && !object.eIsSet(feature) || target.eClass().getEAllContainments().contains(feature))
+            {
+               instance = target;
+            }
          }
       }
       return method.invoke(instance, args);
@@ -91,6 +93,12 @@ public class EObjectProxyHandler implements InvocationHandler, Adapter
    }
 
    @Override
+   public void setTarget(Notifier target)
+   {
+      this.target = (EObject) target;
+   }
+
+   @Override
    public void notifyChanged(Notification event)
    {
       Object newValue = event.getNewValue();
@@ -111,12 +119,6 @@ public class EObjectProxyHandler implements InvocationHandler, Adapter
       uri = uri.appendSegment(newId);
       ((InternalEObject) object).eSetProxyURI(uri);
       ((IIdentifiableElement) object).setId(newId);
-   }
-
-   @Override
-   public void setTarget(Notifier target)
-   {
-      this.target = (EObject) target;
    }
 
    @SuppressWarnings("unchecked")

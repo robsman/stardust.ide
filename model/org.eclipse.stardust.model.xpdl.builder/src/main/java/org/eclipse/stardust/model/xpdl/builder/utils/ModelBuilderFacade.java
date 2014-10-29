@@ -1321,7 +1321,6 @@ public class ModelBuilderFacade
       dataSymbol.setData(data);
 
       processDefinition.getDiagram().get(0).getDataSymbol().add(dataSymbol);
-      data.getDataSymbols().add(dataSymbol);
       dataSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       dataSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
       dataSymbol.setWidth(widthProperty);
