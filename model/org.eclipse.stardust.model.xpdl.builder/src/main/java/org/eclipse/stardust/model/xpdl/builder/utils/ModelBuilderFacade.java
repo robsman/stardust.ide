@@ -453,8 +453,23 @@ public class ModelBuilderFacade
          updateReferences(model, ref);
          ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
          extRef.setLocation(refModelId);
-         //extRef.setNamespace("TypeDeclarations");
+         // extRef.setNamespace("TypeDeclarations");
          extRef.setXref(structTypeId);
+         try
+         {
+            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
+                  structTypeId);
+            String uuid = ExtendedAttributeUtil.getAttributeValue(
+                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            if (uuid != null)
+            {
+               extRef.setUuid(uuid);
+            }
+         }
+         catch (Throwable t)
+         {
+
+         }
          dataTypeType.setExternalReference(extRef);
       }
 
@@ -521,6 +536,21 @@ public class ModelBuilderFacade
          extRef.setLocation(refModelId);
          //extRef.setNamespace("TypeDeclarations");
          extRef.setXref(structTypeId);
+         try
+         {
+            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
+                  structTypeId);
+            String uuid = ExtendedAttributeUtil.getAttributeValue(
+                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            if (uuid != null)
+            {
+               extRef.setUuid(uuid);
+            }
+         }
+         catch (Throwable t)
+         {
+
+         }
          dataTypeType.setExternalReference(extRef);
       }
 
@@ -623,10 +653,40 @@ public class ModelBuilderFacade
    public AccessPointType createStructuredAccessPoint(IAccessPointOwner application,
          String id, String name, String structTypeFullID, String direction)
    {
-      return newStructuredAccessPoint(application).withIdAndName(id, name)
-            .withType(structTypeFullID)
-            .withDirection(direction)
+      AccessPointType accessPoint = newStructuredAccessPoint(application)
+            .withIdAndName(id, name).withType(structTypeFullID).withDirection(direction)
             .build();
+      String declaredType = AttributeUtil.getAttributeValue(accessPoint,
+            ModelerConstants.DATA_TYPE);
+      if (declaredType != null)
+      {
+         if (declaredType.indexOf("{") > 0)
+         {
+            String refModelID = declaredType.substring(declaredType.indexOf("{") + 1,
+                  declaredType.indexOf("}"));
+            String typeID = declaredType.substring(declaredType.indexOf("}") + 1);
+            if (!typeID.equals(ModelerConstants.TO_BE_DEFINED))
+            {
+               ModelType refModel = findModel(refModelID);
+               if (refModel != null)
+               {
+                  TypeDeclarationType typeDeclaration = refModel.getTypeDeclarations()
+                        .getTypeDeclaration(typeID);
+                  if (typeDeclaration != null)
+                  {
+                     String uuid = ExtendedAttributeUtil.getAttributeValue(
+                           typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+                     if (uuid != null)
+                     {
+                        AttributeUtil.setAttribute(accessPoint, "carnot:connection:uuid",
+                              uuid);
+                     }
+                  }
+               }
+            }
+         }
+      }
+      return accessPoint;
    }
 
    public AccessPointType createDocumentAccessPoint(IAccessPointOwner application,
