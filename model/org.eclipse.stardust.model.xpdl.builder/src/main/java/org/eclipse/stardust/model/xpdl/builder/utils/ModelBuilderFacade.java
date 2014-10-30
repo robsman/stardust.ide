@@ -828,7 +828,7 @@ public class ModelBuilderFacade
                      typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
                if (uuid != null)
                {
-                  reference.setUuid(uuid);
+                  setAttribute(data, "carnot:connection:uuid", uuid);
                }
             }
          }
@@ -988,6 +988,13 @@ public class ModelBuilderFacade
                      typeDeclarationModel).getId());
             }
             reference.setXref(declarationID);
+
+            String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            if (uuid != null)
+            {
+               reference.setUuid(uuid);
+            }
+
             data.setExternalReference(reference);
             qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";
          }
@@ -3157,6 +3164,13 @@ public class ModelBuilderFacade
          idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model,
                applicationModel));
          activity.setExternalRef(idRef);
+         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
+         if (uuidAttribute != null)
+         {
+            AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
+                  "carnot:connection:uuid", uuidAttribute.getValue());
+
+         }
       }
       return application;
    }
