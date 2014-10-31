@@ -11,7 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.activity;
 
 import org.eclipse.emf.common.util.URI;
-
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -53,10 +53,9 @@ public class BpmSubProcessActivityBuilder
 
    public BpmSubProcessActivityBuilder invokingProcess(ProcessDefinitionType process)
    {
-      ActivityType activity = element;
       ModelType processModel = getSubProcessModel();
 
-      if(model.equals(processModel))
+      if (model.equals(processModel))
       {
          element.setImplementationProcess(process);
       }
@@ -71,25 +70,23 @@ public class BpmSubProcessActivityBuilder
          ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri,
                process, bundleId, null, true);
 
-         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+         AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
          if (processModel != null)
          {
             IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
             idRef.setRef(process.getId());
             idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, processModel));
-            activity.setExternalRef(idRef);
-            activity.setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
+            element.setExternalRef(idRef);
+            element.setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
 
             AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) process,  "carnot:model:uuid");
             if (uuidAttribute != null)
             {
                AttributeUtil.setAttribute((IIdentifiableModelElement) element,
                      "carnot:connection:uuid", uuidAttribute.getValue());
-
             }
+            IdRefHandler.adapt(element);
          }
-
-
       }
 
       return this;

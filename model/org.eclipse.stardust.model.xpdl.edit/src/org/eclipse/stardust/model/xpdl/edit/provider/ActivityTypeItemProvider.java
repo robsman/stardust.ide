@@ -83,12 +83,14 @@ public class ActivityTypeItemProvider
          addLoopConditionPropertyDescriptor(object);
          addLoopTypePropertyDescriptor(object);
          addPerformerPropertyDescriptor(object);
+         addQualityControlPerformerPropertyDescriptor(object);
          addSplitPropertyDescriptor(object);
          addSubProcessModePropertyDescriptor(object);
          addActivitySymbolsPropertyDescriptor(object);
          addStartingEventSymbolsPropertyDescriptor(object);
          addInTransitionsPropertyDescriptor(object);
          addOutTransitionsPropertyDescriptor(object);
+         addValidQualityCodesPropertyDescriptor(object);
       }
       return itemPropertyDescriptors;
    }
@@ -117,6 +119,52 @@ public class ActivityTypeItemProvider
    }
 
    /**
+    * This adds a property descriptor for the Id feature.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   protected void addIdPropertyDescriptor(Object object)
+   {
+      itemPropertyDescriptors.add
+         (createItemPropertyDescriptor
+            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+             getResourceLocator(),
+             getString("_UI_IIdentifiableElement_id_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"),
+             CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
+             true,
+             false,
+             false,
+             ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+             null,
+             null));
+   }
+
+   /**
+    * This adds a property descriptor for the Name feature.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   protected void addNamePropertyDescriptor(Object object)
+   {
+      itemPropertyDescriptors.add
+         (createItemPropertyDescriptor
+            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+             getResourceLocator(),
+             getString("_UI_IIdentifiableElement_name_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"),
+             CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
+             true,
+             false,
+             false,
+             ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+             null,
+             null));
+   }
+
+   /**
     * This adds a property descriptor for the Allows Abort By Performer feature.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -128,8 +176,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_allowsAbortByPerformer_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_allowsAbortByPerformer_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_allowsAbortByPerformer_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_allowsAbortByPerformer_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__ALLOWS_ABORT_BY_PERFORMER,
              true,
              false,
@@ -151,8 +199,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_application_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_application_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_application_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_application_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__APPLICATION,
              true,
              false,
@@ -174,36 +222,13 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_hibernateOnCreation_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_hibernateOnCreation_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_hibernateOnCreation_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_hibernateOnCreation_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__HIBERNATE_ON_CREATION,
              true,
              false,
              false,
              ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-             null,
-             null));
-   }
-
-   /**
-    * This adds a property descriptor for the Id feature.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
-   protected void addIdPropertyDescriptor(Object object)
-   {
-      itemPropertyDescriptors.add
-         (createItemPropertyDescriptor
-            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-             getResourceLocator(),
-             getString("_UI_IIdentifiableElement_id_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_id_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-             CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__ID,
-             true,
-             false,
-             false,
-             ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
              null,
              null));
    }
@@ -220,8 +245,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_implementation_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_implementation_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_implementation_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_implementation_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__IMPLEMENTATION,
              true,
              false,
@@ -243,8 +268,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_implementationProcess_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_implementationProcess_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_implementationProcess_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_implementationProcess_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__IMPLEMENTATION_PROCESS,
              true,
              false,
@@ -266,8 +291,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_join_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_join_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_join_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_join_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__JOIN,
              true,
              false,
@@ -289,8 +314,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_loopCondition_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_loopCondition_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_loopCondition_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_loopCondition_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__LOOP_CONDITION,
              true,
              false,
@@ -312,32 +337,9 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_loopType_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_loopType_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_loopType_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_loopType_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__LOOP_TYPE,
-             true,
-             false,
-             false,
-             ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-             null,
-             null));
-   }
-
-   /**
-    * This adds a property descriptor for the Name feature.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
-   protected void addNamePropertyDescriptor(Object object)
-   {
-      itemPropertyDescriptors.add
-         (createItemPropertyDescriptor
-            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-             getResourceLocator(),
-             getString("_UI_IIdentifiableElement_name_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_IIdentifiableElement_name_feature", "_UI_IIdentifiableElement_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-             CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_ELEMENT__NAME,
              true,
              false,
              false,
@@ -358,12 +360,35 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_performer_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_performer_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_performer_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_performer_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__PERFORMER,
              true,
              false,
              false,
+             null,
+             null,
+             null));
+   }
+
+   /**
+    * This adds a property descriptor for the Quality Control Performer feature.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   protected void addQualityControlPerformerPropertyDescriptor(Object object)
+   {
+      itemPropertyDescriptors.add
+         (createItemPropertyDescriptor
+            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+             getResourceLocator(),
+             getString("_UI_ActivityType_qualityControlPerformer_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_qualityControlPerformer_feature", "_UI_ActivityType_type"),
+             CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER,
+             true,
+             false,
+             true,
              null,
              null,
              null));
@@ -381,8 +406,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_split_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_split_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_split_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_split_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__SPLIT,
              true,
              false,
@@ -404,8 +429,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_subProcessMode_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_subProcessMode_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_subProcessMode_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_subProcessMode_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__SUB_PROCESS_MODE,
              true,
              false,
@@ -427,8 +452,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_activitySymbols_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_activitySymbols_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_activitySymbols_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_activitySymbols_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__ACTIVITY_SYMBOLS,
              true,
              false,
@@ -450,8 +475,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_startingEventSymbols_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_startingEventSymbols_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_startingEventSymbols_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_startingEventSymbols_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__STARTING_EVENT_SYMBOLS,
              true,
              false,
@@ -473,8 +498,8 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_inTransitions_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_inTransitions_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_inTransitions_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_inTransitions_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__IN_TRANSITIONS,
              true,
              false,
@@ -496,12 +521,35 @@ public class ActivityTypeItemProvider
          (createItemPropertyDescriptor
             (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
              getResourceLocator(),
-             getString("_UI_ActivityType_outTransitions_feature"), //$NON-NLS-1$
-             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_outTransitions_feature", "_UI_ActivityType_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+             getString("_UI_ActivityType_outTransitions_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_outTransitions_feature", "_UI_ActivityType_type"),
              CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__OUT_TRANSITIONS,
              true,
              false,
              false,
+             null,
+             null,
+             null));
+   }
+
+   /**
+    * This adds a property descriptor for the Valid Quality Codes feature.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   protected void addValidQualityCodesPropertyDescriptor(Object object)
+   {
+      itemPropertyDescriptors.add
+         (createItemPropertyDescriptor
+            (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+             getResourceLocator(),
+             getString("_UI_ActivityType_validQualityCodes_feature"),
+             getString("_UI_PropertyDescriptor_description", "_UI_ActivityType_validQualityCodes_feature", "_UI_ActivityType_type"),
+             CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__VALID_QUALITY_CODES,
+             true,
+             false,
+             true,
              null,
              null,
              null));
@@ -524,8 +572,9 @@ public class ActivityTypeItemProvider
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.IEXTENSIBLE_ELEMENT__ATTRIBUTE);
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.IIDENTIFIABLE_MODEL_ELEMENT__DESCRIPTION);
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.IEVENT_HANDLER_OWNER__EVENT_HANDLER);
+         childrenFeatures.add(CarnotWorkflowModelPackage.Literals.ID_REF_OWNER__EXTERNAL_REF);
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__DATA_MAPPING);
-         childrenFeatures.add(CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__EXTERNAL_REF);
+         childrenFeatures.add(CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__LOOP);
       }
       return childrenFeatures;
    }
@@ -553,7 +602,7 @@ public class ActivityTypeItemProvider
    @Override
    public Object getImage(Object object)
    {
-      return overlayImage(object, getResourceLocator().getImage("full/obj16/ActivityType")); //$NON-NLS-1$
+      return overlayImage(object, getResourceLocator().getImage("full/obj16/ActivityType"));
    }
 
    /**
@@ -567,8 +616,8 @@ public class ActivityTypeItemProvider
    {
       String label = ((ActivityType)object).getName();
       return label == null || label.length() == 0 ?
-         getString("_UI_ActivityType_type") : //$NON-NLS-1$
-         getString("_UI_ActivityType_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+         getString("_UI_ActivityType_type") :
+         getString("_UI_ActivityType_type") + " " + label;
    }
 
    /**
@@ -604,8 +653,9 @@ public class ActivityTypeItemProvider
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__ATTRIBUTE:
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DESCRIPTION:
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
             fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
             return;
       }
@@ -641,13 +691,13 @@ public class ActivityTypeItemProvider
 
       newChildDescriptors.add
          (createChildParameter
-            (CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__DATA_MAPPING,
-             CarnotWorkflowModelFactory.eINSTANCE.createDataMappingType()));
+            (CarnotWorkflowModelPackage.Literals.ID_REF_OWNER__EXTERNAL_REF,
+             CarnotWorkflowModelFactory.eINSTANCE.createIdRef()));
 
       newChildDescriptors.add
          (createChildParameter
-            (CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__EXTERNAL_REF,
-             CarnotWorkflowModelFactory.eINSTANCE.createIdRef()));
+            (CarnotWorkflowModelPackage.Literals.ACTIVITY_TYPE__DATA_MAPPING,
+             CarnotWorkflowModelFactory.eINSTANCE.createDataMappingType()));
 
       newChildDescriptors.add
          (createChildParameter

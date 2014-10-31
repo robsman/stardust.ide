@@ -18,17 +18,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.emf.edit.provider.*;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
@@ -45,12 +34,12 @@ import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
  */
 public class ProcessDefinitionTypeItemProvider
    extends ItemProviderAdapter
-   implements	
-      IEditingDomainItemProvider,	
-      IStructuredItemContentProvider,	
-      ITreeItemContentProvider,	
-      IItemLabelProvider,	
-      IItemPropertySource		
+   implements
+      IEditingDomainItemProvider,
+      IStructuredItemContentProvider,
+      ITreeItemContentProvider,
+      IItemLabelProvider,
+      IItemPropertySource
 {
    /**
     * <!-- begin-user-doc -->
@@ -255,7 +244,6 @@ public class ProcessDefinitionTypeItemProvider
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__DIAGRAM);
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETERS);
          childrenFeatures.add(CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS);
-         childrenFeatures.add(CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__EXTERNAL_REF);
       }
       return childrenFeatures;
    }
@@ -399,11 +387,6 @@ public class ProcessDefinitionTypeItemProvider
          (createChildParameter
             (CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS,
              ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType()));
-
-      newChildDescriptors.add
-         (createChildParameter
-            (CarnotWorkflowModelPackage.Literals.PROCESS_DEFINITION_TYPE__EXTERNAL_REF,
-             CarnotWorkflowModelFactory.eINSTANCE.createIdRef()));
    }
 
    /**

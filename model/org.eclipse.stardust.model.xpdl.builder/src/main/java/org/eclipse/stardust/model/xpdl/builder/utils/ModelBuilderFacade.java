@@ -57,7 +57,6 @@ import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDParticle;
 import org.eclipse.xsd.XSDSchema;
-
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
@@ -74,6 +73,7 @@ import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBu
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmSubProcessActivityBuilder;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractElementBuilder;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DataStructInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
@@ -709,6 +709,7 @@ public class ModelBuilderFacade
       idRef.setRef(processInterface.getId());
       idRef.setPackageRef(packageRef);
       processImplementation.setExternalRef(idRef);
+      IdRefHandler.adapt(processImplementation);
 
       FormalParameterMappingsType parameterMappings = ExtensionsFactory.eINSTANCE.createFormalParameterMappingsType();
       FormalParametersType referencedParametersType = processInterface.getFormalParameters();
@@ -1697,12 +1698,8 @@ public class ModelBuilderFacade
             if (ModelerConstants.USER_TASK_KEY.equals(taskType)
                   && participantFullID != null)
             {
-               activity.setPerformer(findParticipant(participantFullID));
+               activity.setPerformer(importParticipant(model, participantFullID));
             }
-
-            // TODO Redundant?
-
-            activity.setImplementation(ActivityImplementationType.APPLICATION_LITERAL);
          }
       }
       else if (ModelerConstants.SUBPROCESS_ACTIVITY.equals(activityType))
@@ -3138,7 +3135,7 @@ public class ModelBuilderFacade
       return String.class;
    }
 
-   private String parseName(String path)
+   /*private String parseName(String path)
    {
       if (path.startsWith("typeDeclaration:")) //$NON-NLS-1$
       {
@@ -3147,7 +3144,7 @@ public class ModelBuilderFacade
          path = path.replace("}", " / "); //$NON-NLS-1$ //$NON-NLS-2$
       }
       return path;
-   }
+   }*/
 
    public ProcessDefinitionType setSubProcess(ActivityType activity, String processFullId)
    {
@@ -3159,6 +3156,7 @@ public class ModelBuilderFacade
 
       if (model.equals(processModel))
       {
+         IdRefHandler.cleanup(activity);
          activity.setImplementationProcess(process);
       }
       else
@@ -3186,9 +3184,8 @@ public class ModelBuilderFacade
          {
             AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
                   "carnot:connection:uuid", uuidAttribute.getValue());
-
          }
-
+         IdRefHandler.adapt(activity);
       }
       return process;
    }
@@ -3203,6 +3200,7 @@ public class ModelBuilderFacade
 
       if (model.equals(applicationModel))
       {
+         IdRefHandler.cleanup(activity);
          activity.setApplication(application);
       }
       else
@@ -3229,8 +3227,8 @@ public class ModelBuilderFacade
          {
             AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
                   "carnot:connection:uuid", uuidAttribute.getValue());
-
          }
+         IdRefHandler.adapt(activity);
       }
       return application;
    }
@@ -3532,51 +3530,7 @@ public class ModelBuilderFacade
       ModelType model = ModelUtils.findContainingModel(organization);
       if (participantFullID != null)
       {
-
-         String participantModelID = getModelId(participantFullID);
-         if (StringUtils.isEmpty(participantModelID))
-         {
-            participantModelID = model.getId();
-         }
-         ModelType participantModel = model;
-         if ( !participantModelID.equals(model.getId()))
-         {
-            participantModel = getModelManagementStrategy().getModels().get(
-                  participantModelID);
-         }
-
-         IModelParticipant modelParticipant = findParticipant(
-               getModelManagementStrategy().getModels().get(participantModelID),
-               stripFullId(participantFullID));
-
-         if ( !participantModelID.equals(model.getId()))
-         {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-                  model, participantModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ModelType loadModel = getModelManagementStrategy().loadModel(
-                  participantModelID);
-            /*
-             * IModelParticipant participantCopy = findParticipant(loadModel,
-             * stripFullId(participantFullID));
-             */
-            IModelParticipant participantCopy = findParticipant(participantModel,
-                  stripFullId(participantFullID));
-            // if (participantCopy == null)
-            // {
-            ElementCopier copier = new ElementCopier(participantModel, null);
-            participantCopy = (IModelParticipant) copier.copy(modelParticipant);
-            // }
-
-            ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-                  uri, participantCopy, bundleId, null, true);
-            descriptor.importElements(model, new SimpleImportStrategy(true));
-            modelParticipant = findParticipant(model, stripFullId(participantFullID));
-         }
-         setTeamLeader(organization, (RoleType) modelParticipant);
+         setTeamLeader(organization, (RoleType) importParticipant(model, participantFullID));
       }
    }
 

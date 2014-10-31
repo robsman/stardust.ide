@@ -240,6 +240,13 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    private EClass idRefEClass = null;
 
    /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   private EClass idRefOwnerEClass = null;
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
@@ -1101,7 +1108,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     * <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_ExternalRef()
+   public EReference getActivityType_ValidQualityCodes()
    {
         return (EReference)getActivityType().getEStructuralFeatures().get(17);
    }
@@ -1111,19 +1118,9 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
     * <!-- end-user-doc -->
     * @generated
     */
-   public EReference getActivityType_ValidQualityCodes()
-   {
-        return (EReference)getActivityType().getEStructuralFeatures().get(18);
-   }
-
-   /**
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
    public EReference getActivityType_Loop()
    {
-        return (EReference)getActivityType().getEStructuralFeatures().get(19);
+        return (EReference)getActivityType().getEStructuralFeatures().get(18);
    }
 
    /**
@@ -2326,13 +2323,37 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
    /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EClass getIdRefOwner()
+   {
+      if (idRefOwnerEClass == null)
+      {
+         idRefOwnerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(51);
+      }
+      return idRefOwnerEClass;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EReference getIdRefOwner_ExternalRef()
+   {
+        return (EReference)getIdRefOwner().getEStructuralFeatures().get(0);
+   }
+
+   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    public EClass getGatewaySymbol() {
       if (gatewaySymbolEClass == null)
       {
-         gatewaySymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(51);
+         gatewaySymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(52);
       }
       return gatewaySymbolEClass;
    }
@@ -2360,7 +2381,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getGenericLinkConnectionType() {
       if (genericLinkConnectionTypeEClass == null)
       {
-         genericLinkConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(52);
+         genericLinkConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(53);
       }
       return genericLinkConnectionTypeEClass;
    }
@@ -2396,7 +2417,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getGroupSymbolType() {
       if (groupSymbolTypeEClass == null)
       {
-         groupSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(53);
+         groupSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(54);
       }
       return groupSymbolTypeEClass;
    }
@@ -2408,7 +2429,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getIntermediateEventSymbol() {
       if (intermediateEventSymbolEClass == null)
       {
-         intermediateEventSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(54);
+         intermediateEventSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(55);
       }
       return intermediateEventSymbolEClass;
    }
@@ -2420,7 +2441,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getLaneSymbol() {
       if (laneSymbolEClass == null)
       {
-         laneSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(55);
+         laneSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(56);
       }
       return laneSymbolEClass;
    }
@@ -3143,7 +3164,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getLinkTypeType() {
       if (linkTypeTypeEClass == null)
       {
-         linkTypeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(56);
+         linkTypeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(57);
       }
       return linkTypeTypeEClass;
    }
@@ -3259,7 +3280,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getModelerSymbolType() {
       if (modelerSymbolTypeEClass == null)
       {
-         modelerSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(57);
+         modelerSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(58);
       }
       return modelerSymbolTypeEClass;
    }
@@ -3279,7 +3300,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getModelerType() {
       if (modelerTypeEClass == null)
       {
-         modelerTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(58);
+         modelerTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(59);
       }
       return modelerTypeEClass;
    }
@@ -3315,7 +3336,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getModelType() {
       if (modelTypeEClass == null)
       {
-         modelTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(59);
+         modelTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(60);
       }
       return modelTypeEClass;
    }
@@ -3549,7 +3570,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getOrganizationSymbolType() {
       if (organizationSymbolTypeEClass == null)
       {
-         organizationSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(60);
+         organizationSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(61);
       }
       return organizationSymbolTypeEClass;
    }
@@ -3602,7 +3623,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getOrganizationType() {
       if (organizationTypeEClass == null)
       {
-         organizationTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(61);
+         organizationTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(62);
       }
       return organizationTypeEClass;
    }
@@ -3639,7 +3660,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getParameterMappingType() {
       if (parameterMappingTypeEClass == null)
       {
-         parameterMappingTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(62);
+         parameterMappingTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(63);
       }
       return parameterMappingTypeEClass;
    }
@@ -3685,7 +3706,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getParticipantType() {
       if (participantTypeEClass == null)
       {
-         participantTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(63);
+         participantTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(64);
       }
       return participantTypeEClass;
    }
@@ -3705,7 +3726,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getPartOfConnectionType() {
       if (partOfConnectionTypeEClass == null)
       {
-         partOfConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(64);
+         partOfConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(65);
       }
       return partOfConnectionTypeEClass;
    }
@@ -3733,7 +3754,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getPerformsConnectionType() {
       if (performsConnectionTypeEClass == null)
       {
-         performsConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(65);
+         performsConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(66);
       }
       return performsConnectionTypeEClass;
    }
@@ -3761,7 +3782,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getPoolSymbol() {
       if (poolSymbolEClass == null)
       {
-         poolSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(66);
+         poolSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(67);
       }
       return poolSymbolEClass;
    }
@@ -3805,7 +3826,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getProcessDefinitionType() {
       if (processDefinitionTypeEClass == null)
       {
-         processDefinitionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(67);
+         processDefinitionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(68);
       }
       return processDefinitionTypeEClass;
    }
@@ -3896,23 +3917,13 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    }
 
    /**
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
-   public EReference getProcessDefinitionType_ExternalRef()
-   {
-        return (EReference)getProcessDefinitionType().getEStructuralFeatures().get(10);
-   }
-
-   /**
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     */
    public EClass getProcessSymbolType() {
       if (processSymbolTypeEClass == null)
       {
-         processSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(68);
+         processSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(69);
       }
       return processSymbolTypeEClass;
    }
@@ -3950,7 +3961,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    {
       if (publicInterfaceSymbolEClass == null)
       {
-         publicInterfaceSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(69);
+         publicInterfaceSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(70);
       }
       return publicInterfaceSymbolEClass;
    }
@@ -3964,7 +3975,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    {
       if (qualityControlTypeEClass == null)
       {
-         qualityControlTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(70);
+         qualityControlTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(71);
       }
       return qualityControlTypeEClass;
    }
@@ -3986,7 +3997,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getRefersToConnectionType() {
       if (refersToConnectionTypeEClass == null)
       {
-         refersToConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(71);
+         refersToConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(72);
       }
       return refersToConnectionTypeEClass;
    }
@@ -4014,7 +4025,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getRoleSymbolType() {
       if (roleSymbolTypeEClass == null)
       {
-         roleSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(72);
+         roleSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(73);
       }
       return roleSymbolTypeEClass;
    }
@@ -4051,7 +4062,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getRoleType() {
       if (roleTypeEClass == null)
       {
-         roleTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(73);
+         roleTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(74);
       }
       return roleTypeEClass;
    }
@@ -4088,7 +4099,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getStartEventSymbol() {
       if (startEventSymbolEClass == null)
       {
-         startEventSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(74);
+         startEventSymbolEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(75);
       }
       return startEventSymbolEClass;
    }
@@ -4125,7 +4136,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getSubProcessOfConnectionType() {
       if (subProcessOfConnectionTypeEClass == null)
       {
-         subProcessOfConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(75);
+         subProcessOfConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(76);
       }
       return subProcessOfConnectionTypeEClass;
    }
@@ -4153,7 +4164,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTextSymbolType() {
       if (textSymbolTypeEClass == null)
       {
-         textSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(77);
+         textSymbolTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(78);
       }
       return textSymbolTypeEClass;
    }
@@ -4173,7 +4184,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTextType() {
       if (textTypeEClass == null)
       {
-         textTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(78);
+         textTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(79);
       }
       return textTypeEClass;
    }
@@ -4193,7 +4204,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTransitionConnectionType() {
       if (transitionConnectionTypeEClass == null)
       {
-         transitionConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(79);
+         transitionConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(80);
       }
       return transitionConnectionTypeEClass;
    }
@@ -4237,7 +4248,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTransitionType() {
       if (transitionTypeEClass == null)
       {
-         transitionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(80);
+         transitionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(81);
       }
       return transitionTypeEClass;
    }
@@ -4298,7 +4309,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTriggersConnectionType() {
       if (triggersConnectionTypeEClass == null)
       {
-         triggersConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(81);
+         triggersConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(82);
       }
       return triggersConnectionTypeEClass;
    }
@@ -4328,7 +4339,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTriggerType() {
       if (triggerTypeEClass == null)
       {
-         triggerTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(82);
+         triggerTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(83);
       }
       return triggerTypeEClass;
    }
@@ -4364,7 +4375,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTriggerTypeType() {
       if (triggerTypeTypeEClass == null)
       {
-         triggerTypeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(83);
+         triggerTypeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(84);
       }
       return triggerTypeTypeEClass;
    }
@@ -4416,7 +4427,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getUnbindActionType() {
       if (unbindActionTypeEClass == null)
       {
-         unbindActionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(84);
+         unbindActionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(85);
       }
       return unbindActionTypeEClass;
    }
@@ -4428,7 +4439,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getViewableType() {
       if (viewableTypeEClass == null)
       {
-         viewableTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(85);
+         viewableTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(86);
       }
       return viewableTypeEClass;
    }
@@ -4448,7 +4459,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getViewType() {
       if (viewTypeEClass == null)
       {
-         viewTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(86);
+         viewTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(87);
       }
       return viewTypeEClass;
    }
@@ -4492,7 +4503,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getWorksForConnectionType() {
       if (worksForConnectionTypeEClass == null)
       {
-         worksForConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(87);
+         worksForConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(88);
       }
       return worksForConnectionTypeEClass;
    }
@@ -4520,7 +4531,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getXmlTextNode() {
       if (xmlTextNodeEClass == null)
       {
-         xmlTextNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(88);
+         xmlTextNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(89);
       }
       return xmlTextNodeEClass;
    }
@@ -4541,7 +4552,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EClass getTeamLeadConnectionType() {
       if (teamLeadConnectionTypeEClass == null)
       {
-         teamLeadConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(76);
+         teamLeadConnectionTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(77);
       }
       return teamLeadConnectionTypeEClass;
    }
@@ -4591,7 +4602,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getActivityImplementationType() {
       if (activityImplementationTypeEEnum == null)
       {
-         activityImplementationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(89);
+         activityImplementationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(90);
       }
       return activityImplementationTypeEEnum;
    }
@@ -4603,7 +4614,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getDirectionType() {
       if (directionTypeEEnum == null)
       {
-         directionTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(90);
+         directionTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(91);
       }
       return directionTypeEEnum;
    }
@@ -4615,7 +4626,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getFlowControlType() {
       if (flowControlTypeEEnum == null)
       {
-         flowControlTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(91);
+         flowControlTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(92);
       }
       return flowControlTypeEEnum;
    }
@@ -4714,7 +4725,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getImplementationType() {
       if (implementationTypeEEnum == null)
       {
-         implementationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(92);
+         implementationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(93);
       }
       return implementationTypeEEnum;
    }
@@ -4726,7 +4737,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getJoinSplitType() {
       if (joinSplitTypeEEnum == null)
       {
-         joinSplitTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(93);
+         joinSplitTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(94);
       }
       return joinSplitTypeEEnum;
    }
@@ -4738,7 +4749,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getLinkCardinality() {
       if (linkCardinalityEEnum == null)
       {
-         linkCardinalityEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(94);
+         linkCardinalityEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(95);
       }
       return linkCardinalityEEnum;
    }
@@ -4750,7 +4761,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getLinkColor() {
       if (linkColorEEnum == null)
       {
-         linkColorEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(95);
+         linkColorEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(96);
       }
       return linkColorEEnum;
    }
@@ -4762,7 +4773,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getLinkLineStyle() {
       if (linkLineStyleEEnum == null)
       {
-         linkLineStyleEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(96);
+         linkLineStyleEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(97);
       }
       return linkLineStyleEEnum;
    }
@@ -4774,7 +4785,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getLinkEndStyle() {
       if (linkEndStyleEEnum == null)
       {
-         linkEndStyleEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(97);
+         linkEndStyleEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(98);
       }
       return linkEndStyleEEnum;
    }
@@ -4786,7 +4797,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getLoopType() {
       if (loopTypeEEnum == null)
       {
-         loopTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(98);
+         loopTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(99);
       }
       return loopTypeEEnum;
    }
@@ -4798,7 +4809,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getOrientationType() {
       if (orientationTypeEEnum == null)
       {
-         orientationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(99);
+         orientationTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(100);
       }
       return orientationTypeEEnum;
    }
@@ -4810,7 +4821,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getRoutingType() {
       if (routingTypeEEnum == null)
       {
-         routingTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(100);
+         routingTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(101);
       }
       return routingTypeEEnum;
    }
@@ -4822,7 +4833,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getSubProcessModeType() {
       if (subProcessModeTypeEEnum == null)
       {
-         subProcessModeTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(101);
+         subProcessModeTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(102);
       }
       return subProcessModeTypeEEnum;
    }
@@ -4835,7 +4846,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EEnum getDiagramModeType() {
       if (diagramModeTypeEEnum == null)
       {
-         diagramModeTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(102);
+         diagramModeTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(103);
       }
       return diagramModeTypeEEnum;
    }
@@ -4847,7 +4858,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getElementId() {
       if (elementIdEDataType == null)
       {
-         elementIdEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(103);
+         elementIdEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(104);
       }
       return elementIdEDataType;
    }
@@ -4859,7 +4870,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getFeatureList() {
       if (featureListEDataType == null)
       {
-         featureListEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(104);
+         featureListEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(105);
       }
       return featureListEDataType;
    }
@@ -4871,7 +4882,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getActivityImplementationTypeObject() {
       if (activityImplementationTypeObjectEDataType == null)
       {
-         activityImplementationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(105);
+         activityImplementationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(106);
       }
       return activityImplementationTypeObjectEDataType;
    }
@@ -4883,7 +4894,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getDirectionTypeObject() {
       if (directionTypeObjectEDataType == null)
       {
-         directionTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(106);
+         directionTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(107);
       }
       return directionTypeObjectEDataType;
    }
@@ -4895,7 +4906,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getFlowControlTypeObject() {
       if (flowControlTypeObjectEDataType == null)
       {
-         flowControlTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(107);
+         flowControlTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(108);
       }
       return flowControlTypeObjectEDataType;
    }
@@ -4907,7 +4918,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getImplementationTypeObject() {
       if (implementationTypeObjectEDataType == null)
       {
-         implementationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(108);
+         implementationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(109);
       }
       return implementationTypeObjectEDataType;
    }
@@ -4919,7 +4930,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getJoinSplitTypeObject() {
       if (joinSplitTypeObjectEDataType == null)
       {
-         joinSplitTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(113);
+         joinSplitTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(114);
       }
       return joinSplitTypeObjectEDataType;
    }
@@ -4931,7 +4942,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getLinkCardinalityObject() {
       if (linkCardinalityObjectEDataType == null)
       {
-         linkCardinalityObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(109);
+         linkCardinalityObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(110);
       }
       return linkCardinalityObjectEDataType;
    }
@@ -4944,7 +4955,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getLinkColorObject() {
       if (linkColorObjectEDataType == null)
       {
-         linkColorObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(110);
+         linkColorObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(111);
       }
       return linkColorObjectEDataType;
    }
@@ -4957,7 +4968,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getLinkLineStyleObject() {
       if (linkLineStyleObjectEDataType == null)
       {
-         linkLineStyleObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(111);
+         linkLineStyleObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(112);
       }
       return linkLineStyleObjectEDataType;
    }
@@ -4970,7 +4981,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getLinkEndStyleObject() {
       if (linkEndStyleObjectEDataType == null)
       {
-         linkEndStyleObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(112);
+         linkEndStyleObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(113);
       }
       return linkEndStyleObjectEDataType;
    }
@@ -4983,7 +4994,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getLoopTypeObject() {
       if (loopTypeObjectEDataType == null)
       {
-         loopTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(114);
+         loopTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(115);
       }
       return loopTypeObjectEDataType;
    }
@@ -4996,7 +5007,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getOrientationTypeObject() {
       if (orientationTypeObjectEDataType == null)
       {
-         orientationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(115);
+         orientationTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(116);
       }
       return orientationTypeObjectEDataType;
    }
@@ -5009,7 +5020,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getRoutingTypeObject() {
       if (routingTypeObjectEDataType == null)
       {
-         routingTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(116);
+         routingTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(117);
       }
       return routingTypeObjectEDataType;
    }
@@ -5022,7 +5033,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getSubProcessModeTypeObject() {
       if (subProcessModeTypeObjectEDataType == null)
       {
-         subProcessModeTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(117);
+         subProcessModeTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(118);
       }
       return subProcessModeTypeObjectEDataType;
    }
@@ -5035,7 +5046,7 @@ public class CarnotWorkflowModelPackageImpl extends EPackageImpl
    public EDataType getDiagramModeTypeObject() {
       if (diagramModeTypeObjectEDataType == null)
       {
-         diagramModeTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(118);
+         diagramModeTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(CarnotWorkflowModelPackage.eNS_URI).getEClassifiers().get(119);
       }
       return diagramModeTypeObjectEDataType;
    }

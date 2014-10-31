@@ -33,7 +33,7 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
-public class EObjectProxyHandler implements InvocationHandler, Adapter
+public class EObjectProxyHandler implements EObjectReference, InvocationHandler, Adapter
 {
    private EObject object;
    private EObject target;
@@ -73,7 +73,7 @@ public class EObjectProxyHandler implements InvocationHandler, Adapter
       return method.invoke(instance, args);
    }
 
-   public EObject getProxy()
+   public EObject getSelf()
    {
       return proxy;
    }

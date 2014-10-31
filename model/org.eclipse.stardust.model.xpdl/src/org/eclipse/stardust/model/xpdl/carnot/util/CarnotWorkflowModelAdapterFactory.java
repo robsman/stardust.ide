@@ -432,6 +432,11 @@ public class CarnotWorkflowModelAdapterFactory extends AdapterFactoryImpl
             return createIdRefAdapter();
          }
          @Override
+         public Adapter caseIdRefOwner(IdRefOwner object)
+         {
+            return createIdRefOwnerAdapter();
+         }
+         @Override
          public Adapter caseGatewaySymbol(GatewaySymbol object)
          {
             return createGatewaySymbolAdapter();
@@ -1075,6 +1080,21 @@ public class CarnotWorkflowModelAdapterFactory extends AdapterFactoryImpl
     * @generated
     */
    public Adapter createIdRefAdapter()
+   {
+      return null;
+   }
+
+   /**
+    * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.xpdl.carnot.IdRefOwner <em>Id Ref Owner</em>}'.
+    * <!-- begin-user-doc -->
+    * This default implementation returns null so that we can easily ignore cases;
+    * it's useful to ignore a case when inheritance will catch all the cases anyway.
+    * <!-- end-user-doc -->
+    * @return the new adapter.
+    * @see org.eclipse.stardust.model.xpdl.carnot.IdRefOwner
+    * @generated
+    */
+   public Adapter createIdRefOwnerAdapter()
    {
       return null;
    }

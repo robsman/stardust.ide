@@ -33,6 +33,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IEventHandlerOwner;
 import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IdRef;
+import org.eclipse.stardust.model.xpdl.carnot.IdRefOwner;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
@@ -54,6 +55,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getEventHandler <em>Event Handler</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getActivity <em>Activity</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getTransition <em>Transition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getTrigger <em>Trigger</em>}</li>
@@ -64,7 +66,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getDefaultPriority <em>Default Priority</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getFormalParameters <em>Formal Parameters</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getFormalParameterMappings <em>Formal Parameter Mappings</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessDefinitionTypeImpl#getExternalRef <em>External Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -197,6 +198,16 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
    protected EList<EventHandlerType> eventHandler;
 
    /**
+    * The cached value of the '{@link #getExternalRef() <em>External Ref</em>}' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getExternalRef()
+    * @generated
+    * @ordered
+    */
+   protected IdRef externalRef;
+
+   /**
     * The cached value of the '{@link #getActivity() <em>Activity</em>}' containment reference list.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -305,16 +316,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
     * @ordered
     */
    protected FormalParameterMappingsType formalParameterMappings;
-
-   /**
-    * The cached value of the '{@link #getExternalRef() <em>External Ref</em>}' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @see #getExternalRef()
-    * @generated
-    * @ordered
-    */
-   protected IdRef externalRef;
 
    /**
     * <!-- begin-user-doc -->
@@ -772,6 +773,8 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return basicSetDescription(null, msgs);
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER:
             return ((InternalEList<?>)getEventHandler()).basicRemove(otherEnd, msgs);
+         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
+            return basicSetExternalRef(null, msgs);
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__ACTIVITY:
             return ((InternalEList<?>)getActivity()).basicRemove(otherEnd, msgs);
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__TRANSITION:
@@ -790,8 +793,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return basicSetFormalParameters(null, msgs);
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS:
             return basicSetFormalParameterMappings(null, msgs);
-         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
-            return basicSetExternalRef(null, msgs);
       }
       return super.eInverseRemove(otherEnd, featureID, msgs);
    }
@@ -818,6 +819,8 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return getDescription();
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER:
             return getEventHandler();
+         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
+            return getExternalRef();
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__ACTIVITY:
             return getActivity();
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__TRANSITION:
@@ -838,8 +841,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return getFormalParameters();
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS:
             return getFormalParameterMappings();
-         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
-            return getExternalRef();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -874,6 +875,9 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER:
             getEventHandler().clear();
             getEventHandler().addAll((Collection<? extends EventHandlerType>)newValue);
+            return;
+         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
+            setExternalRef((IdRef)newValue);
             return;
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__ACTIVITY:
             getActivity().clear();
@@ -912,9 +916,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS:
             setFormalParameterMappings((FormalParameterMappingsType)newValue);
             return;
-         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
-            setExternalRef((IdRef)newValue);
-            return;
       }
       super.eSet(featureID, newValue);
    }
@@ -947,6 +948,9 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER:
             getEventHandler().clear();
             return;
+         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
+            setExternalRef((IdRef)null);
+            return;
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__ACTIVITY:
             getActivity().clear();
             return;
@@ -977,9 +981,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS:
             setFormalParameterMappings((FormalParameterMappingsType)null);
             return;
-         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
-            setExternalRef((IdRef)null);
-            return;
       }
       super.eUnset(featureID);
    }
@@ -1006,6 +1007,8 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return description != null;
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER:
             return eventHandler != null && !eventHandler.isEmpty();
+         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
+            return externalRef != null;
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__ACTIVITY:
             return activity != null && !activity.isEmpty();
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__TRANSITION:
@@ -1026,8 +1029,6 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             return formalParameters != null;
          case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS:
             return formalParameterMappings != null;
-         case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF:
-            return externalRef != null;
       }
       return super.eIsSet(featureID);
    }
@@ -1165,6 +1166,14 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
             default: return -1;
          }
       }
+      if (baseClass == IdRefOwner.class)
+      {
+         switch (derivedFeatureID)
+         {
+            case CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF: return CarnotWorkflowModelPackage.ID_REF_OWNER__EXTERNAL_REF;
+            default: return -1;
+         }
+      }
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
    }
 
@@ -1198,6 +1207,14 @@ public class ProcessDefinitionTypeImpl extends EObjectImpl implements ProcessDef
          switch (baseFeatureID)
          {
             case CarnotWorkflowModelPackage.IEVENT_HANDLER_OWNER__EVENT_HANDLER: return CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EVENT_HANDLER;
+            default: return -1;
+         }
+      }
+      if (baseClass == IdRefOwner.class)
+      {
+         switch (baseFeatureID)
+         {
+            case CarnotWorkflowModelPackage.ID_REF_OWNER__EXTERNAL_REF: return CarnotWorkflowModelPackage.PROCESS_DEFINITION_TYPE__EXTERNAL_REF;
             default: return -1;
          }
       }

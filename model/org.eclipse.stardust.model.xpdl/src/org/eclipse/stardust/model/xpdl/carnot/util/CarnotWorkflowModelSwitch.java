@@ -296,6 +296,7 @@ public class CarnotWorkflowModelSwitch<T> extends Switch<T>
             T result = caseActivityType(activityType);
             if (result == null) result = caseIIdentifiableModelElement(activityType);
             if (result == null) result = caseIEventHandlerOwner(activityType);
+            if (result == null) result = caseIdRefOwner(activityType);
             if (result == null) result = caseIModelElement(activityType);
             if (result == null) result = caseIIdentifiableElement(activityType);
             if (result == null) result = caseIExtensibleElement(activityType);
@@ -591,6 +592,13 @@ public class CarnotWorkflowModelSwitch<T> extends Switch<T>
             if (result == null) result = defaultCase(theEObject);
             return result;
          }
+         case CarnotWorkflowModelPackage.ID_REF_OWNER:
+         {
+            IdRefOwner idRefOwner = (IdRefOwner)theEObject;
+            T result = caseIdRefOwner(idRefOwner);
+            if (result == null) result = defaultCase(theEObject);
+            return result;
+         }
          case CarnotWorkflowModelPackage.GATEWAY_SYMBOL:
          {
             GatewaySymbol gatewaySymbol = (GatewaySymbol)theEObject;
@@ -774,6 +782,7 @@ public class CarnotWorkflowModelSwitch<T> extends Switch<T>
             T result = caseProcessDefinitionType(processDefinitionType);
             if (result == null) result = caseIIdentifiableModelElement(processDefinitionType);
             if (result == null) result = caseIEventHandlerOwner(processDefinitionType);
+            if (result == null) result = caseIdRefOwner(processDefinitionType);
             if (result == null) result = caseIModelElement(processDefinitionType);
             if (result == null) result = caseIIdentifiableElement(processDefinitionType);
             if (result == null) result = caseIExtensibleElement(processDefinitionType);
@@ -1435,6 +1444,22 @@ public class CarnotWorkflowModelSwitch<T> extends Switch<T>
     * @generated
     */
    public T caseIdRef(IdRef object)
+   {
+      return null;
+   }
+
+   /**
+    * Returns the result of interpreting the object as an instance of '<em>Id Ref Owner</em>'.
+    * <!-- begin-user-doc -->
+    * This implementation returns null;
+    * returning a non-null result will terminate the switch.
+    * <!-- end-user-doc -->
+    * @param object the target of the switch.
+    * @return the result of interpreting the object as an instance of '<em>Id Ref Owner</em>'.
+    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+    * @generated
+    */
+   public T caseIdRefOwner(IdRefOwner object)
    {
       return null;
    }
