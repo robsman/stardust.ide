@@ -81,15 +81,18 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 	private boolean handleMultiStartEvent(FlowElementsContainer container, List<StartEvent> startEvents) {
 		if (null == startEvents || !(startEvents.size() > 1)) return false;
 		ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
-		ActivityType startRoute = insertOrSplitRoute(container, processDef);
+		ActivityType startRoute = insertXOrSplitRoute(container, processDef);
 		for (StartEvent startEvent : startEvents) {
 			List<FlowNode> successors = BpmnModelQuery.getSequenceSuccessorNodesOf(startEvent);
-			for (FlowNode target : successors) {
-	        	ActivityType targetActivity = query.findActivity(target, container);
-	        	TransitionType transition = TransitionUtil.createTransition(START_ROUTE_PRE_FIX + targetActivity.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, startRoute, targetActivity);
-	        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEvent.getId() + "\";");
-	        	addJmsStartEventHeaders(startEvent, processDef);
+			ActivityType targetActivity = null;
+			if (successors.size() > 1) {
+				targetActivity = insertParallelRouteForStartEvent(container, startEvent, successors);
+			} else if (successors.size() == 1) {
+				targetActivity = query.findActivity(successors.get(0), container);
 			}
+        	TransitionType transition = TransitionUtil.createTransition(START_ROUTE_PRE_FIX + targetActivity.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, startRoute, targetActivity);
+        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEvent.getId() + "\";");
+        	addJmsStartEventHeaders(startEvent, processDef);
 		}
 		return true;
 	}
@@ -97,10 +100,16 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 	private void addJmsStartEventHeaders(StartEvent startEvent, ProcessDefinitionType processDef) {
 		TriggerType trigger = CarnotModelQuery.findTrigger(processDef, startEvent.getId());
 		if (null == trigger) {
+			if (null == startEvent.getEventDefinitions() || 0 >= startEvent.getEventDefinitions().size()) {
+				return; // bpmn 'none' start event as api-trigger is accepted (no failure)
+			}
 			failures.add("Trigger for BPMN Start Event " + startEvent.getId() + " not found in target model.");
 			return;
 		}
-		if (!PredefinedConstants.JMS_TRIGGER.equals(trigger.getType().getId())) return;
+		if (!PredefinedConstants.JMS_TRIGGER.equals(trigger.getType().getId())) {
+			failures.add("Trigger Type not supported for multiple BPMN Start Events " + startEvent.getId() + " (Allowed are 'None StartEvents' for API calls and (JMS) Message StartEvents).");
+			return;
+		}
 
         AccessPointType ap = CarnotWorkflowModelFactory.eINSTANCE.createAccessPointType();
         ap.setDirection(DirectionType.OUT_LITERAL);
@@ -127,9 +136,9 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 	}
 
 
-	private ActivityType insertOrSplitRoute(FlowElementsContainer container, ProcessDefinitionType processDef) {
+	private ActivityType insertXOrSplitRoute(FlowElementsContainer container, ProcessDefinitionType processDef) {
 		ActivityType route = createRouteActivity(processDef, container.getId() + START_ROUTE_POST_FIX, START_ROUTE_NAME);
-        route.setSplit(JoinSplitType.OR_LITERAL);
+        route.setSplit(JoinSplitType.XOR_LITERAL);
         return route;
 	}
 
@@ -154,9 +163,20 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 	 * Insert route predecissor, if there are no start events and more than one 'start activity'.
 	 */
 	private void handleParallelStarts(FlowElementsContainer container, List<StartEvent> startEvents, List<FlowNode> potentialStartElements) {
-		if (null != startEvents && 0 < startEvents.size()) return;
+		if (null != startEvents && 1 < startEvents.size()) return;
 		if (null == potentialStartElements || 1 >= potentialStartElements.size()) return;
 		insertAndSplitRouteWithTransitionTo(container, potentialStartElements);
+	}
+
+	private ActivityType insertParallelRouteForStartEvent(FlowElementsContainer container, StartEvent startEvent, List<FlowNode> successors) {
+		ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
+		ActivityType route = createRouteActivity(processDef, startEvent.getId() + START_ROUTE_POST_FIX, START_ROUTE_NAME);
+        route.setSplit(JoinSplitType.AND_LITERAL);
+        for (FlowNode successor: successors) {
+        	ActivityType targetActivity = query.findActivity(successor, container);
+        	TransitionUtil.createTransition(START_ROUTE_PRE_FIX + successor.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, route, targetActivity);
+        }
+        return route;
 	}
 
 	private void insertAndSplitRouteWithTransitionTo(FlowElementsContainer container, List<FlowNode> potentialStartElements) {

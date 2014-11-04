@@ -24,10 +24,11 @@ import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.ItemAwareElement;
+import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper.AccessPointPathInfo;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
@@ -85,12 +86,29 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
             addOutDataMappingFromAssignments(trigger, assocOut, dataOutput, toVariable);
         } else {
             failures.add(Bpmn2StardustXPDL.FAIL_ELEMENT_UNSUPPORTED_FEATURE + "StartEvent DataOutput without assignment" + assocOut);
-            return null;
+            return dataOutput;
         }
         return dataOutput;
     }
 
-    private void addOutDataMappingFromAssignments(TriggerType trigger, DataOutputAssociation assocOut, DataOutput dataOutput, DataType toVariable) {
+    @SuppressWarnings("unused")
+	private void addOutDataMappingWithoutAssignment(TriggerType trigger, DataOutputAssociation assocOut, DataOutput dataOutput, DataType toVariable) {
+    	ItemDefinition accessPointItemDef = dataOutput.getItemSubjectRef();
+    	if (null == accessPointItemDef) {
+    		failures.add("Synthetic item definition for trigger Accesspoint not found (trigger: " + trigger.getId() + " association: " + assocOut.getId() + ")");
+    		return;
+    	}
+    	String apId = DataMappingPathHelper.INSTANCE.getAccessPointId(accessPointItemDef);
+    	if (null == apId) {
+    		failures.add("Accesspoint not found from synthetic item definition (item definition: " + accessPointItemDef.getId() + " - " + accessPointItemDef.getStructureRef() + " trigger: " + trigger.getId() + " association: " + assocOut.getId() + ")");
+    		return;
+    	}
+    	//final String name = TaskDataFlow2Stardust.getDataMappingName(dataOutput, assocOut);
+    	final ParameterMappingType mapping = buildParameterMapping(trigger, null, toVariable, "", apId, "");
+    	trigger.getParameterMapping().add(mapping);
+	}
+
+	private void addOutDataMappingFromAssignments(TriggerType trigger, DataOutputAssociation assocOut, DataOutput dataOutput, DataType toVariable) {
         logger.debug("addOutDataMappingFromAssignments " + trigger);
         for (Assignment assign : assocOut.getAssignment()) {
             Expression fromExpression = assign.getFrom();
@@ -108,9 +126,9 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
         }
     }
 
-    private ParameterMappingType buildParameterMapping(TriggerType trigger, long oid, DataType data, String dataPath, String param, String paramPath) {
+    private ParameterMappingType buildParameterMapping(TriggerType trigger, Long oid, DataType data, String dataPath, String param, String paramPath) {
     	ParameterMappingType mapping = AbstractElementBuilder.F_CWM.createParameterMappingType();
-    	mapping.setElementOid(oid);
+    	if (null != oid) mapping.setElementOid(oid);
     	mapping.setData(data);
     	mapping.setDataPath(dataPath);
     	mapping.setParameter(param);

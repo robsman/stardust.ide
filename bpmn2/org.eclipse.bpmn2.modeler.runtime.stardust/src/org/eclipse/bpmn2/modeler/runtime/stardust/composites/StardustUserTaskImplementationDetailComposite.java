@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import java.util.List;
@@ -20,7 +31,7 @@ import org.eclipse.swt.widgets.Composite;
 public class StardustUserTaskImplementationDetailComposite extends DefaultDetailComposite {
 
 	StardustUserTaskType sdUserTask = null;
-	
+
 	/**
 	 * @param parent
 	 * @param style
@@ -35,16 +46,16 @@ public class StardustUserTaskImplementationDetailComposite extends DefaultDetail
 	public StardustUserTaskImplementationDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
-	
+
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
 		if (propertiesProvider==null) {
 			propertiesProvider = new AbstractPropertiesProvider(object) {
 				String[] properties = new String[] {"interactiveApplicationRef", "allowsAbortByPerformer"};
-				
+
 				@Override
 				public String[] getProperties() {
-					return properties; 
+					return properties;
 				}
 			};
 		}
@@ -59,9 +70,9 @@ public class StardustUserTaskImplementationDetailComposite extends DefaultDetail
 		} else {
 			sdUserTask= SdbpmnFactory.eINSTANCE.createStardustUserTaskType();
 			EStructuralFeature feature = SdbpmnPackage.eINSTANCE.getDocumentRoot_StardustUserTask();
-			ModelDecorator.addExtensionAttributeValue(be, feature, sdUserTask, true);			
+			ModelDecorator.addExtensionAttributeValue(be, feature, sdUserTask, true);
 		}
 		super.createBindings(sdUserTask);
 	}
-	
+
 }

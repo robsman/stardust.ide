@@ -21,17 +21,15 @@ import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Expression;
+import org.eclipse.bpmn2.FlowElement;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FlowNode;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
-import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
@@ -60,6 +58,11 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 	}
 
 	public void processRoutingNode(FlowNode node, FlowElementsContainer container) {
+		if (node instanceof StartEvent) {
+			int startEventCnt = countStartEvents(container);
+			// Multiple Start Events are handled separately
+			if (startEventCnt > 1) return;
+		}
 		processDef = query.findProcessDefinition(container.getId());
 		numSplittingStartEvents = 0;
 		List<SequenceFlow> incomings = node.getIncoming();
@@ -72,6 +75,16 @@ public class RoutingSequenceFlow2Stardust extends AbstractElement2Stardust {
 		if (incomings != null && incomings.size() > 1) {
 			createJoin(node, incomings, container);
 		}
+	}
+
+	private int countStartEvents(FlowElementsContainer container) {
+		int cnt = 0;
+		for (FlowElement flowElement : container.getFlowElements()) {
+			if (flowElement instanceof StartEvent) {
+				cnt++;
+			}
+		}
+		return cnt;
 	}
 
 	private void createJoin(FlowNode node, List<SequenceFlow> incomings, FlowElementsContainer container) {

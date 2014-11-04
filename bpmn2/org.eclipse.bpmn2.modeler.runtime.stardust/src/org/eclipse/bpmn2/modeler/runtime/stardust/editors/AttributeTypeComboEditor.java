@@ -13,7 +13,10 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
+import java.util.Map;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
@@ -21,4 +24,13 @@ public class AttributeTypeComboEditor extends SimpleComboObjectEditor {
 	public AttributeTypeComboEditor(AbstractDetailComposite parent, AttributeType object, String choices[]) {
 		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), choices);
 	}
+
+	public AttributeTypeComboEditor(AbstractDetailComposite parent, AttributeType object, final Map<String, String> choices) {
+		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), choices);
+	}
+
+	public void addSelectionListener(ISelectionChangedListener listener) {
+		super.comboViewer.addSelectionChangedListener(listener);
+	}
+
 }

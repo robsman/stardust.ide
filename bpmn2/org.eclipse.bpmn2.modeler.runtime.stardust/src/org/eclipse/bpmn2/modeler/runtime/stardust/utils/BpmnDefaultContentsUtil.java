@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils;
 
 import java.util.HashMap;
@@ -23,20 +34,20 @@ import org.eclipse.xsd.util.XSDConstants;
 public class BpmnDefaultContentsUtil {
 
 	public static final String ADMIN_RESOURCE_ID = "Administrator";
-	
+
 	private static final String INT_KEY = "integer";
 	private static final String STRING_KEY = "string";
 	private static final String DATE_KEY = "date";
-	
+
 	public static void addDefaultContents(Definitions definitions) {
 		addData(definitions);
 		createAdministratorPerformer(definitions);
-	}	
-	
+	}
+
 	private static void addData(Definitions definitions) {
 
 		Map<String, ItemDefinition> typeMap = new HashMap<String, ItemDefinition>();
-		
+
 		ItemDefinition integerDef = findDefinitionForType(definitions, XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, INT_KEY);
 		ItemDefinition stringDef = findDefinitionForType(definitions, XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, STRING_KEY);
 		ItemDefinition dateDef = findDefinitionForType(definitions, XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, DATE_KEY);
@@ -48,23 +59,23 @@ public class BpmnDefaultContentsUtil {
 		typeMap.put(INT_KEY, integerDef);
 		typeMap.put(STRING_KEY, stringDef);
 		typeMap.put(DATE_KEY, dateDef);
-		
+
 		for (String cls : PredefinedDataInfo.getTypeClasses()) {
 			if (null != findDefinitionForType(definitions, null, cls)) continue;
 			ItemDefinition type = createType(definitions, cls);
 			ExtensionHelper.getInstance().setAnyAttribute(type, ExtensionHelper2.STARDUST_SYNTHETIC_ITEMDEF, "true");
-			typeMap.put(cls, type);	
+			typeMap.put(cls, type);
 		}
 
 		List<Process> allProcesses = ModelUtil.getAllObjectsOfType(definitions.eResource(), Process.class);
-		List<DataInfo> predefinedData = new PredefinedDataInfo().getPredefinedData();		
+		List<DataInfo> predefinedData = new PredefinedDataInfo().getPredefinedData();
 		for (Process process : allProcesses) {
 			for (DataInfo info : predefinedData) {
 				createProperty(process, info, typeMap);
 			}
 		}
 	}
-	
+
 	private static void createProperty(Process process, DataInfo info, Map<String, ItemDefinition> typeMap) {
 		if (null != findPropertyByStardustPropertyId(process, info.id)) return;
 		Property prop = Bpmn2Factory.eINSTANCE.createProperty();

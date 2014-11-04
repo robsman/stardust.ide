@@ -27,6 +27,8 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 
 public class ServiceTask2Stardust extends AbstractElement2Stardust {
 
+	protected final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ServiceTask2Stardust.class);
+
 	private BpmnModelQuery bpmnquery;
 
 	public ServiceTask2Stardust(ModelType carnotModel, List<String> failures) {

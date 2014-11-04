@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils;
 
 import java.lang.reflect.Method;
@@ -27,20 +38,20 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 
 /**
  * Removes attributes / references generated through {@link StardustApplicationType} config (e.g. item definitions, operations, messages, implementationRef).
- *  
+ *
  * @author Simon Nikles
  *
  */
 public enum StardustApplicationConfigurationCleaner {
 
 	INSTANCE;
-	
+
 	public void performResetExistingApp(StardustInterfaceType sdInterface) {
-		
+
 		Interface bpmnInterface = (Interface)(sdInterface.eContainer()).eContainer();
 		bpmnInterface.setImplementationRef(null);
 		sdInterface.setStardustTrigger(null);
-		
+
 		Definitions definitions = ModelUtil.getDefinitions(bpmnInterface);
 		List<Operation> operations = bpmnInterface.getOperations();
 		Message inMessage = null;
@@ -67,16 +78,16 @@ public enum StardustApplicationConfigurationCleaner {
 			}
 		}
 		bpmnInterface.getOperations().clear();
-		
+
 		if (null != inMessage) EcoreUtil.delete(inMessage);
 		if (null != outMessage) EcoreUtil.delete(outMessage);
-	}	
-	
+	}
+
 //	public void performResetAccessPoints(StardustInterfaceType sdInterface) {
 //		Interface iface = (Interface)sdInterface.eContainer();
 //		StardustApplicationType sdApp = sdInterface.getStardustApplication();
 //		sdApp.getAccessPoint1().clear();
-//		
+//
 //		List<Operation> operations = iface.getOperations();
 //		for (Operation op : operations) {
 //			Message mIn = op.getInMessageRef();
@@ -84,7 +95,7 @@ public enum StardustApplicationConfigurationCleaner {
 //
 //			op.setInMessageRef(null);
 //			op.setOutMessageRef(null);
-//			
+//
 //			if (null != mIn) {
 //				ItemDefinition itemRef = mIn.getItemRef();
 //				if (null != itemRef) EcoreUtil.delete(itemRef);
@@ -97,7 +108,7 @@ public enum StardustApplicationConfigurationCleaner {
 //			if (null != mOut) EcoreUtil.delete(mOut);
 //		}
 //	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void resetReferencingActivities(List<BaseElement> referencingActivities) {
 		for (BaseElement element : referencingActivities) {
@@ -107,7 +118,7 @@ public enum StardustApplicationConfigurationCleaner {
 			if (element instanceof Activity) {
 				InputOutputSpecification ioSpecification = (InputOutputSpecification)((Activity)element).getIoSpecification();
 				dataInputs.addAll(ioSpecification.getDataInputs());
-				dataOutputs.addAll(ioSpecification.getDataOutputs());				
+				dataOutputs.addAll(ioSpecification.getDataOutputs());
 			}
 			if (element instanceof EventDefinition) {
 				Event event = (Event)((EventDefinition)element).eContainer();
@@ -117,7 +128,7 @@ public enum StardustApplicationConfigurationCleaner {
 						if (null != getter) {
 							dataInputs.addAll((List<DataInput>)getter.invoke(event));
 						}
-					} catch (Exception e) {}				
+					} catch (Exception e) {}
 					try {
 						Method getter = event.getClass().getMethod("getDataOutputs");
 						if (null != getter) {
@@ -126,15 +137,15 @@ public enum StardustApplicationConfigurationCleaner {
 					} catch (Exception e) {}
 				}
 			}
-			
+
 			// we expect implementing tasks/events to have only one datainput / one dataoutput (or even if there are more) with the same type as the operation-message
 			for (DataInput in : dataInputs) {
 				in.setItemSubjectRef(null);
 			}
-			
+
 			for (DataOutput out : dataOutputs) {
 				out.setItemSubjectRef(null);
-			}			
+			}
 			try {
 				Method getter = element.getClass().getMethod("getOperationRef");
 				if (null != getter) {

@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -18,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 public class StructuredTypeAccessPointSubComposite extends AbstractDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
 
 	private AccessPointChangeListener listener;
-	
+
 	public StructuredTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -41,7 +52,7 @@ public class StructuredTypeAccessPointSubComposite extends AbstractDetailComposi
 
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "", null));
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:path:separator", "/", null));
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));		
+//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
 
 		setTitle(AcessPointDataTypes.STRUCT_TYPE.getDisplayName());

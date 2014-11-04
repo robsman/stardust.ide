@@ -210,6 +210,24 @@
 			label="Event Data">
 		</propertyTab>
 
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.commonEvent.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.commonEvent.tab"
+			afterTab="org.eclipse.bpmn2.modeler.description.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustCommonEventPropertySection"
+			type="org.eclipse.bpmn2.Event"
+			label="Event">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.startEvent.tab"
+			afterTab="org.eclipse.bpmn2.modeler.runtime.stardust.commonEvent.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustStartEventPropertySection"
+			type="org.eclipse.bpmn2.StartEvent"
+			label="Stardust Trigger">
+		</propertyTab>
+
+
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.modelExtension.TimerEvent"
@@ -232,6 +250,15 @@
 			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter">
 		</propertyExtension>
+
+<!--
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustStartEvent"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustStartEventExtendedPropertiesAdapter">
+		</propertyExtension>
+-->
 
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataObject"
@@ -275,6 +302,14 @@
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustUserTaskPropertiesAdapter">
 		</propertyExtension>
 
+<!--
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustEvent"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.CatchEvent"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustCatchEventPropertiesAdapter">
+		</propertyExtension>
+-->
 		<!--
 		Enable the Stardust and Carnot model objects here. Unless explicitly enabled, these
 		objects will not be rendered in Property Sheets.
@@ -285,11 +320,12 @@
 				profile="Full"
 				ref="org.eclipse.bpmn2.modeler.runtime.none:profile.1"
 				description="Stardust elements and attributes">
+<enable object="all"/>
 			<enable object="StardustInterfaceType"/>
 			<enable object="StardustApplicationType"/>
 			<enable object="StardustContextType" />
 			<enable object="StardustStartEventType"/>
-			<enable object="StardustAccessPointType"/>
+			<enable object="StardustAccessPointType" />
 			<enable object="StardustUserTaskType"/>
 			<enable object="StardustDataStoreType"/>
 			<enable object="StardustDataObjectType"/>
@@ -302,6 +338,7 @@
 
 			<enable object="StartEvent" feature="dataOutputs"/>
 			<enable object="IntermediateCatchEvent" feature="dataOutputs"/>
+
 
 		</modelEnablement>
 

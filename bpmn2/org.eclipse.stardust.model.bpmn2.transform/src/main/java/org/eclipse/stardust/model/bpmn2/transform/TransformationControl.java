@@ -93,9 +93,9 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
  *
  */
 public class TransformationControl {
-	
+
     private static final String NOT_SUPPORTED = ": element transformation not supported\n";
-	
+
     private final Dialect dialect;
     private Transformator transf;
     private String processingInfo = "";
@@ -104,12 +104,15 @@ public class TransformationControl {
     private Map<FlowElementsContainer, List<ThrowEvent>> throwEventsWithDataflow;
     private Map<FlowElementsContainer, List<CatchEvent>> catchEventsWithDataflow;
     private Map<FlowElementsContainer, List<StartEvent>> startEventsPerContainer;
+    /**
+     * containers here are 'process' or 'subprocess'
+     */
     private Map<FlowElementsContainer, List<FlowNode>> potentialStartNodesPerContainer;
     private Map<FlowElementsContainer, List<CallActivity>> globalCalls;
 	private List<String> processedImportDefinitions = new ArrayList<String>();
-    
+
 	private Map<String, String> predefinedDataForId = new HashMap<String, String>();
-		
+
     public static TransformationControl getInstance(Dialect dialect) {
         return new TransformationControl(dialect);
     }
@@ -156,7 +159,7 @@ public class TransformationControl {
         List<RootElement> roots = definitions.getRootElements();
         List<Collaboration> collabs = new ArrayList<Collaboration>();
         List<Import> bpmnImports =  definitions.getImports();
-        for (Import imp : bpmnImports) {        	
+        for (Import imp : bpmnImports) {
         	processModelImport(imp);
         }
         // 'globally' used elements
@@ -226,7 +229,7 @@ public class TransformationControl {
 //			for (CallActivity caller : globalCalls.get(container)) {
 //				processGlobalCall(caller, container);
 //			}
-//		}		
+//		}
     }
 
 	private void processModelImport(Import imp) {
@@ -375,7 +378,7 @@ public class TransformationControl {
             if (!globalCalls.containsKey(container)) {
             	globalCalls.put(container, new ArrayList<CallActivity>());
             }
-            globalCalls.get(container).add((CallActivity)activity);            
+            globalCalls.get(container).add((CallActivity)activity);
         }
     }
 
@@ -494,7 +497,7 @@ public class TransformationControl {
     private void processExclusiveGateway(ExclusiveGateway gateway, FlowElementsContainer container) {
         transf.addExclusiveGateway(gateway, container);
     }
-    
+
     private void processInclusiveGateway(InclusiveGateway gateway, FlowElementsContainer container) {
     	transf.addInclusiveGateway(gateway, container);
         //processingInfo +=   "InclusiveGateway" + NOT_SUPPORTED;
@@ -625,7 +628,7 @@ public class TransformationControl {
 		/* handle the call (i.e. data mapping of a call activity) finally, when all callable elements have been transformed */
     	transf.addGlobalCall(caller, container);
 	}
-	
+
     private void processChoreographyActivity(ChoreographyActivity choreo, FlowElementsContainer container) {
         processingInfo +=   "ChoreographyActivity" + NOT_SUPPORTED;
 

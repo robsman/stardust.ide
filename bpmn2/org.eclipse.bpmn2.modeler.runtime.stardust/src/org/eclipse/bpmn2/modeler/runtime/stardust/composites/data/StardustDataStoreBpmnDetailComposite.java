@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.data;
 
 import java.util.Collections;
@@ -51,7 +62,7 @@ public class StardustDataStoreBpmnDetailComposite extends DefaultDetailComposite
 			if (null == type) {
 				super.bindReference(parent, object, reference);
 				return;
-			}			
+			}
 			FilteredStardustDatatypeDropdown combo = null;
 			switch (type) {
 			case DOCUMENT:
@@ -76,12 +87,12 @@ public class StardustDataStoreBpmnDetailComposite extends DefaultDetailComposite
 			super.bindReference(parent, object, reference);
 		}
 	}
-	
+
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
 		if (propertiesProvider == null) {
 			propertiesProvider = new AbstractPropertiesProvider(object) {
-				String[] properties = new String[] { "id", "name", "itemSubjectRef" }; 
+				String[] properties = new String[] { "id", "name", "itemSubjectRef" };
 				@Override
 				public String[] getProperties() {
 					return properties;

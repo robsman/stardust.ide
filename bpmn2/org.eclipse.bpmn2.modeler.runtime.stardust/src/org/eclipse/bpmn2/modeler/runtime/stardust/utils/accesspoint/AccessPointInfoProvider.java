@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint;
 
 import java.net.MalformedURLException;
@@ -21,6 +32,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.XSDType2Stardust;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
@@ -49,6 +61,12 @@ public class AccessPointInfoProvider {
 		return itemDef;
 	}
 
+	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(StardustTriggerType trigger, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
+		AccessPointSchemaWrapper wrapper = createSchemaWrapper(trigger);
+		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
+		return itemDef;
+	}
+
 	public static ItemDefinition addOutputAccessPointItemDefinitionSchema(StardustApplicationType app, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {
 		AccessPointSchemaWrapper wrapper = createSchemaWrapper(app);
 		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
@@ -58,6 +76,12 @@ public class AccessPointInfoProvider {
 	private static AccessPointSchemaWrapper createSchemaWrapper(StardustApplicationType app) {
 		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(app.getAccessPoint1());
 		schemaWrapper.setOwnerApplicationId(app.getId());
+		return schemaWrapper;
+	}
+
+	private static AccessPointSchemaWrapper createSchemaWrapper(StardustTriggerType trigger) {
+		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(trigger.getAccessPoint1());
+		schemaWrapper.setOwnerApplicationId(trigger.getId());
 		return schemaWrapper;
 	}
 
@@ -108,14 +132,14 @@ public class AccessPointInfoProvider {
 				XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
 				simpleType.setTargetNamespace(ImportUtil.IMPORT_KIND_XML_SCHEMA);
 				simpleType.setName("anyType");
-				typeDef = simpleType;		
+				typeDef = simpleType;
 				ItemDefinition refItemDef = findItemDefinition(ap, typeRef);
 				if (null != refItemDef) {
 					if (null != refItemDef.getStructureRef()) {
 						typeClass = refItemDef.getStructureRef().toString();
 					}
 				}
-				
+
 			} else if (AcessPointDataTypes.STRUCT_TYPE.getKey().equals(type)) {
 				String prop = AcessPointDataTypes.STRUCT_TYPE.getType();
 				String typeRef = getStringAttribute(ap, prop); // ap.getStringAttribute(prop);
@@ -131,10 +155,10 @@ public class AccessPointInfoProvider {
 						XSDSimpleTypeDefinition simpleType = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
 						simpleType.setTargetNamespace(qname.getNamespaceURI());
 						simpleType.setName(qname.getLocalPart());
-						typeDef = simpleType; 
+						typeDef = simpleType;
 					}
 				}
-			} 
+			}
 			wrapper.addElement(displayName, id, typeDef, id, typeClass, AccessPointSchemaWrapper.Direction.valueOf(ap.getDirection()));
 		}
 		return wrapper;

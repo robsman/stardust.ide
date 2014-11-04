@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -18,7 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 public class PrimitiveTypeAccessPointSubComposite extends DefaultDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
 
 	private AccessPointChangeListener listener;
-	
+
 	public PrimitiveTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -32,7 +43,7 @@ public class PrimitiveTypeAccessPointSubComposite extends DefaultDetailComposite
 	public void createBindings(EObject be) {
 		StardustAccessPointType apType = (StardustAccessPointType)be;
 		Composite parent = this.getAttributesParent();
-		
+
 		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:type");
 		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.PRIMITIVE_TYPE, this);
 		editor.createControl(parent, "Type");

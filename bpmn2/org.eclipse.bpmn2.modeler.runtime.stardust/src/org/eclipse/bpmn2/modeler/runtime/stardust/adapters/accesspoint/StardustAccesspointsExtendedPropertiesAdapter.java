@@ -2,11 +2,12 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustInterfaceExtendedPropertiesAdapter.ApplicationTypes;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.camel.CamelAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.jms.JmsAppAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.webapp.WebAppAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.ApplicationTypes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.trigger.TriggerAppTypeEnum;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -14,6 +15,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 
 /**
@@ -39,33 +41,56 @@ public class StardustAccesspointsExtendedPropertiesAdapter extends ExtendedPrope
 			return;
 		}
 		final EObject eContainer = object.eContainer();
-		if (null != eContainer && eContainer instanceof StardustApplicationType) {
-			final StardustApplicationType appType = (StardustApplicationType)eContainer;
-			if (null == appType.eContainer()) {
-				clearSubModels(object);
-				return;
+		if (null != eContainer) {
+			StardustInterfaceType sdInterface = null;
+			if (eContainer instanceof StardustApplicationType) {
+				final StardustApplicationType appType = (StardustApplicationType)eContainer;
+				if (null == appType.eContainer()) {
+					clearSubModels(object);
+					return;
+				}
+				sdInterface = (StardustInterfaceType)appType.eContainer();
+			} else if (eContainer instanceof StardustTriggerType) {
+				final StardustTriggerType trigger = (StardustTriggerType)eContainer;
+				if (null == trigger.eContainer()) {
+					clearSubModels(object);
+					return;
+				}
+				sdInterface = (StardustInterfaceType)trigger.eContainer();
 			}
-			final StardustInterfaceType sdInterface = (StardustInterfaceType)appType.eContainer();
+			if (null == sdInterface) return;
+
 			final String appTypeId = sdInterface.getApplicationType();
-			final ApplicationTypes type = ApplicationTypes.forKey(appTypeId);
+			final ApplicationTypes applicationType = ApplicationTypes.forKey(appTypeId);
+			final TriggerAppTypeEnum triggerType = TriggerAppTypeEnum.forKey(appTypeId);
 
 			FeatureDescriptor<StardustAccessPointType> featureDesc = null;
 
-			if (null == type) return;
-			switch (type) {
-			case CAMELCONSUMER:
-			case CAMELPRODUCER_SEND:
-			case CAMELPRODUCER_SENDRECEIVE:
-				featureDesc = CamelAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
-				break;
-			case JMS:
-				featureDesc = JmsAppAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
-				break;
-			case EXTERNAL_WEBAPP:
-				featureDesc = WebAppAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
-				break;
-			default:
-				break;
+			if (null != applicationType) {
+				switch (applicationType) {
+				case CAMELCONSUMER:
+				case CAMELPRODUCER_SEND:
+				case CAMELPRODUCER_SENDRECEIVE:
+					featureDesc = CamelAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
+					break;
+				case JMS:
+					featureDesc = JmsAppAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
+					break;
+				case EXTERNAL_WEBAPP:
+					featureDesc = WebAppAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
+					break;
+				default:
+					break;
+				}
+			} else if (null != triggerType) {
+				switch (triggerType) {
+				case JMS:
+					featureDesc = JmsAppAccesspointsExtendedPropertiesAdapter.INSTANCE.createFeatureDescriptor(this, object, feature);
+					break;
+				default:
+					break;
+				}
+
 			}
 			if (null != featureDesc) setFeatureDescriptor(feature, featureDesc);
 		}

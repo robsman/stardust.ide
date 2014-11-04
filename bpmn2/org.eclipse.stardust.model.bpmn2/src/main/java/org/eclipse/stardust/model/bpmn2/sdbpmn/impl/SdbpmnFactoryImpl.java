@@ -5,12 +5,30 @@ package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
-import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSubprocessType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
 
 /**
  * <!-- begin-user-doc -->

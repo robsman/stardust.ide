@@ -27,6 +27,11 @@
       	<timeCycle xsi:type="tFormalExpression" id="_J4Gw4fi3EeGWf5efbeOuhA">2012-09-01T11:00:00/P1Y2M1DT20H30M</timeCycle>
       </timerEventDefinition>
     </startEvent>
+    <sequenceFlow targetRef="dummyUserTask" sourceRef="TestModelTimerStartEventTime"></sequenceFlow>
+    <sequenceFlow targetRef="dummyUserTask" sourceRef="TestModelStartEventCycleStop"></sequenceFlow>
+    <userTask id="dummyUserTask"></userTask>
+
+
   </process>
   <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
     <bpmndi:BPMNPlane id="_1" bpmnElement="_a1d182de-7971-4662-9009-cab25f298bdd">

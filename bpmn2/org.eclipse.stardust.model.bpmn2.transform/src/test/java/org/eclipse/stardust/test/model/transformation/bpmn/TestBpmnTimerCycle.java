@@ -10,23 +10,19 @@
  *******************************************************************************/
 package org.eclipse.stardust.test.model.transformation.bpmn;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 import java.util.Calendar;
 
 import javax.xml.datatype.Duration;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnTimerCycle;
+import org.junit.Test;
 
-public class TestBpmnTimerCycle  extends TestCase {
+public class TestBpmnTimerCycle {
 
-    public static Test suite() {
-        TestSuite suite = new TestSuite(TestBpmnTimerCycle.class);
-        return suite;
-    }
-
+	@Test
     public void testFromLexicalValueDurationOnly() {
         String lex = "P3Y6M4DT12H30M5S";
         BpmnTimerCycle cycle = BpmnTimerCycle.getCycle(lex);

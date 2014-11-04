@@ -7,11 +7,8 @@ import java.math.BigInteger;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.util.FeatureMap;
-
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 
 /**

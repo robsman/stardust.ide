@@ -14,11 +14,11 @@ import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newTransit
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FormalExpression;
 import org.eclipse.bpmn2.SequenceFlow;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;

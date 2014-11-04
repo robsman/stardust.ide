@@ -1,15 +1,15 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012, 2013, 2014 Red Hat, Inc.
+ * Copyright (c) 2014 ITpearls, AG
  *  All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- * Red Hat, Inc. - initial API and implementation
+ * ITpearls AG - Stardust Runtime Extension
  *
- * @author Bob Brodt
  ******************************************************************************/
+
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.webapp;
 
@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Composite;
 public class ExtWebApplicationDetailComposite extends DefaultDetailComposite implements AccessPointChangeListener {
 
 	private StardustInterfaceType sdInterface;
-	
+
 	public ExtWebApplicationDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -68,7 +68,7 @@ public class ExtWebApplicationDetailComposite extends DefaultDetailComposite imp
 
 		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
 		StardustContextType appCtx = sdApplication.getContext1().size() > 0 ? sdApplication.getContext1().get(0) : null;
-		
+
 		if (null != appCtx) {
 			at = PropertyAdapterCommons.findAttributeType(appCtx, "carnot:engine:ui:externalWebApp:uri");
 			editor = new AttributeTypeTextEditor(this, at);
@@ -85,16 +85,16 @@ public class ExtWebApplicationDetailComposite extends DefaultDetailComposite imp
 	}
 
 	public void accessPointsChanged() {
-		RecordingCommand command = new RecordingCommand(editingDomain) {				
+		RecordingCommand command = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
 				if (null != sdInterface.getStardustApplication() && 0 < sdInterface.getStardustApplication().getContext1().size()) {
 					StardustApplicationConfigurationGenerator.INSTANCE.generateAccessPointInfos(sdInterface.getStardustApplication().getContext1().get(0));
 				}
 			}
-		};			
+		};
 		editingDomain.getCommandStack().execute(command);
-		refresh();		
+		refresh();
 	}
 
 }

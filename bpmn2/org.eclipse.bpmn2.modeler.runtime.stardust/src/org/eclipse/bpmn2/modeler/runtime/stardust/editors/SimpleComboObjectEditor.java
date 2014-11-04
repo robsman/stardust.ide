@@ -14,6 +14,7 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ComboObjectEditor;
@@ -29,6 +30,13 @@ public class SimpleComboObjectEditor extends ComboObjectEditor {
 		for (String s : choices) {
 			this.choices.put(s, s);
 		}
+	}
+
+	public SimpleComboObjectEditor(AbstractDetailComposite parent, EObject object, final EStructuralFeature feature,
+			final Map<String, String> choices) {
+		super(parent, object, feature);
+		this.choices.clear();
+		this.choices.putAll(choices);
 	}
 
 	@Override

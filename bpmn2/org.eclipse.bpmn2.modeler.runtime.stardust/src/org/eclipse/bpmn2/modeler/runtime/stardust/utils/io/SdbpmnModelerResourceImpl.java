@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils.io;
 
 import java.io.IOException;
@@ -97,7 +108,7 @@ public class SdbpmnModelerResourceImpl extends Bpmn2ModelerResourceImpl
 						// defined in the same order as the XSDResource contents, so
 						// just use an index to fetch the next definition.
 						EList<EObject> contents = embeddedSchemas.getContents();
-						XSDSchema schema = (XSDSchema) contents.get(schemaIndex++);
+						XSDSchema schema = (XSDSchema) contents.get(0); //schemaIndex++);
 						// pop the current object from the parser's EObject stack
 						// (this should be an "AnyType" object) and replace it with
 						// the XSDSchema object.

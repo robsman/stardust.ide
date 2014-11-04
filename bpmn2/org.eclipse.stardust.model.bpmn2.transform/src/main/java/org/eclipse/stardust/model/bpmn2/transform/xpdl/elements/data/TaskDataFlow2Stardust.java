@@ -261,7 +261,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         return valid;
     }
 
-    private String getDataMappingName(DataOutput dataOutput, DataAssociation association) {
+    public static String getDataMappingName(DataOutput dataOutput, DataAssociation association) {
         boolean validName = dataOutput != null && dataOutput.getName() != null && !dataOutput.getName().isEmpty();
         String name = validName ? dataOutput.getName() : association.getId();
         return name;

@@ -10,7 +10,6 @@ import javax.xml.namespace.QName;
 import org.eclipse.bpmn2.Extension;
 import org.eclipse.bpmn2.util.QNameURIHandler;
 import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

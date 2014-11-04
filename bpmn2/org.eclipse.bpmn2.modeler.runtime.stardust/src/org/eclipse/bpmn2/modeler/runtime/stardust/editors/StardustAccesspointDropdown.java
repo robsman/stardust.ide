@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
 import java.util.Hashtable;
@@ -19,18 +30,18 @@ import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 public class StardustAccesspointDropdown extends ComboObjectEditor {
 
 	private StardustApplicationType accesspointOwner;
-	private DirectionType direction; 
-	
+	private DirectionType direction;
+
 	public interface AccesspointSelectionListener {
 		public void comboChanged();
 	}
-	
+
 	public StardustAccesspointDropdown(AbstractDetailComposite parent, AttributeType object, StardustApplicationType accesspointOwner, DirectionType direction) {
 		super(parent, object, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
 		this.accesspointOwner = accesspointOwner;
 		this.direction = direction;
 	}
-	
+
 	protected boolean canSetNull() {
 		return true;
 	}

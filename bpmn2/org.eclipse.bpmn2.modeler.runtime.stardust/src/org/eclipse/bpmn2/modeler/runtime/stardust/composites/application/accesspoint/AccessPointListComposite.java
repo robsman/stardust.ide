@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import java.util.ArrayList;
@@ -26,9 +37,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 public abstract class AccessPointListComposite extends DefaultListComposite implements AccessPointChangeListener {
 
-	private boolean isInput;
+	protected boolean isInput;
 	private AccessPointChangeListener listener;
-	
+
 	/**
 	 * @param parent
 	 * @param isInput
@@ -38,17 +49,17 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 		this.isInput = isInput;
 		this.listener = listener;
 	}
-	
+
 	@Override
 	protected int createColumnProvider(EObject object, EStructuralFeature feature) {
 		columnProvider = new ListCompositeColumnProvider(this);
 		TableColumn tc;
-		
+
 		// Create the table columns:
-		// the first column is the "name" feature of the StardustAccessPoint  
+		// the first column is the "name" feature of the StardustAccessPoint
 		tc = columnProvider.add(object, SdbpmnPackage.eINSTANCE.getStardustAccessPointType(), CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
 		tc.setEditable(false); // don't allow editing within the table
-		
+
 		// the second column is the value of an AttributeType contained in
 		// the StardustAccessPoint object's "attribute" list.
 		tc = new TableColumn(this, object, "") {
@@ -58,7 +69,7 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 				// returns the column header text
 				return "Carnot Engine Type";
 			}
-			
+
 			@Override
 			public String getText(Object element) {
 				// returns the "value" feature of an AttributeType object in a list contained by StardustAccessPoint
@@ -73,10 +84,10 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 		};
 		columnProvider.add(tc);
 		tc.setEditable(false); // don't allow editing within the table
-		
+
 		return 2;
 	}
-	
+
 	@Override
 	public ListCompositeContentProvider getContentProvider(EObject object, EStructuralFeature feature, EList<EObject>list) {
 		if (contentProvider==null) {
@@ -124,9 +135,9 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 		list.add(param);
 		ModelUtil.setID(param);
 		param.setName( ModelUtil.toCanonicalString(param.getId()) );
-		
+
 		accessPointsChanged();
-		
+
 		return param;
 	}
 
@@ -136,11 +147,11 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 		accessPointsChanged();
 		return deleteListItem;
 	}
-	
+
 	@Override
 	protected Object removeListItem(EObject object, EStructuralFeature feature, int index) {
 		// Determine the actual list item index by counting only the Access Points that have
-		// the correct DirectionType ("IN" or "OUT") 
+		// the correct DirectionType ("IN" or "OUT")
 		int actualIndex = 0;
 		for (StardustAccessPointType ap : (List<StardustAccessPointType>)object.eGet(feature)) {
 			if (isInput) {
@@ -157,7 +168,7 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 			}
 			++actualIndex;
 		}
-		
+
 		Object removeListItem = super.removeListItem(object, feature, actualIndex);
 		accessPointsChanged();
 		return removeListItem;

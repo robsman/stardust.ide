@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils.accesspoint;
 
 import java.lang.reflect.Constructor;
@@ -41,29 +52,29 @@ import org.eclipse.xsd.XSDTypeDefinition;
 public class IntrinsicJavaAccessPointInfo {
 
 	private static final String RETURN_VALUE = "RETURN_VALUE";
-	private static final String PARAMETER = "PARAMETER";		
+	private static final String PARAMETER = "PARAMETER";
 
 	public static String encodeMethod(IMethod method) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException
 	{
 		return Reflect.encodeMethod(getMethod(method)).toString();
 	}
-	
+
 	public static Constructor<?> getConstructor(IMethod method) throws ClassNotFoundException, MalformedURLException, CoreException, NoSuchMethodException, SecurityException {
 		if (null == method) return null;
 		IType type = method.getDeclaringType();
 		IJavaProject javaProject = method.getJavaProject();
 		List<String> javaTypes = getSignatureTypes(type, method);
-		Class<?> cls = loadClass(javaProject, type.getFullyQualifiedName()); 
-		Constructor<?> constructor = cls.getConstructor(getParameterTypes(javaProject, cls, javaTypes.toArray(new String[]{})).toArray(new Class<?>[]{})); 
+		Class<?> cls = loadClass(javaProject, type.getFullyQualifiedName());
+		Constructor<?> constructor = cls.getConstructor(getParameterTypes(javaProject, cls, javaTypes.toArray(new String[]{})).toArray(new Class<?>[]{}));
 		return constructor;
-	}	
-	
+	}
+
 	public static Method getMethod(IMethod method) throws ClassNotFoundException, MalformedURLException, CoreException, NoSuchMethodException, SecurityException {
 		if (null == method) return null;
 		IType type = method.getDeclaringType();
 		IJavaProject javaProject = method.getJavaProject();
 		List<String> javaTypes = getSignatureTypes(type, method);
-		Class<?> cls = loadClass(javaProject, type.getFullyQualifiedName()); 		
+		Class<?> cls = loadClass(javaProject, type.getFullyQualifiedName());
 		Method mth = cls.getMethod(method.getElementName(), getParameterTypes(javaProject, cls, javaTypes.toArray(new String[]{})).toArray(new Class<?>[]{})); // method.getParameterTypes()).toArray(new Class<?>[]{}));
 		return mth;
 	}
@@ -74,8 +85,8 @@ public class IntrinsicJavaAccessPointInfo {
 		for (String paramType : parameterTypes) {
 	        String typeString = Signature.toString(paramType);
 	        String[][] resolvedType = type.resolveType(typeString);
-	        IType parameterType = null == resolvedType || resolvedType.length == 0 
-	        					? null 
+	        IType parameterType = null == resolvedType || resolvedType.length == 0
+	        					? null
 	        					: type.getJavaProject().findType(resolvedType[0][0], resolvedType[0][1]);
 	        if (null != parameterType) javaTypes.add(parameterType.getFullyQualifiedName());
 		}
@@ -124,7 +135,7 @@ public class IntrinsicJavaAccessPointInfo {
 		for (IMethod meth : methodAndConstructor) {
 			AccessPointSchemaWrapper current = createSchemaWrapper(meth);
 			if (null != current) wrapper.addAll(current.getElements());
-		}		
+		}
 		itemDef = ExtensionHelper2.INSTANCE.createInputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
@@ -135,7 +146,7 @@ public class IntrinsicJavaAccessPointInfo {
 		for (IMethod meth : methodAndConstructor) {
 			AccessPointSchemaWrapper current = createSchemaWrapper(meth);
 			if (null != current) wrapper.addAll(current.getElements());
-		}		
+		}
 		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
@@ -152,7 +163,7 @@ public class IntrinsicJavaAccessPointInfo {
 		wrapper.setOwnerApplicationId(ownerId);
 		return ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
 	}
-	
+
 	public static ItemDefinition addInputAccessPointItemDefinitionSchema(String ownerId, ItemDefinition itemDef, Method[] methods, Constructor<?>[] constructors) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
 		wrapper.setOwnerApplicationId(ownerId);
@@ -190,7 +201,7 @@ public class IntrinsicJavaAccessPointInfo {
 		itemDef = ExtensionHelper2.INSTANCE.createOutputAccessPointItemDefinition(wrapper, itemDef);
 		return itemDef;
 	}
-	
+
 	private static AccessPointSchemaWrapper createSchemaWrapper(IMethod method) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		if (method.isConstructor()) {
 			Constructor<?> constructor = getConstructor(method);
@@ -200,7 +211,7 @@ public class IntrinsicJavaAccessPointInfo {
 			return createSchemaWrapper(mth);
 		}
 	}
-	
+
 	private static AccessPointSchemaWrapper createSchemaWrapper(Method mth) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		Class<?> cls = mth.getDeclaringClass();
 		Map<?, ?> calculateAccessPoints = null;
@@ -210,7 +221,7 @@ public class IntrinsicJavaAccessPointInfo {
 
 	private static AccessPointSchemaWrapper createSchemaWrapper(Constructor<?> constructor) throws ClassNotFoundException, MalformedURLException, NoSuchMethodException, SecurityException, CoreException {
 		Map<?, ?> calculateAccessPoints = null;
-		calculateAccessPoints = JavaApplicationTypeHelper.calculateConstructorAccessPoints(constructor, "Init");			
+		calculateAccessPoints = JavaApplicationTypeHelper.calculateConstructorAccessPoints(constructor, "Init");
 		return createWrapper(calculateAccessPoints);
 	}
 
@@ -222,7 +233,7 @@ public class IntrinsicJavaAccessPointInfo {
 			String displayName = ap.getName();
 			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
 			String typeClass = ap.getAttribute("carnot:engine:className").toString();
-			if (RETURN_VALUE.equals(flavor) 
+			if (RETURN_VALUE.equals(flavor)
 				||  PARAMETER.equals(flavor)) {
 				wrapper.addElement(displayName, id, getDataType(typeClass), id, typeClass, RETURN_VALUE.equals(flavor) ? Direction.OUT : PARAMETER.equals(flavor) ? Direction.IN : Direction.BOTH);
 			}
@@ -241,7 +252,7 @@ public class IntrinsicJavaAccessPointInfo {
 			simpleType.setName("integer");
 		} else {
 			simpleType.setName("anyType");
-		}		
+		}
 		return simpleType;
 	}
 
@@ -250,12 +261,12 @@ public class IntrinsicJavaAccessPointInfo {
 		Class<?> cls = mth.getDeclaringClass();
 		return getParams(cls, mth);
 	}
-	
+
 	public static Map<String, String> getParams(String className, String encodedMethod) {
 		Class<?> cls = null;
 		Method mth = null;
 		try {
-			cls = findClassInWorkspace(className); 
+			cls = findClassInWorkspace(className);
 			mth = Reflect.decodeMethod(cls, encodedMethod);
 		} catch (SecurityException e) {
 			e.printStackTrace();
@@ -264,10 +275,10 @@ public class IntrinsicJavaAccessPointInfo {
 
 		return getParams(cls, mth);
 	}
-	
+
 	private static Map<String, String> getParams(Class<?> cls,	Method mth) {
 		Map<String, String> paramList = new HashMap<String, String>();
-		
+
 		@SuppressWarnings("rawtypes")
 		Map calculateAccessPoints = JavaApplicationTypeHelper.calculateAccessPoints(cls, mth, false, false);
 
@@ -276,8 +287,8 @@ public class IntrinsicJavaAccessPointInfo {
 			String id = ap.getId();
 			String displayName = ap.getName();
 			String flavor = ap.getAttribute("carnot:engine:flavor").toString();
-			
-			if (RETURN_VALUE.equals(flavor) 
+
+			if (RETURN_VALUE.equals(flavor)
 				||  PARAMETER.equals(flavor)) {
 				paramList.put(displayName, id); // inverse key value pair
 			}
@@ -293,7 +304,7 @@ public class IntrinsicJavaAccessPointInfo {
 			try {
 				if (project.isOpen() && project.hasNature(JavaCore.NATURE_ID)) {
 					IJavaProject javaProject = JavaCore.create(project);
-					javaProjects.add(javaProject);				
+					javaProjects.add(javaProject);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -343,7 +354,7 @@ public class IntrinsicJavaAccessPointInfo {
 			IPath path = new Path(entry);
 			URL url = path.toFile().toURI().toURL();
 			urlList.add(url);
-		}		
+		}
 		ClassLoader parentClassLoader = project.getClass().getClassLoader();
 		URL[] urls = (URL[]) urlList.toArray(new URL[urlList.size()]);
 		URLClassLoader classLoader = new URLClassLoader(urls, parentClassLoader);

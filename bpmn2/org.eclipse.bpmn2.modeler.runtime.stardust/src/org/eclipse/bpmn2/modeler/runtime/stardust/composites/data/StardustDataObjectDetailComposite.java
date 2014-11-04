@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.data;
 
 import java.util.List;
@@ -8,7 +19,6 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractPropertiesProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
@@ -58,12 +68,12 @@ public class StardustDataObjectDetailComposite  extends DefaultDetailComposite {
 
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
-		
+
 		if (object instanceof DataObject) {
 			if (propertiesProvider == null) {
 				propertiesProvider = new AbstractPropertiesProvider(object) {
 					String[] properties = new String[] { "id" };
-					
+
 					@Override
 					public String[] getProperties() {
 						return properties;
@@ -75,14 +85,14 @@ public class StardustDataObjectDetailComposite  extends DefaultDetailComposite {
 		else if (object instanceof DataObjectReference) {
 			if (dataObjectReferencePropertiesProvider == null) {
 				dataObjectReferencePropertiesProvider = new AbstractPropertiesProvider(object) {
-					String[] properties = new String[] { "id", "dataObjectRef" }; 
+					String[] properties = new String[] { "id", "dataObjectRef" };
 
 					@Override
 					public String[] getProperties() {
-						return properties; 
+						return properties;
 					}
 				};
-		
+
 			}
 			return dataObjectReferencePropertiesProvider;
 		}
@@ -91,12 +101,12 @@ public class StardustDataObjectDetailComposite  extends DefaultDetailComposite {
 
 //	@Override
 //	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
-//		
+//
 //		if (object instanceof DataObject) {
 //			if (propertiesProvider == null) {
 //				propertiesProvider = new AbstractPropertiesProvider(object) {
 //					String[] properties = new String[] { "id", "isCollection", "itemSubjectRef" };
-//					
+//
 //					@Override
 //					public String[] getProperties() {
 //						return properties;
@@ -108,14 +118,14 @@ public class StardustDataObjectDetailComposite  extends DefaultDetailComposite {
 //		else if (object instanceof DataObjectReference) {
 //			if (dataObjectReferencePropertiesProvider == null) {
 //				dataObjectReferencePropertiesProvider = new AbstractPropertiesProvider(object) {
-//					String[] properties = new String[] { "id", "dataObjectRef" }; 
+//					String[] properties = new String[] { "id", "dataObjectRef" };
 //
 //					@Override
 //					public String[] getProperties() {
-//						return properties; 
+//						return properties;
 //					}
 //				};
-//		
+//
 //			}
 //			return dataObjectReferencePropertiesProvider;
 //		}

@@ -3,7 +3,9 @@
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
 import java.math.BigInteger;
+
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EMap;

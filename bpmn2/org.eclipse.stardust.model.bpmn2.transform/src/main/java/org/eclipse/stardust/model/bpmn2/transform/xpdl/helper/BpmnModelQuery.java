@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.BoundaryEvent;
@@ -37,7 +38,6 @@ import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.SubProcess;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 
 /**
@@ -217,5 +217,5 @@ public class BpmnModelQuery {
 		}
 		return null;
 	}
-	
+
 }

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:AccessPoints_IN_0="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/0" xmlns:AccessPoints_IN_1="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/1" xmlns:AccessPoints_OUT_12="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/12" xmlns:AccessPoints_OUT_2="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/2" xmlns:AccessPoints_OUT_4="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/4" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:carnot="http://www.carnot.ag/workflowmodel/3.1" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:ext="http://org.eclipse.bpmn2/ext" xmlns:ns="http://java.io" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"  id="Definitions_1" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.1.1" targetNamespace="http://org.eclipse.bpmn2/default/process">
+  <bpmn2:import importType="http://www.java.com/javaTypes" location="java.io.Serializable" namespace="http://java.io"/>
+  <bpmn2:itemDefinition id="ItemDefinition_11" structureRef="java.io.Serializable"/>
+  <bpmn2:itemDefinition id="ItemDefinition_1" sdbpmn:syntheticItemDefinition="true" structureRef="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/1#INJavaMessagingService_1Element">
+    <bpmn2:extensionElements>
+      <xsd:schema targetNamespace="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/1" xmlns:AccessPoints_IN_1="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/IN/1" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <xsd:element name="INJavaMessagingService_1Element" type="AccessPoints_IN_1:INJavaMessagingService_1Type"/>
+        <xsd:complexType name="INJavaMessagingService_1Type">
+          <xsd:sequence>
+            <xsd:element name="StardustAccessPointType_1" sdbpmn:accesspoint="StardustAccessPointType_1" sdbpmn:displayName="Stardust Access Point Type 1" sdbpmn:typeClass="" type="xsd:anyType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:schema>
+    </bpmn2:extensionElements>
+  </bpmn2:itemDefinition>
+  <bpmn2:itemDefinition id="ItemDefinition_2" sdbpmn:syntheticItemDefinition="true" structureRef="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/2#OUTJavaMessagingService_1Element">
+    <bpmn2:extensionElements>
+      <xsd:schema targetNamespace="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/2" xmlns:AccessPoints_OUT_2="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/2" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <xsd:element name="OUTJavaMessagingService_1Element" type="AccessPoints_OUT_2:OUTJavaMessagingService_1Type"/>
+        <xsd:complexType name="OUTJavaMessagingService_1Type">
+          <xsd:sequence/>
+        </xsd:complexType>
+      </xsd:schema>
+    </bpmn2:extensionElements>
+  </bpmn2:itemDefinition>
+  <bpmn2:itemDefinition id="ItemDefinition_3"/>
+  <bpmn2:itemDefinition id="ItemDefinition_4" sdbpmn:syntheticItemDefinition="true" structureRef="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/4#OUTJmsTrigger_1Element">
+    <bpmn2:extensionElements>
+      <xsd:schema targetNamespace="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/4" xmlns:AccessPoints_OUT_4="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn/AccessPoints/OUT/4" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <xsd:element name="OUTJmsTrigger_1Element" type="AccessPoints_OUT_4:OUTJmsTrigger_1Type"/>
+        <xsd:complexType name="OUTJmsTrigger_1Type">
+          <xsd:sequence>
+            <xsd:element name="StardustAccessPointType_3" sdbpmn:accesspoint="StardustAccessPointType_3" sdbpmn:displayName="asdf" sdbpmn:typeClass="" type="xsd:anyType"/>
+            <xsd:element name="StardustAccessPointType_4" sdbpmn:accesspoint="StardustAccessPointType_4" sdbpmn:displayName="XYZ" sdbpmn:typeClass="" type="xsd:anyType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:schema>
+    </bpmn2:extensionElements>
+  </bpmn2:itemDefinition>
+  <bpmn2:itemDefinition id="ItemDefinition_5" structureRef="xsd:integer"/>
+  <bpmn2:itemDefinition id="ItemDefinition_6" structureRef="xsd:string"/>
+  <bpmn2:itemDefinition id="ItemDefinition_7" structureRef="xsd:date"/>
+  <bpmn2:itemDefinition id="ItemDefinition_8" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.core.runtime.beans.IUser"/>
+  <bpmn2:itemDefinition id="ItemDefinition_9" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"/>
+  <bpmn2:itemDefinition id="ItemDefinition_10" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.Document"/>
+  <bpmn2:itemDefinition id="ItemDefinition_12" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.Folder"/>
+  <bpmn2:itemDefinition id="ItemDefinition_13" sdbpmn:syntheticItemDefinition="true" structureRef="java.util.List"/>
+  <bpmn2:resource id="Administrator" name="Administrator"/>
+  <bpmn2:message id="Message_3" itemRef="ItemDefinition_1" name="Interface 1_Operation_Input"/>
+  <bpmn2:message id="Message_4" itemRef="ItemDefinition_2" name="Interface 1_Operation_Output"/>
+  <bpmn2:message id="Message_5" itemRef="ItemDefinition_3" name="Interface 2_Operation_Input"/>
+  <bpmn2:message id="Message_6" itemRef="ItemDefinition_4" name="Interface 2_Operation_Output"/>
+  <bpmn2:interface id="Interface_1" implementationRef="SD_Interface_1" name="Interface 1">
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="jms" id="SD_Interface_1">
+        <sdbpmn:StardustApplication xsi:type="sdbpmn:StardustApplicationType" oid="1" id="JavaMessagingService_1" name="JavaMessagingService 1">
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:visibility" value="Public"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:type" type="org.eclipse.stardust.engine.extensions.jms.app.JMSDirection" value="out"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:includeOidHeaders" type="boolean" value="true"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:includeOidHeaders" type="boolean" value="false"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:includeOidHeaders" type="boolean" value="false"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:queueConnectionFactory.jndiName" value="jms/CarnotXAConnectionFactory"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:queue.jndiName" value="jms/CarnotApplicationQueue"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:messageProvider" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageProvider"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:requestMessageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Map"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:includeOidHeaders" type="boolean" value="false"/>
+          <sdbpmn:accessPoint xsi:type="sdbpmn:StardustAccessPointType" id="StardustAccessPointType_1" name="Stardust Access Point Type 1" direction="IN" typeRef="serializable">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value="java.io.Serializable"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="RootElement" value="StardustAccessPointType_1"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+          </sdbpmn:accessPoint>
+          <sdbpmn:accessPoint xsi:type="sdbpmn:StardustAccessPointType" id="StardustAccessPointType_2" name="Stardust Access Point Type 2" direction="IN" typeRef="serializable">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="BODY"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:defaultValue" value="aaaa"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:defaultValue" value=""/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value="java.io.Serializable"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="RootElement" value="StardustAccessPointType_2"/>
+          </sdbpmn:accessPoint>
+        </sdbpmn:StardustApplication>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+    <bpmn2:operation id="_Operation_3" implementationRef="SD_Interface_1" name="Interface 1_Operation">
+      <bpmn2:inMessageRef>Message_3</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_4</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="Interface_2" implementationRef="SD_Interface_2" name="Interface 2">
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="jms" id="SD_Interface_2">
+        <sdbpmn:StardustTrigger xsi:type="sdbpmn:StardustTriggerType" id="JmsTrigger_1" name="JmsTrigger 1">
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor"/>
+          <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Map"/>
+          <sdbpmn:accessPoint xsi:type="sdbpmn:StardustAccessPointType" id="StardustAccessPointType_3" name="asdf" direction="OUT" typeRef="serializable">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value="java.io.Serializable"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="RootElement" value="StardustAccessPointType_3"/>
+          </sdbpmn:accessPoint>
+          <sdbpmn:accessPoint xsi:type="sdbpmn:StardustAccessPointType" id="StardustAccessPointType_4" name="XYZ" direction="OUT" typeRef="serializable">
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:jms.location" type="org.eclipse.stardust.engine.extensions.jms.app.JMSLocation" value="HEADER"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="carnot:engine:className" value="java.io.Serializable"/>
+            <carnot:attribute xsi:type="carnot:attribute_._type" name="RootElement" value="StardustAccessPointType_4"/>
+          </sdbpmn:accessPoint>
+        </sdbpmn:StardustTrigger>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+    <bpmn2:operation id="_Operation_4" implementationRef="SD_Interface_2" name="Interface 2_Operation">
+      <bpmn2:inMessageRef>Message_5</bpmn2:inMessageRef>
+      <bpmn2:outMessageRef>Message_6</bpmn2:outMessageRef>
+    </bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:process id="process_1" name="Default Process">
+    <bpmn2:startEvent id="StartEvent_1" name="API1">
+      <bpmn2:extensionElements>
+        <ext:style xsi:type="xs:anyType"/>
+      </bpmn2:extensionElements>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:dataOutput id="DataOutput_2" itemSubjectRef="ItemDefinition_4" name="output2"/>
+      <bpmn2:outputSet id="_OutputSet_2" name="Output Set 2">
+        <bpmn2:dataOutputRefs>DataOutput_2</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+    </bpmn2:startEvent>
+    <bpmn2:endEvent id="EndEvent_1" name="End Event 1">
+      <bpmn2:extensionElements>
+        <ext:style xsi:type="xs:anyType"/>
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:userTask id="UserTask_1" name="User Task 1">
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" sourceRef="StartEvent_1" targetRef="UserTask_1"/>
+    <bpmn2:userTask id="UserTask_2" name="User Task 2">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="UserTask_3" name="User Task 3">
+      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="UserTask_4" name="User Task 4">
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="UserTask_5" name="User Task 5">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" sourceRef="UserTask_1" targetRef="UserTask_5"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" sourceRef="UserTask_5" targetRef="EndEvent_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="UserTask_2" targetRef="UserTask_5"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" sourceRef="UserTask_3" targetRef="UserTask_5"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" sourceRef="UserTask_4" targetRef="UserTask_5"/>
+    <bpmn2:startEvent id="StartEvent_2" name="API2">
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" sourceRef="StartEvent_2" targetRef="UserTask_2"/>
+    <bpmn2:startEvent id="StartEvent_3" name="JMS1">
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_1" messageRef="Message_6">
+        <bpmn2:operationRef>_Operation_4</bpmn2:operationRef>
+      </bpmn2:messageEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:startEvent id="StartEvent_4" name="JMS2">
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_2" messageRef="Message_6">
+        <bpmn2:operationRef>_Operation_4</bpmn2:operationRef>
+      </bpmn2:messageEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_8" sourceRef="StartEvent_3" targetRef="UserTask_3"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_9" sourceRef="StartEvent_4" targetRef="UserTask_4"/>
+    <bpmn2:property id="Property_1" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="PROCESS_ID" itemSubjectRef="ItemDefinition_7" name="Process OID"/>
+    <bpmn2:property id="Property_2" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="ROOT_PROCESS_ID" itemSubjectRef="ItemDefinition_7" name="Root Process OID"/>
+    <bpmn2:property id="Property_3" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="PROCESS_PRIORITY" itemSubjectRef="ItemDefinition_7" name="Process Priority"/>
+    <bpmn2:property id="Property_4" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_LOCALE" name="Current Locale"/>
+    <bpmn2:property id="Property_5" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_DATE" name="Current Date"/>
+    <bpmn2:property id="Property_6" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="STARTING_USER" itemSubjectRef="ItemDefinition_8" name="Starting User"/>
+    <bpmn2:property id="Property_7" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_USER" itemSubjectRef="ItemDefinition_8" name="Current User"/>
+    <bpmn2:property id="Property_8" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="LAST_ACTIVITY_PERFORMER" itemSubjectRef="ItemDefinition_8" name="Last activity performer"/>
+    <bpmn2:property id="Property_9" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_MODEL" itemSubjectRef="ItemDefinition_9" name="Current Model"/>
+    <bpmn2:property id="Property_10" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="StartEventId" name="Start Event Id"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process_1">
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="StartEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="100.0" y="100.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_1">
+          <dc:Bounds height="15.0" width="25.0" x="105.0" y="136.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="740.0" y="212.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_2">
+          <dc:Bounds height="15.0" width="65.0" x="726.0" y="248.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_1" bpmnElement="UserTask_1">
+        <dc:Bounds height="50.0" width="110.0" x="300.0" y="93.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_3">
+          <dc:Bounds height="15.0" width="67.0" x="321.0" y="110.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_2" bpmnElement="UserTask_2">
+        <dc:Bounds height="50.0" width="110.0" x="315.0" y="175.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4">
+          <dc:Bounds height="15.0" width="67.0" x="336.0" y="192.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_3" bpmnElement="UserTask_3">
+        <dc:Bounds height="50.0" width="110.0" x="325.0" y="265.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_5">
+          <dc:Bounds height="15.0" width="67.0" x="346.0" y="282.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_4" bpmnElement="UserTask_4">
+        <dc:Bounds height="50.0" width="110.0" x="305.0" y="335.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_6">
+          <dc:Bounds height="15.0" width="67.0" x="326.0" y="352.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_UserTask_5" bpmnElement="UserTask_5">
+        <dc:Bounds height="50.0" width="110.0" x="582.0" y="210.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_7">
+          <dc:Bounds height="15.0" width="67.0" x="603.0" y="227.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="StartEvent_2">
+        <dc:Bounds height="36.0" width="36.0" x="102.0" y="182.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_8">
+          <dc:Bounds height="15.0" width="25.0" x="107.0" y="218.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_2" bpmnElement="StartEvent_3">
+        <dc:Bounds height="36.0" width="36.0" x="100.0" y="272.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="30.0" x="103.0" y="308.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_3" bpmnElement="StartEvent_4">
+        <dc:Bounds height="36.0" width="36.0" x="102.0" y="342.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="30.0" x="105.0" y="378.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_DataOutputAssociation_1">
+        <di:waypoint xsi:type="dc:Point" x="118.0" y="136.0"/>
+        <di:waypoint xsi:type="dc:Point" x="118.0" y="169.0"/>
+        <di:waypoint xsi:type="dc:Point" x="242.0" y="169.0"/>
+        <di:waypoint xsi:type="dc:Point" x="242.0" y="210.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_4"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_1" targetElement="BPMNShape_UserTask_1">
+        <di:waypoint xsi:type="dc:Point" x="136.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="300.0" y="118.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_9"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_UserTask_1" targetElement="BPMNShape_UserTask_5">
+        <di:waypoint xsi:type="dc:Point" x="410.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="487.0" y="118.0"/>
+        <di:waypoint xsi:type="dc:Point" x="487.0" y="222.0"/>
+        <di:waypoint xsi:type="dc:Point" x="582.0" y="222.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_10"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_UserTask_5" targetElement="BPMNShape_2">
+        <di:waypoint xsi:type="dc:Point" x="692.0" y="235.0"/>
+        <di:waypoint xsi:type="dc:Point" x="713.0" y="235.0"/>
+        <di:waypoint xsi:type="dc:Point" x="713.0" y="230.0"/>
+        <di:waypoint xsi:type="dc:Point" x="740.0" y="230.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_11"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_UserTask_2" targetElement="BPMNShape_UserTask_5">
+        <di:waypoint xsi:type="dc:Point" x="370.0" y="175.0"/>
+        <di:waypoint xsi:type="dc:Point" x="370.0" y="165.0"/>
+        <di:waypoint xsi:type="dc:Point" x="465.0" y="165.0"/>
+        <di:waypoint xsi:type="dc:Point" x="465.0" y="234.0"/>
+        <di:waypoint xsi:type="dc:Point" x="582.0" y="234.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_12"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_UserTask_3" targetElement="BPMNShape_UserTask_5">
+        <di:waypoint xsi:type="dc:Point" x="435.0" y="290.0"/>
+        <di:waypoint xsi:type="dc:Point" x="501.0" y="290.0"/>
+        <di:waypoint xsi:type="dc:Point" x="501.0" y="246.0"/>
+        <di:waypoint xsi:type="dc:Point" x="582.0" y="246.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_13"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_UserTask_4" targetElement="BPMNShape_UserTask_5">
+        <di:waypoint xsi:type="dc:Point" x="415.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="637.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="637.0" y="260.0"/>
+        <bpmndi:BPMNLabel id="BPMNLabel_14"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_UserTask_2">
+        <di:waypoint xsi:type="dc:Point" x="138.0" y="200.0"/>
+        <di:waypoint xsi:type="dc:Point" x="315.0" y="200.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="BPMNShape_StartEvent_2" targetElement="BPMNShape_UserTask_3">
+        <di:waypoint xsi:type="dc:Point" x="136.0" y="290.0"/>
+        <di:waypoint xsi:type="dc:Point" x="325.0" y="290.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="BPMNShape_StartEvent_3" targetElement="BPMNShape_UserTask_4">
+        <di:waypoint xsi:type="dc:Point" x="138.0" y="360.0"/>
+        <di:waypoint xsi:type="dc:Point" x="305.0" y="360.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

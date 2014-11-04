@@ -4,7 +4,7 @@
 
 	<artifactId>org.eclipse.stardust.model.bpmn2</artifactId>
 	<version>0.0.1</version>
-	
+
 <!-- 	<properties> -->
 <!-- 		<tycho-version>0.14.1</tycho-version> -->
 <!-- 	</properties> -->
@@ -17,8 +17,8 @@
 
 	<dependencies>
 		<dependency>
-			<artifactId>org.eclipse.bpmn2</artifactId>
 			<groupId>org.eclipse.bpmn2</groupId>
+			<artifactId>org.eclipse.bpmn2</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<!-- <dependency> -->

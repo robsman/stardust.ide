@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.data;
 
 import java.util.List;
@@ -56,13 +67,13 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 				if (super.setValue(newValue)) {
 					if (oldValue != newValue) {
 						if (parentBo instanceof ItemAwareElement) {
-							RecordingCommand command = new RecordingCommand(editingDomain) {				
+							RecordingCommand command = new RecordingCommand(editingDomain) {
 								@Override
-								protected void doExecute() {							
+								protected void doExecute() {
 									((ItemAwareElement)parentBo).setItemSubjectRef(null);
 								}
-							};			
-							editingDomain.getCommandStack().execute(command);							
+							};
+							editingDomain.getCommandStack().execute(command);
 						}
 						//setBusinessObject(be);
 						parentComp.setBusinessObject(parentBo);
@@ -74,18 +85,18 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 
 		};
 		editor.createControl(getAttributesParent(), "Type");
-//		
+//
 //		if (be instanceof StardustDataObjectType) {
 //			final DataObject dataObject = (DataObject)parentBo;
 //			if (null == dataObject) return;
 //
 //			if (null == dataObject.getItemSubjectRef()) {
-//				RecordingCommand command = new RecordingCommand(editingDomain) {				
+//				RecordingCommand command = new RecordingCommand(editingDomain) {
 //					@Override
 //					protected void doExecute() {
 //						StardustDataObjectType sdDataStore = (StardustDataObjectType)be;
 //						StardustDataObjectTypeEnum dataType = null;
-//						if (null != sdDataStore.getType()) 
+//						if (null != sdDataStore.getType())
 //							dataType = StardustDataObjectTypeEnum.forKey(sdDataStore.getType().toString());
 //						if (null != dataType) {
 //							ItemDefinition itemDefinition = null;
@@ -107,22 +118,22 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 //							}
 //						}
 //					}
-//				};			
-//				editingDomain.getCommandStack().execute(command);				
+//				};
+//				editingDomain.getCommandStack().execute(command);
 //			}
-//		}  
+//		}
 		if (be instanceof StardustDataStoreType) {
 			final DataStore dataStore = (DataStore)parentBo;
 			if (null == dataStore) return;
 
 			if (null == dataStore.getItemSubjectRef()) {
-				RecordingCommand command = new RecordingCommand(editingDomain) {				
+				RecordingCommand command = new RecordingCommand(editingDomain) {
 					@Override
 					protected void doExecute() {
 
 						StardustDataStoreType sdDataStore = (StardustDataStoreType)be;
 						StardustDataStoreTypeEnum dataType = null;
-						if (null != sdDataStore.getType()) 
+						if (null != sdDataStore.getType())
 							dataType = StardustDataStoreTypeEnum.forKey(sdDataStore.getType().toString());
 						if (null != dataType) {
 							ItemDefinition itemDefinition = null;
@@ -149,15 +160,15 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 							}
 						}
 					}
-				};			
-				editingDomain.getCommandStack().execute(command);				
+				};
+				editingDomain.getCommandStack().execute(command);
 			}
 		}
 	}
-	
+
 	private ItemDefinition addDefaultItemDefinition(final Definitions definitions, final String clsName) {
 		final ItemDefinition itemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
-		RecordingCommand command = new RecordingCommand(editingDomain) {				
+		RecordingCommand command = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
 				ExtensionHelper.getInstance().setAnyAttribute(itemDef, ExtensionHelper2.STARDUST_SYNTHETIC_ITEMDEF, "true");
@@ -167,12 +178,12 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 				ModelUtil.setID(itemDef);
 				definitions.getRootElements().add(itemDef);
 			}
-		};			
+		};
 		editingDomain.getCommandStack().execute(command);
 		System.out
 				.println("StardustDataDetailComposite.addDefaultItemDefinition() " + clsName);
-		
-		return itemDef;		
+
+		return itemDef;
 	}
 
 	private ItemDefinition getDefaultItemDefinition(EObject dataStore, String clsName) {
@@ -192,9 +203,9 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
-//		if (object instanceof DataStoreReference 
-//		 || object instanceof DataObjectReference 
-//		 || object instanceof DataStore 
+//		if (object instanceof DataStoreReference
+//		 || object instanceof DataObjectReference
+//		 || object instanceof DataStore
 //		 || object instanceof DataObject) {
 		if (object instanceof StardustDataObjectType
 		 || object instanceof StardustDataStoreType) {
@@ -204,14 +215,14 @@ public class StardustDataDetailComposite extends DefaultDetailComposite {
 
 					@Override
 					public String[] getProperties() {
-						return properties; 
+						return properties;
 					}
 				};
-		
+
 			}
 			return propertiesProvider;
 		}
 		return null;
-	}	
+	}
 
 }

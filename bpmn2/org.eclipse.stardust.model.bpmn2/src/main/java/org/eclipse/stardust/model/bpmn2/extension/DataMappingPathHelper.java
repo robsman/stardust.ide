@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.bpmn2.ItemAwareElement;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDSchema;
@@ -67,21 +68,68 @@ public enum DataMappingPathHelper {
 		return getDataPaths(itemDef);
 	}
 
+	public String getAccessPointId(ItemDefinition itemDef) {
+		if (null == itemDef) return null;
+		Object structureRef = itemDef.getStructureRef();
+		System.out.println("structureRef " + structureRef);
+		if (structureRef instanceof DynamicEObjectImpl) {
+			structureRef = ((DynamicEObjectImpl)structureRef).eProxyURI();
+		}
+
+		// use the type of the referenced element declaration
+		if (structureRef instanceof XSDElementDeclaration) {
+			return ((XSDElementDeclaration)structureRef).getType().getElement().getAttribute(ExtensionHelper2.STARDUST_ACCESSPOINT_ID);
+		}
+		// use the referenced type
+		if (structureRef instanceof XSDTypeDefinition) {
+			System.out.println("is type definition");
+			return ((XSDTypeDefinition)structureRef).getElement().getAttribute(ExtensionHelper2.STARDUST_ACCESSPOINT_ID);
+		}
+
+		// lookup embedded schema
+		XSDSchema schema = ExtensionHelper2.INSTANCE.getEmbeddedSchemaExtension(itemDef);
+		if (null == schema) return null;
+		schema.updateDocument();
+
+		if (null != structureRef) {
+			try {
+				XSDElementDeclaration element = schema.resolveElementDeclarationURI(structureRef.toString());
+				if (null != element) {
+					System.out.println("resolved structureRef as embedded element definition");
+					return element.getType().getElement().getAttribute(ExtensionHelper2.STARDUST_ACCESSPOINT_ID);
+				}
+				// try to resolve as type reference
+				XSDComplexTypeDefinition type = schema.resolveComplexTypeDefinitionURI(structureRef.toString());
+				if (null != type) {
+					System.out.println("resolved structureRef as embedded type definition");
+					return type.getElement().getAttribute(ExtensionHelper2.STARDUST_ACCESSPOINT_ID);
+				}
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 	public List<String> getDataPaths(ItemDefinition itemDef) {
 		List<String> paths = new ArrayList<String>();
 		if (null == itemDef) return paths;
 		Object structureRef = itemDef.getStructureRef();
 		System.out.println("structureRef " + structureRef);
 
+//		if (structureRef instanceof DynamicEObjectImpl) {
+//			structureRef = ((DynamicEObjectImpl)structureRef).eProxyURI();
+//		}
+
 		// use the type of the referenced element declaration
 		if (structureRef instanceof XSDElementDeclaration) {
 			System.out.println("is element decl");
-			return buildPaths(((XSDElementDeclaration)structureRef).getType().getElement(), "", paths);
+			return buildPaths(((XSDElementDeclaration)structureRef).getElement(), "", paths);
 		}
 		// use the referenced type
 		if (structureRef instanceof XSDTypeDefinition) {
 			System.out.println("is type definition");
-			return buildPaths(((XSDElementDeclaration)structureRef).getType().getElement(), "", paths);
+			return buildPaths(((XSDTypeDefinition)structureRef).getElement(), "", paths);
 		}
 
 		// lookup embedded schema

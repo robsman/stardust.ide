@@ -85,7 +85,7 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
         assertNotNull(timerEventHandler);
         String eventType = AttributeUtil.getAttributeValue(timerEventHandler, NativeBoundaryEvent2Stardust.ATT_BOUNDARY_EVENT_TYPE);
         assertEquals(NativeBoundaryEvent2Stardust.VAL_TYPE_INTERRUPTING, eventType);
-        
+
         EventActionTypeType cancelActivityActionType = ModelUtils.findElementById(model.getEventActionType(), ABORT_ACTIVITY_ACTION);
         assertNotNull(cancelActivityActionType);
         EventActionType cancelAction = getFirstEventActionOfType(timerEventHandler, cancelActivityActionType);
@@ -124,7 +124,7 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
         assertNotNull(routeHappyPath);
         ActivityType routeEventPath = CarnotModelQuery.findActivity(process, TEST_ID_TASK_EXCEPTIONAL);
         assertNotNull(routeEventPath);
-        
+
         EventHandlerType exceptionEventHandler = CarnotModelQuery.findEventHandler(taskA, TEST_ID_BOUNDARY_EVENT);
         assertNotNull(exceptionEventHandler);
         String eventType = AttributeUtil.getAttributeValue(exceptionEventHandler, NativeBoundaryEvent2Stardust.ATT_BOUNDARY_EVENT_TYPE);
@@ -220,9 +220,9 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 //        assertTrue(transitionExistsBetween(routeHappyPath, gateway));
 //        assertTrue(transitionExistsBetween(routeEventPath, taskE));
 
-        
+
         assertTrue(transitionExistsBetween(taskA, taskB));
-        assertTrue(transitionExistsBetween(taskA, gateway));        
+        assertTrue(transitionExistsBetween(taskA, gateway));
         assertTrue(transitionExistsBetween(gateway, taskC));
         assertTrue(transitionExistsBetween(gateway, taskD));
         assertTrue(transitionExistsBetween(taskA, taskE));
@@ -280,7 +280,7 @@ public class TestBoundaryEvents2Stardust extends Bpmn2StardustTestSuite {
 
     @Test
     @Ignore
-    // TODO The 'native' approach doesn't support multiple boundary events    
+    // TODO The 'native' approach doesn't support multiple boundary events
     public void testMultipleBoundaryWithCommonPathToGateway() {
         final String modelFile = TEST_BPMN_MODEL_DIR + "BoundaryEventMultipleSameExceptionalPathToGateway.bpmn";
         final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testBoundaryEventMultipleSameExceptionalPathToGateway.xpdl";

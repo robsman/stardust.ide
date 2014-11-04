@@ -17,6 +17,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/stardust-engine-camel-2.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/carnot-spring-2.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ipp-bpm-model-builder-2.0.0.jar"/>

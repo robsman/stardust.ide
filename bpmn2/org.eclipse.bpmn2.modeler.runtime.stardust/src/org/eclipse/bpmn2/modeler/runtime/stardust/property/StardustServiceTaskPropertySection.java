@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.property;
 
 import org.eclipse.bpmn2.ServiceTask;
@@ -21,7 +32,7 @@ public class StardustServiceTaskPropertySection extends DefaultPropertySection {
 	public AbstractDetailComposite createSectionRoot(Composite parent, int style) {
 		return new StardustServiceTaskDetailComposite(parent,style);
 	}
-	
+
 	@Override
 	public boolean appliesTo(EObject element) {
 		return element instanceof ServiceTask;

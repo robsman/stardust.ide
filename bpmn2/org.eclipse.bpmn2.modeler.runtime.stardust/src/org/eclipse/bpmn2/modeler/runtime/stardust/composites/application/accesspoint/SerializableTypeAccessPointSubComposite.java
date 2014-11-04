@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -17,9 +28,9 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class SerializableTypeAccessPointSubComposite extends DefaultDetailComposite implements DatatypeChangeListener, AccessPointChangeListener {
-	
+
 	private AccessPointChangeListener listener;
-	
+
 	public SerializableTypeAccessPointSubComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -33,13 +44,11 @@ public class SerializableTypeAccessPointSubComposite extends DefaultDetailCompos
 	public void createBindings(EObject be) {
 		StardustAccessPointType apType = (StardustAccessPointType)be;
 		Composite parent = this.getAttributesParent();
-		System.out
-				.println("CamelSerializableTypeAccessPointSubComposite.createBindings()");
-		
+
 		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:className");
 		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.SERIALIZABLE_TYPE, this);
 		editor.createControl(parent, "Serializable");
-		
+
 //		private void createSerializableTypeModel(StardustAccessPointType sdAccessPoint) {
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
 //			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
@@ -50,7 +59,7 @@ public class SerializableTypeAccessPointSubComposite extends DefaultDetailCompos
 		attributesSection.setExpanded(true);
 		attributesSection.setTouchEnabled(false);
 	}
-	
+
 	@Override
 	public void comboChanged() {
 		accessPointsChanged();

@@ -47,13 +47,13 @@ public enum ExtensionHelper2 {
 	public static final String STARDUST_EXTENSION_PREFIX = "sdbpmn";
 	public static final String STARDUST_ACCESSPOINT_ID = "sdbpmn:accesspoint";
 	public static final String STARDUST_ACCESSPOINT_TYPE_CLASSNAME = "sdbpmn:typeClass";
-	public static final String STARDUST_ACCESSPOINT_DISPLAY_NAME = "sdbpmn:displayName";		
+	public static final String STARDUST_ACCESSPOINT_DISPLAY_NAME = "sdbpmn:displayName";
 	public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
 	public static final String STARDUST_SYNTHETIC_PROPERTY = "syntheticProperty";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX = "Type";
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX = "Element";
 	public static final String STARDUST_PROPERTY_ID = "stardustPropertyId";
-	
+
 
 	public XSDSchema getEmbeddedSchemaExtension(ItemDefinition itemdef) {
 		final String featureName = XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA.getName();
@@ -65,7 +65,7 @@ public enum ExtensionHelper2 {
 		final List<String> consideredNamespaces = Arrays.asList(xmlschema2001, xmlschema1999, xmlschema200010, xmlnsUri);
 
 		for (ExtensionAttributeValue extensionAttributeValue : itemdef.getExtensionValues()) {
-			FeatureMap extensionElements = extensionAttributeValue.getValue(); 
+			FeatureMap extensionElements = extensionAttributeValue.getValue();
 			for (Entry e : extensionElements) {
 				EStructuralFeature feature = e.getEStructuralFeature();
 				if (null != feature
@@ -74,7 +74,7 @@ public enum ExtensionHelper2 {
 					System.out.println("ExtensionHelper2.getEmbeddedSchemaExtension() e " + e + " e.getValue() " + e.getValue().getClass());
 					if (e.getValue() instanceof XSDSchema) {
 						return (XSDSchema)e.getValue();
-					} 
+					}
 				}
 			}
 		}
@@ -128,7 +128,7 @@ public enum ExtensionHelper2 {
 			}
 		} return false;
 	}
-	
+
 	/**
 	 * Returns the value of the attribute named <code>localName</code> in the namespace <code>attributeNamespaceUri</code>
 	 * of an element named <code>elementName</code> of the complexType of the given <code>schemaElement</code>.
@@ -136,7 +136,7 @@ public enum ExtensionHelper2 {
 	 */
 	public String getSchemaElementAttributeValue(XSDElementDeclaration schemaElement, String elementName, String attributeNamespaceUri, String localName) {
 		XSDComplexTypeDefinition complexType = (XSDComplexTypeDefinition)schemaElement.getType();
-		return getSchemaElementAttributeValue(complexType, elementName, attributeNamespaceUri, localName);	        
+		return getSchemaElementAttributeValue(complexType, elementName, attributeNamespaceUri, localName);
 	}
 
 	/**
@@ -174,10 +174,10 @@ public enum ExtensionHelper2 {
 		Node namedItemNS = attributes.getNamedItemNS(attributeNamespaceUri, localName);
 		if (null != namedItemNS) return namedItemNS.getTextContent();
 		return null;
-	}		
+	}
 
 	public ItemDefinition createInputAccessPointItemDefinition(AccessPointSchemaWrapper schemaInfo, ItemDefinition itemDef) {
-		return createAccessPointItemDefinition(schemaInfo, itemDef, Direction.IN);	
+		return createAccessPointItemDefinition(schemaInfo, itemDef, Direction.IN);
 	}
 
 	public ItemDefinition createOutputAccessPointItemDefinition(AccessPointSchemaWrapper schemaInfo, ItemDefinition itemDef) {
@@ -205,15 +205,15 @@ public enum ExtensionHelper2 {
 			URI uriRef = URI.createURI(elementDeclarations.get(0).getAliasURI());
 			itemDef.setStructureRef(getProxyElement(uriRef));
 		}
-		
+
 		ExtensionHelper.getInstance().setExtension(itemDef, schema);
 		return itemDef;
 	}
-	
+
 	public EObject getProxyElement(final URI uri) {
 		DynamicEObjectImpl dyn = new DynamicEObjectImpl() {
 //		dyn.eSet(dyn.eClass().getEStructuralFeature("value"), uri.toString());
-			
+
 			public URI eProxyURI() {
 				return uri;
 			}
@@ -234,17 +234,17 @@ public enum ExtensionHelper2 {
 		schema.setSchemaForSchemaQNamePrefix("xsd");
 		schema.setTargetNamespace(targetNamespace);
 		Map<String, String> prefixMap = schema.getQNamePrefixToNamespaceMap();
-		prefixMap.put(schema.getSchemaForSchemaQNamePrefix(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);			
+		prefixMap.put(schema.getSchemaForSchemaQNamePrefix(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 		prefixMap.put(STARDUST_EXTENSION_PREFIX, STARDUST_EXTENSION_NAMESPACE);
 		prefixMap.put(targetNamespacePrefix, targetNamespace);
 
 		XSDComplexTypeDefinition accessPointsType = factory.createXSDComplexTypeDefinition();
-		String name = null != schemaInfo.getOwnerApplicationId() ? schemaInfo.getOwnerApplicationId() : "AccessPoint"+sequence; 
+		String name = null != schemaInfo.getOwnerApplicationId() ? schemaInfo.getOwnerApplicationId() : "AccessPoint"+sequence;
 		accessPointsType.setName(direction + name + STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
 
 		XSDElementDeclaration element = factory.createXSDElementDeclaration();
 		element.setName(direction+name+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
-		element.setTypeDefinition(accessPointsType);			
+		element.setTypeDefinition(accessPointsType);
 		schema.getContents().add(element);
 
 		XSDParticle apSeqeuenceParticle = factory.createXSDParticle();
@@ -261,17 +261,17 @@ public enum ExtensionHelper2 {
 			}
 			XSDElementDeclaration ap = factory.createXSDElementDeclaration();
 			ap.setName(typeElement.getElementName());
-			
+
 			String typeName = null != typeElement.getDataType() ? typeElement.getDataType().getName() : "Undefined";
-			XSDSimpleTypeDefinition simpleType = schema.getSchemaForSchema().resolveSimpleTypeDefinition(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, typeName);			
+			XSDSimpleTypeDefinition simpleType = schema.getSchemaForSchema().resolveSimpleTypeDefinition(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, typeName);
 			ap.setTypeDefinition(simpleType);
 //			schema.getContents().add(typeElement.getDataType());
-			
+
 			XSDParticle particle = factory.createXSDParticle();
-			particle.setContent(ap);				
+			particle.setContent(ap);
 			apSeqeuence.getContents().add(particle);
 
-			ap.updateElement(true); // update/create dom and add custom-attributes 
+			ap.updateElement(true); // update/create dom and add custom-attributes
 			ap.getElement().setAttributeNS(STARDUST_EXTENSION_NAMESPACE, STARDUST_ACCESSPOINT_ID , typeElement.getAccessPointId());
 			ap.getElement().setAttributeNS(STARDUST_EXTENSION_NAMESPACE, STARDUST_ACCESSPOINT_DISPLAY_NAME , typeElement.getDisplayName());
 			if (null != typeElement.getTypeClassName()) {

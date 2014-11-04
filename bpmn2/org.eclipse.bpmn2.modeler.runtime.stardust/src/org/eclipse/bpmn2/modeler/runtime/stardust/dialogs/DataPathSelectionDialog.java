@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.dialogs;
 
 import java.util.List;
@@ -14,7 +25,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  *
  */
 public class DataPathSelectionDialog extends ElementListSelectionDialog {
-	
+
 	public DataPathSelectionDialog(Shell parentShell, BPMN2Editor editor, List<String> paths) {
 		super(parentShell, DataPathSelectionDialogLabelProvider.newProvider());
 		setElements(paths.toArray());
@@ -26,7 +37,7 @@ public class DataPathSelectionDialog extends ElementListSelectionDialog {
 		public static DataPathSelectionDialogLabelProvider newProvider() {
 			return new DataPathSelectionDialogLabelProvider();
 		}
-		
+
 		@Override
 		public void addListener(ILabelProviderListener arg0) {
 		}
@@ -56,7 +67,7 @@ public class DataPathSelectionDialog extends ElementListSelectionDialog {
 					.println("DataPathSelectionDialog.DataPathSelectionDialogLabelProvider.getText()");
 			return null != selectionElement ? selectionElement.toString() : "";
 		}
-		
+
 	}
 
 }

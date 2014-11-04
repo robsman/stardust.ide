@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
 import java.net.URI;
@@ -28,13 +39,13 @@ public class FilteredStardustDatatypeDropdown extends ComboObjectEditor {
 		PRIMITIVE,
 		STRUCTURED,
 		CLASS,
-		CLASS_OR_STRUCTURED;		
+		CLASS_OR_STRUCTURED;
 	}
-	
+
 	private Filter filter;
 	private List<String> allowedClassNames;
 	private boolean excludeSynthetic;
-	
+
 	public FilteredStardustDatatypeDropdown(AbstractDetailComposite parent, EObject object, EStructuralFeature feature, Filter filter, List<String> allowedClassNames, boolean excludeSynthetic) {
 		super(parent, object, feature);
 		if (null == NamespaceUtil.getPrefixForNamespace(parent.getBusinessObject().eResource(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001)) {
@@ -106,7 +117,7 @@ public class FilteredStardustDatatypeDropdown extends ComboObjectEditor {
 			} catch (Exception e) {
 				return false;
 			}
-			return null != uri && uri.isAbsolute(); 
+			return null != uri && uri.isAbsolute();
 		}
 		return false;
 	}
@@ -120,18 +131,18 @@ public class FilteredStardustDatatypeDropdown extends ComboObjectEditor {
 			} catch (Exception e) {
 				return false;
 			}
-			return null == uri || !uri.isAbsolute(); 
+			return null == uri || !uri.isAbsolute();
 		}
 		return false;
 	}
 
 	/**
 	 * Considers (only) XSD defined types as primitive types.
-	 * 
+	 *
 	 * @param itemDef
 	 * @return
 	 */
-	private boolean isPrimitive(ItemDefinition itemDef) { 
+	private boolean isPrimitive(ItemDefinition itemDef) {
 		if (null == itemDef || null == itemDef.getStructureRef()) return false;
 		String ref = itemDef.getStructureRef().toString();
 		if (0 > ref.indexOf(":")) return false;

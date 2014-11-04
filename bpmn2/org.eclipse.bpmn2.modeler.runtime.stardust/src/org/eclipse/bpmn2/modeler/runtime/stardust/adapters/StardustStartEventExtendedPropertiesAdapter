@@ -1,0 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
+package org.eclipse.bpmn2.modeler.runtime.stardust.adapters;
+
+import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
+import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
+
+/**
+ * @author Simon Nikles
+ *
+ */
+public class StardustStartEventExtendedPropertiesAdapter extends ExtendedPropertiesAdapter<StardustStartEventType> {
+
+	public StardustStartEventExtendedPropertiesAdapter(AdapterFactory adapterFactory, StardustStartEventType object) {
+		super(adapterFactory, object);
+System.out
+		.println("StardustStartEventExtendedPropertiesAdapter.StardustStartEventExtendedPropertiesAdapter()");
+	}
+
+}

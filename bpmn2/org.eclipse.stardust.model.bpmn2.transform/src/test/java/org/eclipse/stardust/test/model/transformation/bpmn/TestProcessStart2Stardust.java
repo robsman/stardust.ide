@@ -13,14 +13,12 @@ package org.eclipse.stardust.test.model.transformation.bpmn;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.ProcessStartConfigurator;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.CarnotModelQuery;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
 import org.junit.Test;
 
 /**
@@ -44,11 +42,7 @@ public class TestProcessStart2Stardust extends Bpmn2StardustTestSuite {
         ProcessDefinitionType process = CarnotModelQuery.findProcessDefinition(result, TEST_ID_MAIN_PROCESS);
         assertNotNull(process);
 
-        TriggerType trigger = CarnotModelQuery.findTrigger(process, TEST_ID_START_EVENT);
-        assertNotNull(trigger);
-        assertEquals(PredefinedConstants.MANUAL_TRIGGER, trigger.getType().getId());
-
-        ActivityType splittingStartRouteActivity = CarnotModelQuery.findActivity(process, 0 + process.getId() + ProcessStartConfigurator.START_ROUTE_POST_FIX );
+        ActivityType splittingStartRouteActivity = CarnotModelQuery.findActivity(process, "0"+ process.getId() + ProcessStartConfigurator.START_ROUTE_POST_FIX );
         assertNotNull(splittingStartRouteActivity);
         assertEquals(3, splittingStartRouteActivity.getOutTransitions().size());
 

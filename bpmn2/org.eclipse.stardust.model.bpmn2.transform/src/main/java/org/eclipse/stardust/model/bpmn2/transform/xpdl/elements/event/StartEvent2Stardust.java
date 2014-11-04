@@ -27,6 +27,8 @@ import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
@@ -62,8 +64,18 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
 		if (processDef == null) return;
 
 		if (def == null) {
-			failures.add("StartEvent - no event definition available (" + event.getId() + "). Manual Start is assumed.");
-			addManualTrigger(event, container, processDef);
+			logger.debug("StartEvent - no event definition available (" + event.getId() + "). API or Manual Start is assumed.");
+			StardustStartEventType eventExt = ExtensionHelper.getInstance().getStartEventExtension(event);
+			if (null != eventExt) {
+				if (null != eventExt.getStardustAttributes()) {
+					String participant = AttributeUtil.getAttributeValue(eventExt.getStardustAttributes().getAttributeType(), PredefinedConstants.PARTICIPANT_ATT);
+					if (null == participant) {
+						failures.add("StartEvent - no participant defined (Event " + event.getId() + "). Only API start possible.");
+						return;
+					}
+					addManualTrigger(event, container, processDef);
+				}
+			}
 		} else if (def instanceof MessageEventDefinition) {
 			addMessageTrigger(event, (MessageEventDefinition) def, container, processDef);
 		} else if (def instanceof TimerEventDefinition) {
@@ -117,7 +129,7 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
     private void addMessageTrigger(StartEvent event, MessageEventDefinition def, FlowElementsContainer container, ProcessDefinitionType processDef) {
         logger.debug("addMessageTrigger (JMS) " + event);
         ServiceInterfaceUtil serviceUtil = new ServiceInterfaceUtil(carnotModel, bpmnquery, failures);
-        TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(event, def, container);
+        final TriggerType trigger = serviceUtil.getStartTriggerAndReportFailure(event, def, container);
         if (trigger != null) {
         	trigger.setId(event.getId());
         	processDef.getTrigger().add(trigger);

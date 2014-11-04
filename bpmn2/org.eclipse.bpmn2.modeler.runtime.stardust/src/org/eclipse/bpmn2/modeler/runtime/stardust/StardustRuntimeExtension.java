@@ -32,6 +32,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.PropertiesCompositeFactory;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil.Bpmn2DiagramType;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustActivityInputDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustActivityOutputDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustCommonEventDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssignmentDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
@@ -40,7 +41,6 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventD
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataStoreDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
-import org.eclipse.bpmn2.modeler.ui.property.events.CatchEventDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.wizards.FileService;
 import org.eclipse.ui.IEditorInput;
 import org.xml.sax.InputSource;
@@ -114,6 +114,9 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 
 	        PropertiesCompositeFactory.register(DataStore.class, StardustDataStoreDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataStoreReference.class, StardustDataStoreDetailComposite.class);
+
+	        PropertiesCompositeFactory.register(Event.class, StardustCommonEventDetailComposite.class);
+
 		}
 	}
 }

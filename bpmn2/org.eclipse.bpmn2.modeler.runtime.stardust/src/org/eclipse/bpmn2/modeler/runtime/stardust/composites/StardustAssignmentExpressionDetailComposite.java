@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import java.util.List;
@@ -31,9 +42,9 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 		FROM_EXPR,
 		TO_EXPR
 	}
-	
+
 	private AssignmentPart fromOrTo;
-	
+
 	public StardustAssignmentExpressionDetailComposite(Composite parent, int style, AssignmentPart fromOrTo) {
 		super(parent, style);
 		this.fromOrTo = fromOrTo;
@@ -41,7 +52,7 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 
 	@Override
 	protected void bindAttribute(Composite parent, EObject object, EAttribute attribute, String label) {
-		if ("language".equals(attribute.getName())) { 
+		if ("language".equals(attribute.getName())) {
 			if (null==parent) parent = getAttributesParent();
 			if (null==label) label = getBusinessObjectDelegate().getLabel(object, attribute);
 			TextObjectEditor editor = new TextObjectEditor(this,object,attribute) {
@@ -53,9 +64,9 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 				}
 			};
 			editor.createControl(parent,label);
-			
+
 		} else if ("body".equals(attribute.getName())) {
-			
+
 			TextAndButtonObjectEditor editor = new TextAndButtonObjectEditor(this, object, attribute) {
 
 				@Override
@@ -66,14 +77,14 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 					setEditable(true);
 					return control;
 				}
-				
+
 				@Override
 				protected void buttonClicked(int buttonId) {
 					showDialog(buttonId, object, feature);
 				}
 
 				private void showDialog(int buttonId, EObject object, EStructuralFeature feature) {
-					ItemDefinition itemDef = getItemDefinition();					
+					ItemDefinition itemDef = getItemDefinition();
 					String selectedDataPath = "";
 					List<String> paths = StardustDataPathProvider.INSTANCE.getDataPaths(itemDef);
 					DataPathSelectionDialog dialog = new DataPathSelectionDialog(Display.getCurrent().getActiveShell(), BPMN2Editor.getActiveEditor(), paths);
@@ -84,15 +95,15 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 						super.setText(selectedDataPath);
 					}
 				}
-				
-			}; 
-			
+
+			};
+
 			editor.createControl(parent,label);
 			editor.setMultiLine(false);
 			editor.setEditable(true);
 		} else return;
 	}
-	
+
 	public ItemDefinition getItemDefinition() {
 		FormalExpression expression = (FormalExpression)super.businessObject;
 		Assignment assignment = (Assignment)expression.eContainer();
@@ -118,13 +129,13 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 		if (propertiesProvider==null) {
 			propertiesProvider = new AbstractPropertiesProvider(object) {
 				String[] properties = new String[] {
-						"language", 
+						"language",
 						"body"
 				};
-				
+
 				@Override
 				public String[] getProperties() {
-					return properties; 
+					return properties;
 				}
 			};
 		}

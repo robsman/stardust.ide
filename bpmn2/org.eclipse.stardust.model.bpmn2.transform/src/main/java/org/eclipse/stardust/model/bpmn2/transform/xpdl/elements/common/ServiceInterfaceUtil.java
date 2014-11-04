@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
@@ -22,8 +23,6 @@ import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
@@ -45,7 +44,7 @@ import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
 public class ServiceInterfaceUtil {
 
-	private final Logger logger = LogManager.getLogger(this.getClass());
+	private final Logger logger = Logger.getLogger(ServiceInterfaceUtil.class);
 	private final ModelType carnotModel;
 	private final BpmnModelQuery bpmnquery;
 	private final List<String> failures;
@@ -88,7 +87,7 @@ public class ServiceInterfaceUtil {
 					implId = stardustApplication.getId();
 				}
 				return CarnotModelQuery.findApplication(carnotModel, implId);
-			} 
+			}
 		} else {
 			System.out.println(impl);
 			failures.add("Stardust Implementation Reference (Application) not resolved " + bpmnInterface + " in " + container);
@@ -109,11 +108,17 @@ public class ServiceInterfaceUtil {
 		if (triggerType == null)
 			return null;
 
-		TriggerType trigger = (TriggerType) stardustTrigger;
-		convertAccessPoints(stardustTrigger);
-		trigger.setType(triggerType);
+		EcoreUtil.Copier copier = new EcoreUtil.Copier(true, true);
+		StardustTriggerType sdreusable = (StardustTriggerType)copier.copy(stardustTrigger);;
+		convertAccessPoints(sdreusable);
+		TriggerType reusable = (TriggerType) sdreusable;
+		reusable.setType(triggerType);
+//    	logger.error(trigger.getType());
+//    	final TriggerType reusable =
+//    	reusable.setType(triggerType);
+    	logger.error(reusable.getType());
+		return reusable;
 
-		return trigger;
 	}
 
 	private StardustInterfaceType getStardustInterfaceAndReportFailure(EventDefinition eventDef,
@@ -150,9 +155,11 @@ public class ServiceInterfaceUtil {
 
 	private StardustTriggerType getStartTriggerAndReportFailure(StardustInterfaceType stardustInterface, FlowElementsContainer container) {
 		StardustTriggerType trigger = stardustInterface.getStardustTrigger();
-		if (trigger != null)
+		if (trigger != null) {
+			logger.info("Found Trigger " + trigger.getId() + " in interface " + stardustInterface.getId() + "("+ stardustInterface + " - " + stardustInterface.eContainer() + ")");
 			return trigger;
-
+		}
+		logger.warn("No Trigger found in interface " + stardustInterface.getId() + "("+ stardustInterface + " - " + stardustInterface.eContainer() + ")");
 		failures.add("Stardust Trigger Definition not found (stardust interface " + stardustInterface + ")");
 		return null;
 	}

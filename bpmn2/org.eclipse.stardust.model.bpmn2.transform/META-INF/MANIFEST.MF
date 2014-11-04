@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/ipp-bpm-model-builder-2.0.0.jar,
  lib/carnot-spring-2.0.0.jar,
- lib/stardust-engine-camel-2.0.0.jar
+ lib/stardust-engine-camel-2.0.0.jar,
+ lib/log4j-1.2.17.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

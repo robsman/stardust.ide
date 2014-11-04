@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2014 ITpearls, AG
+ *  All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * ITpearls AG - Stardust Runtime Extension
+ *
+ ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.dialogs;
 
 import java.net.MalformedURLException;
@@ -18,7 +29,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  *
  */
 public class MemberOfClassSelectionDialog extends ElementListSelectionDialog {
-	
+
 	public MemberOfClassSelectionDialog(Shell parentShell, BPMN2Editor editor, List<IMethod> members, boolean constructorSelection) {
 		super(parentShell, MemberOfClassSelectionDialogLabelProvider.newProvider(constructorSelection));
 		setElements(members.toArray());
@@ -31,9 +42,9 @@ public class MemberOfClassSelectionDialog extends ElementListSelectionDialog {
 	}
 
 	public static class MemberOfClassSelectionDialogLabelProvider implements ILabelProvider {
-		
+
 		private boolean constructorSelection;
-		
+
 		public MemberOfClassSelectionDialogLabelProvider(boolean constructorSelection) {
 			super();
 			this.constructorSelection = constructorSelection;
@@ -42,7 +53,7 @@ public class MemberOfClassSelectionDialog extends ElementListSelectionDialog {
 		public static MemberOfClassSelectionDialogLabelProvider newProvider(boolean constructorSelection) {
 			return new MemberOfClassSelectionDialogLabelProvider(constructorSelection);
 		}
-		
+
 		@Override
 		public void addListener(ILabelProviderListener arg0) {
 		}
@@ -80,12 +91,12 @@ public class MemberOfClassSelectionDialog extends ElementListSelectionDialog {
 						| CoreException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}						
+				}
 			}
 
 			return name; //null != selectionElement ? selectionElement.toString() : "";
 		}
-		
+
 	}
 
 }
