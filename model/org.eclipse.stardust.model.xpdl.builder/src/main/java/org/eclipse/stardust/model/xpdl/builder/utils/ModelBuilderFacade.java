@@ -3682,7 +3682,7 @@ public class ModelBuilderFacade
 
       // TODO Implement
 
-      // setDescription(transition, description);
+      setDescription(transition, description);
 
       return transition;
    }
