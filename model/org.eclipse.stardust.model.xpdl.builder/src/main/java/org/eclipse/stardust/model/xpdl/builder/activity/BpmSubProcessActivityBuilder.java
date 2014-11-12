@@ -85,7 +85,6 @@ public class BpmSubProcessActivityBuilder
                AttributeUtil.setAttribute((IIdentifiableModelElement) element,
                      "carnot:connection:uuid", uuidAttribute.getValue());
             }
-            IdRefHandler.adapt(element);
          }
       }
 

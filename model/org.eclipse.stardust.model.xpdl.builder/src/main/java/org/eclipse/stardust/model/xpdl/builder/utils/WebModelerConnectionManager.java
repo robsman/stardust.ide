@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.log.LogManager;
@@ -674,9 +675,9 @@ public class WebModelerConnectionManager implements IConnectionManager
          }
          else
          {
-            if (object instanceof IdRefOwner)
+            if (object instanceof IdRefOwner || object instanceof DataType)
             {
-               IdRefHandler.adapt((IdRefOwner) object);
+               IdRefHandler.adapt((IIdentifiableModelElement) object);
             }
          }
       }

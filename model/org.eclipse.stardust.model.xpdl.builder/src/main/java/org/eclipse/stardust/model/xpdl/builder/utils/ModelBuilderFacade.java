@@ -3241,7 +3241,12 @@ public class ModelBuilderFacade
       }
       if (element instanceof IExtensibleElement)
       {
+         try {
          AttributeUtil.setAttribute((IExtensibleElement) element, name, value);
+         }
+         catch (Throwable t) {
+            System.out.println();
+         }
       }
    }
 

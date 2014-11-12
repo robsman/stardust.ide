@@ -17,6 +17,7 @@ import java.util.UUID;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.stardust.common.StringUtils;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.utils.ElementBuilderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.NameIdUtilsExtension;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
@@ -27,6 +28,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
+import org.eclipse.stardust.model.xpdl.carnot.IdRefOwner;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -71,7 +73,10 @@ public abstract class AbstractModelElementBuilder<T extends IIdentifiableElement
          AttributeUtil.setAttribute((IIdentifiableModelElement) element, "carnot:model:uuid", UUID
                .randomUUID().toString());
       }
-
+      if (element instanceof IdRefOwner || element instanceof DataType)
+      {
+         IdRefHandler.adapt((IIdentifiableModelElement) element);
+      }
 
       return element;
    }
