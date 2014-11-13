@@ -10,27 +10,29 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.connectionhandler;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+import org.eclipse.stardust.model.xpdl.carnot.util.StructuredTypeUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
+import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 
 public class IdRefHandler implements EObjectReference, Adapter
 {
    private static final String CARNOT_CONNECTION_UUID = "carnot:connection:uuid";
    private static final String CARNOT_MODEL_UUID = "carnot:model:uuid";
+
    private IIdentifiableModelElement owner;
    private IIdentifiableModelElement target;
 
@@ -109,20 +111,17 @@ public class IdRefHandler implements EObjectReference, Adapter
          String referencedUuid = getConnectionUUID(owner);
          if (!StringUtils.isEmpty(referencedUuid))
          {
-            String uuid = other == null ? null : getModelElementUUID(other);
-            if (!referencedUuid.equals(uuid))
+            if (other == null || !referencedUuid.equals(getModelElementUUID(other)))
             {
                ModelType model = getReferencedModel(owner, idRef);
                if (model != null)
                {
-                  List<? extends IIdentifiableModelElement> domain = getReferencedClass(owner) == ApplicationType.class
-                        ? model.getApplication() : model.getProcessDefinition();
-                  for (IIdentifiableModelElement element : domain)
+                  List<? extends EObject> domain = getDomain(owner, model);
+                  for (EObject element : domain)
                   {
                      if (element != other)
                      {
-                        uuid = AttributeUtil.getAttributeValue((IExtensibleElement) element, CARNOT_MODEL_UUID);
-                        if (referencedUuid.equals(uuid))
+                        if (referencedUuid.equals(getModelElementUUID(element)))
                         {
                            return element;
                         }
@@ -135,6 +134,17 @@ public class IdRefHandler implements EObjectReference, Adapter
       return other;
    }
 
+   private static List< ? extends EObject> getDomain(IIdentifiableModelElement owner, ModelType model)
+   {
+      if (owner instanceof DataType)
+      {
+         TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
+         return typeDeclarations == null ? Collections.<EObject>emptyList() : typeDeclarations.getTypeDeclaration();
+      }
+      return getReferencedClass((IdRefOwner) owner) == ApplicationType.class
+            ? model.getApplication() : model.getProcessDefinition();
+   }
+
    private static ModelType getReferencedModel(IIdentifiableModelElement owner, EObject idRef)
    {
       ModelType model = ModelUtils.findContainingModel(owner);
@@ -142,15 +152,17 @@ public class IdRefHandler implements EObjectReference, Adapter
       {
          if (idRef instanceof IdRef)
          {
-            if (((IdRef) idRef).getPackageRef() != null)
+            IdRef ref = (IdRef) idRef;
+            if (ref.getPackageRef() != null)
             {
                IConnectionManager manager = model.getConnectionManager();
-               model = manager == null ? null : manager.find(((IdRef) idRef).getPackageRef());
+               model = manager == null ? null : manager.find(ref.getPackageRef());
             }
          }
          else if (idRef instanceof ExternalReferenceType)
          {
-            // TODO
+            ExternalReferenceType extRef = (ExternalReferenceType) idRef;
+            return StructuredTypeUtils.getExternalModel(model, extRef.getLocation());
          }
       }
       return model;
@@ -176,24 +188,24 @@ public class IdRefHandler implements EObjectReference, Adapter
       {
          @SuppressWarnings("unchecked")
          Class<? extends IIdentifiableModelElement> referencedClass =
-
-         (Class< ? extends IIdentifiableModelElement>) getReferencedClass((IdRefOwner) owner);
+               (Class< ? extends IIdentifiableModelElement>) getReferencedClass((IdRefOwner) owner);
          return ((IdRef) idRef).get(referencedClass);
       }
       else if (idRef instanceof ExternalReferenceType)
       {
-         // TODO: find and return the type declaration
+         ModelType model = ModelUtils.findContainingModel(idRef);
+         if (model != null)
+         {
+            ExternalReferenceType extRef = (ExternalReferenceType) idRef;
+            return StructuredTypeUtils.getTypeDeclaration(model, extRef.getLocation(), extRef.getXref());
+         }
       }
       return null;
    }
 
-   private static Class<? extends EObject> getReferencedClass(EObject owner)
+   private static Class<? extends EObject> getReferencedClass(IdRefOwner owner)
    {
-      if (owner instanceof DataType)
-      {
-         return TypeDeclarationType.class;
-      }
-      else if (owner instanceof ActivityType
+      if (owner instanceof ActivityType
             && ActivityImplementationType.APPLICATION_LITERAL == ((ActivityType) owner).getImplementation())
       {
          return ApplicationType.class;
