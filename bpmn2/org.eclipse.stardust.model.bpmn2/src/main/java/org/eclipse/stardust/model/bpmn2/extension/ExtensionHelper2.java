@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.bpmn2.BaseElement;
+import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Property;
@@ -44,6 +45,7 @@ public enum ExtensionHelper2 {
 	INSTANCE;
 
 	public static final String STARDUST_EXTENSION_NAMESPACE = ExtensionHelper.NS_URI_STARDUST; //"http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";
+	public static final String STARDUST_SHORT_NAMESPACE = ExtensionHelper.NS_URI_STARDUST_SHORT;
 	public static final String STARDUST_EXTENSION_PREFIX = "sdbpmn";
 	public static final String STARDUST_ACCESSPOINT_ID = "sdbpmn:accesspoint";
 	public static final String STARDUST_ACCESSPOINT_TYPE_CLASSNAME = "sdbpmn:typeClass";
@@ -54,6 +56,10 @@ public enum ExtensionHelper2 {
 	public static final String STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX = "Element";
 	public static final String STARDUST_PROPERTY_ID = "stardustPropertyId";
 
+	public static final String STARDUST_IGNORE_PROPERTY = "stardustIgnore";
+	public static final String STARDUST_CARNOT_VERSION_PROPERTY = "targetCarnotVersion";
+
+	private static final String TRUE = Boolean.TRUE.toString();
 
 	public XSDSchema getEmbeddedSchemaExtension(ItemDefinition itemdef) {
 		final String featureName = XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA.getName();
@@ -71,7 +77,6 @@ public enum ExtensionHelper2 {
 				if (null != feature
 						&& featureName.equals(feature.getName())
 						&& consideredNamespaces.contains(ExtendedMetaData.INSTANCE.getNamespace(feature))) {
-					System.out.println("ExtensionHelper2.getEmbeddedSchemaExtension() e " + e + " e.getValue() " + e.getValue().getClass());
 					if (e.getValue() instanceof XSDSchema) {
 						return (XSDSchema)e.getValue();
 					}
@@ -91,10 +96,71 @@ public enum ExtensionHelper2 {
 			if (feature instanceof EAttribute) {
 				EAttribute attr = (EAttribute)feature;
 				if (STARDUST_SYNTHETIC_PROPERTY.equals(attr.getName()) || STARDUST_SYNTHETIC_ITEMDEF.equals(attr.getName())) {
-					return "true".equals(item.getValue().toString());
+					return TRUE.equals(item.getValue().toString());
 				}
 			}
 		} return false;
+	}
+
+	public boolean hasIgnoreFlag(BaseElement element) {
+		Iterator<Entry> iterator = element.getAnyAttribute().iterator();
+		while (iterator.hasNext()) {
+			Entry item = iterator.next();
+			EStructuralFeature feature = item.getEStructuralFeature();
+			String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(feature);
+			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
+			if (feature instanceof EAttribute) {
+				EAttribute attr = (EAttribute)feature;
+				if (STARDUST_IGNORE_PROPERTY.equals(attr.getName())) {
+					return TRUE.equals(item.getValue().toString());
+				}
+			}
+		} return false;
+	}
+
+	public String getCarnotVersion(Definitions element) {
+		Iterator<Entry> iterator = element.getAnyAttribute().iterator();
+		while (iterator.hasNext()) {
+			Entry item = iterator.next();
+			EStructuralFeature feature = item.getEStructuralFeature();
+			String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(feature);
+			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
+			if (feature instanceof EAttribute) {
+				EAttribute attr = (EAttribute)feature;
+				if (STARDUST_CARNOT_VERSION_PROPERTY.equals(attr.getName())) {
+					return item.getValue().toString();
+				}
+			}
+		} return null;
+	}
+
+	public void setIgnoreFlag(BaseElement element) {
+		ExtensionHelper.getInstance().setAnyAttribute(element, STARDUST_IGNORE_PROPERTY, TRUE);
+	}
+
+	public void setCarnotVersion(String version, Definitions element) {
+		ExtensionHelper.getInstance().setAnyAttribute(element, STARDUST_CARNOT_VERSION_PROPERTY, version);
+	}
+
+	public void removeIgnoreFlag(BaseElement element) {
+		EStructuralFeature featureToRemove = null;
+		Iterator<Entry> iterator = element.getAnyAttribute().iterator();
+		while (iterator.hasNext()) {
+			Entry item = iterator.next();
+			EStructuralFeature feature = item.getEStructuralFeature();
+			String extensionNs = ExtendedMetaData.INSTANCE.getNamespace(feature);
+			if (!STARDUST_EXTENSION_NAMESPACE.equals(extensionNs)) continue;
+			if (feature instanceof EAttribute) {
+				EAttribute attr = (EAttribute)feature;
+				if (STARDUST_PROPERTY_ID.equals(attr.getName())) {
+					featureToRemove = feature;
+					break;
+				}
+			}
+		}
+		if (null != featureToRemove) {
+			element.getAnyAttribute().remove(featureToRemove);
+		}
 	}
 
 	public String getStardustPropertyId(Property prop) {
@@ -227,7 +293,8 @@ public enum ExtensionHelper2 {
 	public XSDSchema createSchema(AccessPointSchemaWrapper schemaInfo, int sequence, Direction direction) {
 
 		final XSDFactory factory = XSDFactory.eINSTANCE;
-		final String targetNamespace = STARDUST_EXTENSION_NAMESPACE + "/AccessPoints/" + direction + "/" + sequence;
+		//final String targetNamespace = STARDUST_EXTENSION_NAMESPACE + "/AccessPoints/" + direction + "/" + sequence;
+		final String targetNamespace = STARDUST_SHORT_NAMESPACE + "/AP/" + direction + "/" + sequence;
 		final String targetNamespacePrefix = "AccessPoints_" + direction + "_" + sequence;
 
 		XSDSchema schema = factory.createXSDSchema();
@@ -239,11 +306,17 @@ public enum ExtensionHelper2 {
 		prefixMap.put(targetNamespacePrefix, targetNamespace);
 
 		XSDComplexTypeDefinition accessPointsType = factory.createXSDComplexTypeDefinition();
-		String name = null != schemaInfo.getOwnerApplicationId() ? schemaInfo.getOwnerApplicationId() : "AccessPoint"+sequence;
-		accessPointsType.setName(direction + name + STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
+		String appId = null != schemaInfo.getOwnerApplicationId() ? schemaInfo.getOwnerApplicationId() : "AccessPoint"+sequence;
+		String name = null;
+		if (null != schemaInfo.getOwnerApplicationName()) {
+			name = camelCase(schemaInfo.getOwnerApplicationName());
+		} else {
+			name = appId;
+		}
+		accessPointsType.setName(direction + appId + STARDUST_ACCESSPOINT_SCHEMA_TYPE_POSTFIX);
 
 		XSDElementDeclaration element = factory.createXSDElementDeclaration();
-		element.setName(direction+name+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
+		element.setName(name+STARDUST_ACCESSPOINT_SCHEMA_ELEMENT_POSTFIX);
 		element.setTypeDefinition(accessPointsType);
 		schema.getContents().add(element);
 
@@ -279,6 +352,27 @@ public enum ExtensionHelper2 {
 			}
 		}
 		return schema;
+	}
+
+	public static String camelCase(String base) {
+		if (null == base) return null;
+		String camelCase = "";
+		String[] parts = base.split(" ");
+		if (parts.length <= 1) return base;
+
+		camelCase = parts[0].trim();
+		for (int i = 1; i < parts.length; i++) {
+			String part = parts[i];
+			if (null == part || part.trim().isEmpty()) {
+				continue;
+			}
+			if (part.length() > 1) {
+				camelCase = camelCase.concat(part.substring(0, 1).toUpperCase()).concat(part.substring(1));
+			} else {
+				camelCase = camelCase.concat(part.toUpperCase());
+			}
+		}
+		return camelCase;
 	}
 
 }

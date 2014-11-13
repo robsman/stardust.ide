@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.AdHocSubProcess;
 import org.eclipse.bpmn2.Artifact;
@@ -83,8 +84,6 @@ import org.eclipse.bpmn2.Transaction;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.model.bpmn2.ModelConstants;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 
@@ -119,7 +118,7 @@ public class TransformationControl {
 
     private TransformationControl(Dialect dialect) {
         this.dialect = dialect;
-        log = LogManager.getLogger(this.getClass());
+        log = Logger.getLogger(this.getClass());
     }
 
     public String transformToTarget(Definitions definitions, OutputStream target) {
@@ -225,11 +224,11 @@ public class TransformationControl {
 				processEventDataFlow(event, container, predefinedDataForId);
 			}
 		}
-//		for (FlowElementsContainer container : globalCalls.keySet()) {
-//			for (CallActivity caller : globalCalls.get(container)) {
-//				processGlobalCall(caller, container);
-//			}
-//		}
+		for (FlowElementsContainer container : globalCalls.keySet()) {
+			for (CallActivity caller : globalCalls.get(container)) {
+				processGlobalCall(caller, container);
+			}
+		}
     }
 
 	private void processModelImport(Import imp) {
@@ -265,6 +264,12 @@ public class TransformationControl {
 
     private void processProperties(Process process) {
     	for (Property prop : process.getProperties()) {
+    		transf.addProperty(prop, predefinedDataForId);
+    	}
+	}
+
+    private void processProperties(SubProcess subProcess) {
+    	for (Property prop : subProcess.getProperties()) {
     		transf.addProperty(prop, predefinedDataForId);
     	}
 	}
@@ -520,8 +525,19 @@ public class TransformationControl {
         transf.addServiceTask(activity, container);
     }
 
+    private void processSendTask(SendTask activity, FlowElementsContainer container) {
+        //processingInfo +=   "SendTask" + NOT_SUPPORTED;
+    	transf.addSendTask(activity, container);
+    }
+
+    private void processReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
+        //processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
+    	transf.addReceiveTask(activity, container);
+    }
+
     private void processSubProcessDefault(SubProcess activity, FlowElementsContainer container) {
-        processingInfo +=   "SubProcess" + NOT_SUPPORTED;
+        //processingInfo +=   "SubProcess" + NOT_SUPPORTED;
+        processProperties((SubProcess)activity);
         transf.addSubProcess(activity, container);
         processFlowElementsContainer(activity);
     }
@@ -583,23 +599,14 @@ public class TransformationControl {
         processingInfo +=   "laneset" + NOT_SUPPORTED;
     }
 
-    private void processSendTask(SendTask activity, FlowElementsContainer container) {
-        processingInfo +=   "SendTask" + NOT_SUPPORTED;
-
-    }
-
     private void processScriptTask(ScriptTask activity, FlowElementsContainer container) {
         processingInfo +=   "ScriptTask" + NOT_SUPPORTED;
 
     }
 
-    private void processReceiveTask(ReceiveTask activity, FlowElementsContainer container) {
-        processingInfo +=   "ReceiveTask" + NOT_SUPPORTED;
-
-    }
-
     private void processManualTask(ManualTask activity, FlowElementsContainer container) {
-        processingInfo +=   "ManualTask" + NOT_SUPPORTED;
+        //processingInfo +=   "ManualTask" + NOT_SUPPORTED;
+    	transf.addManualTask(activity, container);
 
     }
 
@@ -688,7 +695,7 @@ public class TransformationControl {
     }
 
     private void processMessage(Message root) {
-        processingInfo +=   "Message" + NOT_SUPPORTED;
+        //processingInfo +=   "Message" + NOT_SUPPORTED;
     }
 
     private void processCorrelationProperty(CorrelationProperty root) {

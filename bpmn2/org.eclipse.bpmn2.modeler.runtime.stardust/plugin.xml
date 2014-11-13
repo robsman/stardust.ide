@@ -227,6 +227,32 @@
 			label="Stardust Trigger">
 		</propertyTab>
 
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.performer.tab"
+			afterTab="org.eclipse.bpmn2.modeler.definitions.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustPerformerPropertySection"
+			type="org.eclipse.bpmn2.Definitions org.eclipse.bpmn2.Process org.eclipse.bpmn2.Collaboration org.eclipse.bpmn2.Participant"
+			label="Performer">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.userTask.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.userTask.tab"
+			afterTab="org.eclipse.bpmn2.modeler.description.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.tasks.StardustUserTaskPropertySection"
+			type="org.eclipse.bpmn2.UserTask"
+			label="User Task">
+		</propertyTab>
+
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.definitions.tab"
+			afterTab="org.eclipse.bpmn2.modeler.interface.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.definitions.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustDefinitionsPropertySection"
+			type="org.eclipse.bpmn2.Definitions"
+			label="Definitions">
+		</propertyTab>
+
 
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
@@ -304,6 +330,22 @@
 
 <!--
 		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustPerformerResource"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.performer.StardustResourcePropertiesAdapter">
+		</propertyExtension>
+-->
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustConditionalPerformer"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.performer.StardustConditionalPerformerPropertiesAdapter">
+		</propertyExtension>
+
+<!--
+		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustEvent"
 			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
 			type="org.eclipse.bpmn2.CatchEvent"
@@ -331,10 +373,14 @@
 			<enable object="StardustDataObjectType"/>
 			<enable object="CatchEvent"/>
 			<enable object="Event"/>
+			<enable object="Definitions"/>
 			<enable object="IntermediateCatchEvent"/>
 			<enable object="DataInput" feature="name"/>
 			<enable object="DataOutput" feature="name"/>
 			<enable object="XSDSchema"/>
+
+			<enable object="StardustResourceType"/>
+			<enable object="ConditionalPerformerType"/>
 
 			<enable object="StartEvent" feature="dataOutputs"/>
 			<enable object="IntermediateCatchEvent" feature="dataOutputs"/>
@@ -343,7 +389,7 @@
 		</modelEnablement>
 
 
-		<typeLanguage name="XSD Schema" uri="http://www.w3.org/2001/XMLSchema" prefix="xs">
+		<typeLanguage name="XSD Schema" uri="http://www.w3.org/2001/XMLSchema" prefix="xsd">
 			<type name="string"/>
 			<type name="date"/>
 			<type name="dateTime"/>

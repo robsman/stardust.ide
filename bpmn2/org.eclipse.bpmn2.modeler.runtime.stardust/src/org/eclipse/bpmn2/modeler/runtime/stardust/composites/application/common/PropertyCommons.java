@@ -36,6 +36,10 @@ public class PropertyCommons {
 			return new String[]{PUBLIC.key, PRIVATE.key};
 		}
 
+		public String getKey() {
+			return key;
+		}
+
 	}
 
 }

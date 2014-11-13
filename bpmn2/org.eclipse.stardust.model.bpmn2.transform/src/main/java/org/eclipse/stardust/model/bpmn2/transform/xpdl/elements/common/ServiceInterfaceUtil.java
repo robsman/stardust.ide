@@ -19,6 +19,8 @@ import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.EventDefinition;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.ReceiveTask;
+import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -63,6 +65,18 @@ public class ServiceInterfaceUtil {
 
 	public ApplicationType getApplicationAndReportFailures(Event event, EventDefinition eventDef, FlowElementsContainer container) {
 		Interface bpmnInterface = getServiceInterfaceAndReportFailure(eventDef, container);
+		if (bpmnInterface == null) return null;
+		return getApplicationAndReportFailure(bpmnInterface, container);
+	}
+
+	public ApplicationType getApplicationAndReportFailure(SendTask task, FlowElementsContainer container) {
+		Interface bpmnInterface = getServiceInterfaceAndReportFailure(task, container);
+		if (bpmnInterface == null) return null;
+		return getApplicationAndReportFailure(bpmnInterface, container);
+	}
+
+	public ApplicationType getApplicationAndReportFailure(ReceiveTask task, FlowElementsContainer container) {
+		Interface bpmnInterface = getServiceInterfaceAndReportFailure(task, container);
 		if (bpmnInterface == null) return null;
 		return getApplicationAndReportFailure(bpmnInterface, container);
 	}
@@ -116,7 +130,7 @@ public class ServiceInterfaceUtil {
 //    	logger.error(trigger.getType());
 //    	final TriggerType reusable =
 //    	reusable.setType(triggerType);
-    	logger.error(reusable.getType());
+//    	logger.error(reusable.getType());
 		return reusable;
 
 	}

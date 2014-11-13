@@ -9,7 +9,7 @@
  * ITpearls AG - Stardust Runtime Extension
  *
  ******************************************************************************/
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
+package org.eclipse.bpmn2.modeler.runtime.stardust.composites.task;
 
 import java.util.List;
 

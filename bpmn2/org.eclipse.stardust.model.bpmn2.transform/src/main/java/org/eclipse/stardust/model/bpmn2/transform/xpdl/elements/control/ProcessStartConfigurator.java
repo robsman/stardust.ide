@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control;
 
 import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +83,7 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 		if (null == startEvents || !(startEvents.size() > 1)) return false;
 		ProcessDefinitionType processDef = query.findProcessDefinition(container.getId());
 		ActivityType startRoute = insertXOrSplitRoute(container, processDef);
+		Map<String, TransitionType> transitionPerTarget = new HashMap<String, TransitionType>();
 		for (StartEvent startEvent : startEvents) {
 			List<FlowNode> successors = BpmnModelQuery.getSequenceSuccessorNodesOf(startEvent);
 			ActivityType targetActivity = null;
@@ -90,11 +92,40 @@ public class ProcessStartConfigurator  extends AbstractElement2Stardust {
 			} else if (successors.size() == 1) {
 				targetActivity = query.findActivity(successors.get(0), container);
 			}
-        	TransitionType transition = TransitionUtil.createTransition(START_ROUTE_PRE_FIX + targetActivity.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, startRoute, targetActivity);
-        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEvent.getId() + "\";");
+			if (null == targetActivity) {
+				failures.add("Target Activity for Start Event not available! " + startEvent);
+				continue;
+			}
+			if (transitionPerTarget.containsKey(targetActivity.getId())) {
+				TransitionType transition = transitionPerTarget.get(targetActivity.getId());
+				concatStartEventTransitionCondition(transition, startEvent.getId());
+			} else {
+	        	TransitionType transition = TransitionUtil.createTransition(START_ROUTE_PRE_FIX + targetActivity.getId(), START_ROUTE_TRANSITION_NAME, "", processDef, startRoute, targetActivity);
+	        	TransitionUtil.setTransitionExpression(transition, PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEvent.getId() + "\";");
+	        	transitionPerTarget.put(targetActivity.getId(), transition);
+			}
         	addJmsStartEventHeaders(startEvent, processDef);
 		}
 		return true;
+	}
+
+	private void concatStartEventTransitionCondition(TransitionType transition, String startEventId) {
+		String expression = TransitionUtil.getTransitionExpression(transition);
+		if (null == expression) {
+			failures.add("Failed concating condtition for Multi-Start Event - no existing condition.");
+			return;
+		}
+		if (expression.trim().endsWith(";")) {
+			// remove expected semicolon
+			expression = expression.trim().substring(0, expression.length()-1);
+			// remove expected semicolon concatenate OR operator and alternative eventId for transition
+			expression = expression.concat(" || ").concat(PredefinedDataInfo.VAR_START_EVENT_ID + "==\"" + startEventId + "\";");
+			// set modified condition as new transition-expression
+			TransitionUtil.setTransitionExpression(transition, expression);
+		} else {
+			failures.add("Failed concating condtition for Multi-Start Event. Existing expression is not valid.");
+			return;
+		}
 	}
 
 	private void addJmsStartEventHeaders(StartEvent startEvent, ProcessDefinitionType processDef) {

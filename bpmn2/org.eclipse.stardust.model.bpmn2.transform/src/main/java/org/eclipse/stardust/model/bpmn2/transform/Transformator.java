@@ -37,12 +37,15 @@ import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
+import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.Property;
+import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Resource;
+import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -99,6 +102,10 @@ public interface Transformator {
 
     public void addServiceTask(ServiceTask activity, FlowElementsContainer container);
 
+    public void addSendTask(SendTask activity, FlowElementsContainer container);
+
+    public void addReceiveTask(ReceiveTask activity, FlowElementsContainer container);
+
     public void addItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports);
 
     public void addTaskDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId);
@@ -136,5 +143,7 @@ public interface Transformator {
 	void addProperty(Property property, Map<String, String> predefinedDataForId);
 
 	public void addDataStore(DataStore data);
+
+	public void addManualTask(ManualTask activity, FlowElementsContainer container);
 
 }

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.eclipse.bpmn2.Activity;
 import org.eclipse.bpmn2.BoundaryEvent;
 import org.eclipse.bpmn2.CallActivity;
@@ -45,12 +46,15 @@ import org.eclipse.bpmn2.IntermediateThrowEvent;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Lane;
 import org.eclipse.bpmn2.LaneSet;
+import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.ParallelGateway;
 import org.eclipse.bpmn2.Participant;
 import org.eclipse.bpmn2.PartnerEntity;
 import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.Property;
+import org.eclipse.bpmn2.ReceiveTask;
 import org.eclipse.bpmn2.Resource;
+import org.eclipse.bpmn2.SendTask;
 import org.eclipse.bpmn2.SequenceFlow;
 import org.eclipse.bpmn2.ServiceTask;
 import org.eclipse.bpmn2.StartEvent;
@@ -63,9 +67,10 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.stardust.common.log.LogManager;
-import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.api.runtime.User;
+import org.eclipse.stardust.engine.api.runtime.UserHome;
+import org.eclipse.stardust.engine.api.runtime.UserPK;
 import org.eclipse.stardust.engine.core.extensions.actions.abort.AbortActivityEventAction;
 import org.eclipse.stardust.engine.core.extensions.actions.complete.CompleteActivityEventAction;
 import org.eclipse.stardust.engine.core.extensions.conditions.exception.ExceptionCondition;
@@ -77,6 +82,7 @@ import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimeStampEmi
 import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimerAccessPointProvider;
 import org.eclipse.stardust.engine.core.extensions.conditions.timer.TimerValidator;
 import org.eclipse.stardust.engine.core.extensions.triggers.timer.TimerTriggerValidator;
+import org.eclipse.stardust.engine.core.runtime.beans.IUser;
 import org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance;
 import org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator;
 import org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator;
@@ -85,6 +91,7 @@ import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanAccessPointProvider;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanApplicationInstance;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanValidator;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
 import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo;
@@ -118,8 +125,10 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
 import org.eclipse.stardust.model.xpdl.carnot.EventActionTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.EventConditionTypeType;
@@ -145,7 +154,7 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     private List<String> failures = new ArrayList<String>();
 
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    private final Logger logger = Logger.getLogger(this.getClass());
 
     private CarnotModelQuery query;
 
@@ -160,13 +169,15 @@ public class Bpmn2StardustXPDL implements Transformator {
     	carnotModel = newBpmModel()
     			.withIdAndName(modelId, definitions.getName())
     			.build();
+
+    	String targetCarnotVersion = ExtensionHelper2.INSTANCE.getCarnotVersion(definitions);
+    	if (null != targetCarnotVersion) {
+    		carnotModel.setCarnotVersion(targetCarnotVersion);
+    	}
+
     	Bpmn2StardustXPDLExtension.addModelExtensions(definitions, carnotModel);
     	Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);
     	query = new CarnotModelQuery(carnotModel);
-
-        ModelBuilderFacade facade = new ModelBuilderFacade();
-        DataType data = facade.createPrimitiveData(carnotModel, PredefinedDataInfo.VAR_START_EVENT_ID, PredefinedDataInfo.LBL_START_EVENT_ID, ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
-        data.setPredefined(true);
 
     	DefaultTypesInitializer initializer = new DefaultTypesInitializer();
     	initializer.initializeModel(carnotModel);
@@ -213,6 +224,11 @@ public class Bpmn2StardustXPDL implements Transformator {
 				 CamelProducerSpringBeanApplicationInstance.class,
 				 CamelProducerSpringBeanValidator.class);
 
+    	ApplicationTypeType jmsApp = ModelUtils.findElementById(carnotModel.getApplicationType(), PredefinedConstants.JMS_APPLICATION);
+    	if (null != jmsApp) {
+    		jmsApp.setSynchronous(false);
+    	}
+
     	if (null == ModelUtils.findElementById(carnotModel.getTriggerType(), PredefinedConstants.JMS_TRIGGER)) {
     		TriggerTypeType typeDef = BpmPackageBuilder.F_CWM.createTriggerTypeType();
     		typeDef.setId(PredefinedConstants.JMS_TRIGGER);
@@ -237,6 +253,26 @@ public class Bpmn2StardustXPDL implements Transformator {
 
     	decodeEventActionType("completeActivity", carnotModel);
     	decodeEventActionType("abortActivity", carnotModel);
+
+        ModelBuilderFacade facade = new ModelBuilderFacade();
+        DataType data = facade.createPrimitiveData(carnotModel, PredefinedDataInfo.VAR_START_EVENT_ID, PredefinedDataInfo.LBL_START_EVENT_ID, ModelerConstants.STRING_PRIMITIVE_DATA_TYPE);
+        data.setPredefined(true);
+
+        DataType startingUser = CarnotWorkflowModelFactory.eINSTANCE.createDataType();
+        DataTypeType dataTypeType = (DataTypeType) ModelUtils.findIdentifiableElement(carnotModel.getDataType(), PredefinedConstants.ENTITY_BEAN_DATA);
+        startingUser.setType(dataTypeType);
+        startingUser.setId(PredefinedConstants.STARTING_USER);
+        startingUser.setName("Starting User");
+        startingUser.setPredefined(true);
+
+        AttributeUtil.setBooleanAttribute(startingUser, PredefinedConstants.BROWSABLE_ATT, Boolean.TRUE);
+        AttributeUtil.setAttribute(startingUser, PredefinedConstants.HOME_INTERFACE_ATT, UserHome.class.getName());
+        AttributeUtil.setBooleanAttribute(startingUser, PredefinedConstants.IS_LOCAL_ATT, Boolean.TRUE);
+        AttributeUtil.setAttribute(startingUser, PredefinedConstants.JNDI_PATH_ATT, User.class.getName());
+        AttributeUtil.setAttribute(startingUser, PredefinedConstants.PRIMARY_KEY_ATT, UserPK.class.getName());
+        AttributeUtil.setAttribute(startingUser, PredefinedConstants.REMOTE_INTERFACE_ATT, IUser.class.getName());
+        carnotModel.getData().add(startingUser);
+
     }
 
     public ModelType getTargetModel() {
@@ -342,9 +378,25 @@ public class Bpmn2StardustXPDL implements Transformator {
     	new UserTask2Stardust(carnotModel, failures).addUserTask(task, container);
     }
 
+	@Override
+	public void addManualTask(ManualTask task, FlowElementsContainer container) {
+		failures.add("Warning: Manual task is not executable - it is treaten as user task.");
+		new UserTask2Stardust(carnotModel, failures).addUserTaskForManualTask(task, container);
+	}
+
     public void addServiceTask(ServiceTask task, FlowElementsContainer container) {
     	logger.debug("addServiceTask " + task + " in " + container);
     	new ServiceTask2Stardust(carnotModel, failures).addServiceTask(task, container);
+    }
+
+    public void addSendTask(SendTask task, FlowElementsContainer container) {
+    	logger.debug("addSendTask " + task + " in " + container);
+    	new ServiceTask2Stardust(carnotModel, failures).addSendTask(task, container);
+    }
+
+    public void addReceiveTask(ReceiveTask task, FlowElementsContainer container) {
+    	logger.debug("addReceiveTask " + task + " in " + container);
+    	new ServiceTask2Stardust(carnotModel, failures).addReceiveTask(task, container);
     }
 
     public void addItemDefinition(ItemDefinition itemdef, List<Import> bpmnImports) {
@@ -626,6 +678,5 @@ public class Bpmn2StardustXPDL implements Transformator {
 	public void addProperty(Property property, Map<String, String> predefinedDataForId) {
 		new Property2Stardust(carnotModel, failures).addProperty(property, predefinedDataForId);
 	}
-
 
 }

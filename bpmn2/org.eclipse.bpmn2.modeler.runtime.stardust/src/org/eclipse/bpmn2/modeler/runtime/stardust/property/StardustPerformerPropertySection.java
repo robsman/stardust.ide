@@ -13,19 +13,23 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.property;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultPropertySection;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.task.StardustUserTaskImplementationDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.StardustPerformerDetailsComposite;
 import org.eclipse.swt.widgets.Composite;
 
-public class StardustUserTaskImplementationPropertySection extends DefaultPropertySection {
+/**
+ * @author Simon Nikles
+ *
+ */
+public class StardustPerformerPropertySection extends DefaultPropertySection {
 
 	@Override
 	protected AbstractDetailComposite createSectionRoot() {
-		return new StardustUserTaskImplementationDetailComposite(this);
+		return new StardustPerformerDetailsComposite(this);
 	}
 
 	@Override
 	public AbstractDetailComposite createSectionRoot(Composite parent, int style) {
-		return new StardustUserTaskImplementationDetailComposite(parent,style);
+		return new StardustPerformerDetailsComposite(parent,style);
 	}
 
 

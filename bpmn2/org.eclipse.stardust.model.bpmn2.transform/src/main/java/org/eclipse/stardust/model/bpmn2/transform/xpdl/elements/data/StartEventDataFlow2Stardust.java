@@ -19,6 +19,7 @@ import org.eclipse.bpmn2.DataAssociation;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
@@ -75,7 +76,11 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
     private DataOutput addParameterMapping(DataOutputAssociation assocOut, TriggerType trigger, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
         ItemAwareElement associationTarget = assocOut.getTargetRef();
-        if (associationTarget instanceof DataObjectReference) associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
+        if (associationTarget instanceof DataObjectReference) {
+        	associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
+        } else if (associationTarget instanceof DataStoreReference) {
+        	associationTarget = ((DataStoreReference)associationTarget).getDataStoreRef();
+        }
 
         DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
         DataType toVariable = query.findVariable(associationTarget.getId(), predefinedDataForId);
@@ -116,9 +121,9 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
 
             AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
             String triggerAccessPoint = resolveDataPath.getAccessPointId();
-            String triggerAccessPath = resolveDataPath.getAccessPointPath();
+            String triggerAccessPath = TaskDataFlow2Stardust.cleanPath(resolveDataPath.getAccessPointPath());
 
-            String toExpressionValue = getExpressionValue(toExpression);
+            String toExpressionValue = TaskDataFlow2Stardust.cleanPath(getExpressionValue(toExpression));
             long oid = ExtensionHelper.getInstance().getAssignmentParameterMappingOid(assign);
             ParameterMappingType mapping = buildParameterMapping(trigger, oid, toVariable, toExpressionValue, triggerAccessPoint, triggerAccessPath);
             mapping.setDataPath(toExpressionValue);
@@ -128,7 +133,9 @@ public class StartEventDataFlow2Stardust extends AbstractElement2Stardust {
 
     private ParameterMappingType buildParameterMapping(TriggerType trigger, Long oid, DataType data, String dataPath, String param, String paramPath) {
     	ParameterMappingType mapping = AbstractElementBuilder.F_CWM.createParameterMappingType();
-    	if (null != oid) mapping.setElementOid(oid);
+    	paramPath = TaskDataFlow2Stardust.cleanPath(paramPath);
+    	dataPath = TaskDataFlow2Stardust.cleanPath(dataPath);
+    	if (null != oid && oid > 0) mapping.setElementOid(oid);
     	mapping.setData(data);
     	mapping.setDataPath(dataPath);
     	mapping.setParameter(param);

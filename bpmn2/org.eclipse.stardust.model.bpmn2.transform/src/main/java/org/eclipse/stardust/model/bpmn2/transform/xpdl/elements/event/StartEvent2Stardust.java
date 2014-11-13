@@ -28,6 +28,7 @@ import org.eclipse.bpmn2.TimerEventDefinition;
 import org.eclipse.stardust.common.Period;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDLExtension;
@@ -55,6 +56,10 @@ public class StartEvent2Stardust extends AbstractElement2Stardust {
 	}
 
 	public void addStartEvent(StartEvent event, FlowElementsContainer container) {
+		if (ExtensionHelper2.INSTANCE.hasIgnoreFlag(event)) {
+			logger.debug("Ignore start Event " + event);
+			return;
+		}
 		logger.debug("addStartEvent " + event);
 		EventDefinition def = bpmnquery.getFirstEventDefinition(event);
 

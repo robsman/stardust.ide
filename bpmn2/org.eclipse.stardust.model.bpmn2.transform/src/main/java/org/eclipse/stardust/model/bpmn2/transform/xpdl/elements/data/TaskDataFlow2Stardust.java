@@ -22,6 +22,7 @@ import org.eclipse.bpmn2.DataInputAssociation;
 import org.eclipse.bpmn2.DataObjectReference;
 import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.FormalExpression;
@@ -97,6 +98,8 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
         ItemAwareElement associationSource = getFirstAssociationSource(assocIn);
         if (associationSource instanceof DataObjectReference)
             associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+        if (associationSource instanceof DataStoreReference)
+            associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
         DataInput dataInput = associationTarget instanceof DataInput ? (DataInput)associationTarget : null;
         DataType fromVariable = query.findVariable(associationSource.getId(), predefinedDataForId);
         if (fromVariable == null) failures.add("DATA INPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " to Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
@@ -106,7 +109,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             addInDataMappingFromAssignments(activity, assocIn, dataInput, fromVariable);
         } else {
             logger.debug("DataInputAssociation without assignment " + assocIn);
-            DataMappingType mapping = buildInDataMapping(activity, assocIn.getId(), getDataMappingName(dataInput, assocIn), fromVariable, "", "");
+            DataMappingType mapping = buildInDataMapping(activity, fromVariable.getId() /*assocIn.getId()*/, getDataMappingName(dataInput, assocIn), fromVariable, "", "");
             addDataPathFromTransformationExpression(mapping, assocIn);
         }
         return dataInput;
@@ -115,8 +118,12 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     private DataOutput addOutDataMapping(DataOutputAssociation assocOut, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
         ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
         ItemAwareElement associationTarget = assocOut.getTargetRef();
-        if (associationTarget instanceof DataObjectReference) associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
-
+        if (associationTarget instanceof DataObjectReference) {
+        	associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
+        }
+        if (associationTarget instanceof DataStoreReference) {
+        	associationTarget = ((DataStoreReference)associationTarget).getDataStoreRef();
+        }
         DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
         DataType toVariable = query.findVariable(associationTarget.getId(), predefinedDataForId);
         if (toVariable == null) failures.add("DATA OUTPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " from Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
@@ -126,7 +133,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             addOutDataMappingFromAssignments(activity, assocOut, dataOutput, toVariable);
         } else {
             logger.debug("DataInputAssociation without assignment " + assocOut);
-            DataMappingType mapping = buildOutDataMapping(activity, assocOut.getId(), getDataMappingName(dataOutput, assocOut), toVariable, "","");
+            DataMappingType mapping = buildOutDataMapping(activity, toVariable.getId() /* assocOut.getId() */ , getDataMappingName(dataOutput, assocOut), toVariable, "","");
             addDataPathFromTransformationExpression(mapping, assocOut);
         }
         return dataOutput;
@@ -151,6 +158,12 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String fromExpressionValue = getExpressionValue(fromExpression);
             fromExpressionValue = cleanPath(fromExpressionValue);
             mapping.setDataPath(fromExpressionValue);
+
+            if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
+            && (null == fromExpressionValue || fromExpressionValue.isEmpty())) {
+            	mapping.setId(fromVariable.getId());
+            }
+
         }
     }
 
@@ -171,6 +184,12 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             String toExpressionValue = getExpressionValue(toExpression);
             toExpressionValue = cleanPath(toExpressionValue);
             mapping.setDataPath(toExpressionValue);
+
+            if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
+            && (null == toExpressionValue || toExpressionValue.isEmpty())) {
+            	mapping.setId(toVariable.getId());
+            }
+
         }
     }
 
@@ -254,6 +273,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             valid = false;
         }
         if (associationSource instanceof DataObjectReference) associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+        if (associationSource instanceof DataStoreReference) associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
         if (associationSource == null) {
             failures.add("DATA ASSOCIATION SOURCE NOT VALID " + assoc.getId() + " Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
             valid = false;
@@ -311,8 +331,10 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
     	return dataOutput.getId();
     }
 
-    private String cleanPath(String path) {
+    public static String cleanPath(String path) {
     	if (null == path || path.trim().equals("/")) return "";
+    	if (path.startsWith("/")) path = path.substring(1);
+    	if (path.trim().equals("/")) return "";
     	return path.trim();
 	}
 

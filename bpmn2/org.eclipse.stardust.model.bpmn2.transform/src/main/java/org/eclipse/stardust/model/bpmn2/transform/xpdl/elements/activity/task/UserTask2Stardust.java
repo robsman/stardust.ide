@@ -21,9 +21,11 @@ import org.eclipse.bpmn2.FlowElementsContainer;
 import org.eclipse.bpmn2.GlobalManualTask;
 import org.eclipse.bpmn2.GlobalTask;
 import org.eclipse.bpmn2.GlobalUserTask;
+import org.eclipse.bpmn2.ManualTask;
 import org.eclipse.bpmn2.Performer;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceRole;
+import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.UserTask;
 import org.eclipse.stardust.model.bpmn2.transform.util.Bpmn2ProxyResolver;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.Bpmn2StardustXPDL;
@@ -64,7 +66,23 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 		List<ResourceRole> resources = task.getResources();
 		for (ResourceRole role : resources) {
 			if (role instanceof Performer) {
-				setTaskPerformer(activity, role, task, org.eclipse.stardust.model.bpmn2.reader.ModelInfo.getDefinitions(container));
+				setTaskPerformer(activity, role, org.eclipse.stardust.model.bpmn2.reader.ModelInfo.getDefinitions(container));
+			}
+		}
+	}
+
+	public void addUserTaskForManualTask(ManualTask task, FlowElementsContainer container) {
+		logger.debug("Add user task: " + task);
+		ProcessDefinitionType processDef = getProcessAndReportFailure(task, container);
+		if (processDef == null) return;
+		String descr = DocumentationTool.getDescriptionFromDocumentation(task.getDocumentation());
+
+		ActivityType activity = buildManualActivity(processDef, task, descr);
+
+		List<ResourceRole> resources = task.getResources();
+		for (ResourceRole role : resources) {
+			if (role instanceof Performer) {
+				setTaskPerformer(activity, role, org.eclipse.stardust.model.bpmn2.reader.ModelInfo.getDefinitions(container));
 			}
 		}
 	}
@@ -93,7 +111,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 			}
 		}
 	}
-	
+
 	public void addGlobalManualTask(GlobalManualTask globalTask, Definitions container) {
 		ProcessDefinitionType processDef = getProcessAndReportFailure(globalTask.getId());
 		if (processDef == null) return;
@@ -108,7 +126,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 			}
 		}
 	}
-	
+
     private boolean taskWithoutImplementationSpec(UserTask task) {
     	if (null == task.getImplementation()) return true;
     	return
@@ -126,7 +144,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
     		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_EMPTY);
 	}
 
-	private ActivityType buildManualActivity(ProcessDefinitionType processDef, UserTask task, String descr) {
+	private ActivityType buildManualActivity(ProcessDefinitionType processDef, Task task, String descr) {
 		ActivityType activity = newManualActivity(processDef)
 				.withIdAndName(task.getId(), task.getName())
 				.withDescription(descr)
@@ -164,8 +182,8 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 		return activity;
 	}
 
-	private void setTaskPerformer(ActivityType activity, ResourceRole role, UserTask task, Definitions container) {
-		logger.debug("Set Task Performer task: " + task + ", performer: " + role);
+	private void setTaskPerformer(ActivityType activity, ResourceRole role, Definitions container) {
+		logger.debug("Set Task Performer task: " + activity + ", performer: " + role);
         if (role.eIsProxy()) role = Bpmn2ProxyResolver.resolveRoleProxy(role, container);
         validateResource(role);
         if (role.getResourceRef() != null) {
@@ -199,7 +217,7 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
             }
         }
     }
-	
+
 //	private void setTaskPerformer(ActivityType activity, ResourceRole role, UserTask task, FlowElementsContainer container) {
 //		logger.debug("Set Task Performer task: " + task + ", performer: " + role);
 //        if (role.eIsProxy()) role = Bpmn2ProxyResolver.resolveRoleProxy(role, container);

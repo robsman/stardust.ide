@@ -36,6 +36,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.ext.builder.eventhandler.
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.BpmnModelQuery;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
 import org.eclipse.stardust.model.xpdl.builder.activity.BpmApplicationActivityBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
@@ -188,7 +189,12 @@ public class NativeIntermediateEvent2Stardust extends AbstractElement2Stardust {
 		String name = event.getName();
 		name = getNonEmptyName(name, id, event);
 		String descr = DocumentationTool.getDescriptionFromDocumentation(event.getDocumentation());
-		return createApplicationActivity(processDef, id, name, descr, application);
+		ActivityType applicationActivity = createApplicationActivity(processDef, id, name, descr, application);
+		if (null == applicationActivity.getApplication()) {
+			failures.add("No implementation info found for message event " + event + " - route activity is created.");
+			applicationActivity.setImplementation(ActivityImplementationType.ROUTE_LITERAL);
+		}
+		return applicationActivity;
 	}
 
 	private void createTimerRouteActivity(FlowElementsContainer container, ProcessDefinitionType processDef, Event event, TimerEventDefinition def) {

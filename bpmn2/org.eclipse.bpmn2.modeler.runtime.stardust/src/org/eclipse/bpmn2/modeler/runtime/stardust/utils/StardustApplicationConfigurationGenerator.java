@@ -111,13 +111,15 @@ public enum StardustApplicationConfigurationGenerator {
 		ItemDefinition inputItemDef = createItemDef(object);
 		ItemDefinition outputItemDef = createItemDef(object);
 		String ownerId = null;
+		String ownerName = null;
 		if (object instanceof StardustInterfaceType && null != ((StardustInterfaceType) object).getStardustApplication()) {
 			ownerId = ((StardustInterfaceType) object).getStardustApplication().getId();
+			ownerName = ((StardustInterfaceType) object).getStardustApplication().getName();
 		}
 
 		try {
-			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, inputItemDef, methods, constructors);
-			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, outputItemDef, methods, constructors);
+			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, ownerName, inputItemDef, methods, constructors);
+			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, ownerName, outputItemDef, methods, constructors);
 
 			insertStructureReferences(inputItemDef, outputItemDef);
 
@@ -142,13 +144,15 @@ public enum StardustApplicationConfigurationGenerator {
 		ItemDefinition inputItemDef = createItemDef(object);
 		ItemDefinition outputItemDef = createItemDef(object);
 		String ownerId = null;
+		String ownerName = null;
 		if (object instanceof StardustInterfaceType && null != ((StardustInterfaceType) object).getStardustApplication()) {
 			ownerId = ((StardustInterfaceType) object).getStardustApplication().getId();
+			ownerName = ((StardustInterfaceType) object).getStardustApplication().getName();
 		}
 
 		try {
-			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, inputItemDef, methodAndConstructor);
-			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, outputItemDef, methodAndConstructor);
+			IntrinsicJavaAccessPointInfo.addInputAccessPointItemDefinitionSchema(ownerId, ownerName, inputItemDef, methodAndConstructor);
+			IntrinsicJavaAccessPointInfo.addOutputAccessPointItemDefinitionSchema(ownerId, ownerName, outputItemDef, methodAndConstructor);
 
 			insertStructureReferences(inputItemDef, outputItemDef);
 

@@ -81,8 +81,9 @@ public class ExtensionHelper {
 	public static final String STARDUST_ACCESSPOINT_ID = "sdbpmn:accesspoint";
 	//public static final String STARDUST_SYNTHETIC_ITEMDEF = "syntheticItemDefinition";
 
-	
+
 	public static final String NS_URI_STARDUST = "http://www.eclipse.org/stardust/model/bpmn2/sdbpmn";  //"http://www.eclipse.org/stardust";
+	public static final String NS_URI_STARDUST_SHORT = "http://eclipse.org/stardust";
 	public static final String NS_PREFIX_STARDUST = "stardust";
 
     private static final Internal USER_TASK_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_USER_TASK;
@@ -92,13 +93,13 @@ public class ExtensionHelper {
     private static final Internal START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_START_EVENT;
     private static final Internal TIMER_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT;
     private static final Internal MESSAGE_START_EVENT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT;
-    
+
     private static final Internal DATA_STORE_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_STORE;
     private static final Internal DATA_OBJECT_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_DATA_OBJECT;
-    
+
     private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
     private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
-    
+
     private static final Internal GENERAL_ATTRIBUTES_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_ATTRIBUTES;
 
     private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
@@ -116,8 +117,8 @@ public class ExtensionHelper {
     //private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
     //private static final EStructuralFeature XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_SCHEMA__CONTENTS;
     private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
-    
-    
+
+
     private static final Map<Class<?>, EClass> classToEClassMap = new HashMap<Class<?>, EClass>();
 
     private static ExtensionHelper instance = null;
@@ -146,7 +147,7 @@ public class ExtensionHelper {
 //              break;
 //           }
 //        }
-//        return null != currentValue ? currentValue.toString() : ""; 
+//        return null != currentValue ? currentValue.toString() : "";
 //    }
 
     public void setStartEventExtension(StartEvent element,  StardustStartEventType extensionValue) {
@@ -402,7 +403,7 @@ public class ExtensionHelper {
 
     public void setExtension(ItemDefinition object, XSDSchema schema) {
     	setExtensionValue(object, "schema", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001, schema);
-    	//http://www.w3.org/2000/xmlns/    	
+    	//http://www.w3.org/2000/xmlns/
     }
 
     public static void setExtensionValue(BaseElement object, String tag, String nsUri, Object value)
@@ -506,7 +507,7 @@ public class ExtensionHelper {
 
        return null;
     }
-    
+
     public void setAnyAttribute(BaseElement element, String name, String value) {
     	EStructuralFeature attributeAccessor = null;
     	Object oldValue = null;
@@ -539,7 +540,21 @@ public class ExtensionHelper {
     		element.getAnyAttribute().set(attributeAccessor, value);
     	}
     }
-    
+
+    public EStructuralFeature getAnyAttributeFeature(BaseElement element, String name) {
+    	EStructuralFeature attributeAccessor = null;
+    	for (Iterator<FeatureMap.Entry> i = element.getAnyAttribute().iterator(); i.hasNext(); )
+    	{
+    		FeatureMap.Entry extension = i.next();
+    		if (isInFilter(extension.getEStructuralFeature(), name))
+    		{
+    			attributeAccessor = extension.getEStructuralFeature();
+    			break;
+    		}
+    	}
+    	return attributeAccessor;
+    }
+
     public void setAnyAttribute(BaseElement element, String name, Object value) {
     	EStructuralFeature attributeAccessor = null;
     	Object oldValue = null;
@@ -571,5 +586,5 @@ public class ExtensionHelper {
     	{
     		element.getAnyAttribute().set(attributeAccessor, value);
     	}
-    }    
+    }
 }

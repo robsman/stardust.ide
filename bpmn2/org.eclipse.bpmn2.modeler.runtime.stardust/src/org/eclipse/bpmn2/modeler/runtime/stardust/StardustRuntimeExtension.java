@@ -22,9 +22,16 @@ import org.eclipse.bpmn2.DataOutput;
 import org.eclipse.bpmn2.DataStore;
 import org.eclipse.bpmn2.DataStoreReference;
 import org.eclipse.bpmn2.Event;
+import org.eclipse.bpmn2.HumanPerformer;
 import org.eclipse.bpmn2.Interface;
+import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.Performer;
+import org.eclipse.bpmn2.PotentialOwner;
+import org.eclipse.bpmn2.Resource;
+import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.Task;
 import org.eclipse.bpmn2.TimerEventDefinition;
+import org.eclipse.bpmn2.UserTask;
 import org.eclipse.bpmn2.modeler.core.IBpmn2RuntimeExtension;
 import org.eclipse.bpmn2.modeler.core.LifecycleEvent;
 import org.eclipse.bpmn2.modeler.core.LifecycleEvent.EventType;
@@ -40,8 +47,15 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTaskDetailC
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataStoreDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.type.StardustItemDefinitionDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.StardustResourceDetailsComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.StardustResourceParameterBindingDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.StardustResourceRoleDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.conditional.ConditionalPerformerDetailsComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.task.StardustUserTaskDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.DefaultBpmn2RuntimeExtension.RootElementParser;
 import org.eclipse.bpmn2.modeler.ui.wizards.FileService;
+import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.ui.IEditorInput;
 import org.xml.sax.InputSource;
 
@@ -97,23 +111,34 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 			 */
 			PropertiesCompositeFactory.register(TimerEventDefinition.class,
 					StardustTimerEventDefinitionDetailComposite.class);
-			PropertiesCompositeFactory.register(Interface.class,
-					StardustInterfaceDefinitionDetailComposite.class);
+			PropertiesCompositeFactory.register(Interface.class, StardustInterfaceDefinitionDetailComposite.class);
 
-			PropertiesCompositeFactory.register(Assignment.class,
-					StardustDataAssignmentDetailComposite.class);
+			PropertiesCompositeFactory.register(Resource.class, StardustResourceDetailsComposite.class);
+			PropertiesCompositeFactory.register(ConditionalPerformerType.class, ConditionalPerformerDetailsComposite.class);
+
+			PropertiesCompositeFactory.register(Performer.class, StardustResourceRoleDetailComposite.class);
+			PropertiesCompositeFactory.register(HumanPerformer.class, StardustResourceRoleDetailComposite.class);
+			PropertiesCompositeFactory.register(PotentialOwner.class, StardustResourceRoleDetailComposite.class);
+
+			PropertiesCompositeFactory.register(Assignment.class, StardustDataAssignmentDetailComposite.class);
+
+			PropertiesCompositeFactory.register(ResourceParameterBinding.class, StardustResourceParameterBindingDetailComposite.class);
+
 
 	        PropertiesCompositeFactory.register(DataInput.class, StardustDataAssociationDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataOutput.class, StardustDataAssociationDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityInputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
+	        PropertiesCompositeFactory.register(UserTask.class, StardustUserTaskDetailComposite.class);
 
 	        PropertiesCompositeFactory.register(DataObject.class, StardustDataObjectDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataObjectReference.class, StardustDataObjectDetailComposite.class);
 
 	        PropertiesCompositeFactory.register(DataStore.class, StardustDataStoreDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataStoreReference.class, StardustDataStoreDetailComposite.class);
+
+	        PropertiesCompositeFactory.register(ItemDefinition.class, StardustItemDefinitionDetailComposite.class);
 
 	        PropertiesCompositeFactory.register(Event.class, StardustCommonEventDetailComposite.class);
 

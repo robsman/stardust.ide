@@ -58,7 +58,7 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 			TextObjectEditor editor = new TextObjectEditor(this,object,attribute) {
 				protected Control createControl(Composite composite, String label, int style) {
 					Control control = super.createControl(composite, label, style);
-					setText("http://eclipse.org/stardust/SimpleDataMappingPath");
+					setText("http://eclipse.org/stardust/DataMappingPath");
 					setEditable(false);
 					return control;
 				}

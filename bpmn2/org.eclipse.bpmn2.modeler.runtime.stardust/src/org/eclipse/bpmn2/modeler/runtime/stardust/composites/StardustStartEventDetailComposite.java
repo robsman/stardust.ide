@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.bpmn2.BaseElement;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.StartEvent;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
@@ -35,6 +37,7 @@ import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -45,6 +48,8 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class StardustStartEventDetailComposite extends DefaultDetailComposite {
+	private Boolean stardustIgnore = false;
+	private Button stardustIgnoreButton;
 
 	private Button manualTriggerRadioButton;
 	private Button apiTriggerRadioButton;
@@ -54,14 +59,10 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 
 	public StardustStartEventDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
-		System.out
-				.println("StardustStartEventDetailComposite.StardustStartEventDetailComposite()");
 	}
 
 	public StardustStartEventDetailComposite(Composite parent, int style) {
 		super(parent, style);
-		System.out
-				.println("StardustStartEventDetailComposite.StardustStartEventDetailComposite()");
 	}
 
 	@Override
@@ -76,6 +77,9 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 		GridLayout layout = new GridLayout(2, false);
 		btnGrp.setLayout(layout);
 		btnGrp.setLayoutData(typeGroupGridData);
+
+		stardustIgnore = ExtensionHelper2.INSTANCE.hasIgnoreFlag(startEvent);
+		addIgnoreCheckbox();
 
 		apiTriggerRadioButton = createRadioButton(btnGrp, "API Trigger", API_TRIGGER, !isManual, startEvent);
 		manualTriggerRadioButton = createRadioButton(btnGrp, "Manual Trigger", MANUAL_TRIGGER, isManual, startEvent);
@@ -96,8 +100,32 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 
 		}
 		redrawPage();
+	}
 
-		System.out.println("StardustStartEventDetailComposite.createBindings()");
+	private void addIgnoreCheckbox() {
+		createLabel(this, "Stardust ignore");
+		stardustIgnoreButton = getToolkit().createButton(this, "", SWT.CHECK); //$NON-NLS-1$
+		stardustIgnoreButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		stardustIgnoreButton.setSelection(stardustIgnore);
+		stardustIgnoreButton.addSelectionListener( new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				stardustIgnore = new Boolean(stardustIgnoreButton.getSelection());
+				updateIgnoreFlag();
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+	}
+
+	private void updateIgnoreFlag() {
+		if (stardustIgnore) {
+			ExtensionHelper2.INSTANCE.setIgnoreFlag((BaseElement)businessObject);
+		} else {
+			ExtensionHelper2.INSTANCE.removeIgnoreFlag((BaseElement)businessObject);
+		}
 	}
 
 	private Map<String, String> getDefinedPerformerResources() {

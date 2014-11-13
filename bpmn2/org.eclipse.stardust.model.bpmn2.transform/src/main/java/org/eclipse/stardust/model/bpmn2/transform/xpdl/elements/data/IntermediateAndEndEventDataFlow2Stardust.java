@@ -146,7 +146,7 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
 
             String mappingId = assocIn.getId() + "_" + assingmentId;
             DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable, applicationAccessPoint, applicationAccessPath);
-            String fromExpressionValue = getExpressionValue(fromExpression);
+            String fromExpressionValue = TaskDataFlow2Stardust.cleanPath(getExpressionValue(fromExpression));
             mapping.setDataPath(fromExpressionValue);
         }
     }
@@ -168,13 +168,14 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
 
             DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
 
-            String toExpressionValue = getExpressionValue(toExpression);
+            String toExpressionValue = TaskDataFlow2Stardust.cleanPath(getExpressionValue(toExpression));
             mapping.setDataPath(toExpressionValue);
         }
     }
 
     private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
+    	path = TaskDataFlow2Stardust.cleanPath(path);
         return BpmModelBuilder.newInDataMapping(activity)
                 .withIdAndName(id, name)
                 .fromVariable(fromVariable)
@@ -185,6 +186,7 @@ public class IntermediateAndEndEventDataFlow2Stardust extends AbstractElement2St
 
     private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable, String accessPointId, String path) {
     	String context = getDataFlowContext(activity);
+    	path = TaskDataFlow2Stardust.cleanPath(path);
     	return BpmModelBuilder.newOutDataMapping(activity)
                 .withIdAndName(id, name)
                 .toVariable(toVariable)

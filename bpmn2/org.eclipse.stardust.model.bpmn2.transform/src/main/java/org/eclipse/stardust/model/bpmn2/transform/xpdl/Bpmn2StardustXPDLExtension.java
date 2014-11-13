@@ -44,7 +44,7 @@ import org.eclipse.stardust.model.xpdl.carnot.TriggerTypeType;
 public class Bpmn2StardustXPDLExtension {
 
 	private static final Logger log = LogManager.getLogger(Bpmn2StardustXPDLExtension.class);
-	
+
     public static void addStartEventExtensions(StartEvent event, TriggerType trigger) {
         StardustStartEventType extension = ExtensionHelper.getInstance().getStartEventExtension(event);
         if (extension!=null) trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
@@ -69,13 +69,12 @@ public class Bpmn2StardustXPDLExtension {
 		StardustTimerStartEventType extension = ExtensionHelper.getInstance().getEventDefinitionExtensionAttributes(def);
         log.info("addTimerStartEventDefinitionExtensions " + extension);
         if (extension != null)
-            trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());	
+            trigger.getAttribute().addAll(extension.getStardustAttributes().getAttributeType());
 	}
 
     public static void addResourceExtension(Resource resource, ModelType model) {
     	StardustResourceType res = ExtensionHelper.getInstance().getResourceExtension(resource);
     	if (res == null) return;
-    	System.out.println("Bpmn2StardustXPDLExtension.addResourceExtension() dataId " + res.getDataId());
     	if (res.getStardustConditionalPerformer() != null) {
     		ConditionalPerformerType performer = (ConditionalPerformerType)res.getStardustConditionalPerformer();
     		performer.setId(resource.getId());
@@ -130,12 +129,12 @@ public class Bpmn2StardustXPDLExtension {
         activity.setAllowsAbortByPerformer(taskExt.isAllowsAbortByPerformer());
         activity.setHibernateOnCreation(taskExt.isHibernateOnCreation());
         long oid = tryParseLong(taskExt.getElementOid());
-        if (0 < oid) activity.setElementOid(oid);        
+        if (0 < oid) activity.setElementOid(oid);
         activity.getEventHandler().addAll(taskExt.getEventHandler());
         activity.setApplication(getApplication(query, taskExt));
         System.out.println("Bpmn2StardustXPDLExtension.addUserTaskExtensions() Application: " + activity.getApplication());
 	}
-	
+
     public static String getUserTaskApplicationRef(UserTask task) {
         StardustUserTaskType taskExt = ExtensionHelper.getInstance().getUserTaskExtension(task);
         if (taskExt == null) return "";
@@ -152,8 +151,8 @@ public class Bpmn2StardustXPDLExtension {
         if (carnotModel.getCreated().isEmpty()) carnotModel.setCreated(DateFormat.getInstance().format(new Date()));
         if (carnotModel.getModelOID() <= 0) carnotModel.setModelOID(0);
         if (carnotModel.getOid() <= 0) carnotModel.setOid(0);
-        
-        carnotModel.setVendor("Eclipse.org, Eclipse Process Manager");        
+
+        carnotModel.setVendor("Eclipse.org, Eclipse Process Manager");
         //if (carnotModel.getVendor().isEmpty()) carnotModel.setVendor(definitions.getExporter());
         if (carnotModel.getName() == null || carnotModel.getName().isEmpty()) carnotModel.setName("Unnamed");
     }

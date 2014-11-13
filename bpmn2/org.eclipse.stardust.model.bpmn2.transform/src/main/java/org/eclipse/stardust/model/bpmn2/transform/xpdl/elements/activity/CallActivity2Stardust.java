@@ -33,7 +33,7 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 public class CallActivity2Stardust extends AbstractElement2Stardust {
 
 	private Map<String, ModelType> transformedRelatedModelsByDefinitionsId;
-	
+
 		public CallActivity2Stardust(ModelType carnotModel, Map<String, ModelType> transformedRelatedModelsByDefinitionsId, List<String> failures) {
 			super(carnotModel, failures);
 			this.transformedRelatedModelsByDefinitionsId = transformedRelatedModelsByDefinitionsId;
@@ -78,14 +78,23 @@ public class CallActivity2Stardust extends AbstractElement2Stardust {
 			setCalledElement(caller, container, called);
 			mapIOSpec(caller, container, called);
 		}
-		
+
 		private void setCalledElement(CallActivity caller, FlowElementsContainer container, CallableElement called) {
+			if (null == called) {
+				failures.add("Stardust Called Element not found " + called);
+				return;
+			}
 			ProcessDefinitionType calledProcess = query.findProcessDefinition(called.getId());
 			ActivityType callingActivity = query.findActivity(caller, container);
-			callingActivity.setImplementationProcess(calledProcess);
-		}		
-		
+			if (null != callingActivity) {
+				callingActivity.setImplementationProcess(calledProcess);
+			} else {
+				failures.add("Stardust Call Activity not found " + caller);
+			}
+		}
+
 		private void mapIOSpec(CallActivity caller, FlowElementsContainer container, CallableElement called) {
+			if (null == caller || null == called) return;
 			InputOutputSpecification callerIO = caller.getIoSpecification();
 			InputOutputSpecification calledIO = called.getIoSpecification();
 			Map<DataInput, DataInput> calledInputPerCallerInput = new HashMap<DataInput, DataInput>();
@@ -116,7 +125,7 @@ public class CallActivity2Stardust extends AbstractElement2Stardust {
 
 			addProcessCallDataMapping(caller, container, calledInputPerCallerInput, calledOutputPerCallerOutput);
 		}
-		
+
 		private DataOutput findMatchingOutput(DataOutput output, List<DataOutput> calledOutputs) {
 			String name = output.getName();
 			ItemDefinition itemDef = output.getItemSubjectRef();
@@ -150,7 +159,7 @@ public class CallActivity2Stardust extends AbstractElement2Stardust {
 			}
 			return null;
 		}
-		
+
 		private void addProcessCallDataMapping(CallActivity caller, FlowElementsContainer container, Map<DataInput, DataInput> calledInputPerCallerInput, Map<DataOutput, DataOutput> calledOutputPerCallerOutput) {
 			ActivityType callActivity = query.findActivity(caller, container);
 			for (DataInput callerInput : calledInputPerCallerInput.keySet()) {
@@ -187,7 +196,7 @@ public class CallActivity2Stardust extends AbstractElement2Stardust {
 		        dataMapping.setApplicationAccessPoint(calledVariable.getId());
 			}
 		}
-		
+
 //		private void tempImport() {
 //			ModelType t;
 //			t.getExternalPackages().g

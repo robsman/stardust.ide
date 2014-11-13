@@ -76,12 +76,14 @@ public class AccessPointInfoProvider {
 	private static AccessPointSchemaWrapper createSchemaWrapper(StardustApplicationType app) {
 		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(app.getAccessPoint1());
 		schemaWrapper.setOwnerApplicationId(app.getId());
+		schemaWrapper.setOwnerApplicationName(app.getName());
 		return schemaWrapper;
 	}
 
 	private static AccessPointSchemaWrapper createSchemaWrapper(StardustTriggerType trigger) {
 		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(trigger.getAccessPoint1());
 		schemaWrapper.setOwnerApplicationId(trigger.getId());
+		schemaWrapper.setOwnerApplicationName(trigger.getName());
 		return schemaWrapper;
 	}
 
@@ -104,6 +106,7 @@ public class AccessPointInfoProvider {
 		}
 		AccessPointSchemaWrapper schemaWrapper = createSchemaWrapper(sdApoints);
 		schemaWrapper.setOwnerApplicationId(((StardustApplicationType)appCtx.eContainer()).getId());
+		schemaWrapper.setOwnerApplicationName(((StardustApplicationType)appCtx.eContainer()).getName());
 		return schemaWrapper;
 	}
 
@@ -111,7 +114,7 @@ public class AccessPointInfoProvider {
 		AccessPointSchemaWrapper wrapper = new AccessPointSchemaWrapper();
 		for (StardustAccessPointType ap : accessPoints) { //app.getAccessPoint1()) {
 			//AccessPoint ap = (AccessPoint) v;
-			String id = ap.getId();
+			String id = ap.getName();//getId();
 			String type = ap.getTypeRef(); // ap.getType().getId();
 			String displayName = ap.getName();
 			String typeClass = "";
