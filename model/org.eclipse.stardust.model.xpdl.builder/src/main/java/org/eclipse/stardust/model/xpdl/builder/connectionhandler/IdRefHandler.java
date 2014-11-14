@@ -26,6 +26,7 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
+import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 
 public class IdRefHandler implements EObjectReference, Adapter
@@ -34,7 +35,7 @@ public class IdRefHandler implements EObjectReference, Adapter
    private static final String CARNOT_MODEL_UUID = "carnot:model:uuid";
 
    private IIdentifiableModelElement owner;
-   private IIdentifiableModelElement target;
+   private EObject target;
 
    private IdRefHandler(IIdentifiableModelElement owner)
    {
@@ -47,7 +48,9 @@ public class IdRefHandler implements EObjectReference, Adapter
       Object newValue = event.getNewValue();
       if (newValue != null)
       {
-         if (CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id().equals(event.getFeature()))
+         Object feature = event.getFeature();
+         if (CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id().equals(feature)
+               || XpdlPackage.eINSTANCE.getTypeDeclarationType_Id().equals(feature))
          {
             updateIdRef(event.getNewValue().toString());
          }
@@ -75,7 +78,7 @@ public class IdRefHandler implements EObjectReference, Adapter
    @Override
    public void setTarget(Notifier target)
    {
-      this.target = (IIdentifiableModelElement) target;
+      this.target = (EObject) target;
    }
 
    @Override
