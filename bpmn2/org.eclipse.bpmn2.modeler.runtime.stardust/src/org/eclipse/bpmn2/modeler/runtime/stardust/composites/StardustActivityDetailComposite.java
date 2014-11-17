@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * Just to hide the data-flow parts (these are configurable sufficiently in the IO section etc.).
+ * We only provide assignments with specific accesspoint and structure mappings, no transformation or free expression.
  *
  * @author Simon Nikles
  *
@@ -46,9 +47,13 @@ public class StardustActivityDetailComposite extends ActivityDetailComposite {
 
 		if (null != inputComposite) {
 			inputComposite.setVisible(false);
+			inputComposite.dispose();
+			inputComposite = null;
 		}
 		if (null != outputComposite) {
 			outputComposite.setVisible(false);
+			outputComposite.dispose();
+			outputComposite = null;
 		}
 	}
 }

@@ -57,8 +57,6 @@ public class StardustInterfaceExtendedPropertiesAdapter extends ExtendedProperti
 	public StardustInterfaceExtendedPropertiesAdapter(AdapterFactory adapterFactory, StardustInterfaceType object) {
 		super(adapterFactory, object);
 		sdInterface = object;
-System.out
-		.println("############################# StardustInterfaceExtendedPropertiesAdapter.StardustInterfaceExtendedPropertiesAdapter() " + object);
 
 		triggerTypeAdapter = new StardustTriggerInterfaceExtendedPropertiesAdapter(adapterFactory, object);
 

@@ -129,8 +129,10 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 	        PropertiesCompositeFactory.register(DataOutput.class, StardustDataAssociationDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityInputDetailComposite.class);
 	        PropertiesCompositeFactory.register(Activity.class, StardustActivityOutputDetailComposite.class);
-	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
+
 	        PropertiesCompositeFactory.register(UserTask.class, StardustUserTaskDetailComposite.class);
+
+	        PropertiesCompositeFactory.register(Task.class, StardustTaskDetailComposite.class);
 
 	        PropertiesCompositeFactory.register(DataObject.class, StardustDataObjectDetailComposite.class);
 	        PropertiesCompositeFactory.register(DataObjectReference.class, StardustDataObjectDetailComposite.class);
