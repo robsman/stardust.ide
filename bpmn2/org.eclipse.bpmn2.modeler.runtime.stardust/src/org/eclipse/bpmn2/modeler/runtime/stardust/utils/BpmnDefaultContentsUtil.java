@@ -31,6 +31,10 @@ import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo;
 import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo.DataInfo;
 import org.eclipse.xsd.util.XSDConstants;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class BpmnDefaultContentsUtil {
 
 	public static final String ADMIN_RESOURCE_ID = "Administrator";

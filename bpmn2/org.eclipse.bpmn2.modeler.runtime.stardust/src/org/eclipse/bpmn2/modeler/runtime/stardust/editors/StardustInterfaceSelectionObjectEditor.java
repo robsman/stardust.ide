@@ -1,15 +1,19 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2012 Red Hat, Inc. 
- * All rights reserved. 
- * This program is made available under the terms of the 
- * Eclipse Public License v1.0 which accompanies this distribution, 
- * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * Copyright (c) 2011, 2012 Red Hat, Inc.
+ * All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
- * Contributors: 
- * Red Hat, Inc. - initial API and implementation 
+ * Contributors:
+ * Red Hat, Inc. - initial API and implementation
+ * ITpearls, AG - Stardust Extension Plugin
  *******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.editors;
 
+
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.CONSTRUCTOR_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.METHOD_NAME;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor;
@@ -29,6 +33,12 @@ import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+/**
+ * @author Gregor Gisler
+ * @author Bob Brodt
+ * @author Simon Nikles
+ *
+ */
 public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectEditor {
 
 	private StardustInterfaceType sdInterface = null;
@@ -37,14 +47,14 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 		super(parent, object, feature);
 		this.sdInterface = sdInterface;
 	}
-	
+
 	@Override
 	protected Control createControl(Composite composite, String label, int style) {
 		super.createControl(composite, label, style);
 		// the Text field should be editable
 		text.setEditable(true);
 		// and change the "Edit" button to a "Browse" to make it clear that
-		// an XML type can be selected from the imports 
+		// an XML type can be selected from the imports
 		defaultButton.setText(Messages.StardustInterfaceSelectionObjectEditor_Browse);
 		return text;
 	}
@@ -67,9 +77,9 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 					valuesChanged = true;
 				if (valuesChanged) {
 					if (null != sdInterface.getStardustApplication()) {
-						AttributeType methodAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:methodName");
+						AttributeType methodAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), METHOD_NAME.attributeName());
 						if (null != methodAttribute) methodAttribute.setValue("");
-						AttributeType constructorAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), "carnot:engine:constructorName");
+						AttributeType constructorAttribute = PropertyAdapterCommons.findAttributeType(sdInterface.getStardustApplication(), CONSTRUCTOR_NAME.attributeName());
 						if (null != constructorAttribute) constructorAttribute.setValue("");
 					}
 					StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdInterface);
@@ -79,5 +89,5 @@ public class StardustInterfaceSelectionObjectEditor extends TextAndButtonObjectE
 			}
 		});
 	}
-		
+
 }

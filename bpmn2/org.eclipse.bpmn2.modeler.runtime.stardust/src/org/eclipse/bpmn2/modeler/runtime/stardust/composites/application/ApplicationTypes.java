@@ -13,7 +13,7 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application;
 
 public enum ApplicationTypes {
 
-	WEBSERVICE("webservice", "Webservice D"),
+	WEBSERVICE("webservice", "Webservice"),
 	PLAINJAVA("plainJava", "Plain Java"),
 	SPRINGBEAN("springBean", "Spring Bean"),
 	SESSIONBEAN("sessionBean", "Session Bean"),

@@ -15,6 +15,10 @@ import org.eclipse.bpmn2.modeler.core.model.Bpmn2ModelerResourceFactoryImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class SdbpmnModelerResourceFactoryImpl extends Bpmn2ModelerResourceFactoryImpl {
 
 	@Override

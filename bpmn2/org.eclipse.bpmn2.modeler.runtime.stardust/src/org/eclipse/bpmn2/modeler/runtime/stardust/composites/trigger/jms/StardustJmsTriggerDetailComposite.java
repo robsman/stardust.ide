@@ -12,14 +12,19 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.trigger.jms;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.ID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.OID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.triggers.JMSTriggerAttributes.MESSAGE_TYPE;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointListComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms.JmsApplicationAccessPointListComposite;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms.JmsMessageType;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
 import org.eclipse.emf.ecore.EObject;
@@ -50,19 +55,19 @@ public class StardustJmsTriggerDetailComposite extends DefaultDetailComposite im
 
 		ObjectEditor editor = null;
 		final StardustTriggerType trigger = sdInterface.getStardustTrigger();
-		bindAttribute(trigger, "name");
-		bindAttribute(trigger, "id");
-		bindAttribute(trigger, "elementOid");
+		bindAttribute(trigger, NAME);
+		bindAttribute(trigger, ID);
+		bindAttribute(trigger, OID);
 
-		AttributeType responseMsgType = PropertyAdapterCommons.findAttributeType(trigger, "carnot:engine:messageType");
-		editor = new AttributeTypeComboEditor(this, responseMsgType, JmsMessageType.getChoices());
-		editor.createControl(parent, "Message Type");
+		AttributeType responseMsgType = PropertyAdapterCommons.findAttributeType(trigger, MESSAGE_TYPE.attributeName());
+		editor = new AttributeTypeComboEditor(this, responseMsgType, MESSAGE_TYPE.choices());
+		editor.createControl(parent, MESSAGE_TYPE.label());
 
-		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
+		Composite accessPointsSection = this.createSectionComposite(this, Messages.composite_trigger_section_AccessPoints);
 		AccessPointListComposite outputParams = new JmsApplicationAccessPointListComposite(accessPointsSection, false, this);
 		trigger.getAccessPoint1();
 		outputParams.bindList(trigger, SdbpmnPackage.eINSTANCE.getStardustTriggerType_AccessPoint1());
-		outputParams.setTitle("Outputs");
+		outputParams.setTitle(Messages.composite_trigger_section_AccessPoints_Outputs);
 
 	}
 

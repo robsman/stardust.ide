@@ -1,11 +1,13 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.jms;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_DEFAULT_VALUE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_LOCATION;
+
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.StardustAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.StardustAccesspointsExtendedPropertiesAdapter.StardustAccesspointsFeatureDescriptorFactory;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AcessPointDataTypes;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms.JmsLocationEnum;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
@@ -49,9 +51,9 @@ public enum JmsAppAccesspointsExtendedPropertiesAdapter implements StardustAcces
 	}
 
 	public void createJmsSerializableTypeModel(StardustAccessPointType sdAccessPoint) {
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:jms.location", JmsLocationEnum.HEADER.getKey(), "org.eclipse.stardust.engine.extensions.jms.app.JMSLocation"));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(ACCESSPOINT_LOCATION.attributeName(), ACCESSPOINT_LOCATION.defaultVal(), ACCESSPOINT_LOCATION.dataType()));
 		if (DirectionType.IN_LITERAL.equals(sdAccessPoint.getDirection())) {
-			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:defaultValue", "", null));
+			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(ACCESSPOINT_DEFAULT_VALUE.attributeName(), ACCESSPOINT_DEFAULT_VALUE.defaultVal(), ACCESSPOINT_DEFAULT_VALUE.dataType()));
 		}
 	}
 

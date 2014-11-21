@@ -21,7 +21,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.CommonAttributes.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
@@ -87,18 +87,18 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 		at = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:wsSoapProtocol");
 		editor = new AttributeTypeComboEditor(this, at, new String[] { "SOAP1.1Protocol", "SOAP1.2Protocol" });
 		editor.createControl(parent, "SOAP Protocol");
-		
+
 		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
-		
+
 		for (AccessPointType ap : sdApplication.getAccessPoint()) {
 			AccessPointTypeEditor ape = new AccessPointTypeEditor(this, ap);
 			Composite section  = createSectionComposite(accessPointsSection, ap.getName());
 			ape.createControl(section);
 		}
 	}
-	
+
 	public class AccessPointTypeEditor extends Composite {
-		
+
 		// Yuck :-p
 		String attributeTypes[] = new String[] {
 				"carnot:engine:className",
@@ -109,14 +109,14 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 				"carnot:engine:bidirectional",
 		};
 		AbstractDetailComposite detailsComposite;
-		
+
 		AccessPointType accessPoint;
 		public AccessPointTypeEditor(AbstractDetailComposite parent, AccessPointType ap) {
 			super(parent, SWT.NONE);
 			accessPoint = ap;
 			detailsComposite = parent;
 		}
-		
+
 		public String getTitle() {
 			String direction = "";
 			switch(accessPoint.getDirection()) {
@@ -133,7 +133,7 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 			String title = ModelUtil.toCanonicalString(direction + " " + accessPoint.getName());
 			return title;
 		}
-		
+
 		public void createControl(Composite parent) {
 			if (parent.getParent() instanceof Section) {
 				((Section)parent.getParent()).setText(getTitle());
@@ -143,7 +143,7 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 			editor = new IntObjectEditor(detailsComposite, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIModelElement_ElementOid());
 			editor.createControl(parent, "Element ID");
 			editor.setEditable(false);
-			
+
 			editor = new TextObjectEditor(detailsComposite, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
 			editor.createControl(parent, "Name");
 			editor.setEditable(false);
@@ -161,6 +161,6 @@ public class WebServiceDetailComposite extends DefaultDetailComposite {
 				}
 			}
 		}
-		
+
 	}
 }

@@ -11,6 +11,10 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.StardustRuntimeExtension.DATA_MAPPING_LANGUAGE_URL;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames.ATTRIBUTE_EXPRESSION_BODY;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames.ATTRIBUTE_EXPRESSION_LANGUAGE;
+
 import java.util.List;
 
 import org.eclipse.bpmn2.Assignment;
@@ -52,20 +56,20 @@ public class StardustAssignmentExpressionDetailComposite extends ExpressionDetai
 
 	@Override
 	protected void bindAttribute(Composite parent, EObject object, EAttribute attribute, String label) {
-		if ("language".equals(attribute.getName())) {
+		if (ATTRIBUTE_EXPRESSION_LANGUAGE.equals(attribute.getName())) {
 			if (null==parent) parent = getAttributesParent();
 			if (null==label) label = getBusinessObjectDelegate().getLabel(object, attribute);
 			TextObjectEditor editor = new TextObjectEditor(this,object,attribute) {
 				protected Control createControl(Composite composite, String label, int style) {
 					Control control = super.createControl(composite, label, style);
-					setText("http://eclipse.org/stardust/DataMappingPath");
+					setText(DATA_MAPPING_LANGUAGE_URL);
 					setEditable(false);
 					return control;
 				}
 			};
 			editor.createControl(parent,label);
 
-		} else if ("body".equals(attribute.getName())) {
+		} else if (ATTRIBUTE_EXPRESSION_BODY.equals(attribute.getName())) {
 
 			TextAndButtonObjectEditor editor = new TextAndButtonObjectEditor(this, object, attribute) {
 

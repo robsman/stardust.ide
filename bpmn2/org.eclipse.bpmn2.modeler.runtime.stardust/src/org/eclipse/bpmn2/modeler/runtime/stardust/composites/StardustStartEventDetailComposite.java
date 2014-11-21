@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.triggers.ManualTriggerAttributes.PARTICIPANT;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,8 +83,8 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 		stardustIgnore = ExtensionHelper2.INSTANCE.hasIgnoreFlag(startEvent);
 		addIgnoreCheckbox();
 
-		apiTriggerRadioButton = createRadioButton(btnGrp, "API Trigger", API_TRIGGER, !isManual, startEvent);
-		manualTriggerRadioButton = createRadioButton(btnGrp, "Manual Trigger", MANUAL_TRIGGER, isManual, startEvent);
+		apiTriggerRadioButton = createRadioButton(btnGrp, Messages.composite_startEvent_trigger_radio_Api, API_TRIGGER, !isManual, startEvent);
+		manualTriggerRadioButton = createRadioButton(btnGrp, Messages.composite_startEvent_trigger_radio_Manual, MANUAL_TRIGGER, isManual, startEvent);
 
 		if (isManual) {
 			StardustStartEventType triggerExt = startExtensions.get(0);
@@ -92,9 +94,9 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 					deleteStardustStartEventExtension(startEvent);
 					triggerExt = createStardustManualStartEventExtension(startEvent);
 				}
-				AttributeType at = PropertyAdapterCommons.findAttributeType(triggerExt.getStardustAttributes(), "carnot:engine:participant");
+				AttributeType at = PropertyAdapterCommons.findAttributeType(triggerExt.getStardustAttributes(), PARTICIPANT.attributeName());
 				editor = new AttributeTypeComboEditor(this, at, getDefinedPerformerResources());
-				editor.createControl(this, "Performer");
+				editor.createControl(this, PARTICIPANT.label());
 			}
 		} else {
 
@@ -103,7 +105,7 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 	}
 
 	private void addIgnoreCheckbox() {
-		createLabel(this, "Stardust ignore");
+		createLabel(this, Messages.composite_startEvent_toggle_noTransform);
 		stardustIgnoreButton = getToolkit().createButton(this, "", SWT.CHECK); //$NON-NLS-1$
 		stardustIgnoreButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		stardustIgnoreButton.setSelection(stardustIgnore);
@@ -184,7 +186,7 @@ public class StardustStartEventDetailComposite extends DefaultDetailComposite {
 				protected void doExecute() {
 					eventExt.setStardustAttributes(SdbpmnFactory.eINSTANCE.createStardustAttributesType());
 					EStructuralFeature feature = SdbpmnPackage.eINSTANCE.getDocumentRoot_StardustStartEvent();
-					eventExt.getStardustAttributes().getAttributeType().add(PropertyAdapterCommons.createAttributeType("carnot:engine:participant", "", "String"));
+					eventExt.getStardustAttributes().getAttributeType().add(PropertyAdapterCommons.createAttributeType(PARTICIPANT.attributeName(), PARTICIPANT.defaultVal(), PARTICIPANT.dataType()));
 					ModelDecorator.addExtensionAttributeValue(startEvent, feature, eventExt);
 				}
 			};

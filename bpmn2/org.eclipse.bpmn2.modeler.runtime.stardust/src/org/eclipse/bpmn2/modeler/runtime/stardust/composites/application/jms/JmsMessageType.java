@@ -37,6 +37,10 @@ public enum JmsMessageType {
 		return label;
 	}
 
+	public static JmsMessageType getDefault() {
+		return MAP;
+	}
+
 	public static Map<String, String> getChoices() {
 		final Map<String, String> choices = new HashMap<String, String>();
 		for (JmsMessageType v : values()) {

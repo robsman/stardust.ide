@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.CommonAttributes.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectTypeEnum;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -48,7 +48,7 @@ public class StardustDataObjectExtendedPropertiesAdapter extends ExtendedPropert
 					if (null == stardustAttributes) {
 						stardustAttributes = SdbpmnFactory.eINSTANCE.createStardustAttributesType();
 						sdData.setStardustAttributes(stardustAttributes);
-					}					
+					}
 					sdData.getStardustAttributes().getAttributeType().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, "Public", null));
 					break;
 				default:
@@ -66,7 +66,7 @@ public class StardustDataObjectExtendedPropertiesAdapter extends ExtendedPropert
 				}
 				return choices;
 			}
-		});			
+		});
 	}
 
 	private void removeDataModel(StardustDataObjectType sdData) {

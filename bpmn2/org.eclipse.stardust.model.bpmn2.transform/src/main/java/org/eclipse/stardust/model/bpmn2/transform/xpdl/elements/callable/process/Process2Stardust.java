@@ -37,7 +37,6 @@ public class Process2Stardust extends AbstractElement2Stardust {
 				.withIdAndName(process.getId(), process.getName())
 				.withDescription(processDescription)
 				.build();
-
 		newModelDiagram(carnotModel).forProcess(def).build();
 	}
 

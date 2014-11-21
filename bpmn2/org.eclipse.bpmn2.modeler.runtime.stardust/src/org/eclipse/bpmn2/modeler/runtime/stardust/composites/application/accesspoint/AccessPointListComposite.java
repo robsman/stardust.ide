@@ -20,6 +20,8 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.ListCompositeContentProvider
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.TableColumn;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -67,7 +69,7 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 			@Override
 			public String getHeaderText() {
 				// returns the column header text
-				return "Carnot Engine Type";
+				return Messages.composite_application_section_AccessPoints_col_PrimitiveType;
 			}
 
 			@Override
@@ -75,7 +77,7 @@ public abstract class AccessPointListComposite extends DefaultListComposite impl
 				// returns the "value" feature of an AttributeType object in a list contained by StardustAccessPoint
 				// in this case, it's the AttributeType whose "name" is equal to "carnot:engine:type"
 				StardustAccessPointType ap = (StardustAccessPointType) element;
-				AttributeType at = PropertyAdapterCommons.findAttributeType(ap, "carnot:engine:type");
+				AttributeType at = PropertyAdapterCommons.findAttributeType(ap, AccessPointAttributes.PRIMITIVE_TYPE.attributeName());
 				if (at!=null) {
 					return at.getValue();
 				}

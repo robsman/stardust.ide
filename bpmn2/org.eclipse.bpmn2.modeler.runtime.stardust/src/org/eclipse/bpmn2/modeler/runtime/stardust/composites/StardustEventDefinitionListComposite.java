@@ -14,7 +14,6 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 import org.eclipse.bpmn2.CatchEvent;
 import org.eclipse.bpmn2.Event;
 import org.eclipse.bpmn2.ThrowEvent;
-import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.ui.property.events.EventDefinitionsListComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;

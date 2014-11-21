@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.STRUCTURED_DATA_TYPE;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
@@ -43,17 +45,10 @@ public class StructuredTypeAccessPointSubComposite extends AbstractDetailComposi
 	public void createBindings(EObject be) {
 		StardustAccessPointType apType = (StardustAccessPointType)be;
 		Composite parent = this.getAttributesParent();
-		System.out
-				.println("CamelStructuredTypeAccessPointSubComposite.createBindings()");
 
-		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:dataType");
+		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, STRUCTURED_DATA_TYPE.attributeName());
 		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.STRUCT_TYPE, this);
-		editor.createControl(parent, "Datastructure");
-
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "", null));
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:path:separator", "/", null));
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
+		editor.createControl(parent, STRUCTURED_DATA_TYPE.label());
 
 		setTitle(AcessPointDataTypes.STRUCT_TYPE.getDisplayName());
 	}

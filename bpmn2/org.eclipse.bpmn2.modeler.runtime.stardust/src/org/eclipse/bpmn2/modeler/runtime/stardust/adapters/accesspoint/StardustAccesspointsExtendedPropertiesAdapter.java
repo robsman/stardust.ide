@@ -1,16 +1,21 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint;
 
-import org.eclipse.bpmn2.Definitions;
-import org.eclipse.bpmn2.RootElement;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.BIDIRECTIONAL;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.PRIMITIVE_TYPE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.ROOT_ELEMENT;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.SEPARATOR;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.SERIALIZABLE_CLASS_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.STRUCTURED_DATA_TYPE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_DEFAULT_VALUE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_LOCATION;
+
 import org.eclipse.bpmn2.modeler.core.adapters.ExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.core.adapters.FeatureDescriptor;
-import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.camel.CamelAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.jms.JmsAppAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.accesspoint.webapp.WebAppAccesspointsExtendedPropertiesAdapter;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.ApplicationTypes;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms.JmsLocationEnum;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.trigger.TriggerAppTypeEnum;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -22,7 +27,6 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
 
 /**
  * @author Simon Nikles
@@ -118,35 +122,35 @@ public class StardustAccesspointsExtendedPropertiesAdapter extends ExtendedPrope
 	}
 
 	public void createPrimitiveTypeModel(StardustAccessPointType sdAccessPoint) {
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", "org.eclipse.stardust.engine.core.pojo.data.Type"));
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(PRIMITIVE_TYPE.attributeName(), PRIMITIVE_TYPE.defaultVal(), PRIMITIVE_TYPE.dataType()));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(ROOT_ELEMENT.attributeName(), ""+sdAccessPoint.getId(), ROOT_ELEMENT.dataType()));
 	}
 
 	public void createSerializableTypeModel(StardustAccessPointType sdAccessPoint) {
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(SERIALIZABLE_CLASS_NAME.attributeName(), SERIALIZABLE_CLASS_NAME.defaultVal(), SERIALIZABLE_CLASS_NAME.dataType()));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(ROOT_ELEMENT.attributeName(), ""+sdAccessPoint.getId(), ROOT_ELEMENT.dataType()));
 	}
 
 	public void createStructuredTypeModel(StardustAccessPointType sdAccessPoint) {
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:dataType", "", null));
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:path:separator", "/", null));
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:data:bidirectional", "true", "boolean"));
-		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(STRUCTURED_DATA_TYPE.attributeName(), STRUCTURED_DATA_TYPE.defaultVal(), STRUCTURED_DATA_TYPE.dataType()));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(SEPARATOR.attributeName(), SEPARATOR.defaultVal(), SEPARATOR.dataType()));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(BIDIRECTIONAL.attributeName(), BIDIRECTIONAL.defaultVal(), BIDIRECTIONAL.dataType()));
+		sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType(ROOT_ELEMENT.attributeName(), ""+sdAccessPoint.getId(), ROOT_ELEMENT.dataType()));
 	}
 
 	public void clearSubModels(StardustAccessPointType sdAccessPoint) {
 
 		AttributeType[] ats = new AttributeType[] {
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:type"),
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:className"),
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:dataType"),
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:path:separator"),
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:data:bidirectional"),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, PRIMITIVE_TYPE.attributeName()),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, SERIALIZABLE_CLASS_NAME.attributeName()),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, STRUCTURED_DATA_TYPE.attributeName()),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, SEPARATOR.attributeName()),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, BIDIRECTIONAL.attributeName()),
 
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:jms.location"),
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "carnot:engine:defaultValue"),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, ACCESSPOINT_LOCATION.attributeName()),
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, ACCESSPOINT_DEFAULT_VALUE.attributeName()),
 
-			PropertyAdapterCommons.findAttributeType(sdAccessPoint, "RootElement")
+			PropertyAdapterCommons.findAttributeType(sdAccessPoint, ROOT_ELEMENT.attributeName())
 		};
 
 		for (AttributeType at : ats) {

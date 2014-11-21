@@ -35,8 +35,8 @@ public class TestSimpleTypeDataFlow2Stardust extends Bpmn2StardustTestSuite {
 
     private final String DATA_OBJECT_INT_INPUT_ID = "TestModelNumberDataInputObject";
     private final String DATA_OBJECT_STRING_OUTPUT_ID = "TestModelStringDataOutputObject";
-	private final String DATA_INPUT_ASSOCIATION_ID = "TestModelNumberDataInputAssociationTaskA";
-	private final String DATA_OUTPUT_ASSOCIATION_ID = "TestModelStringDataOutputAssociationTaskA";
+//	private final String DATA_INPUT_ASSOCIATION_ID = "TestModelNumberDataInputAssociationTaskA";
+//	private final String DATA_OUTPUT_ASSOCIATION_ID = "TestModelStringDataOutputAssociationTaskA";
 
     private final String modelFile = TEST_BPMN_MODEL_DIR + "SimpleTypeDataFlow.bpmn";
     private final String fileOutput = getResourceFilePath(TEST_MODEL_OUTPUT_DIR) + "testSimpleTypeDataFlow.xpdl";
@@ -75,8 +75,8 @@ public class TestSimpleTypeDataFlow2Stardust extends Bpmn2StardustTestSuite {
         assertEquals(PredefinedConstants.PRIMITIVE_DATA, stringData.getType().getId());
 
         // TASK INPUT/OUTPUT
-        DataMappingType intInputMapping = CarnotModelQuery.getDataMapping(activity, DATA_INPUT_ASSOCIATION_ID);
-        DataMappingType strOutputMapping = CarnotModelQuery.getDataMapping(activity, DATA_OUTPUT_ASSOCIATION_ID);
+        DataMappingType intInputMapping = CarnotModelQuery.getDataMapping(activity, DATA_OBJECT_INT_INPUT_ID);
+        DataMappingType strOutputMapping = CarnotModelQuery.getDataMapping(activity, DATA_OBJECT_STRING_OUTPUT_ID);
 
         assertNotNull(intInputMapping);
         assertNotNull(strOutputMapping);

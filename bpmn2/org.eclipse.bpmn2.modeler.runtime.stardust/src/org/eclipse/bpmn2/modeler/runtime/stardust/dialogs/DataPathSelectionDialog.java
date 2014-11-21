@@ -62,9 +62,6 @@ public class DataPathSelectionDialog extends ElementListSelectionDialog {
 
 		@Override
 		public String getText(Object selectionElement) {
-			System.out.println("####################### " + selectionElement);
-			System.out
-					.println("DataPathSelectionDialog.DataPathSelectionDialogLabelProvider.getText()");
 			return null != selectionElement ? selectionElement.toString() : "";
 		}
 

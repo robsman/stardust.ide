@@ -11,10 +11,17 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.SERIALIZABLE_CLASS_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.STRUCTURED_DATA_TYPE;
+
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
+
 public enum AcessPointDataTypes {
-	PRIMITIVE_TYPE("primitive", "carnot:engine:type", "Primitive Data"),
-	STRUCT_TYPE("struct", "carnot:engine:dataType", "Structured Data"),
-	SERIALIZABLE_TYPE("serializable", "carnot:engine:className", "Serializable");
+
+	PRIMITIVE_TYPE("primitive", AccessPointAttributes.PRIMITIVE_TYPE.attributeName(), Messages.composite_application_section_AccessPoint_select_primitiveData),
+	STRUCT_TYPE("struct", STRUCTURED_DATA_TYPE.attributeName(), Messages.composite_application_section_AccessPoint_select_structData),
+	SERIALIZABLE_TYPE("serializable", SERIALIZABLE_CLASS_NAME.attributeName(), Messages.composite_application_section_AccessPoint_select_serializableData);
 
 	private String key;
 	private String type;

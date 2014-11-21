@@ -11,6 +11,15 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.StardustRuntimeExtension.DATA_MAPPING_LANGUAGE_URL;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames.ATTRIBUTE_EXPRESSION_BODY;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames.ATTRIBUTE_EXPRESSION_EVALUATES_TO;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames.ATTRIBUTE_EXPRESSION_LANGUAGE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA_PATH;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.REALM_DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.REALM_DATA_PATH;
+
 import java.util.List;
 
 import org.eclipse.bpmn2.FormalExpression;
@@ -24,7 +33,10 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextAndButtonObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
+import org.eclipse.bpmn2.modeler.runtime.stardust.StardustRuntimeExtension;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BpmnAttributeNames;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames;
 import org.eclipse.bpmn2.modeler.runtime.stardust.dialogs.DataPathSelectionDialog;
 import org.eclipse.bpmn2.modeler.runtime.stardust.dialogs.DataSelectionDialog;
 import org.eclipse.bpmn2.modeler.ui.editor.BPMN2Editor;
@@ -59,20 +71,20 @@ public class StardustResourceParameterBindingExpressionDetailComposite extends E
 
 	@Override
 	protected void bindAttribute(Composite parent, EObject object, EAttribute attribute, String label) {
-		if ("language".equals(attribute.getName())) {
+		if (ATTRIBUTE_EXPRESSION_LANGUAGE.equals(attribute.getName())) {
 			if (null==parent) parent = getAttributesParent();
 			if (null==label) label = getBusinessObjectDelegate().getLabel(object, attribute);
 			TextObjectEditor editor = new TextObjectEditor(this,object,attribute) {
 				protected Control createControl(Composite composite, String label, int style) {
 					Control control = super.createControl(composite, label, style);
-					setText("http://eclipse.org/stardust/DataMappingPath");
+					setText(DATA_MAPPING_LANGUAGE_URL);
 					setEditable(false);
 					return control;
 				}
 			};
 			editor.createControl(parent,label);
 
-		} else if ("body".equals(attribute.getName())) {
+		} else if (ATTRIBUTE_EXPRESSION_BODY.equals(attribute.getName())) {
 
 			TextAndButtonObjectEditor editor = new TextAndButtonObjectEditor(this, object, attribute) {
 
@@ -111,7 +123,7 @@ public class StardustResourceParameterBindingExpressionDetailComposite extends E
 			editor.setEditable(true);
 			((Text)editor.getControl()).addModifyListener(this);
 
-		} else if ("evaluatesToTypeRef".equals(attribute.getName())){
+		} else if (ATTRIBUTE_EXPRESSION_EVALUATES_TO.equals(attribute.getName())){
 			TextObjectEditor editor = new TextObjectEditor(this,object,attribute) {
 				protected Control createControl(Composite composite, String label, int style) {
 					setEditable(false);
@@ -148,22 +160,22 @@ public class StardustResourceParameterBindingExpressionDetailComposite extends E
 					}
 					ConditionalPerformerType conditionalPerformer = sdResource.getStardustConditionalPerformer();
 					//OrganizationType org = sdResource.getStardustOrganization();
-					if ("data".equals(param.getName())) {
+					if (DATA.equalsInternalName(param.getName())) {
 						sdResource.setDataId(expression.getBody());
-					} else if ("dataPath".equals(param.getName())) {
+					} else if (DATA_PATH.equalsInternalName(param.getName())) {
 						if (null != conditionalPerformer) {
 							conditionalPerformer.setDataPath(expression.getBody());
 						}
-					} else if ("realmDataPath".equals(param.getName())) {
+					} else if (REALM_DATA.equalsInternalName(param.getName())) {
 						if (null != conditionalPerformer) {
-							AttributeType at = PropertyAdapterCommons.findAttributeType(conditionalPerformer, "carnot:engine:conditionalPerformer:realmData");
+							AttributeType at = PropertyAdapterCommons.findAttributeType(conditionalPerformer, REALM_DATA.attributeName());
 							if (null != at) {
 								at.setValue(expression.getBody());
 							}
 						}
-					} else if ("realmDataPath".equals(param.getName())) {
+					} else if (REALM_DATA_PATH.equalsInternalName(param.getName())) {
 						if (null != conditionalPerformer) {
-							AttributeType at = PropertyAdapterCommons.findAttributeType(conditionalPerformer, "carnot:engine:conditionalPerformer:realmDataPath");
+							AttributeType at = PropertyAdapterCommons.findAttributeType(conditionalPerformer, REALM_DATA_PATH.attributeName());
 							if (null != at) {
 								at.setValue(expression.getBody());
 							}

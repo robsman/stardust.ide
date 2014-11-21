@@ -13,6 +13,17 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.java;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.ID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.OID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.CLASS_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.CONSTRUCTOR_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.METHOD_NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.RETRY_ENABLE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.RETRY_INTERVAL;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.RETRY_NUMBER;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.PlainJavaAppAttributes.VISIBILITY;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
@@ -20,7 +31,6 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeBooleanEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
@@ -45,7 +55,6 @@ import org.eclipse.swt.widgets.Text;
 
 public class PlainJavaDetailComposite extends DefaultDetailComposite implements ModifyListener {
 
-
 	public PlainJavaDetailComposite(AbstractBpmn2PropertySection section) {
 		super(section);
 	}
@@ -64,43 +73,43 @@ public class PlainJavaDetailComposite extends DefaultDetailComposite implements 
 		ObjectEditor editor = null;
 
 		StardustApplicationType sdApplication = sdInterface.getStardustApplication();
-		bindAttribute(sdApplication, "name");
-		bindAttribute(sdApplication, "id");
-		bindAttribute(sdApplication, "elementOid");
-		
-		AttributeType at;
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, Visibility.NAME);
-		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
-		editor.createControl(parent, "Visibility");
-		
+		bindAttribute(sdApplication, NAME);
+		bindAttribute(sdApplication, ID);
+		bindAttribute(sdApplication, OID);
 
-		final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:className");
-		final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:methodName");
-		
+		AttributeType at;
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, VISIBILITY.attributeName());
+		editor = new AttributeTypeComboEditor(this, at, VISIBILITY.choices());
+		editor.createControl(parent, VISIBILITY.label());
+
+
+		final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdApplication, CLASS_NAME.attributeName());
+		final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdApplication, METHOD_NAME.attributeName());
+
 		MethodSelectionTextAndObjectEditor methodEditor = new MethodSelectionTextAndObjectEditor(this, sdInterface, methodAt, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), clsAt, false);
 
-		AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdApplication, "carnot:engine:constructorName");
+		AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdApplication, CONSTRUCTOR_NAME.attributeName());
 		MethodSelectionTextAndObjectEditor constructorEditor = new MethodSelectionTextAndObjectEditor(this, sdInterface, constrAt, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value(), clsAt, true);
-		
+
 		StardustInterfaceSelectionObjectEditor importEditor = new StardustInterfaceSelectionObjectEditor(this, sdInterface, clsAt, CarnotWorkflowModelPackage.eINSTANCE.getAttributeType_Value());
-		Text textCls = (Text)importEditor.createControl(parent,"Class Selector");
-		Text textMeth = (Text)methodEditor.createControl(parent,"Method");		
-		Text textConst = (Text)constructorEditor.createControl(parent,"Constructor");
+		Text textCls = (Text)importEditor.createControl(parent, CLASS_NAME.label());
+		Text textMeth = (Text)methodEditor.createControl(parent, METHOD_NAME.label());
+		Text textConst = (Text)constructorEditor.createControl(parent, CONSTRUCTOR_NAME.label());
 		textCls.addModifyListener(this);
 		textMeth.addModifyListener(this);
-		textConst.addModifyListener(this);				
-		
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:enable");
+		textConst.addModifyListener(this);
+
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, RETRY_ENABLE.attributeName());
 		editor = new AttributeTypeBooleanEditor(this, at);
-		editor.createControl(parent, "Enable Retry");
-		
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:number");
+		editor.createControl(parent, RETRY_ENABLE.label());
+
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, RETRY_NUMBER.attributeName());
 		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Number of Retries");
-		
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, "synchronous:retry:time");
+		editor.createControl(parent, RETRY_NUMBER.label());
+
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, RETRY_INTERVAL.attributeName());
 		editor = new AttributeTypeTextEditor(this, at);
-		editor.createControl(parent, "Time between Retries (seconds)");
+		editor.createControl(parent, RETRY_INTERVAL.label());
 
 	}
 
@@ -112,16 +121,12 @@ public class PlainJavaDetailComposite extends DefaultDetailComposite implements 
 			@Override
 			protected void doExecute() {
 
-				System.out.println("Constructor has been changed (Source): " + event.getSource());
-				System.out.println("Constructor has been changed (toString): " + event.toString());
-				// Clear existing ItemDefinition
-
 				StardustInterfaceType sdIntType = (StardustInterfaceType) businessObject;
 				StardustApplicationConfigurationCleaner.INSTANCE.performResetExistingApp(sdIntType);
 
-				final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:className");
-				final AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:constructorName");		
-				final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), "carnot:engine:methodName");
+				final AttributeType clsAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), CLASS_NAME.attributeName());
+				final AttributeType constrAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), CONSTRUCTOR_NAME.attributeName());
+				final AttributeType methodAt = PropertyAdapterCommons.findAttributeType(sdIntType.getStardustApplication(), METHOD_NAME.attributeName());
 
 				Class<?> clazz = null;
 				Method method = null;
@@ -138,4 +143,5 @@ public class PlainJavaDetailComposite extends DefaultDetailComposite implements 
 			}
 		});
 	}
+
 }

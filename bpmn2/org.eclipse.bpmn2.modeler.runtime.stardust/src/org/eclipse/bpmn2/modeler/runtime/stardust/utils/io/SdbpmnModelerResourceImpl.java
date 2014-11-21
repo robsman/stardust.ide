@@ -44,6 +44,10 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class SdbpmnModelerResourceImpl extends Bpmn2ModelerResourceImpl
 {
 	public SdbpmnModelerResourceImpl(URI uri)

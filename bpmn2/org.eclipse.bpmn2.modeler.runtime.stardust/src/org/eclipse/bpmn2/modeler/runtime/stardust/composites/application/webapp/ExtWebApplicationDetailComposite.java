@@ -13,13 +13,19 @@
 
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.webapp;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.ID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.NAME;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.BindableElementAttributes.OID;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ExternalWebAppAttributes.VISIBILITY;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ExternalWebAppAttributes.WEBAPP_URI;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointChangeListener;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint.AccessPointListComposite;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
@@ -57,30 +63,30 @@ public class ExtWebApplicationDetailComposite extends DefaultDetailComposite imp
 		ObjectEditor editor = null;
 		StardustApplicationType sdApplication;
 		sdApplication = sdInterface.getStardustApplication();
-		bindAttribute(sdApplication, "name");
-		bindAttribute(sdApplication, "id");
-		bindAttribute(sdApplication, "elementOid");
+		bindAttribute(sdApplication, NAME);
+		bindAttribute(sdApplication, ID);
+		bindAttribute(sdApplication, OID);
 
 		AttributeType at;
-		at = PropertyAdapterCommons.findAttributeType(sdApplication, Visibility.NAME);
-		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
-		editor.createControl(parent, "Visibility");
+		at = PropertyAdapterCommons.findAttributeType(sdApplication, VISIBILITY.attributeName());
+		editor = new AttributeTypeComboEditor(this, at, VISIBILITY.choices());
+		editor.createControl(parent, VISIBILITY.label());
 
-		Composite accessPointsSection = this.createSectionComposite(this, "Access Points");
+		Composite accessPointsSection = this.createSectionComposite(this, Messages.composite_trigger_section_AccessPoints);
 		StardustContextType appCtx = sdApplication.getContext1().size() > 0 ? sdApplication.getContext1().get(0) : null;
 
 		if (null != appCtx) {
-			at = PropertyAdapterCommons.findAttributeType(appCtx, "carnot:engine:ui:externalWebApp:uri");
+			at = PropertyAdapterCommons.findAttributeType(appCtx, WEBAPP_URI.attributeName());
 			editor = new AttributeTypeTextEditor(this, at);
-			editor.createControl(parent, "External Webapplication URI");
+			editor.createControl(parent, WEBAPP_URI.label());
 
 			AccessPointListComposite inputParams = new ExtWebApplicationAccessPointListComposite(accessPointsSection, true, this);
 			inputParams.bindList(appCtx, CarnotWorkflowModelPackage.eINSTANCE.getIAccessPointOwner_AccessPoint());
-			inputParams.setTitle("Inputs");
+			inputParams.setTitle(Messages.composite_application_section_AccessPoints_Inputs);
 
 			AccessPointListComposite outputParams = new ExtWebApplicationAccessPointListComposite(accessPointsSection, false, this);
 			outputParams.bindList(appCtx, CarnotWorkflowModelPackage.eINSTANCE.getIAccessPointOwner_AccessPoint());
-			outputParams.setTitle("Outputs");
+			outputParams.setTitle(Messages.composite_application_section_AccessPoints_Outputs);
 		}
 	}
 

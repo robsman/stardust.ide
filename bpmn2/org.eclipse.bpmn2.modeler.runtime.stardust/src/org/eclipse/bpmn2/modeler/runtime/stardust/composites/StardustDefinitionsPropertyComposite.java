@@ -2,11 +2,9 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites;
 
 import org.eclipse.bpmn2.Definitions;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
-import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
-import org.eclipse.bpmn2.modeler.runtime.stardust.utils.StardustApplicationConfigurationGenerator;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.labels.Labels;
 import org.eclipse.bpmn2.modeler.ui.property.diagrams.DefinitionsPropertyComposite;
-import org.eclipse.bpmn2.util.XmlExtendedMetadata;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -45,7 +43,7 @@ public class StardustDefinitionsPropertyComposite extends DefinitionsPropertyCom
 				feature = ExtensionHelper.getInstance().getAnyAttributeFeature((Definitions)be, ExtensionHelper2.STARDUST_CARNOT_VERSION_PROPERTY);
 			}
 			TextObjectEditor editor = new TextObjectEditor(this, be, feature);
-			editor.createControl(attributesComposite, "Stardust / IPP Version (optional)");
+			editor.createControl(attributesComposite, Labels.model_stardust_target_version);
 		}
 	}
 

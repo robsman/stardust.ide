@@ -1,5 +1,11 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA_PATH;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.REALM_DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.REALM_DATA_PATH;
+import static org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.XSDType2Stardust.STRING;
+
 import java.util.List;
 
 import org.eclipse.bpmn2.Bpmn2Factory;
@@ -11,6 +17,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.utils.ModelUtil;
 import org.eclipse.bpmn2.modeler.core.utils.NamespaceUtil;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.conditional.ConditionalPerformerDetailsComposite;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -33,6 +40,8 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class StardustResourceDefinitionDetailsComposite extends DefaultDetailComposite implements ISelectionChangedListener {
+
+	private static final String PREFIX_DELIM = ":";
 
 	Button roleRadioButton = null;
 	Button organisationRadioButton = null;
@@ -74,7 +83,7 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 
 			ConditionalPerformerDetailsComposite conditionalPerformerSection = new ConditionalPerformerDetailsComposite(this, SWT.NONE);
 			conditionalPerformerSection.setBusinessObject(performer);
-			conditionalPerformerSection.setTitle("Conditional Performer");
+			conditionalPerformerSection.setTitle(Messages.composite_resource_conditionalPerformer);
 
 		default:
 			break;
@@ -116,7 +125,6 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 						RecordingCommand command = new RecordingCommand(editingDomain) {
 							@Override
 							protected void doExecute() {
-								System.out.println("Set Performer Type 'Role', reset others");
 								sdResource.setStardustRole(CarnotWorkflowModelFactory.eINSTANCE.createRoleType());
 								sdResource.setStardustOrganization(null);
 								sdResource.setStardustConditionalPerformer(null);
@@ -129,7 +137,6 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 						RecordingCommand command = new RecordingCommand(editingDomain) {
 							@Override
 							protected void doExecute() {
-								System.out.println("Set Performer Type 'Organisation', reset others");
 								sdResource.setStardustRole(null);
 								sdResource.setStardustOrganization(CarnotWorkflowModelFactory.eINSTANCE.createOrganizationType());
 								sdResource.setStardustConditionalPerformer(null);
@@ -142,7 +149,6 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 						RecordingCommand command = new RecordingCommand(editingDomain) {
 							@Override
 							protected void doExecute() {
-								System.out.println("Set Performer Type 'Conditional', reset others");
 								cleanupParameterMappings((Resource)sdResource.eContainer().eContainer());
 								ConditionalPerformerType performer = CarnotWorkflowModelFactory.eINSTANCE.createConditionalPerformerType();
 								ModelUtil.setID(performer, sdResource.eResource());
@@ -163,7 +169,9 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 	}
 
 	private void cleanupParameterMappings(Resource resource) {
-		resource.getResourceParameters().clear();
+		if (null != resource && null != resource.getResourceParameters()) {
+			resource.getResourceParameters().clear();
+		}
 	}
 
 	/**
@@ -179,24 +187,24 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 
 		ItemDefinition def = findPrimitiveString(resource);
 
-		data.setId("data");
+		data.setId(DATA.internalName());
 		data.setIsRequired(true);
-		data.setName("Data");
+		data.setName(DATA.label());
 		data.setType(def);
 
-		dataPath.setId("dataPath");
+		dataPath.setId(DATA_PATH.internalName());
 		dataPath.setIsRequired(true);
-		dataPath.setName("Data Path");
+		dataPath.setName(DATA_PATH.label());
 		dataPath.setType(def);
 
-		realmData.setId("realmData");
+		realmData.setId(REALM_DATA.internalName());
 		realmData.setIsRequired(true);
-		realmData.setName("Realm Data");
+		realmData.setName(REALM_DATA.label());
 		realmData.setType(def);
 
-		realmDataPath.setId("realmDataPath");
+		realmDataPath.setId(REALM_DATA_PATH.internalName());
 		realmDataPath.setIsRequired(true);
-		realmDataPath.setName("Realm Data Path");
+		realmDataPath.setName(REALM_DATA_PATH.label());
 		realmDataPath.setType(def);
 
 		/*
@@ -214,7 +222,7 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 	private ItemDefinition findPrimitiveString(Resource resource) {
 		Definitions definitions = ModelUtil.getDefinitions(resource);
 		String xsdPrefix = NamespaceUtil.getPrefixForNamespace(resource.eResource(), XSDType2Stardust.XML_SCHEMA_URI);
-		String stringType = xsdPrefix.concat(":").concat("string");
+		String stringType = xsdPrefix.concat(PREFIX_DELIM).concat(STRING.getName());
 		List<ItemDefinition> itemDefs = ModelUtil.getAllRootElements(definitions, ItemDefinition.class);
 		for (ItemDefinition def : itemDefs) {
 			if (null != def.getStructureRef() && def.getStructureRef().toString().equals(stringType)) {
@@ -222,7 +230,7 @@ public class StardustResourceDefinitionDetailsComposite extends DefaultDetailCom
 			}
 		}
 		ItemDefinition str = Bpmn2Factory.eINSTANCE.createItemDefinition();
-		str.setStructureRef(xsdPrefix.concat(":").concat("string"));
+		str.setStructureRef(xsdPrefix.concat(PREFIX_DELIM).concat(STRING.getName()));
 		ModelUtil.setID(str);
 		definitions.getRootElements().add(str);
 		return str;

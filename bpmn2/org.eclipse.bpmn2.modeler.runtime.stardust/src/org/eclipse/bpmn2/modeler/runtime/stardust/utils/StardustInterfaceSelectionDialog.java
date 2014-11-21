@@ -4,7 +4,7 @@
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  * 	Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
@@ -26,6 +26,10 @@ import org.eclipse.swt.widgets.Display;
  * This is a specialized Java Type Import dialog for importing BPMN2 Interface definitions.
  * It extends the default import dialog by adding a checkbox that allows the user to select
  * whether or not Process variables (a.k.a. BPMN2 "Property" elements) will be created.
+ *
+ * @author Bob Brodt
+ * @author Gregor Gisler
+ *
  */
 public class StardustInterfaceSelectionDialog extends DefaultSchemaImportDialog {
 
@@ -33,7 +37,7 @@ public class StardustInterfaceSelectionDialog extends DefaultSchemaImportDialog 
 	boolean includeConstructors = false;
 	CheckboxTableViewer methodsTable;
 	IMethod[] selectedMethods = new IMethod[0];
-	
+
 	public StardustInterfaceSelectionDialog() {
 		super(Display.getDefault().getActiveShell(), SchemaImportDialog.ALLOW_JAVA);
 	}
@@ -50,7 +54,7 @@ public class StardustInterfaceSelectionDialog extends DefaultSchemaImportDialog 
 
 		return contents;
 	}
-    
+
 	public IType getIType() {
 		Object result[] = getResult();
 		if (result!=null && result.length == 1 && result[0] instanceof IType) {
@@ -58,11 +62,11 @@ public class StardustInterfaceSelectionDialog extends DefaultSchemaImportDialog 
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void computeResult() {
 		super.computeResult();
-		
+
 		if (methodsTable!=null) {
 			Object[] checked = methodsTable.getCheckedElements();
 			selectedMethods = new IMethod[checked.length];

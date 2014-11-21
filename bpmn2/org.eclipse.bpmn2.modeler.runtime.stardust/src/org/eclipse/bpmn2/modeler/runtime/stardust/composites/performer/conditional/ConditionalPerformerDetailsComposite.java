@@ -1,5 +1,13 @@
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.performer.conditional;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.adapters.performer.ConditionalPerformerResultEnum.USER;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.ResourceDataMappingAttributeNames.DATA_PATH;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.performer.ConditionalPerformerAttributes.PERFORMER_KIND;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.performer.ConditionalPerformerAttributes.USER_REALM_DATA;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.performer.ConditionalPerformerAttributes.USER_REALM_DATA_PATH;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.performer.ConditionalPerformerAttributes.VISIBILITY;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractPropertiesProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
@@ -7,7 +15,6 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.performer.ConditionalPerformerResultEnum;
-import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common.PropertyCommons.Visibility;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
 import org.eclipse.emf.ecore.EObject;
@@ -44,32 +51,32 @@ public class ConditionalPerformerDetailsComposite extends DefaultDetailComposite
 
 		AttributeType at;
 		ObjectEditor editor = null;
-		at = PropertyAdapterCommons.findAttributeType(performer, Visibility.NAME);
-		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
-		editor.createControl(getAttributesParent(), "Visibility");
+		at = PropertyAdapterCommons.findAttributeType(performer, VISIBILITY.attributeName());
+		editor = new AttributeTypeComboEditor(this, at, VISIBILITY.choices());
+		editor.createControl(getAttributesParent(), VISIBILITY.label());
 
-		at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind");
-		AttributeTypeComboEditor choiceCombo = new AttributeTypeComboEditor(this, at, ConditionalPerformerResultEnum.getChoices());
-		choiceCombo.createControl(getAttributesParent(), "Kind");
+		at = PropertyAdapterCommons.findAttributeType(performer, PERFORMER_KIND.attributeName());
+		AttributeTypeComboEditor choiceCombo = new AttributeTypeComboEditor(this, at, PERFORMER_KIND.choices());
+		choiceCombo.createControl(getAttributesParent(), PERFORMER_KIND.label());
 		choiceCombo.addSelectionListener(this);
 
 		editor = new TextObjectEditor(this, sdResource, SdbpmnPackage.eINSTANCE.getStardustResourceType_DataId());
-		editor.createControl(getAttributesParent(), "Data Id");
+		editor.createControl(getAttributesParent(), DATA.label());
 
 		super.createBindings(be);
 
 		if (null != choiceCombo.getValue()) {
 			ConditionalPerformerResultEnum kind = ConditionalPerformerResultEnum.forKey(choiceCombo.getValue().toString());
-			if (ConditionalPerformerResultEnum.USER.equals(kind)) {
-				at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmData");
+			if (USER.equals(kind)) {
+				at = PropertyAdapterCommons.findAttributeType(performer, USER_REALM_DATA.attributeName());
 				editor = new AttributeTypeTextEditor(this, at);
 				editor.setEditable(false);
-				editor.createControl(getAttributesParent(), "Realm Data");
+				editor.createControl(getAttributesParent(), USER_REALM_DATA.label());
 
-				at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmDataPath");
+				at = PropertyAdapterCommons.findAttributeType(performer, USER_REALM_DATA_PATH.attributeName());
 				editor = new AttributeTypeTextEditor(this, at);
 				editor.setEditable(false);
-				editor.createControl(getAttributesParent(), "Realm Data Path");
+				editor.createControl(getAttributesParent(), USER_REALM_DATA_PATH.label());
 			}
 		}
 	}
@@ -79,24 +86,24 @@ public class ConditionalPerformerDetailsComposite extends DefaultDetailComposite
 			@Override
 			protected void doExecute() {
 				performer.setIsUser(false);
-				if (null == PropertyAdapterCommons.findAttributeType(performer, Visibility.NAME)) {
-					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType(Visibility.NAME, Visibility.PUBLIC.getKey(), null));
+				if (null == PropertyAdapterCommons.findAttributeType(performer, VISIBILITY.attributeName())) {
+					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType(VISIBILITY.attributeName(), VISIBILITY.defaultVal(), VISIBILITY.dataType()));
 				}
-				if (null == PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind")) {
-					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:conditionalPerformer:kind", "", null));
-				}
-				if (null == PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind")) {
-					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:conditionalPerformer:kind", "", null));
+				if (null == PropertyAdapterCommons.findAttributeType(performer, PERFORMER_KIND.attributeName())) {
+					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType(PERFORMER_KIND.attributeName(), PERFORMER_KIND.defaultVal(), PERFORMER_KIND.dataType()));
+//				}
+//				if (null == PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind")) {
+//					performer.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:conditionalPerformer:kind", "", null));
 				} else {
-					AttributeType at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind");
+					AttributeType at = PropertyAdapterCommons.findAttributeType(performer, PERFORMER_KIND.attributeName());
 					if (ConditionalPerformerResultEnum.USER.getKey().equals(at.getValue())) {
 						performer.setIsUser(true);
 
-						if (null == PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmData")) {
-							performer.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:conditionalPerformer:realmData", "", null));
+						if (null == PropertyAdapterCommons.findAttributeType(performer, USER_REALM_DATA.attributeName())) {
+							performer.getAttribute().add(PropertyAdapterCommons.createAttributeType(USER_REALM_DATA.attributeName(), USER_REALM_DATA.defaultVal(), USER_REALM_DATA.dataType()));
 						}
-						if (null == PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmDataPath")) {
-							performer.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:conditionalPerformer:realmDataPath", "", null));
+						if (null == PropertyAdapterCommons.findAttributeType(performer, USER_REALM_DATA_PATH.attributeName())) {
+							performer.getAttribute().add(PropertyAdapterCommons.createAttributeType(USER_REALM_DATA_PATH.attributeName(), USER_REALM_DATA_PATH.defaultVal(), USER_REALM_DATA_PATH.dataType()));
 						}
 					}
 				}
@@ -112,7 +119,7 @@ public class ConditionalPerformerDetailsComposite extends DefaultDetailComposite
 			propertiesProvider = new AbstractPropertiesProvider(object) {
 				String[] properties = new String[] {
 //						"data", //$NON-NLS-1$
-						"dataPath"
+						DATA_PATH.internalName()
 				};
 
 				@Override
@@ -123,39 +130,6 @@ public class ConditionalPerformerDetailsComposite extends DefaultDetailComposite
 		}
 		return propertiesProvider;
 	}
-
-//	public void nocreateBindings(EObject be) {
-//
-//		ConditionalPerformerType performer = (ConditionalPerformerType)be;
-//
-//		AttributeType at;
-//		ObjectEditor editor = null;
-//
-//		at = PropertyAdapterCommons.findAttributeType(performer, Visibility.NAME);
-//		editor = new AttributeTypeComboEditor(this, at, Visibility.getOptionKeys());
-//		editor.createControl(getParent(), "Visibility");
-//
-//		at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:kind");
-//		AttributeTypeComboEditor choiceCombo = new AttributeTypeComboEditor(this, at, ConditionalPerformerResultEnum.getChoices());
-//		choiceCombo.createControl(getParent(), "Kind");
-//		choiceCombo.addSelectionListener(this);
-//
-//		if (null != choiceCombo.getValue()) {
-//			ConditionalPerformerResultEnum kind = ConditionalPerformerResultEnum.forKey(choiceCombo.getValue().toString());
-//			if (ConditionalPerformerResultEnum.USER.equals(kind)) {
-//				at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmData");
-//				editor = new AttributeTypeTextEditor(this, at);
-//				editor.setEditable(false);
-//				editor.createControl(getParent(), "Realm Data");
-//
-//				at = PropertyAdapterCommons.findAttributeType(performer, "carnot:engine:conditionalPerformer:realmDataPath");
-//				editor = new AttributeTypeTextEditor(this, at);
-//				editor.setEditable(false);
-//				editor.createControl(getParent(), "Realm Data Path");
-//			}
-//		}
-//
-//	}
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent arg0) {

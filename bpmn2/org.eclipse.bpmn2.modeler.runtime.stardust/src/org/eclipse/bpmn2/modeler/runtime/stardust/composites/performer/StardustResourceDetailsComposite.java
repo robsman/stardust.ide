@@ -6,6 +6,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractPropertiesProvider;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.model.ModelDecorator;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnFactory;
@@ -38,7 +39,7 @@ public class StardustResourceDetailsComposite extends DefaultDetailComposite {
 		}
 		StardustResourceDefinitionDetailsComposite performerDetailsSection = new StardustResourceDefinitionDetailsComposite(this, SWT.NONE);
 		performerDetailsSection.setBusinessObject(sdResource);
-		performerDetailsSection.setTitle("Stardust Performer");
+		performerDetailsSection.setTitle(Messages.composite_resource_performer);
 	}
 
 

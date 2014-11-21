@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.trigger;
 
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.labels.Labels;
+
 
 /**
  * @author Simon Nikles
@@ -18,7 +20,7 @@ package org.eclipse.bpmn2.modeler.runtime.stardust.composites.trigger;
  */
 public enum TriggerAppTypeEnum {
 
-	JMS("jms", "JMS Trigger")
+	JMS("jms", Labels.trigger_type_jms)
 	;
 
 	private String key;

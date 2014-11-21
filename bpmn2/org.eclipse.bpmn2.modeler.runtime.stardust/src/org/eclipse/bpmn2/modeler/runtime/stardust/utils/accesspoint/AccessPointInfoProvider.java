@@ -41,6 +41,10 @@ import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 
+/**
+ * @author Simon Nikles
+ *
+ */
 public class AccessPointInfoProvider {
 
 	public static ItemDefinition addInputAccessPointItemDefinitionSchema(StardustApplicationType app, ItemDefinition itemDef) throws ClassNotFoundException, NoSuchMethodException, SecurityException, MalformedURLException, CoreException {

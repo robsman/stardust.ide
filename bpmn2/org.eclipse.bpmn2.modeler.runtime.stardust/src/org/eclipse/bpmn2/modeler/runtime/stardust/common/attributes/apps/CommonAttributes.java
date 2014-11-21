@@ -9,8 +9,12 @@
  * ITpearls AG - Stardust Runtime Extension
  *
  ******************************************************************************/
-package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.common;
+package org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.labels.Labels;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 
 /**
@@ -18,7 +22,7 @@ import org.eclipse.stardust.engine.api.model.PredefinedConstants;
  * @author Simon Nikles
  *
  */
-public class PropertyCommons {
+public class CommonAttributes {
 
 	public static enum Visibility {
 
@@ -26,6 +30,7 @@ public class PropertyCommons {
 		PRIVATE("Private");
 
 		public static String NAME = PredefinedConstants.MODELELEMENT_VISIBILITY;
+		public static String LABEL = Labels.common_Visibility;
 
 		private String key;
 		private Visibility(String key) {
@@ -34,6 +39,13 @@ public class PropertyCommons {
 
 		public static String[] getOptionKeys() {
 			return new String[]{PUBLIC.key, PRIVATE.key};
+		}
+
+		public static Map<String, String> getChoices() {
+			Map<String, String> choices = new HashMap<String, String>(2);
+			choices.put(PUBLIC.key, PUBLIC.key);
+			choices.put(PRIVATE.key, PRIVATE.key);
+			return choices;
 		}
 
 		public String getKey() {

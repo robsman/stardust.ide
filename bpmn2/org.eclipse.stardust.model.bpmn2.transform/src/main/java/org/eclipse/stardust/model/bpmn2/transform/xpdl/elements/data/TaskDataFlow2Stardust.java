@@ -159,8 +159,12 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             fromExpressionValue = cleanPath(fromExpressionValue);
             mapping.setDataPath(fromExpressionValue);
 
+            // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
+            // the mapping ids must be identical (otherwise only one direction will be available),
+            // thus we take the dataObject's id
             if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
-            && (null == fromExpressionValue || fromExpressionValue.isEmpty())) {
+             && (null == fromExpressionValue || fromExpressionValue.isEmpty())
+             && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())) {
             	mapping.setId(fromVariable.getId());
             }
 
@@ -185,8 +189,12 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             toExpressionValue = cleanPath(toExpressionValue);
             mapping.setDataPath(toExpressionValue);
 
+            // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
+            // the mapping ids must be identical (otherwise only one direction will be available),
+            // thus we take the dataObject's id
             if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
-            && (null == toExpressionValue || toExpressionValue.isEmpty())) {
+             && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())
+             && (null == toExpressionValue || toExpressionValue.isEmpty())) {
             	mapping.setId(toVariable.getId());
             }
 

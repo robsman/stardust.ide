@@ -15,6 +15,7 @@ import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.MappedStardustDatatypeDropdown.DatatypeChangeListener;
 import org.eclipse.emf.ecore.EObject;
@@ -44,11 +45,10 @@ public class PrimitiveTypeAccessPointSubComposite extends DefaultDetailComposite
 		StardustAccessPointType apType = (StardustAccessPointType)be;
 		Composite parent = this.getAttributesParent();
 
-		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:type");
+		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, AccessPointAttributes.PRIMITIVE_TYPE.attributeName());
 		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.PRIMITIVE_TYPE, this);
-		editor.createControl(parent, "Type");
+		editor.createControl(parent, AccessPointAttributes.PRIMITIVE_TYPE.label());
 
-		//	sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:type", "", "org.eclipse.stardust.engine.core.pojo.data.Type"));
 		setTitle(AcessPointDataTypes.PRIMITIVE_TYPE.getDisplayName());
 	}
 

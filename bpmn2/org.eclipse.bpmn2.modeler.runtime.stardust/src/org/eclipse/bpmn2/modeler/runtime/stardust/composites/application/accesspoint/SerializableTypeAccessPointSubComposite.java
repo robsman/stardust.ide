@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.AccessPointAttributes.SERIALIZABLE_CLASS_NAME;
+
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractBpmn2PropertySection;
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.DefaultDetailComposite;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
@@ -45,15 +47,9 @@ public class SerializableTypeAccessPointSubComposite extends DefaultDetailCompos
 		StardustAccessPointType apType = (StardustAccessPointType)be;
 		Composite parent = this.getAttributesParent();
 
-		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, "carnot:engine:className");
+		AttributeType at = PropertyAdapterCommons.findAttributeType(apType, SERIALIZABLE_CLASS_NAME.attributeName());
 		ObjectEditor editor = new MappedStardustDatatypeDropdown(this, at, AcessPointDataTypes.SERIALIZABLE_TYPE, this);
-		editor.createControl(parent, "Serializable");
-
-//		private void createSerializableTypeModel(StardustAccessPointType sdAccessPoint) {
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("carnot:engine:className", "", null));
-//			sdAccessPoint.getAttribute().add(PropertyAdapterCommons.createAttributeType("RootElement", ""+sdAccessPoint.getId(), null));
-//		}
-//
+		editor.createControl(parent, SERIALIZABLE_CLASS_NAME.label());
 
 		setTitle(AcessPointDataTypes.SERIALIZABLE_TYPE.getDisplayName());
 		attributesSection.setExpanded(true);

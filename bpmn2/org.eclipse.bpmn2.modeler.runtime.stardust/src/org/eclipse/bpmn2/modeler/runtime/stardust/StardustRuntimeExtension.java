@@ -71,6 +71,8 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 
 	private static final String targetNamespace = "http://org.eclipse.bpmn2.modeler.runtime.stardust";
 
+	public static final String DATA_MAPPING_LANGUAGE_URL = "http://eclipse.org/stardust/DataMappingPath";
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.bpmn2.modeler.core.IBpmn2RuntimeExtension#getTargetNamespace(org.eclipse.bpmn2.modeler.core.utils.ModelUtil.Bpmn2DiagramType)
 	 */

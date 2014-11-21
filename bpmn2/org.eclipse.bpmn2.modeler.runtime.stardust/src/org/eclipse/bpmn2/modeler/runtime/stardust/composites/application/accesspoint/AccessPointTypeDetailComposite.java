@@ -11,6 +11,9 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.accesspoint;
 
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_DEFAULT_VALUE;
+import static org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.apps.JMSApplicationAttributes.ACCESSPOINT_LOCATION;
+
 import java.util.Hashtable;
 
 import org.eclipse.bpmn2.modeler.core.merrimac.clad.AbstractDetailComposite;
@@ -20,6 +23,8 @@ import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.IntObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.ObjectEditor;
 import org.eclipse.bpmn2.modeler.core.merrimac.dialogs.TextObjectEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.adapters.common.PropertyAdapterCommons;
+import org.eclipse.bpmn2.modeler.runtime.stardust.common.attributes.labels.Labels;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.Messages;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.application.jms.JmsLocationEnum;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeComboEditor;
 import org.eclipse.bpmn2.modeler.runtime.stardust.editors.AttributeTypeTextEditor;
@@ -60,23 +65,23 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 		ObjectEditor editor;
 
 		editor = new IntObjectEditor(this, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Id());
-		editor.createControl(parent, "Element ID");
+		editor.createControl(parent, Labels.element_Id);
 		editor.setEditable(false);
 
 		editor = new TextObjectEditor(this, accessPoint, CarnotWorkflowModelPackage.eINSTANCE.getIIdentifiableElement_Name());
-		editor.createControl(parent, "Name");
+		editor.createControl(parent, Labels.element_Name);
 		editor.setEditable(true);
 
-		AttributeType jmsLocationAt = PropertyAdapterCommons.findAttributeType(accessPoint, "carnot:engine:jms.location");
+		AttributeType jmsLocationAt = PropertyAdapterCommons.findAttributeType(accessPoint, ACCESSPOINT_LOCATION.attributeName());
 		if (null != jmsLocationAt) {
 			editor = new AttributeTypeComboEditor(this, jmsLocationAt, JmsLocationEnum.getChoices());
-			editor.createControl(parent, "Location");
+			editor.createControl(parent, ACCESSPOINT_LOCATION.label());
 		}
 
-		AttributeType defaultValueAt = PropertyAdapterCommons.findAttributeType(accessPoint, "carnot:engine:defaultValue");
+		AttributeType defaultValueAt = PropertyAdapterCommons.findAttributeType(accessPoint, ACCESSPOINT_DEFAULT_VALUE.attributeName());
 		if (null != defaultValueAt) {
 			editor = new AttributeTypeTextEditor(this, defaultValueAt);
-			editor.createControl(parent, "Default Value");
+			editor.createControl(parent, ACCESSPOINT_DEFAULT_VALUE.label());
 		}
 
 		ComboObjectEditor objectEditor= new ComboObjectEditor(this, accessPoint, SdbpmnPackage.eINSTANCE.getStardustAccessPointType_TypeRef()) {
@@ -103,7 +108,7 @@ public class AccessPointTypeDetailComposite extends DefaultDetailComposite imple
 			}
 
 		};
-		objectEditor.createControl(this, "AccessPoint Data Type");
+		objectEditor.createControl(this, Messages.composite_application_section_AccessPoint_select_dataType);
 
 		AbstractDetailComposite subComposite = null;
 		String apTypeStr = accessPoint.getTypeRef();
