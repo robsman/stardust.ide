@@ -130,22 +130,27 @@ public class StructuredTypeUtils
       return typeDeclaration;
    }
 
-   private static TypeDeclarationType getTypeDeclaration(ModelType model,
+   public static TypeDeclarationType getTypeDeclaration(ModelType model,
          String packageId, String typeDeclarationId)
    {
-         ExternalPackages packages = model.getExternalPackages();
-      ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(packageId);
-         IConnectionManager manager = model.getConnectionManager();
-         ModelType externalModel = manager == null ? null : manager.find(pkg);
-         if (externalModel != null)
+      ModelType externalModel = getExternalModel(model, packageId);
+      if (externalModel != null)
+      {
+         TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
+         if (declarations != null)
          {
-            TypeDeclarationsType declarations = externalModel.getTypeDeclarations();
-            if (declarations != null)
-            {
             return declarations.getTypeDeclaration(typeDeclarationId);
-            }
          }
+      }
       return null;
+   }
+
+   public static ModelType getExternalModel(ModelType model, String packageId)
+   {
+      ExternalPackages packages = model.getExternalPackages();
+      ExternalPackage pkg = packages == null ? null : packages.getExternalPackage(packageId);
+      IConnectionManager manager = model.getConnectionManager();
+      return manager == null ? null : manager.find(pkg);
    }
 
    private static TypeDeclarationType getCustomMetadataType(IExtensibleElement element, ModelType model)

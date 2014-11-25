@@ -16,19 +16,8 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.edit.provider.ChangeNotifier;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.emf.edit.provider.IChangeNotifier;
-import org.eclipse.emf.edit.provider.IDisposable;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.INotifyChangedListener;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotWorkflowModelAdapterFactory;
-
 
 /**
  * This is the factory that is used to provide the interfaces needed to support Viewers.
@@ -820,7 +809,6 @@ public class CarnotWorkflowModelItemProviderAdapterFactory extends CarnotWorkflo
     */
    protected EventHandlerTypeItemProvider eventHandlerTypeItemProvider;
 
-
    /**
     * This creates an adapter for a {@link org.eclipse.stardust.model.xpdl.edit.EventHandlerType}.
     * <!-- begin-user-doc -->
@@ -1489,6 +1477,31 @@ public class CarnotWorkflowModelItemProviderAdapterFactory extends CarnotWorkflo
    }
 
    /**
+    * This keeps track of the one adapter used for all {@link org.eclipse.stardust.model.xpdl.edit.TeamLeadConnectionType} instances.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   protected TeamLeadConnectionTypeItemProvider teamLeadConnectionTypeItemProvider;
+
+   /**
+    * This creates an adapter for a {@link org.eclipse.stardust.model.xpdl.edit.TeamLeadConnectionType}.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   @Override
+   public Adapter createTeamLeadConnectionTypeAdapter()
+   {
+      if (teamLeadConnectionTypeItemProvider == null)
+      {
+         teamLeadConnectionTypeItemProvider = new TeamLeadConnectionTypeItemProvider(this);
+      }
+
+      return teamLeadConnectionTypeItemProvider;
+   }
+
+   /**
     * This keeps track of the one adapter used for all {@link org.eclipse.stardust.model.xpdl.edit.TextSymbolType} instances.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -1761,31 +1774,6 @@ public class CarnotWorkflowModelItemProviderAdapterFactory extends CarnotWorkflo
       }
 
       return worksForConnectionTypeItemProvider;
-   }
-
-   /**
-    * This keeps track of the one adapter used for all {@link org.eclipse.stardust.model.xpdl.edit.TeamLeadConnectionType} instances.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
-   protected TeamLeadConnectionTypeItemProvider teamLeadConnectionTypeItemProvider;
-
-   /**
-    * This creates an adapter for a {@link org.eclipse.stardust.model.xpdl.edit.TeamLeadConnectionType}.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    */
-   @Override
-   public Adapter createTeamLeadConnectionTypeAdapter()
-   {
-      if (teamLeadConnectionTypeItemProvider == null)
-      {
-         teamLeadConnectionTypeItemProvider = new TeamLeadConnectionTypeItemProvider(this);
-      }
-
-      return teamLeadConnectionTypeItemProvider;
    }
 
    /**

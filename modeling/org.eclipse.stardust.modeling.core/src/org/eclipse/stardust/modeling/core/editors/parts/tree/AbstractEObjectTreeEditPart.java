@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.core.editors.parts.tree;
 
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractTreeEditPart;
 import org.eclipse.jface.viewers.IDecoration;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
@@ -32,6 +32,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
+import org.eclipse.stardust.modeling.common.ui.jface.CarnotUiPlugin;
 import org.eclipse.stardust.modeling.common.ui.jface.IImageManager;
 import org.eclipse.stardust.modeling.common.ui.jface.IconWithOverlays;
 import org.eclipse.stardust.modeling.core.DiagramPlugin;
@@ -41,6 +42,7 @@ import org.eclipse.stardust.modeling.core.editors.parts.NotificationAdapter;
 import org.eclipse.stardust.modeling.core.editors.parts.PropertySourceFactory;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.policies.TreeElementComponentEditPolicy;
 import org.eclipse.stardust.modeling.core.utils.GenericUtils;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.views.properties.IPropertySource;
 
@@ -98,6 +100,36 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
    public void setIconPath(String iconPath)
    {
       this.iconPath = iconPath;
+   }
+   
+   private int getIconStyle()
+   {
+      if (state == STATE_ERRORS)
+      {
+         return IImageManager.ICON_STYLE_ERRORS;
+      }
+      if (state == STATE_WARNINGS)
+      {
+         return IImageManager.ICON_STYLE_WARNINGS;
+      }
+      EObject object = getEObjectModel();
+      if (object.eIsProxy())
+      {
+         return IImageManager.ICON_STYLE_REF;
+      }
+      String linkUri = getLinkUri(object);
+      if (linkUri != null)
+      {
+         if (isRef(object))
+         {
+            return IImageManager.ICON_STYLE_REF;
+         }
+         else
+         {
+            return IImageManager.ICON_STYLE_LINK;
+         }
+      }
+      return IImageManager.ICON_STYLE_PLAIN;
    }
 
    protected Image getIcon()
@@ -241,10 +273,23 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
             {
                if (this.isProvidingInterface(getEObjectModel()))
                {
-                  IconWithOverlays iwo = new IconWithOverlays(image,
-                        IconWithOverlays.OVR_IF);
-                  iwo.defaultPosition = IDecoration.TOP_LEFT;
-                  image = iwo.createImage();
+                  IImageManager imageManager = CarnotUiPlugin.getDefault()
+                        .getImageManager();
+                  String path = getIconPath();
+                  int style = getIconStyle();
+                  Image ovrIfImage = imageManager.getImage(path, style, true);
+                  if (ovrIfImage == null)
+                  {
+                     IconWithOverlays iwo = new IconWithOverlays(image,
+                           IconWithOverlays.OVR_IF);
+                     iwo.defaultPosition = IDecoration.TOP_LEFT;
+                     image = iwo.createImage();
+                     imageManager.registerImage(path, image, style, true);
+                  }
+                  else
+                  {
+                     image = ovrIfImage;
+                  }
                }
             }
          }
@@ -289,10 +334,22 @@ public abstract class AbstractEObjectTreeEditPart extends AbstractTreeEditPart
             }
             else
             {
-               IconWithOverlays iwo = new IconWithOverlays(image,
-                     IconWithOverlays.OVR_PRIVATE);
-               iwo.defaultPosition = IDecoration.TOP_LEFT;
-               image = iwo.createImage();
+               IImageManager imageManager = CarnotUiPlugin.getDefault().getImageManager();
+               String path = getIconPath();
+               int style = getIconStyle();
+               Image ovrPrivateImage = imageManager.getImage(path, style, true);
+               if (ovrPrivateImage == null)
+               {
+                  IconWithOverlays iwo = new IconWithOverlays(image,
+                        IconWithOverlays.OVR_PRIVATE);
+                  iwo.defaultPosition = IDecoration.TOP_LEFT;
+                  image = iwo.createImage();
+                  imageManager.registerImage(path, image, style, true);
+               }
+               else
+               {
+                  image = ovrPrivateImage;
+               }
             }
          }
       }

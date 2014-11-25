@@ -53,12 +53,6 @@ public class WorkbenchPreferencePage extends PreferencePage
 
    private Button chkEnableAutoSubprocessNameGeneration;
 
-   private Button radioReportFormatPDF;
-
-   private Button radioReportFormatHTML;
-
-   private Button radioPromptReportFormat;
-
    public WorkbenchPreferencePage()
    {}
 
@@ -107,15 +101,6 @@ public class WorkbenchPreferencePage extends PreferencePage
       radioWarnSwitchActivityType = FormBuilder.createRadioButton(
             groupSwitchActivityType, UI_Messages.LB_ShowWarning);
 
-      Group groupReportFormat = FormBuilder.createGroup(panel,
-            UI_Messages.LB_ReportFormat, 3);
-      groupReportFormat.setLayoutData(FormBuilder
-            .createDefaultSingleLineWidgetGridData(3));
-      radioReportFormatHTML = FormBuilder.createRadioButton(groupReportFormat, "HTML"); //$NON-NLS-1$
-      radioReportFormatPDF = FormBuilder.createRadioButton(groupReportFormat, "PDF"); //$NON-NLS-1$
-      radioPromptReportFormat = FormBuilder.createRadioButton(groupReportFormat,
-            UI_Messages.LB_Prompt);
-
       this.licenseFilePath = FormBuilder.createLabeledText(panel,
             UI_Messages.WorkbenchPreferencePage_licenseFilePath).getText();
       FormBuilder.createButton(panel, UI_Messages.BTN_Browse, new SelectionListener()
@@ -137,7 +122,6 @@ public class WorkbenchPreferencePage extends PreferencePage
 
       updateCheckbox();
       updateSwitchActivityTypeGroup();
-      updateReportFormats();
       updateFocusMode();
       licenseFilePath.setText(BpmUiActivator.getDefault().getTraceFilePath());
 
@@ -158,16 +142,6 @@ public class WorkbenchPreferencePage extends PreferencePage
             focusMode.equals(BpmProjectNature.PREFERENCE_FOCUS_MODE_DIALOG));
       radioFocusModeEditBox.setSelection(
             focusMode.equals(BpmProjectNature.PREFERENCE_FOCUS_MODE_EDITOR));
-   }
-
-   private void updateReportFormats()
-   {
-      radioReportFormatHTML.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_HTML));
-      radioReportFormatPDF.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PDF));
-      radioPromptReportFormat.setSelection(PlatformUI.getPreferenceStore().getBoolean(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PROMPT));
    }
 
    private void updateSwitchActivityTypeGroup()
@@ -219,16 +193,6 @@ public class WorkbenchPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_WARN_SWITCH_ACTIVITY_TYPE,
             radioWarnSwitchActivityType.getSelection());
 
-      PlatformUI.getPreferenceStore().setValue(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_HTML,
-            radioReportFormatHTML.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PDF,
-            radioReportFormatPDF.getSelection());
-      PlatformUI.getPreferenceStore().setValue(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PROMPT,
-            radioPromptReportFormat.getSelection());
-
       String focusMode = BpmProjectNature.DEFAULT_PREFERENCE_FOCUS_MODE;
       if (radioFocusModeElement.getSelection())
       {
@@ -264,13 +228,6 @@ public class WorkbenchPreferencePage extends PreferencePage
             BpmProjectNature.PREFERENCE_NEVER_SWITCH_ACTIVITY_TYPE);
       PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_WARN_SWITCH_ACTIVITY_TYPE);
-
-      PlatformUI.getPreferenceStore().setToDefault(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_HTML);
-      PlatformUI.getPreferenceStore().setToDefault(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PDF);
-      PlatformUI.getPreferenceStore().setToDefault(
-            BpmProjectNature.PREFERENCE_REPORT_FORMAT_PROMPT);
 
       PlatformUI.getPreferenceStore().setToDefault(
             BpmProjectNature.PREFERENCE_FOCUS_MODE);

@@ -32,7 +32,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getDefaultPriority <em>Default Priority</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getFormalParameters <em>Formal Parameters</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getFormalParameterMappings <em>Formal Parameter Mappings</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getExternalRef <em>External Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -40,7 +39,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
  * @model extendedMetaData="name='processDefinition_._type' kind='elementOnly'"
  * @generated
  */
-public interface ProcessDefinitionType extends IIdentifiableModelElement, IEventHandlerOwner
+public interface ProcessDefinitionType extends IIdentifiableModelElement, IEventHandlerOwner, IdRefOwner
 {
    /**
     * <!-- begin-user-doc -->
@@ -258,32 +257,5 @@ public interface ProcessDefinitionType extends IIdentifiableModelElement, IEvent
     * @generated
     */
    void setFormalParameterMappings(FormalParameterMappingsType value);
-
-   /**
-    * Returns the value of the '<em><b>External Ref</b></em>' containment reference.
-    * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>External Ref</em>' containment reference isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
-    * @return the value of the '<em>External Ref</em>' containment reference.
-    * @see #setExternalRef(IdRef)
-    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getProcessDefinitionType_ExternalRef()
-    * @model containment="true"
-    *        extendedMetaData="kind='element' name='externalReference' namespace='##targetNamespace'"
-    * @generated
-    */
-   IdRef getExternalRef();
-
-   /**
-    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getExternalRef <em>External Ref</em>}' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @param value the new value of the '<em>External Ref</em>' containment reference.
-    * @see #getExternalRef()
-    * @generated
-    */
-   void setExternalRef(IdRef value);
 
 } // ProcessDefinitionType

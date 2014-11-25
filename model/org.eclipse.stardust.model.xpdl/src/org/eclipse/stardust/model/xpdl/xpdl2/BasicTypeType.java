@@ -33,7 +33,7 @@ public interface BasicTypeType extends XpdlTypeType {
 	 * <!-- end-user-doc -->
     * @generated
     */
-   public static final String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
+   String copyright = "Copyright 2008 by SunGard"; //$NON-NLS-1$
 
 	/**
     * Returns the value of the '<em><b>Type</b></em>' attribute.

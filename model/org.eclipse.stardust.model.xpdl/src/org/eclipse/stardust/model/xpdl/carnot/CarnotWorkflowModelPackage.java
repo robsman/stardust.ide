@@ -406,7 +406,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getGenericLinkConnectionType()
     * @generated
     */
-   int GENERIC_LINK_CONNECTION_TYPE = 52;
+   int GENERIC_LINK_CONNECTION_TYPE = 53;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.GroupSymbolTypeImpl <em>Group Symbol Type</em>}' class.
@@ -415,7 +415,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getGroupSymbolType()
     * @generated
     */
-   int GROUP_SYMBOL_TYPE = 53;
+   int GROUP_SYMBOL_TYPE = 54;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement <em>IIdentifiable Element</em>}' class.
@@ -1734,7 +1734,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkTypeType()
     * @generated
     */
-   int LINK_TYPE_TYPE = 56;
+   int LINK_TYPE_TYPE = 57;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ModelerSymbolTypeImpl <em>Modeler Symbol Type</em>}' class.
@@ -1743,7 +1743,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getModelerSymbolType()
     * @generated
     */
-   int MODELER_SYMBOL_TYPE = 57;
+   int MODELER_SYMBOL_TYPE = 58;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ModelerTypeImpl <em>Modeler Type</em>}' class.
@@ -1752,7 +1752,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getModelerType()
     * @generated
     */
-   int MODELER_TYPE = 58;
+   int MODELER_TYPE = 59;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ModelTypeImpl <em>Model Type</em>}' class.
@@ -1761,7 +1761,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getModelType()
     * @generated
     */
-   int MODEL_TYPE = 59;
+   int MODEL_TYPE = 60;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.IModelParticipantSymbol <em>IModel Participant Symbol</em>}' class.
@@ -1779,7 +1779,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getOrganizationSymbolType()
     * @generated
     */
-   int ORGANIZATION_SYMBOL_TYPE = 60;
+   int ORGANIZATION_SYMBOL_TYPE = 61;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.IModelParticipant <em>IModel Participant</em>}' class.
@@ -2538,20 +2538,29 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ACTIVITY_TYPE__EVENT_HANDLER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+    * The feature id for the '<em><b>External Ref</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ACTIVITY_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 1;
+
+   /**
     * The feature id for the '<em><b>Data Mapping</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__DATA_MAPPING = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 1;
+   int ACTIVITY_TYPE__DATA_MAPPING = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 2;
 
-	/**
+   /**
     * The feature id for the '<em><b>Allows Abort By Performer</b></em>' attribute.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__ALLOWS_ABORT_BY_PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 2;
+   int ACTIVITY_TYPE__ALLOWS_ABORT_BY_PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 3;
 
    /**
     * The feature id for the '<em><b>Application</b></em>' reference. <!--
@@ -2560,7 +2569,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__APPLICATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 3;
+   int ACTIVITY_TYPE__APPLICATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 4;
 
    /**
     * The feature id for the '<em><b>Hibernate On Creation</b></em>' attribute. <!--
@@ -2569,7 +2578,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__HIBERNATE_ON_CREATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 4;
+   int ACTIVITY_TYPE__HIBERNATE_ON_CREATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 5;
 
    /**
     * The feature id for the '<em><b>Implementation</b></em>' attribute. <!--
@@ -2578,7 +2587,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__IMPLEMENTATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 5;
+   int ACTIVITY_TYPE__IMPLEMENTATION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 6;
 
    /**
     * The feature id for the '<em><b>Implementation Process</b></em>' reference. <!--
@@ -2587,16 +2596,16 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__IMPLEMENTATION_PROCESS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 6;
+   int ACTIVITY_TYPE__IMPLEMENTATION_PROCESS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 7;
 
-	/**
+   /**
     * The feature id for the '<em><b>Join</b></em>' attribute.
     * <!-- begin-user-doc
     * --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__JOIN = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+   int ACTIVITY_TYPE__JOIN = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 8;
 
    /**
     * The feature id for the '<em><b>Loop Condition</b></em>' attribute. <!--
@@ -2605,7 +2614,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__LOOP_CONDITION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 8;
+   int ACTIVITY_TYPE__LOOP_CONDITION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 9;
 
    /**
     * The feature id for the '<em><b>Loop Type</b></em>' attribute. <!--
@@ -2614,7 +2623,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__LOOP_TYPE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 9;
+   int ACTIVITY_TYPE__LOOP_TYPE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 10;
 
    /**
     * The feature id for the '<em><b>Performer</b></em>' reference. <!--
@@ -2623,7 +2632,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 10;
+   int ACTIVITY_TYPE__PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
 
    /**
     * The feature id for the '<em><b>Quality Control Performer</b></em>' reference.
@@ -2632,7 +2641,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
+   int ACTIVITY_TYPE__QUALITY_CONTROL_PERFORMER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 12;
 
    /**
     * The feature id for the '<em><b>Split</b></em>' attribute.
@@ -2641,7 +2650,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__SPLIT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 12;
+   int ACTIVITY_TYPE__SPLIT = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 13;
 
    /**
     * The feature id for the '<em><b>Sub Process Mode</b></em>' attribute. <!--
@@ -2650,7 +2659,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__SUB_PROCESS_MODE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 13;
+   int ACTIVITY_TYPE__SUB_PROCESS_MODE = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 14;
 
    /**
     * The feature id for the '<em><b>Activity Symbols</b></em>' reference list. <!--
@@ -2659,15 +2668,15 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__ACTIVITY_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 14;
+   int ACTIVITY_TYPE__ACTIVITY_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 15;
 
-	/**
+   /**
     * The feature id for the '<em><b>Starting Event Symbols</b></em>' reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__STARTING_EVENT_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 15;
+   int ACTIVITY_TYPE__STARTING_EVENT_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 16;
 
    /**
     * The feature id for the '<em><b>In Transitions</b></em>' reference list. <!--
@@ -2676,7 +2685,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__IN_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 16;
+   int ACTIVITY_TYPE__IN_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 17;
 
    /**
     * The feature id for the '<em><b>Out Transitions</b></em>' reference list. <!--
@@ -2685,16 +2694,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int ACTIVITY_TYPE__OUT_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 17;
-
-	/**
-    * The feature id for the '<em><b>External Ref</b></em>' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    * @ordered
-    */
-   int ACTIVITY_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 18;
+   int ACTIVITY_TYPE__OUT_TRANSITIONS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 18;
 
    /**
     * The feature id for the '<em><b>Valid Quality Codes</b></em>' reference list.
@@ -5638,13 +5638,41 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int ID_REF_FEATURE_COUNT = 2;
 
    /**
+    * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.IdRefOwnerImpl <em>Id Ref Owner</em>}' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see org.eclipse.stardust.model.xpdl.carnot.impl.IdRefOwnerImpl
+    * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getIdRefOwner()
+    * @generated
+    */
+   int ID_REF_OWNER = 51;
+
+   /**
+    * The feature id for the '<em><b>External Ref</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ID_REF_OWNER__EXTERNAL_REF = 0;
+
+   /**
+    * The number of structural features of the '<em>Id Ref Owner</em>' class.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int ID_REF_OWNER_FEATURE_COUNT = 1;
+
+   /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.GatewaySymbolImpl <em>Gateway Symbol</em>}' class.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.GatewaySymbolImpl
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getGatewaySymbol()
     * @generated
     */
-   int GATEWAY_SYMBOL = 51;
+   int GATEWAY_SYMBOL = 52;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -6303,7 +6331,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getIntermediateEventSymbol()
     * @generated
     */
-   int INTERMEDIATE_EVENT_SYMBOL = 54;
+   int INTERMEDIATE_EVENT_SYMBOL = 55;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -6462,7 +6490,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLaneSymbol()
     * @generated
     */
-   int LANE_SYMBOL = 55;
+   int LANE_SYMBOL = 56;
 
    /**
     * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
@@ -7758,7 +7786,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getOrganizationType()
     * @generated
     */
-   int ORGANIZATION_TYPE = 61;
+   int ORGANIZATION_TYPE = 62;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -7867,7 +7895,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getParameterMappingType()
     * @generated
     */
-   int PARAMETER_MAPPING_TYPE = 62;
+   int PARAMETER_MAPPING_TYPE = 63;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -7929,7 +7957,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getParticipantType()
     * @generated
     */
-   int PARTICIPANT_TYPE = 63;
+   int PARTICIPANT_TYPE = 64;
 
    /**
     * The feature id for the '<em><b>Participant</b></em>' reference. <!--
@@ -7955,7 +7983,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getPartOfConnectionType()
     * @generated
     */
-   int PART_OF_CONNECTION_TYPE = 64;
+   int PART_OF_CONNECTION_TYPE = 65;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -8077,7 +8105,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getPerformsConnectionType()
     * @generated
     */
-   int PERFORMS_CONNECTION_TYPE = 65;
+   int PERFORMS_CONNECTION_TYPE = 66;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -8199,7 +8227,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getPoolSymbol()
     * @generated
     */
-   int POOL_SYMBOL = 66;
+   int POOL_SYMBOL = 67;
 
    /**
     * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
@@ -8677,7 +8705,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getProcessDefinitionType()
     * @generated
     */
-   int PROCESS_DEFINITION_TYPE = 67;
+   int PROCESS_DEFINITION_TYPE = 68;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -8731,52 +8759,61 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    int PROCESS_DEFINITION_TYPE__EVENT_HANDLER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+    * The feature id for the '<em><b>External Ref</b></em>' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int PROCESS_DEFINITION_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 1;
+
+   /**
     * The feature id for the '<em><b>Activity</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__ACTIVITY = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 1;
+   int PROCESS_DEFINITION_TYPE__ACTIVITY = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 2;
 
-	/**
+   /**
     * The feature id for the '<em><b>Transition</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__TRANSITION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 2;
+   int PROCESS_DEFINITION_TYPE__TRANSITION = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 3;
 
-	/**
+   /**
     * The feature id for the '<em><b>Trigger</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__TRIGGER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 3;
+   int PROCESS_DEFINITION_TYPE__TRIGGER = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 4;
 
-	/**
+   /**
     * The feature id for the '<em><b>Data Path</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__DATA_PATH = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 4;
+   int PROCESS_DEFINITION_TYPE__DATA_PATH = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 5;
 
-	/**
+   /**
     * The feature id for the '<em><b>Diagram</b></em>' containment reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__DIAGRAM = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 5;
+   int PROCESS_DEFINITION_TYPE__DIAGRAM = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 6;
 
-	/**
+   /**
     * The feature id for the '<em><b>Executing Activities</b></em>' reference list.
     * <!-- begin-user-doc --> <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__EXECUTING_ACTIVITIES = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 6;
+   int PROCESS_DEFINITION_TYPE__EXECUTING_ACTIVITIES = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 7;
 
    /**
     * The feature id for the '<em><b>Process Symbols</b></em>' reference list. <!--
@@ -8785,25 +8822,25 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__PROCESS_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 7;
+   int PROCESS_DEFINITION_TYPE__PROCESS_SYMBOLS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 8;
 
-	/**
+   /**
     * The feature id for the '<em><b>Default Priority</b></em>' attribute.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__DEFAULT_PRIORITY = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 8;
+   int PROCESS_DEFINITION_TYPE__DEFAULT_PRIORITY = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 9;
 
-	/**
+   /**
     * The feature id for the '<em><b>Formal Parameters</b></em>' containment reference.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__FORMAL_PARAMETERS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 9;
+   int PROCESS_DEFINITION_TYPE__FORMAL_PARAMETERS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 10;
 
    /**
     * The feature id for the '<em><b>Formal Parameter Mappings</b></em>' containment reference.
@@ -8812,16 +8849,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     * @ordered
     */
-   int PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 10;
-
-   /**
-    * The feature id for the '<em><b>External Ref</b></em>' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @generated
-    * @ordered
-    */
-   int PROCESS_DEFINITION_TYPE__EXTERNAL_REF = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
+   int PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS = IIDENTIFIABLE_MODEL_ELEMENT_FEATURE_COUNT + 11;
 
    /**
     * The number of structural features of the '<em>Process Definition Type</em>' class.
@@ -8838,7 +8866,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getProcessSymbolType()
     * @generated
     */
-   int PROCESS_SYMBOL_TYPE = 68;
+   int PROCESS_SYMBOL_TYPE = 69;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -8998,7 +9026,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getPublicInterfaceSymbol()
     * @generated
     */
-   int PUBLIC_INTERFACE_SYMBOL = 69;
+   int PUBLIC_INTERFACE_SYMBOL = 70;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -9161,7 +9189,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getQualityControlType()
     * @generated
     */
-   int QUALITY_CONTROL_TYPE = 70;
+   int QUALITY_CONTROL_TYPE = 71;
 
    /**
     * The feature id for the '<em><b>Code</b></em>' containment reference list.
@@ -9188,7 +9216,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getRefersToConnectionType()
     * @generated
     */
-   int REFERS_TO_CONNECTION_TYPE = 71;
+   int REFERS_TO_CONNECTION_TYPE = 72;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -9310,7 +9338,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getRoleSymbolType()
     * @generated
     */
-   int ROLE_SYMBOL_TYPE = 72;
+   int ROLE_SYMBOL_TYPE = 73;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -9485,7 +9513,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getRoleType()
     * @generated
     */
-   int ROLE_TYPE = 73;
+   int ROLE_TYPE = 74;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -9597,7 +9625,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getStartEventSymbol()
     * @generated
     */
-   int START_EVENT_SYMBOL = 74;
+   int START_EVENT_SYMBOL = 75;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -9783,7 +9811,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getSubProcessOfConnectionType()
     * @generated
     */
-   int SUB_PROCESS_OF_CONNECTION_TYPE = 75;
+   int SUB_PROCESS_OF_CONNECTION_TYPE = 76;
 
    /**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute. <!--
@@ -9905,7 +9933,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTextSymbolType()
     * @generated
     */
-   int TEXT_SYMBOL_TYPE = 77;
+   int TEXT_SYMBOL_TYPE = 78;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TextTypeImpl <em>Text Type</em>}' class.
@@ -9914,7 +9942,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTextType()
     * @generated
     */
-   int TEXT_TYPE = 78;
+   int TEXT_TYPE = 79;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TransitionConnectionTypeImpl <em>Transition Connection Type</em>}' class.
@@ -9923,7 +9951,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTransitionConnectionType()
     * @generated
     */
-   int TRANSITION_CONNECTION_TYPE = 79;
+   int TRANSITION_CONNECTION_TYPE = 80;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TransitionTypeImpl <em>Transition Type</em>}' class.
@@ -9932,7 +9960,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTransitionType()
     * @generated
     */
-   int TRANSITION_TYPE = 80;
+   int TRANSITION_TYPE = 81;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TriggerTypeImpl <em>Trigger Type</em>}' class.
@@ -9941,7 +9969,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTriggerType()
     * @generated
     */
-   int TRIGGER_TYPE = 82;
+   int TRIGGER_TYPE = 83;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TriggerTypeTypeImpl <em>Trigger Type Type</em>}' class.
@@ -9950,7 +9978,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTriggerTypeType()
     * @generated
     */
-   int TRIGGER_TYPE_TYPE = 83;
+   int TRIGGER_TYPE_TYPE = 84;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.UnbindActionTypeImpl <em>Unbind Action Type</em>}' class.
@@ -9959,7 +9987,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getUnbindActionType()
     * @generated
     */
-   int UNBIND_ACTION_TYPE = 84;
+   int UNBIND_ACTION_TYPE = 85;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ViewableTypeImpl <em>Viewable Type</em>}' class.
@@ -9968,7 +9996,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getViewableType()
     * @generated
     */
-   int VIEWABLE_TYPE = 85;
+   int VIEWABLE_TYPE = 86;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ViewTypeImpl <em>View Type</em>}' class.
@@ -9977,7 +10005,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getViewType()
     * @generated
     */
-   int VIEW_TYPE = 86;
+   int VIEW_TYPE = 87;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.WorksForConnectionTypeImpl <em>Works For Connection Type</em>}' class.
@@ -9986,7 +10014,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getWorksForConnectionType()
     * @generated
     */
-   int WORKS_FOR_CONNECTION_TYPE = 87;
+   int WORKS_FOR_CONNECTION_TYPE = 88;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.XmlTextNodeImpl <em>Xml Text Node</em>}' class.
@@ -9995,7 +10023,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getXmlTextNode()
     * @generated
     */
-   int XML_TEXT_NODE = 88;
+   int XML_TEXT_NODE = 89;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.TeamLeadConnectionTypeImpl <em>Team Lead Connection Type</em>}' class.
@@ -10005,7 +10033,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTeamLeadConnectionType()
     * @generated
     */
-   int TEAM_LEAD_CONNECTION_TYPE = 76;
+   int TEAM_LEAD_CONNECTION_TYPE = 77;
 
 	/**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -10517,7 +10545,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getTriggersConnectionType()
     * @generated
     */
-   int TRIGGERS_CONNECTION_TYPE = 81;
+   int TRIGGERS_CONNECTION_TYPE = 82;
 
 	/**
     * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -11100,7 +11128,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getActivityImplementationType()
     * @generated
     */
-   int ACTIVITY_IMPLEMENTATION_TYPE = 89;
+   int ACTIVITY_IMPLEMENTATION_TYPE = 90;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.DirectionType <em>Direction Type</em>}' enum.
@@ -11109,7 +11137,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getDirectionType()
     * @generated
     */
-   int DIRECTION_TYPE = 90;
+   int DIRECTION_TYPE = 91;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.FlowControlType <em>Flow Control Type</em>}' enum.
@@ -11118,7 +11146,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getFlowControlType()
     * @generated
     */
-   int FLOW_CONTROL_TYPE = 91;
+   int FLOW_CONTROL_TYPE = 92;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.ImplementationType <em>Implementation Type</em>}' enum.
@@ -11127,7 +11155,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getImplementationType()
     * @generated
     */
-   int IMPLEMENTATION_TYPE = 92;
+   int IMPLEMENTATION_TYPE = 93;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.JoinSplitType <em>Join Split Type</em>}' enum.
@@ -11136,7 +11164,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getJoinSplitType()
     * @generated
     */
-   int JOIN_SPLIT_TYPE = 93;
+   int JOIN_SPLIT_TYPE = 94;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.LinkCardinality <em>Link Cardinality</em>}' enum.
@@ -11145,7 +11173,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkCardinality()
     * @generated
     */
-   int LINK_CARDINALITY = 94;
+   int LINK_CARDINALITY = 95;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.LinkColor <em>Link Color</em>}' enum.
@@ -11154,7 +11182,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkColor()
     * @generated
     */
-   int LINK_COLOR = 95;
+   int LINK_COLOR = 96;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.LinkLineStyle <em>Link Line Style</em>}' enum.
@@ -11163,7 +11191,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkLineStyle()
     * @generated
     */
-   int LINK_LINE_STYLE = 96;
+   int LINK_LINE_STYLE = 97;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.LinkEndStyle <em>Link End Style</em>}' enum.
@@ -11172,7 +11200,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkEndStyle()
     * @generated
     */
-   int LINK_END_STYLE = 97;
+   int LINK_END_STYLE = 98;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.LoopType <em>Loop Type</em>}' enum.
@@ -11181,7 +11209,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLoopType()
     * @generated
     */
-   int LOOP_TYPE = 98;
+   int LOOP_TYPE = 99;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.OrientationType <em>Orientation Type</em>}' enum.
@@ -11190,7 +11218,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getOrientationType()
     * @generated
     */
-   int ORIENTATION_TYPE = 99;
+   int ORIENTATION_TYPE = 100;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.RoutingType <em>Routing Type</em>}' enum.
@@ -11199,7 +11227,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getRoutingType()
     * @generated
     */
-   int ROUTING_TYPE = 100;
+   int ROUTING_TYPE = 101;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType <em>Sub Process Mode Type</em>}' enum.
@@ -11208,7 +11236,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getSubProcessModeType()
     * @generated
     */
-   int SUB_PROCESS_MODE_TYPE = 101;
+   int SUB_PROCESS_MODE_TYPE = 102;
 
 	/**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.carnot.DiagramModeType <em>Diagram Mode Type</em>}' enum.
@@ -11218,7 +11246,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getDiagramModeType()
     * @generated
     */
-   int DIAGRAM_MODE_TYPE = 102;
+   int DIAGRAM_MODE_TYPE = 103;
 
 	/**
     * The meta object id for the '<em>Element Id</em>' data type.
@@ -11228,7 +11256,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getElementId()
     * @generated
     */
-   int ELEMENT_ID = 103;
+   int ELEMENT_ID = 104;
 
    /**
     * The meta object id for the '<em>Feature List</em>' data type. <!--
@@ -11238,7 +11266,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getFeatureList()
     * @generated
     */
-   int FEATURE_LIST = 104;
+   int FEATURE_LIST = 105;
 
 	/**
     * The meta object id for the '<em>Activity Implementation Type Object</em>' data type.
@@ -11247,7 +11275,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getActivityImplementationTypeObject()
     * @generated
     */
-   int ACTIVITY_IMPLEMENTATION_TYPE_OBJECT = 105;
+   int ACTIVITY_IMPLEMENTATION_TYPE_OBJECT = 106;
 
    /**
     * The meta object id for the '<em>Direction Type Object</em>' data type. <!--
@@ -11257,7 +11285,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getDirectionTypeObject()
     * @generated
     */
-   int DIRECTION_TYPE_OBJECT = 106;
+   int DIRECTION_TYPE_OBJECT = 107;
 
    /**
     * The meta object id for the '<em>Flow Control Type Object</em>' data type. <!--
@@ -11267,7 +11295,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getFlowControlTypeObject()
     * @generated
     */
-   int FLOW_CONTROL_TYPE_OBJECT = 107;
+   int FLOW_CONTROL_TYPE_OBJECT = 108;
 
    /**
     * The meta object id for the '<em>Implementation Type Object</em>' data type. <!--
@@ -11277,7 +11305,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getImplementationTypeObject()
     * @generated
     */
-   int IMPLEMENTATION_TYPE_OBJECT = 108;
+   int IMPLEMENTATION_TYPE_OBJECT = 109;
 
    /**
     * The meta object id for the '<em>Join Split Type Object</em>' data type. <!--
@@ -11287,7 +11315,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getJoinSplitTypeObject()
     * @generated
     */
-   int JOIN_SPLIT_TYPE_OBJECT = 113;
+   int JOIN_SPLIT_TYPE_OBJECT = 114;
 
    /**
     * The meta object id for the '<em>Link Cardinality Object</em>' data type. <!--
@@ -11297,7 +11325,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkCardinalityObject()
     * @generated
     */
-   int LINK_CARDINALITY_OBJECT = 109;
+   int LINK_CARDINALITY_OBJECT = 110;
 
    /**
     * The meta object id for the '<em>Link Color Object</em>' data type. <!--
@@ -11307,7 +11335,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkColorObject()
     * @generated
     */
-   int LINK_COLOR_OBJECT = 110;
+   int LINK_COLOR_OBJECT = 111;
 
    /**
     * The meta object id for the '<em>Link Line Style Object</em>' data type. <!--
@@ -11317,7 +11345,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkLineStyleObject()
     * @generated
     */
-   int LINK_LINE_STYLE_OBJECT = 111;
+   int LINK_LINE_STYLE_OBJECT = 112;
 
    /**
     * The meta object id for the '<em>Link End Style Object</em>' data type. <!--
@@ -11327,7 +11355,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLinkEndStyleObject()
     * @generated
     */
-   int LINK_END_STYLE_OBJECT = 112;
+   int LINK_END_STYLE_OBJECT = 113;
 
    /**
     * The meta object id for the '<em>Loop Type Object</em>' data type. <!--
@@ -11337,7 +11365,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getLoopTypeObject()
     * @generated
     */
-   int LOOP_TYPE_OBJECT = 114;
+   int LOOP_TYPE_OBJECT = 115;
 
    /**
     * The meta object id for the '<em>Orientation Type Object</em>' data type. <!--
@@ -11347,7 +11375,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getOrientationTypeObject()
     * @generated
     */
-   int ORIENTATION_TYPE_OBJECT = 115;
+   int ORIENTATION_TYPE_OBJECT = 116;
 
    /**
     * The meta object id for the '<em>Routing Type Object</em>' data type. <!--
@@ -11357,7 +11385,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getRoutingTypeObject()
     * @generated
     */
-   int ROUTING_TYPE_OBJECT = 116;
+   int ROUTING_TYPE_OBJECT = 117;
 
 	/**
     * The meta object id for the '<em>Sub Process Mode Type Object</em>' data type.
@@ -11366,7 +11394,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getSubProcessModeTypeObject()
     * @generated
     */
-   int SUB_PROCESS_MODE_TYPE_OBJECT = 117;
+   int SUB_PROCESS_MODE_TYPE_OBJECT = 118;
 
 	/**
     * The meta object id for the '<em>Diagram Mode Type Object</em>' data type.
@@ -11376,7 +11404,7 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getDiagramModeTypeObject()
     * @generated
     */
-   int DIAGRAM_MODE_TYPE_OBJECT = 118;
+   int DIAGRAM_MODE_TYPE_OBJECT = 119;
 
 
 	/**
@@ -11677,17 +11705,6 @@ public interface CarnotWorkflowModelPackage extends EPackage {
    EReference getActivityType_OutTransitions();
 
 	/**
-    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getExternalRef <em>External Ref</em>}'.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @return the meta object for the containment reference '<em>External Ref</em>'.
-    * @see org.eclipse.stardust.model.xpdl.carnot.ActivityType#getExternalRef()
-    * @see #getActivityType()
-    * @generated
-    */
-   EReference getActivityType_ExternalRef();
-
-   /**
     * Returns the meta object for the reference list '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getValidQualityCodes <em>Valid Quality Codes</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -13031,6 +13048,27 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     */
    EAttribute getIdRef_Ref();
+
+   /**
+    * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.IdRefOwner <em>Id Ref Owner</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for class '<em>Id Ref Owner</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.IdRefOwner
+    * @generated
+    */
+   EClass getIdRefOwner();
+
+   /**
+    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.carnot.IdRefOwner#getExternalRef <em>External Ref</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the containment reference '<em>External Ref</em>'.
+    * @see org.eclipse.stardust.model.xpdl.carnot.IdRefOwner#getExternalRef()
+    * @see #getIdRefOwner()
+    * @generated
+    */
+   EReference getIdRefOwner_ExternalRef();
 
    /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.GatewaySymbol <em>Gateway Symbol</em>}'.
@@ -14783,17 +14821,6 @@ public interface CarnotWorkflowModelPackage extends EPackage {
     * @generated
     */
    EReference getProcessDefinitionType_FormalParameterMappings();
-
-   /**
-    * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getExternalRef <em>External Ref</em>}'.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @return the meta object for the containment reference '<em>External Ref</em>'.
-    * @see org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType#getExternalRef()
-    * @see #getProcessDefinitionType()
-    * @generated
-    */
-   EReference getProcessDefinitionType_ExternalRef();
 
    /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType <em>Process Symbol Type</em>}'.
@@ -16962,14 +16989,6 @@ public interface CarnotWorkflowModelPackage extends EPackage {
       EReference ACTIVITY_TYPE__OUT_TRANSITIONS = eINSTANCE.getActivityType_OutTransitions();
 
 		/**
-       * The meta object literal for the '<em><b>External Ref</b></em>' containment reference feature.
-       * <!-- begin-user-doc -->
-       * <!-- end-user-doc -->
-       * @generated
-       */
-      EReference ACTIVITY_TYPE__EXTERNAL_REF = eINSTANCE.getActivityType_ExternalRef();
-
-      /**
        * The meta object literal for the '<em><b>Valid Quality Codes</b></em>' reference list feature.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -18112,6 +18131,24 @@ public interface CarnotWorkflowModelPackage extends EPackage {
       EAttribute ID_REF__REF = eINSTANCE.getIdRef_Ref();
 
       /**
+       * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.IdRefOwnerImpl <em>Id Ref Owner</em>}' class.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @see org.eclipse.stardust.model.xpdl.carnot.impl.IdRefOwnerImpl
+       * @see org.eclipse.stardust.model.xpdl.carnot.impl.CarnotWorkflowModelPackageImpl#getIdRefOwner()
+       * @generated
+       */
+      EClass ID_REF_OWNER = eINSTANCE.getIdRefOwner();
+
+      /**
+       * The meta object literal for the '<em><b>External Ref</b></em>' containment reference feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EReference ID_REF_OWNER__EXTERNAL_REF = eINSTANCE.getIdRefOwner_ExternalRef();
+
+      /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.GatewaySymbolImpl <em>Gateway Symbol</em>}' class.
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
@@ -18936,14 +18973,6 @@ public interface CarnotWorkflowModelPackage extends EPackage {
        * @generated
        */
       EReference PROCESS_DEFINITION_TYPE__FORMAL_PARAMETER_MAPPINGS = eINSTANCE.getProcessDefinitionType_FormalParameterMappings();
-
-      /**
-       * The meta object literal for the '<em><b>External Ref</b></em>' containment reference feature.
-       * <!-- begin-user-doc -->
-       * <!-- end-user-doc -->
-       * @generated
-       */
-      EReference PROCESS_DEFINITION_TYPE__EXTERNAL_REF = eINSTANCE.getProcessDefinitionType_ExternalRef();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.carnot.impl.ProcessSymbolTypeImpl <em>Process Symbol Type</em>}' class.

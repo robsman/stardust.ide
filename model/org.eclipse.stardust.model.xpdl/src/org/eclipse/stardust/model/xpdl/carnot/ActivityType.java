@@ -37,7 +37,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getStartingEventSymbols <em>Starting Event Symbols</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getInTransitions <em>In Transitions</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getOutTransitions <em>Out Transitions</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getValidQualityCodes <em>Valid Quality Codes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getLoop <em>Loop</em>}</li>
  * </ul>
@@ -47,7 +46,7 @@ import org.eclipse.emf.common.util.EList;
  * @model extendedMetaData="name='activity_._type' kind='elementOnly'"
  * @generated
  */
-public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOwner
+public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOwner, IdRefOwner
 {
    /**
     * <!-- begin-user-doc -->
@@ -684,33 +683,6 @@ public interface ActivityType extends IIdentifiableModelElement, IEventHandlerOw
     * @generated
     */
    EList<TransitionType> getOutTransitions();
-
-   /**
-    * Returns the value of the '<em><b>External Ref</b></em>' containment reference.
-    * <!-- begin-user-doc -->
-    * <p>
-    * If the meaning of the '<em>External Ref</em>' containment reference isn't clear,
-    * there really should be more of a description here...
-    * </p>
-    * <!-- end-user-doc -->
-    * @return the value of the '<em>External Ref</em>' containment reference.
-    * @see #setExternalRef(IdRef)
-    * @see org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage#getActivityType_ExternalRef()
-    * @model containment="true"
-    *        extendedMetaData="kind='element' name='externalReference' namespace='##targetNamespace'"
-    * @generated
-    */
-   IdRef getExternalRef();
-
-   /**
-    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.carnot.ActivityType#getExternalRef <em>External Ref</em>}' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @param value the new value of the '<em>External Ref</em>' containment reference.
-    * @see #getExternalRef()
-    * @generated
-    */
-   void setExternalRef(IdRef value);
 
    /**
     * Returns the value of the '<em><b>Valid Quality Codes</b></em>' reference list.
