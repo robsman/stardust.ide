@@ -3,6 +3,7 @@
 package org.eclipse.stardust.model.bpmn2.sdbpmn.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
 

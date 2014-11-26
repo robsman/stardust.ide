@@ -74,6 +74,9 @@ public class Labels extends NLS {
 	public static String stardust_participant;
 
 	public static String model_stardust_target_version;
+	public static String model_stardust_model_version;
+
+	public static String process_attachment_unique_per_root;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Labels.class);

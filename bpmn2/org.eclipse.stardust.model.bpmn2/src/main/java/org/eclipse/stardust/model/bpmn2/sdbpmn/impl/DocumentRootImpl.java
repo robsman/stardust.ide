@@ -8,18 +8,23 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+
 import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
@@ -28,6 +33,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
@@ -37,6 +43,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
+
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 
 /**
@@ -58,6 +65,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustModel <em>Stardust Model</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustProcess <em>Stardust Process</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustResource <em>Stardust Resource</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustSeqenceFlow <em>Stardust Seqence Flow</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustServiceTask <em>Stardust Service Task</em>}</li>
@@ -71,8 +79,11 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getCreated <em>Created</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelOID <em>Model OID</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isModelReleased <em>Model Released</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isStardustIgnore <em>Stardust Ignore</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#getStardustPropertyId <em>Stardust Property Id</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.DocumentRootImpl#isSyntheticProperty <em>Synthetic Property</em>}</li>
@@ -235,6 +246,55 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	protected BigInteger modelOID = MODEL_OID_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isModelReleased() <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModelReleased()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MODEL_RELEASED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isModelReleased() <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModelReleased()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modelReleased = MODEL_RELEASED_EDEFAULT;
+
+	/**
+	 * This is true if the Model Released attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modelReleasedESet;
+
+	/**
+	 * The default value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String MODEL_VERSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected String modelVersion = MODEL_VERSION_EDEFAULT;
+
+	/**
 	 * The default value of the '{@link #getOid() <em>Oid</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -282,6 +342,35 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * @ordered
 	 */
 	protected String parameterMappingOid = PARAMETER_MAPPING_OID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isStardustIgnore() <em>Stardust Ignore</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStardustIgnore()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean STARDUST_IGNORE_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isStardustIgnore() <em>Stardust Ignore</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isStardustIgnore()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean stardustIgnore = STARDUST_IGNORE_EDEFAULT;
+
+	/**
+	 * This is true if the Stardust Ignore attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean stardustIgnoreESet;
 
 	/**
 	 * The default value of the '{@link #getStardustPropertyId() <em>Stardust Property Id</em>}' attribute.
@@ -704,6 +793,33 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public StardustProcessType getStardustProcess() {
+		return (StardustProcessType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_PROCESS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetStardustProcess(StardustProcessType newStardustProcess, NotificationChain msgs) {
+		return ((FeatureMap.Internal)getMixed()).basicAdd(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_PROCESS, newStardustProcess, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustProcess(StardustProcessType newStardustProcess) {
+		((FeatureMap.Internal)getMixed()).set(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_PROCESS, newStardustProcess);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public StardustResourceType getStardustResource() {
 		return (StardustResourceType)getMixed().get(SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE, true);
 	}
@@ -1019,6 +1135,73 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isModelReleased() {
+		return modelReleased;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelReleased(boolean newModelReleased) {
+		boolean oldModelReleased = modelReleased;
+		modelReleased = newModelReleased;
+		boolean oldModelReleasedESet = modelReleasedESet;
+		modelReleasedESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED, oldModelReleased, modelReleased, !oldModelReleasedESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetModelReleased() {
+		boolean oldModelReleased = modelReleased;
+		boolean oldModelReleasedESet = modelReleasedESet;
+		modelReleased = MODEL_RELEASED_EDEFAULT;
+		modelReleasedESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED, oldModelReleased, MODEL_RELEASED_EDEFAULT, oldModelReleasedESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetModelReleased() {
+		return modelReleasedESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getModelVersion() {
+		return modelVersion;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelVersion(String newModelVersion) {
+		String oldModelVersion = modelVersion;
+		modelVersion = newModelVersion;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__MODEL_VERSION, oldModelVersion, modelVersion));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public long getOid() {
 		return oid;
 	}
@@ -1079,6 +1262,52 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 		parameterMappingOid = newParameterMappingOid;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID, oldParameterMappingOid, parameterMappingOid));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isStardustIgnore() {
+		return stardustIgnore;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setStardustIgnore(boolean newStardustIgnore) {
+		boolean oldStardustIgnore = stardustIgnore;
+		stardustIgnore = newStardustIgnore;
+		boolean oldStardustIgnoreESet = stardustIgnoreESet;
+		stardustIgnoreESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE, oldStardustIgnore, stardustIgnore, !oldStardustIgnoreESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetStardustIgnore() {
+		boolean oldStardustIgnore = stardustIgnore;
+		boolean oldStardustIgnoreESet = stardustIgnoreESet;
+		stardustIgnore = STARDUST_IGNORE_EDEFAULT;
+		stardustIgnoreESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE, oldStardustIgnore, STARDUST_IGNORE_EDEFAULT, oldStardustIgnoreESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetStardustIgnore() {
+		return stardustIgnoreESet;
 	}
 
 	/**
@@ -1268,6 +1497,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return basicSetStardustMessageStartEvent(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
 				return basicSetStardustModel(null, msgs);
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROCESS:
+				return basicSetStardustProcess(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_RESOURCE:
 				return basicSetStardustResource(null, msgs);
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW:
@@ -1321,6 +1552,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getStardustMessageStartEvent();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
 				return getStardustModel();
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROCESS:
+				return getStardustProcess();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_RESOURCE:
 				return getStardustResource();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW:
@@ -1347,10 +1580,16 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getInteractiveApplicationRef();
 			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
 				return getModelOID();
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED:
+				return isModelReleased();
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_VERSION:
+				return getModelVersion();
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				return getOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return getParameterMappingOid();
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE:
+				return isStardustIgnore();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
 				return getStardustPropertyId();
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
@@ -1409,6 +1648,9 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
 				setStardustModel((StardustModelType)newValue);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROCESS:
+				setStardustProcess((StardustProcessType)newValue);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_RESOURCE:
 				setStardustResource((StardustResourceType)newValue);
 				return;
@@ -1448,11 +1690,20 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
 				setModelOID((BigInteger)newValue);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED:
+				setModelReleased((Boolean)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_VERSION:
+				setModelVersion((String)newValue);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				setOid((Long)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid((String)newValue);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE:
+				setStardustIgnore((Boolean)newValue);
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
 				setStardustPropertyId((String)newValue);
@@ -1517,6 +1768,9 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
 				setStardustModel((StardustModelType)null);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROCESS:
+				setStardustProcess((StardustProcessType)null);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_RESOURCE:
 				setStardustResource((StardustResourceType)null);
 				return;
@@ -1556,11 +1810,20 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
 				setModelOID(MODEL_OID_EDEFAULT);
 				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED:
+				unsetModelReleased();
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_VERSION:
+				setModelVersion(MODEL_VERSION_EDEFAULT);
+				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				unsetOid();
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				setParameterMappingOid(PARAMETER_MAPPING_OID_EDEFAULT);
+				return;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE:
+				unsetStardustIgnore();
 				return;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
 				setStardustPropertyId(STARDUST_PROPERTY_ID_EDEFAULT);
@@ -1613,6 +1876,8 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return getStardustMessageStartEvent() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_MODEL:
 				return getStardustModel() != null;
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROCESS:
+				return getStardustProcess() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_RESOURCE:
 				return getStardustResource() != null;
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW:
@@ -1639,10 +1904,16 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 				return INTERACTIVE_APPLICATION_REF_EDEFAULT == null ? interactiveApplicationRef != null : !INTERACTIVE_APPLICATION_REF_EDEFAULT.equals(interactiveApplicationRef);
 			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_OID:
 				return MODEL_OID_EDEFAULT == null ? modelOID != null : !MODEL_OID_EDEFAULT.equals(modelOID);
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_RELEASED:
+				return isSetModelReleased();
+			case SdbpmnPackage.DOCUMENT_ROOT__MODEL_VERSION:
+				return MODEL_VERSION_EDEFAULT == null ? modelVersion != null : !MODEL_VERSION_EDEFAULT.equals(modelVersion);
 			case SdbpmnPackage.DOCUMENT_ROOT__OID:
 				return isSetOid();
 			case SdbpmnPackage.DOCUMENT_ROOT__PARAMETER_MAPPING_OID:
 				return PARAMETER_MAPPING_OID_EDEFAULT == null ? parameterMappingOid != null : !PARAMETER_MAPPING_OID_EDEFAULT.equals(parameterMappingOid);
+			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_IGNORE:
+				return isSetStardustIgnore();
 			case SdbpmnPackage.DOCUMENT_ROOT__STARDUST_PROPERTY_ID:
 				return STARDUST_PROPERTY_ID_EDEFAULT == null ? stardustPropertyId != null : !STARDUST_PROPERTY_ID_EDEFAULT.equals(stardustPropertyId);
 			case SdbpmnPackage.DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION:
@@ -1681,10 +1952,16 @@ public class DocumentRootImpl extends MinimalEObjectImpl.Container implements Do
 		result.append(interactiveApplicationRef);
 		result.append(", modelOID: ");
 		result.append(modelOID);
+		result.append(", modelReleased: ");
+		if (modelReleasedESet) result.append(modelReleased); else result.append("<unset>");
+		result.append(", modelVersion: ");
+		result.append(modelVersion);
 		result.append(", oid: ");
 		if (oidESet) result.append(oid); else result.append("<unset>");
 		result.append(", parameterMappingOid: ");
 		result.append(parameterMappingOid);
+		result.append(", stardustIgnore: ");
+		if (stardustIgnoreESet) result.append(stardustIgnore); else result.append("<unset>");
 		result.append(", stardustPropertyId: ");
 		result.append(stardustPropertyId);
 		result.append(", syntheticItemDefinition: ");

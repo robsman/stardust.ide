@@ -252,9 +252,20 @@ public class TransformationControl {
 		}
 	}
 
+//	private  void processProcess(Process process) {
+//		processProperties(process);
+//        transf.addProcess(process);
+//        transf.addIOBinding(process.getIoBinding(), process);
+//        for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
+//            processingInfo +=   "Artifact" + NOT_SUPPORTED;
+//        }
+//        processFlowElementsContainer(process);
+//    }
+
 	private  void processProcess(Process process) {
 		processProperties(process);
         transf.addProcess(process);
+        transf.addProcessParameters(process);
         transf.addIOBinding(process.getIoBinding(), process);
         for (@SuppressWarnings("unused") Artifact artifact : process.getArtifacts()) {
             processingInfo +=   "Artifact" + NOT_SUPPORTED;
@@ -379,6 +390,7 @@ public class TransformationControl {
             processSubProcess((SubProcess)activity, container);
 
         } else if (activity instanceof CallActivity) {
+        	addToTasksWithDataFlow(activity, container);
             processCallActivity((CallActivity)activity, container);
             if (!globalCalls.containsKey(container)) {
             	globalCalls.put(container, new ArrayList<CallActivity>());

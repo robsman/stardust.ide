@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.eclipse.bpmn2.modeler.runtime.stardust.utils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,16 @@ public class BpmnDefaultContentsUtil {
 	public static void addDefaultContents(Definitions definitions) {
 		addData(definitions);
 		createAdministratorPerformer(definitions);
+	}
+
+	public static void addProcessAttachmentVariable(Process process, DataInfo dataInfo) {
+		Definitions defs = ModelUtil.getDefinitions(process);
+		ItemDefinition type = findDefinitionForType(defs, null, dataInfo.type);
+		if (null == type) {
+			type = createType(defs, dataInfo.type);
+			ExtensionHelper.getInstance().setAnyAttribute(type, ExtensionHelper2.STARDUST_SYNTHETIC_ITEMDEF, "true");
+		}
+		createProperty(process, dataInfo, Collections.singletonMap(dataInfo.type, type));
 	}
 
 	private static void addData(Definitions definitions) {
@@ -129,9 +140,9 @@ public class BpmnDefaultContentsUtil {
 		return itemDef;
 	}
 
-	private static ItemDefinition createType(Definitions definitions, String name) {
+	private static ItemDefinition createType(Definitions definitions, String structureRef) {
 		ItemDefinition itemDef = Bpmn2Factory.eINSTANCE.createItemDefinition();
-		EObject wrapper = ModelUtil.createStringWrapper(name);
+		EObject wrapper = ModelUtil.createStringWrapper(structureRef);
 		itemDef.setStructureRef(wrapper);
 		definitions.getRootElements().add(itemDef);
 		ModelUtil.setID(itemDef);

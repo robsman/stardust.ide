@@ -7,8 +7,11 @@ import java.math.BigInteger;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.ecore.util.FeatureMap;
+
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 
 /**
@@ -31,6 +34,7 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustInterface <em>Stardust Interface</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustMessageStartEvent <em>Stardust Message Start Event</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustModel <em>Stardust Model</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustProcess <em>Stardust Process</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustResource <em>Stardust Resource</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustSeqenceFlow <em>Stardust Seqence Flow</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustServiceTask <em>Stardust Service Task</em>}</li>
@@ -44,8 +48,11 @@ import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getCreated <em>Created</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getInteractiveApplicationRef <em>Interactive Application Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelOID <em>Model OID</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased <em>Model Released</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getParameterMappingOid <em>Parameter Mapping Oid</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore <em>Stardust Ignore</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustPropertyId <em>Stardust Property Id</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticItemDefinition <em>Synthetic Item Definition</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isSyntheticProperty <em>Synthetic Property</em>}</li>
@@ -356,6 +363,33 @@ public interface DocumentRoot extends EObject {
 	void setStardustModel(StardustModelType value);
 
 	/**
+	 * Returns the value of the '<em><b>Stardust Process</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Stardust Process</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Stardust Process</em>' containment reference.
+	 * @see #setStardustProcess(StardustProcessType)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustProcess()
+	 * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+	 *        extendedMetaData="kind='element' name='StardustProcess' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	StardustProcessType getStardustProcess();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustProcess <em>Stardust Process</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Process</em>' containment reference.
+	 * @see #getStardustProcess()
+	 * @generated
+	 */
+	void setStardustProcess(StardustProcessType value);
+
+	/**
 	 * Returns the value of the '<em><b>Stardust Resource</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -657,11 +691,10 @@ public interface DocumentRoot extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Interactive Application Ref</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Interactive Application Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Implementation reference for UserTasks.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interactive Application Ref</em>' attribute.
 	 * @see #setInteractiveApplicationRef(String)
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_InteractiveApplicationRef()
@@ -710,6 +743,89 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	void setModelOID(BigInteger value);
+
+	/**
+	 * Returns the value of the '<em><b>Model Released</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 				Whether the Model is released or not (= UNDER_REVISION)
+	 *             
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Model Released</em>' attribute.
+	 * @see #isSetModelReleased()
+	 * @see #unsetModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_ModelReleased()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='modelReleased' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	boolean isModelReleased();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model Released</em>' attribute.
+	 * @see #isSetModelReleased()
+	 * @see #unsetModelReleased()
+	 * @see #isModelReleased()
+	 * @generated
+	 */
+	void setModelReleased(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetModelReleased()
+	 * @see #isModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @generated
+	 */
+	void unsetModelReleased();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased <em>Model Released</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Model Released</em>' attribute is set.
+	 * @see #unsetModelReleased()
+	 * @see #isModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @generated
+	 */
+	boolean isSetModelReleased();
+
+	/**
+	 * Returns the value of the '<em><b>Model Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 				Version of the Model (content versioning).
+	 *             
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Model Version</em>' attribute.
+	 * @see #setModelVersion(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_ModelVersion()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='modelVersion' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	String getModelVersion();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelVersion <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model Version</em>' attribute.
+	 * @see #getModelVersion()
+	 * @generated
+	 */
+	void setModelVersion(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Oid</b></em>' attribute.
@@ -793,6 +909,59 @@ public interface DocumentRoot extends EObject {
 	void setParameterMappingOid(String value);
 
 	/**
+	 * Returns the value of the '<em><b>Stardust Ignore</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates that a certain element should not be transformed (i.e. start event).
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Stardust Ignore</em>' attribute.
+	 * @see #isSetStardustIgnore()
+	 * @see #unsetStardustIgnore()
+	 * @see #setStardustIgnore(boolean)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getDocumentRoot_StardustIgnore()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='stardustIgnore' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	boolean isStardustIgnore();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore <em>Stardust Ignore</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Stardust Ignore</em>' attribute.
+	 * @see #isSetStardustIgnore()
+	 * @see #unsetStardustIgnore()
+	 * @see #isStardustIgnore()
+	 * @generated
+	 */
+	void setStardustIgnore(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore <em>Stardust Ignore</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetStardustIgnore()
+	 * @see #isStardustIgnore()
+	 * @see #setStardustIgnore(boolean)
+	 * @generated
+	 */
+	void unsetStardustIgnore();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore <em>Stardust Ignore</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Stardust Ignore</em>' attribute is set.
+	 * @see #unsetStardustIgnore()
+	 * @see #isStardustIgnore()
+	 * @see #setStardustIgnore(boolean)
+	 * @generated
+	 */
+	boolean isSetStardustIgnore();
+
+	/**
 	 * Returns the value of the '<em><b>Stardust Property Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -822,11 +991,10 @@ public interface DocumentRoot extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Synthetic Item Definition</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Synthetic Item Definition</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates that the item definition has been generated (i.e. for structural conformance with BPMN). Normally these items are not transformed but used to refer accesspoints.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Synthetic Item Definition</em>' attribute.
 	 * @see #isSetSyntheticItemDefinition()
 	 * @see #unsetSyntheticItemDefinition()
@@ -876,11 +1044,10 @@ public interface DocumentRoot extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Synthetic Property</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Synthetic Property</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Indicates that the property has not been modelled by the user but has been generated for conformance or convenience (e.g. predefined properties already available in the target model). Thus, these are normally not transformed.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Synthetic Property</em>' attribute.
 	 * @see #isSetSyntheticProperty()
 	 * @see #unsetSyntheticProperty()

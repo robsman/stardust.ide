@@ -92,13 +92,19 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 		return null == ref || ref.trim().isEmpty();
 	}
 
+	private boolean taskWithoutAppRef(GlobalUserTask task) {
+		String ref = Bpmn2StardustXPDLExtension.getGlobalUserTaskApplicationRef(task);
+		return null == ref || ref.trim().isEmpty();
+	}
+
 	public void addGlobalUserTask(GlobalUserTask globalTask, Definitions container) {
 		ProcessDefinitionType processDef = getProcessAndReportFailure(globalTask.getId());
 		if (processDef == null) return;
 		String descr = DocumentationTool.getDescriptionFromDocumentation(globalTask.getDocumentation());
 
 		ActivityType activity =
-				taskWithoutImplementationSpec(globalTask)
+				//taskWithoutImplementationSpec(globalTask)
+				taskWithoutAppRef(globalTask)
 				? buildManualActivity(processDef, globalTask, descr)
 				: buildInteractiveActivity(processDef, globalTask, descr);
 
@@ -127,19 +133,20 @@ public class UserTask2Stardust extends AbstractElement2Stardust {
 		}
 	}
 
-    private boolean taskWithoutImplementationSpec(UserTask task) {
-    	if (null == task.getImplementation()) return true;
+    @SuppressWarnings("unused")
+	private boolean taskWithoutImplementationSpec(UserTask task) {
     	return
-    			task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED)
-    		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_NULL)
-    		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_ALT)
-    		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_EMPTY);
+    		TASK_IMPLEMENTATION_UNSPECIFIED_NULL == task.getImplementation()
+    		|| task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED)
+    		|| task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_ALT)
+    		|| task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_EMPTY);
 	}
 
-    private boolean taskWithoutImplementationSpec(GlobalUserTask task) {
+    @SuppressWarnings("unused")
+	private boolean taskWithoutImplementationSpec(GlobalUserTask task) {
     	return
-    			task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED)
-    		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_NULL)
+    			TASK_IMPLEMENTATION_UNSPECIFIED_NULL == task.getImplementation()
+    		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED)
     		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_ALT)
     		|| 	task.getImplementation().equals(TASK_IMPLEMENTATION_UNSPECIFIED_EMPTY);
 	}

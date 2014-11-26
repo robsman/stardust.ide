@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.engine.core.compatibility.extensions.dms.DmsConstants;
 
 /**
  * @author Simon Nikles
@@ -38,6 +39,10 @@ public class PredefinedDataInfo {
 		dataList.add(new DataInfo(VAR_START_EVENT_ID, LBL_START_EVENT_ID, "string"));
 
 		return dataList;
+	}
+
+	public static DataInfo getProcessAttachmentDataInfo() {
+		return new DataInfo(DmsConstants.DATA_ID_ATTACHMENTS, "Process Attachments", "java.util.List");
 	}
 
 	public static class DataInfo {

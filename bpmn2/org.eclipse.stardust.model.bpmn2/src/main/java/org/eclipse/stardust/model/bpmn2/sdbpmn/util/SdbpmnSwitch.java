@@ -4,28 +4,11 @@ package org.eclipse.stardust.model.bpmn2.sdbpmn.util;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSubprocessType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
+
+import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
+
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
@@ -169,6 +152,12 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 			case SdbpmnPackage.STARDUST_MODEL_TYPE: {
 				StardustModelType stardustModelType = (StardustModelType)theEObject;
 				T result = caseStardustModelType(stardustModelType);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SdbpmnPackage.STARDUST_PROCESS_TYPE: {
+				StardustProcessType stardustProcessType = (StardustProcessType)theEObject;
+				T result = caseStardustProcessType(stardustProcessType);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -397,6 +386,21 @@ public class SdbpmnSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStardustModelType(StardustModelType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Stardust Process Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Stardust Process Type</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStardustProcessType(StardustProcessType object) {
 		return null;
 	}
 

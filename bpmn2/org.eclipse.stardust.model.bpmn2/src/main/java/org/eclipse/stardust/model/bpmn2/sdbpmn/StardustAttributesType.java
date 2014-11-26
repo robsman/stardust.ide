@@ -3,7 +3,9 @@
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 
 /**

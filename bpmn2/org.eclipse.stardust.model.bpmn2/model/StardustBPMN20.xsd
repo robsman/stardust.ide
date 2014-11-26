@@ -9,6 +9,15 @@
 		</xsd:complexType>
 	</xsd:element>
 
+	<xsd:element name="StardustProcess">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute name="supportsProcessAttachments" type="xsd:boolean" />
+		</xsd:complexType>
+	</xsd:element>
+
 	<xsd:element name="StardustCommon" type="sdbpmn:tStardustCommon" />
 	<xsd:complexType name="tStardustCommon">
 		<xsd:attribute name="elementOid" type="xsd:string" use="required" />
@@ -30,7 +39,7 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="StardustStartEvent">
 		<xsd:complexType>
 			<xsd:sequence>
@@ -46,19 +55,19 @@
 				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
 			</xsd:sequence>
 			<xsd:attribute name="predefined" type="xsd:string" default="false" />
-	        <xsd:attribute name="type" type="xsd:string" />			
+	        <xsd:attribute name="type" type="xsd:string" />
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="StardustDataStore">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="sdbpmn:StardustAttributes" maxOccurs="1" />
 			</xsd:sequence>
-	        <xsd:attribute name="type" type="xsd:string" />			
+	        <xsd:attribute name="type" type="xsd:string" />
 		</xsd:complexType>
-	</xsd:element>	
-	
+	</xsd:element>
+
 	<xsd:element name="StardustMessageStartEvent">
 		<xsd:complexType>
 			<xsd:sequence>
@@ -144,7 +153,11 @@
 		<xsd:complexType>
 			<xsd:complexContent>
 				<xsd:extension base="sdbpmn:tStardustActivity">
-					<xsd:attribute name="interactiveApplicationRef" type="xsd:string" />
+					<xsd:attribute name="interactiveApplicationRef" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>Reference to a BPMN-Interface-Operation containing the InteractiveApplicationType.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:attribute>
 					<xsd:attribute name="allowsAbortByPerformer" type="xsd:boolean">
 						<xsd:annotation>
 							<xsd:documentation>Determines whether the activity is allowed to be aborted.</xsd:documentation>
@@ -176,7 +189,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="StardustApplication" type="sdbpmn:StardustApplicationType" minOccurs="0" maxOccurs="1" />
-				<xsd:element name="StardustTrigger" type="sdbpmn:StardustTriggerType" minOccurs="0" maxOccurs="1" />				
+				<xsd:element name="StardustTrigger" type="sdbpmn:StardustTriggerType" minOccurs="0" maxOccurs="1" />
 			</xsd:sequence>
 			<xsd:attribute name="id" type="ID" />
 			<xsd:attribute name="applicationType" type="xsd:string" />
@@ -217,7 +230,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="stardust:ContextType">
 				<xsd:sequence>
-					<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="sdbpmn:StardustAccessPointType" />				
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="accessPoint" type="sdbpmn:StardustAccessPointType" />
 				</xsd:sequence>
 				<xsd:attribute name="typeRef" type="xsd:string" />
 			</xsd:extension>
@@ -281,6 +294,22 @@
 		</xsd:annotation>
 	</xsd:attribute>
 
+	<xsd:attribute name="modelVersion" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				Version of the Model (content versioning).
+            </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+
+	<xsd:attribute name="modelReleased" type="xsd:boolean">
+		<xsd:annotation>
+			<xsd:documentation>
+				Whether the Model is released or not (= UNDER_REVISION)
+            </xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+
 	<xsd:attributeGroup name="ModelAttributes" id="ModelAttributes">
 		<xsd:attribute ref="sdbpmn:oid"></xsd:attribute>
 		<xsd:attribute ref="sdbpmn:modelOID"></xsd:attribute>
@@ -288,6 +317,8 @@
 		<xsd:attribute ref="sdbpmn:created"></xsd:attribute>
 		<xsd:attribute ref="sdbpmn:carnotVersion"></xsd:attribute>
 		<xsd:attribute ref="sdbpmn:vendor"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:modelVersion"></xsd:attribute>
+		<xsd:attribute ref="sdbpmn:modelReleased"></xsd:attribute>
 	</xsd:attributeGroup>
 
 	<xsd:element name="dataType" type="stardust:DataTypeType"></xsd:element>
@@ -295,7 +326,7 @@
 	<xsd:attribute name="applicationAccessPointRef" type="xsd:string">
 		<xsd:annotation><xsd:documentation>BPMN2.0 Assignment-From/To: reference to a stardust application accesspoint.</xsd:documentation></xsd:annotation>
 	</xsd:attribute>
-	
+
 	<xsd:attribute name="triggerAccessPointRef" type="xsd:string">
 		<xsd:annotation><xsd:documentation>BPMN2.0 Assignment-From/To: reference to a stardust trigger accesspoint.</xsd:documentation></xsd:annotation>
 	</xsd:attribute>
@@ -305,18 +336,33 @@
 	</xsd:attribute>
 
 	<xsd:attribute name="interactiveApplicationRef" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>Implementation reference for UserTasks.</xsd:documentation>
+		</xsd:annotation>
 	</xsd:attribute>
 
 	<xsd:attribute name="syntheticItemDefinition" type="xsd:boolean">
+		<xsd:annotation>
+			<xsd:documentation>Indicates that the item definition has been generated (i.e. for structural conformance with BPMN). Normally these items are not transformed but used to refer accesspoints.</xsd:documentation>
+		</xsd:annotation>
 	</xsd:attribute>
 
 	<xsd:attribute name="syntheticProperty" type="xsd:boolean">
+		<xsd:annotation>
+			<xsd:documentation>Indicates that the property has not been modelled by the user but has been generated for conformance or convenience (e.g. predefined properties already available in the target model). Thus, these are normally not transformed.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:attribute>
+
+	<xsd:attribute name="stardustIgnore" type="xsd:boolean">
+		<xsd:annotation>
+			<xsd:documentation>Indicates that a certain element should not be transformed (i.e. start event).</xsd:documentation>
+		</xsd:annotation>
 	</xsd:attribute>
 
 	<xsd:attribute name="stardustPropertyId" type="xsd:string">
 	</xsd:attribute>
-	
-	
+
+
 
 
 </schema>

@@ -77,11 +77,10 @@ public interface StardustUserTaskType extends TStardustActivity {
 	/**
 	 * Returns the value of the '<em><b>Interactive Application Ref</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Interactive Application Ref</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Reference to a BPMN-Interface-Operation containing the InteractiveApplicationType.
+	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Interactive Application Ref</em>' attribute.
 	 * @see #setInteractiveApplicationRef(String)
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustUserTaskType_InteractiveApplicationRef()

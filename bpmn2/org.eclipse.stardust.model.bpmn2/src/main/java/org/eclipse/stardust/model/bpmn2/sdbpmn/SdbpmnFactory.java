@@ -112,6 +112,15 @@ public interface SdbpmnFactory extends EFactory {
 	StardustModelType createStardustModelType();
 
 	/**
+	 * Returns a new object of class '<em>Stardust Process Type</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Stardust Process Type</em>'.
+	 * @generated
+	 */
+	StardustProcessType createStardustProcessType();
+
+	/**
 	 * Returns a new object of class '<em>Stardust Resource Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

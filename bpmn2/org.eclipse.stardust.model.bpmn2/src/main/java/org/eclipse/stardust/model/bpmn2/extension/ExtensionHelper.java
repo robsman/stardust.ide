@@ -31,6 +31,7 @@ import org.eclipse.bpmn2.Expression;
 import org.eclipse.bpmn2.ExtensionAttributeValue;
 import org.eclipse.bpmn2.GlobalUserTask;
 import org.eclipse.bpmn2.ItemDefinition;
+import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.RootElement;
 import org.eclipse.bpmn2.SequenceFlow;
@@ -55,6 +56,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
@@ -66,7 +68,6 @@ import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
 import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableElement;
 import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
 import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.util.XSDConstants;
 
@@ -100,23 +101,25 @@ public class ExtensionHelper {
     private static final Internal APPLICATION_INTERFACE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_INTERFACE;
     private static final Internal RESOURCE_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_RESOURCE;
 
-    private static final Internal GENERAL_ATTRIBUTES_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_ATTRIBUTES;
+    private static final Internal PROCESS_EXT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_PROCESS;
 
-    private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
+    @SuppressWarnings("unused")
+	private static final Internal GENERAL_ATTRIBUTES_TYPE = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__STARDUST_ATTRIBUTES;
+
+    @SuppressWarnings("unused")
+	private static final Internal ATT_APPLICATION_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF;
     private static final Internal ATT_TRIGGER_ACCESS_POINT = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF;
     private static final Internal ATT_TRIGGER_PARAM_MAPPING = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__PARAMETER_MAPPING_OID;
 
     private static final Internal MODEL_ATT_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__OID;
     private static final Internal MODEL_ATT_MODEL_OID = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__MODEL_OID;
-    private static final Internal MODEL_ATT_VERSION = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__CARNOT_VERSION;
+    public static final Internal MODEL_ATT_CARNOT_VERSION = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__CARNOT_VERSION;
+    public static final Internal MODEL_ATT_MODEL_VERSION = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__MODEL_VERSION;
     private static final Internal MODEL_ATT_CREATED = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__CREATED;
     private static final Internal MODEL_ATT_VENDOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__VENDOR;
     private static final Internal MODEL_ATT_AUTHOR = (Internal)SdbpmnPackage.Literals.DOCUMENT_ROOT__AUTHOR;
 
-    //private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_SCHEMA__SCHEMA_FOR_SCHEMA;
     //private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
-    //private static final EStructuralFeature XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_SCHEMA__CONTENTS;
-    private static final Internal XSD_SCHEMA = (Internal)XSDPackage.Literals.XSD_CONCRETE_COMPONENT__SCHEMA;
 
 
     private static final Map<Class<?>, EClass> classToEClassMap = new HashMap<Class<?>, EClass>();
@@ -186,6 +189,14 @@ public class ExtensionHelper {
         return getFirstExtension(StardustUserTaskType.class, element, USER_TASK_EXT);
     }
 
+//    public void setModelExtension(Definitions element, StardustModelType extensionValue) {
+//        setExtension(element, extensionValue, MODEL_EXT);
+//    }
+//
+//    public StardustModelType getModelExtension(Definitions element) {
+//        return getFirstExtension(StardustModelType.class, element, MODEL_EXT);
+//    }
+
 	public StardustUserTaskType getGlobalUserTaskExtension(GlobalUserTask globalTask) {
 		return getFirstExtension(StardustUserTaskType.class, globalTask, USER_TASK_EXT);
 	}
@@ -205,6 +216,10 @@ public class ExtensionHelper {
     public StardustServiceTaskType getDataObjectExtension(DataObject dataObject) {
         return getFirstExtension(StardustServiceTaskType.class, dataObject, DATA_OBJECT_EXT);
     }
+
+	public StardustProcessType getProcessExtension(Process process) {
+		return getFirstExtension(StardustProcessType.class, process, PROCESS_EXT);
+	}
 
     public void setSubprocessExtension(SubProcess element, StardustSubprocessType extensionValue) {
         setExtension(element, extensionValue, SUBPROCESS_EXT);
@@ -291,18 +306,30 @@ public class ExtensionHelper {
 
     public void setModelAttributes(Definitions element, StardustModelType values) {
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_AUTHOR, values.getAuthor()));
-        element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_VERSION, values.getCarnotVersion()));
+        element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_CARNOT_VERSION, values.getCarnotVersion()));
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_CREATED, values.getCreated()));
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_MODEL_OID, values.getModelOID()));
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_OID, values.getOid()));
         element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_VENDOR, values.getVendor()));
     }
 
+    public void setModelCarnotVersion(Definitions element, String version) {
+    	element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_CARNOT_VERSION, version));
+    }
+
+    public void setModelVersion(Definitions element, String version) {
+    	element.getAnyAttribute().add(createFeatureEntry(MODEL_ATT_MODEL_VERSION, version));
+    }
+
+    public String getModelVersion(Definitions element) {
+    	return getString(element, MODEL_ATT_MODEL_VERSION);
+    }
+
     public StardustModelType getModelAttributes(Definitions element) {
         FeatureMap attributes = element.getAnyAttribute();
         StardustModelType modelvalues = SdbpmnFactory.eINSTANCE.createStardustModelType();
         modelvalues.setAuthor(getString(attributes, MODEL_ATT_AUTHOR));
-        modelvalues.setCarnotVersion(getString(attributes, MODEL_ATT_VERSION));
+        modelvalues.setCarnotVersion(getString(attributes, MODEL_ATT_CARNOT_VERSION));
         modelvalues.setCreated(getDate(attributes, MODEL_ATT_CREATED));
         modelvalues.setModelOID(getInt(attributes, MODEL_ATT_MODEL_OID));
         modelvalues.setOid(getLong(attributes, MODEL_ATT_OID));
@@ -329,7 +356,8 @@ public class ExtensionHelper {
         return null;
     }
 
-    private Object getExtension(BaseElement element, Internal feature) {
+    @SuppressWarnings("unused")
+	private Object getExtension(BaseElement element, Internal feature) {
         for (ExtensionAttributeValue extensionAttributeValue : element.getExtensionValues()) {
             FeatureMap extensionElements = extensionAttributeValue.getValue();
             Object extensionElement = extensionElements.get(feature, true);
@@ -508,6 +536,12 @@ public class ExtensionHelper {
        return null;
     }
 
+    public EStructuralFeature createSdbpmnAnyAttributeAccessorFeature(String name) {
+    	EStructuralFeature attributeAccessor = XmlExtendedMetadata.INSTANCE.demandFeature(NS_URI_STARDUST, name, false, false);
+		attributeAccessor.setChangeable(true);
+		return attributeAccessor;
+    }
+
     public void setAnyAttribute(BaseElement element, String name, String value) {
     	EStructuralFeature attributeAccessor = null;
     	Object oldValue = null;
@@ -587,4 +621,5 @@ public class ExtensionHelper {
     		element.getAnyAttribute().set(attributeAccessor, value);
     	}
     }
+
 }

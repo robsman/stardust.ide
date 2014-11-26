@@ -146,4 +146,6 @@ public interface Transformator {
 
 	public void addManualTask(ManualTask activity, FlowElementsContainer container);
 
+	public void addProcessParameters(Process process);
+
 }

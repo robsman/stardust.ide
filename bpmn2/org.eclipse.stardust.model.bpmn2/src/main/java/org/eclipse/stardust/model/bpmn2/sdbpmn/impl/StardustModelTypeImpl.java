@@ -7,9 +7,12 @@ import java.math.BigInteger;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
 
@@ -24,6 +27,8 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getCarnotVersion <em>Carnot Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getCreated <em>Created</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getModelOID <em>Model OID</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#isModelReleased <em>Model Released</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustModelTypeImpl#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -111,6 +116,55 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 	 * @ordered
 	 */
 	protected BigInteger modelOID = MODEL_OID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isModelReleased() <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModelReleased()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean MODEL_RELEASED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isModelReleased() <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isModelReleased()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modelReleased = MODEL_RELEASED_EDEFAULT;
+
+	/**
+	 * This is true if the Model Released attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean modelReleasedESet;
+
+	/**
+	 * The default value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String MODEL_VERSION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getModelVersion() <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModelVersion()
+	 * @generated
+	 * @ordered
+	 */
+	protected String modelVersion = MODEL_VERSION_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getOid() <em>Oid</em>}' attribute.
@@ -269,6 +323,73 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isModelReleased() {
+		return modelReleased;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelReleased(boolean newModelReleased) {
+		boolean oldModelReleased = modelReleased;
+		modelReleased = newModelReleased;
+		boolean oldModelReleasedESet = modelReleasedESet;
+		modelReleasedESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED, oldModelReleased, modelReleased, !oldModelReleasedESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetModelReleased() {
+		boolean oldModelReleased = modelReleased;
+		boolean oldModelReleasedESet = modelReleasedESet;
+		modelReleased = MODEL_RELEASED_EDEFAULT;
+		modelReleasedESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED, oldModelReleased, MODEL_RELEASED_EDEFAULT, oldModelReleasedESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetModelReleased() {
+		return modelReleasedESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getModelVersion() {
+		return modelVersion;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setModelVersion(String newModelVersion) {
+		String oldModelVersion = modelVersion;
+		modelVersion = newModelVersion;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_VERSION, oldModelVersion, modelVersion));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public long getOid() {
 		return oid;
 	}
@@ -347,6 +468,10 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 				return getCreated();
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_OID:
 				return getModelOID();
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED:
+				return isModelReleased();
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_VERSION:
+				return getModelVersion();
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__OID:
 				return getOid();
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__VENDOR:
@@ -374,6 +499,12 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 				return;
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_OID:
 				setModelOID((BigInteger)newValue);
+				return;
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED:
+				setModelReleased((Boolean)newValue);
+				return;
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_VERSION:
+				setModelVersion((String)newValue);
 				return;
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__OID:
 				setOid((Long)newValue);
@@ -405,6 +536,12 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_OID:
 				setModelOID(MODEL_OID_EDEFAULT);
 				return;
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED:
+				unsetModelReleased();
+				return;
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_VERSION:
+				setModelVersion(MODEL_VERSION_EDEFAULT);
+				return;
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__OID:
 				unsetOid();
 				return;
@@ -431,6 +568,10 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 				return CREATED_EDEFAULT == null ? created != null : !CREATED_EDEFAULT.equals(created);
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_OID:
 				return MODEL_OID_EDEFAULT == null ? modelOID != null : !MODEL_OID_EDEFAULT.equals(modelOID);
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_RELEASED:
+				return isSetModelReleased();
+			case SdbpmnPackage.STARDUST_MODEL_TYPE__MODEL_VERSION:
+				return MODEL_VERSION_EDEFAULT == null ? modelVersion != null : !MODEL_VERSION_EDEFAULT.equals(modelVersion);
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__OID:
 				return isSetOid();
 			case SdbpmnPackage.STARDUST_MODEL_TYPE__VENDOR:
@@ -457,6 +598,10 @@ public class StardustModelTypeImpl extends MinimalEObjectImpl.Container implemen
 		result.append(created);
 		result.append(", modelOID: ");
 		result.append(modelOID);
+		result.append(", modelReleased: ");
+		if (modelReleasedESet) result.append(modelReleased); else result.append("<unset>");
+		result.append(", modelVersion: ");
+		result.append(modelVersion);
 		result.append(", oid: ");
 		if (oidESet) result.append(oid); else result.append("<unset>");
 		result.append(", vendor: ");

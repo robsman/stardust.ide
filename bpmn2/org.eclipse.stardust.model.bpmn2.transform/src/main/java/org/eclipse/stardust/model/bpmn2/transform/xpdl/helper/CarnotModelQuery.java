@@ -186,6 +186,13 @@ public class CarnotModelQuery {
         return null;
     }
 
+    public static DataType findVariable(ModelType model, String id) {
+        for (DataType data : model.getData()) {
+            if (data.getId().equals(id)) return data;
+        }
+        return null;
+    }
+
 	public static ApplicationType findApplication(ModelType model, String id) {
 		for (ApplicationType app : model.getApplication()) {
 			if (app.getId().equals(id)) return app;

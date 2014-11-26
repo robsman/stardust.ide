@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 
 /**
@@ -175,13 +176,22 @@ public interface SdbpmnPackage extends EPackage {
 	int DOCUMENT_ROOT__STARDUST_MODEL = 11;
 
 	/**
+	 * The feature id for the '<em><b>Stardust Process</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__STARDUST_PROCESS = 12;
+
+	/**
 	 * The feature id for the '<em><b>Stardust Resource</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_RESOURCE = 12;
+	int DOCUMENT_ROOT__STARDUST_RESOURCE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Seqence Flow</b></em>' containment reference.
@@ -190,7 +200,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW = 13;
+	int DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW = 14;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Service Task</b></em>' containment reference.
@@ -199,7 +209,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_SERVICE_TASK = 14;
+	int DOCUMENT_ROOT__STARDUST_SERVICE_TASK = 15;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Start Event</b></em>' containment reference.
@@ -208,7 +218,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_START_EVENT = 15;
+	int DOCUMENT_ROOT__STARDUST_START_EVENT = 16;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Subprocess</b></em>' containment reference.
@@ -217,7 +227,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_SUBPROCESS = 16;
+	int DOCUMENT_ROOT__STARDUST_SUBPROCESS = 17;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Timer Start Event</b></em>' containment reference.
@@ -226,7 +236,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT = 17;
+	int DOCUMENT_ROOT__STARDUST_TIMER_START_EVENT = 18;
 
 	/**
 	 * The feature id for the '<em><b>Stardust User Task</b></em>' containment reference.
@@ -235,7 +245,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_USER_TASK = 18;
+	int DOCUMENT_ROOT__STARDUST_USER_TASK = 19;
 
 	/**
 	 * The feature id for the '<em><b>Application Access Point Ref</b></em>' attribute.
@@ -244,7 +254,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF = 19;
+	int DOCUMENT_ROOT__APPLICATION_ACCESS_POINT_REF = 20;
 
 	/**
 	 * The feature id for the '<em><b>Author</b></em>' attribute.
@@ -253,7 +263,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__AUTHOR = 20;
+	int DOCUMENT_ROOT__AUTHOR = 21;
 
 	/**
 	 * The feature id for the '<em><b>Carnot Version</b></em>' attribute.
@@ -262,7 +272,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__CARNOT_VERSION = 21;
+	int DOCUMENT_ROOT__CARNOT_VERSION = 22;
 
 	/**
 	 * The feature id for the '<em><b>Created</b></em>' attribute.
@@ -271,7 +281,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__CREATED = 22;
+	int DOCUMENT_ROOT__CREATED = 23;
 
 	/**
 	 * The feature id for the '<em><b>Interactive Application Ref</b></em>' attribute.
@@ -280,7 +290,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF = 23;
+	int DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF = 24;
 
 	/**
 	 * The feature id for the '<em><b>Model OID</b></em>' attribute.
@@ -289,7 +299,25 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__MODEL_OID = 24;
+	int DOCUMENT_ROOT__MODEL_OID = 25;
+
+	/**
+	 * The feature id for the '<em><b>Model Released</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__MODEL_RELEASED = 26;
+
+	/**
+	 * The feature id for the '<em><b>Model Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__MODEL_VERSION = 27;
 
 	/**
 	 * The feature id for the '<em><b>Oid</b></em>' attribute.
@@ -298,7 +326,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__OID = 25;
+	int DOCUMENT_ROOT__OID = 28;
 
 	/**
 	 * The feature id for the '<em><b>Parameter Mapping Oid</b></em>' attribute.
@@ -307,7 +335,16 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__PARAMETER_MAPPING_OID = 26;
+	int DOCUMENT_ROOT__PARAMETER_MAPPING_OID = 29;
+
+	/**
+	 * The feature id for the '<em><b>Stardust Ignore</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__STARDUST_IGNORE = 30;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Property Id</b></em>' attribute.
@@ -316,7 +353,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__STARDUST_PROPERTY_ID = 27;
+	int DOCUMENT_ROOT__STARDUST_PROPERTY_ID = 31;
 
 	/**
 	 * The feature id for the '<em><b>Synthetic Item Definition</b></em>' attribute.
@@ -325,7 +362,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION = 28;
+	int DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION = 32;
 
 	/**
 	 * The feature id for the '<em><b>Synthetic Property</b></em>' attribute.
@@ -334,7 +371,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__SYNTHETIC_PROPERTY = 29;
+	int DOCUMENT_ROOT__SYNTHETIC_PROPERTY = 33;
 
 	/**
 	 * The feature id for the '<em><b>Trigger Access Point Ref</b></em>' attribute.
@@ -343,7 +380,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF = 30;
+	int DOCUMENT_ROOT__TRIGGER_ACCESS_POINT_REF = 34;
 
 	/**
 	 * The feature id for the '<em><b>Vendor</b></em>' attribute.
@@ -352,7 +389,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT__VENDOR = 31;
+	int DOCUMENT_ROOT__VENDOR = 35;
 
 	/**
 	 * The number of structural features of the '<em>Document Root</em>' class.
@@ -361,7 +398,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 32;
+	int DOCUMENT_ROOT_FEATURE_COUNT = 36;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustAccessPointTypeImpl <em>Stardust Access Point Type</em>}' class.
@@ -913,13 +950,31 @@ public interface SdbpmnPackage extends EPackage {
 	int STARDUST_MODEL_TYPE__MODEL_OID = 3;
 
 	/**
+	 * The feature id for the '<em><b>Model Released</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_MODEL_TYPE__MODEL_RELEASED = 4;
+
+	/**
+	 * The feature id for the '<em><b>Model Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_MODEL_TYPE__MODEL_VERSION = 5;
+
+	/**
 	 * The feature id for the '<em><b>Oid</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_MODEL_TYPE__OID = 4;
+	int STARDUST_MODEL_TYPE__OID = 6;
 
 	/**
 	 * The feature id for the '<em><b>Vendor</b></em>' attribute.
@@ -928,7 +983,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_MODEL_TYPE__VENDOR = 5;
+	int STARDUST_MODEL_TYPE__VENDOR = 7;
 
 	/**
 	 * The number of structural features of the '<em>Stardust Model Type</em>' class.
@@ -937,7 +992,44 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int STARDUST_MODEL_TYPE_FEATURE_COUNT = 6;
+	int STARDUST_MODEL_TYPE_FEATURE_COUNT = 8;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustProcessTypeImpl <em>Stardust Process Type</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustProcessTypeImpl
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustProcessType()
+	 * @generated
+	 */
+	int STARDUST_PROCESS_TYPE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Stardust Attributes</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_PROCESS_TYPE__STARDUST_ATTRIBUTES = 0;
+
+	/**
+	 * The feature id for the '<em><b>Supports Process Attachments</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_PROCESS_TYPE__SUPPORTS_PROCESS_ATTACHMENTS = 1;
+
+	/**
+	 * The number of structural features of the '<em>Stardust Process Type</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STARDUST_PROCESS_TYPE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustResourceTypeImpl <em>Stardust Resource Type</em>}' class.
@@ -947,7 +1039,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustResourceType()
 	 * @generated
 	 */
-	int STARDUST_RESOURCE_TYPE = 10;
+	int STARDUST_RESOURCE_TYPE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Conditional Performer</b></em>' containment reference.
@@ -1002,7 +1094,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustSeqenceFlowType()
 	 * @generated
 	 */
-	int STARDUST_SEQENCE_FLOW_TYPE = 11;
+	int STARDUST_SEQENCE_FLOW_TYPE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Fork On Traversal</b></em>' attribute.
@@ -1030,7 +1122,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getTStardustCommon()
 	 * @generated
 	 */
-	int TSTARDUST_COMMON = 19;
+	int TSTARDUST_COMMON = 20;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1058,7 +1150,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getTStardustActivity()
 	 * @generated
 	 */
-	int TSTARDUST_ACTIVITY = 18;
+	int TSTARDUST_ACTIVITY = 19;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1104,7 +1196,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustServiceTaskType()
 	 * @generated
 	 */
-	int STARDUST_SERVICE_TASK_TYPE = 12;
+	int STARDUST_SERVICE_TASK_TYPE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1150,7 +1242,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustStartEventType()
 	 * @generated
 	 */
-	int STARDUST_START_EVENT_TYPE = 13;
+	int STARDUST_START_EVENT_TYPE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Attributes</b></em>' containment reference.
@@ -1178,7 +1270,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustSubprocessType()
 	 * @generated
 	 */
-	int STARDUST_SUBPROCESS_TYPE = 14;
+	int STARDUST_SUBPROCESS_TYPE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1233,7 +1325,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustTimerStartEventType()
 	 * @generated
 	 */
-	int STARDUST_TIMER_START_EVENT_TYPE = 15;
+	int STARDUST_TIMER_START_EVENT_TYPE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Stardust Attributes</b></em>' containment reference.
@@ -1261,7 +1353,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustTriggerType()
 	 * @generated
 	 */
-	int STARDUST_TRIGGER_TYPE = 16;
+	int STARDUST_TRIGGER_TYPE = 17;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1379,7 +1471,7 @@ public interface SdbpmnPackage extends EPackage {
 	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustUserTaskType()
 	 * @generated
 	 */
-	int STARDUST_USER_TASK_TYPE = 17;
+	int STARDUST_USER_TASK_TYPE = 18;
 
 	/**
 	 * The feature id for the '<em><b>Element Oid</b></em>' attribute.
@@ -1579,6 +1671,17 @@ public interface SdbpmnPackage extends EPackage {
 	EReference getDocumentRoot_StardustModel();
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustProcess <em>Stardust Process</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Stardust Process</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustProcess()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_StardustProcess();
+
+	/**
 	 * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustResource <em>Stardust Resource</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1722,6 +1825,28 @@ public interface SdbpmnPackage extends EPackage {
 	EAttribute getDocumentRoot_ModelOID();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased <em>Model Released</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Released</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isModelReleased()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_ModelReleased();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelVersion <em>Model Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Version</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getModelVersion()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_ModelVersion();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getOid <em>Oid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1742,6 +1867,17 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDocumentRoot_ParameterMappingOid();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore <em>Stardust Ignore</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Stardust Ignore</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#isStardustIgnore()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_StardustIgnore();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot#getStardustPropertyId <em>Stardust Property Id</em>}'.
@@ -2109,6 +2245,28 @@ public interface SdbpmnPackage extends EPackage {
 	EAttribute getStardustModelType_ModelOID();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased <em>Model Released</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Released</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased()
+	 * @see #getStardustModelType()
+	 * @generated
+	 */
+	EAttribute getStardustModelType_ModelReleased();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getModelVersion <em>Model Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Model Version</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getModelVersion()
+	 * @see #getStardustModelType()
+	 * @generated
+	 */
+	EAttribute getStardustModelType_ModelVersion();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getOid <em>Oid</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2129,6 +2287,38 @@ public interface SdbpmnPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getStardustModelType_Vendor();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType <em>Stardust Process Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Stardust Process Type</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType
+	 * @generated
+	 */
+	EClass getStardustProcessType();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType#getStardustAttributes <em>Stardust Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Stardust Attributes</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType#getStardustAttributes()
+	 * @see #getStardustProcessType()
+	 * @generated
+	 */
+	EReference getStardustProcessType_StardustAttributes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType#isSupportsProcessAttachments <em>Supports Process Attachments</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Supports Process Attachments</em>'.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType#isSupportsProcessAttachments()
+	 * @see #getStardustProcessType()
+	 * @generated
+	 */
+	EAttribute getStardustProcessType_SupportsProcessAttachments();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType <em>Stardust Resource Type</em>}'.
@@ -2524,6 +2714,14 @@ public interface SdbpmnPackage extends EPackage {
 		EReference DOCUMENT_ROOT__STARDUST_MODEL = eINSTANCE.getDocumentRoot_StardustModel();
 
 		/**
+		 * The meta object literal for the '<em><b>Stardust Process</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DOCUMENT_ROOT__STARDUST_PROCESS = eINSTANCE.getDocumentRoot_StardustProcess();
+
+		/**
 		 * The meta object literal for the '<em><b>Stardust Resource</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2628,6 +2826,22 @@ public interface SdbpmnPackage extends EPackage {
 		EAttribute DOCUMENT_ROOT__MODEL_OID = eINSTANCE.getDocumentRoot_ModelOID();
 
 		/**
+		 * The meta object literal for the '<em><b>Model Released</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENT_ROOT__MODEL_RELEASED = eINSTANCE.getDocumentRoot_ModelReleased();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENT_ROOT__MODEL_VERSION = eINSTANCE.getDocumentRoot_ModelVersion();
+
+		/**
 		 * The meta object literal for the '<em><b>Oid</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2642,6 +2856,14 @@ public interface SdbpmnPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DOCUMENT_ROOT__PARAMETER_MAPPING_OID = eINSTANCE.getDocumentRoot_ParameterMappingOid();
+
+		/**
+		 * The meta object literal for the '<em><b>Stardust Ignore</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DOCUMENT_ROOT__STARDUST_IGNORE = eINSTANCE.getDocumentRoot_StardustIgnore();
 
 		/**
 		 * The meta object literal for the '<em><b>Stardust Property Id</b></em>' attribute feature.
@@ -2934,6 +3156,22 @@ public interface SdbpmnPackage extends EPackage {
 		EAttribute STARDUST_MODEL_TYPE__MODEL_OID = eINSTANCE.getStardustModelType_ModelOID();
 
 		/**
+		 * The meta object literal for the '<em><b>Model Released</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STARDUST_MODEL_TYPE__MODEL_RELEASED = eINSTANCE.getStardustModelType_ModelReleased();
+
+		/**
+		 * The meta object literal for the '<em><b>Model Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STARDUST_MODEL_TYPE__MODEL_VERSION = eINSTANCE.getStardustModelType_ModelVersion();
+
+		/**
 		 * The meta object literal for the '<em><b>Oid</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2948,6 +3186,32 @@ public interface SdbpmnPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STARDUST_MODEL_TYPE__VENDOR = eINSTANCE.getStardustModelType_Vendor();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustProcessTypeImpl <em>Stardust Process Type</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustProcessTypeImpl
+		 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.impl.SdbpmnPackageImpl#getStardustProcessType()
+		 * @generated
+		 */
+		EClass STARDUST_PROCESS_TYPE = eINSTANCE.getStardustProcessType();
+
+		/**
+		 * The meta object literal for the '<em><b>Stardust Attributes</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STARDUST_PROCESS_TYPE__STARDUST_ATTRIBUTES = eINSTANCE.getStardustProcessType_StardustAttributes();
+
+		/**
+		 * The meta object literal for the '<em><b>Supports Process Attachments</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STARDUST_PROCESS_TYPE__SUPPORTS_PROCESS_ATTACHMENTS = eINSTANCE.getStardustProcessType_SupportsProcessAttachments();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.impl.StardustResourceTypeImpl <em>Stardust Resource Type</em>}' class.

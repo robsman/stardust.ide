@@ -91,7 +91,7 @@ import org.eclipse.stardust.engine.extensions.mail.trigger.MailTriggerValidator;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanAccessPointProvider;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanApplicationInstance;
 import org.eclipse.stardust.engine.spring.extensions.app.SpringBeanValidator;
-import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper2;
+import org.eclipse.stardust.model.bpmn2.extension.ExtensionHelper;
 import org.eclipse.stardust.model.bpmn2.input.serialization.Bpmn2PersistenceHandler;
 import org.eclipse.stardust.model.bpmn2.transform.Transformator;
 import org.eclipse.stardust.model.bpmn2.transform.util.PredefinedDataInfo;
@@ -108,6 +108,7 @@ import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.RoutingS
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.control.SequenceFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Data2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.IntermediateAndEndEventDataFlow2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.ProcessParam2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.Property2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.StartEventDataFlow2Stardust;
 import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data.TaskDataFlow2Stardust;
@@ -126,6 +127,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.builder.utils.XpdlModelIoUtils;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationTypeType;
+import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -170,10 +172,17 @@ public class Bpmn2StardustXPDL implements Transformator {
     			.withIdAndName(modelId, definitions.getName())
     			.build();
 
-    	String targetCarnotVersion = ExtensionHelper2.INSTANCE.getCarnotVersion(definitions);
-    	if (null != targetCarnotVersion) {
-    		carnotModel.setCarnotVersion(targetCarnotVersion);
+    	String modelVersion = ExtensionHelper.getInstance().getModelVersion(definitions);
+		AttributeType version = CarnotWorkflowModelFactory.eINSTANCE.createAttributeType();
+    	// This attribute is actually transformed into the <Version> tag of the xpdl
+		version.setName(PredefinedConstants.VERSION_ATT);
+    	if (null != modelVersion && !modelVersion.isEmpty()) {
+    		version.setValue(modelVersion);
+    	} else {
+    		// without a version value, the portal fails to display the model management view correctly!
+    		version.setValue("1");
     	}
+    	carnotModel.getAttribute().add(version);
 
     	Bpmn2StardustXPDLExtension.addModelExtensions(definitions, carnotModel);
     	Bpmn2StardustXPDLExtension.addModelExtensionDefaults(definitions, carnotModel);
@@ -678,5 +687,11 @@ public class Bpmn2StardustXPDL implements Transformator {
 	public void addProperty(Property property, Map<String, String> predefinedDataForId) {
 		new Property2Stardust(carnotModel, failures).addProperty(property, predefinedDataForId);
 	}
+
+	@Override
+	public void addProcessParameters(Process process) {
+		new ProcessParam2Stardust(carnotModel, failures).addProcessParams(process);
+	}
+
 
 }

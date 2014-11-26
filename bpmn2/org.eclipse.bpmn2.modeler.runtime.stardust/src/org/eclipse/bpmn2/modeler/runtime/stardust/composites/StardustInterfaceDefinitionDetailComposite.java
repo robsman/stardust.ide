@@ -70,10 +70,10 @@ public class StardustInterfaceDefinitionDetailComposite extends DefaultDetailCom
 		// Create a Detail Composite for the StardustInterfaceType object.
 		StardustInterfaceDetailComposite sdInterfaceSection = new StardustInterfaceDetailComposite(this, SWT.NONE);
 		sdInterfaceSection.setBusinessObject(sdInterface);
-		sdInterfaceSection.setTitle("Stardust Interface");
+		sdInterfaceSection.setTitle(Messages.composite_interface_stardust_interface_title);
 	}
-	
-	
+
+
 	@Override
 	protected AbstractListComposite bindList(EObject object, EStructuralFeature feature, EClass listItemClass) {
 		if ("operations".equals(feature.getName())) { //$NON-NLS-1$
@@ -86,7 +86,7 @@ public class StardustInterfaceDefinitionDetailComposite extends DefaultDetailCom
 			return super.bindList(object, feature, listItemClass);
 		}
 	}
-	
+
 	@Override
 	public AbstractPropertiesProvider getPropertiesProvider(EObject object) {
 		if (propertiesProvider==null) {
@@ -96,14 +96,14 @@ public class StardustInterfaceDefinitionDetailComposite extends DefaultDetailCom
 						"implementationRef", //$NON-NLS-1$
 						"operations" //$NON-NLS-1$
 				};
-				
+
 				@Override
 				public String[] getProperties() {
-					return properties; 
+					return properties;
 				}
 			};
 		}
 		return propertiesProvider;
 	}
-	
+
 }

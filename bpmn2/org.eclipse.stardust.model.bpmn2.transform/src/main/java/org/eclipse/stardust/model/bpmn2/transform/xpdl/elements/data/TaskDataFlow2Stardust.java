@@ -132,7 +132,7 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             logger.debug("DataOutputAssociation has assignment " + assocOut);
             addOutDataMappingFromAssignments(activity, assocOut, dataOutput, toVariable);
         } else {
-            logger.debug("DataInputAssociation without assignment " + assocOut);
+            logger.debug("DataInputAssociation without assignment " + assocOut + " TO VARIABLE " + toVariable + " - " + associationTarget.getId());
             DataMappingType mapping = buildOutDataMapping(activity, toVariable.getId() /* assocOut.getId() */ , getDataMappingName(dataOutput, assocOut), toVariable, "","");
             addDataPathFromTransformationExpression(mapping, assocOut);
         }
@@ -162,7 +162,8 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
             // the mapping ids must be identical (otherwise only one direction will be available),
             // thus we take the dataObject's id
-            if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
+            if (ActivityImplementationType.MANUAL_LITERAL.equals(activity.getImplementation().getLiteral())
+             && (null == applicationAccessPath || applicationAccessPath.isEmpty())
              && (null == fromExpressionValue || fromExpressionValue.isEmpty())
              && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())) {
             	mapping.setId(fromVariable.getId());
@@ -192,7 +193,8 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
             // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
             // the mapping ids must be identical (otherwise only one direction will be available),
             // thus we take the dataObject's id
-            if ((null == applicationAccessPath || applicationAccessPath.isEmpty())
+            if (ActivityImplementationType.MANUAL_LITERAL.equals(activity.getImplementation().getLiteral())
+             && (null == applicationAccessPath || applicationAccessPath.isEmpty())
              && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())
              && (null == toExpressionValue || toExpressionValue.isEmpty())) {
             	mapping.setId(toVariable.getId());
@@ -327,14 +329,35 @@ public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
 
     public static String getInDataMappingId(DataInput dataInput, DataInputAssociation inputAssociation) {
     	if (inputAssociation != null) {
-    		return inputAssociation.getId();
+    		//return inputAssociation.getId();
+    		List<ItemAwareElement> sourceRef = inputAssociation.getSourceRef();
+    		if (null != sourceRef && sourceRef.size() > 0) {
+    			if (null != sourceRef.get(0)) {
+    				ItemAwareElement srcRef = sourceRef.get(0);
+        			if (srcRef instanceof DataObjectReference) {
+        				srcRef = ((DataObjectReference) srcRef).getDataObjectRef();
+        			} else if (srcRef instanceof DataStoreReference) {
+        				srcRef = ((DataStoreReference) srcRef).getDataStoreRef();
+        			}
+        			if (null != srcRef) return srcRef.getId();
+    			}
+    		}
     	}
     	return dataInput.getId();
     }
 
     public static String getOutDataMappingId(DataOutput dataOutput, DataOutputAssociation outputAssociation) {
     	if (outputAssociation != null) {
-    		return outputAssociation.getId();
+    		//return outputAssociation.getId();
+    		ItemAwareElement targetRef = outputAssociation.getTargetRef();
+    		if (null != targetRef) {
+    			if (targetRef instanceof DataObjectReference) {
+    				targetRef = ((DataObjectReference) targetRef).getDataObjectRef();
+    			} else if (targetRef instanceof DataStoreReference) {
+    				targetRef = ((DataStoreReference) targetRef).getDataStoreRef();
+    			}
+    			if (null != targetRef) return targetRef.getId();
+    		}
     	}
     	return dataOutput.getId();
     }

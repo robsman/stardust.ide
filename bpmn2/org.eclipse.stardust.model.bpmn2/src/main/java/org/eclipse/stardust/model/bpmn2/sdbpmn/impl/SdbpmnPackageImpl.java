@@ -20,6 +20,7 @@ import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
+import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
 import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
@@ -109,6 +110,13 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * @generated
 	 */
 	private EClass stardustModelTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass stardustProcessTypeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -208,7 +216,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 
 	/**
 	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-	 * 
+	 *
 	 * <p>This method is used to initialize {@link SdbpmnPackage#eINSTANCE} when that field is accessed.
 	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
 	 * <!-- begin-user-doc -->
@@ -247,7 +255,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		// Mark meta-data to indicate it can't be changed
 		theSdbpmnPackage.freeze();
 
-  
+
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(SdbpmnPackage.eNS_URI, theSdbpmnPackage);
 		return theSdbpmnPackage;
@@ -375,7 +383,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustResource() {
+	public EReference getDocumentRoot_StardustProcess() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(12);
 	}
 
@@ -384,7 +392,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustSeqenceFlow() {
+	public EReference getDocumentRoot_StardustResource() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(13);
 	}
 
@@ -393,7 +401,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustServiceTask() {
+	public EReference getDocumentRoot_StardustSeqenceFlow() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(14);
 	}
 
@@ -402,7 +410,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustStartEvent() {
+	public EReference getDocumentRoot_StardustServiceTask() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(15);
 	}
 
@@ -411,7 +419,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustSubprocess() {
+	public EReference getDocumentRoot_StardustStartEvent() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(16);
 	}
 
@@ -420,7 +428,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustTimerStartEvent() {
+	public EReference getDocumentRoot_StardustSubprocess() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(17);
 	}
 
@@ -429,7 +437,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDocumentRoot_StardustUserTask() {
+	public EReference getDocumentRoot_StardustTimerStartEvent() {
 		return (EReference)documentRootEClass.getEStructuralFeatures().get(18);
 	}
 
@@ -438,8 +446,8 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_ApplicationAccessPointRef() {
-		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(19);
+	public EReference getDocumentRoot_StardustUserTask() {
+		return (EReference)documentRootEClass.getEStructuralFeatures().get(19);
 	}
 
 	/**
@@ -447,7 +455,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_Author() {
+	public EAttribute getDocumentRoot_ApplicationAccessPointRef() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(20);
 	}
 
@@ -456,7 +464,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_CarnotVersion() {
+	public EAttribute getDocumentRoot_Author() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(21);
 	}
 
@@ -465,7 +473,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_Created() {
+	public EAttribute getDocumentRoot_CarnotVersion() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(22);
 	}
 
@@ -474,7 +482,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_InteractiveApplicationRef() {
+	public EAttribute getDocumentRoot_Created() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(23);
 	}
 
@@ -483,7 +491,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_ModelOID() {
+	public EAttribute getDocumentRoot_InteractiveApplicationRef() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(24);
 	}
 
@@ -492,7 +500,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_Oid() {
+	public EAttribute getDocumentRoot_ModelOID() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(25);
 	}
 
@@ -501,7 +509,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_ParameterMappingOid() {
+	public EAttribute getDocumentRoot_ModelReleased() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(26);
 	}
 
@@ -510,7 +518,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_StardustPropertyId() {
+	public EAttribute getDocumentRoot_ModelVersion() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(27);
 	}
 
@@ -519,7 +527,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_SyntheticItemDefinition() {
+	public EAttribute getDocumentRoot_Oid() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(28);
 	}
 
@@ -528,7 +536,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_SyntheticProperty() {
+	public EAttribute getDocumentRoot_ParameterMappingOid() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(29);
 	}
 
@@ -537,7 +545,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_TriggerAccessPointRef() {
+	public EAttribute getDocumentRoot_StardustIgnore() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(30);
 	}
 
@@ -546,8 +554,44 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDocumentRoot_Vendor() {
+	public EAttribute getDocumentRoot_StardustPropertyId() {
 		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(31);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_SyntheticItemDefinition() {
+		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(32);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_SyntheticProperty() {
+		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(33);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_TriggerAccessPointRef() {
+		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(34);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_Vendor() {
+		return (EAttribute)documentRootEClass.getEStructuralFeatures().get(35);
 	}
 
 	/**
@@ -816,7 +860,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStardustModelType_Oid() {
+	public EAttribute getStardustModelType_ModelReleased() {
 		return (EAttribute)stardustModelTypeEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -825,8 +869,53 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getStardustModelType_Vendor() {
+	public EAttribute getStardustModelType_ModelVersion() {
 		return (EAttribute)stardustModelTypeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStardustModelType_Oid() {
+		return (EAttribute)stardustModelTypeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStardustModelType_Vendor() {
+		return (EAttribute)stardustModelTypeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStardustProcessType() {
+		return stardustProcessTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStardustProcessType_StardustAttributes() {
+		return (EReference)stardustProcessTypeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStardustProcessType_SupportsProcessAttachments() {
+		return (EAttribute)stardustProcessTypeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1095,6 +1184,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_INTERFACE);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_MESSAGE_START_EVENT);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_MODEL);
+		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_PROCESS);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_RESOURCE);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_SEQENCE_FLOW);
 		createEReference(documentRootEClass, DOCUMENT_ROOT__STARDUST_SERVICE_TASK);
@@ -1108,8 +1198,11 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__CREATED);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__INTERACTIVE_APPLICATION_REF);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MODEL_OID);
+		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MODEL_RELEASED);
+		createEAttribute(documentRootEClass, DOCUMENT_ROOT__MODEL_VERSION);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__OID);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__PARAMETER_MAPPING_OID);
+		createEAttribute(documentRootEClass, DOCUMENT_ROOT__STARDUST_IGNORE);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__STARDUST_PROPERTY_ID);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__SYNTHETIC_ITEM_DEFINITION);
 		createEAttribute(documentRootEClass, DOCUMENT_ROOT__SYNTHETIC_PROPERTY);
@@ -1153,8 +1246,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__CARNOT_VERSION);
 		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__CREATED);
 		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__MODEL_OID);
+		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__MODEL_RELEASED);
+		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__MODEL_VERSION);
 		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__OID);
 		createEAttribute(stardustModelTypeEClass, STARDUST_MODEL_TYPE__VENDOR);
+
+		stardustProcessTypeEClass = createEClass(STARDUST_PROCESS_TYPE);
+		createEReference(stardustProcessTypeEClass, STARDUST_PROCESS_TYPE__STARDUST_ATTRIBUTES);
+		createEAttribute(stardustProcessTypeEClass, STARDUST_PROCESS_TYPE__SUPPORTS_PROCESS_ATTACHMENTS);
 
 		stardustResourceTypeEClass = createEClass(STARDUST_RESOURCE_TYPE);
 		createEReference(stardustResourceTypeEClass, STARDUST_RESOURCE_TYPE__STARDUST_CONDITIONAL_PERFORMER);
@@ -1247,6 +1346,7 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		initEReference(getDocumentRoot_StardustInterface(), this.getStardustInterfaceType(), null, "stardustInterface", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_StardustMessageStartEvent(), this.getStardustMessageStartEventType(), null, "stardustMessageStartEvent", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_StardustModel(), this.getStardustModelType(), null, "stardustModel", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEReference(getDocumentRoot_StardustProcess(), this.getStardustProcessType(), null, "stardustProcess", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_StardustResource(), this.getStardustResourceType(), null, "stardustResource", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_StardustSeqenceFlow(), this.getStardustSeqenceFlowType(), null, "stardustSeqenceFlow", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getDocumentRoot_StardustServiceTask(), this.getStardustServiceTaskType(), null, "stardustServiceTask", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1260,8 +1360,11 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		initEAttribute(getDocumentRoot_Created(), theXMLTypePackage.getDateTime(), "created", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_InteractiveApplicationRef(), theXMLTypePackage.getString(), "interactiveApplicationRef", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_ModelOID(), theXMLTypePackage.getInteger(), "modelOID", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentRoot_ModelReleased(), theXMLTypePackage.getBoolean(), "modelReleased", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentRoot_ModelVersion(), theXMLTypePackage.getString(), "modelVersion", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_Oid(), theXMLTypePackage.getLong(), "oid", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_ParameterMappingOid(), theXMLTypePackage.getString(), "parameterMappingOid", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDocumentRoot_StardustIgnore(), theXMLTypePackage.getBoolean(), "stardustIgnore", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_StardustPropertyId(), theXMLTypePackage.getString(), "stardustPropertyId", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_SyntheticItemDefinition(), theXMLTypePackage.getBoolean(), "syntheticItemDefinition", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDocumentRoot_SyntheticProperty(), theXMLTypePackage.getBoolean(), "syntheticProperty", null, 0, 1, null, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1305,8 +1408,14 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 		initEAttribute(getStardustModelType_CarnotVersion(), theXMLTypePackage.getString(), "carnotVersion", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStardustModelType_Created(), theXMLTypePackage.getDateTime(), "created", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStardustModelType_ModelOID(), theXMLTypePackage.getInteger(), "modelOID", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStardustModelType_ModelReleased(), theXMLTypePackage.getBoolean(), "modelReleased", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStardustModelType_ModelVersion(), theXMLTypePackage.getString(), "modelVersion", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStardustModelType_Oid(), theXMLTypePackage.getLong(), "oid", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStardustModelType_Vendor(), theXMLTypePackage.getString(), "vendor", null, 0, 1, StardustModelType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(stardustProcessTypeEClass, StardustProcessType.class, "StardustProcessType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getStardustProcessType_StardustAttributes(), this.getStardustAttributesType(), null, "stardustAttributes", null, 1, 1, StardustProcessType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStardustProcessType_SupportsProcessAttachments(), theXMLTypePackage.getBoolean(), "supportsProcessAttachments", null, 0, 1, StardustProcessType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stardustResourceTypeEClass, StardustResourceType.class, "StardustResourceType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getStardustResourceType_StardustConditionalPerformer(), theCarnotWorkflowModelPackage.getConditionalPerformerType(), null, "stardustConditionalPerformer", null, 0, 1, StardustResourceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1358,678 +1467,748 @@ public class SdbpmnPackageImpl extends EPackageImpl implements SdbpmnPackage {
 	 * @generated
 	 */
 	protected void createExtendedMetaDataAnnotations() {
-		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";	
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
 		addAnnotation
-		  (documentRootEClass, 
-		   source, 
+		  (documentRootEClass,
+		   source,
 		   new String[] {
 			 "name", "",
 			 "kind", "mixed"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_Mixed(), 
-		   source, 
+		  (getDocumentRoot_Mixed(),
+		   source,
 		   new String[] {
 			 "kind", "elementWildcard",
 			 "name", ":mixed"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_XMLNSPrefixMap(), 
-		   source, 
+		  (getDocumentRoot_XMLNSPrefixMap(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "xmlns:prefix"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_XSISchemaLocation(), 
-		   source, 
+		  (getDocumentRoot_XSISchemaLocation(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "xsi:schemaLocation"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_DataType(), 
-		   source, 
+		  (getDocumentRoot_DataType(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "dataType",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustActivity(), 
-		   source, 
+		  (getDocumentRoot_StardustActivity(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustActivity",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustAttributes(), 
-		   source, 
+		  (getDocumentRoot_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustCommon(), 
-		   source, 
+		  (getDocumentRoot_StardustCommon(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustCommon",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustDataObject(), 
-		   source, 
+		  (getDocumentRoot_StardustDataObject(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustDataObject",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustDataStore(), 
-		   source, 
+		  (getDocumentRoot_StardustDataStore(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustDataStore",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustInterface(), 
-		   source, 
+		  (getDocumentRoot_StardustInterface(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustInterface",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustMessageStartEvent(), 
-		   source, 
+		  (getDocumentRoot_StardustMessageStartEvent(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustMessageStartEvent",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustModel(), 
-		   source, 
+		  (getDocumentRoot_StardustModel(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustModel",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustResource(), 
-		   source, 
+		  (getDocumentRoot_StardustProcess(),
+		   source,
+		   new String[] {
+			 "kind", "element",
+			 "name", "StardustProcess",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getDocumentRoot_StardustResource(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustResource",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustSeqenceFlow(), 
-		   source, 
+		  (getDocumentRoot_StardustSeqenceFlow(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustSeqenceFlow",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustServiceTask(), 
-		   source, 
+		  (getDocumentRoot_StardustServiceTask(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustServiceTask",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustStartEvent(), 
-		   source, 
+		  (getDocumentRoot_StardustStartEvent(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustStartEvent",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustSubprocess(), 
-		   source, 
+		  (getDocumentRoot_StardustSubprocess(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustSubprocess",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustTimerStartEvent(), 
-		   source, 
+		  (getDocumentRoot_StardustTimerStartEvent(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustTimerStartEvent",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustUserTask(), 
-		   source, 
+		  (getDocumentRoot_StardustUserTask(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustUserTask",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_ApplicationAccessPointRef(), 
-		   source, 
+		  (getDocumentRoot_ApplicationAccessPointRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "applicationAccessPointRef",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_Author(), 
-		   source, 
+		  (getDocumentRoot_Author(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "author",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_CarnotVersion(), 
-		   source, 
+		  (getDocumentRoot_CarnotVersion(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "carnotVersion",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_Created(), 
-		   source, 
+		  (getDocumentRoot_Created(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "created",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_InteractiveApplicationRef(), 
-		   source, 
+		  (getDocumentRoot_InteractiveApplicationRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "interactiveApplicationRef",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_ModelOID(), 
-		   source, 
+		  (getDocumentRoot_ModelOID(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "modelOID",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_Oid(), 
-		   source, 
+		  (getDocumentRoot_ModelReleased(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "modelReleased",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getDocumentRoot_ModelVersion(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "modelVersion",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getDocumentRoot_Oid(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "oid",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_ParameterMappingOid(), 
-		   source, 
+		  (getDocumentRoot_ParameterMappingOid(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "parameterMappingOid",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_StardustPropertyId(), 
-		   source, 
+		  (getDocumentRoot_StardustIgnore(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "stardustIgnore",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getDocumentRoot_StardustPropertyId(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "stardustPropertyId",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_SyntheticItemDefinition(), 
-		   source, 
+		  (getDocumentRoot_SyntheticItemDefinition(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "syntheticItemDefinition",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_SyntheticProperty(), 
-		   source, 
+		  (getDocumentRoot_SyntheticProperty(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "syntheticProperty",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_TriggerAccessPointRef(), 
-		   source, 
+		  (getDocumentRoot_TriggerAccessPointRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "triggerAccessPointRef",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getDocumentRoot_Vendor(), 
-		   source, 
+		  (getDocumentRoot_Vendor(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "vendor",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustAccessPointTypeEClass, 
-		   source, 
+		  (stardustAccessPointTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustAccessPointType",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustAccessPointType_TypeRef(), 
-		   source, 
+		  (getStardustAccessPointType_TypeRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "typeRef"
-		   });	
+		   });
 		addAnnotation
-		  (stardustApplicationTypeEClass, 
-		   source, 
+		  (stardustApplicationTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustApplicationType",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustApplicationType_AccessPoint1(), 
-		   source, 
+		  (getStardustApplicationType_AccessPoint1(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "accessPoint",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustApplicationType_Context1(), 
-		   source, 
+		  (getStardustApplicationType_Context1(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "context",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustAttributesTypeEClass, 
-		   source, 
+		  (stardustAttributesTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustAttributes_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustAttributesType_AttributeType(), 
-		   source, 
+		  (getStardustAttributesType_AttributeType(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "AttributeType",
 			 "namespace", "http://www.carnot.ag/workflowmodel/3.1"
-		   });	
+		   });
 		addAnnotation
-		  (stardustContextTypeEClass, 
-		   source, 
+		  (stardustContextTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustContextType",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustContextType_AccessPoint1(), 
-		   source, 
+		  (getStardustContextType_AccessPoint1(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "accessPoint",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustContextType_TypeRef(), 
-		   source, 
+		  (getStardustContextType_TypeRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "typeRef"
-		   });	
+		   });
 		addAnnotation
-		  (stardustDataObjectTypeEClass, 
-		   source, 
+		  (stardustDataObjectTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustDataObject_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustDataObjectType_StardustAttributes(), 
-		   source, 
+		  (getStardustDataObjectType_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustDataObjectType_Predefined(), 
-		   source, 
+		  (getStardustDataObjectType_Predefined(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "predefined"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustDataObjectType_Type(), 
-		   source, 
+		  (getStardustDataObjectType_Type(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "type"
-		   });	
+		   });
 		addAnnotation
-		  (stardustDataStoreTypeEClass, 
-		   source, 
+		  (stardustDataStoreTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustDataStore_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustDataStoreType_StardustAttributes(), 
-		   source, 
+		  (getStardustDataStoreType_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustDataStoreType_Type(), 
-		   source, 
+		  (getStardustDataStoreType_Type(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "type"
-		   });	
+		   });
 		addAnnotation
-		  (stardustInterfaceTypeEClass, 
-		   source, 
+		  (stardustInterfaceTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustInterface_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustInterfaceType_StardustApplication(), 
-		   source, 
+		  (getStardustInterfaceType_StardustApplication(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustApplication",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustInterfaceType_StardustTrigger(), 
-		   source, 
+		  (getStardustInterfaceType_StardustTrigger(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustTrigger",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustInterfaceType_ApplicationType(), 
-		   source, 
+		  (getStardustInterfaceType_ApplicationType(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "applicationType"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustInterfaceType_Id(), 
-		   source, 
+		  (getStardustInterfaceType_Id(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "id"
-		   });	
+		   });
 		addAnnotation
-		  (stardustMessageStartEventTypeEClass, 
-		   source, 
+		  (stardustMessageStartEventTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustMessageStartEvent_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustMessageStartEventType_StardustAttributes(), 
-		   source, 
+		  (getStardustMessageStartEventType_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustModelTypeEClass, 
-		   source, 
+		  (stardustModelTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustModel_._type",
 			 "kind", "empty"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_Author(), 
-		   source, 
+		  (getStardustModelType_Author(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "author",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_CarnotVersion(), 
-		   source, 
+		  (getStardustModelType_CarnotVersion(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "carnotVersion",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_Created(), 
-		   source, 
+		  (getStardustModelType_Created(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "created",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_ModelOID(), 
-		   source, 
+		  (getStardustModelType_ModelOID(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "modelOID",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_Oid(), 
-		   source, 
+		  (getStardustModelType_ModelReleased(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "modelReleased",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getStardustModelType_ModelVersion(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "modelVersion",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getStardustModelType_Oid(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "oid",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustModelType_Vendor(), 
-		   source, 
+		  (getStardustModelType_Vendor(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "vendor",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustResourceTypeEClass, 
-		   source, 
+		  (stardustProcessTypeEClass,
+		   source,
+		   new String[] {
+			 "name", "StardustProcess_._type",
+			 "kind", "elementOnly"
+		   });
+		addAnnotation
+		  (getStardustProcessType_StardustAttributes(),
+		   source,
+		   new String[] {
+			 "kind", "element",
+			 "name", "StardustAttributes",
+			 "namespace", "##targetNamespace"
+		   });
+		addAnnotation
+		  (getStardustProcessType_SupportsProcessAttachments(),
+		   source,
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "supportsProcessAttachments"
+		   });
+		addAnnotation
+		  (stardustResourceTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustResource_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustResourceType_StardustConditionalPerformer(), 
-		   source, 
+		  (getStardustResourceType_StardustConditionalPerformer(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustConditionalPerformer",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustResourceType_StardustRole(), 
-		   source, 
+		  (getStardustResourceType_StardustRole(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustRole",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustResourceType_StardustOrganization(), 
-		   source, 
+		  (getStardustResourceType_StardustOrganization(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustOrganization",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustResourceType_DataId(), 
-		   source, 
+		  (getStardustResourceType_DataId(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "dataId"
-		   });	
+		   });
 		addAnnotation
-		  (stardustSeqenceFlowTypeEClass, 
-		   source, 
+		  (stardustSeqenceFlowTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustSeqenceFlow_._type",
 			 "kind", "empty"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustSeqenceFlowType_ForkOnTraversal(), 
-		   source, 
+		  (getStardustSeqenceFlowType_ForkOnTraversal(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "forkOnTraversal"
-		   });	
+		   });
 		addAnnotation
-		  (stardustServiceTaskTypeEClass, 
-		   source, 
+		  (stardustServiceTaskTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustServiceTask_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (stardustStartEventTypeEClass, 
-		   source, 
+		  (stardustStartEventTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustStartEvent_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustStartEventType_StardustAttributes(), 
-		   source, 
+		  (getStardustStartEventType_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustSubprocessTypeEClass, 
-		   source, 
+		  (stardustSubprocessTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustSubprocess_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustSubprocessType_ImplementationProcess(), 
-		   source, 
+		  (getStardustSubprocessType_ImplementationProcess(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "implementationProcess"
-		   });	
+		   });
 		addAnnotation
-		  (stardustTimerStartEventTypeEClass, 
-		   source, 
+		  (stardustTimerStartEventTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustTimerStartEvent_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustTimerStartEventType_StardustAttributes(), 
-		   source, 
+		  (getStardustTimerStartEventType_StardustAttributes(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "StardustAttributes",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustTriggerTypeEClass, 
-		   source, 
+		  (stardustTriggerTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustTriggerType",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustTriggerType_AccessPoint1(), 
-		   source, 
+		  (getStardustTriggerType_AccessPoint1(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "accessPoint",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustTriggerType_Context(), 
-		   source, 
+		  (getStardustTriggerType_Context(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "context",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (stardustUserTaskTypeEClass, 
-		   source, 
+		  (stardustUserTaskTypeEClass,
+		   source,
 		   new String[] {
 			 "name", "StardustUserTask_._type",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustUserTaskType_AllowsAbortByPerformer(), 
-		   source, 
+		  (getStardustUserTaskType_AllowsAbortByPerformer(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "allowsAbortByPerformer"
-		   });	
+		   });
 		addAnnotation
-		  (getStardustUserTaskType_InteractiveApplicationRef(), 
-		   source, 
+		  (getStardustUserTaskType_InteractiveApplicationRef(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "interactiveApplicationRef"
-		   });	
+		   });
 		addAnnotation
-		  (tStardustActivityEClass, 
-		   source, 
+		  (tStardustActivityEClass,
+		   source,
 		   new String[] {
 			 "name", "tStardustActivity",
 			 "kind", "elementOnly"
-		   });	
+		   });
 		addAnnotation
-		  (getTStardustActivity_EventHandler(), 
-		   source, 
+		  (getTStardustActivity_EventHandler(),
+		   source,
 		   new String[] {
 			 "kind", "element",
 			 "name", "eventHandler",
 			 "namespace", "##targetNamespace"
-		   });	
+		   });
 		addAnnotation
-		  (getTStardustActivity_HibernateOnCreation(), 
-		   source, 
+		  (getTStardustActivity_HibernateOnCreation(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "hibernateOnCreation"
-		   });	
+		   });
 		addAnnotation
-		  (tStardustCommonEClass, 
-		   source, 
+		  (tStardustCommonEClass,
+		   source,
 		   new String[] {
 			 "name", "tStardustCommon",
 			 "kind", "empty"
-		   });	
+		   });
 		addAnnotation
-		  (getTStardustCommon_ElementOid(), 
-		   source, 
+		  (getTStardustCommon_ElementOid(),
+		   source,
 		   new String[] {
 			 "kind", "attribute",
 			 "name", "elementOid"

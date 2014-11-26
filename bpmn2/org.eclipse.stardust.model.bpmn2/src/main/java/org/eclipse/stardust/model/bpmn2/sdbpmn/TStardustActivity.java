@@ -3,6 +3,7 @@
 package org.eclipse.stardust.model.bpmn2.sdbpmn;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.stardust.model.xpdl.carnot.EventHandlerType;
 
 /**

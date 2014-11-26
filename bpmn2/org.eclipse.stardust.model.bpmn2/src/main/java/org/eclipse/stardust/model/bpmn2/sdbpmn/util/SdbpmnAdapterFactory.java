@@ -4,29 +4,13 @@ package org.eclipse.stardust.model.bpmn2.sdbpmn.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.DocumentRoot;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAccessPointType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustApplicationType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustAttributesType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustContextType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataObjectType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustDataStoreType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustInterfaceType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustMessageStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustResourceType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSeqenceFlowType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustServiceTaskType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustSubprocessType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTimerStartEventType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustTriggerType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.StardustUserTaskType;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustActivity;
-import org.eclipse.stardust.model.bpmn2.sdbpmn.TStardustCommon;
+
+import org.eclipse.stardust.model.bpmn2.sdbpmn.*;
+
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
 import org.eclipse.stardust.model.xpdl.carnot.ContextType;
@@ -133,6 +117,10 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseStardustModelType(StardustModelType object) {
 				return createStardustModelTypeAdapter();
+			}
+			@Override
+			public Adapter caseStardustProcessType(StardustProcessType object) {
+				return createStardustProcessTypeAdapter();
 			}
 			@Override
 			public Adapter caseStardustResourceType(StardustResourceType object) {
@@ -371,6 +359,20 @@ public class SdbpmnAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createStardustModelTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType <em>Stardust Process Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType
+	 * @generated
+	 */
+	public Adapter createStardustProcessTypeAdapter() {
 		return null;
 	}
 

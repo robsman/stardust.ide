@@ -27,6 +27,7 @@ import org.eclipse.bpmn2.Interface;
 import org.eclipse.bpmn2.ItemDefinition;
 import org.eclipse.bpmn2.Performer;
 import org.eclipse.bpmn2.PotentialOwner;
+import org.eclipse.bpmn2.Process;
 import org.eclipse.bpmn2.Resource;
 import org.eclipse.bpmn2.ResourceParameterBinding;
 import org.eclipse.bpmn2.Task;
@@ -43,6 +44,7 @@ import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustCommonEvent
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssignmentDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustInterfaceDefinitionDetailComposite;
+import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustProcessDiagramDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTaskDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustTimerEventDefinitionDetailComposite;
 import org.eclipse.bpmn2.modeler.runtime.stardust.composites.data.StardustDataObjectDetailComposite;
@@ -146,6 +148,7 @@ public class StardustRuntimeExtension<ExtensionsPackageImpl> implements IBpmn2Ru
 
 	        PropertiesCompositeFactory.register(Event.class, StardustCommonEventDetailComposite.class);
 
+	        PropertiesCompositeFactory.register(Process.class, StardustProcessDiagramDetailComposite.class);
 		}
 	}
 }

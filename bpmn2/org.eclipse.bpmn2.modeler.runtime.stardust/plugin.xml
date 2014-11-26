@@ -148,7 +148,7 @@
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.usertask.implementation.tab"
 			afterTab="org.eclipse.bpmn2.modeler.userTask.tab"
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustUserTaskImplementationPropertySection"
-			type="org.eclipse.bpmn2.UserTask"
+			type="org.eclipse.bpmn2.UserTask org.eclipse.bpmn2.GlobalUserTask"
 			label="Interactive Application">
 		</propertyTab>
 
@@ -273,6 +273,14 @@
 			label="Definitions">
 		</propertyTab>
 
+		<propertyTab
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.processDiagram.tab"
+			replaceTab="org.eclipse.bpmn2.modeler.process.diagram.tab"
+			afterTab="org.eclipse.bpmn2.modeler.description.tab"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.property.StardustProcessDiagramPropertySection"
+			type="org.eclipse.bpmn2.Process"
+			label="Process">
+		</propertyTab>
 
 <!-- class="org.eclipse.bpmn2.modeler.runtime.stardust.composites.StardustDataAssociationPropertySection" -->
 		<!--<modelExtension
@@ -348,6 +356,13 @@
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustUserTaskPropertiesAdapter">
 		</propertyExtension>
 
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustProcessType"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.stardust.model.bpmn2.sdbpmn.StardustProcessType"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustProcessExtendedPropertiesAdapter">
+		</propertyExtension>
+
 <!--
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustPerformerResource"
@@ -401,7 +416,8 @@
 
 			<enable object="StardustResourceType"/>
 			<enable object="ConditionalPerformerType"/>
-
+			<enable object="StardustProcessType"/>
+<enable object="StardustModelType"/>
 			<enable object="StartEvent" feature="dataOutputs"/>
 			<enable object="IntermediateCatchEvent" feature="dataOutputs"/>
 

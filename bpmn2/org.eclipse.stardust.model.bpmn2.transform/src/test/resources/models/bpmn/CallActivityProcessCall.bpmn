@@ -1,109 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Created by Process Modeler 6 for Microsoft Visio (http://www.itp-commerce.com) -->
-<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio"
-	exporterVersion="6.2769.13758 " name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="13.12.2012 15:27:40"
-	itp:modificationDate="13.12.2012 15:35:27" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_269d2c01-f4c6-41cf-8d2b-4684667c6325"
-	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Modeler 6 for Microsoft Visio"
+	exporterVersion="6.2769.13758 "
+	name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="13.12.2012 15:27:40"
+	itp:modificationDate="13.12.2012 15:35:27"
+	itp:createdWithVersion="6.2769.13758 "
+	itp:conformanceSubClass="Full"
+	id="_269d2c01-f4c6-41cf-8d2b-4684667c6325"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" >
 
+<itemDefinition id="simpleItem" structureRef="xsd:string" itemKind="Information" isCollection="false" ></itemDefinition>
+<itemDefinition id="calledProcessDataInputType" structureRef="xsd:string" itemKind="Information" isCollection="false" ></itemDefinition>
+<itemDefinition id="calledProcessDataOutputType" structureRef="xsd:string" itemKind="Information" isCollection="false" ></itemDefinition>
+<!-- <itemDefinition id="callingProcessCallActivityDataInput" structureRef="xsd:string" itemKind="Information" isCollection="false" ></itemDefinition> -->
+<!-- <itemDefinition id="callingProcessCallActivityDataOutput" structureRef="xsd:string" itemKind="Information" isCollection="false" ></itemDefinition> -->
 
-	<process id="_268715f1-d2ab-4f49-901f-fe9d6f13397c" name="Hauptprozess" processType="None">
-		<callActivity id="_150cf817-24e1-429e-be95-fa8e29e0abf0" name="Caller" calledElement="_737479ff-fb80-4dbb-93e8-42d9506c8052"
+	<process id="CallingProcessId" name="Calling Process" processType="None">
+		<callActivity id="CallingProcessCallActivity" name="Caller" calledElement="CalledProcessId"
 			itp:isCollapsed="true">
 			<ioSpecification>
-				<dataInput id="_0ffbcd39-ac38-4ba4-894e-207e43c1cc77">
+				<dataInput id="CallingProcessCallActivityDataInput"  itemSubjectRef="calledProcessDataInputType" name="Called Process Param">
 				</dataInput>
-				<dataOutput id="_46d76589-6fb1-4cb3-9348-ac44913dea8e">
+				<dataOutput id="CallingProcessCallActivityDataOutput" itemSubjectRef="calledProcessDataOutputType" name="Called Process Output">
 				</dataOutput>
 				<inputSet>
-					<dataInputRefs>_0ffbcd39-ac38-4ba4-894e-207e43c1cc77</dataInputRefs>
+					<dataInputRefs>CallingProcessCallActivityDataInput</dataInputRefs>
 				</inputSet>
 				<outputSet>
-					<dataOutputRefs>_46d76589-6fb1-4cb3-9348-ac44913dea8e</dataOutputRefs>
+					<dataOutputRefs>CallingProcessCallActivityDataOutput</dataOutputRefs>
 				</outputSet>
 			</ioSpecification>
-			<dataInputAssociation id="_eca427a8-5557-47ac-b19f-85b5c070b174">
-				<sourceRef>_384ea988-7b97-4a0d-ba2f-40159497dceb</sourceRef>
-				<targetRef>_0ffbcd39-ac38-4ba4-894e-207e43c1cc77</targetRef>
+			<dataInputAssociation id="CallingProcessCallActivityInputAssociation">
+				<sourceRef>CallingProcessDataObjectParamReference</sourceRef>
+				<targetRef>CallingProcessCallActivityDataInput</targetRef>
 			</dataInputAssociation>
-			<dataOutputAssociation id="_17f0b116-0480-41f7-b576-bb5269773f97">
-				<sourceRef>_46d76589-6fb1-4cb3-9348-ac44913dea8e</sourceRef>
-				<targetRef>_ccde1e27-bb02-4497-ab84-4077141f9e98</targetRef>
+			<dataOutputAssociation id="CallingProcessCallActivityOutputAssociation">
+				<sourceRef>CallingProcessCallActivityDataOutput</sourceRef>
+				<targetRef>CallingProcessDataObjectOutputReference</targetRef>
 			</dataOutputAssociation>
 		</callActivity>
-		<dataObjectReference id="_384ea988-7b97-4a0d-ba2f-40159497dceb" name="ProcessParam" dataObjectRef="_6f233aac-9523-4160-a6c6-e3b9da1bb524">
+		<dataObjectReference id="CallingProcessDataObjectParamReference" name="Caller ProcessParam" dataObjectRef="CallingProcessDataObjectParam">
 		</dataObjectReference>
-		<dataObject id="_6f233aac-9523-4160-a6c6-e3b9da1bb524">
+		<dataObject id="CallingProcessDataObjectParam" itemSubjectRef="simpleItem">
 		</dataObject>
-		<dataObjectReference id="_ccde1e27-bb02-4497-ab84-4077141f9e98" name="ProcessOutput" dataObjectRef="_b2d5468f-8631-4fc6-821f-83c4f92a8135">
+		<dataObjectReference id="CallingProcessDataObjectOutputReference" name="Caller ProcessOutput" dataObjectRef="CallingProcessDataObjectOutput">
 		</dataObjectReference>
-		<dataObject id="_b2d5468f-8631-4fc6-821f-83c4f92a8135">
+		<dataObject id="CallingProcessDataObjectOutput" itemSubjectRef="simpleItem">
 		</dataObject>
 	</process>
-	<process id="_737479ff-fb80-4dbb-93e8-42d9506c8052" name="Callable Process" processType="None">
+	<process id="CalledProcessId" name="Callable Process" processType="None">
 		<ioSpecification>
-			<dataInput id="_9921941f-3d19-4395-ab3f-41eb420812a1" name="Process Param"></dataInput>
-			<dataOutput id="_404cc2a2-a5c0-4df1-9b14-699bc81dc47d" name="Process Output">
+			<dataInput id="CalledProcessDataInput" name="Called Process Param" itemSubjectRef="calledProcessDataInputType"></dataInput>
+			<dataOutput id="CalledProcessDataOutput" name="Called Process Output"  itemSubjectRef="calledProcessDataOutputType">
 			</dataOutput>
 			<inputSet>
-				<dataInputRefs>_9921941f-3d19-4395-ab3f-41eb420812a1</dataInputRefs>
+				<dataInputRefs>CalledProcessDataInput</dataInputRefs>
 			</inputSet>
 			<outputSet>
-				<dataOutputRefs>_404cc2a2-a5c0-4df1-9b14-699bc81dc47d</dataOutputRefs>
+				<dataOutputRefs>CalledProcessDataOutput</dataOutputRefs>
 			</outputSet>
 		</ioSpecification>
-		<userTask id="_a4df931a-6cf9-4d49-9ecb-ee1d3006bf8a" name="b" implementation="unspecified">
+		<userTask id="CalledProcessTaskB" name="b" implementation="unspecified">
 			<ioSpecification>
-				<dataOutput id="_42ccbe75-17cc-4b18-8b65-3f2e637b73ec">
+				<dataOutput id="CalledProcessTaskBDataOutput">
 				</dataOutput>
 				<inputSet />
 				<outputSet>
-					<dataOutputRefs>_42ccbe75-17cc-4b18-8b65-3f2e637b73ec</dataOutputRefs>
+					<dataOutputRefs>CalledProcessTaskBDataOutput</dataOutputRefs>
 				</outputSet>
 			</ioSpecification>
-			<dataOutputAssociation id="_a6192b51-0109-4f87-8407-9c65a47279c8">
-				<sourceRef>_42ccbe75-17cc-4b18-8b65-3f2e637b73ec</sourceRef>
-				<targetRef>_404cc2a2-a5c0-4df1-9b14-699bc81dc47d</targetRef>
+			<dataOutputAssociation id="CalledProcessTaskBOutputAssociation">
+				<sourceRef>CalledProcessTaskBDataOutput</sourceRef>
+				<targetRef>CalledProcessDataOutput</targetRef>
 			</dataOutputAssociation>
 		</userTask>
-		<userTask id="_2f1302bf-b271-43c2-8e13-cd6c37dac8e8" name="a" implementation="unspecified">
+		<userTask id="CalledProcessTaskA" name="a" implementation="unspecified">
 			<ioSpecification>
-				<dataInput id="_5f95c601-a38c-4504-8bdf-04dd845750b7" name="Process Param">
+				<dataInput id="CalledProcessTaskAInput" name="Process Param">
 				</dataInput>
 				<inputSet>
-					<dataInputRefs>_9921941f-3d19-4395-ab3f-41eb420812a1</dataInputRefs>
+					<dataInputRefs>CalledProcessDataInput</dataInputRefs>
 				</inputSet>
 				<outputSet />
 			</ioSpecification>
-			<dataInputAssociation id="_84163188-5ac5-403c-b25e-d7e864b150bf" >
-				<sourceRef>_9921941f-3d19-4395-ab3f-41eb420812a1</sourceRef>
-				<targetRef>_5f95c601-a38c-4504-8bdf-04dd845750b7</targetRef>
+			<dataInputAssociation id="CalledProcessTaskAInputAssociation" >
+				<sourceRef>CalledProcessDataInput</sourceRef>
+				<targetRef>CalledProcessTaskAInput</targetRef>
 			</dataInputAssociation>
 		</userTask>
-		<sequenceFlow id="_d6f43c8b-f407-407b-bdf3-46a3e76a1a64" sourceRef="_2f1302bf-b271-43c2-8e13-cd6c37dac8e8" targetRef="_a4df931a-6cf9-4d49-9ecb-ee1d3006bf8a">
+		<sequenceFlow id="CalledProcessSequenceAB" sourceRef="CalledProcessTaskA" targetRef="CalledProcessTaskB">
 		</sequenceFlow>
 	</process>
 	<collaboration id="_474b6d08-79b7-4289-827e-f05ef8860a53">
-		<participant id="_9d6d7901-a61b-4e8d-a76d-3da25ecba9b6" name="Callable Process" processRef="_737479ff-fb80-4dbb-93e8-42d9506c8052">
+		<participant id="_9d6d7901-a61b-4e8d-a76d-3da25ecba9b6" name="Callable Process" processRef="CalledProcessId">
 		</participant>
 	</collaboration>
 	<bpmndi:BPMNDiagram name="Calling" resolution="72">
 		<bpmndi:BPMNPlane id="_1" bpmnElement="_474b6d08-79b7-4289-827e-f05ef8860a53">
-			<bpmndi:BPMNShape id="_F79279E2-252E-4883-B7FE-F87DC0D0B47E" bpmnElement="_150cf817-24e1-429e-be95-fa8e29e0abf0" isExpanded="false"
+			<bpmndi:BPMNShape id="_F79279E2-252E-4883-B7FE-F87DC0D0B47E" bpmnElement="CallingProcessCallActivity" isExpanded="false"
 				itp:label="Caller" itp:elementType="callActivity">
 				<dc:Bounds x="218.267716535433" y="177.165354330709" width="85.0393700787402" height="42.5196850393701" />
 				<bpmndi:BPMNLabel labelStyle="_f95d42fb-bd0f-4850-bb2e-f6f9ca32c4ae">
 					<dc:Bounds x="244.08" y="191.715590551181" width="33.12" height="13.68" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNShape id="_38083153-BDF1-447C-B1A3-014BBA5D2208" bpmnElement="_384ea988-7b97-4a0d-ba2f-40159497dceb" itp:label="ProcessParam"
+			<bpmndi:BPMNShape id="_38083153-BDF1-447C-B1A3-014BBA5D2208" bpmnElement="CallingProcessDataObjectParamReference" itp:label="ProcessParam"
 				itp:elementType="dataObjectReference">
 				<dc:Bounds x="106.299212598425" y="184.251968503937" width="21.259842519685" height="28.3464566929134" />
 				<bpmndi:BPMNLabel labelStyle="_3dce1645-bd37-4430-ad51-ed4733d38764">
 					<dc:Bounds x="88.56" y="216.915590551181" width="54.72" height="9.36" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNEdge id="_072146CF-6D26-4B56-8E8E-747AB99794CB" bpmnElement="_eca427a8-5557-47ac-b19f-85b5c070b174" itp:label="(unbenannt)"
+			<bpmndi:BPMNEdge id="_072146CF-6D26-4B56-8E8E-747AB99794CB" bpmnElement="CallingProcessCallActivityInputAssociation" itp:label="(unbenannt)"
 				itp:elementType="dataInputAssociation" targetElement="_F79279E2-252E-4883-B7FE-F87DC0D0B47E">
 				<di:waypoint x="127.55905511811" y="198.425196850394" />
 				<di:waypoint x="218.267716535433" y="198.425196850394" />
@@ -111,14 +131,14 @@
 					<dc:Bounds x="168.84" y="179.835590551181" width="7.92" height="17.28" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNEdge>
-			<bpmndi:BPMNShape id="_B6CF0FD7-4C1F-4D3B-A36B-0E48D29FD71F" bpmnElement="_ccde1e27-bb02-4497-ab84-4077141f9e98" itp:label="ProcessOutput"
+			<bpmndi:BPMNShape id="_B6CF0FD7-4C1F-4D3B-A36B-0E48D29FD71F" bpmnElement="CallingProcessDataObjectOutputReference" itp:label="ProcessOutput"
 				itp:elementType="dataObjectReference">
 				<dc:Bounds x="394.015748031496" y="184.251968503937" width="21.259842519685" height="28.3464566929134" />
 				<bpmndi:BPMNLabel labelStyle="_3dce1645-bd37-4430-ad51-ed4733d38764">
 					<dc:Bounds x="376.2" y="216.915590551181" width="55.44" height="9.36" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNEdge id="_BB437B40-FF37-4205-8B79-8CFC9494003D" bpmnElement="_17f0b116-0480-41f7-b576-bb5269773f97" itp:label="(unbenannt)"
+			<bpmndi:BPMNEdge id="_BB437B40-FF37-4205-8B79-8CFC9494003D" bpmnElement="CallingProcessCallActivityOutputAssociation" itp:label="(unbenannt)"
 				itp:elementType="dataOutputAssociation" sourceElement="_F79279E2-252E-4883-B7FE-F87DC0D0B47E">
 				<di:waypoint x="303.307086614173" y="198.425196850394" />
 				<di:waypoint x="394.015748031496" y="198.425196850394" />
@@ -130,21 +150,21 @@
 	</bpmndi:BPMNDiagram>
 	<bpmndi:BPMNDiagram name="Called" resolution="72">
 		<bpmndi:BPMNPlane id="_2" bpmnElement="_474b6d08-79b7-4289-827e-f05ef8860a53">
-			<bpmndi:BPMNShape id="_DFFB10C5-6D34-47B6-88CC-1B8FF4F8C6F2" bpmnElement="_2f1302bf-b271-43c2-8e13-cd6c37dac8e8" itp:label="a"
+			<bpmndi:BPMNShape id="_DFFB10C5-6D34-47B6-88CC-1B8FF4F8C6F2" bpmnElement="CalledProcessTaskA" itp:label="a"
 				itp:elementType="userTask">
 				<dc:Bounds x="246.614173228346" y="342.283464566929" width="85.0393700787402" height="42.5196850393701" />
 				<bpmndi:BPMNLabel labelStyle="_f95d42fb-bd0f-4850-bb2e-f6f9ca32c4ae">
 					<dc:Bounds x="283.32" y="356.595590551181" width="12.24" height="13.68" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNShape id="_88626360-4B97-42AF-BCF9-4DAF8D372012" bpmnElement="_a4df931a-6cf9-4d49-9ecb-ee1d3006bf8a" itp:label="b"
+			<bpmndi:BPMNShape id="_88626360-4B97-42AF-BCF9-4DAF8D372012" bpmnElement="CalledProcessTaskB" itp:label="b"
 				itp:elementType="userTask">
 				<dc:Bounds x="382.677165354331" y="342.283464566929" width="85.0393700787402" height="42.5196850393701" />
 				<bpmndi:BPMNLabel labelStyle="_f95d42fb-bd0f-4850-bb2e-f6f9ca32c4ae">
 					<dc:Bounds x="419.4" y="356.595590551181" width="12.24" height="13.68" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNEdge id="_5CE6590A-4E1A-489C-B94D-AED5224844CD" bpmnElement="_d6f43c8b-f407-407b-bdf3-46a3e76a1a64" itp:label="(unbenannt)"
+			<bpmndi:BPMNEdge id="_5CE6590A-4E1A-489C-B94D-AED5224844CD" bpmnElement="CalledProcessSequenceAB" itp:label="(unbenannt)"
 				itp:elementType="sequenceFlow">
 				<di:waypoint x="331.653543307087" y="363.543307086614" />
 				<di:waypoint x="382.677165354331" y="363.543307086614" />
@@ -152,21 +172,21 @@
 					<dc:Bounds x="353.88" y="347.595590551181" width="7.92" height="17.28" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNEdge>
-			<bpmndi:BPMNShape id="_813397F4-1183-48DC-8680-603B12D45A84" bpmnElement="_9921941f-3d19-4395-ab3f-41eb420812a1" itp:label="Process Param"
+			<bpmndi:BPMNShape id="_813397F4-1183-48DC-8680-603B12D45A84" bpmnElement="CalledProcessDataInput" itp:label="Process Param"
 				itp:elementType="dataInput">
 				<dc:Bounds x="198.425196850394" y="278.503937007874" width="21.259842519685" height="28.3464566929134" />
 				<bpmndi:BPMNLabel labelStyle="_3dce1645-bd37-4430-ad51-ed4733d38764">
 					<dc:Bounds x="179.64" y="311.235590551181" width="56.88" height="9.36" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNShape id="_4B647BF7-25F3-4768-A9EF-E7F069EF2CDE" bpmnElement="_404cc2a2-a5c0-4df1-9b14-699bc81dc47d" itp:label="Process Output"
+			<bpmndi:BPMNShape id="_4B647BF7-25F3-4768-A9EF-E7F069EF2CDE" bpmnElement="CalledProcessDataOutput" itp:label="Process Output"
 				itp:elementType="dataOutput">
 				<dc:Bounds x="471.259842519685" y="267.165354330709" width="21.259842519685" height="28.3464566929134" />
 				<bpmndi:BPMNLabel labelStyle="_3dce1645-bd37-4430-ad51-ed4733d38764">
 					<dc:Bounds x="452.16" y="299.715590551181" width="57.6" height="9.36" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNShape>
-			<bpmndi:BPMNEdge id="_CA7C616D-0785-4012-9F14-47544000FAF3" bpmnElement="_84163188-5ac5-403c-b25e-d7e864b150bf" itp:label="(unbenannt)"
+			<bpmndi:BPMNEdge id="_CA7C616D-0785-4012-9F14-47544000FAF3" bpmnElement="CalledProcessTaskAInputAssociation" itp:label="(unbenannt)"
 				itp:elementType="dataInputAssociation" targetElement="_DFFB10C5-6D34-47B6-88CC-1B8FF4F8C6F2">
 				<di:waypoint x="219.685039370079" y="292.677165354331" />
 				<di:waypoint x="289.133858267717" y="292.677165354331" />
@@ -175,7 +195,7 @@
 					<dc:Bounds x="273.96" y="280.635590551181" width="7.92" height="17.28" />
 				</bpmndi:BPMNLabel>
 			</bpmndi:BPMNEdge>
-			<bpmndi:BPMNEdge id="_902EBD51-9B91-4406-8E74-247AAE4CF746" bpmnElement="_a6192b51-0109-4f87-8407-9c65a47279c8" itp:label="(unbenannt)"
+			<bpmndi:BPMNEdge id="_902EBD51-9B91-4406-8E74-247AAE4CF746" bpmnElement="CalledProcessTaskBOutputAssociation" itp:label="(unbenannt)"
 				itp:elementType="dataOutputAssociation" sourceElement="_88626360-4B97-42AF-BCF9-4DAF8D372012">
 				<di:waypoint x="425.196850393701" y="342.283464566929" />
 				<di:waypoint x="425.196850393701" y="277.795275590551" />

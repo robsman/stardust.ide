@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getCarnotVersion <em>Carnot Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getCreated <em>Created</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getModelOID <em>Model OID</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased <em>Model Released</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getModelVersion <em>Model Version</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getOid <em>Oid</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getVendor <em>Vendor</em>}</li>
  * </ul>
@@ -143,6 +145,89 @@ public interface StardustModelType extends EObject {
 	 * @generated
 	 */
 	void setModelOID(BigInteger value);
+
+	/**
+	 * Returns the value of the '<em><b>Model Released</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 				Whether the Model is released or not (= UNDER_REVISION)
+	 *             
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Model Released</em>' attribute.
+	 * @see #isSetModelReleased()
+	 * @see #unsetModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustModelType_ModelReleased()
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 *        extendedMetaData="kind='attribute' name='modelReleased' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	boolean isModelReleased();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model Released</em>' attribute.
+	 * @see #isSetModelReleased()
+	 * @see #unsetModelReleased()
+	 * @see #isModelReleased()
+	 * @generated
+	 */
+	void setModelReleased(boolean value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased <em>Model Released</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetModelReleased()
+	 * @see #isModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @generated
+	 */
+	void unsetModelReleased();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#isModelReleased <em>Model Released</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Model Released</em>' attribute is set.
+	 * @see #unsetModelReleased()
+	 * @see #isModelReleased()
+	 * @see #setModelReleased(boolean)
+	 * @generated
+	 */
+	boolean isSetModelReleased();
+
+	/**
+	 * Returns the value of the '<em><b>Model Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 				Version of the Model (content versioning).
+	 *             
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Model Version</em>' attribute.
+	 * @see #setModelVersion(String)
+	 * @see org.eclipse.stardust.model.bpmn2.sdbpmn.SdbpmnPackage#getStardustModelType_ModelVersion()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='attribute' name='modelVersion' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	String getModelVersion();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.stardust.model.bpmn2.sdbpmn.StardustModelType#getModelVersion <em>Model Version</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Model Version</em>' attribute.
+	 * @see #getModelVersion()
+	 * @generated
+	 */
+	void setModelVersion(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Oid</b></em>' attribute.

@@ -141,6 +141,12 @@ public class Bpmn2StardustXPDLExtension {
         return taskExt.getInteractiveApplicationRef();
     }
 
+    public static String getGlobalUserTaskApplicationRef(GlobalUserTask task) {
+        StardustUserTaskType taskExt = ExtensionHelper.getInstance().getGlobalUserTaskExtension(task);
+        if (taskExt == null) return "";
+        return taskExt.getInteractiveApplicationRef();
+    }
+
     private static ApplicationType getApplication(CarnotModelQuery query, StardustUserTaskType taskExt) {
         String appRef = taskExt.getInteractiveApplicationRef();
         if (appRef == null || appRef.isEmpty()) return null;

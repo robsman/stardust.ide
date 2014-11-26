@@ -58,6 +58,7 @@ public enum ExtensionHelper2 {
 
 	public static final String STARDUST_IGNORE_PROPERTY = "stardustIgnore";
 	public static final String STARDUST_CARNOT_VERSION_PROPERTY = "targetCarnotVersion";
+	public static final String STARDUST_MODEL_VERSION_PROPERTY = "stardustModelVersion";
 
 	private static final String TRUE = Boolean.TRUE.toString();
 

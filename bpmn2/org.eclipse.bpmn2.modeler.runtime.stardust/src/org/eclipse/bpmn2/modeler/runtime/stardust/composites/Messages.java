@@ -38,6 +38,10 @@ public class Messages extends NLS {
 
 	public static String composite_startEvent_toggle_noTransform;
 
+	public static String composite_interface_stardust_interface_title;
+
+	public static String composite_process_stardust_process_title;
+
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
