@@ -27,7 +27,7 @@ public abstract class AbstractModelManagementStrategy implements ModelManagement
 {
    private boolean hasLoaded = false;
 
-	private Map<String, ModelType> xpdlModels = newHashMap();
+   protected Map<String, ModelType> xpdlModels = newHashMap();
 
    private Map<ModelType, EObject> nativeModels = newHashMap();
 
