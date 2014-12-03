@@ -9,46 +9,11 @@
 	<bean id="camelTriggerLoader"
 		class="org.eclipse.stardust.engine.extensions.camel.trigger.CamelTriggerLoader">
 	 	<property name="forkingService" ref="carnotForkingService" />
-		<property name="dataConverters">
-			<list>
-				<ref bean="documentDataConverter" />
-				<ref bean="sdtFileConverter" />
-				<ref bean="docListFileConverter" />
-			</list>
-		</property>
 	</bean>
 
 	<bean id="camelApplicationLoader"
 		class="org.eclipse.stardust.engine.extensions.camel.app.CamelApplicationLoader">
 		 <property name="forkingService" ref="carnotForkingService" />
-	</bean>
-	
-	<bean id="structuredDataTranslator"
-		class="org.eclipse.stardust.engine.extensions.camel.util.converter.StructuredDataTranslator">
-		<property name="forkingService" ref="carnotForkingService" />
-	</bean>
-
-	<bean id="documentDataConverter"
-		class="org.eclipse.stardust.engine.extensions.camel.converter.DocumentDataConverter">
-		<property name="fromEndpoint"
-			value="org.eclipse.stardust.engine.api.runtime.FileEndpoint" />
-		<property name="targetType" value="dmsDocument" />
-	</bean>
-
-	<bean id="sdtFileConverter"
-		class="org.eclipse.stardust.engine.extensions.camel.converter.SDTFileConverter">
-		<property name="fromEndpoint"
-			value="org.eclipse.stardust.engine.api.runtime.FileEndpoint" />
-		<property name="targetType" value="struct" />
-		<property name="translator" ref="structuredDataTranslator" />
-	</bean>
-
-	<bean id="docListFileConverter"
-		class="org.eclipse.stardust.engine.extensions.camel.converter.DocumentListFileConverter">
-		<property name="fromEndpoint"
-			value="org.eclipse.stardust.engine.api.runtime.FileEndpoint" />
-		<property name="targetType" value="dmsDocumentList" />
-		<property name="batchSize" value="2" />
 	</bean>
 
 	<bean id="required" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
@@ -64,10 +29,6 @@
 
    <bean id="sqlPrepareStatementStrategy"
       class="org.eclipse.stardust.engine.extensions.camel.sql.SqlPrepareStatementStrategy" />
-   
-   <!-- addAttachmentProcessor will be removed in IPP 8.2 -->
-	<bean name="addAttachmentProcessor"
-	  	class="org.eclipse.stardust.engine.extensions.camel.attachment.AddAttachmentProcessor" />
       
     <bean id="documentHandler"
         class="org.eclipse.stardust.engine.extensions.camel.attachment.DocumentHandler" />
