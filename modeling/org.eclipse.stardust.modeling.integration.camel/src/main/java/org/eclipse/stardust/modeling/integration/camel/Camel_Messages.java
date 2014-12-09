@@ -35,6 +35,8 @@ public class Camel_Messages extends NLS
    public static String label_Include_Process_Context_Headers;
 
    public static String label_Transacted_Route;
+   
+   public static String label_AutoStartup_Route;
 
    public static String label_Body_Input_Access_Point;
 
