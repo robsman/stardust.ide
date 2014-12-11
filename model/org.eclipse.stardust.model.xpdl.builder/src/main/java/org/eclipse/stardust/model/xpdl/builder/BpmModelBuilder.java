@@ -108,6 +108,11 @@ public abstract class BpmModelBuilder
       return BpmDocumentVariableBuilder.newDocumentVariable(model);
    }
 
+   public static BpmDocumentListVariableBuilder newDocumentListVariable(ModelType model)
+   {
+      return BpmDocumentListVariableBuilder.newDocumentListVariable(model);
+   }
+
    public static BpmRoleBuilder newRole(ModelType model)
    {
       return BpmRoleBuilder.newRole(model);

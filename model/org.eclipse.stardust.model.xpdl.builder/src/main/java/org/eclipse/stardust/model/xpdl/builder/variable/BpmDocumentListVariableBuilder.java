@@ -10,54 +10,54 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
+import java.awt.List;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataLoader;
-import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentAccessPathEvaluator;
-import org.eclipse.stardust.engine.extensions.dms.data.VfsDocumentValidator;
+import org.eclipse.stardust.engine.extensions.dms.data.*;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 
-public class BpmDocumentVariableBuilder
-      extends AbstractDMSVariableBuilder<BpmDocumentVariableBuilder>
+public class BpmDocumentListVariableBuilder
+      extends AbstractDMSVariableBuilder<BpmDocumentListVariableBuilder>
 {
-   public BpmDocumentVariableBuilder()
+   public BpmDocumentListVariableBuilder()
    {
       super();
 
-      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document"); //$NON-NLS-1$
+      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, List.class.getName());
    }
 
-   public static BpmDocumentVariableBuilder newDocumentVariable()
+   public static BpmDocumentListVariableBuilder newDocumentListVariable()
    {
-      return new BpmDocumentVariableBuilder();
+      return new BpmDocumentListVariableBuilder();
    }
 
-   public static BpmDocumentVariableBuilder newDocumentVariable(ModelType model)
+   public static BpmDocumentListVariableBuilder newDocumentListVariable(ModelType model)
    {
-      return newDocumentVariable().inModel(model);
+      return newDocumentListVariable().inModel(model);
    }
 
    @Override
    protected DataTypeType getMetaType()
    {
       DataTypeType documentMetaType = ModelUtils.findIdentifiableElement(
-            this.model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT);
+            this.model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
 
       if (null == documentMetaType)
       {
          documentMetaType = F_CWM.createDataTypeType();
-         documentMetaType.setId(DmsConstants.DATA_TYPE_DMS_DOCUMENT);
-         documentMetaType.setName("Document");
+         documentMetaType.setId(DmsConstants.DATA_TYPE_DMS_DOCUMENT_LIST);
+         documentMetaType.setName("Document List");
          documentMetaType.setIsPredefined(true);
 
          AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.EVALUATOR_CLASS_ATT,
-               VfsDocumentAccessPathEvaluator.class.getName());
+               VfsDocumentListAccessPathEvaluator.class.getName());
          AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.VALIDATOR_CLASS_ATT,
-               VfsDocumentValidator.class.getName());
+               VfsDocumentListValidator.class.getName());
 
          AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.DATA_FILTER_EXTENSION_ATT,
                StructuredDataFilterExtension.class.getName());
