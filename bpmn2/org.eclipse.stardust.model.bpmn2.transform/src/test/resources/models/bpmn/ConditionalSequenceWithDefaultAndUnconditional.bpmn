@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="01.10.2012 08:52:46" itp:modificationDate="01.10.2012 09:14:03" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_35f53957-f6eb-4145-a35b-dff5fe5f0b7c" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="_7cc5bd33-cc92-43ca-8c10-90eefb150e5d" name="Hauptprozess" processType="None">
+
+    <task id="TestModelTaskX" name="x" default="TestModelSequenceDefaultXtoC" />
+    <task id="TestModelTaskA" name="a" />
+    <task id="TestModelTaskB" name="b" />
+    <task id="TestModelTaskC" name="c" />
+
+    <sequenceFlow id="TestModelSequenceConditionalXtoA" name="&quot;A&quot;==&quot;A&quot;" sourceRef="TestModelTaskX" targetRef="TestModelTaskA">
+      <conditionExpression language="http://www.ecmascript.org/ECMA" xsi:type="tFormalExpression">"A"=="A";</conditionExpression>
+    </sequenceFlow>
+
+    <sequenceFlow id="TestModelSequenceDefaultXtoC" sourceRef="TestModelTaskX" targetRef="TestModelTaskC" />
+
+    <sequenceFlow id="TestModelSequenceXtoB" sourceRef="TestModelTaskX" targetRef="TestModelTaskB" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_7cc5bd33-cc92-43ca-8c10-90eefb150e5d">
+      <bpmndi:BPMNShape id="_C5B7F7AB-2AB7-4B5D-AF55-631E1BEA261C" bpmnElement="TestModelTaskX" itp:label="x" itp:elementType="task">
+        <dc:Bounds x="99.2125984251969" y="191.338582677165" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_152bd009-68ae-494a-988e-3f92eae9e29f">
+          <dc:Bounds x="136.08" y="206.115590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_1584AE8B-31B0-442A-8888-F64C66929B6E" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="269.291338582677" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_152bd009-68ae-494a-988e-3f92eae9e29f">
+          <dc:Bounds x="305.64" y="142.035590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_FF5B67D2-B1CE-4EB1-819B-034A3121F1C5" bpmnElement="TestModelTaskB" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="269.291338582677" y="191.338582677165" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_152bd009-68ae-494a-988e-3f92eae9e29f">
+          <dc:Bounds x="305.64" y="206.115590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BCED642D-1CBD-4B59-B61D-E547A5A7E4E1" bpmnElement="TestModelTaskC" itp:label="c" itp:elementType="task">
+        <dc:Bounds x="269.291338582677" y="262.204724409449" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_152bd009-68ae-494a-988e-3f92eae9e29f">
+          <dc:Bounds x="306" y="276.675590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_5A58E32D-EC20-41BD-8F9B-C1BC8AF95F43" bpmnElement="TestModelSequenceConditionalXtoA" itp:label="&quot;A&quot;==&quot;A&quot;" itp:elementType="sequenceFlow">
+        <di:waypoint x="170.07874015748" y="191.338582677165" />
+        <di:waypoint x="170.07874015748" y="148.818897637795" />
+        <di:waypoint x="269.291338582677" y="148.818897637795" />
+        <bpmndi:BPMNLabel labelStyle="_495208f0-bb73-4ff3-bd27-5fb1f27dfc51">
+          <dc:Bounds x="181.44" y="140.235590551181" width="41.76" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_F13FD666-ED90-4231-8C45-61E79E7CF8CE" bpmnElement="TestModelSequenceDefaultXtoC" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="170.07874015748" y="233.858267716535" />
+        <di:waypoint x="170.07874015748" y="283.464566929134" />
+        <di:waypoint x="269.291338582677" y="283.464566929134" />
+        <bpmndi:BPMNLabel labelStyle="_495208f0-bb73-4ff3-bd27-5fb1f27dfc51">
+          <dc:Bounds x="194.76" y="274.875590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_AFCDC896-1BC6-41C4-92DA-0394B734C922" bpmnElement="TestModelSequenceXtoB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="184.251968503937" y="212.59842519685" />
+        <di:waypoint x="269.291338582677" y="212.59842519685" />
+        <bpmndi:BPMNLabel labelStyle="_495208f0-bb73-4ff3-bd27-5fb1f27dfc51">
+          <dc:Bounds x="224.28" y="197.115590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_152bd009-68ae-494a-988e-3f92eae9e29f">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_495208f0-bb73-4ff3-bd27-5fb1f27dfc51">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

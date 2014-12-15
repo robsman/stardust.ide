@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions
+	targetNamespace="http://www.itp-commerce.com"
+	xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:itp="http://www.itp-commerce.com/BPMN2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd"
+	exporter="Process Manager 6 for Microsoft Visio"
+	exporterVersion="5.2769.13758 "
+	itp:name="Mein Diagramm"
+	itp:version="1.0"
+	itp:author="simon nikles"
+	itp:creationDate="05.10.2012 16:41:15"
+	itp:modificationDate="08.10.2012 12:23:03"
+	itp:createdWithVersion="5.2769.13758 "
+	itp:conformanceSubClass="Full"
+	id="_45fb976a-d97f-4101-8904-1b395fe0930d"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+	xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:stardust="http://www.carnot.ag/workflowmodel/3.1"
+	xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:rdfserviceendpoint="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl">
+
+	<message id="ReceiveOfferOperationOutput" itemRef="ReceiveOfferOutput"></message>
+	<import location="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" namespace="http://ws.dao.athene.fhnw.ch" importType="http://schemas.xmlsoap.org/wsdl/" />
+
+	<message id="getCROMessageInput" name="getCRORequest" itemRef="croInput"></message>
+	<message id="getCROMessageOutput" name="getCROResponse" itemRef="croOutput"></message>
+
+	<itemDefinition id="getCRORequest" structureRef="rdfserviceendpoint:getCRORequest"></itemDefinition>
+	<itemDefinition id="getCROResponse" structureRef="rdfserviceendpoint:getCROResponse"></itemDefinition>
+
+	<itemDefinition id="TestModelStringDataType" itemKind="Information" isCollection="false" structureRef="xsd:string"></itemDefinition>
+
+	<itemDefinition id="croInput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#croInput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="croInput" type="croInputType"/>
+	      <xsd:complexType name="croInputType">
+	        <xsd:sequence>
+	          <xsd:element name="endpointAddress" sdbpmn:accesspoint="carnot:engine:endpointAddress" sdbpmn:displayName="Endpoint Address" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	          <xsd:element name="parameters" sdbpmn:accesspoint="parameters" sdbpmn:displayName="parameters" type="xsd:string"/>
+	          <xsd:element name="parameters_struct" sdbpmn:accesspoint="parameters_struct" sdbpmn:displayName="parameters_struct (getCRO)" type="rdfserviceendpoint:getCRO"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+	<itemDefinition id="croOutput" sdbpmn:syntheticItemDefinition="true" structureRef="http://test#croOutput" itemKind="Information" isCollection="false">
+	  <extensionElements>
+	    <xsd:schema targetNamespace="http://test" xmlns:apReceiveResponseOutput="http://test" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	      <xsd:element name="croOutput" type="croOutputType"/>
+	      <xsd:complexType name="croOutputType">
+	        <xsd:sequence>
+	          <xsd:element name="endpointAddress" sdbpmn:accesspoint="carnot:engine:endpointAddress" sdbpmn:displayName="Endpoint Address" sdbpmn:typeClass="java.lang.String" type="xsd:string"/>
+	          <xsd:element name="parameters" sdbpmn:accesspoint="parameters" sdbpmn:displayName="parameters" type="xsd:string"/>
+	          <xsd:element name="parameters_struct" sdbpmn:accesspoint="parameters_struct" sdbpmn:displayName="parameters_struct (getCROResponse)" type="rdfserviceendpoint:getCROResponse"/>
+	        </xsd:sequence>
+	      </xsd:complexType>
+	    </xsd:schema>
+	  </extensionElements>
+	</itemDefinition>
+
+	<interface id="CROServiceAppInterface" name="CROServiceAppInterface" implementationRef="StardustCROServiceApp">
+		<extensionElements>
+			<sdbpmn:StardustInterface id="StardustCROServiceApp" name="StardustCROServiceApp" applicationType="webservice">
+				<sdbpmn:StardustApplication oid="10058" id="CROServiceApp" name="CROServiceApp">
+					<stardust:attribute name="carnot:engine:visibility" value="Public" />
+					<stardust:attribute name="carnot:engine:wsRuntime" value="jaxws" />
+					<stardust:attribute name="carnot:engine:wsdlUrl" value="http://147.86.7.23:8080/ATHENE_WS/services/WSExportRDFService?wsdl" />
+					<stardust:attribute name="carnot:engine:wsServiceName" value="{http://ws.dao.athene.fhnw.ch}WSExportRDFService" />
+					<stardust:attribute name="carnot:engine:wsPortName" value="WSExportRDFServiceHttpEndpoint" />
+					<stardust:attribute name="carnot:engine:wsOperationName" value="getCRO" />
+					<stardust:attribute name="carnot:engine:wsSoapProtocol" value="SOAP 1.1 Protocol" />
+					<stardust:attribute name="carnot:engine:wsInputOrder" value="parameters" />
+					<stardust:attribute name="carnot:engine:wsOutputOrder" value="parameters" />
+					<stardust:attribute name="synchronous:retry:enable" type="boolean" value="false" />
+					<stardust:attribute name="carnot:engine:wsSoapActionUri" value="urn:getCRO" />
+					<sdbpmn:accessPoint oid="10060" id="carnot:engine:endpointAddress" name="Endpoint Address" direction="IN" typeRef="serializable">
+						<stardust:attribute name="carnot:engine:className" value="java.lang.String" />
+						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
+					</sdbpmn:accessPoint>
+					<sdbpmn:accessPoint oid="10061" id="parameters" name="parameters" direction="IN" typeRef="plainXML">
+						<stardust:attribute name="carnot:engine:browsable" type="boolean" value="true" />
+					</sdbpmn:accessPoint>
+					<sdbpmn:accessPoint oid="10062" id="parameters" name="parameters" direction="OUT" typeRef="plainXML" />
+					<sdbpmn:accessPoint oid="10074" id="parameters_struct" name="parameters_struct (getCRO)" direction="IN" typeRef="struct">
+						<stardust:attribute name="carnot:engine:dataType" value="getCRO" />
+						<stardust:attribute name="carnot:engine:transformation" value="DOM" />
+						<stardust:attribute name="carnot:engine:path:separator" value="/" />
+						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
+					</sdbpmn:accessPoint>
+					<sdbpmn:accessPoint oid="10075" id="parameters_struct" name="parameters_struct (getCROResponse)" direction="OUT" typeRef="struct">
+						<stardust:attribute name="carnot:engine:dataType" value="getCROResponse" />
+						<stardust:attribute name="carnot:engine:path:separator" value="/" />
+						<stardust:attribute name="carnot:engine:data:bidirectional" type="boolean" value="true" />
+					</sdbpmn:accessPoint>
+				</sdbpmn:StardustApplication>
+			</sdbpmn:StardustInterface>
+		</extensionElements>
+		<operation id="OperationGetCRO" name="getCRO">
+			<inMessageRef>getCROMessageInput</inMessageRef>
+			<outMessageRef>getCROMessageOutput</outMessageRef>
+		</operation>
+	</interface>
+
+	<process id="TestProcessWebServiceApplication" name="Hauptprozess" processType="None">
+
+		<dataObject id="TestModelDataObjectA" name="TestModelDataObjectA" itemSubjectRef="getCROResponse" />
+
+		<startEvent id="TestModelStartEventId" isInterrupting="true" />
+
+		<serviceTask id="TestModelTaskA" name="get CRO" implementation="##WebService" operationRef="OperationGetCRO">
+			<ioSpecification id="ioSpec">
+				<dataOutput id="TestModelDataOutputTaskA" itemSubjectRef="croOutput">
+				</dataOutput>
+				<inputSet id="InputSet" />
+				<outputSet id="OutputSet">
+					<dataOutputRefs>TestModelDataOutputTaskA</dataOutputRefs>
+				</outputSet>
+			</ioSpecification>
+			<dataOutputAssociation id="TestModelOutputAssociationTaskA">
+				<sourceRef>TestModelDataOutputTaskA</sourceRef>
+				<targetRef>TestModelDataObjectReferenceA</targetRef>
+				<assignment id="TestAssignmentOutputTaskA">
+					<from xsi:type="tFormalExpression">parameters_struct/return</from>
+					<to xsi:type="tFormalExpression">return</to>
+				</assignment>
+			</dataOutputAssociation>
+		</serviceTask>
+
+		<endEvent id="TestModelEndEvent"/>
+
+		<sequenceFlow id="TestModelSequenceStartToTask" sourceRef="TestModelStartEventId" targetRef="TestModelTaskA" />
+
+		<sequenceFlow id="TestModelSequenceTaskToEnd" sourceRef="TestModelTaskA" targetRef="TestModelEndEvent"/>
+
+		<dataObjectReference id="TestModelDataObjectReferenceA" dataObjectRef="TestModelDataObjectA"></dataObjectReference>
+	</process>
+
+	<bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+		<bpmndi:BPMNPlane id="_1" bpmnElement="TestProcessWebServiceApplication">
+			<bpmndi:BPMNShape id="_FE09CB07-5DE3-408B-ABF2-34176656681A" bpmnElement="TestModelStartEventId" itp:label="(unbenannt)" itp:elementType="startEvent">
+				<dc:Bounds x="56.6929133858268" y="197.007874015748" width="17.007874015748" height="17.007874015748" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="65.52" y="215.475590551181" width="0" height="10.8" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape id="TestModelShapeTaskA" bpmnElement="TestModelTaskA" itp:label="enter" itp:elementType="userTask">
+				<dc:Bounds x="104.88188976378" y="184.251968503937" width="85.0393700787402" height="42.5196850393701" />
+				<bpmndi:BPMNLabel labelStyle="_8d9e44be-8cf0-4e06-a325-beec33b389ad">
+					<dc:Bounds x="132.84" y="198.915590551181" width="29.52" height="13.68" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNShape id="_15520E17-A512-4373-8D76-4BE0160FFAE7" bpmnElement="TestModelEndEvent" itp:label="(unbenannt)" itp:elementType="endEvent">
+				<dc:Bounds x="521.574803149606" y="197.007874015748" width="17.007874015748" height="17.007874015748" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="529.92" y="215.475590551181" width="0" height="10.8" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge id="_C994E12A-C0F2-46D5-A22C-47A7B3F58673" bpmnElement="TestModelSequenceStartToTask" itp:label="(unbenannt)"
+				itp:elementType="sequenceFlow">
+				<di:waypoint x="73.7007874015748" y="205.511811023622" />
+				<di:waypoint x="104.88188976378" y="205.511811023622" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="86.04" y="189.915590551181" width="7.92" height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNEdge id="_D98DFA35-27B7-47E9-971F-0BE6C4934130" bpmnElement="TestModelSequenceTaskToEnd" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+				<di:waypoint x="189.92125984252" y="205.511811023622" />
+				<di:waypoint x="249.448818897638" y="205.511811023622" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="217.08" y="189.915590551181" width="7.92" height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+			<bpmndi:BPMNShape id="_EAA62984-80F7-465B-8A4C-6987249A1FA2" bpmnElement="TestModelDataObjectReferenceA" itp:label="(unbenannt)"
+				itp:elementType="dataObjectReference">
+				<dc:Bounds x="284.88188976378" y="286.299212598425" width="21.259842519685" height="28.3464566929134" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="294.48" y="319.155590551181" width="0" height="9.36" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNShape>
+			<bpmndi:BPMNEdge id="_3459FC2D-6536-407A-A695-FA0C795F1E24" bpmnElement="TestModelOutputAssociationTaskA" itp:label="(unbenannt)"
+				itp:elementType="dataOutputAssociation" sourceElement="TestModelShapeTaskA">
+				<di:waypoint x="147.40157480315" y="226.771653543307" />
+				<di:waypoint x="147.40157480315" y="300.472440944882" />
+				<di:waypoint x="284.88188976378" y="300.472440944882" />
+				<bpmndi:BPMNLabel labelStyle="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+					<dc:Bounds x="176.76" y="288.555590551181" width="7.92" height="17.28" />
+				</bpmndi:BPMNLabel>
+			</bpmndi:BPMNEdge>
+		</bpmndi:BPMNPlane>
+		<bpmndi:BPMNLabelStyle id="_05e23ec5-f006-421e-9cb6-d3dc97face66">
+			<dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+		<bpmndi:BPMNLabelStyle id="_8d9e44be-8cf0-4e06-a325-beec33b389ad">
+			<dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+		</bpmndi:BPMNLabelStyle>
+	</bpmndi:BPMNDiagram>
+</definitions>

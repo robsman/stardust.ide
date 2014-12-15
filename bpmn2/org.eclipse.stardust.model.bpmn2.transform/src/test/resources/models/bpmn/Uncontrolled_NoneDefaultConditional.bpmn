@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 6 SR1 for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions id="_73101b17-45bb-4fe6-80cd-25bb52086f0f" targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.3817.15992 SR1" name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="11.08.2014 16:47:06" itp:modificationDate="11.08.2014 16:51:18" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="_cd9fd65f-8966-41cc-9b51-9c975b9462c2" name="Hauptprozess" processType="None" itp:isMainProcess="true">
+    <extensionElements>
+      <itp:systemDefinedAttributes>
+        <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+        <attribute name="ExternalId" type="String" />
+        <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+        <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+          <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+          <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+        </attribute>
+        <attribute name="QualityAnalysis" type="String">
+          <attribute name="KeyData" type="String">
+            <attribute name="ElementsCountKey" type="String" value="7" />
+            <attribute name="ErrorsKey" type="String" value="0" />
+            <attribute name="WarningsKey" type="String" value="0" />
+            <attribute name="InformationKey" type="String" value="0" />
+            <attribute name="MethodAndStyleKey" type="String" value="0" />
+            <attribute name="eCHKey" type="String" value="0" />
+            <attribute name="DescriptiveConformanceSubClassKey" type="String" value="5" />
+            <attribute name="AnalyticConformanceSubClassKey" type="String" value="7" />
+            <attribute name="ExecutableConformanceSubClassKey" type="String" value="3" />
+            <attribute name="StartEventsKey" type="String" value="0" />
+            <attribute name="ActivitiesKey" type="String" value="1" />
+            <attribute name="SubLevelsKey" type="String" value="0" />
+            <attribute name="GatewaysKey" type="String" value="0" />
+            <attribute name="GatesKey" type="String" value="0" />
+            <attribute name="BlackboxPoolsKey" type="String" value="0" />
+            <attribute name="UnlinkedSubProcessesKey" type="String" value="0" />
+            <attribute name="UnlinkedCallActivitiesKey" type="String" value="0" />
+            <attribute name="EndMessageEventsKey" type="String" value="0" />
+            <attribute name="TypedTasksKey" type="String" value="0" />
+            <attribute name="UntypedTasksKey" type="String" value="4" />
+            <attribute name="ReadingDataObjectsKey" type="String" value="0" />
+            <attribute name="WritingDataObjectsKey" type="String" value="0" />
+            <attribute name="UnnamedDataObjectsKey" type="String" value="0" />
+            <attribute name="UnnamedDataStoresKey" type="String" value="0" />
+            <attribute name="ActivitesWithoutRoleKey" type="String" value="4" />
+            <attribute name="TextAnnotationFlowElementRatioKey" type="String" value="0" />
+            <attribute name="OrComplexGatewaysKey" type="String" value="0" />
+            <attribute name="CollaborationTasksKey" type="String" value="0" />
+          </attribute>
+          <attribute name="ProcessAnalysis" type="String" value="99" />
+          <attribute name="ProcessExecution" type="String" value="94" />
+          <attribute name="DiagramInterchange" type="String" value="95" />
+          <attribute name="ProcessSimulation" type="String" value="100" />
+        </attribute>
+      </itp:systemDefinedAttributes>
+      <itp:localization default="unspecified">
+        <itp:label lang="unspecified">Hauptprozess</itp:label>
+      </itp:localization>
+    </extensionElements>
+    <task id="_c7ed743c-e7bc-461b-888f-037da7cfd92b" name="a" default="_89658b13-41c5-4729-82e1-45757668669f">
+      <extensionElements>
+        <itp:userDefinedAttributes>
+          <attribute id="75f20e5a-aa39-4622-9018-aac183c1ef51" name="Documents" type="Documents" format="None" />
+          <attribute id="fc451875-822b-4548-89b6-363ba4186829" name="Text attribute" type="String" format="">
+            <attribute id="babf41e1-64cf-4e74-800b-bfa7541242ac" name="Text sub-attribute" type="String" format="" />
+            <attribute id="f5999321-9554-4a73-8877-9dd975e966d5" name="Yes/No sub-attribute" type="Boolean" value="False" format="" />
+          </attribute>
+          <attribute id="afee9e4c-a3d2-4da5-904e-d5583f77f8bc" name="Date attribute" type="DateTime" format="" />
+          <attribute id="c6893b50-8803-4d81-81ae-70e7f92bdb6c" name="Number attribute" type="Float" value="0" format="Currency;Fr.;;KPI;;0.01" desc="abc" />
+          <attribute id="d80bdd69-7495-4c06-b409-d57d50e9b21e" name="Another number attribute" type="Float" value="0" format="Percent;;;KPI;4" />
+          <attribute id="34004125-965b-4ba3-b514-97de5b180fca" name="Yet another number attribute" type="Float" value="0" format="Duration;;;;6" />
+        </itp:userDefinedAttributes>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">a</itp:label>
+        </itp:localization>
+      </extensionElements>
+      <outgoing>_7031750c-3d72-411f-b063-1811af56990b</outgoing>
+      <outgoing>_326f8d55-f2b6-484e-a8d5-cc00c1e214b5</outgoing>
+      <outgoing>_89658b13-41c5-4729-82e1-45757668669f</outgoing>
+    </task>
+    <task id="_5e1751bc-8999-44c0-b5d0-19914c44af39" name="b">
+      <extensionElements>
+        <itp:userDefinedAttributes>
+          <attribute id="7fd2bb36-341c-4901-9fc3-7349d1d889bf" name="Documents" type="Documents" format="None" />
+          <attribute id="ae7f72ce-020c-4866-98a4-3a3fafd0ab29" name="Text attribute" type="String" format="">
+            <attribute id="e623d905-8cce-4bd2-8abb-c8f411290163" name="Text sub-attribute" type="String" format="" />
+            <attribute id="f7e223d8-3e2a-4fb0-ba74-196354422998" name="Yes/No sub-attribute" type="Boolean" value="False" format="" />
+          </attribute>
+          <attribute id="24ae02f0-ef0f-4f8d-bb8b-c059e1bb6dec" name="Date attribute" type="DateTime" format="" />
+          <attribute id="69d15c25-8f22-4fc8-a03d-6cef0e7ecfff" name="Number attribute" type="Float" value="0" format="Currency;Fr.;;KPI;;0.01" desc="abc" />
+          <attribute id="29529cd1-1301-49ed-b269-55da6c5dea85" name="Another number attribute" type="Float" value="0" format="Percent;;;KPI;4" />
+          <attribute id="dc3d441a-a052-4fa5-a39e-60c751ff230f" name="Yet another number attribute" type="Float" value="0" format="Duration;;;;6" />
+        </itp:userDefinedAttributes>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">b</itp:label>
+        </itp:localization>
+      </extensionElements>
+      <incoming>_326f8d55-f2b6-484e-a8d5-cc00c1e214b5</incoming>
+    </task>
+    <task id="_8bea47ea-efc4-4c95-9c30-6e7fb4468103" name="c">
+      <extensionElements>
+        <itp:userDefinedAttributes>
+          <attribute id="5c13c60e-5bd1-4a5f-a9ae-339d21ec63d6" name="Documents" type="Documents" format="None" />
+          <attribute id="c5e81650-cc55-48fe-9167-c09995f3fde7" name="Text attribute" type="String" format="">
+            <attribute id="53619fbc-c63d-4b50-b731-73c52a144d5f" name="Text sub-attribute" type="String" format="" />
+            <attribute id="1225de6c-00ea-4f1b-b9e3-337041044a16" name="Yes/No sub-attribute" type="Boolean" value="False" format="" />
+          </attribute>
+          <attribute id="e9d515c8-0cd7-41af-9104-d1695ed565a0" name="Date attribute" type="DateTime" format="" />
+          <attribute id="52fe8d5f-24d3-49fb-ab59-92dcb4f60d1d" name="Number attribute" type="Float" value="0" format="Currency;Fr.;;KPI;;0.01" desc="abc" />
+          <attribute id="24fc9180-0a80-4b53-94d3-8f6e0ed2f09a" name="Another number attribute" type="Float" value="0" format="Percent;;;KPI;4" />
+          <attribute id="e03a37b5-a31c-4886-b53a-b0cb88a52537" name="Yet another number attribute" type="Float" value="0" format="Duration;;;;6" />
+        </itp:userDefinedAttributes>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">c</itp:label>
+        </itp:localization>
+      </extensionElements>
+      <incoming>_7031750c-3d72-411f-b063-1811af56990b</incoming>
+    </task>
+    <task id="_ee84e11c-74d6-4a9d-b556-03e87928a652" name="d">
+      <extensionElements>
+        <itp:userDefinedAttributes>
+          <attribute id="358084fc-c901-4462-96cb-003fcf6136c2" name="Documents" type="Documents" format="None" />
+          <attribute id="cb2a1f43-33ea-41d3-8620-3d22fa0632cd" name="Text attribute" type="String" format="">
+            <attribute id="887511cb-9b7f-4da4-aa64-fa0d24ecbba3" name="Text sub-attribute" type="String" format="" />
+            <attribute id="f73e2c14-6f78-4ec3-8add-18be8cdf38aa" name="Yes/No sub-attribute" type="Boolean" value="False" format="" />
+          </attribute>
+          <attribute id="697ed5ac-91c7-4b80-8119-83c6da6e3aec" name="Date attribute" type="DateTime" format="" />
+          <attribute id="6502bed8-2c1f-4ce3-b747-22670c7e7921" name="Number attribute" type="Float" value="0" format="Currency;Fr.;;KPI;;0.01" desc="abc" />
+          <attribute id="c174bd88-447e-4a23-bac7-b7f3dff216e5" name="Another number attribute" type="Float" value="0" format="Percent;;;KPI;4" />
+          <attribute id="3a4a1b47-84fc-4580-8895-b7767214e66e" name="Yet another number attribute" type="Float" value="0" format="Duration;;;;6" />
+        </itp:userDefinedAttributes>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">d</itp:label>
+        </itp:localization>
+      </extensionElements>
+      <incoming>_89658b13-41c5-4729-82e1-45757668669f</incoming>
+    </task>
+    <sequenceFlow id="_7031750c-3d72-411f-b063-1811af56990b" sourceRef="_c7ed743c-e7bc-461b-888f-037da7cfd92b" targetRef="_8bea47ea-efc4-4c95-9c30-6e7fb4468103">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">
+          </itp:label>
+        </itp:localization>
+      </extensionElements>
+      <conditionExpression>_undefined</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="_326f8d55-f2b6-484e-a8d5-cc00c1e214b5" sourceRef="_c7ed743c-e7bc-461b-888f-037da7cfd92b" targetRef="_5e1751bc-8999-44c0-b5d0-19914c44af39">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">
+          </itp:label>
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="_89658b13-41c5-4729-82e1-45757668669f" sourceRef="_c7ed743c-e7bc-461b-888f-037da7cfd92b" targetRef="_ee84e11c-74d6-4a9d-b556-03e87928a652">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+        </itp:systemDefinedAttributes>
+        <itp:localization default="unspecified">
+          <itp:label lang="unspecified">
+          </itp:label>
+        </itp:localization>
+      </extensionElements>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_cd9fd65f-8966-41cc-9b51-9c975b9462c2">
+      <bpmndi:BPMNShape id="_662D3F99-7E82-4760-9591-DDEEF474B907" bpmnElement="_c7ed743c-e7bc-461b-888f-037da7cfd92b" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="113.38582677165356" y="162.992125984252" width="85.039370078740163" height="42.519685039370081" />
+        <bpmndi:BPMNLabel labelStyle="_9bc08bb5-d431-4356-9776-f8e6edd3d5b0">
+          <dc:Bounds x="150.12" y="177.315590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_27C949BC-33F7-4EE2-B186-CB29CCD6D529" bpmnElement="_5e1751bc-8999-44c0-b5d0-19914c44af39" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="305.51178897637794" y="99.212598425196873" width="85.039370078740163" height="42.519685039370081" />
+        <bpmndi:BPMNLabel labelStyle="_9bc08bb5-d431-4356-9776-f8e6edd3d5b0">
+          <dc:Bounds x="341.64" y="113.955590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_94EB90AE-9B62-413C-8636-3AF57D888E00" bpmnElement="_8bea47ea-efc4-4c95-9c30-6e7fb4468103" itp:label="c" itp:elementType="task">
+        <dc:Bounds x="305.51178897637794" y="162.992125984252" width="85.039370078740163" height="42.519685039370081" />
+        <bpmndi:BPMNLabel labelStyle="_9bc08bb5-d431-4356-9776-f8e6edd3d5b0">
+          <dc:Bounds x="342" y="177.315590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_30C3086C-3B6D-45D7-AE9F-0A94EA32B0EC" bpmnElement="_ee84e11c-74d6-4a9d-b556-03e87928a652" itp:label="d" itp:elementType="task">
+        <dc:Bounds x="305.51178897637794" y="226.77165354330711" width="85.039370078740163" height="42.519685039370081" />
+        <bpmndi:BPMNLabel labelStyle="_9bc08bb5-d431-4356-9776-f8e6edd3d5b0">
+          <dc:Bounds x="341.64" y="241.395590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_828408EE-E8C2-47EE-8D52-9BFE76D1F8C7" bpmnElement="_7031750c-3d72-411f-b063-1811af56990b" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="198.42519685039372" y="184.25196850393704" />
+        <di:waypoint x="305.51178897637794" y="184.25196850393704" />
+        <bpmndi:BPMNLabel labelStyle="_d0c4c542-86ff-4f3a-9b04-4ad6be4af8a2">
+          <dc:Bounds x="249.48" y="168.315590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_E3E13CD9-6113-4610-BFD2-97AFA0B7955C" bpmnElement="_326f8d55-f2b6-484e-a8d5-cc00c1e214b5" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="170.07874015748033" y="162.992125984252" />
+        <di:waypoint x="170.07874015748033" y="120.47244094488191" />
+        <di:waypoint x="305.51178897637794" y="120.47244094488191" />
+        <bpmndi:BPMNLabel labelStyle="_d0c4c542-86ff-4f3a-9b04-4ad6be4af8a2">
+          <dc:Bounds x="217.08" y="112.155590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_836C61D6-50C2-4106-91B1-2D6AFD5C957B" bpmnElement="_89658b13-41c5-4729-82e1-45757668669f" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="170.07874015748033" y="205.51181102362207" />
+        <di:waypoint x="170.07874015748033" y="248.03149606299215" />
+        <di:waypoint x="305.51178897637794" y="248.03149606299215" />
+        <bpmndi:BPMNLabel labelStyle="_d0c4c542-86ff-4f3a-9b04-4ad6be4af8a2">
+          <dc:Bounds x="217.08" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_cd9fd65f-8966-41cc-9b51-9c975b9462c2" />
+    <bpmndi:BPMNLabelStyle id="_9bc08bb5-d431-4356-9776-f8e6edd3d5b0">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_d0c4c542-86ff-4f3a-9b04-4ad6be4af8a2">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

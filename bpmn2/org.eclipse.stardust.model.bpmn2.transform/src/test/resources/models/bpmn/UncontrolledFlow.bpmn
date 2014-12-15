@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Manager 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Manager 6 for Microsoft Visio" exporterVersion="5.2769.13758 " itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="10.09.2012 11:01:10" itp:modificationDate="01.10.2012 12:42:32" itp:createdWithVersion="5.2769.13758 " itp:conformanceSubClass="Full" id="_9a03597e-3d9f-42c0-adc3-018d3c6a282f" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="_39da6c65-b444-4fc3-89b0-78e0cfd5d218" name="Hauptprozess" processType="None">
+
+    <serviceTask id="TestModelTaskA" name="A" implementation="##unspecified" />
+    <serviceTask id="TestModelTaskB" name="B" implementation="##unspecified" />
+    <serviceTask id="TestModelTaskC" name="C" implementation="##unspecified" />
+    <serviceTask id="TestModelTaskD" name="D"  implementation="##unspecified" />
+
+    <sequenceFlow id="TestModelSequenceAtoC" sourceRef="TestModelTaskA" targetRef="TestModelTaskC" />
+    <sequenceFlow id="TestModelSequenceCtoD" sourceRef="TestModelTaskC" targetRef="TestModelTaskD" />
+    <sequenceFlow id="TestModelSequenceAtoB" sourceRef="TestModelTaskA" targetRef="TestModelTaskB" />
+    <sequenceFlow id="TestModelSequenceBtoD" sourceRef="TestModelTaskB" targetRef="TestModelTaskD" />
+
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="_39da6c65-b444-4fc3-89b0-78e0cfd5d218">
+      <bpmndi:BPMNEdge id="_D98DFA35-27B7-47E9-971F-0BE6C4934130" bpmnElement="TestModelSequenceAtoC" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="189.92125984252" y="219.685039370079" />
+        <di:waypoint x="200.551181102362" y="219.685039370079" />
+        <di:waypoint x="200.551181102362" y="248.031496062992" />
+        <di:waypoint x="249.448818897638" y="248.031496062992" />
+        <bpmndi:BPMNLabel labelStyle="_24f98352-45fd-43bc-8a47-a518ad96027d">
+          <dc:Bounds x="206.28" y="239.595590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_A26E99F9-B17F-435A-811A-3237463E07EE" bpmnElement="TestModelSequenceCtoD" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="334.488188976378" y="248.031496062992" />
+        <di:waypoint x="345.118110236221" y="248.031496062992" />
+        <di:waypoint x="345.118110236221" y="219.685039370079" />
+        <di:waypoint x="396.850393700787" y="219.685039370079" />
+        <bpmndi:BPMNLabel labelStyle="_24f98352-45fd-43bc-8a47-a518ad96027d">
+          <dc:Bounds x="352.44" y="210.795590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_401C6A19-7771-4EDF-BD3F-A42479C35ED7" bpmnElement="TestModelSequenceAtoB" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="189.92125984252" y="191.338582677165" />
+        <di:waypoint x="200.551181102362" y="191.338582677165" />
+        <di:waypoint x="200.551181102362" y="170.07874015748" />
+        <di:waypoint x="249.448818897638" y="170.07874015748" />
+        <bpmndi:BPMNLabel labelStyle="_24f98352-45fd-43bc-8a47-a518ad96027d">
+          <dc:Bounds x="209.88" y="161.115590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_05572013-7C00-4468-94B2-1CD60E5FA442" bpmnElement="TestModelSequenceBtoD" itp:label="(unbenannt)" itp:elementType="sequenceFlow">
+        <di:waypoint x="334.488188976378" y="170.07874015748" />
+        <di:waypoint x="345.118110236221" y="170.07874015748" />
+        <di:waypoint x="345.118110236221" y="191.338582677165" />
+        <di:waypoint x="396.850393700787" y="191.338582677165" />
+        <bpmndi:BPMNLabel labelStyle="_24f98352-45fd-43bc-8a47-a518ad96027d">
+          <dc:Bounds x="355.32" y="182.715590551181" width="7.92" height="17.28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_0E2299D7-95B1-4B6C-A9D0-54276665CAD6" bpmnElement="TestModelTaskA" itp:label="A" itp:elementType="serviceTask">
+        <dc:Bounds x="104.88188976378" y="184.251968503937" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_0ea0a494-20a9-4277-be4f-f6af37a55486">
+          <dc:Bounds x="140.76" y="198.915590551181" width="13.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_1F401A3C-CFBD-4FF2-B043-D6DA239520B7" bpmnElement="TestModelTaskB" itp:label="B" itp:elementType="serviceTask">
+        <dc:Bounds x="249.448818897638" y="148.818897637795" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_0ea0a494-20a9-4277-be4f-f6af37a55486">
+          <dc:Bounds x="285.48" y="162.915590551181" width="13.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_68AC8D7F-1F8C-4262-BC5D-6A103A75B933" bpmnElement="TestModelTaskC" itp:label="C" itp:elementType="serviceTask">
+        <dc:Bounds x="249.448818897638" y="226.771653543307" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_0ea0a494-20a9-4277-be4f-f6af37a55486">
+          <dc:Bounds x="285.48" y="241.395590551181" width="13.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_C0F939CC-107B-461F-9E47-600AAC465B2A" bpmnElement="TestModelTaskD" itp:label="D" itp:elementType="serviceTask">
+        <dc:Bounds x="396.850393700787" y="184.251968503937" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_0ea0a494-20a9-4277-be4f-f6af37a55486">
+          <dc:Bounds x="432.36" y="198.915590551181" width="13.68" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_24f98352-45fd-43bc-8a47-a518ad96027d">
+      <dc:Font name="Arial" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+    <bpmndi:BPMNLabelStyle id="_0ea0a494-20a9-4277-be4f-f6af37a55486">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

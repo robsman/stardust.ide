@@ -1,0 +1,1371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/SdbpmnEmf/src" modelPluginID="SdbpmnEmf" modelName="Sdbpmn"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" importOrganizing="true">
+  <foreignModel>sdbpmn.ecore</foreignModel>
+  <genPackages prefix="Sdbpmn" basePackage="org.eclipse.stardust.model.bpmn2" resource="XML"
+      disposableProviderFactory="true" ecorePackage="sdbpmn.ecore#/">
+    <genClasses ecoreClass="sdbpmn.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/dataType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustActivity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustAttributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustCommon"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustDataObject"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustDataStore"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustInterface"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustMessageStartEvent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustModel"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustProcess"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustResource"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustSeqenceFlow"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustServiceTask"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustStartEvent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustSubprocess"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustTimerStartEvent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//DocumentRoot/stardustUserTask"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/applicationAccessPointRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/carnotVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/interactiveApplicationRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/modelOID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/modelReleased"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/modelVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/oid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/parameterMappingOid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/stardustIgnore"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/stardustPropertyId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/syntheticItemDefinition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/syntheticProperty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/triggerAccessPointRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//DocumentRoot/vendor"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustAccessPointType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustAccessPointType/typeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustApplicationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustApplicationType/accessPoint1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustApplicationType/context1"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustAttributesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustAttributesType/attributeType"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustContextType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustContextType/accessPoint1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustContextType/typeRef"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustDataObjectType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustDataObjectType/stardustAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustDataObjectType/predefined"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustDataObjectType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustDataStoreType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustDataStoreType/stardustAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustDataStoreType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustInterfaceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustInterfaceType/stardustApplication"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustInterfaceType/stardustTrigger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustInterfaceType/applicationType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustInterfaceType/id"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustMessageStartEventType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustMessageStartEventType/stardustAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustModelType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/carnotVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/modelOID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/modelReleased"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/modelVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/oid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustModelType/vendor"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustProcessType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustProcessType/stardustAttributes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustProcessType/supportsProcessAttachments"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustResourceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustConditionalPerformer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustRole"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustResourceType/stardustOrganization"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustResourceType/dataId"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustSeqenceFlowType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustSeqenceFlowType/forkOnTraversal"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustServiceTaskType"/>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustStartEventType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustStartEventType/stardustAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustSubprocessType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustSubprocessType/implementationProcess"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustTimerStartEventType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTimerStartEventType/stardustAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustTriggerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTriggerType/accessPoint1"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//StardustTriggerType/context"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//StardustUserTaskType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustUserTaskType/allowsAbortByPerformer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//StardustUserTaskType/interactiveApplicationRef"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//TStardustActivity">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sdbpmn.ecore#//TStardustActivity/eventHandler"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//TStardustActivity/hibernateOnCreation"/>
+    </genClasses>
+    <genClasses ecoreClass="sdbpmn.ecore#//TStardustCommon">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sdbpmn.ecore#//TStardustCommon/elementOid"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="CarnotWorkflowModel" basePackage="org.eclipse.stardust.model.xpdl"
+      resource="XML" disposableProviderFactory="true" loadInitialization="true" literalsInterface="false"
+      ecorePackage="carnot.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//ActivityImplementationType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ActivityImplementationType/Route"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ActivityImplementationType/Manual"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ActivityImplementationType/Application"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ActivityImplementationType/Subprocess"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//DirectionType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//DirectionType/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//DirectionType/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//DirectionType/INOUT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//FlowControlType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//FlowControlType/none"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//FlowControlType/join"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//FlowControlType/split"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//ImplementationType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ImplementationType/engine"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ImplementationType/pull"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//ImplementationType/push"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//JoinSplitType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/XOR"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/AND"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//JoinSplitType/OR"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//LinkCardinality">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkCardinality/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkCardinality/One"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkCardinality/Many"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//LinkColor">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/Black"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/DarkBlue"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/DarkGray"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/Blue"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/LightGray"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/Red"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkColor/Yellow"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//LinkLineStyle">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkLineStyle/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkLineStyle/Normal"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkLineStyle/ShortStrokes"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkLineStyle/LongStrokes"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//LinkEndStyle">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/NoArrow"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/OpenTriangle"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/EmptyTriangle"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/FilledTriangle"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/EmptyRhombus"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LinkEndStyle/FilledRhombus"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//LoopType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LoopType/Unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LoopType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LoopType/While"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//LoopType/Repeat"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//OrientationType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//OrientationType/Vertical"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//OrientationType/Horizontal"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//RoutingType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//RoutingType/Default"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//RoutingType/ShortestPath"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//RoutingType/Manhattan"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//RoutingType/Explicit"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//SubProcessModeType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//SubProcessModeType/sync_shared"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//SubProcessModeType/sync_separate"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//SubProcessModeType/async_separate"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="carnot.ecore#//DiagramModeType">
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//DiagramModeType/MODE_4_0_0"/>
+      <genEnumLiterals ecoreEnumLiteral="carnot.ecore#//DiagramModeType/MODE_4_5_0"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="carnot.ecore#//ElementId"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//FeatureList"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//ActivityImplementationTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//DirectionTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//FlowControlTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//ImplementationTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//LinkCardinalityObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//LinkColorObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//LinkLineStyleObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//LinkEndStyleObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//JoinSplitTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//LoopTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//OrientationTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//RoutingTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//SubProcessModeTypeObject"/>
+    <genDataTypes ecoreDataType="carnot.ecore#//DiagramModeTypeObject"/>
+    <genClasses ecoreClass="carnot.ecore#//Coordinates">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Coordinates/xPos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Coordinates/yPos"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IIdentifiableElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IIdentifiableElement/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IIdentifiableElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//IExtensibleElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IExtensibleElement/attribute"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//IdentifiableReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IdentifiableReference/attribute"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IdentifiableReference/identifiable"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IModelElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IModelElement/elementOid"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IIdentifiableModelElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IIdentifiableModelElement/description"/>
+      <genOperations ecoreOperation="carnot.ecore#//IIdentifiableModelElement/getSymbols"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IEventHandlerOwner">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IEventHandlerOwner/eventHandler"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IAccessPointOwner">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IAccessPointOwner/accessPoint"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IMetaType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IMetaType/isPredefined"/>
+      <genOperations ecoreOperation="carnot.ecore#//IMetaType/getExtensionPointId"/>
+      <genOperations ecoreOperation="carnot.ecore#//IMetaType/getTypedElements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//ITypedElement">
+      <genOperations ecoreOperation="carnot.ecore#//ITypedElement/getMetaType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//ISymbolContainer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//ISymbolContainer/nodes"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/activitySymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/annotationSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/applicationSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/conditionalPerformerSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/dataSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/endEventSymbols"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/gatewaySymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/groupSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/intermediateEventSymbols"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/modelerSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/organizationSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/processSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/processInterfaceSymbols"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/roleSymbol"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/startEventSymbols"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/textSymbol"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//ISymbolContainer/connections"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/dataMappingConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/executedByConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/genericLinkConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/partOfConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/performsConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/triggersConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/refersToConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/subProcessOfConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/transitionConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/worksForConnection"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISymbolContainer/teamLeadConnection"/>
+      <genOperations ecoreOperation="carnot.ecore#//ISymbolContainer/getNodeContainingFeatures"/>
+      <genOperations ecoreOperation="carnot.ecore#//ISymbolContainer/getConnectionContainingFeatures"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IGraphicalObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IGraphicalObject/borderColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IGraphicalObject/fillColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IGraphicalObject/style"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IGraphicalObject/referingToConnections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IGraphicalObject/referingFromConnections"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//INodeSymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//INodeSymbol/xPos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//INodeSymbol/yPos"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//INodeSymbol/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//INodeSymbol/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//INodeSymbol/shape"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//INodeSymbol/inLinks"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//INodeSymbol/outLinks"/>
+      <genOperations ecoreOperation="carnot.ecore#//INodeSymbol/getInConnectionFeatures"/>
+      <genOperations ecoreOperation="carnot.ecore#//INodeSymbol/getOutConnectionFeatures"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//ISwimlaneSymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ISwimlaneSymbol/orientation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ISwimlaneSymbol/collapsed"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/participant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/childLanes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/participantReference"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IModelElementNodeSymbol">
+      <genOperations ecoreOperation="carnot.ecore#//IModelElementNodeSymbol/getModelElement"/>
+      <genOperations ecoreOperation="carnot.ecore#//IModelElementNodeSymbol/setModelElement">
+        <genParameters ecoreParameter="carnot.ecore#//IModelElementNodeSymbol/setModelElement/element"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IFlowObjectSymbol">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IFlowObjectSymbol/inTransitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IFlowObjectSymbol/outTransitions"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IConnectionSymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IConnectionSymbol/sourceAnchor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IConnectionSymbol/targetAnchor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IConnectionSymbol/routing"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IConnectionSymbol/coordinates"/>
+      <genOperations ecoreOperation="carnot.ecore#//IConnectionSymbol/getSourceNode"/>
+      <genOperations ecoreOperation="carnot.ecore#//IConnectionSymbol/setSourceNode">
+        <genParameters ecoreParameter="carnot.ecore#//IConnectionSymbol/setSourceNode/nodeSymbol"/>
+      </genOperations>
+      <genOperations ecoreOperation="carnot.ecore#//IConnectionSymbol/getTargetNode"/>
+      <genOperations ecoreOperation="carnot.ecore#//IConnectionSymbol/setTargetNode">
+        <genParameters ecoreParameter="carnot.ecore#//IConnectionSymbol/setTargetNode/nodeSymbol"/>
+      </genOperations>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IModelParticipant">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IModelParticipant/performedActivities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IModelParticipant/performedSwimlanes"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//IModelParticipant/participantAssociations"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IModelParticipantSymbol">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IModelParticipantSymbol/performedActivities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IModelParticipantSymbol/triggeredEvents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//AbstractEventAction">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//AbstractEventAction/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//AbstractEventSymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AbstractEventSymbol/label"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//AccessPointType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AccessPointType/direction"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//AccessPointType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ActivitySymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivitySymbolType/activity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivitySymbolType/performsConnections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivitySymbolType/executedByConnections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivitySymbolType/dataMappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivitySymbolType/gatewaySymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ActivityType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/dataMapping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/allowsAbortByPerformer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/application"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/hibernateOnCreation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/implementation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/implementationProcess"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/join"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/loopCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/loopType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/performer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/qualityControlPerformer"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/split"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ActivityType/subProcessMode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/activitySymbols"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/startingEventSymbols"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/inTransitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/outTransitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/externalRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/validQualityCodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/loop"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//AnnotationSymbolType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//AnnotationSymbolType/text"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ApplicationContextTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationContextTypeType/accessPointProviderClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationContextTypeType/hasApplicationPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationContextTypeType/hasMappingId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationContextTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationContextTypeType/validatorClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationContextTypeType/contexts"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ApplicationSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationSymbolType/executingActivities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationSymbolType/application"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ApplicationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationType/context"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationType/interactive"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationType/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationType/executedActivities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationType/applicationSymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ApplicationTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationTypeType/accessPointProviderClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationTypeType/instanceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationTypeType/synchronous"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ApplicationTypeType/validatorClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ApplicationTypeType/applications"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//AttributeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/any"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//AttributeType/valueNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AttributeType/value"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//AttributeType/reference"/>
+      <genOperations ecoreOperation="carnot.ecore#//AttributeType/getAttributeValue"/>
+      <genOperations ecoreOperation="carnot.ecore#//AttributeType/setAttributeValue">
+        <genParameters ecoreParameter="carnot.ecore#//AttributeType/setAttributeValue/type"/>
+        <genParameters ecoreParameter="carnot.ecore#//AttributeType/setAttributeValue/value"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//BindActionType"/>
+    <genClasses ecoreClass="carnot.ecore#//Code">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/code"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//Code/name"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ConditionalPerformerSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ConditionalPerformerSymbolType/participant"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ConditionalPerformerType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ConditionalPerformerType/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ConditionalPerformerType/dataPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ConditionalPerformerType/isUser"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ConditionalPerformerType/conditionalPerformerSymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ContextType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ContextType/description"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ContextType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataMappingConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataMappingConnectionType/activitySymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataMappingConnectionType/dataSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataMappingType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataMappingType/applicationAccessPoint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataMappingType/applicationPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataMappingType/context"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataMappingType/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataMappingType/dataPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataMappingType/direction"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataPathType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataPathType/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataPathType/dataPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataPathType/descriptor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataPathType/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataPathType/direction"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataSymbolType/data"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataSymbolType/dataMappings"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/dataMappings"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataType/predefined"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/dataSymbols"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/conditionalPerformers"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/dataPaths"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/parameterMappings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//DataType/externalReference"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DataTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/accessPathEditor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/evaluator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/instanceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/readable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/storageStrategy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/validatorClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/valueCreator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DataTypeType/writable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//DataTypeType/data"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DescriptionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//DescriptionType/mixed"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DiagramType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DiagramType/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//DiagramType/poolSymbols"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DiagramType/orientation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DiagramType/mode"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//DocumentRoot/model"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//EndEventSymbol"/>
+    <genClasses ecoreClass="carnot.ecore#//EventActionType"/>
+    <genClasses ecoreClass="carnot.ecore#//EventActionTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/actionClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/activityAction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/processAction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/supportedConditionTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventActionTypeType/unsupportedContexts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//EventActionTypeType/actionInstances"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//EventConditionTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/activityCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/binderClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/implementation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/processCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/pullEventEmitterClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventConditionTypeType/rule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//EventConditionTypeType/eventHandlers"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//EventHandlerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//EventHandlerType/bindAction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//EventHandlerType/eventAction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//EventHandlerType/unbindAction"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventHandlerType/autoBind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventHandlerType/consumeOnMatch"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventHandlerType/logHandler"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//EventHandlerType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//EventHandlerType/unbindOnMatch"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ExecutedByConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ExecutedByConnectionType/activitySymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ExecutedByConnectionType/applicationSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//IdRef">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IdRef/packageRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IdRef/ref"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//GatewaySymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//GatewaySymbol/flowKind"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//GatewaySymbol/activitySymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//GenericLinkConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//GenericLinkConnectionType/linkType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//GenericLinkConnectionType/sourceSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//GenericLinkConnectionType/targetSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//GroupSymbolType"/>
+    <genClasses ecoreClass="carnot.ecore#//IntermediateEventSymbol"/>
+    <genClasses ecoreClass="carnot.ecore#//LaneSymbol">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//LaneSymbol/parentPool"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//LaneSymbol/parentLane"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//LinkTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/sourceRole"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/sourceClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/sourceCardinality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/targetRole"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/targetClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/targetCardinality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/lineStyle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/lineColor"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/sourceSymbol"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/targetSymbol"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/showRoleNames"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//LinkTypeType/showLinkTypeName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//LinkTypeType/linkInstances"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ModelerSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelerSymbolType/modeler"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ModelerType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelerType/email"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelerType/password"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelerType/modelerSymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ModelType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/dataType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/applicationType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/applicationContextType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/triggerType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/eventConditionType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/eventActionType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/data"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/application"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/modeler"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/qualityControl"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/role"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/organization"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/conditionalPerformer"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/processDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/externalPackages"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/script"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/typeDeclarations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/diagram"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/linkType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ModelType/view"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/author"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/carnotVersion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/created"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/modelOID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/oid"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ModelType/vendor"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//OrganizationSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationSymbolType/organization"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationSymbolType/superOrganizations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationSymbolType/subOrganizations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationSymbolType/memberRoles"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationSymbolType/teamLead"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//OrganizationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationType/participant"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationType/organizationSymbols"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//OrganizationType/teamLead"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ParameterMappingType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ParameterMappingType/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ParameterMappingType/dataPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ParameterMappingType/parameter"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ParameterMappingType/parameterPath"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ParticipantType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ParticipantType/participant"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//PartOfConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//PartOfConnectionType/organizationSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//PartOfConnectionType/suborganizationSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//PerformsConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//PerformsConnectionType/activitySymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//PerformsConnectionType/participantSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//PoolSymbol">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//PoolSymbol/diagram"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//PoolSymbol/boundaryVisible"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//PoolSymbol/process"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//PoolSymbol/lanes"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ProcessDefinitionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/activity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/transition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/trigger"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/dataPath"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/diagram"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/executingActivities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/processSymbols"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ProcessDefinitionType/defaultPriority"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/formalParameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/formalParameterMappings"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/externalRef"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ProcessSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessSymbolType/process"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessSymbolType/subProcesses"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessSymbolType/parentProcesses"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//PublicInterfaceSymbol"/>
+    <genClasses ecoreClass="carnot.ecore#//QualityControlType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//QualityControlType/Code"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//RefersToConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RefersToConnectionType/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RefersToConnectionType/to"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//RoleSymbolType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RoleSymbolType/role"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RoleSymbolType/organizationMemberships"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RoleSymbolType/teams"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//RoleType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//RoleType/cardinality"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RoleType/teams"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//RoleType/roleSymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//StartEventSymbol">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//StartEventSymbol/trigger"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//StartEventSymbol/triggersConnections"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//StartEventSymbol/startActivity"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//SubProcessOfConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//SubProcessOfConnectionType/processSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//SubProcessOfConnectionType/subprocessSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TeamLeadConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TeamLeadConnectionType/teamSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TeamLeadConnectionType/teamLeadSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TextSymbolType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TextSymbolType/text"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TextType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//TextType/mixed"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TransitionConnectionType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TransitionConnectionType/points"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionConnectionType/sourceActivitySymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionConnectionType/targetActivitySymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionConnectionType/transition"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TransitionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionType/expression"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TransitionType/condition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TransitionType/forkOnTraversal"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionType/from"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionType/to"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TransitionType/transitionConnections"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TriggersConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggersConnectionType/startEventSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggersConnectionType/participantSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TriggerType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggerType/parameterMapping"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggerType/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggerType/startingEventSymbols"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//TriggerTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TriggerTypeType/panelClass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TriggerTypeType/pullTrigger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TriggerTypeType/pullTriggerEvaluator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//TriggerTypeType/rule"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//TriggerTypeType/triggers"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//UnbindActionType"/>
+    <genClasses ecoreClass="carnot.ecore#//ViewableType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ViewableType/viewable"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//ViewType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ViewType/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ViewType/view"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ViewType/viewable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ViewType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//WorksForConnectionType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//WorksForConnectionType/organizationSymbol"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//WorksForConnectionType/participantSymbol"/>
+    </genClasses>
+    <genClasses ecoreClass="carnot.ecore#//XmlTextNode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute carnot.ecore#//XmlTextNode/mixed"/>
+    </genClasses>
+    <nestedGenPackages prefix="Extensions" resource="XML" disposableProviderFactory="true"
+        ecorePackage="carnot.ecore#//extensions">
+      <genClasses ecoreClass="carnot.ecore#//extensions/FormalParameterMappingType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference carnot.ecore#//extensions/FormalParameterMappingType/data"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference carnot.ecore#//extensions/FormalParameterMappingType/parameter"/>
+      </genClasses>
+      <genClasses ecoreClass="carnot.ecore#//extensions/FormalParameterMappingsType">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//extensions/FormalParameterMappingsType/mapping"/>
+        <genOperations ecoreOperation="carnot.ecore#//extensions/FormalParameterMappingsType/getMappedData">
+          <genParameters ecoreParameter="carnot.ecore#//extensions/FormalParameterMappingsType/getMappedData/formalParameter"/>
+        </genOperations>
+        <genOperations ecoreOperation="carnot.ecore#//extensions/FormalParameterMappingsType/setMappedData">
+          <genParameters ecoreParameter="carnot.ecore#//extensions/FormalParameterMappingsType/setMappedData/formalParameter"/>
+          <genParameters ecoreParameter="carnot.ecore#//extensions/FormalParameterMappingsType/setMappedData/data"/>
+        </genOperations>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="Xpdl2" resource="XML" disposableProviderFactory="true" ecorePackage="xpdl.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//LoopTypeType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//LoopTypeType/Standard"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//LoopTypeType/MultiInstance"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//MIFlowConditionType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIFlowConditionType/None"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIFlowConditionType/One"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIFlowConditionType/All"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIFlowConditionType/Complex"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//MIOrderingType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIOrderingType/Sequential"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//MIOrderingType/Parallel"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//ModeType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/IN"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/OUT"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//ModeType/INOUT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//TestTimeType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TestTimeType/Before"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TestTimeType/After"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="xpdl.ecore#//TypeType">
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/STRING"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/FLOAT"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/INTEGER"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/REFERENCE"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/DATETIME"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/BOOLEAN"/>
+      <genEnumLiterals ecoreEnumLiteral="xpdl.ecore#//TypeType/PERFORMER"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="xpdl.ecore#//LoopTypeTypeObject"/>
+    <genDataTypes ecoreDataType="xpdl.ecore#//MIFlowConditionTypeObject"/>
+    <genDataTypes ecoreDataType="xpdl.ecore#//MIOrderingTypeObject"/>
+    <genDataTypes ecoreDataType="xpdl.ecore#//ModeTypeObject"/>
+    <genDataTypes ecoreDataType="xpdl.ecore#//TestTimeTypeObject"/>
+    <genDataTypes ecoreDataType="xpdl.ecore#//TypeTypeObject"/>
+    <genClasses ecoreClass="xpdl.ecore#//BasicTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//BasicTypeType/type"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//DataTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/basicType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/declaredType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/schemaType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//DataTypeType/externalReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//DataTypeType/carnotType"/>
+      <genOperations ecoreOperation="xpdl.ecore#//DataTypeType/getDataType"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//DeclaredTypeType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//DeclaredTypeType/id"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExpressionType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/scriptGrammar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/scriptType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExpressionType/scriptVersion"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExtendedAttributesType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//ExtendedAttributesType/extendedAttribute"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExtendedAttributeType">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference xpdl.ecore#//ExtendedAttributeType/extendedAnnotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/any"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExtendedAttributeType/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xpdl.ecore#//Extensible">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//Extensible/extendedAttributes"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExternalPackages">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//ExternalPackages/externalPackage"/>
+      <genOperations ecoreOperation="xpdl.ecore#//ExternalPackages/getExternalPackage">
+        <genParameters ecoreParameter="xpdl.ecore#//ExternalPackages/getExternalPackage/packageId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExternalPackage">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/href"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalPackage/name"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ExternalReferenceType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/location"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/namespace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/xref"/>
+      <genOperations ecoreOperation="xpdl.ecore#//ExternalReferenceType/getSchema"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//FormalParametersType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//FormalParametersType/formalParameter"/>
+      <genOperations ecoreOperation="xpdl.ecore#//FormalParametersType/addFormalParameter">
+        <genParameters ecoreParameter="xpdl.ecore#//FormalParametersType/addFormalParameter/parameter"/>
+      </genOperations>
+      <genOperations ecoreOperation="xpdl.ecore#//FormalParametersType/getFormalParameter">
+        <genParameters ecoreParameter="xpdl.ecore#//FormalParametersType/getFormalParameter/parameterId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//FormalParameterType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//FormalParameterType/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/mode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//FormalParameterType/name"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//LoopMultiInstanceType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/mICondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/complexMIFlowCondition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopMultiInstanceType/loopDataRef"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopMultiInstanceType/mIFlowCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopMultiInstanceType/mIOrdering"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//LoopStandardType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopStandardType/loopCondition"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopStandardType/loopMaximum"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopStandardType/testTime"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//LoopType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopType/loopStandard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//LoopType/loopMultiInstance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//LoopType/loopType"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//SchemaTypeType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//SchemaTypeType/schema"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//ScriptType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/grammar"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ScriptType/version"/>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//TypeDeclarationsType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationsType/typeDeclaration"/>
+      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration">
+        <genParameters ecoreParameter="xpdl.ecore#//TypeDeclarationsType/getTypeDeclaration/typeId"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="xpdl.ecore#//TypeDeclarationType">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/basicType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/declaredType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/schemaType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xpdl.ecore#//TypeDeclarationType/externalReference"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//TypeDeclarationType/name"/>
+      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationType/getDataType"/>
+      <genOperations ecoreOperation="xpdl.ecore#//TypeDeclarationType/getSchema"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xpdl.ecore#//XpdlTypeType"/>
+    <nestedGenPackages prefix="Extensions" resource="XML" disposableProviderFactory="true"
+        ecorePackage="xpdl.ecore#//extensions">
+      <genClasses ecoreClass="xpdl.ecore#//extensions/ExtendedAnnotationType"/>
+      <genClasses ecoreClass="xpdl.ecore#//extensions/LoopDataRefType">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/inputItemRef"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/outputItemRef"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//extensions/LoopDataRefType/loopCounterRef"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+  <genPackages prefix="Xsd" disposableProviderFactory="true" ecorePackage="XSD.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDAttributeUseCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/optional"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/prohibited"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDAttributeUseCategory/required"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDCardinality">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCardinality/finite"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCardinality/countablyInfinite"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDComplexFinal">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDComplexFinal/all"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDCompositor">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/all"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/choice"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDCompositor/sequence"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDConstraint">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDConstraint/default"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDConstraint/fixed"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDContentTypeCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/empty"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/simple"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/mixed"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDContentTypeCategory/elementOnly"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDDerivationMethod">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDerivationMethod/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDerivationMethod/restriction"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDDiagnosticSeverity">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/fatal"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/error"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/warning"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDiagnosticSeverity/information"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDDisallowedSubstitutions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/substitution"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDDisallowedSubstitutions/all"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDForm">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDForm/qualified"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDForm/unqualified"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDIdentityConstraintCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/key"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/keyref"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDIdentityConstraintCategory/unique"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDNamespaceConstraintCategory">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/any"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/not"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDNamespaceConstraintCategory/set"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDOrdered">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/false"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/partial"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDOrdered/total"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDProcessContents">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/strict"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/lax"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProcessContents/skip"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDProhibitedSubstitutions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDProhibitedSubstitutions/all"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDSimpleFinal">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/list"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/restriction"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/union"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSimpleFinal/all"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDSubstitutionGroupExclusions">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSubstitutionGroupExclusions/extension"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDSubstitutionGroupExclusions/restriction"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDVariety">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/atomic"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/list"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDVariety/union"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDWhiteSpace">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/preserve"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/replace"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDWhiteSpace/collapse"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="XSD.ecore#//XSDXPathVariety">
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDXPathVariety/selector"/>
+      <genEnumLiterals ecoreEnumLiteral="XSD.ecore#//XSDXPathVariety/field"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMAttr"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMDocument"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMElement"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//DOMNode"/>
+    <genDataTypes ecoreDataType="XSD.ecore#//Value"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDAnnotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/applicationInformation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/userInformation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAnnotation/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeDeclaration">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeDeclaration/attributeDeclarationReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/anonymousTypeDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/typeDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeDeclaration/resolvedAttributeDeclaration"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDAttributeGroupContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeGroupDefinition">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeGroupDefinition/attributeGroupDefinitionReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/contents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeUses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeWildcardContent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/attributeWildcard"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/resolvedAttributeGroupDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeGroupDefinition/syntheticWildcard"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDAttributeUse">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/required"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/constraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/use"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDAttributeUse/lexicalValue"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeUse/attributeDeclaration"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDAttributeUse/content"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDBoundedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDBoundedFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDCardinalityFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDCardinalityFacet/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDComplexTypeContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDComplexTypeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/derivationMethod"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/final"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/contentTypeCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/prohibitedSubstitutions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/block"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDComplexTypeDefinition/mixed"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/contentAnnotation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/baseTypeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/content"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/contentType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeUses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeContents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeWildcard"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/attributeWildcardContent"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/rootTypeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/syntheticParticle"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDComplexTypeDefinition/syntheticWildcard"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDComponent"/>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDConcreteComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDConcreteComponent/element"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/container"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/rootContainer"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/schema"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDConcreteComponent/diagnostics"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDConstrainingFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDDiagnostic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/severity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/locationURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/line"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/column"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/node"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/annotationURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDDiagnostic/substitutions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDDiagnostic/components"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDDiagnostic/primaryComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDElementDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/nillable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/disallowedSubstitutions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/substitutionGroupExclusions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/block"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/elementDeclarationReference"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDElementDeclaration/circular"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/anonymousTypeDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/typeDefinition"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/identityConstraintDefinitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/resolvedElementDeclaration"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/substitutionGroupAffiliation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDElementDeclaration/substitutionGroup"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDEnumerationFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDEnumerationFacet/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/lexicalValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/facetName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFacet/effectiveValue"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDFacet/annotation"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFacet/simpleTypeDefinition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/constraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/form"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/lexicalValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/global"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFeature/featureReference"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/scope"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/resolvedFeature"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDFeature/type"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDFixedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFixedFacet/fixed"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDFractionDigitsFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDFractionDigitsFacet/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDFundamentalFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDIdentityConstraintDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDIdentityConstraintDefinition/identityConstraintCategory"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/annotation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/referencedKey"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/selector"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDIdentityConstraintDefinition/fields"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDImport/namespace"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDImport/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDInclude">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDInclude/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxExclusiveFacet"/>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDMaxFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/inclusive"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxFacet/exclusive"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxInclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMaxLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMaxLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinExclusiveFacet"/>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDMinFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/inclusive"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinFacet/exclusive"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinInclusiveFacet"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDMinLengthFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDMinLengthFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDModelGroup">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDModelGroup/compositor"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/contents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroup/particles"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDModelGroupDefinition">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDModelGroupDefinition/modelGroupDefinitionReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/modelGroup"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDModelGroupDefinition/resolvedModelGroupDefinition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDNamedComponent">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/targetNamespace"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/aliasName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/uRI"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/aliasURI"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNamedComponent/qName"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDNotationDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNotationDeclaration/systemIdentifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNotationDeclaration/publicIdentifier"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDNotationDeclaration/annotation"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDNumericFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDNumericFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDOrderedFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDOrderedFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDParticle">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDParticle/minOccurs"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDParticle/maxOccurs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDParticle/content"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDParticle/term"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDParticleContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDPatternFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDPatternFacet/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDRedefinableComponent">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDRedefinableComponent/circular"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDRedefineContent"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDRedefine">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDRedefine/annotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDRedefine/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDRepeatableFacet">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDRepeatableFacet/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDSchema">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/document"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/schemaLocation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/targetNamespace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/attributeFormDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/elementFormDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/finalDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/blockDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchema/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/contents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/elementDeclarations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/attributeDeclarations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/attributeGroupDefinitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/typeDefinitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/modelGroupDefinitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/identityConstraintDefinitions"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/notationDeclarations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/annotations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/allDiagnostics"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/referencingDirectives"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/rootVersion"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/originalVersion"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/incorporatedVersions"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchema/schemaForSchema"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDSchemaCompositor">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchemaCompositor/incorporatedSchema"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDSchemaContent"/>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDSchemaDirective">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSchemaDirective/schemaLocation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSchemaDirective/resolvedSchema"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDScope"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDSimpleTypeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/variety"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/final"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/lexicalFinal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDSimpleTypeDefinition/validFacets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/contents"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/facetContents"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/facets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/memberTypeDefinitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/fundamentalFacets"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/baseTypeDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/primitiveTypeDefinition"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/itemTypeDefinition"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/rootTypeDefinition"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxInclusiveFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minInclusiveFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minExclusiveFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxExclusiveFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/lengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/whiteSpaceFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/enumerationFacets"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/patternFacets"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/cardinalityFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/numericFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/maxLengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/minLengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/totalDigitsFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/fractionDigitsFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/orderedFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/boundedFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMaxFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveWhiteSpaceFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMaxLengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveFractionDigitsFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectivePatternFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveEnumerationFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveTotalDigitsFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMinLengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveLengthFacet"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/effectiveMinFacet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDSimpleTypeDefinition/syntheticFacets"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDTerm"/>
+    <genClasses ecoreClass="XSD.ecore#//XSDTotalDigitsFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDTotalDigitsFacet/value"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="XSD.ecore#//XSDTypeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/annotation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/derivationAnnotation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/annotations"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/rootType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/baseType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/simpleType"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference XSD.ecore#//XSDTypeDefinition/complexType"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDWhiteSpaceFacet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWhiteSpaceFacet/value"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDWildcard">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/namespaceConstraintCategory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/namespaceConstraint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/processContents"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDWildcard/lexicalNamespaceConstraint"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDWildcard/annotation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDWildcard/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="XSD.ecore#//XSDXPathDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDXPathDefinition/variety"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XSD.ecore#//XSDXPathDefinition/value"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference XSD.ecore#//XSDXPathDefinition/annotation"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

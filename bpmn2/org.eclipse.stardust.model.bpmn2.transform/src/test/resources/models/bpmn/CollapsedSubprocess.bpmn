@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 5 SR7 for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 5 for Microsoft Visio" exporterVersion="5.2769.13758 SR7" itp:name="Mein Diagramm" itp:version="1.0" itp:author="simon nikles" itp:creationDate="29.06.2012 11:30:07" itp:modificationDate="29.06.2012 11:31:47" itp:createdWithVersion="5.2769.13758 SR7" itp:conformanceSubClass="Full" id="_805507f8-0cdd-44e2-bd27-5f30d4bf88aa" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="TestModelMainProcess" name="Hauptprozess" processType="None">
+    <extensionElements>
+      <itp:systemDefinedAttributes>
+        <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+        <attribute name="ExternalId" type="String" />
+        <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+        <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+          <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+          <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+        </attribute>
+      </itp:systemDefinedAttributes>
+      <itp:localization>
+        <itp:label lang="unspecified" text="Hauptprozess" default="True" />
+      </itp:localization>
+    </extensionElements>
+    <subProcess id="TestModelSubProcess" name="Collapsed&#xD;&#xA;SubProcess" itp:isCollapsed="true" itp:logicalSheetId="84213e91-1320-46ca-b242-1a8a4724ef72">
+      <extensionElements>
+        <itp:systemDefinedAttributes>
+          <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+          <attribute name="ExternalId" type="String" />
+          <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+          <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+            <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+            <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+          </attribute>
+        </itp:systemDefinedAttributes>
+        <itp:localization>
+          <itp:label lang="unspecified" text="Collapsed&#xD;&#xA;SubProcess" default="True" />
+        </itp:localization>
+      </extensionElements>
+      <userTask id="TestModelTaskA" name="UserTask&#xD;&#xA;in Subprocess" implementation="unspecified">
+        <extensionElements>
+          <itp:systemDefinedAttributes>
+            <attribute name="Hyperlinks" type="String" value="0 Hyperlinks" />
+            <attribute name="ExternalId" type="String" />
+            <attribute name="KPICost" type="Float" value="1" format="Currency;Fr.;;KPI;2" />
+            <attribute name="KPIDuration" type="Float" value="1" format="Duration;;;KPI;3">
+              <attribute name="KPIActiveTime" type="Float" value="1" format="Duration;;;KPI;3" />
+              <attribute name="KPIWaitTime" type="Float" value="0" format="Duration;;;KPI;3" />
+            </attribute>
+          </itp:systemDefinedAttributes>
+          <itp:localization>
+            <itp:label lang="unspecified" text="UserTask&#xD;&#xA;in Subprocess" default="True" />
+          </itp:localization>
+        </extensionElements>
+      </userTask>
+    </subProcess>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="TestModelMainProcess">
+      <bpmndi:BPMNShape id="_F3D0E277-FBA8-4C1E-A3F3-288E89B7A289" bpmnElement="TestModelSubProcess" isExpanded="false" itp:label="Collapsed&#xD;&#xA;SubProcess" itp:elementType="subProcess">
+        <dc:Bounds x="121.889763779528" y="113.385826771654" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_7814d733-1169-4791-b53f-4fe462a23900">
+          <dc:Bounds x="133.92" y="113.235590551181" width="60.48" height="33.84" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram name="Collapsed SubProcess (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_2" bpmnElement="TestModelSubProcess">
+      <bpmndi:BPMNShape id="_97C7663C-B528-431D-BA05-E78A35F34B05" bpmnElement="TestModelTaskA" itp:label="UserTask&#xD;&#xA;in Subprocess" itp:elementType="userTask">
+        <dc:Bounds x="143.149606299213" y="110.551181102362" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_7814d733-1169-4791-b53f-4fe462a23900">
+          <dc:Bounds x="150.84" y="119.715590551181" width="69.84" height="23.76" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_7814d733-1169-4791-b53f-4fe462a23900">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

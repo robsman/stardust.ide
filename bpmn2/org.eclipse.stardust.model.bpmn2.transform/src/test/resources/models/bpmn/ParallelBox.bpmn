@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Process Modeler 6  for Microsoft Visio (http://www.itp-commerce.com)-->
+<definitions targetNamespace="http://www.itp-commerce.com" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:itp="http://www.itp-commerce.com/BPMN2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL schemas/BPMN20.xsd" exporter="Process Modeler 6 for Microsoft Visio" exporterVersion="6.2769.13758 " name="Parallel Box" itp:version="1.0" itp:author="simon nikles" itp:creationDate="28.11.2012 16:09:58" itp:modificationDate="28.11.2012 16:11:36" itp:createdWithVersion="6.2769.13758 " itp:conformanceSubClass="Full" id="_bace65ff-df8f-4f2a-9eb9-acf774eba8e6" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
+  <process id="TestModelMainProcess" name="Hauptprozess" processType="None">
+    <task id="TestModelTaskA" name="a">
+    </task>
+    <task id="TestModelTaskB" name="b">
+    </task>
+    <task id="TestModelTaskC" name="c">
+    </task>
+  </process>
+  <bpmndi:BPMNDiagram name="Mein Diagramm (1)" resolution="72">
+    <bpmndi:BPMNPlane id="_1" bpmnElement="TestModelMainProcess">
+      <bpmndi:BPMNShape id="_C8C9FF6A-1974-4C3A-823C-8185432EB7A9" bpmnElement="TestModelTaskA" itp:label="a" itp:elementType="task">
+        <dc:Bounds x="104.88188976378" y="127.55905511811" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_689e2aeb-84fa-4a43-9b69-9abfffc2b13f">
+          <dc:Bounds x="141.48" y="142.035590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_A1B2621D-88EB-44BC-AD3A-E0136000005E" bpmnElement="TestModelTaskB" itp:label="b" itp:elementType="task">
+        <dc:Bounds x="104.88188976378" y="191.338582677165" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_689e2aeb-84fa-4a43-9b69-9abfffc2b13f">
+          <dc:Bounds x="141.48" y="206.115590551181" width="12.24" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_364723A6-09E1-4044-90C4-4B4E1CBCB976" bpmnElement="TestModelTaskC" itp:label="c" itp:elementType="task">
+        <dc:Bounds x="104.88188976378" y="255.118110236221" width="85.0393700787402" height="42.5196850393701" />
+        <bpmndi:BPMNLabel labelStyle="_689e2aeb-84fa-4a43-9b69-9abfffc2b13f">
+          <dc:Bounds x="141.84" y="269.475590551181" width="11.52" height="13.68" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="_689e2aeb-84fa-4a43-9b69-9abfffc2b13f">
+      <dc:Font name="Arial" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" />
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+</definitions>

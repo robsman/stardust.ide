@@ -1,0 +1,373 @@
+/*******************************************************************************
+ * Copyright (c) 2012 ITpearls AG and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    ITpearls - initial API and implementation and/or initial documentation
+ *******************************************************************************/
+package org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.data;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.bpmn2.Activity;
+import org.eclipse.bpmn2.Assignment;
+import org.eclipse.bpmn2.DataAssociation;
+import org.eclipse.bpmn2.DataInput;
+import org.eclipse.bpmn2.DataInputAssociation;
+import org.eclipse.bpmn2.DataObjectReference;
+import org.eclipse.bpmn2.DataOutput;
+import org.eclipse.bpmn2.DataOutputAssociation;
+import org.eclipse.bpmn2.DataStoreReference;
+import org.eclipse.bpmn2.Expression;
+import org.eclipse.bpmn2.FlowElementsContainer;
+import org.eclipse.bpmn2.FormalExpression;
+import org.eclipse.bpmn2.InputOutputSpecification;
+import org.eclipse.bpmn2.ItemAwareElement;
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper;
+import org.eclipse.stardust.model.bpmn2.extension.DataMappingPathHelper.AccessPointPathInfo;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.elements.AbstractElement2Stardust;
+import org.eclipse.stardust.model.bpmn2.transform.xpdl.helper.DocumentationTool;
+import org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
+import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
+import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
+import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
+import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
+
+/**
+ * @author Simon Nikles
+ *
+ */
+public class TaskDataFlow2Stardust extends AbstractElement2Stardust {
+
+    public TaskDataFlow2Stardust(ModelType carnotModel, List<String> failures) {
+        super(carnotModel, failures);
+    }
+
+    public void addDataFlows(Activity activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        ActivityType sdActivity = query.findActivity(activity, container);
+        if (sdActivity == null) {
+            failures.add("STARDUST-ACTIVITY NOT FOUND " + activity.getId() + " " + activity.getName() + " in "  + container.getId() );
+            return;
+        }
+        InputOutputSpecification ioSpec = activity.getIoSpecification();
+        List<DataInputAssociation> inputAssociations = activity.getDataInputAssociations();
+        List<DataOutputAssociation> outputAssociations = activity.getDataOutputAssociations();
+        List<DataInput> dataInputs = ioSpec.getDataInputs();
+        List<DataOutput> dataOutput = ioSpec.getDataOutputs();
+
+        List<DataInput> associatedDataInputs = new ArrayList<DataInput>();
+        List<DataOutput> associatedDataOutputs = new ArrayList<DataOutput>();
+
+        if (inputAssociations != null && inputAssociations.size() > 0) {
+            for (DataInputAssociation assocIn : inputAssociations) {
+                if (!hasValidSourceAndTarget(assocIn, activity, container)) continue;
+                DataInput input = addInDataMapping(assocIn, sdActivity, container, predefinedDataForId);
+                if (input != null) associatedDataInputs.add(input);
+            }
+        }
+        if (outputAssociations != null && outputAssociations.size() > 0) {
+            for (DataOutputAssociation assocOut : outputAssociations) {
+                if (!hasValidSourceAndTarget(assocOut, activity, container)) continue;
+                DataOutput output = addOutDataMapping(assocOut, sdActivity, container, predefinedDataForId);
+                if (output != null) associatedDataOutputs.add(output);
+            }
+        }
+        for (DataInput input : dataInputs) {
+            if (!associatedDataInputs.contains(input)) {
+                addInDataMappingWithoutAssociation(input, sdActivity, container, predefinedDataForId);
+            }
+        }
+        for (DataOutput output : dataOutput) {
+            if (!associatedDataOutputs.contains(output)) {
+                addOutDataMappingWithoutAssociation(output, sdActivity, container, predefinedDataForId);
+            }
+        }
+    }
+
+    private DataInput addInDataMapping(DataInputAssociation assocIn, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        ItemAwareElement associationTarget = assocIn.getTargetRef();
+        ItemAwareElement associationSource = getFirstAssociationSource(assocIn);
+        if (associationSource instanceof DataObjectReference)
+            associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+        if (associationSource instanceof DataStoreReference)
+            associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
+        DataInput dataInput = associationTarget instanceof DataInput ? (DataInput)associationTarget : null;
+        DataType fromVariable = query.findVariable(associationSource.getId(), predefinedDataForId);
+        if (fromVariable == null) failures.add("DATA INPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " to Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+
+        if (hasAssignment(assocIn)) {
+            logger.debug("DataInputAssociation has assignment " + assocIn);
+            addInDataMappingFromAssignments(activity, assocIn, dataInput, fromVariable);
+        } else {
+            logger.debug("DataInputAssociation without assignment " + assocIn);
+            DataMappingType mapping = buildInDataMapping(activity, fromVariable.getId() /*assocIn.getId()*/, getDataMappingName(dataInput, assocIn), fromVariable, "", "");
+            addDataPathFromTransformationExpression(mapping, assocIn);
+        }
+        return dataInput;
+    }
+
+    private DataOutput addOutDataMapping(DataOutputAssociation assocOut, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        ItemAwareElement associationSource = getFirstAssociationSource(assocOut);
+        ItemAwareElement associationTarget = assocOut.getTargetRef();
+        if (associationTarget instanceof DataObjectReference) {
+        	associationTarget = ((DataObjectReference)associationTarget).getDataObjectRef();
+        }
+        if (associationTarget instanceof DataStoreReference) {
+        	associationTarget = ((DataStoreReference)associationTarget).getDataStoreRef();
+        }
+        DataOutput dataOutput = associationSource instanceof DataOutput ? (DataOutput)associationSource : null;
+        DataType toVariable = query.findVariable(associationTarget.getId(), predefinedDataForId);
+        if (toVariable == null) failures.add("DATA OUTPUT ASSOCIATION STARDUST VARIABLE NOT FOUND " + associationTarget.getId() + " from Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+
+        if (hasAssignment(assocOut)) {
+            logger.debug("DataOutputAssociation has assignment " + assocOut);
+            addOutDataMappingFromAssignments(activity, assocOut, dataOutput, toVariable);
+        } else {
+            logger.debug("DataInputAssociation without assignment " + assocOut + " TO VARIABLE " + toVariable + " - " + associationTarget.getId());
+            DataMappingType mapping = buildOutDataMapping(activity, toVariable.getId() /* assocOut.getId() */ , getDataMappingName(dataOutput, assocOut), toVariable, "","");
+            addDataPathFromTransformationExpression(mapping, assocOut);
+        }
+        return dataOutput;
+    }
+
+    private void addInDataMappingFromAssignments(ActivityType activity, DataInputAssociation assocIn, DataInput dataInput, DataType fromVariable) {
+        logger.debug("addInDataMappingFromAssignments " + activity);
+        for (Assignment assign : assocIn.getAssignment()) {
+            Expression fromExpression = assign.getFrom();
+            String assingmentId = assign.getId();
+            Expression toExpression = assign.getTo();
+
+            AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(toExpression));
+            String applicationAccessPoint = resolveDataPath.getAccessPointId();
+            String applicationAccessPath = resolveDataPath.getAccessPointPath();
+
+            //String applicationAccessPoint = ExtensionHelper.getInstance().getAssignmentAccessPointRef(toExpression);
+            //String applicationAccessPath = getExpressionValue(toExpression);
+
+            String mappingId = assocIn.getId() + "_" + assingmentId;
+            DataMappingType mapping = buildInDataMapping(activity, mappingId, getDataMappingName(dataInput, assocIn), fromVariable, applicationAccessPoint, applicationAccessPath);
+            String fromExpressionValue = getExpressionValue(fromExpression);
+            fromExpressionValue = cleanPath(fromExpressionValue);
+            mapping.setDataPath(fromExpressionValue);
+
+            // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
+            // the mapping ids must be identical (otherwise only one direction will be available),
+            // thus we take the dataObject's id
+            if (ActivityImplementationType.MANUAL_LITERAL.equals(activity.getImplementation().getLiteral())
+             && (null == applicationAccessPath || applicationAccessPath.isEmpty())
+             && (null == fromExpressionValue || fromExpressionValue.isEmpty())
+             && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())) {
+            	mapping.setId(fromVariable.getId());
+            }
+
+        }
+    }
+
+    private void addOutDataMappingFromAssignments(ActivityType activity, DataOutputAssociation assocOut, DataOutput dataOutput, DataType toVariable) {
+        logger.debug("addOutDataMappingFromAssignments " + activity);
+        for (Assignment assign : assocOut.getAssignment()) {
+            Expression fromExpression = assign.getFrom();
+            Expression toExpression = assign.getTo();
+            String assingmentId = assign.getId();
+            String mappingId = assocOut.getId() + "_" + assingmentId;
+
+            AccessPointPathInfo resolveDataPath = DataMappingPathHelper.INSTANCE.resolveAccessPointPath(getExpressionValue(fromExpression));
+            String applicationAccessPoint = resolveDataPath.getAccessPointId();
+            String applicationAccessPath = resolveDataPath.getAccessPointPath();
+
+            DataMappingType mapping = buildOutDataMapping(activity, mappingId, getDataMappingName(dataOutput, assocOut), toVariable, applicationAccessPoint, applicationAccessPath);
+
+            String toExpressionValue = getExpressionValue(toExpression);
+            toExpressionValue = cleanPath(toExpressionValue);
+            mapping.setDataPath(toExpressionValue);
+
+            // for bidirectional mappings to manual activities (auto-generated ui without accesspoint & paths),
+            // the mapping ids must be identical (otherwise only one direction will be available),
+            // thus we take the dataObject's id
+            if (ActivityImplementationType.MANUAL_LITERAL.equals(activity.getImplementation().getLiteral())
+             && (null == applicationAccessPath || applicationAccessPath.isEmpty())
+             && (null == applicationAccessPoint || applicationAccessPoint.isEmpty())
+             && (null == toExpressionValue || toExpressionValue.isEmpty())) {
+            	mapping.setId(toVariable.getId());
+            }
+
+        }
+    }
+
+    private void addInDataMappingWithoutAssociation(DataInput input, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        DataType inVariable = query.findVariable(input.getId(), predefinedDataForId);
+        if (inVariable == null) {
+            inVariable = new Data2Stardust(carnotModel, failures).addDataInputVariable(input);
+        }
+        buildInDataMapping(activity, input.getId(), input.getName(), inVariable, "", "");
+    }
+
+    private void addOutDataMappingWithoutAssociation(DataOutput output, ActivityType activity, FlowElementsContainer container, Map<String, String> predefinedDataForId) {
+        DataType outVariable = query.findVariable(output.getId(), predefinedDataForId);
+        if (outVariable == null) {
+            outVariable = new Data2Stardust(carnotModel, failures).addDataOutputVariable(output);
+        }
+        buildOutDataMapping(activity, output.getId(), output.getName(), outVariable, "","");
+    }
+
+    private DataMappingType buildInDataMapping(ActivityType activity, String id, String name, DataType fromVariable, String accessPointId, String path) {
+    	String context = getDataFlowContext(activity);
+    	path = cleanPath(path);
+        return BpmModelBuilder.newInDataMapping(activity)
+                .withIdAndName(id, name)
+                .fromVariable(fromVariable)
+                .inContext(context)
+                .toApplicationAccessPoint(accessPointId, path)
+                .build();
+    }
+
+    private DataMappingType buildOutDataMapping(ActivityType activity, String id, String name, DataType toVariable, String accessPointId, String path) {
+    	String context = getDataFlowContext(activity);
+    	path = cleanPath(path);
+    	return BpmModelBuilder.newOutDataMapping(activity)
+                .withIdAndName(id, name)
+                .toVariable(toVariable)
+                .inContext(context)
+    	 		.fromApplicationAccessPoint(accessPointId, path)
+    	 		.build();
+    }
+
+    private void addDataPathFromTransformationExpression(DataMappingType mapping, DataAssociation assoc) {
+        // TODO HANDLE EXPRESSION LANGUAGE
+        if (assoc.getTransformation() != null) {
+            String expr = "";
+            if (assoc.getTransformation().getBody() != null && !assoc.getTransformation().getBody().isEmpty()) {
+                expr = assoc.getTransformation().getBody();
+                logger.debug("Set Datapath from Expression-Body value: " + expr + " (" + assoc + ")");
+            } else if (assoc.getTransformation().getMixed() != null )  {
+                 expr = ModelUtils.getCDataString(assoc.getTransformation().getMixed());
+                 logger.debug("Set Datapath from Mixed value: " + expr + " (" + assoc + ")");
+            }
+            expr = cleanPath(expr);
+            mapping.setDataPath(expr);
+        }
+    }
+
+    private ItemAwareElement getFirstAssociationSource(DataAssociation assoc) {
+        if (assoc.getSourceRef() != null) {
+            for (ItemAwareElement source : assoc.getSourceRef()) {
+                if (source != null) return source;
+            }
+        }
+        return null;
+    }
+
+    public static boolean hasAssignment(DataAssociation assoc) {
+        return (assoc.getAssignment() != null && assoc.getAssignment().size() > 0);
+    }
+
+    private boolean hasValidSourceAndTarget(DataAssociation assoc, Activity activity, FlowElementsContainer container) {
+        boolean valid = true;
+        ItemAwareElement associationTarget = assoc.getTargetRef();
+        ItemAwareElement associationSource = getFirstAssociationSource(assoc);
+        if (associationTarget == null) {
+            failures.add("DATA ASSOCIATION TARGET NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            valid = false;
+        }
+        if (associationSource == null) {
+            failures.add("DATA ASSOCIATION SOURCE NOT SET " + assoc.getId() + " Activity " + assoc.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            valid = false;
+        }
+        if (associationSource instanceof DataObjectReference) associationSource = ((DataObjectReference)associationSource).getDataObjectRef();
+        if (associationSource instanceof DataStoreReference) associationSource = ((DataStoreReference)associationSource).getDataStoreRef();
+        if (associationSource == null) {
+            failures.add("DATA ASSOCIATION SOURCE NOT VALID " + assoc.getId() + " Activity " + activity.getId() + " " + activity.getName()  + " in "  + container.getId() );
+            valid = false;
+        }
+        return valid;
+    }
+
+    public static String getDataMappingName(DataOutput dataOutput, DataAssociation association) {
+        boolean validName = dataOutput != null && dataOutput.getName() != null && !dataOutput.getName().isEmpty();
+        String name = validName ? dataOutput.getName() : association.getId();
+        return name;
+    }
+
+    private String getDataMappingName(DataInput dataInput, DataAssociation association) {
+        boolean validName = dataInput != null && dataInput.getName() != null && !dataInput.getName().isEmpty();
+        String name = validName ? dataInput.getName() : association.getId();
+        return name;
+    }
+
+    private String getExpressionValue(Expression expression) {
+        if (expression instanceof FormalExpression) {
+            logger.debug("Assignment formal expression: " + expression);
+            return ((FormalExpression) expression).getBody();
+        }
+        logger.debug("Assignment 'informal' expression: " + expression);
+        return  DocumentationTool.getInformalExpressionValue(expression);
+    }
+
+    private String getDataFlowContext(ActivityType activity) {
+    	if (ActivityImplementationType.APPLICATION_LITERAL.equals(activity.getImplementation())) {
+    		ApplicationType app = activity.getApplication();
+    		if (app != null) {
+    			if (app.getContext() != null && app.getContext().size() > 0) {
+    				return app.getContext().get(0).getType().getId();
+    			}
+    			else {
+    				return PredefinedConstants.APPLICATION_CONTEXT;
+    			}
+    		}
+    	}
+    	return PredefinedConstants.DEFAULT_CONTEXT;
+    }
+
+    public static String getInDataMappingId(DataInput dataInput, DataInputAssociation inputAssociation) {
+    	if (inputAssociation != null) {
+    		//return inputAssociation.getId();
+    		List<ItemAwareElement> sourceRef = inputAssociation.getSourceRef();
+    		if (null != sourceRef && sourceRef.size() > 0) {
+    			if (null != sourceRef.get(0)) {
+    				ItemAwareElement srcRef = sourceRef.get(0);
+        			if (srcRef instanceof DataObjectReference) {
+        				srcRef = ((DataObjectReference) srcRef).getDataObjectRef();
+        			} else if (srcRef instanceof DataStoreReference) {
+        				srcRef = ((DataStoreReference) srcRef).getDataStoreRef();
+        			}
+        			if (null != srcRef) return srcRef.getId();
+    			}
+    		}
+    	}
+    	return dataInput.getId();
+    }
+
+    public static String getOutDataMappingId(DataOutput dataOutput, DataOutputAssociation outputAssociation) {
+    	if (outputAssociation != null) {
+    		//return outputAssociation.getId();
+    		ItemAwareElement targetRef = outputAssociation.getTargetRef();
+    		if (null != targetRef) {
+    			if (targetRef instanceof DataObjectReference) {
+    				targetRef = ((DataObjectReference) targetRef).getDataObjectRef();
+    			} else if (targetRef instanceof DataStoreReference) {
+    				targetRef = ((DataStoreReference) targetRef).getDataStoreRef();
+    			}
+    			if (null != targetRef) return targetRef.getId();
+    		}
+    	}
+    	return dataOutput.getId();
+    }
+
+    public static String cleanPath(String path) {
+    	if (null == path || path.trim().equals("/")) return "";
+    	if (path.startsWith("/")) path = path.substring(1);
+    	if (path.trim().equals("/")) return "";
+    	return path.trim();
+	}
+
+
+}

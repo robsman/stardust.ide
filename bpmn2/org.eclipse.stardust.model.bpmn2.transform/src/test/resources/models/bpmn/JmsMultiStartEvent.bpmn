@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- origin at X=0.0 Y=0.0 -->
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:carnot="http://www.carnot.ag/workflowmodel/3.1" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:sdbpmn="http://www.eclipse.org/stardust/model/bpmn2/sdbpmn" xmlns:xs="http://www.w3.org/2001/XMLSchema" exporter="org.eclipse.bpmn2.modeler.core" exporterVersion="1.1.0" targetNamespace="http://org.eclipse.bpmn2.modeler.runtime.stardust" name="TestJmsMultiStartEvent" id="TestJmsMultiStartEvent">
+
+  <bpmn2:message id="Trigger1InputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+  <bpmn2:message id="Trigger2InputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+  <bpmn2:message id="Trigger3InputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+  <bpmn2:message id="Trigger1OutputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+  <bpmn2:message id="Trigger2OutputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+  <bpmn2:message id="Trigger3OutputMessage" itemRef="ItemDefinition_3"></bpmn2:message>
+
+  <bpmn2:itemDefinition id="ItemDefinition_2" structureRef="xs:integer"/>
+  <bpmn2:itemDefinition id="ItemDefinition_3" structureRef="xs:string"/>
+  <bpmn2:itemDefinition id="ItemDefinition_4" structureRef="xs:date"/>
+  <bpmn2:itemDefinition id="ItemDefinition_5" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.core.runtime.beans.IUser"/>
+  <bpmn2:itemDefinition id="ItemDefinition_6" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.DeployedModelDescription"/>
+  <bpmn2:itemDefinition id="ItemDefinition_7" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.Document"/>
+  <bpmn2:itemDefinition id="ItemDefinition_8" sdbpmn:syntheticItemDefinition="true" structureRef="org.eclipse.stardust.engine.api.runtime.Folder"/>
+  <bpmn2:itemDefinition id="ItemDefinition_9" sdbpmn:syntheticItemDefinition="true" structureRef="java.util.List"/>
+  <bpmn2:resource id="Administrator" name="Administrator"/>
+  <bpmn2:interface id="JmsTriggerInterface1" name="JMSTrigger1" implementationRef="SD_JmsTriggerInterface1">
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="jms" id="SD_JmsTriggerInterface1">
+        <sdbpmn:StardustTrigger oid="12" id="JavaMessagingService_1" name="JavaMessagingService 1">
+			<carnot:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
+			<carnot:attribute name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
+        </sdbpmn:StardustTrigger>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+	<bpmn2:operation id="JmsTriggerOperation1" name="JmsTriggerOperation1">
+		<bpmn2:inMessageRef>Trigger1InputMessage</bpmn2:inMessageRef>
+		<bpmn2:outMessageRef>Trigger1OutputMessage</bpmn2:outMessageRef>
+	</bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="JmsTriggerInterface2" name="JMSTrigger2" implementationRef="SD_JmsTriggerInterface2" >
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="jms" id="SD_JmsTriggerInterface2">
+        <sdbpmn:StardustTrigger oid="10" id="JavaMessagingService_2" name="JavaMessagingService 2">
+			<carnot:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
+			<carnot:attribute name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
+        </sdbpmn:StardustTrigger>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+	<bpmn2:operation id="JmsTriggerOperation2" name="JmsTriggerOperation2">
+		<bpmn2:inMessageRef>Trigger2InputMessage</bpmn2:inMessageRef>
+		<bpmn2:outMessageRef>Trigger2OutputMessage</bpmn2:outMessageRef>
+	</bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:interface id="JmsTriggerInterface3" name="JMSTrigger3" implementationRef="SD_JmsTriggerInterface3" >
+    <bpmn2:extensionElements>
+      <sdbpmn:StardustInterface applicationType="jms" id="SD_JmsTriggerInterface3">
+        <sdbpmn:StardustTrigger oid="11" id="JavaMessagingService_3" name="JavaMessagingService 3">
+			<carnot:attribute name="carnot:engine:messageAcceptor" value="org.eclipse.stardust.engine.extensions.jms.app.DefaultMessageAcceptor" />
+			<carnot:attribute name="carnot:engine:messageType" type="org.eclipse.stardust.engine.extensions.jms.app.MessageType" value="Text" />
+        </sdbpmn:StardustTrigger>
+      </sdbpmn:StardustInterface>
+    </bpmn2:extensionElements>
+	<bpmn2:operation id="JmsTriggerOperation3" name="JmsTriggerOperation3">
+		<bpmn2:inMessageRef>Trigger3InputMessage</bpmn2:inMessageRef>
+		<bpmn2:outMessageRef>Trigger3OutputMessage</bpmn2:outMessageRef>
+	</bpmn2:operation>
+  </bpmn2:interface>
+  <bpmn2:process id="process_8" name="Default Process">
+    <bpmn2:startEvent id="JMSEvent1" name="Start Event 1">
+      <bpmn2:dataOutput id="JMSTrigger1Output" itemSubjectRef="ItemDefinition_3">
+      </bpmn2:dataOutput>
+      <bpmn2:outputSet>
+        <bpmn2:dataOutputRefs>JMSTrigger1Output</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
+      <bpmn2:outputSet id="OutputSet_1" name="Output Set 1"/>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_2">
+      	<bpmn2:operationRef>JmsTriggerOperation1</bpmn2:operationRef>
+      </bpmn2:messageEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="Sequence Flow 1" sourceRef="TestModelTaskD" targetRef="EndEvent_1"/>
+    <bpmn2:endEvent id="EndEvent_1" name="End Event 1">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:startEvent id="JMSEvent2" name="Start Event 2">
+      <bpmn2:dataOutput id="JMSTrigger2Output" itemSubjectRef="ItemDefinition_3">
+      </bpmn2:dataOutput>
+      <bpmn2:outputSet>
+        <bpmn2:dataOutputRefs>JMSTrigger2Output</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:outgoing>SequenceFlow_3</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_3">
+      	<bpmn2:operationRef>JmsTriggerOperation2</bpmn2:operationRef>
+      </bpmn2:messageEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:startEvent id="JMSEvent3" name="Start Event 3">
+      <bpmn2:dataOutput id="JMSTrigger3Output" itemSubjectRef="ItemDefinition_3">
+      </bpmn2:dataOutput>
+      <bpmn2:outputSet>
+        <bpmn2:dataOutputRefs>JMSTrigger3Output</bpmn2:dataOutputRefs>
+      </bpmn2:outputSet>
+      <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
+      <bpmn2:messageEventDefinition id="MessageEventDefinition_4">
+      	<bpmn2:operationRef>JmsTriggerOperation3</bpmn2:operationRef>
+      </bpmn2:messageEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:userTask id="TestModelTaskA" name="User Task 1">
+      <bpmn2:incoming>SequenceFlow_2</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+      <bpmn2:humanPerformer id="HumanPerformer_1" name="Human Performer 1">
+        <bpmn2:resourceRef>Administrator</bpmn2:resourceRef>
+      </bpmn2:humanPerformer>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_2" sourceRef="JMSEvent1" targetRef="TestModelTaskA"/>
+    <bpmn2:userTask id="TestModelTaskB" name="User Task 2">
+      <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
+      <bpmn2:humanPerformer id="HumanPerformer_2" name="Human Performer 2">
+        <bpmn2:resourceRef>Administrator</bpmn2:resourceRef>
+      </bpmn2:humanPerformer>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="TestModelTaskC" name="User Task 3">
+      <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
+      <bpmn2:humanPerformer id="HumanPerformer_3" name="Human Performer 3">
+        <bpmn2:resourceRef>Administrator</bpmn2:resourceRef>
+      </bpmn2:humanPerformer>
+    </bpmn2:userTask>
+    <bpmn2:userTask id="TestModelTaskD" name="User Task 4">
+      <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:humanPerformer id="HumanPerformer_4" name="Human Performer 4">
+        <bpmn2:resourceRef>Administrator</bpmn2:resourceRef>
+      </bpmn2:humanPerformer>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" sourceRef="JMSEvent2" targetRef="TestModelTaskB"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_4" sourceRef="JMSEvent3" targetRef="TestModelTaskC"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_5" sourceRef="TestModelTaskC" targetRef="TestModelTaskD"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_6" sourceRef="TestModelTaskB" targetRef="TestModelTaskD"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" sourceRef="TestModelTaskA" targetRef="TestModelTaskD"/>
+    <bpmn2:property id="Property_1" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="PROCESS_ID" itemSubjectRef="ItemDefinition_4" name="Process OID"/>
+    <bpmn2:property id="Property_2" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="ROOT_PROCESS_ID" itemSubjectRef="ItemDefinition_4" name="Root Process OID"/>
+    <bpmn2:property id="Property_3" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="PROCESS_PRIORITY" itemSubjectRef="ItemDefinition_4" name="Process Priority"/>
+    <bpmn2:property id="Property_4" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_LOCALE" name="Current Locale"/>
+    <bpmn2:property id="Property_5" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_DATE" name="Current Date"/>
+    <bpmn2:property id="Property_6" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="STARTING_USER" itemSubjectRef="ItemDefinition_5" name="Starting User"/>
+    <bpmn2:property id="Property_7" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_USER" itemSubjectRef="ItemDefinition_5" name="Current User"/>
+    <bpmn2:property id="Property_8" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="LAST_ACTIVITY_PERFORMER" itemSubjectRef="ItemDefinition_5" name="Last activity performer"/>
+    <bpmn2:property id="Property_9" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="CURRENT_MODEL" itemSubjectRef="ItemDefinition_6" name="Current Model"/>
+    <bpmn2:property id="Property_10" sdbpmn:syntheticProperty="true" sdbpmn:stardustPropertyId="StartEventId" name="Start Event Id"/>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1" name="Default Process Diagram">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="process_8">
+      <bpmndi:BPMNShape id="BPMNShape_1" bpmnElement="JMSEvent1">
+        <dc:Bounds height="36.0" width="36.0" x="210.0" y="124.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="68.0" x="194.0" y="160.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_2" bpmnElement="EndEvent_1">
+        <dc:Bounds height="36.0" width="36.0" x="720.0" y="202.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="65.0" x="706.0" y="238.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_1" bpmnElement="JMSEvent2">
+        <dc:Bounds height="36.0" width="36.0" x="210.0" y="202.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="68.0" x="194.0" y="238.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_StartEvent_2" bpmnElement="JMSEvent3">
+        <dc:Bounds height="36.0" width="36.0" x="210.0" y="270.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="68.0" x="194.0" y="306.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TestModelTaskA" bpmnElement="TestModelTaskA">
+        <dc:Bounds height="50.0" width="110.0" x="330.0" y="117.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="67.0" x="351.0" y="134.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TestModelTaskB" bpmnElement="TestModelTaskB">
+        <dc:Bounds height="50.0" width="110.0" x="330.0" y="195.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="67.0" x="351.0" y="212.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TestModelTaskC" bpmnElement="TestModelTaskC">
+        <dc:Bounds height="50.0" width="110.0" x="330.0" y="263.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="67.0" x="351.0" y="280.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_TestModelTaskD" bpmnElement="TestModelTaskD">
+        <dc:Bounds height="50.0" width="110.0" x="505.0" y="195.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="15.0" width="67.0" x="526.0" y="212.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="BPMNShape_TestModelTaskD" targetElement="BPMNShape_2">
+        <di:waypoint xsi:type="dc:Point" x="615.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="720.0" y="220.0"/>
+        <bpmndi:BPMNLabel>
+          <dc:Bounds height="30.0" width="59.0" x="614.0" y="221.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_2" bpmnElement="SequenceFlow_2" sourceElement="BPMNShape_1" targetElement="BPMNShape_TestModelTaskA">
+        <di:waypoint xsi:type="dc:Point" x="246.0" y="142.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="142.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_3" bpmnElement="SequenceFlow_3" sourceElement="BPMNShape_StartEvent_1" targetElement="BPMNShape_TestModelTaskB">
+        <di:waypoint xsi:type="dc:Point" x="246.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="220.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_4" bpmnElement="SequenceFlow_4" sourceElement="BPMNShape_StartEvent_2" targetElement="BPMNShape_TestModelTaskC">
+        <di:waypoint xsi:type="dc:Point" x="246.0" y="288.0"/>
+        <di:waypoint xsi:type="dc:Point" x="330.0" y="288.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_5" bpmnElement="SequenceFlow_5" sourceElement="BPMNShape_TestModelTaskC" targetElement="BPMNShape_TestModelTaskD">
+        <di:waypoint xsi:type="dc:Point" x="440.0" y="288.0"/>
+        <di:waypoint xsi:type="dc:Point" x="560.0" y="288.0"/>
+        <di:waypoint xsi:type="dc:Point" x="560.0" y="245.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_6" bpmnElement="SequenceFlow_6" sourceElement="BPMNShape_TestModelTaskB" targetElement="BPMNShape_TestModelTaskD">
+        <di:waypoint xsi:type="dc:Point" x="440.0" y="220.0"/>
+        <di:waypoint xsi:type="dc:Point" x="505.0" y="220.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="BPMNShape_TestModelTaskA" targetElement="BPMNShape_TestModelTaskD">
+        <di:waypoint xsi:type="dc:Point" x="440.0" y="142.0"/>
+        <di:waypoint xsi:type="dc:Point" x="560.0" y="142.0"/>
+        <di:waypoint xsi:type="dc:Point" x="560.0" y="195.0"/>
+        <bpmndi:BPMNLabel/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
