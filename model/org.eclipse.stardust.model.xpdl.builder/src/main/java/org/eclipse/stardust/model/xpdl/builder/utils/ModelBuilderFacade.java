@@ -943,45 +943,15 @@ public class ModelBuilderFacade
          }
          else
          {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-                  model, typeDeclarationModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
-                  MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
-                  typeDeclaration.getId(), typeDeclaration.getName(),
-                  typeDeclaration.getDescription(), bundleId, null);
-
-            AttributeUtil.setAttribute(
-                  data,
-                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(data,
-                  "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
-                  descriptor.getURI().toString());
-            ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-            if (typeDeclarationModel != null)
-            {
-               reference.setLocation(ImportUtils.getPackageRef(descriptor, model,
-                     typeDeclarationModel).getId());
-            }
-            reference.setXref(declarationID);
-
-            String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               reference.setUuid(uuid);
-            }
-
-            data.setExternalReference(reference);
-            qualifiedId = sourceModelID + "{" + typeDeclaration.getId() + "}";
+            ExternalReferenceUtils.createExternalReferenceToDocument(data, model, typeDeclarationModel,  typeDeclaration);
+            qualifiedId = typeDeclarationModel.getId() + "{" + typeDeclaration.getId() + "}";
          }
 
          AttributeUtil.setAttribute(data, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, qualifiedId);
       }
    }
+
+
 
    /**
     * Created a primitive data.
@@ -3081,31 +3051,7 @@ public class ModelBuilderFacade
       }
       else
       {
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-               model, processModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-               uri, process, bundleId, null, true);
-
-         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
-               descriptor.getURI().toString());
-
-         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
-         idRef.setRef(process.getId());
-         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, processModel));
-         activity.setExternalRef(idRef);
-         activity.setImplementationProcess(process);
-
-         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) process,  "carnot:model:uuid");
-         if (uuidAttribute != null)
-         {
-            AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
-                  "carnot:connection:uuid", uuidAttribute.getValue());
-         }
-         IdRefHandler.adapt(activity);
+         ExternalReferenceUtils.createExternalReferenceToProcess(activity, process, model, processModel);
       }
       return process;
    }
@@ -3125,30 +3071,7 @@ public class ModelBuilderFacade
       }
       else
       {
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-               model, applicationModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(
-               uri, application, bundleId, null, true);
-
-         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
-               descriptor.getURI().toString());
-
-         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
-         idRef.setRef(application.getId());
-         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model,
-               applicationModel));
-         activity.setExternalRef(idRef);
-         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
-         if (uuidAttribute != null)
-         {
-            AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
-                  "carnot:connection:uuid", uuidAttribute.getValue());
-         }
-         IdRefHandler.adapt(activity);
+         ExternalReferenceUtils.createExternalReferenceToApplication(activity, application, model, applicationModel);
       }
       return application;
    }
