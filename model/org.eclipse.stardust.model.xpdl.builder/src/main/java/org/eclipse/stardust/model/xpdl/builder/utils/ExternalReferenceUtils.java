@@ -31,6 +31,7 @@ import org.eclipse.stardust.model.xpdl.carnot.IdRef;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
 import org.eclipse.stardust.model.xpdl.carnot.SubProcessModeType;
+import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
 import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
@@ -288,6 +289,34 @@ public class ExternalReferenceUtils
 
    }
 
+   public static void createStructReferenceForPrimitive(DataType data, ModelType model,
+         String declarationID, ModelType typeDeclarationModel)
+   {
+      String fileConnectionId = WebModelerConnectionManager.createFileConnection(model,
+            typeDeclarationModel);
+
+      URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+      ExternalReferenceType reference = XpdlFactory.eINSTANCE
+            .createExternalReferenceType();
+      if (typeDeclarationModel != null)
+      {
+         reference.setLocation(getPackageRef(uri, model, typeDeclarationModel).getId());
+         TypeDeclarationType typeDeclaration = typeDeclarationModel.getTypeDeclarations()
+               .getTypeDeclaration(declarationID);
+         if (typeDeclaration != null)
+         {
+            String uuid = ExtendedAttributeUtil.getAttributeValue(
+                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            if (uuid != null)
+            {
+               ModelBuilderFacade.setAttribute(data, "carnot:connection:uuid", uuid);
+            }
+         }
+      }
+      reference.setXref(declarationID);
+      data.setExternalReference(reference);
+   }
 
 
    public static void updateReferences(ModelType model, ModelType ref)
@@ -746,6 +775,37 @@ public class ExternalReferenceUtils
          }
       }
       return null;
+   }
+
+   public static ExternalPackage getPackageRef(URI uri, ModelType targetModel, ModelType sourceModel)
+   {
+      LinkAttribute linkAttribute;
+      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
+      String packageRef = sourceModel.getId();
+      ExternalPackages packages = targetModel.getExternalPackages();
+      if (packages == null)
+      {
+         packages = xFactory.createExternalPackages();
+         targetModel.setExternalPackages(packages);
+      }
+      ExternalPackage pkg = packages.getExternalPackage(packageRef);
+      if (pkg == null)
+      {
+         pkg = xFactory.createExternalPackage();
+         pkg.setId(packageRef);
+         pkg.setName(sourceModel.getName());
+         pkg.setHref(packageRef);
+
+         if (uri != null)
+         {
+            linkAttribute = new LinkAttribute(uri, false,
+                  false, IConnectionManager.URI_ATTRIBUTE_NAME);
+            linkAttribute.setLinkInfo(pkg, false);
+         }
+
+         packages.getExternalPackage().add(pkg);
+      }
+      return pkg;
    }
 
 }

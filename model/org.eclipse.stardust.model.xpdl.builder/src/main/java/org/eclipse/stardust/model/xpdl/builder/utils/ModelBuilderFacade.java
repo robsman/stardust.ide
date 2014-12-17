@@ -736,70 +736,16 @@ public class ModelBuilderFacade
       }
       else
       {
-
-
          declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
          ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
                sourceModelID);
 
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-               model, typeDeclarationModel);
-
-         //String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-         if (typeDeclarationModel != null)
-         {
-            reference.setLocation(getPackageRef(uri, model,
-                  typeDeclarationModel).getId());
-            TypeDeclarationType typeDeclaration = typeDeclarationModel.getTypeDeclarations().getTypeDeclaration(declarationID);
-            if (typeDeclaration != null)
-            {
-               String uuid = ExtendedAttributeUtil.getAttributeValue(
-                     typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-               if (uuid != null)
-               {
-                  setAttribute(data, "carnot:connection:uuid", uuid);
-               }
-            }
-         }
-         reference.setXref(declarationID);
-         data.setExternalReference(reference);
+         ExternalReferenceUtils.createStructReferenceForPrimitive(data, model,
+               declarationID, typeDeclarationModel);
       }
       AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
    }
 
-   public static ExternalPackage getPackageRef(URI uri, ModelType targetModel, ModelType sourceModel)
-   {
-      LinkAttribute linkAttribute;
-      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
-      String packageRef = sourceModel.getId();
-      ExternalPackages packages = targetModel.getExternalPackages();
-      if (packages == null)
-      {
-         packages = xFactory.createExternalPackages();
-         targetModel.setExternalPackages(packages);
-      }
-      ExternalPackage pkg = packages.getExternalPackage(packageRef);
-      if (pkg == null)
-      {
-         pkg = xFactory.createExternalPackage();
-         pkg.setId(packageRef);
-         pkg.setName(sourceModel.getName());
-         pkg.setHref(packageRef);
-
-         if (uri != null)
-         {
-            linkAttribute = new LinkAttribute(uri, false,
-                  false, IConnectionManager.URI_ATTRIBUTE_NAME);
-            linkAttribute.setLinkInfo(pkg, false);
-         }
-
-         packages.getExternalPackage().add(pkg);
-      }
-      return pkg;
-   }
 
    /**
     * Update the type declaration a structured data refers to.
@@ -3011,7 +2957,7 @@ public class ModelBuilderFacade
          AttributeUtil.setAttribute((IExtensibleElement) element, name, value);
          }
          catch (Throwable t) {
-            System.out.println();
+
          }
       }
    }
