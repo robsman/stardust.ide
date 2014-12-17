@@ -53,10 +53,11 @@ import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
 public class ExternalReferenceUtils
 {
-   public static void createExternalReferenceToApplication(ActivityType activity, ApplicationType application,
-         ModelType consumerModel, ModelType providerModel)
+   public static void createExternalReferenceToApplication(ActivityType activity,
+         ApplicationType application, ModelType consumerModel, ModelType providerModel)
    {
-      String fileConnectionId = WebModelerConnectionManager.createFileConnection(consumerModel, providerModel);
+      String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+            consumerModel, providerModel);
 
       String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
       URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
@@ -64,13 +65,16 @@ public class ExternalReferenceUtils
       ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri,
             application, bundleId, null, true);
 
-      AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+      AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
+            descriptor.getURI().toString());
 
       IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
       idRef.setRef(application.getId());
-      idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, consumerModel, providerModel));
+      idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, consumerModel,
+            providerModel));
       activity.setExternalRef(idRef);
-      AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
+      AttributeType uuidAttribute = AttributeUtil.getAttribute(
+            (IIdentifiableModelElement) application, "carnot:model:uuid");
       if (uuidAttribute != null)
       {
          AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
@@ -79,11 +83,12 @@ public class ExternalReferenceUtils
       IdRefHandler.adapt(activity);
    }
 
-   public static void createExternalReferenceToProcess(ActivityType activity, ProcessDefinitionType process, ModelType consumerModel, ModelType processModel)
+   public static void createExternalReferenceToProcess(ActivityType activity,
+         ProcessDefinitionType process, ModelType consumerModel, ModelType processModel)
    {
 
-      String fileConnectionId = WebModelerConnectionManager.createFileConnection(consumerModel, processModel);
-
+      String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+            consumerModel, processModel);
 
       String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
       URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
@@ -91,16 +96,19 @@ public class ExternalReferenceUtils
       ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri,
             process, bundleId, null, true);
 
-      AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+      AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME,
+            descriptor.getURI().toString());
       if (processModel != null)
       {
          IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
          idRef.setRef(process.getId());
-         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, consumerModel, processModel));
+         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, consumerModel,
+               processModel));
          activity.setExternalRef(idRef);
          activity.setSubProcessMode(SubProcessModeType.SYNC_SEPARATE_LITERAL);
 
-         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) process,  "carnot:model:uuid");
+         AttributeType uuidAttribute = AttributeUtil.getAttribute(
+               (IIdentifiableModelElement) process, "carnot:model:uuid");
          if (uuidAttribute != null)
          {
             AttributeUtil.setAttribute((IIdentifiableModelElement) activity,
@@ -110,8 +118,8 @@ public class ExternalReferenceUtils
       }
    }
 
-   public static void createExternalReferenceToDocument(DataType data, ModelType consumerModel,
-         ModelType typeDeclarationModel,
+   public static void createExternalReferenceToDocument(DataType data,
+         ModelType consumerModel, ModelType typeDeclarationModel,
          TypeDeclarationType typeDeclaration)
    {
       String fileConnectionId = WebModelerConnectionManager.createFileConnection(
@@ -125,14 +133,15 @@ public class ExternalReferenceUtils
             typeDeclaration.getId(), typeDeclaration.getName(),
             typeDeclaration.getDescription(), bundleId, null);
 
-      AttributeUtil.setAttribute(
-            data,
-            "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-      AttributeUtil.setBooleanAttribute(data,
-            "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-      AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
-            descriptor.getURI().toString());
-      ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
+      AttributeUtil
+            .setAttribute(
+                  data,
+                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+      AttributeUtil.setBooleanAttribute(data, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+      AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor
+            .getURI().toString());
+      ExternalReferenceType reference = XpdlFactory.eINSTANCE
+            .createExternalReferenceType();
       if (typeDeclarationModel != null)
       {
          reference.setLocation(ImportUtils.getPackageRef(descriptor, consumerModel,
@@ -140,13 +149,56 @@ public class ExternalReferenceUtils
       }
       reference.setXref(typeDeclaration.getId());
 
-      String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+      String uuid = ExtendedAttributeUtil.getAttributeValue(
+            typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
       if (uuid != null)
       {
          reference.setUuid(uuid);
       }
 
       data.setExternalReference(reference);
+   }
+
+   public static void createExternalReferenceToTypeDeclaration(DataType dataType,
+         ModelType consumerModel, ModelType typeDeclarationModel,
+         TypeDeclarationType typeDeclaration)
+   {
+
+      String fileConnectionId = WebModelerConnectionManager.createFileConnection(
+            consumerModel, typeDeclarationModel);
+
+      String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
+      URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
+
+      ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
+            MergeUtils.createQualifiedUri(uri, typeDeclaration, true), dataType,
+            typeDeclaration.getId(), typeDeclaration.getName(),
+            typeDeclaration.getDescription(), bundleId, null);
+
+      AttributeUtil
+            .setAttribute(
+                  dataType,
+                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
+      AttributeUtil.setBooleanAttribute(dataType, "carnot:engine:data:bidirectional",
+            true);
+
+      AttributeUtil.setAttribute(dataType, IConnectionManager.URI_ATTRIBUTE_NAME,
+            descriptor.getURI().toString());
+      ExternalReferenceType reference = XpdlFactory.eINSTANCE
+            .createExternalReferenceType();
+      if (typeDeclarationModel != null)
+      {
+         reference.setLocation(ImportUtils.getPackageRef(descriptor, consumerModel,
+               typeDeclarationModel).getId());
+      }
+      reference.setXref(typeDeclaration.getId());
+      String uuid = ExtendedAttributeUtil.getAttributeValue(
+            typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+      if (uuid != null)
+      {
+         reference.setUuid(uuid);
+      }
+  dataType.setExternalReference(reference);
    }
 
    public static List<EObject> getExternalReferences(ModelType model,
