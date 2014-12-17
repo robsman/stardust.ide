@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.extensions.dms.data.DmsConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.ExternalReferenceUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -60,41 +61,18 @@ public abstract class AbstractDMSVariableBuilder<B extends AbstractModelElementB
    {
       super.finalizeElement();
 
-      if (structuredDataId  != null)
+      if (structuredDataId != null)
       {
-         if (getTypeDeclarationModel() == null || getTypeDeclarationModel().getId().equals(model.getId()))
+         if (getTypeDeclarationModel() == null
+               || getTypeDeclarationModel().getId().equals(model.getId()))
          {
-            AttributeUtil.setAttribute(element, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, structuredDataId); //$NON-NLS-1$
+            AttributeUtil.setAttribute(element,
+                  DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, structuredDataId); //$NON-NLS-1$
          }
          else
          {
-            TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel, structuredDataId);
-
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element,
-                  typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
-                  bundleId, null);
-
-
-            AttributeUtil.setAttribute(element, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-            AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
-            ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-            if (typeDeclarationModel != null)
-            {
-               reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
-            }
-            reference.setXref(structuredDataId);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               reference.setUuid(uuid);
-            }
-            element.setExternalReference(reference);
+            ExternalReferenceUtils.createStructReferenceForDocument(element, structuredDataId,
+                  model, getTypeDeclarationModel());
          }
       }
 
@@ -125,27 +103,4 @@ public abstract class AbstractDMSVariableBuilder<B extends AbstractModelElementB
       this.structuredDataId = structuredDataId;
    }
 
-   /**
-    *
-    * @param modelId
-    * @param appId
-    * @return
-    */
-   private TypeDeclarationType getTypeDeclaration(ModelType model, String declId)
-   {
-      TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
-      if (typeDeclarations != null)
-      {
-         List<TypeDeclarationType> decls = typeDeclarations.getTypeDeclaration();
-         for (TypeDeclarationType d : decls)
-         {
-            if (d.getId().equals(declId))
-            {
-               return d;
-            }
-         }
-      }
-
-      return null;
-   }
 }

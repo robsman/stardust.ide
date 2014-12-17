@@ -352,28 +352,9 @@ public class ModelBuilderFacade
       }
       else if (model != null)
       {
-         ModelType ref = findModel(refModelId);
-         updateReferences(model, ref);
-         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
-         extRef.setLocation(refModelId);
-         // extRef.setNamespace("TypeDeclarations");
-         extRef.setXref(structTypeId);
-         try
-         {
-            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
-                  structTypeId);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(
-                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               extRef.setUuid(uuid);
-            }
-         }
-         catch (Throwable t)
-         {
-
-         }
-         dataTypeType.setExternalReference(extRef);
+         ModelType providerModel = findModel(refModelId);
+         ExternalReferenceUtils.createStructReferenceForFormalParameter(parameterType,
+               structTypeId, model, providerModel);
       }
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
@@ -392,6 +373,7 @@ public class ModelBuilderFacade
 
       return parameterType;
    }
+
 
    public FormalParameterType createDocumentParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
@@ -433,28 +415,9 @@ public class ModelBuilderFacade
       }
       else if (model != null)
       {
-         ModelType ref = findModel(refModelId);
-         updateReferences(model, ref);
-         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
-         extRef.setLocation(refModelId);
-         //extRef.setNamespace("TypeDeclarations");
-         extRef.setXref(structTypeId);
-         try
-         {
-            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
-                  structTypeId);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(
-                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               extRef.setUuid(uuid);
-            }
-         }
-         catch (Throwable t)
-         {
-
-         }
-         dataTypeType.setExternalReference(extRef);
+         ModelType providerModel = findModel(refModelId);
+         ExternalReferenceUtils.createStructReferenceForFormalParameter(parameterType,
+               structTypeId, model, providerModel);
       }
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
@@ -573,18 +536,7 @@ public class ModelBuilderFacade
                ModelType refModel = findModel(refModelID);
                if (refModel != null)
                {
-                  TypeDeclarationType typeDeclaration = refModel.getTypeDeclarations()
-                        .getTypeDeclaration(typeID);
-                  if (typeDeclaration != null)
-                  {
-                     String uuid = ExtendedAttributeUtil.getAttributeValue(
-                           typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-                     if (uuid != null)
-                     {
-                        AttributeUtil.setAttribute(accessPoint, "carnot:connection:uuid",
-                              uuid);
-                     }
-                  }
+                  ExternalReferenceUtils.createStructReferenceForAccessPoint(accessPoint, typeID, refModel);
                }
             }
          }
@@ -3750,29 +3702,6 @@ public class ModelBuilderFacade
       return false;
    }
 
-   public void updateReferences(ModelType model, ModelType ref)
-   {
-      String connId = WebModelerConnectionManager.createFileConnection(model, ref);
-
-      ExternalPackages packs = model.getExternalPackages();
-      if (packs == null)
-      {
-         packs = XpdlFactory.eINSTANCE.createExternalPackages();
-         model.setExternalPackages(packs);
-      }
-      if (packs.getExternalPackage(ref.getId()) == null)
-      {
-         ExternalPackage pack = XpdlFactory.eINSTANCE.createExternalPackage();
-         pack.setId(ref.getId());
-         pack.setName(ref.getName());
-         pack.setHref(ref.getId());
-
-         ExtendedAttributeUtil.setAttribute(pack, IConnectionManager.URI_ATTRIBUTE_NAME, "cnx://" + connId + "/");
-
-         List<ExternalPackage> packList = packs.getExternalPackage();
-         packList.add(pack);
-      }
-   }
 
    /**
     * @param element
