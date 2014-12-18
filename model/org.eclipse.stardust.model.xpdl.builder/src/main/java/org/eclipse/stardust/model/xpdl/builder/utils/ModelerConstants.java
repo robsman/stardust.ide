@@ -262,4 +262,6 @@ public class ModelerConstants
    public static final int ANNOTATION_SYMBOL_DEFAULT_HEIGHT = 30;
 
    public static final String READ_ONLY_LITERAL = "readOnly";
+
+   public static final String IS_REFERENCED_LITERAL = "isReferencedModel";
 }
