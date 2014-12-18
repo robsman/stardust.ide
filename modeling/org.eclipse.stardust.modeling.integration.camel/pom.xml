@@ -33,11 +33,6 @@
       <artifactId>stardust-engine-camel</artifactId>
       <version>${ipp.version}</version>
     </dependency>
-    <dependency>
-        <groupId>jdom</groupId>
-        <artifactId>jdom</artifactId>
-        <version>${jdom.version}</version>
-    </dependency>
   </dependencies>
   
   <build>
@@ -49,7 +44,7 @@
           <execution>
             <id>embed-jars-no-version</id>
             <configuration>
-              <includeArtifactIds>stardust-engine-camel, jdom</includeArtifactIds>
+              <includeArtifactIds>stardust-engine-camel</includeArtifactIds>
               <outputDirectory>${basedir}/lib</outputDirectory>
             </configuration>
           </execution>
