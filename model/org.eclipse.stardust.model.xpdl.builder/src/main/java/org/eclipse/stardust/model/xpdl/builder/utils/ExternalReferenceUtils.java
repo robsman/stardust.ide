@@ -3,6 +3,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -806,6 +807,31 @@ public class ExternalReferenceUtils
          packages.getExternalPackage().add(pkg);
       }
       return pkg;
+   }
+
+   public static boolean isModelReferenced(ModelType modelToCheck, Collection<ModelType> models)
+   {
+      for (EObject model : models)
+      {
+         if (model instanceof ModelType)
+         {
+            if(!modelToCheck.getId().equals(((ModelType) model).getId()))
+            {
+               List<String> uris = ModelUtils.getURIsForExternalPackages((ModelType) model);
+               for (Iterator<String> i = uris.iterator(); i.hasNext();)
+               {
+                  String uri = i.next();
+                  ModelType modelType = ModelUtils.getReferencedModelByURI((ModelType) model, uri);
+                  if(modelType != null && modelToCheck.getId().equals(modelType.getId()))
+                  {
+                     return true;
+                  }
+               }
+            }
+         }
+      }
+
+      return false;
    }
 
 }
