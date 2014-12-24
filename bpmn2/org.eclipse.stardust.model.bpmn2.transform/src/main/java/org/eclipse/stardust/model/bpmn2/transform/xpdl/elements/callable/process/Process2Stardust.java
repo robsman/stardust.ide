@@ -56,9 +56,9 @@ public class Process2Stardust extends AbstractElement2Stardust {
 
 	private ProcessDefinitionType processExtensions(Process process, ProcessDefinitionType def) {
 		StardustProcessType sdProcess = ExtensionHelper.getInstance().getProcessExtension(process);
-		def.getAttribute().addAll(sdProcess.getStardustAttributes().getAttributeType());
-
+		
 		if (null != sdProcess) {
+			def.getAttribute().addAll(sdProcess.getStardustAttributes().getAttributeType());
 			if (sdProcess.isSetSupportsProcessAttachments() && sdProcess.isSupportsProcessAttachments()) {
 				def = createAttachmentDataPath(def);
 			}

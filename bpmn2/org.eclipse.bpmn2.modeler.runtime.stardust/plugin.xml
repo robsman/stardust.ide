@@ -363,6 +363,63 @@
 			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.StardustProcessExtendedPropertiesAdapter">
 		</propertyExtension>
 
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustItemawareElementPropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.ItemAwareElement"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustItemAwareElementPropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataInputPropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataInput"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustDataInputPropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataObjectReferencePropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataObjectReference"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustDataObjectReferencePropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataOutputPropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataOutput"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustDataOutputPropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustDataStoreReferencePropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataStoreReference"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustDataStoreReferencePropertiesAdapter">
+		</propertyExtension>
+		
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustPropertyPropertiesAdapter"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.Property"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.itemaware.StardustPropertyPropertiesAdapter">
+		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustFlowElementPropertiesAdapterDataObject"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataObject"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.flowelement.StardustFlowElementPropertiesAdapter">
+		</propertyExtension>
+
+		<propertyExtension
+			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustFlowElementPropertiesAdapterDataStore"
+			runtimeId="org.eclipse.bpmn2.modeler.runtime.stardust"
+			type="org.eclipse.bpmn2.DataStore"
+			class="org.eclipse.bpmn2.modeler.runtime.stardust.adapters.flowelement.StardustFlowElementPropertiesAdapter">
+		</propertyExtension>
+
+
 <!--
 		<propertyExtension
 			id="org.eclipse.bpmn2.modeler.runtime.stardust.propertyExtension.StardustPerformerResource"

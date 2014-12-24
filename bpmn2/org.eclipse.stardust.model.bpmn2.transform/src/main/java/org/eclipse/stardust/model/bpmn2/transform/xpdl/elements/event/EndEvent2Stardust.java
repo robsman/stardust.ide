@@ -40,7 +40,7 @@ public class EndEvent2Stardust extends NativeIntermediateEvent2Stardust {
 		EventDefinition def = bpmnquery.getFirstEventDefinition(event);
 		if (!checkAndReportElementSupport(event, def, container)) return;
 		addEndEvent(event, container);
-		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
+//		new IntermediateAndEndEventDataFlow2Stardust(carnotModel, failures).addDataFlows(event, container, predefinedDataForId);
 	}
 
     private boolean checkAndReportElementSupport(EndEvent event, EventDefinition def, FlowElementsContainer container) {
