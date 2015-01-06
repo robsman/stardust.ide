@@ -197,7 +197,7 @@
                 cxf-rt-ws-security,cxf-tools-common,cxf-tools-validator,cxf-tools-wsdlto-core,
                 cxf-tools-wsdlto-databinding-jaxb,cxf-tools-wsdlto-frontend-jaxws,
                 ehcache-core,gson,jaxb-impl,neethi,velocity,wsdl4j,wss4j,
-                xmlschema-core,xmlsec,javax.ws.rs-api
+                xmlschema-core,xmlsec
               </includeArtifactIds>
             </configuration>
           </execution>
