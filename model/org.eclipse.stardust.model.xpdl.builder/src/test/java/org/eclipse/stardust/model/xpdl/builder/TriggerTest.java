@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.builder.utils.XPDLFinderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
@@ -40,7 +41,7 @@ public class TriggerTest
       ProcessDefinitionType testProcess = newProcessDefinition(model).withIdAndName(
             "TEST_PROCESS", "Test Process").build();
 
-      // TODO: replace by scan trigger 
+      // TODO: replace by scan trigger
       TriggerType trigger = newManualTrigger(testProcess).accessibleTo(ADMINISTRATOR_ROLE).build();
       AccessPointType aPoint = newDocumentAccessPoint(trigger).withIdAndName("aPoint", "aPoint")
          .withDirection(DirectionType.IN_LITERAL.getName())
@@ -53,19 +54,19 @@ public class TriggerTest
    public void verifyStringVariable()
    {
       ProcessDefinitionType aProcess = ModelUtils.findElementById(model.getProcessDefinition(), "TEST_PROCESS");
-      DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
+      DataTypeType dataTypeType = XPDLFinderUtils.findDataType(model,
             PredefinedConstants.DOCUMENT_DATA);
-           
+
       EList<TriggerType> triggers = aProcess.getTrigger();
       TriggerType aTrigger = triggers.get(0);
-      
+
       assertNotNull(aProcess);
       assertNotNull(aTrigger);
-      
+
       EList<AccessPointType> accessPoint = aTrigger.getAccessPoint();
       AccessPointType anAccessPoint = accessPoint.get(0);
-      
+
       assertNotNull(anAccessPoint);
-      assertEquals(anAccessPoint.getType(), dataTypeType);      
+      assertEquals(anAccessPoint.getType(), dataTypeType);
    }
 }
