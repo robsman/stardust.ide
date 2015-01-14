@@ -81,8 +81,7 @@ public class XPDLFinderUtils
             return processDefinition;
          }
       }
-
-      throw new ObjectNotFoundException("Process Definition " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -100,8 +99,7 @@ public class XPDLFinderUtils
             return application;
          }
       }
-
-      throw new ObjectNotFoundException("Application " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -157,8 +155,7 @@ public class XPDLFinderUtils
             return applicationMetaType;
          }
       }
-
-      throw new ObjectNotFoundException("Application type " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -252,9 +249,7 @@ public class XPDLFinderUtils
             return applicationContextType;
          }
       }
-
-      throw new ObjectNotFoundException("Application Context type " + id
-            + " does not exist.");
+      return null;
    }
 
    /**
@@ -290,8 +285,7 @@ public class XPDLFinderUtils
             return dataType;
          }
       }
-
-      throw new ObjectNotFoundException("Data type " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -309,8 +303,7 @@ public class XPDLFinderUtils
             return data;
          }
       }
-
-      throw new ObjectNotFoundException("Data " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -345,7 +338,7 @@ public class XPDLFinderUtils
             return conditionalPerformer;
          }
       }
-      throw new ObjectNotFoundException("Participant " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -377,7 +370,7 @@ public class XPDLFinderUtils
          }
       }
 
-      throw new ObjectNotFoundException("Data Symbol " + oid + " does not exist.");
+      return null;
    }
 
    /**
@@ -425,8 +418,7 @@ public class XPDLFinderUtils
             return activity;
          }
       }
-
-      throw new ObjectNotFoundException("Activity " + id + " does not exist.");
+      return null;
    }
 
    /**
@@ -761,7 +753,7 @@ public class XPDLFinderUtils
          return connection;
       }
 
-      throw new ObjectNotFoundException("Could not find Transition " + oid + ".");
+      return null;
    }
 
    /**
@@ -793,7 +785,8 @@ public class XPDLFinderUtils
          }
       }
 
-      throw new ObjectNotFoundException("Could not find " + oid + ".");
+      return null;
+      //throw new ObjectNotFoundException("Could not find " + oid + ".");
    }
 
    /**
@@ -818,8 +811,7 @@ public class XPDLFinderUtils
             }
          }
       }
-
-      throw new ObjectNotFoundException("Could not find Lane Symbol with ID " + id + ".");
+      return null;
    }
 
    /**
