@@ -11,43 +11,17 @@
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newApplicationActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newBpmModel;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newCamelApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newConditionalPerformer;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentAccessPoint;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentListVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDocumentVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newDroolsApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newExternalWebApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newManualActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newMessageTransformationApplication;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newOrganization;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveAccessPoint;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newPrimitiveVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newProcessDefinition;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRole;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newRouteActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructVariable;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newStructuredAccessPoint;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newSubProcessActivity;
-import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.newWebserviceApplication;
+import static org.eclipse.stardust.model.xpdl.builder.BpmModelBuilder.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.xsd.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
@@ -69,51 +43,9 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitialize
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataInitializer;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentListVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
-import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivitySymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ActivityType;
-import org.eclipse.stardust.model.xpdl.carnot.AnnotationSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationContextTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelFactory;
-import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.ContextType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.DataMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.DataPathType;
-import org.eclipse.stardust.model.xpdl.carnot.DataSymbolType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.builder.variable.*;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
-import org.eclipse.stardust.model.xpdl.carnot.DescriptionType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramModeType;
-import org.eclipse.stardust.model.xpdl.carnot.DiagramType;
-import org.eclipse.stardust.model.xpdl.carnot.DirectionType;
-import org.eclipse.stardust.model.xpdl.carnot.IAccessPointOwner;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IFlowObjectSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.IIdentifiableModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.IdRef;
-import org.eclipse.stardust.model.xpdl.carnot.LaneSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.OrientationType;
-import org.eclipse.stardust.model.xpdl.carnot.ParameterMappingType;
-import org.eclipse.stardust.model.xpdl.carnot.ParticipantType;
-import org.eclipse.stardust.model.xpdl.carnot.PoolSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
-import org.eclipse.stardust.model.xpdl.carnot.TextType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionConnectionType;
-import org.eclipse.stardust.model.xpdl.carnot.TransitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
-import org.eclipse.stardust.model.xpdl.carnot.XmlTextNode;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
@@ -123,30 +55,10 @@ import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.util.IdFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.BasicTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.DeclaredTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.Extensible;
-import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType;
-import org.eclipse.stardust.model.xpdl.xpdl2.FormalParametersType;
-import org.eclipse.stardust.model.xpdl.xpdl2.ModeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.SchemaTypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
-import org.eclipse.stardust.model.xpdl.xpdl2.TypeType;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
-import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
+import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDCompositor;
-import org.eclipse.xsd.XSDElementDeclaration;
-import org.eclipse.xsd.XSDFactory;
-import org.eclipse.xsd.XSDModelGroup;
-import org.eclipse.xsd.XSDPackage;
-import org.eclipse.xsd.XSDParticle;
-import org.eclipse.xsd.XSDSchema;
 
 public class ModelBuilderFacade
 {
@@ -900,6 +812,51 @@ public class ModelBuilderFacade
    }
 
 
+   /**
+    * Created a entity data.
+    *
+    * @param model
+    *           model to create the data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    *
+    * @return entity data created
+    */
+   public DataType createEntityData(ModelType model, String dataID, String dataName,
+         String className, String value)
+   {
+      BpmEntityVariableBuilder<Object> entityVariable = newEntityVariable(model);
+      entityVariable.withIdAndName(dataID, dataName);
+
+      return entityVariable.build();
+   }
+
+   /**
+    * Created a serializable data.
+    *
+    * @param model
+    *           model to create the data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    * @param serializable class
+    *           id of class
+    *
+    * @return serializable data created
+    */
+   public DataType createSerializableData(ModelType model, String dataID, String dataName,
+         String className, String value)
+   {
+
+      BpmSerializableVariableBuilder<Object> serializableVariable = newSerializableVariable(model);
+      serializableVariable.withIdAndName(dataID, dataName);
+      serializableVariable.ofClass(className, value);
+
+      return serializableVariable.build();
+   }
 
    /**
     * Created a primitive data.

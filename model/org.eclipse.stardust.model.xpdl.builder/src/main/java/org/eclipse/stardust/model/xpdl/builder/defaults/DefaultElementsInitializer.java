@@ -16,6 +16,7 @@ import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelerConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 
 
 public class DefaultElementsInitializer implements ModelInitializer
@@ -41,5 +42,35 @@ public class DefaultElementsInitializer implements ModelInitializer
             ModelerConstants.DATE_PRIMITIVE_DATA_TYPE);
       data.setPredefined(true);
 
+      data = facade.createSerializableData(model, PredefinedConstants.CURRENT_MODEL,
+            "Current Model", null, "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription");
+      data.setPredefined(true);
+
+      data = facade.createEntityData(model, PredefinedConstants.CURRENT_USER,
+            "Current User", null, "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription");
+      AttributeUtil.setBooleanAttribute(data, PredefinedConstants.IS_LOCAL_ATT, true);
+      AttributeUtil.setAttribute(data, PredefinedConstants.HOME_INTERFACE_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserHome");
+      AttributeUtil.setAttribute(data, PredefinedConstants.JNDI_PATH_ATT, null, "org.eclipse.stardust.engine.api.runtime.User");
+      AttributeUtil.setAttribute(data, PredefinedConstants.PRIMARY_KEY_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserPK");
+      AttributeUtil.setAttribute(data, PredefinedConstants.REMOTE_INTERFACE_ATT, null, "org.eclipse.stardust.engine.core.runtime.beans.IUser");
+      data.setPredefined(true);
+
+      data = facade.createEntityData(model, PredefinedConstants.LAST_ACTIVITY_PERFORMER,
+            "Last Activity Performer", null, "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription");
+      AttributeUtil.setBooleanAttribute(data, PredefinedConstants.IS_LOCAL_ATT, true);
+      AttributeUtil.setAttribute(data, PredefinedConstants.HOME_INTERFACE_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserHome");
+      AttributeUtil.setAttribute(data, PredefinedConstants.JNDI_PATH_ATT, null, "org.eclipse.stardust.engine.api.runtime.User");
+      AttributeUtil.setAttribute(data, PredefinedConstants.PRIMARY_KEY_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserPK");
+      AttributeUtil.setAttribute(data, PredefinedConstants.REMOTE_INTERFACE_ATT, null, "org.eclipse.stardust.engine.core.runtime.beans.IUser");
+      data.setPredefined(true);
+
+      data = facade.createEntityData(model, PredefinedConstants.STARTING_USER,
+            "Starting User", null, "org.eclipse.stardust.engine.api.runtime.DeployedModelDescription");
+      AttributeUtil.setBooleanAttribute(data, PredefinedConstants.IS_LOCAL_ATT, true);
+      AttributeUtil.setAttribute(data, PredefinedConstants.HOME_INTERFACE_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserHome");
+      AttributeUtil.setAttribute(data, PredefinedConstants.JNDI_PATH_ATT, null, "org.eclipse.stardust.engine.api.runtime.User");
+      AttributeUtil.setAttribute(data, PredefinedConstants.PRIMARY_KEY_ATT, null, "org.eclipse.stardust.engine.api.runtime.UserPK");
+      AttributeUtil.setAttribute(data, PredefinedConstants.REMOTE_INTERFACE_ATT, null, "org.eclipse.stardust.engine.core.runtime.beans.IUser");
+      data.setPredefined(true);
    }
 }
