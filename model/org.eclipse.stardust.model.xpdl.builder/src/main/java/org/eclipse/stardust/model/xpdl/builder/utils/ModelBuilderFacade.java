@@ -1710,10 +1710,17 @@ public class ModelBuilderFacade
          }
       }
 
+      for (ConditionalPerformerType conditionalPerformer : model.getConditionalPerformer())
+      {
+         if (conditionalPerformer.getId().equals(participantID))
+         {
+            return conditionalPerformer;
+         }
+      }
+
       throw new ObjectNotFoundException("Participant " + fullParticipantID
             + " does not exist.");
    }
-
 
    /**
     *
