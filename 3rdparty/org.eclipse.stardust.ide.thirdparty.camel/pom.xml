@@ -96,6 +96,11 @@
       <artifactId>org.apache.servicemix.bundles.jsmpp</artifactId>
       <version>${org.apache.servicemix.bundles.jsmpp.version}</version>
     </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>${jdom.version}</version>
+    </dependency>   
   </dependencies>
   
   <build>
@@ -108,7 +113,7 @@
             <id>embed-jars-no-version</id>
             <configuration>
               <includeArtifactIds>
-                camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
+                jdom,camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
                 quartz,camel-mail,camel-http,camel-smpp,org.apache.servicemix.bundles.jsmpp
               </includeArtifactIds>
             </configuration>

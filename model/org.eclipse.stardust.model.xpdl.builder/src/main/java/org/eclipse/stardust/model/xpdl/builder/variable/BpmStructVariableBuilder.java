@@ -11,8 +11,10 @@
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
@@ -30,6 +32,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
@@ -37,12 +40,12 @@ public class BpmStructVariableBuilder
       extends AbstractModelElementBuilder<DataType, BpmStructVariableBuilder>
 {
    ModelType typeDeclarationModel;
-   
+
    public void setData(DataType data)
    {
       this.element = data;
    }
-   
+
    public ModelType getTypeDeclarationModel()
    {
       return typeDeclarationModel;
@@ -67,7 +70,7 @@ public class BpmStructVariableBuilder
       }
 
       AttributeUtil.setAttribute(element, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
+      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
    }
 
    @Override
@@ -99,9 +102,9 @@ public class BpmStructVariableBuilder
          //generateId();
          //declId = getGeneratedID();
       }
-      
+
       if(getTypeDeclarationModel().getId().equals(model.getId()))
-      {      
+      {
          AttributeUtil.setAttribute(element, StructuredDataConstants.TYPE_DECLARATION_ATT,
                declId);
       }
@@ -110,15 +113,15 @@ public class BpmStructVariableBuilder
          TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel, declId);
 
          String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
-         
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-         
-         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element, 
+
+         ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element,
                typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
                bundleId, null);
-         
-         
+
+
          AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
          ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
          if (typeDeclarationModel != null)
@@ -126,12 +129,17 @@ public class BpmStructVariableBuilder
             reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
          }
          reference.setXref(declId);
-         element.setExternalReference(reference);                           
+         String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+         if (uuid != null)
+         {
+            reference.setUuid(uuid);
+         }
+         element.setExternalReference(reference);
       }
-      
+
       return this;
    }
-   
+
    /**
    *
    * @param modelId
@@ -142,7 +150,7 @@ public class BpmStructVariableBuilder
      TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
      if(typeDeclarations != null)
      {
-        List<TypeDeclarationType> decls = typeDeclarations.getTypeDeclaration();        
+        List<TypeDeclarationType> decls = typeDeclarations.getTypeDeclaration();
         for (TypeDeclarationType d : decls) {
            if (d.getId().equals(declId)) {
               return d;

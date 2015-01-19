@@ -676,11 +676,11 @@ public class TypeDeclarationTypeImpl extends EObjectImpl implements TypeDeclarat
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (description: "); //$NON-NLS-1$
+      result.append(" (description: ");
       result.append(description);
-      result.append(", id: "); //$NON-NLS-1$
+      result.append(", id: ");
       result.append(id);
-      result.append(", name: "); //$NON-NLS-1$
+      result.append(", name: ");
       result.append(name);
       result.append(')');
       return result.toString();

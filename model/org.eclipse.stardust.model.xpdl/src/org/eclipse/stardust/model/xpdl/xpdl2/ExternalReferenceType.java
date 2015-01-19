@@ -24,6 +24,7 @@ import org.eclipse.xsd.XSDSchema;
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getXref <em>Xref</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getUuid <em>Uuid</em>}</li>
  * </ul>
  * </p>
  *
@@ -121,6 +122,33 @@ public interface ExternalReferenceType extends XpdlTypeType {
 	void setXref(String value);
 
 	/**
+    * Returns the value of the '<em><b>Uuid</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <p>
+    * If the meaning of the '<em>Uuid</em>' attribute isn't clear,
+    * there really should be more of a description here...
+    * </p>
+    * <!-- end-user-doc -->
+    * @return the value of the '<em>Uuid</em>' attribute.
+    * @see #setUuid(String)
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage#getExternalReferenceType_Uuid()
+    * @model dataType="org.eclipse.emf.ecore.xml.type.AnyURI"
+    *        extendedMetaData="kind='attribute' name='uuid' namespace='http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions'"
+    * @generated
+    */
+   String getUuid();
+
+   /**
+    * Sets the value of the '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getUuid <em>Uuid</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @param value the new value of the '<em>Uuid</em>' attribute.
+    * @see #getUuid()
+    * @generated
+    */
+   void setUuid(String value);
+
+   /**
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
     * @model kind="operation"

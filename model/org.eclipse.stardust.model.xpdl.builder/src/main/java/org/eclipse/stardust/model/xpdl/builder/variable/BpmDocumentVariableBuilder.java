@@ -13,6 +13,7 @@ package org.eclipse.stardust.model.xpdl.builder.variable;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
 import org.eclipse.stardust.engine.core.struct.spi.StructuredDataFilterExtension;
@@ -34,6 +35,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationsType;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlFactory;
+import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
 import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
 
@@ -41,16 +43,16 @@ public class BpmDocumentVariableBuilder
       extends AbstractModelElementBuilder<DataType, BpmDocumentVariableBuilder>
 {
    private String structuredDataId = null;
-   private ModelType typeDeclarationModel;   
+   private ModelType typeDeclarationModel;
 
    public BpmDocumentVariableBuilder()
    {
       super(F_CWM.createDataType());
-      
-      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
-      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document"); //$NON-NLS-1$      
+
+      AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
+      AttributeUtil.setAttribute(element, PredefinedConstants.CLASS_NAME_ATT, "org.eclipse.stardust.engine.api.runtime.Document"); //$NON-NLS-1$
    }
-   
+
    public ModelType getTypeDeclarationModel()
    {
       return typeDeclarationModel;
@@ -70,25 +72,25 @@ public class BpmDocumentVariableBuilder
       if(structuredDataId  != null)
       {
          if(getTypeDeclarationModel() == null || getTypeDeclarationModel().getId().equals(model.getId()))
-         {      
-            AttributeUtil.setAttribute(element, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, structuredDataId); //$NON-NLS-1$      
+         {
+            AttributeUtil.setAttribute(element, DmsConstants.RESOURCE_METADATA_SCHEMA_ATT, structuredDataId); //$NON-NLS-1$
          }
          else
          {
             TypeDeclarationType typeDeclaration = getTypeDeclaration(typeDeclarationModel, structuredDataId);
 
             String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, typeDeclarationModel);
-            
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
+
+            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
             URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-            
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element, 
+
+            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(MergeUtils.createQualifiedUri(uri, typeDeclaration, true), element,
                   typeDeclaration.getId(), typeDeclaration.getName(), typeDeclaration.getDescription(),
                   bundleId, null);
-            
-            
+
+
             AttributeUtil.setAttribute(element, "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$      
+            AttributeUtil.setBooleanAttribute(element, "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
             AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
             ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
             if (typeDeclarationModel != null)
@@ -96,32 +98,37 @@ public class BpmDocumentVariableBuilder
                reference.setLocation(ImportUtils.getPackageRef(descriptor, model, typeDeclarationModel).getId());
             }
             reference.setXref(structuredDataId);
-            element.setExternalReference(reference);                           
+            String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
+            if (uuid != null)
+            {
+               reference.setUuid(uuid);
+            }
+            element.setExternalReference(reference);
          }
-      }      
+      }
 
       if ((null == element.getType()))
       {
          DataTypeType documentMetaType = ModelUtils.findIdentifiableElement(
                this.model.getDataType(), DmsConstants.DATA_TYPE_DMS_DOCUMENT);
-         
+
          if (null == documentMetaType)
-         {           
+         {
             documentMetaType = F_CWM.createDataTypeType();
             documentMetaType.setId(DmsConstants.DATA_TYPE_DMS_DOCUMENT);
             documentMetaType.setName("Document");
             documentMetaType.setIsPredefined(true);
-            
+
             Class<VfsDocumentAccessPathEvaluator> clsEvaluator = VfsDocumentAccessPathEvaluator.class;
             Class<VfsDocumentValidator> clsValidator = VfsDocumentValidator.class;
             Class<StructuredDataFilterExtension> clsExtension = StructuredDataFilterExtension.class;
             Class<StructuredDataLoader> dataLoader = StructuredDataLoader.class;
-            
+
             AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.EVALUATOR_CLASS_ATT,
                   clsEvaluator.getName());
             AttributeUtil.setAttribute(documentMetaType, PredefinedConstants.VALIDATOR_CLASS_ATT,
                   clsValidator.getName());
-            
+
             AttributeUtil.setAttribute(documentMetaType,
                   PredefinedConstants.DATA_FILTER_EXTENSION_ATT,
                   clsExtension.getName());
@@ -130,13 +137,13 @@ public class BpmDocumentVariableBuilder
 
             model.getDataType().add(documentMetaType);
          }
-         
+
          if (null != documentMetaType)
          {
             element.setType(documentMetaType);
          }
-      }      
-      
+      }
+
       model.getData().add(element);
 
       return element;
@@ -160,9 +167,9 @@ public class BpmDocumentVariableBuilder
 
    public void setTypeDeclaration(String structuredDataId)
    {
-      this.structuredDataId = structuredDataId;           
+      this.structuredDataId = structuredDataId;
    }
-   
+
    /**
    *
    * @param modelId
@@ -173,7 +180,7 @@ public class BpmDocumentVariableBuilder
      TypeDeclarationsType typeDeclarations = model.getTypeDeclarations();
      if(typeDeclarations != null)
      {
-        List<TypeDeclarationType> decls = typeDeclarations.getTypeDeclaration();        
+        List<TypeDeclarationType> decls = typeDeclarations.getTypeDeclaration();
         for (TypeDeclarationType d : decls) {
            if (d.getId().equals(declId)) {
               return d;

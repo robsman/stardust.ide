@@ -579,13 +579,22 @@ public interface XpdlPackage extends EPackage
 	int EXTERNAL_REFERENCE_TYPE__XREF = XPDL_TYPE_TYPE_FEATURE_COUNT + 2;
 
    /**
+    * The feature id for the '<em><b>Uuid</b></em>' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    * @ordered
+    */
+   int EXTERNAL_REFERENCE_TYPE__UUID = XPDL_TYPE_TYPE_FEATURE_COUNT + 3;
+
+   /**
     * The number of structural features of the '<em>External Reference Type</em>' class.
     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
     * @generated
     * @ordered
     */
-	int EXTERNAL_REFERENCE_TYPE_FEATURE_COUNT = XPDL_TYPE_TYPE_FEATURE_COUNT + 3;
+	int EXTERNAL_REFERENCE_TYPE_FEATURE_COUNT = XPDL_TYPE_TYPE_FEATURE_COUNT + 4;
 
    /**
     * The meta object id for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.FormalParameterTypeImpl <em>Formal Parameter Type</em>}' class.
@@ -1528,6 +1537,17 @@ public interface XpdlPackage extends EPackage
 	EAttribute getExternalReferenceType_Xref();
 
    /**
+    * Returns the meta object for the attribute '{@link org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getUuid <em>Uuid</em>}'.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @return the meta object for the attribute '<em>Uuid</em>'.
+    * @see org.eclipse.stardust.model.xpdl.xpdl2.ExternalReferenceType#getUuid()
+    * @see #getExternalReferenceType()
+    * @generated
+    */
+   EAttribute getExternalReferenceType_Uuid();
+
+   /**
     * Returns the meta object for class '{@link org.eclipse.stardust.model.xpdl.xpdl2.FormalParameterType <em>Formal Parameter Type</em>}'.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -2424,6 +2444,14 @@ public interface XpdlPackage extends EPackage
        * @generated
        */
 		EAttribute EXTERNAL_REFERENCE_TYPE__XREF = eINSTANCE.getExternalReferenceType_Xref();
+
+      /**
+       * The meta object literal for the '<em><b>Uuid</b></em>' attribute feature.
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      EAttribute EXTERNAL_REFERENCE_TYPE__UUID = eINSTANCE.getExternalReferenceType_Uuid();
 
       /**
        * The meta object literal for the '{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.FormalParameterTypeImpl <em>Formal Parameter Type</em>}' class.

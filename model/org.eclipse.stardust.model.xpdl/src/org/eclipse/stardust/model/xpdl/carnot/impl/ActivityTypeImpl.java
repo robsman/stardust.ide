@@ -42,6 +42,7 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getEventHandler <em>Event Handler</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getDataMapping <em>Data Mapping</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#isAllowsAbortByPerformer <em>Allows Abort By Performer</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getApplication <em>Application</em>}</li>
@@ -59,7 +60,6 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getStartingEventSymbols <em>Starting Event Symbols</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getInTransitions <em>In Transitions</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getOutTransitions <em>Out Transitions</em>}</li>
- *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getExternalRef <em>External Ref</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getValidQualityCodes <em>Valid Quality Codes</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.carnot.impl.ActivityTypeImpl#getLoop <em>Loop</em>}</li>
  * </ul>
@@ -192,6 +192,16 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
     * @ordered
     */
    protected EList<EventHandlerType> eventHandler;
+
+   /**
+    * The cached value of the '{@link #getExternalRef() <em>External Ref</em>}' containment reference.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getExternalRef()
+    * @generated
+    * @ordered
+    */
+   protected IdRef externalRef;
 
    /**
     * The cached value of the '{@link #getDataMapping() <em>Data Mapping</em>}' containment reference list.
@@ -496,16 +506,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
     * @ordered
     */
    protected EList<TransitionType> outTransitions;
-
-   /**
-    * The cached value of the '{@link #getExternalRef() <em>External Ref</em>}' containment reference.
-    * <!-- begin-user-doc -->
-    * <!-- end-user-doc -->
-    * @see #getExternalRef()
-    * @generated
-    * @ordered
-    */
-   protected IdRef externalRef;
 
    /**
     * The cached value of the '{@link #getValidQualityCodes() <em>Valid Quality Codes</em>}' reference list.
@@ -1576,6 +1576,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return basicSetDescription(null, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
             return ((InternalEList<?>)getEventHandler()).basicRemove(otherEnd, msgs);
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+            return basicSetExternalRef(null, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
             return ((InternalEList<?>)getDataMapping()).basicRemove(otherEnd, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__APPLICATION:
@@ -1592,8 +1594,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return ((InternalEList<?>)getInTransitions()).basicRemove(otherEnd, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__OUT_TRANSITIONS:
             return ((InternalEList<?>)getOutTransitions()).basicRemove(otherEnd, msgs);
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
-            return basicSetExternalRef(null, msgs);
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
             return basicSetLoop(null, msgs);
       }
@@ -1622,6 +1622,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return getDescription();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
             return getEventHandler();
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+            return getExternalRef();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
             return getDataMapping();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__ALLOWS_ABORT_BY_PERFORMER:
@@ -1656,8 +1658,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return getInTransitions();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__OUT_TRANSITIONS:
             return getOutTransitions();
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
-            return getExternalRef();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             return getValidQualityCodes();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
@@ -1696,6 +1696,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
             getEventHandler().clear();
             getEventHandler().addAll((Collection<? extends EventHandlerType>)newValue);
+            return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+            setExternalRef((IdRef)newValue);
             return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
             getDataMapping().clear();
@@ -1753,9 +1756,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             getOutTransitions().clear();
             getOutTransitions().addAll((Collection<? extends TransitionType>)newValue);
             return;
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
-            setExternalRef((IdRef)newValue);
-            return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             getValidQualityCodes().clear();
             getValidQualityCodes().addAll((Collection<? extends Code>)newValue);
@@ -1794,6 +1794,9 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
             getEventHandler().clear();
+            return;
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+            setExternalRef((IdRef)null);
             return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
             getDataMapping().clear();
@@ -1846,9 +1849,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__OUT_TRANSITIONS:
             getOutTransitions().clear();
             return;
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
-            setExternalRef((IdRef)null);
-            return;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             getValidQualityCodes().clear();
             return;
@@ -1881,6 +1881,8 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return description != null;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER:
             return eventHandler != null && !eventHandler.isEmpty();
+         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
+            return externalRef != null;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__DATA_MAPPING:
             return dataMapping != null && !dataMapping.isEmpty();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__ALLOWS_ABORT_BY_PERFORMER:
@@ -1915,8 +1917,6 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             return inTransitions != null && !inTransitions.isEmpty();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__OUT_TRANSITIONS:
             return outTransitions != null && !outTransitions.isEmpty();
-         case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF:
-            return externalRef != null;
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__VALID_QUALITY_CODES:
             return validQualityCodes != null && !validQualityCodes.isEmpty();
          case CarnotWorkflowModelPackage.ACTIVITY_TYPE__LOOP:
@@ -1958,6 +1958,14 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
             default: return -1;
          }
       }
+      if (baseClass == IdRefOwner.class)
+      {
+         switch (derivedFeatureID)
+         {
+            case CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF: return CarnotWorkflowModelPackage.ID_REF_OWNER__EXTERNAL_REF;
+            default: return -1;
+         }
+      }
       return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
    }
 
@@ -1991,6 +1999,14 @@ public class ActivityTypeImpl extends EObjectImpl implements ActivityType
          switch (baseFeatureID)
          {
             case CarnotWorkflowModelPackage.IEVENT_HANDLER_OWNER__EVENT_HANDLER: return CarnotWorkflowModelPackage.ACTIVITY_TYPE__EVENT_HANDLER;
+            default: return -1;
+         }
+      }
+      if (baseClass == IdRefOwner.class)
+      {
+         switch (baseFeatureID)
+         {
+            case CarnotWorkflowModelPackage.ID_REF_OWNER__EXTERNAL_REF: return CarnotWorkflowModelPackage.ACTIVITY_TYPE__EXTERNAL_REF;
             default: return -1;
          }
       }

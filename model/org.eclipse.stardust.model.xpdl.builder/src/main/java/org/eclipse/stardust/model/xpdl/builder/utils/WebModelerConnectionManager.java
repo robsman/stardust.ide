@@ -29,22 +29,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.WebModelerConnectionHandler;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.carnot.ApplicationType;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.ConditionalPerformerType;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.model.xpdl.carnot.OrganizationType;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.RoleType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
 import org.eclipse.stardust.model.xpdl.util.IConnection;
@@ -54,17 +48,7 @@ import org.eclipse.stardust.model.xpdl.xpdl2.ExtendedAttributeType;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.TypeDeclarationType;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-import org.eclipse.stardust.modeling.repository.common.Attribute;
-import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.stardust.modeling.repository.common.ConnectionHandler;
-import org.eclipse.stardust.modeling.repository.common.ConnectionManager;
-import org.eclipse.stardust.modeling.repository.common.ExternalPackageResolver;
-import org.eclipse.stardust.modeling.repository.common.IFilter;
-import org.eclipse.stardust.modeling.repository.common.IObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.ObjectRepositoryActivator;
-import org.eclipse.stardust.modeling.repository.common.Repository;
-import org.eclipse.stardust.modeling.repository.common.RepositoryFactory;
-import org.eclipse.stardust.modeling.repository.common.Repository_Messages;
+import org.eclipse.stardust.modeling.repository.common.*;
 import org.eclipse.stardust.modeling.repository.common.descriptors.EObjectDescriptor;
 
 public class WebModelerConnectionManager implements IConnectionManager
@@ -423,10 +407,13 @@ public class WebModelerConnectionManager implements IConnectionManager
    public void open(Connection connection) throws CoreException
    {
       ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
-      handler = createHandler(connection.getType());
-      EObjectDescriptor.setURIS(false);
-      handler.open(connection);
-      handlers.put(connection, handler);
+      if (null == handler)
+      {
+         handler = createHandler(connection.getType());
+         EObjectDescriptor.setURIS(false);
+         handler.open(connection);
+         handlers.put(connection, handler);
+      }
    }
 
    private ConnectionHandler createHandler(String type) throws CoreException
@@ -638,109 +625,9 @@ public class WebModelerConnectionManager implements IConnectionManager
       return "true".equals(connection.getAttribute(BY_REFERENCE)); //$NON-NLS-1$
    }
 
-   /*public Command linkObject(ModelType model, IObjectDescriptor[] descriptors)
-         throws CoreException
-   {
-      ArrayList<Connection> connections = new ArrayList<Connection>();
-      UsageDisplayDialog.setUsage(null);
-
-      ChangeRecorder recorder = new ChangeRecorder(model);
-
-      String id;
-      IObjectDescriptor[] entryValues;
-      Map<String, ArrayList<IObjectDescriptor>> container = CollectionUtils.newMap();
-      Connection connection;
-
-      // collect descriptors for each connection
-      sortDescriptors(descriptors, container);
-
-      // here loop through all connections found
-      Iterator<Map.Entry<String, ArrayList<IObjectDescriptor>>> it = container.entrySet()
-            .iterator();
-      while (it.hasNext())
-      {
-         Map.Entry<String, ArrayList<IObjectDescriptor>> entry = it.next();
-         id = entry.getKey();
-         entryValues = (IObjectDescriptor[]) entry.getValue().toArray(
-               new IObjectDescriptor[0]);
-
-         connection = getConnection(id);
-         if (connection == null)
-         {
-            String message = MessageFormat.format(Repository_Messages.MSG_FORMAT_CONNECTION_NULL_DOES_NOT_EXIST,
-                  new Object[] {id});
-            throw new CoreException(new Status(IStatus.ERROR,
-                  ObjectRepositoryActivator.PLUGIN_ID, 0, message, null));
-         }
-         connections.add(connection);
-         ConnectionHandler handler = (ConnectionHandler) handlers.get(connection);
-         if (handler != null)
-         {
-            try
-            {
-               handler.importObject(model, entryValues, "true".equals(connection //$NON-NLS-1$
-                     .getAttribute(BY_REFERENCE)));
-            }
-            catch (ImportCancelledException ice)
-            {
-               recorder.dispose();
-               return null;
-            }
-         }
-      }
-      final ChangeDescription changes = recorder.endRecording();
-      //rp: Workaround for CRNT-23880
-      reloadConnections(connections);
-      return new Command()
-      {
-         public void execute()
-         {
-         // nothing to be done as the changes are already applied
-         }
-
-         public void undo()
-         {
-            changes.applyAndReverse();
-         }
-
-         public void redo()
-         {
-            changes.applyAndReverse();
-         }
-      };
-   }*/
-
-   private void sortDescriptors(IObjectDescriptor[] descriptors,
-         Map<String, ArrayList<IObjectDescriptor>> container)
-   {
-      URI uri;
-      String id;
-      IObjectDescriptor descriptor;
-      ArrayList<IObjectDescriptor> descriptorValues;
-      for (int i = 0; i < descriptors.length; i++)
-      {
-         descriptor = descriptors[i];
-         uri = descriptor.getURI();
-         id = uri.authority();
-         // is the key inside?
-         if (container.containsKey(id))
-         {
-            descriptorValues = container.get(id);
-            descriptorValues.add(descriptors[i]);
-            container.put(id, descriptorValues);
-         }
-         else
-         {
-            descriptorValues = new ArrayList<IObjectDescriptor>();
-            descriptorValues.add(descriptors[i]);
-            container.put(id, descriptorValues);
-         }
-      }
-   }
-
    public void resolve()
    {
-      for (Iterator<EObject> i = model.eContents().iterator(); i.hasNext();)
+      for (Iterator<EObject> i = model.eAllContents(); i.hasNext();)
       {
          EObject object = i.next();
          if (object.eIsProxy())
@@ -786,12 +673,13 @@ public class WebModelerConnectionManager implements IConnectionManager
 
             }
          }
-         /*
-          * else if (object instanceof IExtensibleElement) { String uriValue =
-          * AttributeUtil.getAttributeValue((IExtensibleElement) object,
-          * URI_ATTRIBUTE_NAME); if (uriValue != null) { URI uri =
-          * URI.createURI(uriValue); resolve(object, uri); } }
-          */
+         else
+         {
+            if (object instanceof IdRefOwner || object instanceof DataType)
+            {
+               IdRefHandler.adapt((IIdentifiableModelElement) object);
+            }
+         }
       }
    }
 

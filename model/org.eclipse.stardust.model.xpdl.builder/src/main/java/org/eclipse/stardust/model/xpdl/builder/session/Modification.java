@@ -15,6 +15,7 @@ import static org.eclipse.stardust.common.CollectionUtils.isEmpty;
 import static org.eclipse.stardust.common.CollectionUtils.newHashMap;
 import static org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils.findContainingModel;
 
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -167,7 +168,11 @@ public class Modification
          {
             // report any change to a non-element sub-object as modification of the
             // containing parent element
-            modifiedElements.add(determineChangedElement(candidate));
+            EObject changedElement = determineChangedElement(candidate);
+            if (!changedElement.eIsProxy() || changedElement instanceof Proxy)
+            {
+               modifiedElements.add(changedElement);
+            }
          }
       }
       // removed objects will automatically be reported as modifications of their
@@ -199,7 +204,11 @@ public class Modification
    {
       for (EObject changedObject : candidates)
       {
-         result.add(determineChangedElement(changedObject));
+         EObject changedElement = determineChangedElement(changedObject);
+         if (!changedElement.eIsProxy() || changedElement instanceof Proxy)
+         {
+            result.add(changedElement);
+         }
       }
    }
 

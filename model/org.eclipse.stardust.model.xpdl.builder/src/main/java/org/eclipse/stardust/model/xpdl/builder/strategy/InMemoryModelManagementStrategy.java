@@ -60,6 +60,7 @@ public class InMemoryModelManagementStrategy extends
 	   for (ModelType model : models)
 	   {
 	      result.add(new ModelDescriptor(model.getId(), null, model, model));
+	      loadEObjectUUIDMap(model);
 	   }
 		return result;
 	}

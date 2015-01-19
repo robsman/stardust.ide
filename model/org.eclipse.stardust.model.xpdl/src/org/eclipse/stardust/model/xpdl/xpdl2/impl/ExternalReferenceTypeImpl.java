@@ -37,6 +37,7 @@ import org.eclipse.xsd.XSDSchema;
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExternalReferenceTypeImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExternalReferenceTypeImpl#getNamespace <em>Namespace</em>}</li>
  *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExternalReferenceTypeImpl#getXref <em>Xref</em>}</li>
+ *   <li>{@link org.eclipse.stardust.model.xpdl.xpdl2.impl.ExternalReferenceTypeImpl#getUuid <em>Uuid</em>}</li>
  * </ul>
  * </p>
  *
@@ -117,6 +118,26 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
     protected String xref = XREF_EDEFAULT;
 
     /**
+    * The default value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getUuid()
+    * @generated
+    * @ordered
+    */
+   protected static final String UUID_EDEFAULT = null;
+
+   /**
+    * The cached value of the '{@link #getUuid() <em>Uuid</em>}' attribute.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #getUuid()
+    * @generated
+    * @ordered
+    */
+   protected String uuid = UUID_EDEFAULT;
+
+   /**
     * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
     * @generated
@@ -199,6 +220,29 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
    }
 
     /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public String getUuid()
+   {
+      return uuid;
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public void setUuid(String newUuid)
+   {
+      String oldUuid = uuid;
+      uuid = newUuid;
+      if (eNotificationRequired())
+         eNotify(new ENotificationImpl(this, Notification.SET, XpdlPackage.EXTERNAL_REFERENCE_TYPE__UUID, oldUuid, uuid));
+   }
+
+   /**
      * Simple caching mechanism to speed up the external schema retrieval
      * and to prohibit the existence of multiple instances of the same schema
      * @generated NOT
@@ -337,6 +381,8 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
             return getNamespace();
          case XpdlPackage.EXTERNAL_REFERENCE_TYPE__XREF:
             return getXref();
+         case XpdlPackage.EXTERNAL_REFERENCE_TYPE__UUID:
+            return getUuid();
       }
       return super.eGet(featureID, resolve, coreType);
    }
@@ -358,6 +404,9 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
             return;
          case XpdlPackage.EXTERNAL_REFERENCE_TYPE__XREF:
             setXref((String)newValue);
+            return;
+         case XpdlPackage.EXTERNAL_REFERENCE_TYPE__UUID:
+            setUuid((String)newValue);
             return;
       }
       super.eSet(featureID, newValue);
@@ -381,6 +430,9 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
          case XpdlPackage.EXTERNAL_REFERENCE_TYPE__XREF:
             setXref(XREF_EDEFAULT);
             return;
+         case XpdlPackage.EXTERNAL_REFERENCE_TYPE__UUID:
+            setUuid(UUID_EDEFAULT);
+            return;
       }
       super.eUnset(featureID);
    }
@@ -400,6 +452,8 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
             return NAMESPACE_EDEFAULT == null ? namespace != null : !NAMESPACE_EDEFAULT.equals(namespace);
          case XpdlPackage.EXTERNAL_REFERENCE_TYPE__XREF:
             return XREF_EDEFAULT == null ? xref != null : !XREF_EDEFAULT.equals(xref);
+         case XpdlPackage.EXTERNAL_REFERENCE_TYPE__UUID:
+            return UUID_EDEFAULT == null ? uuid != null : !UUID_EDEFAULT.equals(uuid);
       }
       return super.eIsSet(featureID);
    }
@@ -414,12 +468,14 @@ public class ExternalReferenceTypeImpl extends EObjectImpl implements ExternalRe
       if (eIsProxy()) return super.toString();
 
       StringBuffer result = new StringBuffer(super.toString());
-      result.append(" (location: "); //$NON-NLS-1$
+      result.append(" (location: ");
       result.append(location);
-      result.append(", namespace: "); //$NON-NLS-1$
+      result.append(", namespace: ");
       result.append(namespace);
-      result.append(", xref: "); //$NON-NLS-1$
+      result.append(", xref: ");
       result.append(xref);
+      result.append(", uuid: ");
+      result.append(uuid);
       result.append(')');
       return result.toString();
    }

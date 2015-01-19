@@ -16,19 +16,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
-import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
-import org.eclipse.emf.edit.provider.IItemLabelProvider;
-import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.emf.edit.provider.IItemPropertySource;
-import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
-import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.emf.edit.provider.*;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
-
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.stardust.model.xpdl.edit.ProcessSymbolType} object.
@@ -38,12 +28,12 @@ import org.eclipse.stardust.model.xpdl.carnot.ProcessSymbolType;
  */
 public class ProcessSymbolTypeItemProvider
    extends IModelElementNodeSymbolItemProvider
-   implements	
-      IEditingDomainItemProvider,	
-      IStructuredItemContentProvider,	
-      ITreeItemContentProvider,	
-      IItemLabelProvider,	
-      IItemPropertySource		
+   implements
+      IEditingDomainItemProvider,
+      IStructuredItemContentProvider,
+      ITreeItemContentProvider,
+      IItemLabelProvider,
+      IItemPropertySource
 {
    /**
     * <!-- begin-user-doc -->

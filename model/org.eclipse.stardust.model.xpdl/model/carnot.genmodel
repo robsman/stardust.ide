@@ -199,6 +199,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ISwimlaneSymbol/collapsed"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/participant"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/childLanes"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ISwimlaneSymbol/participantReference"/>
     </genClasses>
     <genClasses image="false" ecoreClass="carnot.ecore#//IModelElementNodeSymbol">
       <genOperations ecoreOperation="carnot.ecore#//IModelElementNodeSymbol/getModelElement"/>
@@ -236,7 +237,9 @@
     <genClasses image="false" ecoreClass="carnot.ecore#//AbstractEventAction">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//AbstractEventAction/type"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="carnot.ecore#//AbstractEventSymbol"/>
+    <genClasses image="false" ecoreClass="carnot.ecore#//AbstractEventSymbol">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AbstractEventSymbol/label"/>
+    </genClasses>
     <genClasses ecoreClass="carnot.ecore#//AccessPointType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//AccessPointType/direction"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//AccessPointType/type"/>
@@ -266,7 +269,6 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/startingEventSymbols"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/inTransitions"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/outTransitions"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/externalRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/validQualityCodes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ActivityType/loop"/>
     </genClasses>
@@ -433,6 +435,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference carnot.ecore#//IdRef/packageRef"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//IdRef/ref"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="carnot.ecore#//IdRefOwner">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//IdRefOwner/externalRef"/>
+    </genClasses>
     <genClasses ecoreClass="carnot.ecore#//GatewaySymbol">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//GatewaySymbol/flowKind"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//GatewaySymbol/activitySymbol"/>
@@ -546,7 +551,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute carnot.ecore#//ProcessDefinitionType/defaultPriority"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/formalParameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/formalParameterMappings"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference carnot.ecore#//ProcessDefinitionType/externalRef"/>
     </genClasses>
     <genClasses ecoreClass="carnot.ecore#//ProcessSymbolType">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference carnot.ecore#//ProcessSymbolType/process"/>
@@ -747,6 +751,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/location"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/namespace"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/xref"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xpdl.ecore#//ExternalReferenceType/uuid"/>
       <genOperations ecoreOperation="xpdl.ecore#//ExternalReferenceType/getSchema"/>
     </genClasses>
     <genClasses ecoreClass="xpdl.ecore#//FormalParametersType">

@@ -42,4 +42,8 @@ public interface IImageManager
    public abstract ImageDescriptor getIconDescriptor(String iconLocator, int style);
 
    public abstract void registerImage(String path, Image image);
+   
+   public abstract void registerImage(String path, Image image, int style, boolean isOvrIF);
+   
+   public abstract Image getImage(String path, int style, boolean isOvrIF);
 }

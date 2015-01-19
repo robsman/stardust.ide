@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.NameInfo;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.model.xpdl.carnot.CarnotWorkflowModelPackage;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
@@ -33,7 +34,6 @@ import org.eclipse.stardust.model.xpdl.util.IConnectionManager;
 import org.eclipse.stardust.model.xpdl.xpdl2.ExternalPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.XpdlPackage;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +46,7 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
 {
    private static final String XMLNS_PREFIX = ExtendedMetaData.XMLNS_PREFIX;
    private static final String XMLNS_PREFIX_WITH_COLON = XMLNS_PREFIX + ':';
-   
+
    /**
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -97,8 +97,8 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
             ModelType model = ModelUtils.findContainingModel(obj);
             if (model != null && model.getExternalPackages() != null)
             {
-               URI eProxyURI = ((EObjectImpl) obj).eProxyURI();
-               if(eProxyURI != null)
+               URI eProxyURI = ((InternalEObject) obj).eProxyURI();
+               if (eProxyURI != null)
                {
                   String id = eProxyURI.toString();
                   for (ExternalPackage pkg : model.getExternalPackages().getExternalPackage())
@@ -110,13 +110,15 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
                         int ix = path.indexOf('/');
                         if (ix > 0)
                         {
-                           return path.substring(0, ix) + ':' +  new QName(pkg.getId(), path.substring(ix + 1));
+                           String fullPath = path.substring(0, ix) + ':' +  new QName(pkg.getId(), path.substring(ix + 1));
+                           String uuid = ModelUtils.getUUID(obj);
+                           return StringUtils.isEmpty(uuid) ? fullPath : fullPath + "?uuid=" + uuid;
                         }
                      }
                   }
                }
             }
-            
+
             return super.getHREF(obj);
          }
 
@@ -135,7 +137,7 @@ public class CarnotWorkflowModelResourceImpl extends XMLResourceImpl
          }
       };
    }
-   
+
    public OutputStream getNewOutputStream() throws IOException
    {
       return getURIConverter().createOutputStream(getURI());

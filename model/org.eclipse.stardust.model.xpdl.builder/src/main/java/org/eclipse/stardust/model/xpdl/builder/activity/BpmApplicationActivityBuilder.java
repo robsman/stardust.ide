@@ -11,6 +11,7 @@
 package org.eclipse.stardust.model.xpdl.builder.activity;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -23,7 +24,7 @@ public class BpmApplicationActivityBuilder
       extends AbstractActivityBuilder<BpmApplicationActivityBuilder>
 {
    ModelType applicationModel;
-   
+
    public ModelType getApplicationModel()
    {
       return applicationModel;
@@ -49,36 +50,37 @@ public class BpmApplicationActivityBuilder
 
    public BpmApplicationActivityBuilder invokingApplication(ApplicationType application)
    {
-      ActivityType activity = element;
       ModelType applicationModel = getApplicationModel();
-      
-      if(model.equals(applicationModel))
+
+      if (model.equals(applicationModel))
       {
-      
          element.setApplication(application);
       }
       else
       {
          String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, applicationModel);
-         
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;         
+
+         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
          URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-         
-         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri, 
+
+         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri,
                application, bundleId, null, true);
-         
-         AttributeUtil.setAttribute(activity, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
-         
+
+         AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
+
          IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
          idRef.setRef(application.getId());
          idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, applicationModel));
-         activity.setExternalRef(idRef);
-         
-         
-         
-         
+         element.setExternalRef(idRef);
+         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
+         if (uuidAttribute != null)
+         {
+            AttributeUtil.setAttribute((IIdentifiableModelElement) element,
+                  "carnot:connection:uuid", uuidAttribute.getValue());
+         }
+         IdRefHandler.adapt(element);
       }
-      
+
       return this;
    }
 

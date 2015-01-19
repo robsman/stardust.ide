@@ -21,6 +21,8 @@ public class VariableContextHelper
 {
    private static VariableContextHelper instance = null;
 
+   private static ThreadLocal<VariableContextHelper> threadLocalInstances = new ThreadLocal<VariableContextHelper>();
+
    private Map<String, VariableContext> contextMap = new HashMap<String, VariableContext>();
 
    public VariableContextHelper()
@@ -30,11 +32,32 @@ public class VariableContextHelper
 
    public static synchronized VariableContextHelper getInstance()
    {
-      if (instance == null)
+      // prefer thread-local instance ...
+      VariableContextHelper contextHelper = threadLocalInstances.get();
+
+      if (null == contextHelper)
       {
-         instance = new VariableContextHelper();
+         // ... over the globally shared one
+         if (instance == null)
+         {
+            instance = new VariableContextHelper();
+         }
+         contextHelper = instance;
       }
-      return instance;
+
+      return contextHelper;
+   }
+
+   public static VariableContextHelper createThreadLocalInstance()
+   {
+      threadLocalInstances.set(new VariableContextHelper());
+
+      return threadLocalInstances.get();
+   }
+
+   public static void removeThreadLocalInstance()
+   {
+      threadLocalInstances.remove();
    }
 
    public synchronized void clear()

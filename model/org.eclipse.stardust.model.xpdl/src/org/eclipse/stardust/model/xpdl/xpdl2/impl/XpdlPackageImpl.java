@@ -286,7 +286,7 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
 
    /**
     * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
-    *
+    * 
     * <p>This method is used to initialize {@link XpdlPackage#eINSTANCE} when that field is accessed.
     * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
     * <!-- begin-user-doc -->
@@ -323,7 +323,7 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
       // Mark meta-data to indicate it can't be changed
       theXpdlPackage.freeze();
 
-
+  
       // Update the registry and return the package
       EPackage.Registry.INSTANCE.put(XpdlPackage.eNS_URI, theXpdlPackage);
       return theXpdlPackage;
@@ -707,6 +707,16 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
    public EAttribute getExternalReferenceType_Xref()
    {
       return (EAttribute)externalReferenceTypeEClass.getEStructuralFeatures().get(2);
+   }
+
+   /**
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @generated
+    */
+   public EAttribute getExternalReferenceType_Uuid()
+   {
+      return (EAttribute)externalReferenceTypeEClass.getEStructuralFeatures().get(3);
    }
 
    /**
@@ -1296,6 +1306,7 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
       createEAttribute(externalReferenceTypeEClass, EXTERNAL_REFERENCE_TYPE__LOCATION);
       createEAttribute(externalReferenceTypeEClass, EXTERNAL_REFERENCE_TYPE__NAMESPACE);
       createEAttribute(externalReferenceTypeEClass, EXTERNAL_REFERENCE_TYPE__XREF);
+      createEAttribute(externalReferenceTypeEClass, EXTERNAL_REFERENCE_TYPE__UUID);
 
       formalParametersTypeEClass = createEClass(FORMAL_PARAMETERS_TYPE);
       createEReference(formalParametersTypeEClass, FORMAL_PARAMETERS_TYPE__FORMAL_PARAMETER);
@@ -1460,6 +1471,7 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
       initEAttribute(getExternalReferenceType_Location(), theXMLTypePackage.getAnyURI(), "location", null, 1, 1, ExternalReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
       initEAttribute(getExternalReferenceType_Namespace(), theXMLTypePackage.getAnyURI(), "namespace", null, 0, 1, ExternalReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
       initEAttribute(getExternalReferenceType_Xref(), theXMLTypePackage.getNMTOKEN(), "xref", null, 0, 1, ExternalReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+      initEAttribute(getExternalReferenceType_Uuid(), theXMLTypePackage.getAnyURI(), "uuid", null, 0, 1, ExternalReferenceType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
       addEOperation(externalReferenceTypeEClass, theXSDPackage.getXSDSchema(), "getSchema", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1582,724 +1594,733 @@ public class XpdlPackageImpl extends EPackageImpl implements XpdlPackage
     */
    protected void createExtendedMetaDataAnnotations()
    {
-      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
+      String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
       addAnnotation
-        (basicTypeTypeEClass,
-         source,
-         new String[]
+        (basicTypeTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "BasicType_._type",
           "kind", "empty"
-         });
+         });		
       addAnnotation
-        (getBasicTypeType_Type(),
-         source,
-         new String[]
+        (getBasicTypeType_Type(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Type"
-         });
+         });		
       addAnnotation
-        (dataTypeTypeEClass,
-         source,
-         new String[]
+        (dataTypeTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "DataType_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getDataTypeType_BasicType(),
-         source,
-         new String[]
+        (getDataTypeType_BasicType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "BasicType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getDataTypeType_DeclaredType(),
-         source,
-         new String[]
+        (getDataTypeType_DeclaredType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "DeclaredType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getDataTypeType_SchemaType(),
-         source,
-         new String[]
+        (getDataTypeType_SchemaType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "SchemaType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getDataTypeType_ExternalReference(),
-         source,
-         new String[]
+        (getDataTypeType_ExternalReference(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExternalReference",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getDataTypeType_CarnotType(),
-         source,
-         new String[]
+        (getDataTypeType_CarnotType(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "carnotType",
           "namespace", "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
-         });
+         });		
       addAnnotation
-        (declaredTypeTypeEClass,
-         source,
-         new String[]
+        (declaredTypeTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "DeclaredType_._type",
           "kind", "empty"
-         });
+         });		
       addAnnotation
-        (getDeclaredTypeType_Id(),
-         source,
-         new String[]
+        (getDeclaredTypeType_Id(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Id"
-         });
+         });		
       addAnnotation
-        (expressionTypeEClass,
-         source,
-         new String[]
+        (expressionTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExpressionType",
           "kind", "mixed"
-         });
+         });		
       addAnnotation
-        (getExpressionType_Mixed(),
-         source,
-         new String[]
+        (getExpressionType_Mixed(), 
+         source, 
+         new String[] 
          {
           "kind", "elementWildcard",
           "name", ":mixed"
-         });
+         });		
       addAnnotation
-        (getExpressionType_Group(),
-         source,
-         new String[]
+        (getExpressionType_Group(), 
+         source, 
+         new String[] 
          {
           "kind", "group",
           "name", "group:1"
-         });
+         });		
       addAnnotation
-        (getExpressionType_Any(),
-         source,
-         new String[]
+        (getExpressionType_Any(), 
+         source, 
+         new String[] 
          {
           "kind", "elementWildcard",
           "wildcards", "##any",
           "name", ":2",
           "processing", "lax",
           "group", "#group:1"
-         });
+         });		
       addAnnotation
-        (getExpressionType_ScriptGrammar(),
-         source,
-         new String[]
+        (getExpressionType_ScriptGrammar(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "ScriptGrammar"
-         });
+         });		
       addAnnotation
-        (getExpressionType_ScriptType(),
-         source,
-         new String[]
+        (getExpressionType_ScriptType(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "ScriptType"
-         });
+         });		
       addAnnotation
-        (getExpressionType_ScriptVersion(),
-         source,
-         new String[]
+        (getExpressionType_ScriptVersion(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "ScriptVersion"
-         });
+         });		
       addAnnotation
-        (extendedAttributesTypeEClass,
-         source,
-         new String[]
+        (extendedAttributesTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExtendedAttributes_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributesType_ExtendedAttribute(),
-         source,
-         new String[]
+        (getExtendedAttributesType_ExtendedAttribute(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExtendedAttribute",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (extendedAttributeTypeEClass,
-         source,
-         new String[]
+        (extendedAttributeTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExtendedAttribute_._type",
           "kind", "mixed"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_ExtendedAnnotation(),
-         source,
-         new String[]
+        (getExtendedAttributeType_ExtendedAnnotation(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExtendedAnnotation",
           "namespace", "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_Mixed(),
-         source,
-         new String[]
+        (getExtendedAttributeType_Mixed(), 
+         source, 
+         new String[] 
          {
           "kind", "elementWildcard",
           "name", ":mixed"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_Group(),
-         source,
-         new String[]
+        (getExtendedAttributeType_Group(), 
+         source, 
+         new String[] 
          {
           "kind", "group",
           "name", "group:1"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_Any(),
-         source,
-         new String[]
+        (getExtendedAttributeType_Any(), 
+         source, 
+         new String[] 
          {
           "kind", "elementWildcard",
           "wildcards", "##any",
           "name", ":2",
           "processing", "lax",
           "group", "#group:1"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_Name(),
-         source,
-         new String[]
+        (getExtendedAttributeType_Name(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Name"
-         });
+         });		
       addAnnotation
-        (getExtendedAttributeType_Value(),
-         source,
-         new String[]
+        (getExtendedAttributeType_Value(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Value"
-         });
+         });		
       addAnnotation
-        (getExtensible_ExtendedAttributes(),
-         source,
-         new String[]
+        (getExtensible_ExtendedAttributes(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExtendedAttributes",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (externalPackagesEClass,
-         source,
-         new String[]
+        (externalPackagesEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExternalPackages_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getExternalPackages_ExternalPackage(),
-         source,
-         new String[]
+        (getExternalPackages_ExternalPackage(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExternalPackage",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (externalPackageEClass,
-         source,
-         new String[]
+        (externalPackageEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExternalPackage_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getExternalPackage_Href(),
-         source,
-         new String[]
+        (getExternalPackage_Href(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "href"
-         });
+         });		
       addAnnotation
-        (getExternalPackage_Id(),
-         source,
-         new String[]
+        (getExternalPackage_Id(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Id"
-         });
+         });		
       addAnnotation
-        (getExternalPackage_Name(),
-         source,
-         new String[]
+        (getExternalPackage_Name(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Name"
-         });
+         });		
       addAnnotation
-        (externalReferenceTypeEClass,
-         source,
-         new String[]
+        (externalReferenceTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "ExternalReference_._type",
           "kind", "empty"
-         });
+         });		
       addAnnotation
-        (getExternalReferenceType_Location(),
-         source,
-         new String[]
+        (getExternalReferenceType_Location(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "location"
-         });
+         });		
       addAnnotation
-        (getExternalReferenceType_Namespace(),
-         source,
-         new String[]
+        (getExternalReferenceType_Namespace(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "namespace"
-         });
+         });		
       addAnnotation
-        (getExternalReferenceType_Xref(),
-         source,
-         new String[]
+        (getExternalReferenceType_Xref(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "xref"
-         });
+         });		
       addAnnotation
-        (formalParametersTypeEClass,
-         source,
-         new String[]
+        (getExternalReferenceType_Uuid(), 
+         source, 
+         new String[] 
+         {
+          "kind", "attribute",
+          "name", "uuid",
+          "namespace", "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
+         });		
+      addAnnotation
+        (formalParametersTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "FormalParameters_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getFormalParametersType_FormalParameter(),
-         source,
-         new String[]
+        (getFormalParametersType_FormalParameter(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "FormalParameter",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (formalParameterTypeEClass,
-         source,
-         new String[]
+        (formalParameterTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "FormalParameter_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getFormalParameterType_DataType(),
-         source,
-         new String[]
+        (getFormalParameterType_DataType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "DataType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getFormalParameterType_Description(),
-         source,
-         new String[]
+        (getFormalParameterType_Description(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "Description",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getFormalParameterType_Id(),
-         source,
-         new String[]
+        (getFormalParameterType_Id(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Id"
-         });
+         });		
       addAnnotation
-        (getFormalParameterType_Mode(),
-         source,
-         new String[]
+        (getFormalParameterType_Mode(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Mode"
-         });
+         });		
       addAnnotation
-        (getFormalParameterType_Name(),
-         source,
-         new String[]
+        (getFormalParameterType_Name(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Name"
-         });
+         });		
       addAnnotation
-        (loopMultiInstanceTypeEClass,
-         source,
-         new String[]
+        (loopMultiInstanceTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "LoopMultiInstance_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getLoopMultiInstanceType_MICondition(),
-         source,
-         new String[]
+        (getLoopMultiInstanceType_MICondition(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "MI_Condition",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getLoopMultiInstanceType_ComplexMIFlowCondition(),
-         source,
-         new String[]
+        (getLoopMultiInstanceType_ComplexMIFlowCondition(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ComplexMI_FlowCondition",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getLoopMultiInstanceType_LoopDataRef(),
-         source,
-         new String[]
+        (getLoopMultiInstanceType_LoopDataRef(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "LoopDataRef",
           "namespace", "http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"
-         });
+         });		
       addAnnotation
-        (getLoopMultiInstanceType_MIFlowCondition(),
-         source,
-         new String[]
+        (getLoopMultiInstanceType_MIFlowCondition(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "MI_FlowCondition"
-         });
+         });		
       addAnnotation
-        (getLoopMultiInstanceType_MIOrdering(),
-         source,
-         new String[]
+        (getLoopMultiInstanceType_MIOrdering(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "MI_Ordering"
-         });
+         });		
       addAnnotation
-        (loopStandardTypeEClass,
-         source,
-         new String[]
+        (loopStandardTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "LoopStandard_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getLoopStandardType_LoopCondition(),
-         source,
-         new String[]
+        (getLoopStandardType_LoopCondition(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "LoopCondition",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getLoopStandardType_LoopMaximum(),
-         source,
-         new String[]
+        (getLoopStandardType_LoopMaximum(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "LoopMaximum"
-         });
+         });		
       addAnnotation
-        (getLoopStandardType_TestTime(),
-         source,
-         new String[]
+        (getLoopStandardType_TestTime(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "TestTime"
-         });
+         });		
       addAnnotation
-        (loopTypeEClass,
-         source,
-         new String[]
+        (loopTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "Loop_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getLoopType_LoopStandard(),
-         source,
-         new String[]
+        (getLoopType_LoopStandard(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "LoopStandard",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getLoopType_LoopMultiInstance(),
-         source,
-         new String[]
+        (getLoopType_LoopMultiInstance(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "LoopMultiInstance",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getLoopType_LoopType(),
-         source,
-         new String[]
+        (getLoopType_LoopType(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "LoopType"
-         });
+         });		
       addAnnotation
-        (schemaTypeTypeEClass,
-         source,
-         new String[]
+        (schemaTypeTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "SchemaType_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getSchemaTypeType_Schema(),
-         source,
-         new String[]
+        (getSchemaTypeType_Schema(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "schema",
           "namespace", "http://www.w3.org/2001/XMLSchema"
-         });
+         });		
       addAnnotation
-        (scriptTypeEClass,
-         source,
-         new String[]
+        (scriptTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "Script_._type",
           "kind", "empty"
-         });
+         });		
       addAnnotation
-        (getScriptType_Grammar(),
-         source,
-         new String[]
+        (getScriptType_Grammar(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Grammar"
-         });
+         });		
       addAnnotation
-        (getScriptType_Type(),
-         source,
-         new String[]
+        (getScriptType_Type(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Type"
-         });
+         });		
       addAnnotation
-        (getScriptType_Version(),
-         source,
-         new String[]
+        (getScriptType_Version(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Version"
-         });
+         });		
       addAnnotation
-        (typeDeclarationsTypeEClass,
-         source,
-         new String[]
+        (typeDeclarationsTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "TypeDeclarations_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationsType_TypeDeclaration(),
-         source,
-         new String[]
+        (getTypeDeclarationsType_TypeDeclaration(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "TypeDeclaration",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (typeDeclarationTypeEClass,
-         source,
-         new String[]
+        (typeDeclarationTypeEClass, 
+         source, 
+         new String[] 
          {
           "name", "TypeDeclaration_._type",
           "kind", "elementOnly"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_BasicType(),
-         source,
-         new String[]
+        (getTypeDeclarationType_BasicType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "BasicType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_DeclaredType(),
-         source,
-         new String[]
+        (getTypeDeclarationType_DeclaredType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "DeclaredType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_SchemaType(),
-         source,
-         new String[]
+        (getTypeDeclarationType_SchemaType(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "SchemaType",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_ExternalReference(),
-         source,
-         new String[]
+        (getTypeDeclarationType_ExternalReference(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "ExternalReference",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_Description(),
-         source,
-         new String[]
+        (getTypeDeclarationType_Description(), 
+         source, 
+         new String[] 
          {
           "kind", "element",
           "name", "Description",
           "namespace", "##targetNamespace"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_Id(),
-         source,
-         new String[]
+        (getTypeDeclarationType_Id(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Id"
-         });
+         });		
       addAnnotation
-        (getTypeDeclarationType_Name(),
-         source,
-         new String[]
+        (getTypeDeclarationType_Name(), 
+         source, 
+         new String[] 
          {
           "kind", "attribute",
           "name", "Name"
-         });
+         });		
       addAnnotation
-        (loopTypeTypeEEnum,
-         source,
-         new String[]
+        (loopTypeTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "LoopType_._type"
-         });
+         });		
       addAnnotation
-        (miFlowConditionTypeEEnum,
-         source,
-         new String[]
+        (miFlowConditionTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "MI_FlowCondition_._type"
-         });
+         });		
       addAnnotation
-        (miOrderingTypeEEnum,
-         source,
-         new String[]
+        (miOrderingTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "MI_Ordering_._type"
-         });
+         });		
       addAnnotation
-        (modeTypeEEnum,
-         source,
-         new String[]
+        (modeTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "Mode_._type"
-         });
+         });		
       addAnnotation
-        (testTimeTypeEEnum,
-         source,
-         new String[]
+        (testTimeTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "TestTime_._type"
-         });
+         });		
       addAnnotation
-        (typeTypeEEnum,
-         source,
-         new String[]
+        (typeTypeEEnum, 
+         source, 
+         new String[] 
          {
           "name", "Type_._type"
-         });
+         });		
       addAnnotation
-        (loopTypeTypeObjectEDataType,
-         source,
-         new String[]
+        (loopTypeTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "LoopType_._type:Object",
           "baseType", "LoopType_._type"
-         });
+         });		
       addAnnotation
-        (miFlowConditionTypeObjectEDataType,
-         source,
-         new String[]
+        (miFlowConditionTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "MI_FlowCondition_._type:Object",
           "baseType", "MI_FlowCondition_._type"
-         });
+         });		
       addAnnotation
-        (miOrderingTypeObjectEDataType,
-         source,
-         new String[]
+        (miOrderingTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "MI_Ordering_._type:Object",
           "baseType", "MI_Ordering_._type"
-         });
+         });		
       addAnnotation
-        (modeTypeObjectEDataType,
-         source,
-         new String[]
+        (modeTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "Mode_._type:Object",
           "baseType", "Mode_._type"
-         });
+         });		
       addAnnotation
-        (testTimeTypeObjectEDataType,
-         source,
-         new String[]
+        (testTimeTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "TestTime_._type:Object",
           "baseType", "TestTime_._type"
-         });
+         });		
       addAnnotation
-        (typeTypeObjectEDataType,
-         source,
-         new String[]
+        (typeTypeObjectEDataType, 
+         source, 
+         new String[] 
          {
           "name", "Type_._type:Object",
           "baseType", "Type_._type"

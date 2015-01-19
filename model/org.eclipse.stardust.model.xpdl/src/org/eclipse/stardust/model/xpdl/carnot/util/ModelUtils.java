@@ -1508,5 +1508,22 @@ public class ModelUtils
       return null;
    }
 
+   public static String getUUID(EObject obj)
+   {
+      String uuid = null;
+      if (obj instanceof IExtensibleElement)
+      {
+         uuid = AttributeUtil.getAttributeValue((IExtensibleElement) obj, "carnot:model:uuid");
+      }
+      else
+      {
+         if (obj instanceof Extensible)
+         {
+            uuid = ExtendedAttributeUtil.getAttributeValue((Extensible) obj, "carnot:model:uuid");
+         }
+      }
+      return uuid;
+   }
+
 
 }

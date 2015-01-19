@@ -265,6 +265,13 @@
         <details key="name" value="xref"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uuid" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnyURI">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="uuid"/>
+        <details key="namespace" value="http://www.carnot.ag/workflowmodel/3.1/xpdl/extensions"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FormalParametersType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

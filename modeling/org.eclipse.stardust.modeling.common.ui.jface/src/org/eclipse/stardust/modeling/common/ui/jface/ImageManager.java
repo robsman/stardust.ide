@@ -33,18 +33,30 @@ public class ImageManager implements IImageManager
    private ImageRegistry linkImages = new ImageRegistry();
    private ImageRegistry refImages = new ImageRegistry();
    
+   private ImageRegistry ovrIfPlainImages = new ImageRegistry();
+   private ImageRegistry ovrIfWarningImages = new ImageRegistry();
+   private ImageRegistry ovrIfErrorImages = new ImageRegistry();
+   private ImageRegistry ovrIfLinkImages = new ImageRegistry();
+   private ImageRegistry ovrIfRefImages = new ImageRegistry();
+
+   private ImageRegistry ovrPrivatePlainImages = new ImageRegistry();
+   private ImageRegistry ovrPrivateWarningImages = new ImageRegistry();
+   private ImageRegistry ovrPrivateErrorImages = new ImageRegistry();
+   private ImageRegistry ovrPrivateLinkImages = new ImageRegistry();
+   private ImageRegistry ovrPrivateRefImages = new ImageRegistry();
+
    public ImageManager(String bundleId)
    {
       this.bundleId = bundleId;
       this.plugin = null;
    }
-   
+
    public ImageManager(AbstractUIPlugin plugin)
    {
       this.bundleId = null;
       this.plugin = plugin;
    }
-   
+
    public ImageDescriptor getImageDescriptor(String path)
    {
       ImageDescriptor descriptor = getImageRegistry().getDescriptor(path);
@@ -119,21 +131,21 @@ public class ImageManager implements IImageManager
       ImageRegistry registry = null;
       switch (style)
       {
-      case ICON_STYLE_PLAIN:
-         registry = plainImages;
-         break;
-      case ICON_STYLE_WARNINGS:
-         registry = warningImages;
-         break;
-      case ICON_STYLE_ERRORS:
-         registry = errorImages;
-         break;
-      case ICON_STYLE_LINK:
-         registry = linkImages;
-         break;
-      case ICON_STYLE_REF:
-         registry = refImages;
-         break;
+         case ICON_STYLE_PLAIN:
+            registry = plainImages;
+            break;
+         case ICON_STYLE_WARNINGS:
+            registry = warningImages;
+            break;
+         case ICON_STYLE_ERRORS:
+            registry = errorImages;
+            break;
+         case ICON_STYLE_LINK:
+            registry = linkImages;
+            break;
+         case ICON_STYLE_REF:
+            registry = refImages;
+            break;
       }
       return registry == null ? null : getIcon(iconLocator, registry, style);
    }
@@ -141,7 +153,7 @@ public class ImageManager implements IImageManager
    public ImageDescriptor getIconDescriptor(String iconLocator, int style)
    {
       ImageDescriptor result;
-      
+
       if (ICON_STYLE_PLAIN == style)
       {
          result = plainImages.getDescriptor(iconLocator);
@@ -269,4 +281,49 @@ public class ImageManager implements IImageManager
    {
       getImageRegistry().put(path, image);
    }
+
+   public void registerImage(String path, Image image, int style, boolean isOvrIF)
+   {
+      ImageRegistry registry = getRegistry(style, isOvrIF);
+      if (registry != null)
+      {
+         registry.put(path, image);
+      }
+   }
+
+   public Image getImage(String path, int style, boolean isOvrIF)
+   {
+      Image image = null;
+      ImageRegistry registry = getRegistry(style, isOvrIF);
+      if (registry != null)
+      {
+         image = registry.get(path);
+      }
+      return image;
+   }
+
+   private ImageRegistry getRegistry(int style, boolean isOvrIF)
+   {
+      ImageRegistry registry = null;
+      switch (style)
+      {
+         case ICON_STYLE_PLAIN:
+            registry = isOvrIF ? ovrIfPlainImages : ovrPrivatePlainImages;
+            break;
+         case ICON_STYLE_WARNINGS:
+            registry = isOvrIF ? ovrIfWarningImages : ovrPrivateWarningImages;
+            break;
+         case ICON_STYLE_ERRORS:
+            registry = isOvrIF ? ovrIfErrorImages : ovrPrivateErrorImages;
+            break;
+         case ICON_STYLE_LINK:
+            registry = isOvrIF ? ovrIfLinkImages : ovrPrivateLinkImages;
+            break;
+         case ICON_STYLE_REF:
+            registry = isOvrIF ? ovrIfRefImages : ovrPrivateRefImages;
+            break;
+      }
+      return registry;
+   }
+
 }
