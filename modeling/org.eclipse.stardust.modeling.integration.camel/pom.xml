@@ -33,7 +33,7 @@
       <artifactId>stardust-engine-camel</artifactId>
       <version>${ipp.version}</version>
     </dependency>
-           <dependency>
+      <dependency>
          <groupId>org.eclipse.stardust.engine</groupId>
          <artifactId>stardust-engine-camel</artifactId>
          <version>${ipp.version}</version>
