@@ -11,9 +11,9 @@
 package org.eclipse.stardust.model.xpdl.builder.variable;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.builder.common.AbstractModelElementBuilder;
+import org.eclipse.stardust.model.xpdl.builder.utils.XPDLFinderUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.ModelBuilderFacade;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
@@ -39,10 +39,10 @@ public class DocumentAccessPointBuilder
    {
       super(F_CWM.createAccessPointType());
       this.owner = anOwner;
-      forModel(ModelUtils.findContainingModel(anOwner));      
-      DataTypeType dataTypeType = new ModelBuilderFacade().findDataType(model,
+      forModel(ModelUtils.findContainingModel(anOwner));
+      DataTypeType dataTypeType = XPDLFinderUtils.findDataType(model,
             PredefinedConstants.DOCUMENT_DATA);
-      
+
       if(dataTypeType != null)
       {
          element.setType(dataTypeType);
@@ -71,7 +71,7 @@ public class DocumentAccessPointBuilder
    {
       super.finalizeElement();
       createDefaultAccessPoint(owner);
-      
+
       return element;
    }
    public DocumentAccessPointBuilder withDirection(String direction)

@@ -12,6 +12,7 @@ package org.eclipse.stardust.model.xpdl.builder.activity;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
+import org.eclipse.stardust.model.xpdl.builder.utils.ExternalReferenceUtils;
 import org.eclipse.stardust.model.xpdl.builder.utils.WebModelerConnectionManager;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -58,30 +59,12 @@ public class BpmApplicationActivityBuilder
       }
       else
       {
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(model, applicationModel);
-
-         String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ReplaceModelElementDescriptor descriptor = new ReplaceModelElementDescriptor(uri,
-               application, bundleId, null, true);
-
-         AttributeUtil.setAttribute(element, IConnectionManager.URI_ATTRIBUTE_NAME, descriptor.getURI().toString());
-
-         IdRef idRef = CarnotWorkflowModelFactory.eINSTANCE.createIdRef();
-         idRef.setRef(application.getId());
-         idRef.setPackageRef(ImportUtils.getPackageRef(descriptor, model, applicationModel));
-         element.setExternalRef(idRef);
-         AttributeType uuidAttribute = AttributeUtil.getAttribute((IIdentifiableModelElement) application,  "carnot:model:uuid");
-         if (uuidAttribute != null)
-         {
-            AttributeUtil.setAttribute((IIdentifiableModelElement) element,
-                  "carnot:connection:uuid", uuidAttribute.getValue());
-         }
-         IdRefHandler.adapt(element);
+         ExternalReferenceUtils.createExternalReferenceToApplication((ActivityType)element, application, model, applicationModel);
       }
 
       return this;
    }
+
+
 
 }

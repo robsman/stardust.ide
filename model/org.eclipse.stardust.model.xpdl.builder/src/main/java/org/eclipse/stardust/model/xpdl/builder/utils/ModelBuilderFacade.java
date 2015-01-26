@@ -17,18 +17,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.xsd.*;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.CompareHelper;
 import org.eclipse.stardust.common.Direction;
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.common.error.ObjectNotFoundException;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.engine.api.runtime.BpmRuntimeError;
 import org.eclipse.stardust.engine.core.pojo.data.JavaDataTypeUtils;
 import org.eclipse.stardust.engine.core.pojo.data.Type;
 import org.eclipse.stardust.engine.core.spi.extensions.model.AccessPoint;
@@ -44,15 +43,11 @@ import org.eclipse.stardust.model.xpdl.builder.initializer.DmsDocumentInitialize
 import org.eclipse.stardust.model.xpdl.builder.initializer.PrimitiveDataInitializer;
 import org.eclipse.stardust.model.xpdl.builder.initializer.SerializableDataInitializer;
 import org.eclipse.stardust.model.xpdl.builder.strategy.ModelManagementStrategy;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentListVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmDocumentVariableBuilder;
-import org.eclipse.stardust.model.xpdl.builder.variable.BpmStructVariableBuilder;
+import org.eclipse.stardust.model.xpdl.builder.variable.*;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.DataTypeType;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.ExtensionsFactory;
 import org.eclipse.stardust.model.xpdl.carnot.extensions.FormalParameterMappingsType;
-import org.eclipse.stardust.model.xpdl.carnot.merge.LinkAttribute;
-import org.eclipse.stardust.model.xpdl.carnot.merge.MergeUtils;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataInitializer;
 import org.eclipse.stardust.model.xpdl.carnot.util.ActivityUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
@@ -64,10 +59,6 @@ import org.eclipse.stardust.model.xpdl.xpdl2.*;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.ExtendedAttributeUtil;
 import org.eclipse.stardust.model.xpdl.xpdl2.util.TypeDeclarationUtils;
 import org.eclipse.stardust.modeling.repository.common.Connection;
-import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceEObjectDescriptor;
-import org.eclipse.stardust.modeling.repository.common.descriptors.ReplaceModelElementDescriptor;
-import org.eclipse.stardust.modeling.repository.common.util.ImportUtils;
-import org.eclipse.xsd.*;
 
 public class ModelBuilderFacade
 {
@@ -352,28 +343,9 @@ public class ModelBuilderFacade
       }
       else if (model != null)
       {
-         ModelType ref = findModel(refModelId);
-         updateReferences(model, ref);
-         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
-         extRef.setLocation(refModelId);
-         // extRef.setNamespace("TypeDeclarations");
-         extRef.setXref(structTypeId);
-         try
-         {
-            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
-                  structTypeId);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(
-                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               extRef.setUuid(uuid);
-            }
-         }
-         catch (Throwable t)
-         {
-
-         }
-         dataTypeType.setExternalReference(extRef);
+         ModelType providerModel = findModel(refModelId);
+         ExternalReferenceUtils.createStructReferenceForFormalParameter(parameterType,
+               structTypeId, model, providerModel);
       }
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
@@ -392,6 +364,7 @@ public class ModelBuilderFacade
 
       return parameterType;
    }
+
 
    public FormalParameterType createDocumentParameter(
          ProcessDefinitionType processInterface, DataType data, String id, String name,
@@ -433,28 +406,9 @@ public class ModelBuilderFacade
       }
       else if (model != null)
       {
-         ModelType ref = findModel(refModelId);
-         updateReferences(model, ref);
-         ExternalReferenceType extRef = xpdlFactory.createExternalReferenceType();
-         extRef.setLocation(refModelId);
-         //extRef.setNamespace("TypeDeclarations");
-         extRef.setXref(structTypeId);
-         try
-         {
-            TypeDeclarationType typeDeclaration = this.findTypeDeclaration(ref,
-                  structTypeId);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(
-                  typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               extRef.setUuid(uuid);
-            }
-         }
-         catch (Throwable t)
-         {
-
-         }
-         dataTypeType.setExternalReference(extRef);
+         ModelType providerModel = findModel(refModelId);
+         ExternalReferenceUtils.createStructReferenceForFormalParameter(parameterType,
+               structTypeId, model, providerModel);
       }
 
       FormalParameterMappingsType parameterMappingsType = processInterface.getFormalParameterMappings();
@@ -573,18 +527,7 @@ public class ModelBuilderFacade
                ModelType refModel = findModel(refModelID);
                if (refModel != null)
                {
-                  TypeDeclarationType typeDeclaration = refModel.getTypeDeclarations()
-                        .getTypeDeclaration(typeID);
-                  if (typeDeclaration != null)
-                  {
-                     String uuid = ExtendedAttributeUtil.getAttributeValue(
-                           typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-                     if (uuid != null)
-                     {
-                        AttributeUtil.setAttribute(accessPoint, "carnot:connection:uuid",
-                              uuid);
-                     }
-                  }
+                  ExternalReferenceUtils.createStructReferenceForAccessPoint(accessPoint, typeID, refModel);
                }
             }
          }
@@ -784,70 +727,16 @@ public class ModelBuilderFacade
       }
       else
       {
-
-
          declaredTypeID = "typeDeclaration:{" + sourceModelID + "}" + declarationID;
          ModelType typeDeclarationModel = getModelManagementStrategy().getModels().get(
                sourceModelID);
 
-         String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-               model, typeDeclarationModel);
-
-         //String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-         URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-         ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-         if (typeDeclarationModel != null)
-         {
-            reference.setLocation(getPackageRef(uri, model,
-                  typeDeclarationModel).getId());
-            TypeDeclarationType typeDeclaration = typeDeclarationModel.getTypeDeclarations().getTypeDeclaration(declarationID);
-            if (typeDeclaration != null)
-            {
-               String uuid = ExtendedAttributeUtil.getAttributeValue(
-                     typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-               if (uuid != null)
-               {
-                  setAttribute(data, "carnot:connection:uuid", uuid);
-               }
-            }
-         }
-         reference.setXref(declarationID);
-         data.setExternalReference(reference);
+         ExternalReferenceUtils.createStructReferenceForPrimitive(data, model,
+               declarationID, typeDeclarationModel);
       }
       AttributeUtil.setAttribute(data, ModelerConstants.DATA_TYPE, declaredTypeID);
    }
 
-   public static ExternalPackage getPackageRef(URI uri, ModelType targetModel, ModelType sourceModel)
-   {
-      LinkAttribute linkAttribute;
-      XpdlFactory xFactory = XpdlFactory.eINSTANCE;
-      String packageRef = sourceModel.getId();
-      ExternalPackages packages = targetModel.getExternalPackages();
-      if (packages == null)
-      {
-         packages = xFactory.createExternalPackages();
-         targetModel.setExternalPackages(packages);
-      }
-      ExternalPackage pkg = packages.getExternalPackage(packageRef);
-      if (pkg == null)
-      {
-         pkg = xFactory.createExternalPackage();
-         pkg.setId(packageRef);
-         pkg.setName(sourceModel.getName());
-         pkg.setHref(packageRef);
-
-         if (uri != null)
-         {
-            linkAttribute = new LinkAttribute(uri, false,
-                  false, IConnectionManager.URI_ATTRIBUTE_NAME);
-            linkAttribute.setLinkInfo(pkg, false);
-         }
-
-         packages.getExternalPackage().add(pkg);
-      }
-      return pkg;
-   }
 
    /**
     * Update the type declaration a structured data refers to.
@@ -884,37 +773,8 @@ public class ModelBuilderFacade
          }
          else
          {
-            String fileConnectionId = WebModelerConnectionManager.createFileConnection(
-                  model, typeDeclarationModel);
-
-            String bundleId = CarnotConstants.DIAGRAM_PLUGIN_ID;
-            URI uri = URI.createURI("cnx://" + fileConnectionId + "/");
-
-            ReplaceEObjectDescriptor descriptor = new ReplaceEObjectDescriptor(
-                  MergeUtils.createQualifiedUri(uri, typeDeclaration, true), data,
-                  typeDeclaration.getId(), typeDeclaration.getName(),
-                  typeDeclaration.getDescription(), bundleId, null);
-
-            AttributeUtil.setAttribute(
-                  data,
-                  "carnot:engine:path:separator", StructuredDataConstants.ACCESS_PATH_SEGMENT_SEPARATOR); //$NON-NLS-1$
-            AttributeUtil.setBooleanAttribute(data,
-                  "carnot:engine:data:bidirectional", true); //$NON-NLS-1$
-            AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME,
-                  descriptor.getURI().toString());
-            ExternalReferenceType reference = XpdlFactory.eINSTANCE.createExternalReferenceType();
-            if (typeDeclarationModel != null)
-            {
-               reference.setLocation(ImportUtils.getPackageRef(descriptor, model,
-                     typeDeclarationModel).getId());
-            }
-            reference.setXref(declarationID);
-            String uuid = ExtendedAttributeUtil.getAttributeValue(typeDeclaration.getExtendedAttributes(), "carnot:model:uuid");
-            if (uuid != null)
-            {
-               reference.setUuid(uuid);
-            }
-            data.setExternalReference(reference);
+            ExternalReferenceUtils.createExternalReferenceToTypeDeclaration(data, model,
+                  typeDeclarationModel, typeDeclaration);
          }
       }
    }
@@ -952,6 +812,51 @@ public class ModelBuilderFacade
    }
 
 
+   /**
+    * Created a entity data.
+    *
+    * @param model
+    *           model to create the data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    *
+    * @return entity data created
+    */
+   public DataType createEntityData(ModelType model, String dataID, String dataName,
+         String className, String value)
+   {
+      BpmEntityVariableBuilder<Object> entityVariable = newEntityVariable(model);
+      entityVariable.withIdAndName(dataID, dataName);
+
+      return entityVariable.build();
+   }
+
+   /**
+    * Created a serializable data.
+    *
+    * @param model
+    *           model to create the data in
+    * @param dataID
+    *           id of the data
+    * @param dataName
+    *           name of the data
+    * @param serializable class
+    *           id of class
+    *
+    * @return serializable data created
+    */
+   public DataType createSerializableData(ModelType model, String dataID, String dataName,
+         String className, String value)
+   {
+
+      BpmSerializableVariableBuilder<Object> serializableVariable = newSerializableVariable(model);
+      serializableVariable.withIdAndName(dataID, dataName);
+      serializableVariable.ofClass(className, value);
+
+      return serializableVariable.build();
+   }
 
    /**
     * Created a primitive data.
@@ -1069,14 +974,8 @@ public class ModelBuilderFacade
       DataType data = null;
       String dataModelId = getModelId(dataFullID);
       ModelType dataModel = getModelManagementStrategy().getModels().get(dataModelId);
-      try
-      {
-         data = findData(dataModel, stripFullId(dataFullID));
-      }
-      catch (ObjectNotFoundException ex)
-      {
-         // ignore
-      }
+
+      data = XPDLFinderUtils.findData(dataModel, stripFullId(dataFullID));
 
       // TODO: check for local data ?
 
@@ -1098,21 +997,15 @@ public class ModelBuilderFacade
       String participantModelId = getModelId(participantFullId);
       String participantId = stripFullId(participantFullId);
       ModelType participantModel = getModelManagementStrategy().getModels().get(participantModelId);
-      try
-      {
-         participant = findParticipant(participantModel, participantId);
-      }
-      catch (ObjectNotFoundException ex)
-      {
-         // ignore
-      }
+
+      participant = XPDLFinderUtils.findParticipant(participantModel, participantId);
 
       if (!participantModelId.equals(model.getId()))
       {
          IModelParticipant localParticipant = null;
          try
          {
-            localParticipant = findParticipant(model, participantId);
+            localParticipant = XPDLFinderUtils.findParticipant(model, participantId);
          }
          catch (ObjectNotFoundException e)
          {
@@ -1243,7 +1136,7 @@ public class ModelBuilderFacade
          int yProperty, int widthProperty, int heightProperty)
    {
       ActivitySymbolType activitySymbol = AbstractElementBuilder.F_CWM.createActivitySymbolType();
-      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
+      LaneSymbol parentLaneSymbol = XPDLFinderUtils.findLaneInProcess(processDefinition, parentLaneID);
 
       activitySymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       activitySymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
@@ -1275,7 +1168,7 @@ public class ModelBuilderFacade
          int yProperty, int widthProperty, int heightProperty, String content)
    {
       AnnotationSymbolType annotationSymbol = AbstractElementBuilder.F_CWM.createAnnotationSymbolType();
-      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
+      LaneSymbol parentLaneSymbol = XPDLFinderUtils.findLaneInProcess(processDefinition, parentLaneID);
 
       annotationSymbol.setXPos(xProperty - parentLaneSymbol.getXPos());
       annotationSymbol.setYPos(yProperty - parentLaneSymbol.getYPos());
@@ -1295,27 +1188,7 @@ public class ModelBuilderFacade
       return annotationSymbol;
    }
 
-   /**
-    * @param parentLaneSymbol
-    * @param annotationOId
-    * @return
-    */
-   public AnnotationSymbolType findAnnotationSymbol(LaneSymbol parentLaneSymbol,
-         Long annotationOId)
-   {
-      Iterator<AnnotationSymbolType> annotationIterator = parentLaneSymbol.getAnnotationSymbol()
-            .iterator();
 
-      while (annotationIterator.hasNext())
-      {
-         AnnotationSymbolType annSymbol = annotationIterator.next();
-         if (annotationOId.equals(annSymbol.getElementOid()))
-         {
-            return annSymbol;
-         }
-      }
-      return null;
-   }
 
    /**
     * Create a data diagram symbol
@@ -1343,7 +1216,7 @@ public class ModelBuilderFacade
          int yProperty, int widthProperty, int heightProperty)
    {
       DataSymbolType dataSymbol = AbstractElementBuilder.F_CWM.createDataSymbolType();
-      LaneSymbol parentLaneSymbol = findLaneInProcess(processDefinition, parentLaneID);
+      LaneSymbol parentLaneSymbol = XPDLFinderUtils.findLaneInProcess(processDefinition, parentLaneID);
 
       dataSymbol.setData(data);
 
@@ -1600,7 +1473,7 @@ public class ModelBuilderFacade
             stripFullId = model.getId();
          }
 
-         ProcessDefinitionType subProcessDefinition = findProcessDefinition(
+         ProcessDefinitionType subProcessDefinition = XPDLFinderUtils.findProcessDefinition(
                getModelManagementStrategy().getModels().get(stripFullId),
                stripFullId(subProcessFullID));
          ModelType subProcessModel = ModelUtils.findContainingModel(subProcessDefinition);
@@ -1610,7 +1483,7 @@ public class ModelBuilderFacade
 
          activity = subProcessActivity.withIdAndName(activityID, activityName)
                .invokingProcess(
-                     findProcessDefinition(
+                     XPDLFinderUtils.findProcessDefinition(
                            getModelManagementStrategy().getModels().get(
                                  subProcessModel.getId()), stripFullId(subProcessFullID)))
                .build();
@@ -1750,24 +1623,6 @@ public class ModelBuilderFacade
       return getModelManagementStrategy().getModels().get(modelId);
    }
 
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public ProcessDefinitionType findProcessDefinition(ModelType model, String id)
-   {
-      for (ProcessDefinitionType processDefinition : model.getProcessDefinition())
-      {
-         if (processDefinition.getId().equals(id))
-         {
-            return processDefinition;
-         }
-      }
-
-      throw new ObjectNotFoundException("Process Definition " + id + " does not exist.");
-   }
 
    /**
     *
@@ -1799,218 +1654,13 @@ public class ModelBuilderFacade
     */
    public ProcessDefinitionType getProcessDefinition(String modelId, String id)
    {
-      return findProcessDefinition(findModel(modelId), id);
+      return XPDLFinderUtils.findProcessDefinition(findModel(modelId), id);
    }
 
-   /**
-    *
-    * @param model
-    * @param id
-    * @return application
-    */
-   public ApplicationType findApplication(ModelType model, String id)
-   {
-      for (ApplicationType application : model.getApplication())
-      {
-         if (application.getId().equals(id))
-         {
-            return application;
-         }
-      }
 
-      throw new ObjectNotFoundException("Application " + id + " does not exist.");
-   }
 
-   /**
-    *
-    * @param model
-    * @param fullApplicationID
-    * @return application
-    */
-   public ApplicationType findApplication(String fullApplicationID)
-   {
-      String modelID = this.getModelId(fullApplicationID);
-      String applicationID = stripFullId(fullApplicationID);
-      ModelType model = findModel(modelID);
-      for (ApplicationType application : model.getApplication())
-      {
-         if (application.getId().equals(applicationID))
-         {
-            return application;
-         }
-      }
 
-      throw new ObjectNotFoundException("Application " + fullApplicationID
-            + " does not exist.");
-   }
 
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public ApplicationTypeType findApplicationTypeType(ModelType model, String id)
-   {
-      for (ApplicationTypeType applicationType : model.getApplicationType())
-      {
-         if (applicationType.getId().equals(id))
-         {
-            return applicationType;
-         }
-      }
-
-      // TODO Temporary
-      if (id.equals(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID))
-      {
-         ApplicationTypeType applicationMetaType = ModelUtils.findIdentifiableElement(
-                  model.getApplicationType(), ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
-
-            if (null == applicationMetaType)
-            {
-               CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
-
-               applicationMetaType = F_CWM.createApplicationTypeType();
-               applicationMetaType.setId(ModelerConstants.CAMEL_CONSUMER_APPLICATION_TYPE_ID);
-               applicationMetaType.setName("Camel Consumer Application");
-               applicationMetaType.setIsPredefined(true);
-               applicationMetaType.setSynchronous(false);
-
-               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:accessPointProvider",
-                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanAccessPointProvider");
-               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:applicationInstance",
-                    "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanApplicationInstance");
-               AttributeUtil.setAttribute(applicationMetaType, "carnot:engine:validator",
-                     "org.eclipse.stardust.engine.extensions.camel.app.CamelProducerSpringBeanValidator");
-
-               model.getApplicationType().add(applicationMetaType);
-
-               return applicationMetaType;
-            }
-      }
-
-      throw new ObjectNotFoundException("Application type " + id + " does not exist.");
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static TriggerTypeType findTriggerType(ModelType model, String id)
-   {
-      for (TriggerTypeType triggerType : model.getTriggerType())
-      {
-         if (triggerType.getId().equals(id))
-         {
-            return triggerType;
-         }
-      }
-
-      // TODO Temporary
-
-      if (id.equals("camel"))
-      {
-         TriggerTypeType triggerMetaType = ModelUtils.findIdentifiableElement(
-               model.getTriggerType(), ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
-
-         if (null == triggerMetaType)
-         {
-            CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
-
-            triggerMetaType = F_CWM.createTriggerTypeType();
-            triggerMetaType.setId(ModelerConstants.CAMEL_TRIGGER_TYPE_ID);
-            triggerMetaType.setName("Camel Trigger");
-            triggerMetaType.setIsPredefined(true);
-            triggerMetaType.setPullTrigger(false);
-
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
-                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:runtimeValidator",
-                  "org.eclipse.stardust.engine.extensions.camel.trigger.validation.CamelTriggerValidator");
-
-            model.getTriggerType().add(triggerMetaType);
-
-            return triggerMetaType;
-         }
-      }
-      else if (id.equals("scan"))
-      {
-         TriggerTypeType triggerMetaType = ModelUtils.findIdentifiableElement(
-               model.getTriggerType(), ModelerConstants.SCAN_TRIGGER_TYPE_ID);
-
-         if (null == triggerMetaType)
-         {
-            CarnotWorkflowModelFactory F_CWM = CarnotWorkflowModelFactory.eINSTANCE;
-
-            triggerMetaType = F_CWM.createTriggerTypeType();
-
-            triggerMetaType.setId(ModelerConstants.SCAN_TRIGGER_TYPE_ID);
-            triggerMetaType.setName("Scan Trigger");
-            triggerMetaType.setIsPredefined(true);
-            triggerMetaType.setPullTrigger(false);
-
-            AttributeUtil.setAttribute(triggerMetaType, "carnot:engine:validator",
-                  "org.eclipse.stardust.engine.core.extensions.triggers.manual.ManualTriggerValidator");
-
-            model.getTriggerType().add(triggerMetaType);
-
-            return triggerMetaType;
-         }
-      }
-
-      // Create the trigger type
-
-      // Map<String, IConfigurationElement> dataExtensions =
-      // SpiExtensionRegistry.instance().getExtensions(
-      // CarnotConstants.DATA_TYPES_EXTENSION_POINT_ID);
-      //       IConfigurationElement dataConfig = dataExtensions.get("struct"); //$NON-NLS-1$
-      // CreateMetaTypeCommand metaCommand = new CreateMetaTypeCommand(dataConfig,
-      // CarnotWorkflowModelPackage.eINSTANCE.getDataTypeType(),
-      // new EStructuralFeature[] {});
-      // metaCommand.setParent(targetModel);
-      // metaCommand.execute();
-
-      return null;
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public ApplicationContextTypeType findApplicationContextTypeType(ModelType model,
-         String id)
-   {
-      for (ApplicationContextTypeType applicationContextType : model.getApplicationContextType())
-      {
-         if (applicationContextType.getId().equals(id))
-         {
-            return applicationContextType;
-         }
-      }
-
-      throw new ObjectNotFoundException("Application Context type " + id
-            + " does not exist.");
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public TypeDeclarationType findTypeDeclaration(ModelType model, String id)
-   {
-      TypeDeclarationType typeDeclaration = model.getTypeDeclarations().getTypeDeclaration(id);
-      if (typeDeclaration == null)
-      {
-         throw new ObjectNotFoundException(BpmRuntimeError.MDL_UNKNOWN_TYPE_DECLARATION_ID.raise(id));
-      }
-      return typeDeclaration;
-   }
 
    /**
     *
@@ -2028,103 +1678,9 @@ public class ModelBuilderFacade
       String[] ids = fullTypeID.split(":");
       if (ids.length > 1)
       {
-   return findTypeDeclaration(findModel(ids[0]), ids[1]);
+         return XPDLFinderUtils.findTypeDeclaration(findModel(ids[0]), ids[1]);
       }
       return null;
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public DataTypeType findDataType(ModelType model, String id)
-   {
-      for (DataTypeType dataType : model.getDataType())
-      {
-         if (dataType.getId().equals(id))
-         {
-            return dataType;
-         }
-      }
-
-      throw new ObjectNotFoundException("Data type " + id + " does not exist.");
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public DataType findData(ModelType model, String id)
-   {
-      for (DataType data : model.getData())
-      {
-         if (data.getId().equals(id))
-         {
-            return data;
-         }
-      }
-
-      throw new ObjectNotFoundException("Data " + id + " does not exist.");
-   }
-
-   /**
-    *
-    * @param model
-    * @param dataFullID
-    * @return data
-    */
-   public DataType findData(String dataFullID)
-   {
-      String modelID = this.getModelId(dataFullID);
-      String dataID = stripFullId(dataFullID);
-      ModelType model = findModel(modelID);
-      for (DataType data : model.getData())
-      {
-         if (data.getId().equals(dataID))
-         {
-            return data;
-         }
-      }
-
-      throw new ObjectNotFoundException("Data " + dataFullID + " does not exist.");
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public IModelParticipant findParticipant(ModelType model, String id)
-   {
-      for (RoleType role : model.getRole())
-      {
-         if (role.getId().equals(id))
-         {
-            return role;
-         }
-      }
-
-      for (OrganizationType organization : model.getOrganization())
-      {
-         if (organization.getId().equals(id))
-         {
-            return organization;
-         }
-      }
-
-      for (ConditionalPerformerType conditionalPerformer : model.getConditionalPerformer())
-      {
-         if (conditionalPerformer.getId().equals(id))
-         {
-            return conditionalPerformer;
-         }
-      }
-      throw new ObjectNotFoundException("Participant " + id + " does not exist.");
    }
 
    /**
@@ -2154,639 +1710,16 @@ public class ModelBuilderFacade
          }
       }
 
+      for (ConditionalPerformerType conditionalPerformer : model.getConditionalPerformer())
+      {
+         if (conditionalPerformer.getId().equals(participantID))
+         {
+            return conditionalPerformer;
+         }
+      }
+
       throw new ObjectNotFoundException("Participant " + fullParticipantID
             + " does not exist.");
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public DataSymbolType findDataSymbol(DiagramType diagram, long oid)
-   {
-      for (DataSymbolType dataSymbol : diagram.getDataSymbol())
-      {
-         if (dataSymbol.getElementOid() == oid)
-         {
-            return dataSymbol;
-         }
-      }
-
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
-      {
-         for (LaneSymbol childLaneSymbol : poolSymbol.getChildLanes())
-         {
-            DataSymbolType dataSymbol = findDataSymbolRecursively(childLaneSymbol, oid);
-
-            if (dataSymbol != null)
-            {
-               return dataSymbol;
-            }
-         }
-      }
-
-      throw new ObjectNotFoundException("Data Symbol " + oid + " does not exist.");
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public DataSymbolType findDataSymbolRecursively(LaneSymbol laneSymbol, long oid)
-   {
-      for (DataSymbolType dataSymbol : laneSymbol.getDataSymbol())
-      {
-         if (dataSymbol.getElementOid() == oid)
-         {
-            return dataSymbol;
-         }
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         DataSymbolType dataSymbol = findDataSymbolRecursively(childLaneSymbol, oid);
-
-         if (dataSymbol != null)
-         {
-            return dataSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param processDefinition
-    * @param id
-    * @return
-    */
-   public ActivityType findActivity(ProcessDefinitionType processDefinition, String id)
-   {
-      for (ActivityType activity : processDefinition.getActivity())
-      {
-         if (activity.getId().equals(id))
-         {
-            return activity;
-         }
-      }
-
-      throw new ObjectNotFoundException("Activity " + id + " does not exist.");
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static ActivitySymbolType findActivitySymbol(DiagramType diagram, long oid)
-   {
-      LaneSymbol laneSymbol = findLaneContainingActivitySymbol(diagram, oid);
-
-      if (laneSymbol != null)
-      {
-         return findActivitySymbol(laneSymbol, oid);
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public static ActivitySymbolType findActivitySymbol(LaneSymbol laneSymbol, long oid)
-   {
-      for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
-      {
-         if (activitySymbol.getElementOid() == oid)
-         {
-            return activitySymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static LaneSymbol findLaneContainingActivitySymbol(DiagramType diagram, long oid)
-   {
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
-      {
-         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol containingLaneSymbol = findLaneContainingActivitySymbolRecursively(
-                  laneSymbol, oid);
-
-            if (containingLaneSymbol != null)
-            {
-               return containingLaneSymbol;
-            }
-         }
-      }
-
-      return null;
-   }
-
-   public static LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
-         long oid)
-   {
-      for (ActivitySymbolType activitySymbol : laneSymbol.getActivitySymbol())
-      {
-         if (activitySymbol.getElementOid() == oid)
-         {
-            return laneSymbol;
-         }
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol containingLaneSymbol = findLaneContainingActivitySymbolRecursively(
-               childLaneSymbol, oid);
-
-         if (containingLaneSymbol != null)
-         {
-            return containingLaneSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public AnnotationSymbolType findAnnotationSymbol(DiagramType diagram, long oid)
-   {
-      LaneSymbol laneSymbol = findLaneContainingAnnotationSymbol(diagram, oid);
-
-      if (laneSymbol != null)
-      {
-         return findAnnotationSymbol(laneSymbol, oid);
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   private LaneSymbol findLaneContainingAnnotationSymbol(DiagramType diagram, long oid)
-   {
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
-      {
-         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
-                  laneSymbol, oid);
-
-            if (containingLaneSymbol != null)
-            {
-               return containingLaneSymbol;
-            }
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   private LaneSymbol findLaneContainingAnnotationSymbolRecursively(
-         LaneSymbol laneSymbol, long oid)
-   {
-      for (AnnotationSymbolType annotationSymbol : laneSymbol.getAnnotationSymbol())
-      {
-         if (annotationSymbol.getElementOid() == oid)
-         {
-            return laneSymbol;
-         }
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol containingLaneSymbol = findLaneContainingAnnotationSymbolRecursively(
-               childLaneSymbol, oid);
-
-         if (containingLaneSymbol != null)
-         {
-            return containingLaneSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public LaneSymbol findLaneInProcess(ProcessDefinitionType processDefinition, String id)
-   {
-      for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
-      {
-         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol foundLaneSymbol = findLaneRecursively(laneSymbol, id);
-
-            if (foundLaneSymbol != null)
-            {
-               return foundLaneSymbol;
-            }
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static StartEventSymbol findStartEventSymbol(DiagramType diagram, long oid)
-   {
-      return findSymbolRecursively(oid, StartEventSymbol.class, diagram,
-            PKG_CWM.getISymbolContainer_StartEventSymbols());
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public static StartEventSymbol findStartEventSymbol(LaneSymbol laneSymbol, long oid)
-   {
-      return findSymbol(oid, StartEventSymbol.class, laneSymbol,
-            PKG_CWM.getISymbolContainer_StartEventSymbols());
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static IntermediateEventSymbol findIntermediateEventSymbol(DiagramType diagram,
-         long oid)
-   {
-      return findSymbolRecursively(oid, IntermediateEventSymbol.class, diagram,
-            PKG_CWM.getISymbolContainer_IntermediateEventSymbols());
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param oid
-    * @return
-    */
-   public static IntermediateEventSymbol findIntermediateEventSymbol(
-         LaneSymbol laneSymbol, long oid)
-   {
-      return findSymbol(oid, IntermediateEventSymbol.class, laneSymbol,
-            PKG_CWM.getISymbolContainer_IntermediateEventSymbols());
-   }
-
-   /**
-    *
-    * @param diagram
-    * @param oid
-    * @return
-    */
-   public static EndEventSymbol findEndEventSymbol(DiagramType diagram, long oid)
-   {
-      return findSymbolRecursively(oid, EndEventSymbol.class, diagram,
-            PKG_CWM.getISymbolContainer_EndEventSymbols());
-   }
-
-   /**
-    *
-    * @param container
-    * @param oid
-    * @return
-    */
-   public static EndEventSymbol findEndEventSymbol(ISymbolContainer container, long oid)
-   {
-      return findSymbol(oid, EndEventSymbol.class, container,
-            PKG_CWM.getISymbolContainer_EndEventSymbols());
-   }
-
-   /**
-    *
-    * @param oid
-    * @param diagram
-    * @return
-    */
-   public static <S extends IGraphicalObject> S findSymbolRecursively(long oid,
-         Class<S> symbolType, DiagramType diagram, EReference containmentFeature)
-   {
-      S symbol = findSymbol(oid, symbolType, (ISymbolContainer) diagram,
-            containmentFeature);
-      if (null != symbol)
-      {
-         return symbol;
-      }
-
-      for (PoolSymbol poolSymbol : diagram.getPoolSymbols())
-      {
-         symbol = findSymbolRecursively(oid, symbolType, poolSymbol, containmentFeature);
-         if (null != symbol)
-         {
-            return symbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param oid
-    * @param container
-    * @return
-    */
-   public static <S extends IGraphicalObject, C extends ISymbolContainer & ISwimlaneSymbol> S findSymbolRecursively(
-         long oid, Class<S> symbolType, C container, EReference containmentFeature)
-   {
-      S symbol = findSymbol(oid, symbolType, (ISymbolContainer) container,
-            containmentFeature);
-      if (null != symbol)
-      {
-         return symbol;
-      }
-
-      if (INodeSymbol.class.isAssignableFrom(symbolType))
-      {
-         // only node symbols will be stored at lane level
-         for (LaneSymbol childLaneSymbol : container.getChildLanes())
-         {
-            symbol = findSymbolRecursively(oid, symbolType, childLaneSymbol,
-                  containmentFeature);
-            if (null != symbol)
-            {
-               return symbol;
-            }
-         }
-      }
-      return null;
-   }
-
-   public static <S extends IGraphicalObject> S findSymbol(long oid, Class<S> symbolType,
-         ISymbolContainer container, EReference containmentFeature)
-   {
-      if (containmentFeature.isMany())
-      {
-         @SuppressWarnings("unchecked")
-         List<? extends IGraphicalObject> containedSymbols = (List<? extends IGraphicalObject>) container.eGet(containmentFeature);
-         for (IGraphicalObject symbol : containedSymbols)
-         {
-            if (symbol.getElementOid() == oid)
-            {
-               return symbolType.cast(symbol);
-            }
-         }
-      }
-      else
-      {
-         IGraphicalObject containedSymbol = (IGraphicalObject) container.eGet(containmentFeature);
-         if ((null != containedSymbol) && (containedSymbol.getElementOid() == oid))
-         {
-            return symbolType.cast(containedSymbol);
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param id
-    * @return
-    */
-   public LaneSymbol findLaneRecursively(LaneSymbol laneSymbol, String id)
-   {
-      if (laneSymbol.getId().equals(id))
-      {
-         return laneSymbol;
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol foundLaneSymbol = findLaneRecursively(childLaneSymbol, id);
-
-         if (foundLaneSymbol != null)
-         {
-            return foundLaneSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param model
-    * @param id
-    * @return
-    */
-   public LaneSymbol findLaneContainingActivitySymbol(
-         ProcessDefinitionType processDefinition, ActivitySymbolType activitySymbol)
-   {
-      for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
-      {
-         for (LaneSymbol laneSymbol : poolSymbol.getChildLanes())
-         {
-            LaneSymbol foundLaneSymbol = findLaneContainingActivitySymbolRecursively(
-                  laneSymbol, activitySymbol);
-
-            if (foundLaneSymbol != null)
-            {
-               return foundLaneSymbol;
-            }
-         }
-      }
-
-      throw new ObjectNotFoundException(
-            "Lane symbol containing Activity Symbol for Activity "
-                  + activitySymbol.getActivity().getId() + " cannot be found.");
-   }
-
-   /**
-    *
-    * @param laneSymbol
-    * @param id
-    * @return
-    */
-   public LaneSymbol findLaneContainingActivitySymbolRecursively(LaneSymbol laneSymbol,
-         ActivitySymbolType activitySymbol)
-   {
-      if (laneSymbol.getActivitySymbol().contains(activitySymbol))
-      {
-         return laneSymbol;
-      }
-
-      for (LaneSymbol childLaneSymbol : laneSymbol.getChildLanes())
-      {
-         LaneSymbol foundLaneSymbol = findLaneContainingActivitySymbolRecursively(
-               childLaneSymbol, activitySymbol);
-
-         if (foundLaneSymbol != null)
-         {
-            return foundLaneSymbol;
-         }
-      }
-
-      return null;
-   }
-
-   /**
-    *
-    * @param processDefinition
-    * @param oid
-    * @return
-    */
-   public static TransitionConnectionType findTransitionConnectionByModelOid(
-         ProcessDefinitionType processDefinition, long oid)
-   {
-      DiagramType diagram = processDefinition.getDiagram().get(0);
-
-      TransitionConnectionType connection = findSymbolRecursively(oid,
-            TransitionConnectionType.class, diagram,
-            PKG_CWM.getISymbolContainer_TransitionConnection());
-      if (null != connection)
-      {
-         return connection;
-      }
-
-      throw new ObjectNotFoundException("Could not find Transition " + oid + ".");
-   }
-
-   /**
-    *
-    * @param processDefinition
-    * @param oid
-    * @return
-    */
-   public DataMappingConnectionType findDataMappingConnectionByModelOid(
-         ProcessDefinitionType processDefinition, long oid)
-   {
-      for (DataMappingConnectionType dataMappingConnectionType : processDefinition.getDiagram()
-            .get(0)
-            .getDataMappingConnection())
-      {
-         if (dataMappingConnectionType.getElementOid() == oid)
-         {
-            return dataMappingConnectionType;
-         }
-      }
-
-      // TODO Support multiple pools
-
-      for (DataMappingConnectionType dataMappingConnectionType : processDefinition.getDiagram()
-            .get(0)
-            .getPoolSymbols()
-            .get(0)
-            .getDataMappingConnection())
-      {
-         if (dataMappingConnectionType.getElementOid() == oid)
-         {
-            return dataMappingConnectionType;
-         }
-      }
-
-      throw new ObjectNotFoundException("Could not find " + oid + ".");
-   }
-
-   /**
-    *
-    * @param processDefinition
-    * @param oid
-    * @return
-    */
-   public PoolSymbol findPoolSymbolByElementOid(ProcessDefinitionType processDefinition,
-         long oid)
-   {
-      for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
-      {
-         if (poolSymbol.getElementOid() == oid)
-         {
-            return poolSymbol;
-         }
-      }
-
-      throw new ObjectNotFoundException("Could not find Pool Symbol with OID " + oid
-            + ".");
-   }
-
-   /**
-    *
-    * @param poolSymbol
-    * @param oid
-    * @return
-    */
-   public LaneSymbol findLaneSymbolByElementOid(PoolSymbol poolSymbol, long oid)
-   {
-      for (LaneSymbol laneSymbol : poolSymbol.getLanes())
-      {
-         if (laneSymbol.getElementOid() == oid)
-         {
-            return laneSymbol;
-         }
-      }
-
-      throw new ObjectNotFoundException("Could not find Lane Symbol with OID " + oid
-            + ".");
-   }
-
-   /**
-    *
-    * @param poolSymbol
-    * @param oid
-    * @return
-    */
-   public LaneSymbol findLaneSymbolById(ProcessDefinitionType processDefinition, String id)
-   {
-      for (PoolSymbol poolSymbol : processDefinition.getDiagram().get(0).getPoolSymbols())
-      {
-         for (LaneSymbol laneSymbol : poolSymbol.getLanes())
-         {
-
-            // TODO Recursion
-
-            if (laneSymbol.getId().equals(id))
-            {
-               return laneSymbol;
-            }
-         }
-      }
-
-      throw new ObjectNotFoundException("Could not find Lane Symbol with ID " + id + ".");
    }
 
    /**
@@ -2941,14 +1874,7 @@ public class ModelBuilderFacade
       ContextType context = AbstractElementBuilder.F_CWM.createContextType();
       ApplicationContextTypeType contextTypeType = null;
 
-      try
-      {
-         contextTypeType = findApplicationContextTypeType(model, contextId);
-      }
-      catch (ObjectNotFoundException x)
-      {
-         // Excpected
-      }
+      contextTypeType = XPDLFinderUtils.findApplicationContextTypeType(model, contextId);
 
       if (contextTypeType == null)
       {
@@ -3088,7 +2014,7 @@ public class ModelBuilderFacade
          AttributeUtil.setAttribute((IExtensibleElement) element, name, value);
          }
          catch (Throwable t) {
-            System.out.println();
+
          }
       }
    }
@@ -3779,29 +2705,6 @@ public class ModelBuilderFacade
       return false;
    }
 
-   public void updateReferences(ModelType model, ModelType ref)
-   {
-      String connId = WebModelerConnectionManager.createFileConnection(model, ref);
-
-      ExternalPackages packs = model.getExternalPackages();
-      if (packs == null)
-      {
-         packs = XpdlFactory.eINSTANCE.createExternalPackages();
-         model.setExternalPackages(packs);
-      }
-      if (packs.getExternalPackage(ref.getId()) == null)
-      {
-         ExternalPackage pack = XpdlFactory.eINSTANCE.createExternalPackage();
-         pack.setId(ref.getId());
-         pack.setName(ref.getName());
-         pack.setHref(ref.getId());
-
-         ExtendedAttributeUtil.setAttribute(pack, IConnectionManager.URI_ATTRIBUTE_NAME, "cnx://" + connId + "/");
-
-         List<ExternalPackage> packList = packs.getExternalPackage();
-         packList.add(pack);
-      }
-   }
 
    /**
     * @param element
