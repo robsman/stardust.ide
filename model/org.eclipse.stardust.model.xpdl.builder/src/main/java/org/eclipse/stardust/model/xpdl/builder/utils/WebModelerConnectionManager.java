@@ -779,9 +779,9 @@ public class WebModelerConnectionManager implements IConnectionManager
       {
          filename = refRes.getURI().toString();
       }
-      if (StringUtils.isEmpty(filename) || filename.equals("temp.xpdl"))
+      if (StringUtils.isEmpty(filename) || filename.equals("temp.xpdl")) //$NON-NLS-1$
       {
-         filename = referencedModel.getId() + ".xpdl";
+         filename = referencedModel.getId() + ".xpdl"; //$NON-NLS-1$
       }
       IConnection findConnection = jcrConnectionManager.getConnectionForAttribute(filename);
 
@@ -790,14 +790,24 @@ public class WebModelerConnectionManager implements IConnectionManager
       {
          try
          {
-            Connection connection = jcrConnectionManager.create("file");
+            Connection connection = jcrConnectionManager.create("file"); //$NON-NLS-1$
             id = connection.getId();
             RepositoryFactory factory = RepositoryFactory.eINSTANCE;
 
             Attribute attribute = factory.createAttribute();
-            attribute.setName("filename");
+            attribute.setName("filename"); //$NON-NLS-1$
             attribute.setValue("project:/" + filename); //$NON-NLS-1$
             connection.getAttributes().add(attribute);
+
+            AttributeType modelUUID = AttributeUtil.getAttribute(referencedModel, "carnot:model:uuid");
+            if (modelUUID != null)
+            {
+               attribute = factory.createAttribute();
+               attribute.setName("connectionUUID"); //$NON-NLS-1$
+               attribute.setValue(modelUUID.getValue().toString());
+               connection.getAttributes().add(attribute);
+            }
+
          }
          catch (CoreException e)
          {
