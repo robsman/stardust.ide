@@ -16,7 +16,7 @@
       provider-name="%providerName"
       plugin="org.eclipse.stardust.modeling.javascript"
       license-feature="org.eclipse.license"
-      license-feature-version="1.0.1.qualifier">
+      license-feature-version="1.0.1">
 
    <description url="http://www.eclipse.org/stardust/">
       %description
