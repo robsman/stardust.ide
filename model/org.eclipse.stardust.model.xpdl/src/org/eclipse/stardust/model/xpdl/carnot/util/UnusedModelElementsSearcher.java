@@ -679,6 +679,14 @@ public class UnusedModelElementsSearcher
                return true;
             }
          }
+         activityParticipant = activity.getQualityControlPerformer();
+         if(activityParticipant != null)
+         {
+            if(activityParticipant.equals(element))
+            {
+               return true;
+            }
+         }
       }
       return false;
    }
