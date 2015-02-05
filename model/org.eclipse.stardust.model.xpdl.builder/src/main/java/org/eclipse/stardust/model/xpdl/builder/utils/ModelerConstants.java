@@ -249,7 +249,11 @@ public class ModelerConstants
    public static final String EU_EXCLUDE_PERFORMER_DATA = "excludedPerformerData";
    public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "excludedPerformerDataPath";
 
-
+   public static final String LOOP_STANDARD = "standard";
+   public static final String LOOP_MULTI = "multi";
+   public static final String LOOP_CONDITION = "loopCondition";
+   public static final String LOOP_TESTTIME = "testTime";
+   public static final String LOOP_TESTTIME_BEFORE = "before";
 
    //Web Modeler default size parameters
    public static final int DEFAULT_SWIMLANE_WIDTH = 375;
