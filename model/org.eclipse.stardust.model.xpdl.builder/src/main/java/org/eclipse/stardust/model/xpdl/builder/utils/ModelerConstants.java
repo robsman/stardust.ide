@@ -251,6 +251,10 @@ public class ModelerConstants
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
    public static final String EU_EXCLUDE_PERFORMER_DATA = "excludedPerformerData";
    public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "excludedPerformerDataPath";
+   public static final String SD_SET_DATA_ACTION = "setDataAction";
+   public static final String SD_SET_DATA_ACTION_INTERNAL = "_setDataAction_";
+   public static final String SD_SET_DATA_ACTION_DATA_ID = "dataId";
+   public static final String SD_SET_DATA_ACTION_DATA_PATH = "dataPath";
 
    public static final String LOOP_STANDARD = "standard";
    public static final String LOOP_MULTI = "multi";
