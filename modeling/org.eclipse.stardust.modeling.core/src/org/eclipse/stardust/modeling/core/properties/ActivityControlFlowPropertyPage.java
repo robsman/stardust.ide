@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.jface.viewers.ComboViewer;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.LoopType;
@@ -35,17 +37,27 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledText;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.LabeledViewer;
 import org.eclipse.stardust.modeling.common.ui.jface.widgets.LabelWithStatus;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
+import org.eclipse.stardust.modeling.core.editors.WorkflowModelEditor;
 import org.eclipse.stardust.modeling.core.editors.parts.diagram.commands.SetActivityControlFlowCmd;
 import org.eclipse.stardust.modeling.core.editors.ui.IdentifiableLabelProvider;
+import org.eclipse.stardust.modeling.core.utils.GenericUtils;
 import org.eclipse.stardust.modeling.core.utils.WidgetBindingManager;
 import org.eclipse.stardust.modeling.core.utils.XpdlFeatureAdapter;
+import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor;
+import org.eclipse.stardust.modeling.javascript.editor.JSCompilationUnitEditor.RegionWithLineOffset;
+import org.eclipse.stardust.modeling.javascript.editor.controller.JavaScriptEditorController;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class ActivityControlFlowPropertyPage extends AbstractModelElementPropertyPage
 {
@@ -66,8 +78,6 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
    private Button[] standardLoopButtons;
 
    private Button[] multiLoopButtons;
-
-   private LabeledText loopConditionText;
 
    private Composite standardLoopGroup;
 
@@ -94,6 +104,11 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
    private Button limitCheckBox;
 
    private LabeledText maxBatchSizeText;
+   
+   private Composite sourceViewerComposite;
+   private JSCompilationUnitEditor transitionConditionEditor;
+   private JavaScriptEditorController controller = new JavaScriptEditorController();
+   
 
    protected void performDefaults()
    {
@@ -136,9 +151,21 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
          {
             standardLoopButtons[test.getValue()].setSelection(true);
          }
+         /*
          wBndMgr.bind(loopConditionText, loopStandard,
                XpdlPackage.eINSTANCE.getLoopStandardType_LoopCondition(),
                XpdlFeatureAdapter.INSTANCE);
+               */
+         ModelType model = ModelUtils.findContainingModel(element);
+         controller.intializeModel(model);
+         String condition = null;
+         if(loopStandard.getLoopCondition() != null)
+         {
+            condition = XpdlUtil.getText(loopStandard.getLoopCondition().getMixed(), false);
+         }
+         refreshDocument();
+         transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().setText(condition == null ? "" : condition.trim()); //$NON-NLS-1$
+         
 
          MIOrderingType ordering = loopMulti.getMIOrdering();
          if (ordering != null)
@@ -171,6 +198,19 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       }
    }
 
+   public void refreshDocument()
+   {
+      transitionConditionEditor.getAdaptedSourceViewer().getDocument().set(
+            controller.getMasterDocument());
+      controller.recalculateRegions(transitionConditionEditor.getAdaptedSourceViewer()
+            .getDocument());
+      
+      final RegionWithLineOffset expressionRegion = controller.getExpressionRegion();
+      transitionConditionEditor.getAdaptedSourceViewer().setVisibleRegion(
+            expressionRegion.getOffset(), expressionRegion.getLength());
+      transitionConditionEditor.setLineOffset(expressionRegion.getLineOffset());
+   }
+   
    private void updateLimitCheckBox()
    {
       try
@@ -260,7 +300,15 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
    }
 
    public void loadElementFromFields(IModelElementNodeSymbol symbol, IModelElement element)
-   {}
+   {
+      ActivityType activity = (ActivityType) element;
+      LoopStandardType loopStandard = activity.getLoop() != null ? activity.getLoop().getLoopStandard() : null;
+      if(loopStandard != null)
+      {
+         String condition = transitionConditionEditor.getAdaptedSourceViewer().getTextWidget().getText().trim();
+         XpdlUtil.setLoopStandardCondition(loopStandard, condition);
+      }
+   }
 
    private void setJoinSplitType(int flowType, int gatewayType)
    {
@@ -426,9 +474,33 @@ public class ActivityControlFlowPropertyPage extends AbstractModelElementPropert
       }
 
       Composite conditionComposite = FormBuilder.createComposite(standardGroup, 2, cols);
-      loopConditionText = FormBuilder.createLabeledText(conditionComposite,
-         Diagram_Messages.LB_FORMBUILDER_LoopCondition);
+      FormBuilder.createLabel(conditionComposite,
+         Diagram_Messages.LB_FORMBUILDER_LoopCondition, 2);
+      
+      IFile tempFileResource = GenericUtils.cleanFileStructure(getModelElement(), "conditions.js"); //$NON-NLS-1$
 
+      transitionConditionEditor = new JSCompilationUnitEditor();
+      
+      WorkflowModelEditor editor = (WorkflowModelEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+      IEditorSite editorSite = editor.getEditorSite();
+      transitionConditionEditor.setTheSite(editorSite);
+      transitionConditionEditor.setInput(new FileEditorInput(tempFileResource));
+
+      sourceViewerComposite = new Composite(conditionComposite, SWT.NONE);
+      GridData svcData = new GridData();
+      svcData.grabExcessHorizontalSpace = true;
+      svcData.grabExcessVerticalSpace = true;
+      svcData.horizontalSpan = 2;
+      svcData.horizontalAlignment = SWT.FILL;
+      svcData.verticalAlignment = SWT.FILL;
+      sourceViewerComposite.setLayout(new FillLayout());
+      sourceViewerComposite.setLayoutData(svcData);
+      transitionConditionEditor.createPartControl(sourceViewerComposite);
+      
+      transitionConditionEditor.getAdaptedSourceViewer().setEditable(true);
+      ((JSCompilationUnitEditor.AdaptedSourceViewer) transitionConditionEditor.getAdaptedSourceViewer()).setAutoCompletion(true); 
+      sourceViewerComposite.setEnabled(true);
+      
       return standardGroup;
    }
 
