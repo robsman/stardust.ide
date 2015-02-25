@@ -81,7 +81,7 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage implement
    private Button subjectUniqueIdentified;
    private Font courier9pt;
 
-   //	private Button mailResponseButton;
+   // private Button mailResponseButton;
 
    /**
     *
@@ -145,10 +145,12 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage implement
       WidgetBindingManager wBndMgr = getWidgetBindingManager();
       wBndMgr.bind(defaultToText, app, MailConstants.DEFAULT_MAIL_TO);
       wBndMgr.bind(defaultFromText, app, MailConstants.DEFAULT_MAIL_FROM);
+      wBndMgr.bind(defaultCC, app, MailConstants.DEFAULT_MAIL_CC);
+      wBndMgr.bind(defaultBCC, app, MailConstants.DEFAULT_MAIL_BCC);
       wBndMgr.bind(mailServerText, app, MailConstants.DEFAULT_MAIL_SERVER);
       wBndMgr.bind(jndiSessionText, app, MailConstants.DEFAULT_JNDI_SESSION);
 
-      // this.mailResponseButton.setSelection(AttributeUtil.getBooleanValue(app,
+      //    this.mailResponseButton.setSelection(AttributeUtil.getBooleanValue(app,
       //            MailConstants.MAIL_RESPONSE));
 
       ComplexAttributeUtils.setValuesInObjectTable((IExtensibleElement) element,
@@ -261,9 +263,9 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage implement
             Mail_Messages.DEFAULT_FROM_LABEL);
       this.defaultToText = FormBuilder.createLabeledTextLeftAlignedStatus(composite,
             Mail_Messages.DEFAULT_TO_LABEL);
-      this.defaultCC = FormBuilder.createLabeledText(composite,
+      this.defaultCC = FormBuilder.createLabeledTextLeftAlignedStatus(composite,
             Mail_Messages.DEFAULT_CC_LABEL);
-      this.defaultBCC = FormBuilder.createLabeledText(composite,
+      this.defaultBCC = FormBuilder.createLabeledTextLeftAlignedStatus(composite,
             Mail_Messages.DEFAULT_BCC_LABEL);
       this.defaultPriority = FormBuilder.createLabeledCombo(composite,
             Mail_Messages.DEFAULT_PRIORITY_LABEL);
@@ -379,13 +381,13 @@ public class MailPropertyPage extends AbstractModelElementPropertyPage implement
 
       item.setControl(composite);
 
-      // this.mailResponseButton = FormBuilder.createCheckBox(composite, MailMessages.MAIL_RESPONSE_LABEL);
+      //    this.mailResponseButton = FormBuilder.createCheckBox(composite, MailMessages.MAIL_RESPONSE_LABEL);
 
       this.outputValues = new ObjectTable(composite, ObjectTable.ADD_ROW
             | ObjectTable.DELETE_BUTTON | ObjectTable.EDITABLE
             | ObjectTable.NUMBER_COLUMN | ObjectTable.SHOW_HEADERS, SWT.BORDER
-            | SWT.MULTI | SWT.FULL_SELECTION,
-            OutputValue.class, new String[] { "name", "value" }, //$NON-NLS-1$ //$NON-NLS-2$
+            | SWT.MULTI | SWT.FULL_SELECTION, OutputValue.class,
+            new String[] { "name", "value" }, //$NON-NLS-1$ //$NON-NLS-2$
             new String[] { Mail_Messages.COL_NAME, Mail_Messages.COL_VALUE },
             new int[] { SWT.LEFT, SWT.LEFT },
             new int[] { 200, 200 },
