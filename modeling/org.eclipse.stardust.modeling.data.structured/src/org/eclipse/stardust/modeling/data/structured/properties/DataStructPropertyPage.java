@@ -15,6 +15,14 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.*;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.common.StringUtils;
@@ -42,14 +50,6 @@ import org.eclipse.stardust.modeling.data.structured.StructContentProvider;
 import org.eclipse.stardust.modeling.data.structured.StructLabelProvider;
 import org.eclipse.stardust.modeling.data.structured.Structured_Messages;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.*;
-
 public class DataStructPropertyPage extends AbstractModelElementPropertyPage
    implements IDataPropertyPage
 {
@@ -71,12 +71,31 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
 
    private SashForm sashForm;
 
-   private LabelWithStatus typesLabel;   
+   private LabelWithStatus typesLabel;
+
+   private Button volatileCheckBox;   
 
    public Control createBody(Composite parent)
    {
       Composite composite = FormBuilder.createComposite(parent, 1);
-
+      volatileCheckBox = FormBuilder.createCheckBox(composite, Structured_Messages.LBL_Volatile_Data, 1);
+      volatileCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            DataType data = (DataType) getModelElement();
+            boolean selection = ((Button) e.widget).getSelection();
+            if(selection)
+            {
+               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
+            }
+            else
+            {
+               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
+            }
+         }
+      });
+      
       body = FormBuilder.createComposite(composite, 1);
       stackLayout = new StackLayout();
       body.setLayout(stackLayout);
@@ -250,6 +269,7 @@ public class DataStructPropertyPage extends AbstractModelElementPropertyPage
       TypeDeclarationType type = StructuredTypeUtils.getTypeDeclaration(data);
       typesViewer.setSelection(type == null ? StructuredSelection.EMPTY : new StructuredSelection(type));
       stackLayout.topControl = sashForm;
+      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue(data, PredefinedConstants.VOLATILE_DATA));      
       body.layout();
    }
 

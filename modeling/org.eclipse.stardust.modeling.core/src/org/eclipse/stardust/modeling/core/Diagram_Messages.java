@@ -2025,4 +2025,6 @@ public class Diagram_Messages extends NLS {
    public static String MSG_INVALID_ACTIVITY_NETWORK;
 
    public static String LBL_Properties;
+   
+   public static String LBL_Volatile_Data;   
 }
