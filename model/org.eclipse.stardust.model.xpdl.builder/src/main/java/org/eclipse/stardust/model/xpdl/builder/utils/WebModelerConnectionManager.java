@@ -278,16 +278,20 @@ public class WebModelerConnectionManager implements IConnectionManager
       for (int i = 0; i < connections.size(); i++)
       {
          Connection connection = (Connection) connections.get(i);
-         String identifier = CONNECTION_SCOPE + String.valueOf(i + 1) + ':';
-         AttributeUtil.setAttribute(model, identifier + "id", connection.getId()); //$NON-NLS-1$
-         AttributeUtil.setAttribute(model, identifier + "name", connection.getName()); //$NON-NLS-1$
-         AttributeUtil.setAttribute(model, identifier + "type", connection.getType()); //$NON-NLS-1$
-         List<Attribute> attributes = connection.getAttributes();
-         for (int j = 0; j < attributes.size(); j++)
+         List<EObject> references = ExternalReferenceUtils.getExternalReferences(model, connection);
+         if (!references.isEmpty())
          {
-            Attribute attribute = (Attribute) attributes.get(j);
-            AttributeUtil.setAttribute(model, identifier + "attribute:" //$NON-NLS-1$
-                  + attribute.getName(), attribute.getValue());
+            String identifier = CONNECTION_SCOPE + String.valueOf(i + 1) + ':';
+            AttributeUtil.setAttribute(model, identifier + "id", connection.getId()); //$NON-NLS-1$
+            AttributeUtil.setAttribute(model, identifier + "name", connection.getName()); //$NON-NLS-1$
+            AttributeUtil.setAttribute(model, identifier + "type", connection.getType()); //$NON-NLS-1$
+            List<Attribute> attributes = connection.getAttributes();
+            for (int j = 0; j < attributes.size(); j++)
+            {
+               Attribute attribute = (Attribute) attributes.get(j);
+               AttributeUtil.setAttribute(model, identifier + "attribute:" //$NON-NLS-1$
+                     + attribute.getName(), attribute.getValue());
+            }
          }
       }
    }
