@@ -3,6 +3,7 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
+import java.lang.reflect.Proxy;
 import java.util.*;
 
 import javax.xml.XMLConstants;
@@ -15,6 +16,7 @@ import org.eclipse.xsd.XSDImport;
 
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -901,6 +903,27 @@ public class ExternalReferenceUtils
          }
       }
       return referingModels;
+   }
+
+   public static TypeDeclarationType getTypeDeclarationFromProxy(DataType data)
+   {
+      TypeDeclarationType typeDeclaration = null;
+      if (Proxy.getInvocationHandler(data) instanceof EObjectProxyHandler)
+      {
+         EObjectProxyHandler proxyHandler = (EObjectProxyHandler) Proxy
+               .getInvocationHandler(data);
+         data = (DataType) proxyHandler.getTarget();
+         AttributeType attribute = AttributeUtil.getAttribute(data,
+               StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if (attribute != null)
+         {
+            String typeDeclID = attribute.getValue();
+            ModelType refModel = ModelUtils.findContainingModel(data);
+            typeDeclaration = refModel.getTypeDeclarations().getTypeDeclaration(
+                  typeDeclID);
+         }
+      }
+      return typeDeclaration;
    }
 
 }
