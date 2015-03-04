@@ -2543,8 +2543,10 @@ public class ModelBuilderFacade
       DataMappingType dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
       DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
 
-      dataMapping.setId(data.getId());
-      dataMapping.setName(data.getName());
+      String id = data.getId() + "_" + activity.getId();
+
+      dataMapping.setId(id);
+      dataMapping.setName(id);
       dataMapping.setDirection(direction);
       dataMapping.setData(data);
 
