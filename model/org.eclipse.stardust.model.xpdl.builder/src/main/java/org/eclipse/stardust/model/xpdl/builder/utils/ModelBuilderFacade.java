@@ -64,8 +64,6 @@ public class ModelBuilderFacade
 {
    private static final String TIMESTAMP_TYPE = "Timestamp"; //$NON-NLS-1$
 
-   private static final CarnotWorkflowModelPackage PKG_CWM = CarnotWorkflowModelPackage.eINSTANCE;
-
    private ModelManagementStrategy modelManagementStrategy;
 
    public ModelBuilderFacade(ModelManagementStrategy modelManagementStrategy)
@@ -776,6 +774,13 @@ public class ModelBuilderFacade
             ExternalReferenceUtils.createExternalReferenceToTypeDeclaration(data, model,
                   typeDeclarationModel, typeDeclaration);
          }
+      }
+      else if(typeFullID == null || typeFullID.equals(ModelerConstants.TO_BE_DEFINED))
+      {
+         data.setExternalReference(null);
+         AttributeUtil.setAttribute(data,
+               StructuredDataConstants.TYPE_DECLARATION_ATT, null);         
+         AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);         
       }
    }
 
