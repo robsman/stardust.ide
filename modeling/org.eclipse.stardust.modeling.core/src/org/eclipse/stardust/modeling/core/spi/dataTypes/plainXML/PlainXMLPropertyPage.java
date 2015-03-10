@@ -18,9 +18,15 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.engine.core.runtime.utils.XmlUtils;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
@@ -31,14 +37,6 @@ import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
 import org.eclipse.stardust.modeling.validation.util.ProjectClassLoader;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
  * @author fherinean
@@ -61,11 +59,14 @@ public class PlainXMLPropertyPage extends AbstractModelElementPropertyPage
    private Text elementNameText;
 
    private Button elementNameButton;
-
+   
+   private Button volatileCheckBox;   
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       DataType dataType = (DataType) element;
-
+      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue((IExtensibleElement) element, PredefinedConstants.VOLATILE_DATA));      
+      
       schemaTypeCombo.select(0);
       String schemaType = AttributeUtil.getAttributeValue(dataType,
             PredefinedConstants.PLAINXML_SCHEMA_TYPE_ATT);
@@ -109,6 +110,11 @@ public class PlainXMLPropertyPage extends AbstractModelElementPropertyPage
       DataType dataType = (DataType) element;
       dataType.getAttribute().clear();
 
+      if(volatileCheckBox.getSelection())
+      {
+         AttributeUtil.setBooleanAttribute(dataType, PredefinedConstants.VOLATILE_DATA, true);
+      }
+      
       AttributeUtil.setAttribute(dataType, PredefinedConstants.BROWSABLE_ATT,
             "boolean", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       int selection = schemaTypeCombo.getSelectionIndex();
@@ -132,6 +138,24 @@ public class PlainXMLPropertyPage extends AbstractModelElementPropertyPage
    {
       Composite composite = FormBuilder.createComposite(parent, 3);
 
+      volatileCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.LBL_Volatile_Data, 3);
+      volatileCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            DataType data = (DataType) getModelElement();
+            boolean selection = ((Button) e.widget).getSelection();
+            if(selection)
+            {
+               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
+            }
+            else
+            {
+               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
+            }
+         }
+      });      
+      
       FormBuilder.createLabel(composite, Diagram_Messages.LB_SchemaType);
 
       schemaTypeCombo = FormBuilder.createCombo(composite, 2);

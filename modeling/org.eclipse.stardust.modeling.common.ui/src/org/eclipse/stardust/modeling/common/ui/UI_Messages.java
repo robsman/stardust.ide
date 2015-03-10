@@ -26,7 +26,7 @@ public class UI_Messages extends NLS
    }
 
    public static String BOX_ALWAYS_DEPLOY_NEW_VERSION;
-public static String BpmUiActivator_noLicenseIsPresent;
+   
    public static String LB_ReportFormat;
    public static String STR_HomeLocation;
    public static String LB_HomeLocation;
@@ -50,8 +50,6 @@ public static String BpmUiActivator_noLicenseIsPresent;
    public static String WorkbenchPreferencePage_EnableSnapToGridLabel;
 
    public static String WorkbenchPreferencePage_ViewForkOnTraversalLabel;
-
-   public static String WorkbenchPreferencePage_licenseFilePath;
 
    public static String WorkbenchPreferencePage_autoIdGeneration;
 

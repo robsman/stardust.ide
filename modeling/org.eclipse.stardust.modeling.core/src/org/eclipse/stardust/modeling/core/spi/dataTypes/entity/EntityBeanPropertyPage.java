@@ -13,7 +13,18 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
+
+import org.eclipse.stardust.engine.api.model.PredefinedConstants;
 import org.eclipse.stardust.model.xpdl.carnot.DataType;
+import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
 import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
 import org.eclipse.stardust.model.xpdl.carnot.spi.SpiExtensionRegistry;
@@ -21,13 +32,6 @@ import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.modeling.common.ui.jface.utils.FormBuilder;
 import org.eclipse.stardust.modeling.core.Diagram_Messages;
 import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropertyPage;
-import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 
 
 public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
@@ -38,10 +42,12 @@ public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
    private Button radio2x;
    private StackLayout stackLayout;
    private Composite bodyStack;
-
+   private Button volatileCheckBox;   
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement element)
    {
       AbstractModelElementPropertyPage delegate = getCreateDelegate();
+      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue((IExtensibleElement) element, PredefinedConstants.VOLATILE_DATA));            
       delegate.loadFieldsFromElement(symbol, element);
    }
 
@@ -60,6 +66,24 @@ public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(final Composite parent)
    {
       Composite bodyComposite = FormBuilder.createComposite(parent, 1);
+      volatileCheckBox = FormBuilder.createCheckBox(bodyComposite, Diagram_Messages.LBL_Volatile_Data, 2);
+      volatileCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            DataType data = (DataType) getModelElement();
+            boolean selection = ((Button) e.widget).getSelection();
+            if(selection)
+            {
+               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
+            }
+            else
+            {
+               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
+            }
+         }
+      });
+            
       Group versionGroup = FormBuilder.createGroup(bodyComposite, "Version", 2); //$NON-NLS-1$
       versionGroup.setLayoutData(FormBuilder.createDefaultSingleLineWidgetGridData());
       radio3x = FormBuilder.createRadioButton(versionGroup, Diagram_Messages.BUT_EJB_DREI_X);
@@ -105,6 +129,7 @@ public class EntityBeanPropertyPage extends AbstractModelElementPropertyPage
       {
          radio2x.setEnabled(false);
          radio3x.setEnabled(false);
+         volatileCheckBox.setEnabled(false); 
       }      
       return bodyComposite;
    }

@@ -54,16 +54,6 @@ public class UpgradePage extends EditorPart
    private ControlListener controlListener;
    private PaintListener paintListener;
 
-   private String product;
-
-   private String release;
-
-   private String licensee;
-
-   private String expiration;
-
-   private String processors;
-
    private String moduleError;
 
    public UpgradePage(WorkflowModelEditor editor)
@@ -225,30 +215,11 @@ public class UpgradePage extends EditorPart
             int width = size.width;
             int start = 5;
 
-            if (product != null)
-            {
-               start = drawString(e.gc, MessageFormat.format(
-                     release == null ? product : Diagram_Messages.LicensePage_ProductWithRelease,
-                     new Object[] {product, release}), left, start,
-                     ColorConstants.darkBlue, ColorConstants.white, 1, width);
-            }
             if (moduleError != null)
             {
                int leftError = left + 70;
                start = drawString(e.gc, moduleError,
                   leftError, start + 8, new Color(null, 166, 0, 0), ColorConstants.darkGray, 1, width);
-            }
-            else
-            {
-               start = drawString(e.gc, MessageFormat.format(Diagram_Messages.LicensePage_Product,
-                     new Object[] {licensee}), left, start + 8,
-                     ColorConstants.darkBlue, ColorConstants.white, 1, width);
-               start = drawString(e.gc, MessageFormat.format(Diagram_Messages.LicensePage_Expiration,
-                     new Object[] {expiration}), left, start,
-                     ColorConstants.darkBlue, ColorConstants.white, 1, width);
-               start = drawString(e.gc, MessageFormat.format(Diagram_Messages.LicensePage_ValidCPUs,
-                     new Object[] {processors}), left, start,
-                     ColorConstants.darkBlue, ColorConstants.white, 1, width);
             }
             e.gc.setForeground(foreground);
 
@@ -263,10 +234,10 @@ public class UpgradePage extends EditorPart
    private int drawString(GC gc, String fullText, int left, int start, Color base,
          Color shadow, int delta, int maxWidth)
    {
-      ArrayList paragraphs = splitParagraphs(fullText);
+      ArrayList<String> paragraphs = splitParagraphs(fullText);
       for (int p = 0; p < paragraphs.size(); p++)
       {
-         ArrayList splits = splitString(gc, (String) paragraphs.get(p), maxWidth);
+         ArrayList<String> splits = splitString(gc, (String) paragraphs.get(p), maxWidth);
          for (int i = 0; i < splits.size(); i++)
          {
             String text = (String) splits.get(i);
@@ -285,9 +256,9 @@ public class UpgradePage extends EditorPart
       return start;
    }
 
-   private ArrayList splitParagraphs(String text)
+   private ArrayList<String> splitParagraphs(String text)
    {
-      ArrayList list = new ArrayList();
+      ArrayList<String> list = new ArrayList<String>();
       int pos = 0;
       while (pos >= 0)
       {
@@ -306,10 +277,10 @@ public class UpgradePage extends EditorPart
       return list;
    }
 
-   private ArrayList splitString(GC gc, String text, int maxWidth)
+   private ArrayList<String> splitString(GC gc, String text, int maxWidth)
    {
       text = text.replace('\n', ' ');
-      ArrayList list = new ArrayList();
+      ArrayList<String> list = new ArrayList<String>();
       int pos = 0;
       while (pos >= 0 && gc.stringExtent(text.substring(pos)).x > maxWidth)
       {
@@ -345,24 +316,6 @@ public class UpgradePage extends EditorPart
 
    private void updateStrings()
    {
-      Modules module = Modules.DEVELOPER;
-      if (Parameters.instance().getString("License." + module.getId() + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
-      {
-         // try old modeling license
-         if (Parameters.instance().getString("License." + Modules.MODELLING + ".product") != null) //$NON-NLS-1$ //$NON-NLS-2$
-         {
-            module = Modules.MODELLING;
-         }
-      }
-
       moduleError = MessageFormat.format(Diagram_Messages.ERROR_UNSUPPORTED_MD_VERSION, new Object[]{cwmEditor.getWorkflowModel().getCarnotVersion()});
-
-      String moduleName = module.getId();
-
-      product = BpmUiActivator.getDefault().getString("License." + moduleName  + ".product"); //$NON-NLS-1$ //$NON-NLS-2$
-      release = BpmUiActivator.getDefault().getString("License." + moduleName + ".release"); //$NON-NLS-1$ //$NON-NLS-2$
-      licensee = BpmUiActivator.getDefault().getString("License." + moduleName + ".licensee", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      expiration = BpmUiActivator.getDefault().getString("License." + moduleName + ".expiration", ""); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      processors = BpmUiActivator.getDefault().getString("License." + moduleName + ".processors", "0"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 }

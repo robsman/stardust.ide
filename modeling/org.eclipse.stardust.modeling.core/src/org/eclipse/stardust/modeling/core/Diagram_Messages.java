@@ -476,8 +476,6 @@ public class Diagram_Messages extends NLS {
 
    public static String BIND_NoPropertyPagesRefersToConnection;
 
-   public static String BTN_Browse;
-
    public static String ConnectAction_Label;
 
    public static String ConnectAction_ToolTip;
@@ -519,20 +517,6 @@ public class Diagram_Messages extends NLS {
    public static String LB_PasteElement;
 
    public static String LB_SHRINK_TO_FIT;
-
-   public static String LicensePage_Expiration;
-
-   public static String LicensePage_Heading;
-
-   public static String LicensePage_LicensePath;
-
-   public static String LicensePage_Product;
-
-   public static String LicensePage_ProductWithRelease;
-
-   public static String LicensePage_ReferToCarnotPreferencePage;
-
-   public static String LicensePage_ValidCPUs;
 
    public static String NodeCreationFactory_BASENAME_Application;
 
@@ -2041,4 +2025,6 @@ public class Diagram_Messages extends NLS {
    public static String MSG_INVALID_ACTIVITY_NETWORK;
 
    public static String LBL_Properties;
+   
+   public static String LBL_Volatile_Data;   
 }

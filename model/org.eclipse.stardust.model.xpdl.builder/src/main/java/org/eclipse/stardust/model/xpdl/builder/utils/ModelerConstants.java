@@ -16,6 +16,9 @@ public class ModelerConstants
    public static final String RULE_SET_ID = "ruleSetId";
    public static final String RULE_SET_CONTEXT = "ruleSet";
    public static final String DATA_ID_PROPERTY = "dataId";
+   public static final String DATAMAPPINGS_PROPERTY = "dataMappings";
+   public static final String DATAMAPPING_IN = "IN";
+   public static final String DATAMAPPING_OUT = "OUT";
    public static final String DATA_NAME_PROPERTY = "dataName";
    public static final String DATA_FULL_ID_PROPERTY = "dataFullId";
    public static final String DATA_PROPERTY = "data";
@@ -248,8 +251,16 @@ public class ModelerConstants
    public static final String EU_EXCLUDE_USER_INTERNAL = "_excludeUser_";
    public static final String EU_EXCLUDE_PERFORMER_DATA = "excludedPerformerData";
    public static final String EU_EXCLUDE_PERFORMER_DATA_PATH = "excludedPerformerDataPath";
+   public static final String SD_SET_DATA_ACTION = "setDataAction";
+   public static final String SD_SET_DATA_ACTION_INTERNAL = "_setDataAction_";
+   public static final String SD_SET_DATA_ACTION_DATA_ID = "dataId";
+   public static final String SD_SET_DATA_ACTION_DATA_PATH = "dataPath";
 
-
+   public static final String LOOP_STANDARD = "standard";
+   public static final String LOOP_MULTI = "multi";
+   public static final String LOOP_CONDITION = "loopCondition";
+   public static final String LOOP_TESTTIME = "testTime";
+   public static final String LOOP_TESTTIME_BEFORE = "before";
 
    //Web Modeler default size parameters
    public static final int DEFAULT_SWIMLANE_WIDTH = 375;

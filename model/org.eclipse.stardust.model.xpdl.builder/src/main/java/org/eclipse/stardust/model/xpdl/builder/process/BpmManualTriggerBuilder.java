@@ -13,13 +13,9 @@ package org.eclipse.stardust.model.xpdl.builder.process;
 import static org.eclipse.stardust.common.StringUtils.isEmpty;
 
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.AttributeType;
-import org.eclipse.stardust.model.xpdl.carnot.IModelParticipant;
-import org.eclipse.stardust.model.xpdl.carnot.ProcessDefinitionType;
-import org.eclipse.stardust.model.xpdl.carnot.TriggerType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.ModelUtils;
-
 
 public class BpmManualTriggerBuilder
       extends AbstractTriggerBuilder<BpmManualTriggerBuilder>
@@ -84,9 +80,12 @@ public class BpmManualTriggerBuilder
 
    public BpmManualTriggerBuilder accessibleTo(IModelParticipant participant)
    {
-      accessibleTo((null != participant) ? participant.getId() : null);
+      if((participant != null && !(participant instanceof ConditionalPerformerType))
+            || participant == null)
+      {
+         accessibleTo((null != participant) ? participant.getId() : null);
+      }
 
       return this;
    }
-
 }

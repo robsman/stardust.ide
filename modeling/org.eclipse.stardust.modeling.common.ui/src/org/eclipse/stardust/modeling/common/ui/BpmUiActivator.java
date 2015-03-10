@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.stardust.modeling.common.ui;
 
-import java.text.MessageFormat;
-
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IEditorPart;
@@ -26,11 +24,9 @@ import org.osgi.framework.BundleContext;
 import org.eclipse.stardust.common.config.Parameters;
 import org.eclipse.stardust.common.log.LogManager;
 import org.eclipse.stardust.common.log.Logger;
-import org.eclipse.stardust.engine.api.model.Modules;
 import org.eclipse.stardust.model.xpdl.carnot.FlowControlType;
 import org.eclipse.stardust.model.xpdl.carnot.JoinSplitType;
 import org.eclipse.stardust.model.xpdl.carnot.ModelType;
-import org.eclipse.stardust.modeling.common.BpmCommonActivator;
 import org.eclipse.stardust.modeling.common.projectnature.BpmProjectNature;
 import org.eclipse.stardust.modeling.common.projectnature.ModelingCoreActivator;
 
@@ -175,7 +171,6 @@ public class BpmUiActivator extends Plugin
    public void start(BundleContext context) throws Exception
    {
       super.start(context);
-      synchronizeTraceFile();
 
       try
       {
@@ -245,95 +240,6 @@ public class BpmUiActivator extends Plugin
                // do nothing
             }
          }
-      }
-   }
-
-   public String getTraceFilePath()
-   {
-      IPreferenceStore store = PlatformUI.getPreferenceStore();
-      return store.getString("org.eclipse.stardust.model.xpdl.license.path"); //$NON-NLS-1$
-   }
-
-   public void setTraceFilePath(String path)
-   {
-      IPreferenceStore store = PlatformUI.getPreferenceStore();
-      store.setValue("org.eclipse.stardust.model.xpdl.license.path", path); //$NON-NLS-1$
-
-      BpmCommonActivator.getDefault().resetExtensions(path);
-
-      IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-      for (int i = 0; i < windows.length; i++)
-      {
-         IWorkbenchPage[] pages = windows[i].getPages();
-         for (int j = 0; j < pages.length; j++)
-         {
-            IEditorReference[] editors = pages[j].getEditorReferences();
-            for (int k = 0; k < editors.length; k++)
-            {
-               IEditorPart part = editors[k].getEditor(false);
-               if (part instanceof IWorkflowModelEditor)
-               {
-                  IWorkflowModelEditor cwmEditor = (IWorkflowModelEditor) part;
-                  if (cwmEditor.getWorkflowModel() == null)
-                  {
-                     try
-                     {
-                        cwmEditor.updateModel(cwmEditor.getEditorInput());
-                     }
-                     catch (Exception e)
-                     {
-                        // ignore e.printStackTrace();
-                     }
-                  }
-                  try
-                  {
-                     cwmEditor.updateEditor(pages[j]);
-                  }
-                  catch (Exception e)
-                  {
-                     // ignore e.printStackTrace();
-                  }
-               }
-            }
-         }
-      }
-   }
-
-   public String initializeExtensions(Modules module)
-   {
-      moduleError = null;
-
-      synchronizeTraceFile();
-
-      Exception e = BpmCommonActivator.getDefault().initializeExtensions(module);
-      if (null != e)
-      {
-         if (Parameters.instance().getString("License." + module + ".product") == null) //$NON-NLS-1$ //$NON-NLS-2$
-         {
-            moduleError = MessageFormat.format(
-                  UI_Messages.BpmUiActivator_noLicenseIsPresent, new Object[] {module});
-         }
-         else
-         {
-            moduleError = e.getMessage();
-         }
-      }
-
-      return moduleError;
-   }
-
-   private void synchronizeTraceFile()
-   {
-      String path = getTraceFilePath();
-
-      if (path != null
-            && path.length() > 0
-            && !path.equals(Parameters.instance().getString(
-                  String.valueOf(new char[] {
-                        'L', 'i', 'c', 'e', 'n', 's', 'e', '.', 'L', 'i', 'c', 'e', 'n',
-                        's', 'e', 'F', 'i', 'l', 'e', 'P', 'a', 't', 'h'}))))
-      {
-         BpmCommonActivator.getDefault().resetExtensions(path);
       }
    }
 

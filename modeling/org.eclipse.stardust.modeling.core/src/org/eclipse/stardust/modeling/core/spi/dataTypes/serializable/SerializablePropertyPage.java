@@ -12,7 +12,6 @@ package org.eclipse.stardust.modeling.core.spi.dataTypes.serializable;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -25,23 +24,21 @@ import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.ui.IJavaElementSearchConstants;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.operation.IRunnableContext;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.DialogCellEditor;
-import org.eclipse.jface.viewers.ICellModifier;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.*;
+import org.eclipse.ui.dialogs.SelectionDialog;
+
 import org.eclipse.stardust.common.StringUtils;
 import org.eclipse.stardust.engine.api.model.PredefinedConstants;
-import org.eclipse.stardust.model.xpdl.carnot.DataType;
-import org.eclipse.stardust.model.xpdl.carnot.IExtensibleElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElement;
-import org.eclipse.stardust.model.xpdl.carnot.IModelElementNodeSymbol;
-import org.eclipse.stardust.model.xpdl.carnot.ModelType;
+import org.eclipse.stardust.model.xpdl.carnot.*;
 import org.eclipse.stardust.model.xpdl.carnot.spi.IDataPropertyPage;
 import org.eclipse.stardust.model.xpdl.carnot.util.AttributeUtil;
 import org.eclipse.stardust.model.xpdl.carnot.util.CarnotConstants;
@@ -55,17 +52,6 @@ import org.eclipse.stardust.modeling.core.properties.AbstractModelElementPropert
 import org.eclipse.stardust.modeling.validation.util.MethodInfo;
 import org.eclipse.stardust.modeling.validation.util.TypeFinder;
 import org.eclipse.stardust.modeling.validation.util.TypeInfo;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.dialogs.SelectionDialog;
 
 /**
  * @author fherinean
@@ -94,8 +80,12 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
 
    private Button autoInitializeCheckBox;
 
+   private Button volatileCheckBox;   
+   
    public void loadFieldsFromElement(IModelElementNodeSymbol symbol, IModelElement node)
    {
+      volatileCheckBox.setSelection(AttributeUtil.getBooleanValue((IExtensibleElement) node, PredefinedConstants.VOLATILE_DATA));      
+      
       finder = new TypeFinder(node);
       classBrowser.setTypeFinder(finder);
       classBrowser.setModel((ModelType) node.eContainer());
@@ -187,6 +177,8 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
    private void disableControls()
    {
       classBrowser.setEnabled(false);
+      volatileCheckBox.setEnabled(false);  
+      autoInitializeCheckBox.setEnabled(false);
    }
 
    private boolean isPredefined(IModelElement element)
@@ -231,6 +223,24 @@ public class SerializablePropertyPage extends AbstractModelElementPropertyPage
    public Control createBody(Composite parent)
    {
       final Composite composite = FormBuilder.createComposite(parent, 2);
+      volatileCheckBox = FormBuilder.createCheckBox(composite, Diagram_Messages.LBL_Volatile_Data, 2);
+      volatileCheckBox.addSelectionListener(new SelectionAdapter()
+      {
+         public void widgetSelected(SelectionEvent e)
+         {
+            DataType data = (DataType) getModelElement();
+            boolean selection = ((Button) e.widget).getSelection();
+            if(selection)
+            {
+               AttributeUtil.setBooleanAttribute(data, PredefinedConstants.VOLATILE_DATA, true);
+            }
+            else
+            {
+               AttributeUtil.setAttribute(data, PredefinedConstants.VOLATILE_DATA, null);               
+            }
+         }
+      });
+      
       final String browserTitle = Diagram_Messages.SerializablePropertyPage_Class;
 
       classLabel = FormBuilder.createLabelWithRightAlignedStatus(

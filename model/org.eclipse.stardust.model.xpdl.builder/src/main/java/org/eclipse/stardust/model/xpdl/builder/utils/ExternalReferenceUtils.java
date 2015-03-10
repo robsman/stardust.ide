@@ -3,11 +3,8 @@
  *******************************************************************************/
 package org.eclipse.stardust.model.xpdl.builder.utils;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Proxy;
+import java.util.*;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -16,8 +13,10 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.xsd.XSDImport;
+
 import org.eclipse.stardust.common.CollectionUtils;
 import org.eclipse.stardust.engine.core.struct.StructuredDataConstants;
+import org.eclipse.stardust.model.xpdl.builder.connectionhandler.EObjectProxyHandler;
 import org.eclipse.stardust.model.xpdl.builder.connectionhandler.IdRefHandler;
 import org.eclipse.stardust.model.xpdl.carnot.AccessPointType;
 import org.eclipse.stardust.model.xpdl.carnot.ActivityImplementationType;
@@ -503,6 +502,10 @@ public class ExternalReferenceUtils
             for (Iterator<EObject> j = references.iterator(); j.hasNext();)
             {
                EObject ref = j.next();
+               if (ref instanceof ExternalPackage)
+               {
+                  fixExternalPackage((ExternalPackage) ref, refModel);
+               }
                if (ref instanceof ActivityType)
                {
                   fixActivity((ActivityType) ref, refModel);
@@ -528,6 +531,16 @@ public class ExternalReferenceUtils
       }
    }
 
+   private static void fixExternalPackage(ExternalPackage ref, ModelType refModel)
+   {
+      if (!ref.getHref().equals(refModel.getId()))
+      {
+         ref.setHref(refModel.getId());
+         ref.setId(refModel.getId());
+         ref.setName(refModel.getName());
+      }
+   }
+
    private static void fixAccessPoint(AccessPointType accessPoint, ModelType refModel)
    {
       String declaredType = AttributeUtil.getAttributeValue(accessPoint,
@@ -535,6 +548,7 @@ public class ExternalReferenceUtils
       if (declaredType != null)
       {
          String typeID = declaredType.substring(declaredType.indexOf("}") + 1);
+         String refModelID = declaredType.substring(declaredType.indexOf("{") + 1, declaredType.indexOf("}"));
          AttributeType uuidAttribute = AttributeUtil.getAttribute(accessPoint,
                "carnot:connection:uuid");
          if (uuidAttribute != null)
@@ -543,7 +557,7 @@ public class ExternalReferenceUtils
                   uuidAttribute.getAttributeValue());
             if (declaration != null)
             {
-               if (!declaration.getId().equals(typeID))
+               if (!declaration.getId().equals(typeID) || !refModel.getId().equals(refModelID))
                {
                   declaredType = "typeDeclaration:{" + refModel.getId() + "}"
                         + declaration.getId();
@@ -600,6 +614,10 @@ public class ExternalReferenceUtils
                               "carnot:connection:uri", uri);
                      }
                   }
+                  if (!refModel.getId().equals(ref.getLocation()))
+                  {
+                     ref.setLocation(refModel.getId());
+                  }
                }
             }
          }
@@ -636,6 +654,22 @@ public class ExternalReferenceUtils
                                  "carnot:engine:dms:resourceMetadataSchema", metaData);
 
                         }
+                     }
+                  }
+                  if (!refModel.getId().equals(ref.getLocation()))
+                  {
+                     ref.setLocation(refModel.getId());
+                     AttributeType metaDataAttribute = AttributeUtil.getAttribute(
+                           (IExtensibleElement) data,
+                           "carnot:engine:dms:resourceMetadataSchema");
+                     if (metaDataAttribute != null)
+                     {
+                        String metaData = metaDataAttribute.getAttributeValue();
+                        metaData = refModel.getId()
+                              + metaData.substring(metaData.indexOf("{"));
+                        AttributeUtil.setAttribute((IExtensibleElement) data,
+                              "carnot:engine:dms:resourceMetadataSchema", metaData);
+
                      }
                   }
                }
@@ -685,6 +719,12 @@ public class ExternalReferenceUtils
                         "carnot:connection:uri", uri);
                }
             }
+            if (!externalReference.getPackageRef().getHref().equals(refModel.getId()))
+            {
+               externalReference.getPackageRef().setHref(refModel.getId());
+               externalReference.getPackageRef().setId(refModel.getId());
+               externalReference.getPackageRef().setName(refModel.getId());
+            }
          }
       }
    }
@@ -713,6 +753,12 @@ public class ExternalReferenceUtils
                   AttributeUtil.setAttribute((IExtensibleElement) activity,
                         "carnot:connection:uri", uri);
                }
+            }
+            if (!externalReference.getPackageRef().getHref().equals(refModel.getId()))
+            {
+               externalReference.getPackageRef().setHref(refModel.getId());
+               externalReference.getPackageRef().setId(refModel.getId());
+               externalReference.getPackageRef().setName(refModel.getId());
             }
          }
       }
@@ -832,6 +878,52 @@ public class ExternalReferenceUtils
       }
 
       return false;
+   }
+
+   public static List<ModelType> getReferingModels(String refModelID, Collection<ModelType> models)
+   {
+      List<ModelType> referingModels = new ArrayList<ModelType>();
+      for (EObject model : models)
+      {
+         if (model instanceof ModelType)
+         {
+            if(!refModelID.equals(((ModelType) model).getId()))
+            {
+               List<String> uris = ModelUtils.getURIsForExternalPackages((ModelType) model);
+               for (Iterator<String> i = uris.iterator(); i.hasNext();)
+               {
+                  String uri = i.next();
+                  ModelType modelType = ModelUtils.getReferencedModelByURI((ModelType) model, uri);
+                  if (modelType != null)
+                  {
+                     referingModels.add((ModelType) model);
+                  }
+               }
+            }
+         }
+      }
+      return referingModels;
+   }
+
+   public static TypeDeclarationType getTypeDeclarationFromProxy(DataType data)
+   {
+      TypeDeclarationType typeDeclaration = null;
+      if (Proxy.getInvocationHandler(data) instanceof EObjectProxyHandler)
+      {
+         EObjectProxyHandler proxyHandler = (EObjectProxyHandler) Proxy
+               .getInvocationHandler(data);
+         data = (DataType) proxyHandler.getTarget();
+         AttributeType attribute = AttributeUtil.getAttribute(data,
+               StructuredDataConstants.TYPE_DECLARATION_ATT);
+         if (attribute != null)
+         {
+            String typeDeclID = attribute.getValue();
+            ModelType refModel = ModelUtils.findContainingModel(data);
+            typeDeclaration = refModel.getTypeDeclarations().getTypeDeclaration(
+                  typeDeclID);
+         }
+      }
+      return typeDeclaration;
    }
 
 }

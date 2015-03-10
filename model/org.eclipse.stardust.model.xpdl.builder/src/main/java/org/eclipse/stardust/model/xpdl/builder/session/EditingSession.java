@@ -38,6 +38,8 @@ public class EditingSession
 
    private final Stack<Modification> redoableModifications = new Stack<Modification>();
 
+   private boolean keepChangeRecorder;
+
    public EditingSession()
    {
       this(UUID.randomUUID().toString());
@@ -67,7 +69,7 @@ public class EditingSession
    {
       if (isInEditMode())
       {
-         endEdit();
+         endEdit(false);
       }
       clearUndoRedoStack();
 
@@ -87,21 +89,69 @@ public class EditingSession
       return (null != emfChangeRecorder) && emfChangeRecorder.isRecording();
    }
 
+
    public boolean beginEdit()
    {
-      if ( !isInEditMode())
+      keepChangeRecorder = true;
+      if (!isInEditMode())
       {
-         this.emfChangeRecorder = new ChangeRecorder(models)
+         if (this.emfChangeRecorder == null)
          {
-            @Override
-            protected boolean isOrphan(EObject eObject)
+            this.emfChangeRecorder = new ChangeRecorder()
             {
-               // the models being watched should never be considered orphans
-               return !models.contains(eObject) && super.isOrphan(eObject);
-            }
-         };
+               @Override
+               protected boolean isOrphan(EObject eObject)
+               {
+                  // the models being watched should never be considered orphans
+                  return !models.contains(eObject) && super.isOrphan(eObject);
+               }
 
+               public ChangeDescription endRecording()
+               {
+                 if (isRecording())
+                 {
+                   setRecording(keepChangeRecorder);
+                   consolidateChanges();
+                   return getChangeDescription();
+                 }
+                 return null;
+               }
+            };
+            this.emfChangeRecorder.setResolveProxies(true);
+            this.emfChangeRecorder.beginRecording(models);
+         }
          return isInEditMode();
+      }
+      else
+      {
+         return false;
+      }
+   }
+
+   public boolean endEdit(boolean keepCR)
+   {
+      if (isInEditMode())
+      {
+         this.keepChangeRecorder = keepCR;
+
+         ChangeDescription changeDescription = emfChangeRecorder.endRecording();
+         if (!this.keepChangeRecorder)
+         {
+            emfChangeRecorder.dispose();
+            this.emfChangeRecorder = null;
+         }
+
+         if (!redoableModifications.isEmpty())
+         {
+            redoableModifications.clear();
+         }
+
+         if (this.keepChangeRecorder)
+         {
+            undoableModifications.push(new Modification(this, changeDescription));
+         }
+
+         return !isInEditMode();
       }
       else
       {
@@ -111,7 +161,7 @@ public class EditingSession
 
    public boolean endEdit()
    {
-	  if (isInEditMode())
+     if (isInEditMode())
       {
          ChangeDescription changeDescription = emfChangeRecorder.endRecording();
          emfChangeRecorder.dispose();
@@ -155,35 +205,26 @@ public class EditingSession
 
    public Modification undoLast()
    {
-      int nUndos = 0;
       Modification change = null;
 
       if (canUndo())
       {
          change = undoableModifications.pop();
          change.undo();
-         ++nUndos;
          redoableModifications.push(change);
       }
-
-      //return 0 < nUndos;
       return change;
    }
 
    public Modification redoNext()
    {
-      int nRedos = 0;
       Modification change = null;
-
       if (canRedo())
       {
          change = redoableModifications.pop();
          change.redo();
-         ++nRedos;
          undoableModifications.push(change);
       }
-
-      //return 0 < nRedos;
       return change;
    }
 

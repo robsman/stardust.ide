@@ -307,6 +307,7 @@ public class WebModelerConnectionHandler implements ConnectionHandler
    private String resolve(String fileName)
    {
       String xpdlName = null;
+      fileName = fileName.replace(" ", "%20");
       java.net.URI uri = java.net.URI.create(fileName);
       if ("project".equals(uri.getScheme())) //$NON-NLS-1$
       {

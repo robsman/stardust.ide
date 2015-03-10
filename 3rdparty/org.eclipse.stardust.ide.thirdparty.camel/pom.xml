@@ -19,7 +19,7 @@
   </parent>
 	
   <artifactId>org.eclipse.stardust.ide.thirdparty.camel</artifactId>
-  <version>2.13.1</version>
+  <version>2.14.0</version>
   <packaging>eclipse-plugin</packaging>
   
   <properties>
@@ -82,19 +82,9 @@
       <version>${camel-script.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-smpp</artifactId>
-      <version>${camel-smpp.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
       <version>${quartz.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.servicemix.bundles</groupId>
-      <artifactId>org.apache.servicemix.bundles.jsmpp</artifactId>
-      <version>${org.apache.servicemix.bundles.jsmpp.version}</version>
     </dependency>
     <dependency>
       <groupId>jdom</groupId>
@@ -114,7 +104,7 @@
             <configuration>
               <includeArtifactIds>
                 jdom,camel-core,camel-spring,camel-jms,camel-quartz,camel-sql,camel-script,
-                quartz,camel-mail,camel-http,camel-smpp,org.apache.servicemix.bundles.jsmpp
+                quartz,camel-mail,camel-http
               </includeArtifactIds>
             </configuration>
           </execution>

@@ -23,5 +23,26 @@
   <artifactId>org.eclipse.stardust.modeling.messages-feature</artifactId>
 
   <packaging>eclipse-feature</packaging>
+  <profiles>
+      <profile>
+         <activation>
+            <property>
+               <name>stardust-overlay-root</name>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.eclipse.tycho</groupId>
+                  <artifactId>tycho-packaging-plugin</artifactId>
+                  <configuration>
+                    <!-- package-feature doesn't support additionalFileSets, need to package from overlay-resources/ -->
+                    <basedir>${project.build.directory}/overlay-resources</basedir>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+  </profiles>
 
 </project>

@@ -248,6 +248,8 @@ public class Structured_Messages extends NLS
 
    public static String MSG_TypeDeclarationJavaBoundEnum;
 
+   public static String LBL_Volatile_Data;
+      
    static
    {
       // initialize resource bundle
