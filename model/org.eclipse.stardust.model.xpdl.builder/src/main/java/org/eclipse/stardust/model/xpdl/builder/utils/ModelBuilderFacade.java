@@ -779,8 +779,8 @@ public class ModelBuilderFacade
       {
          data.setExternalReference(null);
          AttributeUtil.setAttribute(data,
-               StructuredDataConstants.TYPE_DECLARATION_ATT, null);         
-         AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);         
+               StructuredDataConstants.TYPE_DECLARATION_ATT, null);
+         AttributeUtil.setAttribute(data, IConnectionManager.URI_ATTRIBUTE_NAME, null);
       }
    }
 
@@ -2548,7 +2548,7 @@ public class ModelBuilderFacade
       DataMappingType dataMapping = AbstractElementBuilder.F_CWM.createDataMappingType();
       DataMappingConnectionType dataMappingConnection = AbstractElementBuilder.F_CWM.createDataMappingConnectionType();
 
-      String id = data.getId() + "_" + activity.getId();
+      String id = data.getId();
 
       dataMapping.setId(id);
       dataMapping.setName(id);
