@@ -220,6 +220,7 @@ public class ModelerConstants
    public static final String INTERMEDIATE_EVENT = "intermediateEvent";
    public static final String BINDING_ACTIVITY_UUID = "bindingActivityUuid";
    public static final String LOG_HANDLER_PROPERTY = "logHandler";
+   public static final String CONSUME_ON_MATCH_PROPERTY = "consumeOnMatch";   
    public static final String INTERRUPTING_PROPERTY = "interrupting";
    public static final String THROWING_PROPERTY = "throwing";
    public static final String TIMER_EVENT_CLASS_KEY = "timer";
